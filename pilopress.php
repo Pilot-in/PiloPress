@@ -15,25 +15,25 @@ defined( 'ABSPATH' ) || exit;
 /**
  *  Constants
  */
-if ( !defined( '_PIP_FILE' ) ) {
+if ( ! defined( '_PIP_FILE' ) ) {
 	define( '_PIP_FILE', __FILE__ );
 }
-if ( !defined( '_PIP_PATH' ) ) {
+if ( ! defined( '_PIP_PATH' ) ) {
 	define( '_PIP_PATH', plugin_dir_path( __FILE__ ) );
 }
-if ( !defined( '_PIP_URL' ) ) {
+if ( ! defined( '_PIP_URL' ) ) {
 	define( '_PIP_URL', plugin_dir_url( __FILE__ ) );
 }
-if ( !defined( '_PIP_BASENAME' ) ) {
+if ( ! defined( '_PIP_BASENAME' ) ) {
 	define( '_PIP_BASENAME', plugin_basename( __FILE__ ) );
 }
-if ( !defined( '_PIP_THEME_STYLE_PATH' ) ) {
+if ( ! defined( '_PIP_THEME_STYLE_PATH' ) ) {
 	define( '_PIP_THEME_STYLE_PATH', get_stylesheet_directory() );
 }
-if ( !defined( '_PIP_THEME_STYLE_URL' ) ) {
+if ( ! defined( '_PIP_THEME_STYLE_URL' ) ) {
 	define( '_PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() );
 }
-if ( !defined( '_PIP_FLEXIBLE' ) ) {
+if ( ! defined( '_PIP_FLEXIBLE' ) ) {
 	define( '_PIP_FLEXIBLE', '_pip_flexible' );
 }
 
@@ -44,15 +44,27 @@ function _pip_post_type_page_remove_supports() {
 	remove_post_type_support( 'post', 'editor' );
 }
 
-/**
- * Flexible content
- */
-require_once( _PIP_PATH . 'flexible-content/class-flexible-content.php' );
+// END : remove
 
 /**
  *  Init
  */
 //require_once( _PIP_PATH . 'init.php' );
+register_activation_hook( _PIP_FILE, '_pip_activation_hook' );
+function _pip_activation_hook() {
+	if ( ! class_exists( 'Flexible_Content' ) ) {
+		return;
+	}
+
+	$class = new Flexible_Content();
+	$class->_pip_load_edit();
+}
+
+/**
+ * Flexible content
+ */
+require_once( _PIP_PATH . 'flexible-content/class-flexible-content.php' );
+
 
 /**
  *  Core
