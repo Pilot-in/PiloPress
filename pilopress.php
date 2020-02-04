@@ -52,11 +52,11 @@ function _pip_post_type_page_remove_supports() {
 //require_once( _PIP_PATH . 'init.php' );
 register_activation_hook( _PIP_FILE, '_pip_activation_hook' );
 function _pip_activation_hook() {
-	if ( ! class_exists( 'Flexible_Content' ) ) {
+	if ( ! class_exists( 'PIP_Flexible_Content' ) ) {
 		return;
 	}
 
-	$class = new Flexible_Content();
+	$class = new PIP_Flexible_Content();
 	$class->_pip_load_edit();
 }
 
@@ -64,6 +64,11 @@ function _pip_activation_hook() {
  * Flexible content
  */
 require_once( _PIP_PATH . 'flexible-content/class-flexible-content.php' );
+
+/**
+ * Admin
+ */
+require_once( _PIP_PATH . 'includes/admin/class-admin.php' );
 
 
 /**
