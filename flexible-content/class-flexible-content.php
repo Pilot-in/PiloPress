@@ -3,14 +3,57 @@
 defined( 'ABSPATH' ) || exit;
 
 
-if ( ! class_exists( 'Flexible_Content' ) ) {
-	class Flexible_Content {
+if ( ! class_exists( 'PIP_Flexible_Content' ) ) {
+	class PIP_Flexible_Content {
 
-		private $flexible_mirror_field_name = '_pip_flexible_mirror';
-		private $flexible_mirror_group_key  = 'group_pip_flexible_mirror';
-		private $flexible_field_name        = '_pip_flexible';
-		private $flexible_group_key         = 'group_pip_flexible_main';
-		private $user_view                  = 'edit';
+		private   $flexible_mirror_field_name = '_pip_flexible_mirror';
+		private   $flexible_mirror_group_key  = 'group_pip_flexible_mirror';
+		private   $flexible_field_name        = '_pip_flexible';
+		private   $flexible_group_key         = 'group_pip_flexible_main';
+		private   $user_view                  = 'edit';
+		private   $icons                      = array(
+			'edit'                  => array(
+				'post_type',
+				'post_template',
+				'post_status',
+				'post_format',
+				'post',
+			),
+			'media-default'         => array(
+				'page_template',
+				'page_type',
+				'page_parent',
+				'page',
+			),
+			'admin-users'           => array(
+				'current_user',
+				'user_form',
+			),
+			'welcome-widgets-menus' => array(
+				'widget',
+				'nav_menu',
+				'nav_menu_item',
+			),
+			'category'              => array(
+				'taxonomy',
+				'post_category',
+				'post_taxonomy',
+			),
+			'admin-comments'        => array(
+				'comment',
+			),
+			'paperclip'             => array(
+				'attachment',
+			),
+			'admin-settings'        => array(
+				'options_page',
+			),
+			'businessman'           => array(
+				'current_user_role',
+				'user_role',
+			),
+		);
+		protected $layout_group_keys;
 
 		public function __construct() {
 			// WP hooks
@@ -34,6 +77,7 @@ if ( ! class_exists( 'Flexible_Content' ) ) {
 		 */
 		public function _pip_init() {
 			$layouts      = array();
+			$group_keys   = array();
 			$field_groups = acf_get_field_groups();
 
 			// Get layouts
@@ -43,7 +87,7 @@ if ( ! class_exists( 'Flexible_Content' ) ) {
 
 						$title          = str_replace( 'Layout: ', '', $field_group['title'] );
 						$name           = sanitize_title( $title );
-						$layout_uniq_id = uniqid( 'layout_' );
+						$layout_uniq_id = 'layout_' . $name;
 
 						$layouts[ $layout_uniq_id ] = [
 							'key'        => $layout_uniq_id,
@@ -71,16 +115,19 @@ if ( ! class_exists( 'Flexible_Content' ) ) {
 									'display'           => 'seamless',
 									'layout'            => 'block',
 									'prefix_label'      => 0,
-									'prefix_name'       => 0,
+									'prefix_name'       => 1,
 									'acfe_clone_modal'  => 0,
 								],
 							],
 							'min'        => '',
 							'max'        => '',
 						];
+
+						$group_keys[] = $field_group['key'];
 					}
 				}
 			}
+			$this->layout_group_keys = $group_keys;
 
 			$locations = apply_filters( 'pip/flexible/locations', array() );
 
@@ -90,10 +137,10 @@ if ( ! class_exists( 'Flexible_Content' ) ) {
 				'title'                 => 'Flexible Content',
 				'fields'                => array(
 					array(
-						'key'                               => uniqid( 'field_pip_' ),
+						'key'                               => 'field_pip_' . $this->flexible_field_name,
 						'label'                             => 'Flexible Content',
 						'name'                              => $this->flexible_field_name,
-						'type'                              => 'flexible_content',
+						'type'                              => 'PIP_Flexible_Content',
 						'instructions'                      => '',
 						'required'                          => 0,
 						'conditional_logic'                 => 0,
@@ -152,22 +199,26 @@ if ( ! class_exists( 'Flexible_Content' ) ) {
 		 * @param $screen
 		 */
 		public function _pip_current_screen( $screen ) {
-			// If not on acf field groups page, return
+			// Acf field groups archive
 			if ( acf_is_screen( 'edit-acf-field-group' ) ) {
 				add_action( 'load-edit.php', array( $this, '_pip_load_edit' ) );
 				add_filter( 'page_row_actions', array( $this, '_pip_row_actions' ), 10, 2 );
 			}
 
+			// Acf field group single
 			if ( acf_is_screen( 'acf-field-group' ) ) {
 				add_action( 'acf/input/admin_head', array( $this, '_pip_meta_boxes' ) );
 			}
 		}
 
+		/**
+		 * Customize meta boxes on mirror flexible content page
+		 */
 		public function _pip_meta_boxes() {
 			global $field_group;
 
 			// If not mirror flexible group field, return
-			if ( $field_group->key !== $this->flexible_mirror_group_key ) {
+			if ( $field_group['key'] !== $this->flexible_mirror_group_key ) {
 				return;
 			}
 
@@ -177,8 +228,121 @@ if ( ! class_exists( 'Flexible_Content' ) ) {
 			remove_meta_box( 'slugdiv', 'acf-field-group', 'normal' );
 			remove_meta_box( 'acf-field-group-acfe-side', 'acf-field-group', 'side' );
 			remove_meta_box( 'acf-field-group-acfe', 'acf-field-group', 'normal' );
+			remove_meta_box( 'acfe-wp-custom-fields', 'acf-field-group', 'normal' );
 
 			// Add meta box
+			add_meta_box( 'pip-flexible-layouts', 'Layouts disponibles', array( $this, '_pip_layouts_meta_box' ), 'acf-field-group', 'normal', 'high' );
+		}
+
+		/**
+		 * Add custom meta box for mirror flexible
+		 */
+		public function _pip_layouts_meta_box() {
+			$layout_group_keys = $this->layout_group_keys['args'][0];
+			foreach ( $layout_group_keys as $layout_group_key ) {
+				// Get current field group
+				$layout_field_group = acf_get_field_group( $layout_group_key );
+
+				// Get locations html
+				$locations = $this->_pip_get_locations_icons( $layout_field_group );
+
+				// Get status html
+				$status = '';
+				if ( ! $layout_field_group['active'] ) {
+					$status = '<i class="acf-icon -minus yellow small acf-js-tooltip" title="' . esc_attr__( 'Inactive', 'acf' ) . '"></i> ';
+				}
+
+				// Structured array for template file
+				$layouts[] = array(
+					'title'     => $layout_field_group['title'],
+					'locations' => $locations,
+					'edit_link' => get_edit_post_link( $layout_field_group['ID'] ),
+					'status'    => $status,
+				);
+			}
+
+			// New field group link
+			$add_new_link = add_query_arg( array( 'post_type' => 'acf-field-group' ), admin_url( 'post-new.php' ) );;
+
+			include_once( _PIP_PATH . 'flexible-content/views/flexible-layouts-meta-box.php' );
+		}
+
+		/**
+		 * Get html with icons for field group locations
+		 *
+		 * @param $field_group
+		 *
+		 * @return string|null
+		 */
+		public function _pip_get_locations_icons( $field_group ) {
+			$choices = acf_get_location_rule_types();
+
+			if ( ! isset( $field_group['location'] ) || empty( $field_group['location'] ) || empty( $choices ) ) {
+				return null;
+			}
+
+			$final = array();
+
+			$icon_default = 'admin-generic';
+
+			foreach ( $choices as $key => $sub_choices ) {
+				foreach ( $sub_choices as $choice_slug => $choice_name ) {
+					$final_icon = $icon_default;
+					foreach ( $this->icons as $icon => $icon_slugs ) {
+						foreach ( $icon_slugs as $icon_slug ) {
+							if ( $choice_slug != $icon_slug ) {
+								continue;
+							}
+
+							$final_icon = $icon;
+							break( 2 );
+						}
+					}
+
+					$final[ $choice_slug ] = array(
+						'name' => $choice_name,
+						'icon' => $final_icon,
+					);
+				}
+			}
+
+
+			$html = array();
+			foreach ( $field_group['location'] as $or ) {
+				foreach ( $or as $and ) {
+					if ( ! isset( $final[ $and['param'] ] ) || ! isset( $and['value'] ) ) {
+						continue;
+					}
+
+					$final_name = $and['value'];
+					$values     = acf_get_location_rule_values( $and );
+
+					if ( ! empty( $values ) && is_array( $values ) ) {
+						foreach ( $values as $value_slug => $value_name ) {
+							if ( $and['value'] != $value_slug ) {
+								continue;
+							}
+
+							if ( is_array( $value_name ) && isset( $value_name[ $and['value'] ] ) ) {
+								$final_name = $value_name[ $and['value'] ];
+							} else {
+								$final_name = $value_name;
+							}
+
+							break;
+						}
+					}
+
+					$name = '<span class="acf-js-tooltip dashicons dashicons-' . $final[ $and['param'] ]['icon'] . '" title="' . $final[ $and['param'] ]['name'] . ' = ' . $final_name . '"></span>';
+					if ( $and['operator'] === '!=' ) {
+						$name = '<span class="acf-js-tooltip dashicons dashicons-' . $final[ $and['param'] ]['icon'] . '" title="' . $final[ $and['param'] ]['name'] . ' != ' . $final_name . '" style="color:#ccc;"></span>';
+					}
+
+					$html[] = $name;
+				}
+			}
+
+			return implode( ' ', $html );
 		}
 
 		/**
@@ -480,5 +644,5 @@ if ( ! class_exists( 'Flexible_Content' ) ) {
 	}
 
 	// Instantiate class
-	new Flexible_Content();
+	new PIP_Flexible_Content();
 }
