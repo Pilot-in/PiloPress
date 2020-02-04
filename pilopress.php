@@ -57,13 +57,14 @@ function _pip_activation_hook() {
 	}
 
 	$class = new PIP_Flexible_Content();
-	$class->_pip_load_edit();
+	$class->load_edit();
 }
 
 /**
  * Flexible content
  */
-require_once( _PIP_PATH . 'flexible-content/class-flexible-content.php' );
+require_once( _PIP_PATH . 'includes/flexible-content/class-flexible-content.php' );
+require_once( _PIP_PATH . 'includes/field-groups/class-field-groups.php' );
 
 /**
  * Admin

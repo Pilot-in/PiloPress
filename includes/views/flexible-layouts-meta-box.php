@@ -8,7 +8,6 @@
     <thead>
     <tr>
         <th scope="col">Layout</th>
-        <th scope="col">Status</th>
         <th scope="col">Locations</th>
     </tr>
     </thead>
@@ -29,14 +28,13 @@
                     </span>
                 </div>
             </td>
-            <td><?php echo $layout['status']; ?></td>
             <td><?php echo $layout['locations']; ?></td>
         </tr>
 	<?php endforeach; ?>
     <tr>
-        <td colspan="3">
-            <a class="button-secondary" href="<?php echo $add_new_link; ?>">
-				<?php _e( 'Ajouter', 'pilopress' ) ?>
+        <td colspan="2">
+            <a class="button-secondary" href="<?php echo $add_new_link; ?>" target="_blank">
+				<?php _e( 'Ajouter un layout', 'pilopress' ) ?>
             </a>
         </td>
     </tr>
@@ -44,7 +42,6 @@
     <tfoot>
     <tr>
         <th scope="col">Layout</th>
-        <th scope="col">Status</th>
         <th scope="col">Locations</th>
     </tr>
     </tfoot>
