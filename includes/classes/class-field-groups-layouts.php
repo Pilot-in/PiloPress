@@ -13,7 +13,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
          */
         public function current_screen() {
             // If not ACF field group single, return
-            if ( acf_is_screen( 'acf-field-group' ) ) {
+            if ( !acf_is_screen( 'acf-field-group' ) ) {
                 return;
             }
 

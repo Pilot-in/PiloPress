@@ -66,4 +66,4 @@ require_once( _PIP_PATH . 'includes/classes/class-field-groups-layouts.php' );
 /**
  * Admin
  */
-require_once( _PIP_PATH . 'includes/admin/class-admin.php' );
+require_once( _PIP_PATH . 'includes/classes/admin/class-admin.php' );

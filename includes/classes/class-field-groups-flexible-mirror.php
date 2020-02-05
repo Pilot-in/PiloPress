@@ -38,7 +38,12 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
          */
         public function load_edit() {
             // If mirror flexible already exists, return
-            if ( acf_get_field_group( self::get_flexible_mirror_group_key() ) ) {
+            $post = get_post( array(
+                'post_name'   => self::get_flexible_mirror_group_key(),
+                'post_type'   => 'acf-field-group',
+                'post_status' => 'publish',
+            ) );
+            if ( $post ) {
                 return;
             }
 

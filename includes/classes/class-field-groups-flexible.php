@@ -173,6 +173,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
             $screen  = acf_get_form_data( 'screen' );
             $post_id = acf_get_form_data( 'post_id' );
 
+
             if ( !$screen ) {
                 $current_screen = get_current_screen();
                 if ( !$current_screen ) {
