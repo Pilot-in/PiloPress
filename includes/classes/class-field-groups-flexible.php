@@ -1,18 +1,11 @@
 <?php
 
-defined( 'ABSPATH' ) || exit;
+if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
+    class PIP_Field_Groups_Flexible {
 
-
-if ( !class_exists( 'PIP_Flexible_Content' ) ) {
-    class PIP_Flexible_Content {
-
-        private $flexible_mirror_field_name = '_pip_flexible_mirror';
-        private $flexible_field_name        = '_pip_flexible';
-        private $flexible_group_key         = 'group_pip_flexible_main';
-        private $user_view                  = 'edit';
-
-        private static $flexible_mirror_group_key = 'group_pip_flexible_mirror';
-        private static $layout_group_keys         = array();
+        private $flexible_field_name = '_pip_flexible';
+        private $flexible_group_key  = 'group_pip_flexible_main';
+        private $user_view           = 'edit';
 
         public function __construct() {
             // WP hooks
@@ -20,7 +13,6 @@ if ( !class_exists( 'PIP_Flexible_Content' ) ) {
 
             // ACF hooks
             add_action( "acf/prepare_field/name={$this->flexible_field_name}", array( $this, 'prepare_field_flexible' ), 20 );
-            add_action( "acf/prepare_field/name={$this->flexible_mirror_field_name}", array( $this, 'prepare_field_mirror_flexible' ), 20 );
             add_action( 'acf/validate_field/type=flexible_content', array( $this, 'validate_field' ), 20 );
 
             // Pilo'Press hooks
@@ -87,7 +79,8 @@ if ( !class_exists( 'PIP_Flexible_Content' ) ) {
                     $group_keys[] = $field_group['key'];
                 }
             }
-            self::set_layout_group_keys( $group_keys );
+
+            PIP_Field_Groups_Flexible_Mirror::set_layout_group_keys( $group_keys );
 
             $locations = apply_filters( 'pip/flexible/locations', array() );
 
@@ -97,10 +90,10 @@ if ( !class_exists( 'PIP_Flexible_Content' ) ) {
                 'title'                 => 'Flexible Content',
                 'fields'                => array(
                     array(
-                        'key'                               => 'field_pip_' . $this->flexible_field_name,
+                        'key'                               => 'field_pip' . $this->flexible_field_name,
                         'label'                             => 'Flexible Content',
                         'name'                              => $this->flexible_field_name,
-                        'type'                              => 'PIP_Flexible_Content',
+                        'type'                              => 'flexible_content',
                         'instructions'                      => '',
                         'required'                          => 0,
                         'conditional_logic'                 => 0,
@@ -180,6 +173,15 @@ if ( !class_exists( 'PIP_Flexible_Content' ) ) {
             $screen  = acf_get_form_data( 'screen' );
             $post_id = acf_get_form_data( 'post_id' );
 
+            if ( !$screen ) {
+                $current_screen = get_current_screen();
+                if ( !$current_screen ) {
+                    return $field;
+                }
+
+                $screen = $current_screen->id;
+            }
+
             /**
              * Extract ACF id from URL id
              * @var $id
@@ -212,6 +214,7 @@ if ( !class_exists( 'PIP_Flexible_Content' ) ) {
                         'taxonomy' => $taxonomy,
                     );
                     break;
+                case 'page':
                 case 'post':
                     $post_type = get_post_type( $post_id );
 
@@ -342,15 +345,6 @@ if ( !class_exists( 'PIP_Flexible_Content' ) ) {
         }
 
         /**
-         * Hide mirror flexible
-         *
-         * @return bool
-         */
-        public function prepare_field_mirror_flexible() {
-            return false;
-        }
-
-        /**
          * Get locations of mirror flexible
          *
          * @param $locations
@@ -359,7 +353,7 @@ if ( !class_exists( 'PIP_Flexible_Content' ) ) {
          */
         public function flexible_locations( $locations ) {
             // Get field group
-            $mirror = acf_get_field_group( self::get_flexible_mirror_group_key() );
+            $mirror = acf_get_field_group( PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group_key() );
 
             // If field group doesn't exist, return
             if ( !$mirror ) {
@@ -372,34 +366,7 @@ if ( !class_exists( 'PIP_Flexible_Content' ) ) {
             return $locations;
         }
 
-        /**
-         * Getter : $flexible_mirror_group_key
-         * @return string
-         */
-        public static function get_flexible_mirror_group_key() {
-            return self::$flexible_mirror_group_key;
-        }
-
-        /**
-         * Setter : $layout_group_keys
-         *
-         * @param $layout_group_keys
-         *
-         * @return void
-         */
-        public static function set_layout_group_keys( $layout_group_keys ) {
-            self::$layout_group_keys = $layout_group_keys;
-        }
-
-        /**
-         * Getter : $layout_group_keys
-         * @return array
-         */
-        public static function get_layout_group_keys() {
-            return self::$layout_group_keys;
-        }
     }
 
-    // Instantiate class
-    new PIP_Flexible_Content();
+    new PIP_Field_Groups_Flexible();
 }

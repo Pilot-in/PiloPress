@@ -12,12 +12,12 @@
     </tr>
     </thead>
     <tbody>
-	<?php foreach ( $layouts as $layout ) : ?>
+    <?php foreach ( $layouts as $layout ) : ?>
         <tr>
             <td class="title column-title has-row-actions">
                 <strong>
                     <a class="row-title" href="<?php echo $layout['edit_link'] ?>" aria-label="<?php echo $layout['title'] . ' (' . __( 'Modifier', 'pilopress' ) . ')' ?>">
-						<?php echo $layout['title'] ?>
+                        <?php echo $layout['title'] ?>
                     </a>
                 </strong>
                 <div class="row-actions">
@@ -30,11 +30,11 @@
             </td>
             <td><?php echo $layout['locations']; ?></td>
         </tr>
-	<?php endforeach; ?>
+    <?php endforeach; ?>
     <tr>
         <td colspan="2">
             <a class="button-secondary" href="<?php echo $add_new_link; ?>" target="_blank">
-				<?php _e( 'Ajouter un layout', 'pilopress' ) ?>
+                <?php _e( 'Ajouter un layout', 'pilopress' ) ?>
             </a>
         </td>
     </tr>
