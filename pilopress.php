@@ -33,6 +33,12 @@ if ( !defined( '_PIP_THEME_STYLE_PATH' ) ) {
 if ( !defined( '_PIP_THEME_STYLE_URL' ) ) {
     define( '_PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() );
 }
+if ( !defined( '_PIP_THEME_RENDER_PATH' ) ) {
+    define( '_PIP_THEME_RENDER_PATH', get_stylesheet_directory() . '/pilopress/layouts/' );
+}
+if ( !defined( '_PIP_THEME_RENDER_URL' ) ) {
+    define( '_PIP_THEME_RENDER_URL', get_stylesheet_directory_uri() . '/pilopress/layouts/' );
+}
 
 // PILO_TODO: Remove
 add_action( 'init', '_pip_post_type_page_remove_supports' );

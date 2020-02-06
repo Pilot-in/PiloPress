@@ -32,21 +32,33 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
             if ( $field_groups ) {
                 foreach ( $field_groups as $field_group ) {
                     // If not layout, skip
-                    if ( !acf_maybe_get( $field_group, '_pip_is_layout' ) ) {
+                    if ( !PIP_Field_Groups_Layouts::is_layout( $field_group ) ) {
                         continue;
                     }
 
-                    $title          = str_replace( 'Layout: ', '', $field_group['title'] );
-                    $name           = sanitize_title( $title );
+                    $title          = $field_group['title'];
+                    $name           = sanitize_title( $field_group['title'] );
                     $layout_uniq_id = 'layout_' . $name;
+
+                    // Paths
+                    $file_path = _PIP_THEME_RENDER_PATH . $name . '/' . $name;
+                    $file_url  = _PIP_THEME_RENDER_URL . $name . '/' . $name;
+
+                    // Settings
+                    $modal_category   = acf_maybe_get( $field_group, '_pip_category' ) ? $field_group['_pip_category'] : 'Classic';
+                    $render_layout    = acf_maybe_get( $field_group, '_pip_render_layout' ) ? $field_group['_pip_render_layout'] : $file_path . '.php';
+                    $render_style     = acf_maybe_get( $field_group, '_pip_render_style' ) ? $field_group['_pip_render_style'] : $file_url . '.css';
+                    $render_script    = acf_maybe_get( $field_group, '_pip_render_script' ) ? $field_group['_pip_render_script'] : $file_url . '.js';
+                    $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail' ) ? $field_group['_pip_thumbnail'] : '870';
+                    $configuration    = acf_maybe_get( $field_group, '_pip_configuration' ) ? $field_group['_pip_configuration'] : array();
 
                     // Store layout
                     $layouts[ $layout_uniq_id ] = [
-                        'key'        => $layout_uniq_id,
-                        'name'       => $name,
-                        'label'      => $title,
-                        'display'    => 'row',
-                        'sub_fields' => [
+                        'key'                           => $layout_uniq_id,
+                        'name'                          => $name,
+                        'label'                         => $title,
+                        'display'                       => 'row',
+                        'sub_fields'                    => [
                             [
                                 'key'               => 'field_clone_' . $name,
                                 'label'             => $title,
@@ -61,18 +73,24 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                                     'id'    => '',
                                 ],
                                 'acfe_permissions'  => '',
-                                'clone'             => [
+                                'clone'             => array(
                                     $field_group['key'],
-                                ],
+                                ),
                                 'display'           => 'seamless',
                                 'layout'            => 'block',
                                 'prefix_label'      => 0,
-                                'prefix_name'       => 1,
+                                'prefix_name'       => 0,
                                 'acfe_clone_modal'  => 0,
                             ],
                         ],
-                        'min'        => '',
-                        'max'        => '',
+                        'acfe_flexible_category'        => $modal_category,
+                        'acfe_flexible_render_template' => $render_layout,
+                        'acfe_flexible_render_style'    => $render_style,
+                        'acfe_flexible_render_script'   => $render_script,
+                        'acfe_flexible_thumbnail'       => $layout_thumbnail,
+                        'acfe_flexible_settings'        => $configuration,
+                        'min'                           => '',
+                        'max'                           => '',
                     ];
 
                     // Store group keys for meta box on mirror flexible
@@ -81,6 +99,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
             }
 
             PIP_Field_Groups_Flexible_Mirror::set_layout_group_keys( $group_keys );
+            PIP_Field_Groups_Flexible_Mirror::set_flexible_mirror_group( acf_get_field_group( PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group_key() ) );
 
             $locations = apply_filters( 'pip/flexible/locations', array() );
 
@@ -90,34 +109,41 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                 'title'                 => 'Flexible Content',
                 'fields'                => array(
                     array(
-                        'key'                               => 'field_pip' . $this->flexible_field_name,
-                        'label'                             => 'Flexible Content',
-                        'name'                              => $this->flexible_field_name,
-                        'type'                              => 'flexible_content',
-                        'instructions'                      => '',
-                        'required'                          => 0,
-                        'conditional_logic'                 => 0,
-                        'wrapper'                           => array(
+                        'key'                           => 'field_pip' . $this->flexible_field_name,
+                        'label'                         => 'Flexible Content',
+                        'name'                          => $this->flexible_field_name,
+                        'type'                          => 'flexible_content',
+                        'instructions'                  => '',
+                        'required'                      => 0,
+                        'conditional_logic'             => 0,
+                        'wrapper'                       => array(
                             'width' => '',
                             'class' => '',
                             'id'    => '',
                         ),
-                        'acfe_permissions'                  => '',
-                        'acfe_flexible_stylised_button'     => 1,
-                        'acfe_flexible_layouts_thumbnails'  => 0,
-                        'acfe_flexible_layouts_settings'    => 0,
-                        'acfe_flexible_layouts_ajax'        => 0,
-                        'acfe_flexible_layouts_templates'   => 0,
+                        'acfe_permissions'              => '',
+                        'acfe_flexible_stylised_button' => 1,
+
+                        'acfe_flexible_layouts_thumbnails'  => 1,
+                        'acfe_flexible_layouts_settings'    => 1,
+                        'acfe_flexible_layouts_ajax'        => 1,
+                        'acfe_flexible_layouts_templates'   => 1,
                         'acfe_flexible_layouts_placeholder' => 0,
-                        'acfe_flexible_disable_ajax_title'  => 0,
-                        'acfe_flexible_close_button'        => 0,
-                        'acfe_flexible_title_edition'       => 0,
-                        'acfe_flexible_copy_paste'          => 0,
+                        'acfe_flexible_disable_ajax_title'  => 1,
+                        'acfe_flexible_close_button'        => 1,
+                        'acfe_flexible_title_edition'       => 1,
+                        'acfe_flexible_copy_paste'          => 1,
                         'acfe_flexible_modal_edition'       => 0,
                         'acfe_flexible_modal'               => array(
-                            'acfe_flexible_modal_enabled' => '0', // PILO_TODO: Switch to 1
+                            'acfe_flexible_modal_enabled'    => '1',
+                            'acfe_flexible_modal_title'      => "Pilo'Press",
+                            'acfe_flexible_modal_col'        => '6',
+                            'acfe_flexible_modal_categories' => '1',
                         ),
                         'acfe_flexible_layouts_state'       => '',
+                        'acfe_flexible_hide_empty_message'  => 1,
+                        'acfe_flexible_empty_message'       => '',
+                        'acfe_flexible_layouts_previews'    => 1,
                         'layouts'                           => $layouts,
                         'button_label'                      => 'Ajouter une ligne',
                         'min'                               => '',
@@ -173,14 +199,21 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
             $screen  = acf_get_form_data( 'screen' );
             $post_id = acf_get_form_data( 'post_id' );
 
-
+            $post_type = null;
             if ( !$screen ) {
                 $current_screen = get_current_screen();
-                if ( !$current_screen ) {
-                    return $field;
+                if ( $current_screen ) {
+                    $screen = $current_screen->id;
+                } else {
+                    // AJAX case
+                    $post_id = acf_maybe_get_POST( 'post_id' );
+                    if ( $post_id ) {
+                        $post_type = get_post_type( $post_id );
+                        $screen    = $post_type;
+                    } else {
+                        return $field;
+                    }
                 }
-
-                $screen = $current_screen->id;
             }
 
             /**
@@ -217,7 +250,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                     break;
                 case 'page':
                 case 'post':
-                    $post_type = get_post_type( $post_id );
+                    $post_type = $post_type ? $post_type : get_post_type( $post_id );
 
                     // If Dynamic Template: Stop! // PILO_TODO: uncomment
 //				if ( $post_type === 'acfe-template' ) {
@@ -254,9 +287,8 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                     continue;
                 }
 
-                // Sanitize label and name
-                $field_group_label = str_ireplace( 'Layout: ', '', $field_group['title'] );
-                $field_group_name  = sanitize_title( $field_group_label );
+                // Sanitize name
+                $field_group_name = sanitize_title( $field_group['title'] );
 
                 // Browse all layouts
                 foreach ( $layouts as $key => $layout ) {
@@ -369,5 +401,6 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
 
     }
 
+    // Instantiate class
     new PIP_Field_Groups_Flexible();
 }

@@ -2,14 +2,14 @@
 
 if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
     class PIP_Field_Groups_Layouts {
-
         public function __construct() {
             // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
+            add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 10, 3 );
         }
 
         /**
-         * Fire actions on acf field groups page
+         * Fire actions on acf field group page
          */
         public function current_screen() {
             // If not ACF field group single, return
@@ -33,10 +33,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             }
 
             // Is current field group a layout ?
-            $is_layout = acf_maybe_get( $field_group, '_pip_is_layout' );
-            if ( acf_maybe_get_GET( 'layout' ) ) {
-                $is_layout = 1;
-            }
+            $is_layout = self::is_layout( $field_group );
 
             // Meta box: Layout settings
             if ( $is_layout ) {
@@ -44,6 +41,36 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                     $this,
                     'render_meta_box_main',
                 ), 'acf-field-group', 'normal', 'high', array( 'field_group' => $field_group ) );
+            }
+        }
+
+        /**
+         * Manage layout directory and files on save
+         *
+         * @param int $post_id
+         * @param WP_Post $post
+         * @param bool $update
+         */
+        public function save_field_group( $post_id, $post, $update ) {
+            // If is a revision, not a field group or not a layout, return
+            if ( wp_is_post_revision( $post_id ) || $post->post_type !== 'acf-field-group' || !PIP_Field_Groups_Layouts::is_layout( $post_id ) ) {
+                return;
+            }
+
+            // Get old and new title
+            $field_group = acf_get_field_group( $post_id );
+            $old_title   = sanitize_title( $field_group['title'] );
+            $new_title   = sanitize_title( $post->post_title );
+
+            // Do layout directory already exists ?
+            $directory_exists = file_exists( _PIP_THEME_RENDER_PATH . $old_title );
+
+            if ( $old_title === $new_title && !$directory_exists ) {
+                // If old and new title are the same, create new layout directory
+                $this->create_layout_dir( $old_title );
+            } elseif ( $old_title !== $new_title && $directory_exists ) {
+                // If old and new title aren't the same, change layout directory name
+                $this->modify_layout_dir( $old_title, $new_title );
             }
         }
 
@@ -68,8 +95,8 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             ) );
 
             // Layout
-            $layout_name        = sanitize_title( str_replace( 'Layout: ', '', $field_group['title'] ) );
-            $layout_path_prefix = str_replace( home_url() . '/wp-content/themes/', '', _PIP_THEME_STYLE_URL ) . '/layouts/' . $layout_name . '/';
+            $layout_name        = sanitize_title( $field_group['title'] );
+            $layout_path_prefix = str_replace( home_url() . '/wp-content/themes/', '', _PIP_THEME_RENDER_URL ) . $layout_name . '/';
 
             // Category
             acf_render_field_wrap( array(
@@ -172,6 +199,68 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
               }
             </script>
             <?php
+        }
+
+        /**
+         * Check if post/field group is a layout
+         *
+         * @param array|int $post
+         *
+         * @return bool|mixed|null
+         */
+        public static function is_layout( $post ) {
+            $is_layout   = false;
+            $field_group = null;
+
+            // If no post_id, return false
+            if ( !$post ) {
+                return $is_layout;
+            }
+
+            if ( is_array( $post ) ) {
+                // If is array, it's a field group
+                $field_group = $post;
+            } else {
+                // If is ID, get field group
+                $field_group = acf_get_field_group( $post );
+            }
+
+            // If no field group, return false
+            if ( !$field_group ) {
+                return $is_layout;
+            }
+
+            $is_layout = acf_maybe_get( $field_group, '_pip_is_layout' );
+            if ( acf_maybe_get_GET( 'layout' ) ) {
+                $is_layout = true;
+            }
+
+            return $is_layout;
+        }
+
+        /**
+         * Create layout directory with corresponding files
+         *
+         * @param $layout_title
+         */
+        private function create_layout_dir( $layout_title ) {
+            // Create directory
+            wp_mkdir_p( _PIP_THEME_RENDER_PATH . $layout_title );
+
+            // Create files
+            touch( _PIP_THEME_RENDER_PATH . $layout_title . '/' . $layout_title . '.scss' );
+            touch( _PIP_THEME_RENDER_PATH . $layout_title . '/' . $layout_title . '.php' );
+            touch( _PIP_THEME_RENDER_PATH . $layout_title . '/' . $layout_title . '.js' );
+        }
+
+        /**
+         * Modify layout directory title
+         *
+         * @param $old_title
+         * @param $new_title
+         */
+        private function modify_layout_dir( $old_title, $new_title ) {
+            rename( _PIP_THEME_RENDER_PATH . $old_title, _PIP_THEME_RENDER_PATH . $new_title );
         }
     }
 

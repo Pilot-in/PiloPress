@@ -3,9 +3,10 @@
 if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
     class PIP_Field_Groups_Flexible_Mirror {
 
-        private        $flexible_mirror_field_name = '_pip_flexible_mirror';
+        private static $flexible_mirror_group;
         private static $flexible_mirror_group_key  = 'group_pip_flexible_mirror';
         private static $layout_group_keys          = array();
+        private        $flexible_mirror_field_name = '_pip_flexible_mirror';
 
         public function __construct() {
             // WP hooks
@@ -38,12 +39,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
          */
         public function load_edit() {
             // If mirror flexible already exists, return
-            $post = get_post( array(
-                'post_name'   => self::get_flexible_mirror_group_key(),
-                'post_type'   => 'acf-field-group',
-                'post_status' => 'publish',
-            ) );
-            if ( $post ) {
+            if ( acf_get_field_group( self::get_flexible_mirror_group_key() ) ) {
                 return;
             }
 
@@ -150,7 +146,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
             // Remove meta boxes
             remove_meta_box( 'acf-field-group-options', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-field-group-fields', 'acf-field-group', 'normal' );
-            remove_meta_box( 'slugdiv', 'acf-field-group', 'normal' );
+//            remove_meta_box( 'slugdiv', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-field-group-acfe-side', 'acf-field-group', 'side' );
             remove_meta_box( 'acf-field-group-acfe', 'acf-field-group', 'normal' );
             remove_meta_box( 'acfe-wp-custom-fields', 'acf-field-group', 'normal' );
@@ -192,7 +188,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
         }
 
         /**
-         * Getter : $flexible_mirror_group_key
+         * Getter: $flexible_mirror_group_key
          * @return string
          */
         public static function get_flexible_mirror_group_key() {
@@ -200,7 +196,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
         }
 
         /**
-         * Setter : $layout_group_keys
+         * Setter: $layout_group_keys
          *
          * @param $layout_group_keys
          *
@@ -211,14 +207,32 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
         }
 
         /**
-         * Getter : $layout_group_keys
+         * Getter: $layout_group_keys
          * @return array
          */
         public static function get_layout_group_keys() {
             return self::$layout_group_keys;
         }
 
+        /**
+         * Getter: $flexible_mirror_group
+         * @return mixed
+         */
+        public static function get_flexible_mirror_group() {
+            return self::$flexible_mirror_group;
+        }
+
+        /**
+         * Setter: $flexible_mirror_group
+         *
+         * @param mixed $flexible_mirror_group
+         */
+        public static function set_flexible_mirror_group( $flexible_mirror_group ) {
+            self::$flexible_mirror_group = $flexible_mirror_group;
+        }
+
     }
 
+    // Instantiate class
     new PIP_Field_Groups_Flexible_Mirror();
 }
