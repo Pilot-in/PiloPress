@@ -9,6 +9,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
 
         public function __construct() {
             // WP hooks
+            add_action( 'init', array( $this, 'modify_acf_post_type_labels' ) );
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_filter( 'pre_delete_post', array( $this, 'delete_post' ), 10, 2 );
             add_filter( 'pre_trash_post', array( $this, 'delete_post' ), 10, 2 );
@@ -27,6 +28,20 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
             // ACF field group single
             if ( acf_is_screen( 'acf-field-group' ) ) {
                 add_action( 'acf/input/admin_head', array( $this, 'meta_boxes' ) );
+            }
+        }
+
+        /**
+         * Change title on flexible edition page
+         */
+        public function modify_acf_post_type_labels() {
+            $post = get_post( acf_maybe_get_GET( 'post' ) );
+            // If mirror flexible
+            if ( $post && $post->post_name === self::get_flexible_mirror_group_key() ) {
+                $acf_field_group = get_post_type_object( 'acf-field-group' );
+
+                // Change title on flexible edition page
+                $acf_field_group->labels->edit_item = __( 'Edit Flexible Content', 'pilopress' );
             }
         }
 
@@ -139,7 +154,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
             remove_meta_box( 'acfe-wp-custom-fields', 'acf-field-group', 'normal' );
 
             // Add meta box
-            add_meta_box( 'pip-flexible-layouts', 'Layouts disponibles', array( $this, 'layouts_meta_box' ), 'acf-field-group', 'normal', 'high' );
+            add_meta_box( 'pip-flexible-layouts', __( 'Available layouts', 'pilopress' ), array( $this, 'layouts_meta_box' ), 'acf-field-group', 'normal', 'high' );
         }
 
         /**

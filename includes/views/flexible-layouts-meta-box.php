@@ -22,14 +22,14 @@ acf_hidden_input( array(
         <tr>
             <td class="title column-title has-row-actions">
                 <strong>
-                    <a class="row-title" href="<?php echo $layout['edit_link'] ?>" aria-label="<?php echo $layout['title'] . ' (' . __( 'Modifier', 'pilopress' ) . ')' ?>">
+                    <a class="row-title" href="<?php echo $layout['edit_link'] ?>" aria-label="<?php echo $layout['title'] . ' (' . __( 'Edit', 'pilopress' ) . ')' ?>">
                         <?php echo $layout['title'] ?>
                     </a>
                 </strong>
                 <div class="row-actions">
                     <span class="edit">
-                        <a href="<?php echo $layout['edit_link']; ?>" aria-label="<?php echo __( 'Modifier', 'pilopress' ) . ' ' . $layout['title'] ?>">
-                            <?php _e( 'Modifier', 'pilopress' ); ?>
+                        <a href="<?php echo $layout['edit_link']; ?>" aria-label="<?php echo __( 'Edit', 'pilopress' ) . ' ' . $layout['title'] ?>">
+                            <?php _e( 'Edit', 'pilopress' ); ?>
                         </a>
                     </span>
                 </div>
@@ -40,7 +40,7 @@ acf_hidden_input( array(
     <tr>
         <td colspan="2">
             <a class="button-secondary" href="<?php echo $add_new_link; ?>" target="_blank">
-                <?php _e( 'Ajouter un layout', 'pilopress' ) ?>
+                <?php _e( 'Add layout', 'pilopress' ) ?>
             </a>
         </td>
     </tr>
