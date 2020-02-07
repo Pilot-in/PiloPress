@@ -12,8 +12,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
             add_action( 'init', array( $this, 'init' ) );
 
             // ACF hooks
-            add_action( "acf/prepare_field/name={$this->flexible_field_name}", array( $this, 'prepare_field_flexible' ), 20 );
-            add_action( 'acf/validate_field/type=flexible_content', array( $this, 'validate_field' ), 20 );
+            add_filter( "acf/prepare_field/name={$this->flexible_field_name}", array( $this, 'validate_field' ), 20 );
 
             // Pilo'Press hooks
             add_filter( 'pip/flexible/locations', array( $this, 'flexible_locations' ) );
@@ -182,13 +181,22 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
          */
         public function validate_field( $field ) {
             // If not main flexible, return
-            if ( $field['name'] !== $this->flexible_field_name ) {
+            /*if ( $field['name'] !== $this->flexible_field_name ) {
                 return $field;
-            }
+            }*/
 
             // If no layouts, return
             if ( empty( $field['layouts'] ) ) {
                 return $field;
+            }
+
+            // If AJAX, filters not needed
+            if ( wp_doing_ajax() ) {
+
+                // Exception for attachments view in grid mode
+                if ( acf_maybe_get_POST( 'action' ) !== 'query-attachments' ) {
+                    return $field;
+                }
             }
 
             // Initiate layouts to empty array for returns
@@ -199,25 +207,9 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
             $screen  = acf_get_form_data( 'screen' );
             $post_id = acf_get_form_data( 'post_id' );
 
-            $post_type = null;
-            if ( !$screen ) {
-                $current_screen = get_current_screen();
-                if ( $current_screen ) {
-                    $screen = $current_screen->id;
-                } else {
-                    // AJAX case
-                    $post_id = acf_maybe_get_POST( 'post_id' );
-                    if ( $post_id ) {
-                        $post_type = get_post_type( $post_id );
-                        $screen    = $post_type;
-                    } else {
-                        return $field;
-                    }
-                }
-            }
-
             /**
              * Extract ACF id from URL id
+             * @var $type
              * @var $id
              */
             extract( acf_get_post_id_info( $post_id ) );
@@ -250,7 +242,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                     break;
                 case 'page':
                 case 'post':
-                    $post_type = $post_type ? $post_type : get_post_type( $post_id );
+                    $post_type = get_post_type( $post_id );
 
                     // If Dynamic Template: Stop! // PILO_TODO: uncomment
 //				if ( $post_type === 'acfe-template' ) {
@@ -305,9 +297,9 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
 
             }
 
-            // If no layouts, return
+            // If no layouts, return false to hide field group
             if ( empty( $keep ) ) {
-                return $field;
+                return false;
             }
 
             // Replace layouts
@@ -359,22 +351,6 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
             }
 
             return false;
-        }
-
-        /**
-         * Hide flexible if no layouts
-         *
-         * @param $field
-         *
-         * @return bool
-         */
-        public function prepare_field_flexible( $field ) {
-            // If no layout, return false to hide field group
-            if ( empty( $field['layouts'] ) ) {
-                return false;
-            }
-
-            return $field;
         }
 
         /**

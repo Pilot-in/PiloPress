@@ -59,7 +59,7 @@ function _pip_activation_hook() {
     }
 
     $class = new PIP_Field_Groups_Flexible_Mirror();
-    $class->load_edit();
+    $class->generate_flexible_mirror();
 }
 
 /**

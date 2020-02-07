@@ -4,18 +4,14 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
     class PIP_Field_Groups_Flexible_Mirror {
 
         private static $flexible_mirror_group;
-        private static $flexible_mirror_group_key  = 'group_pip_flexible_mirror';
-        private static $layout_group_keys          = array();
-        private        $flexible_mirror_field_name = '_pip_flexible_mirror';
+        private static $flexible_mirror_group_key = 'group_pip_flexible_mirror';
+        private static $layout_group_keys         = array();
 
         public function __construct() {
             // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_filter( 'pre_delete_post', array( $this, 'delete_post' ), 10, 2 );
             add_filter( 'pre_trash_post', array( $this, 'delete_post' ), 10, 2 );
-
-            // ACF hooks
-            add_action( "acf/prepare_field/name={$this->flexible_mirror_field_name}", array( $this, 'prepare_field_mirror_flexible' ), 20 );
         }
 
         /**
@@ -24,7 +20,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
         public function current_screen() {
             // ACF field groups archive
             if ( acf_is_screen( 'edit-acf-field-group' ) ) {
-                add_action( 'load-edit.php', array( $this, 'load_edit' ) );
+                add_action( 'load-edit.php', array( $this, 'generate_flexible_mirror' ) );
                 add_filter( 'page_row_actions', array( $this, 'row_actions' ), 10, 2 );
             }
 
@@ -37,16 +33,16 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
         /**
          * Generate flexible mirror
          */
-        public function load_edit() {
+        public function generate_flexible_mirror() {
             // If mirror flexible already exists, return
-            if ( acf_get_field_group( self::get_flexible_mirror_group_key() ) ) {
+            if ( self::get_flexible_mirror_group() ) {
                 return;
             }
 
             // Mirror flexible field group
             $flexible_mirror = array(
                 'key'                   => self::get_flexible_mirror_group_key(),
-                'title'                 => 'Flexible Content',
+                'title'                 => 'Flexible Content Mirror',
                 'fields'                => array(),
                 'location'              => array(
                     array(
@@ -70,7 +66,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
                 'label_placement'       => 'top',
                 'instruction_placement' => 'label',
                 'hide_on_screen'        => '',
-                'active'                => true,
+                'active'                => false,
                 'description'           => '',
                 'acfe_display_title'    => '',
                 'acfe_autosync'         => '',
@@ -124,15 +120,6 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
         }
 
         /**
-         * Hide mirror flexible
-         *
-         * @return bool
-         */
-        public function prepare_field_mirror_flexible() {
-            return false;
-        }
-
-        /**
          * Customize meta boxes on mirror flexible content page
          */
         public function meta_boxes() {
@@ -144,9 +131,9 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
             }
 
             // Remove meta boxes
-            remove_meta_box( 'acf-field-group-options', 'acf-field-group', 'normal' );
+//            remove_meta_box( 'acf-field-group-options', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-field-group-fields', 'acf-field-group', 'normal' );
-//            remove_meta_box( 'slugdiv', 'acf-field-group', 'normal' );
+            remove_meta_box( 'slugdiv', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-field-group-acfe-side', 'acf-field-group', 'side' );
             remove_meta_box( 'acf-field-group-acfe', 'acf-field-group', 'normal' );
             remove_meta_box( 'acfe-wp-custom-fields', 'acf-field-group', 'normal' );
