@@ -42,7 +42,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
             // Mirror flexible field group
             $flexible_mirror = array(
                 'key'                   => self::get_flexible_mirror_group_key(),
-                'title'                 => 'Flexible Content Mirror',
+                'title'                 => 'Flexible Content',
                 'fields'                => array(),
                 'location'              => array(
                     array(
@@ -131,7 +131,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
             }
 
             // Remove meta boxes
-//            remove_meta_box( 'acf-field-group-options', 'acf-field-group', 'normal' );
+            remove_meta_box( 'acf-field-group-options', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-field-group-fields', 'acf-field-group', 'normal' );
             remove_meta_box( 'slugdiv', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-field-group-acfe-side', 'acf-field-group', 'side' );

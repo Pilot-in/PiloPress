@@ -3,6 +3,12 @@
  * @var array $layouts
  * @var string $add_new_link
  */
+
+// To avoid change of field group key
+acf_hidden_input( array(
+    'name'  => 'acf_field_group[key]',
+    'value' => PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group_key(),
+) );
 ?>
 <table class="wp-list-table widefat fixed striped" style="border: 0">
     <thead>

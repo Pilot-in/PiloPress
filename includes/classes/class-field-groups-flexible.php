@@ -12,7 +12,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
             add_action( 'init', array( $this, 'init' ) );
 
             // ACF hooks
-            add_filter( "acf/prepare_field/name={$this->flexible_field_name}", array( $this, 'validate_field' ), 20 );
+            add_filter( "acf/prepare_field/name={$this->flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
 
             // Pilo'Press hooks
             add_filter( 'pip/flexible/locations', array( $this, 'flexible_locations' ) );
@@ -179,12 +179,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
          *
          * @return mixed
          */
-        public function validate_field( $field ) {
-            // If not main flexible, return
-            /*if ( $field['name'] !== $this->flexible_field_name ) {
-                return $field;
-            }*/
-
+        public function prepare_flexible_field( $field ) {
             // If no layouts, return
             if ( empty( $field['layouts'] ) ) {
                 return $field;
