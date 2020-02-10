@@ -9,6 +9,16 @@ acf_hidden_input( array(
     'name'  => 'acf_field_group[key]',
     'value' => PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group_key(),
 ) );
+// To avoid change of field group label_placement
+acf_hidden_input( array(
+    'name'  => 'acf_field_group[label_placement]',
+    'value' => 'left',
+) );
+// To avoid change of field group style
+acf_hidden_input( array(
+    'name'  => 'acf_field_group[style]',
+    'value' => 'seamless',
+) );
 ?>
 <table class="wp-list-table widefat fixed striped" style="border: 0">
     <thead>

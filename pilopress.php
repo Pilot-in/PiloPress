@@ -27,17 +27,17 @@ if ( !defined( '_PIP_URL' ) ) {
 if ( !defined( '_PIP_BASENAME' ) ) {
     define( '_PIP_BASENAME', plugin_basename( __FILE__ ) );
 }
-if ( !defined( '_PIP_THEME_STYLE_PATH' ) ) {
-    define( '_PIP_THEME_STYLE_PATH', get_stylesheet_directory() );
+//if ( !defined( '_PIP_THEME_STYLE_PATH' ) ) {
+//    define( '_PIP_THEME_STYLE_PATH', get_stylesheet_directory() );
+//}
+//if ( !defined( '_PIP_THEME_STYLE_URL' ) ) {
+//    define( '_PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() );
+//} // PILO_TODO: unused
+if ( !defined( '_PIP_THEME_LAYOUTS_PATH' ) ) {
+    define( '_PIP_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/pilopress/layouts/' );
 }
-if ( !defined( '_PIP_THEME_STYLE_URL' ) ) {
-    define( '_PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() );
-}
-if ( !defined( '_PIP_THEME_RENDER_PATH' ) ) {
-    define( '_PIP_THEME_RENDER_PATH', get_stylesheet_directory() . '/pilopress/layouts/' );
-}
-if ( !defined( '_PIP_THEME_RENDER_URL' ) ) {
-    define( '_PIP_THEME_RENDER_URL', get_stylesheet_directory_uri() . '/pilopress/layouts/' );
+if ( !defined( '_PIP_THEME_LAYOUTS_URL' ) ) {
+    define( '_PIP_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/pilopress/layouts/' );
 }
 
 // PILO_TODO: Remove
@@ -65,9 +65,9 @@ function _pip_activation_hook() {
 /**
  * Field groups
  */
-require_once( _PIP_PATH . 'includes/classes/class-field-groups-flexible.php' );
-require_once( _PIP_PATH . 'includes/classes/class-field-groups-flexible-mirror.php' );
-require_once( _PIP_PATH . 'includes/classes/class-field-groups-layouts.php' );
+require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-flexible.php' );
+require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-flexible-mirror.php' );
+require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-layouts.php' );
 
 /**
  * Admin

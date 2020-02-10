@@ -11,6 +11,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_action( 'pre_get_posts', array( $this, 'admin_pre_get_posts' ) );
             add_filter( 'posts_where', array( $this, 'query_pip_post_content' ), 10, 2 );
             add_action( 'adminmenu', array( $this, 'admin_menu_parent' ) );
+            add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
         }
 
         /**
@@ -37,7 +38,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     'compare' => 'LIKE',
                     'value'   => 's:14:"_pip_is_layout";i:1',
                 ) );
-            } elseif ( acf_maybe_get_GET( 'layouts' ) === null ) {
+            } elseif ( acf_maybe_get_GET( 'layouts' ) === null && acf_maybe_get_GET( 'post_status' ) != 'trash' ) {
                 // Classic view
 
                 // Remove layouts
@@ -111,6 +112,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'manage_options',
                 'edit.php?layouts=1&post_type=acf-field-group'
             );
+
+            acf_add_options_page( array(
+                'parent_slug' => 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit',
+                'page_title'  => __( 'Styles', 'pilopress' ),
+                'menu_title'  => __( 'Styles', 'pilopress' ),
+                'menu_slug'   => 'styles',
+                'capability'  => 'manage_options',
+            ) );
 
             global $menu, $submenu;
 
@@ -195,10 +204,33 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                   })(jQuery)
                 </script>
             <?php
-
             endif;
         }
 
+        /**
+         * Change "Add new" link on layouts page
+         *
+         * @param $url
+         * @param $path
+         *
+         * @return string
+         */
+        public function change_admin_url( $url, $path ) {
+            // Modify "Add new" link on layouts page
+            if ( $path === 'post-new.php?post_type=acf-field-group' && acf_maybe_get_GET( 'layouts' ) == 1 ) {
+                // Add argument
+                $url = $url . '&layout=1';
+            }
+
+            // Modify "Add new" link on layout single page
+            $is_layout = PIP_Field_Groups_Layouts::is_layout( acf_maybe_get_GET( 'post' ) );
+            if ( $path === 'post-new.php?post_type=acf-field-group' && $is_layout ) {
+                // Add argument
+                $url = $url . '&layout=1';
+            }
+
+            return $url;
+        }
     }
 
     // Instantiate class
