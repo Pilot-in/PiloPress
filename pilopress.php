@@ -27,12 +27,12 @@ if ( !defined( '_PIP_URL' ) ) {
 if ( !defined( '_PIP_BASENAME' ) ) {
     define( '_PIP_BASENAME', plugin_basename( __FILE__ ) );
 }
-//if ( !defined( '_PIP_THEME_STYLE_PATH' ) ) {
-//    define( '_PIP_THEME_STYLE_PATH', get_stylesheet_directory() );
-//}
-//if ( !defined( '_PIP_THEME_STYLE_URL' ) ) {
-//    define( '_PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() );
-//} // PILO_TODO: unused
+if ( !defined( '_PIP_THEME_STYLE_PATH' ) ) {
+    define( '_PIP_THEME_STYLE_PATH', get_stylesheet_directory() );
+}
+if ( !defined( '_PIP_THEME_STYLE_URL' ) ) {
+    define( '_PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() );
+}
 if ( !defined( '_PIP_THEME_LAYOUTS_PATH' ) ) {
     define( '_PIP_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/pilopress/layouts/' );
 }
@@ -73,3 +73,9 @@ require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-layo
  * Admin
  */
 require_once( _PIP_PATH . 'includes/classes/admin/class-admin.php' );
+
+/**
+ * SCSS - PHP
+ */
+require_once( _PIP_PATH . 'includes/classes/scssphp/class-scss-php.php' );
+

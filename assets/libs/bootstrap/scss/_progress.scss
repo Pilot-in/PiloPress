@@ -1,10 +1,15 @@
 // Disable animation if transitions are disabled
-@if $enable-transitions {
-  @keyframes progress-bar-stripes {
-    from { background-position: $progress-height 0; }
-    to { background-position: 0 0; }
-  }
-}
+//@if $enable-transitions {
+//  @keyframes progress-bar-stripes {
+//    from {
+//      background-position-x: $progress-height;
+//      background-position-y: 0;
+//    }
+//    to {
+//      background-position: 0 0;
+//    }
+//  }
+//}
 
 .progress {
   display: flex;

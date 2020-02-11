@@ -12,13 +12,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_filter( 'posts_where', array( $this, 'query_pip_post_content' ), 10, 2 );
             add_action( 'adminmenu', array( $this, 'admin_menu_parent' ) );
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
+            add_action( 'acf/save_post', array( $this, 'save_styles_settings' ) );
         }
 
         /**
          * Enqueue admin style
          */
         public function enqueue_scripts() {
-            wp_enqueue_style( 'admin-style', _PIP_URL . 'assets/pilopress-admin.css', array(), null );
+            wp_enqueue_style( 'admin-style', _PIP_URL . 'assets/css/pilopress-admin.css', array(), null );
         }
 
         /**
@@ -171,7 +172,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $flexible_mirror = PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group();
 
             // Define submenu for Flexible menu
-            if ( acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID'] ) {
+            if ( acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID'] && !acf_maybe_get_GET( 'page' ) ) {
                 $submenu_file = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
             }
 
@@ -179,6 +180,11 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $is_layout = PIP_Field_Groups_Layouts::is_layout( acf_maybe_get_GET( 'post' ) );
             if ( acf_maybe_get_GET( 'layouts' ) == 1 || $is_layout ) {
                 $submenu_file = 'edit.php?layouts=1&post_type=acf-field-group';
+            }
+
+            // Define submenu for Styles menu
+            if ( acf_maybe_get_GET( 'page' ) == 'styles' ) {
+                $submenu_file = 'styles';
             }
 
             return $submenu_file;
@@ -230,6 +236,39 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             return $url;
+        }
+
+        /**
+         * Compile style on Styles page save
+         */
+        public function save_styles_settings() {
+            $screen = get_current_screen();
+            if ( $screen->id !== 'admin_page_styles' ) {
+                return;
+            }
+
+            // Compile style
+            $class = new PIP_Scss_Php( array(
+                'dirs' => array(
+
+                    // Front-end
+                    array(
+                        'scss_dir'  => _PIP_PATH . 'assets/libs/bootstrap/scss/',
+                        'scss_file' => 'bootstrap.scss',
+                        'css_dir'   => _PIP_THEME_STYLE_PATH . '/pilopress/',
+                        'css_file'  => 'style-pilopress.css',
+                    ),
+
+                    // Backend
+                    array(
+                        'scss_dir' => _PIP_PATH . 'assets/scss/',
+                        'css_dir'  => _PIP_THEME_STYLE_PATH . '/pilopress/',
+                        'css_file' => 'style-pilopress-admin.css',
+                    ),
+
+                ),
+            ) );
+            $class->compile();
         }
     }
 
