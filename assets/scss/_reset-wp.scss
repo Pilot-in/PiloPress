@@ -1,0 +1,47 @@
+#poststuff h2,
+.postbox .inside h2,
+h2 {
+  @include font-size($h2-font-size, true);
+  padding: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: $headings-margin-bottom !important;
+  font-weight: $headings-font-weight !important;
+}
+
+p {
+  @include font-size($font-size-base);
+  margin-top: 0 !important;
+  margin-bottom: $paragraph-margin-bottom !important;
+}
+
+.form-control {
+  @include font-size($input-font-size, true);
+}
+
+.form-control-lg {
+  @include font-size($input-font-size-lg, true);
+}
+
+.form-control-sm {
+  @include font-size($input-font-size-sm, true);
+}
+
+.breadcrumb {
+  margin-left: 0;
+}
+
+.list-group-item {
+  margin-bottom: 0;
+
+  + .list-group-item {
+    border-top-width: 0;
+  }
+}
+
+.card {
+  margin-top: 0;
+  padding: 0;
+  max-width: none;
+  box-shadow: none;
+  background: none;
+}

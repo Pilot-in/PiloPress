@@ -15,12 +15,11 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
         private $variables;
         private $cache = _PIP_PATH . 'cache/';
         private $scss_dirs;
-        private $css_dirs;
 
         /**
          * PIP_Scss_Php constructor.
          *
-         * @see Compiling: https://scssphp.github.io/scssphp/docs/
+         * @see https://scssphp.github.io/scssphp/docs/
          *
          * @param array $scss_args
          */
@@ -62,8 +61,7 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
             $this->compiler->setVariables( $variables );
 
             foreach ( $this->dirs as $dir ) {
-                $this->scss_dirs[] = $dir['scss_dir'];
-                $this->css_dirs[]  = $dir['css_dir'];
+                $this->scss_dirs[] = acf_maybe_get( $dir, 'scss_dir' );
             }
             // SCSS paths
             $this->compiler->setImportPaths( $this->scss_dirs );
@@ -73,65 +71,86 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
         }
 
         /**
-         * Compiler - Takes scss $in and writes compiled css to $out file
-         * Catches errors and puts them the object's compiled_errors property
+         * Compiles and minifies $scss_from into $css_to file, in cache directory
          *
-         * @param $in
-         * @param $out
+         * @param $scss_from
+         * @param $css_to
          * @param $instance
+         * @param bool $css_dir
          */
-        private function compiler( $in, $out, $instance ) {
+        private function compiler( $scss_from, $css_to, $instance, $css_dir = false ) {
             // Browse all directories
             foreach ( $instance->dirs as $dir ) {
-                if ( strpos( $in, $dir['scss_dir'] ) === 0 ) {
-                    // If "cache" directory is writable
-                    if ( is_writable( $this->cache ) ) {
-                        try {
-                            // Map file
-                            $source_map_file = basename( $out ) . '.map';
 
-                            // This value is prepended to the individual entry in the "source" field
-                            $source_root = '/';
+                // Is current scss_dir ?
+                if ( file_exists( $scss_from ) && strpos( $scss_from, $dir['scss_dir'] ) !== 0 ) {
+                    continue;
+                }
 
-                            // URL of the map file
-                            $source_map_url = $source_map_file;
+                // Is current css dir ?
+                if ( file_exists( $css_dir ) && strpos( $css_dir, $dir['css_dir'] ) !== 0 ) {
+                    continue;
+                }
 
-                            // Base path for filename normalization
-                            $source_map_base_path = rtrim( ABSPATH, '/' );
+                // Is current css file ?
+                if ( strpos( $css_to, $dir['css_file'] ) !== ( strlen( $css_to ) - strlen( $dir['css_file'] ) ) ) {
+                    continue;
+                }
 
-                            // Absolute path to a file to write the map to
-                            $source_map_write_to = parse_url( $dir['css_dir'] . $source_map_file, PHP_URL_PATH );
+                // If cache directory is not writable
+                if ( !is_writable( $this->cache ) ) {
+                    // Log error
+                    $errors = array(
+                        'file'    => __( 'CSS Directories: ', 'pilopress' ) . $dir['css_dir'],
+                        'message' => __( 'File Permission Error, permission denied. Please make the cache directory writable.', 'pilopress' ),
+                    );
+                    array_push( $instance->compile_errors, $errors );
+                }
 
-                            // Set source map options
-                            $this->compiler->setSourceMapOptions( array(
-                                'sourceMapWriteTo'  => $source_map_write_to,
-                                'sourceMapURL'      => get_template_directory_uri() . '/' . $source_map_url,
-                                'sourceMapBasepath' => $source_map_base_path,
-                                'sourceRoot'        => $source_root,
-                            ) );
+                // Get SCSS content
+                if ( acf_maybe_get( $dir, 'scss_code' ) ) {
+                    $from_content = $dir['scss_code'];
+                } else {
+                    $from_content = file_get_contents( $scss_from );
+                }
 
-                            // Compile file
-                            $css = $this->compiler->compile( file_get_contents( $in ), $in );
+                try {
+                    // Map file
+                    $source_map_file = basename( $css_to ) . '.map';
 
-                            // Put CSS content in cache file
-                            file_put_contents( $this->cache . basename( $out ), $css );
+                    // This value is prepended to the individual entry in the "source" field
+                    $source_root = '/';
 
-                        } catch ( Exception $e ) {
-                            // Log error
-                            $errors = array(
-                                'file'    => basename( $in ),
-                                'message' => $e->getMessage(),
-                            );
-                            array_push( $instance->compile_errors, $errors );
-                        }
-                    } else {
-                        // Log error
-                        $errors = array(
-                            'file'    => __( 'CSS Directories: ', 'pilopress' ) . $dir['css_dir'],
-                            'message' => __( 'File Permission Error, permission denied. Please make the cache directory writable.', 'pilopress' ),
-                        );
-                        array_push( $instance->compile_errors, $errors );
-                    }
+                    // URL of the map file
+                    $source_map_url = $source_map_file;
+
+                    // Base path for filename normalization
+                    $source_map_base_path = rtrim( ABSPATH, '/' );
+
+                    // Absolute path to a file to write the map to
+                    $source_map_write_to = parse_url( $dir['css_dir'] . $source_map_file, PHP_URL_PATH );
+
+                    // Set source map options
+                    $this->compiler->setSourceMapOptions( array(
+                        'sourceMapWriteTo'  => $source_map_write_to,
+                        'sourceMapURL'      => get_template_directory_uri() . '/' . $source_map_url,
+                        'sourceMapBasepath' => $source_map_base_path,
+                        'sourceRoot'        => $source_root,
+                    ) );
+
+                    // Compile file
+                    $css = $this->compiler->compile( $from_content, $dir['scss_dir'] );
+
+                    // Put CSS content in cache file
+                    file_put_contents( $this->cache . basename( $css_to ), $css );
+
+                } catch ( Exception $e ) {
+                    // Log error
+                    $errors = array(
+                        'file'    => !is_string( $scss_from ) ? basename( $scss_from ) : 'Error with SCSS code',
+                        'message' => $e->getMessage(),
+                    );
+                    array_push( $instance->compile_errors, $errors );
                 }
             }
 
@@ -142,20 +161,36 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
         }
 
         /**
-         * Loops through scss directory and compilers files that end with .scss and are not prepend with '_'.
+         * Put compiled and minified scss in wanted directory
          */
         public function compile() {
             $input_files = array();
 
             // Loop through directory
             foreach ( $this->dirs as $dir ) {
-                if ( acf_maybe_get( $dir, 'scss_file' ) ) {
+                if ( acf_maybe_get( $dir, 'scss_code' ) ) {
+                    // If SCSS code, compile directly
+
+                    // Get CSS file name
+                    $css_to_name = 'styles.css';
+                    if ( acf_maybe_get( $dir, 'css_file' ) ) {
+                        $css_to_name = $dir['css_file'];
+                    }
+
+                    // Get CSS file path
+                    $css_to = $dir['css_dir'] . $css_to_name;
+
+                    // Launch compiler
+                    $this->compiler( $dir['scss_code'], $css_to, $this, $dir['css_dir'] );
+
+                } elseif ( acf_maybe_get( $dir, 'scss_file' ) ) {
 
                     // If file is specified
                     array_push( $input_files, $dir['scss_file'] );
+
                 } else {
 
-                    // Get .scss files that do not start with '_'
+                    // Get all .scss files that do not start with '_'
                     foreach ( new DirectoryIterator( $dir['scss_dir'] ) as $file ) {
                         if ( substr( $file, 0, 1 ) != '_' && pathinfo( $file->getFilename(), PATHINFO_EXTENSION ) == 'scss' ) {
                             array_push( $input_files, $file->getFilename() );
@@ -165,25 +200,27 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
             }
 
             // Browse all directories
-            foreach ( $input_files as $scss_file ) {
-                // For each input file, find matching css file and compile
-                foreach ( $this->dirs as $dir ) {
-                    // Get SCSS file path
-                    $input = $dir['scss_dir'] . $scss_file;
+            if ( $input_files ) {
+                foreach ( $input_files as $scss_file ) {
+                    // For each input file, find matching css file and compile
+                    foreach ( $this->dirs as $dir ) {
+                        // Get SCSS file path
+                        $scss_from = $dir['scss_dir'] . $scss_file;
 
-                    // Get CSS file name
-                    if ( acf_maybe_get( $dir, 'css_file' ) ) {
-                        $output_name = acf_maybe_get( $dir, 'css_file' );
-                    } else {
-                        $output_name = preg_replace( "/\.[^$]*/", '.css', $scss_file );
-                    }
+                        // Get CSS file name
+                        if ( acf_maybe_get( $dir, 'css_file' ) ) {
+                            $css_to_name = acf_maybe_get( $dir, 'css_file' );
+                        } else {
+                            $css_to_name = preg_replace( "/\.[^$]*/", '.css', $scss_file );
+                        }
 
-                    // Get CSS file path
-                    $output = $dir['css_dir'] . $output_name;
+                        // Get CSS file path
+                        $css_to = $dir['css_dir'] . $css_to_name;
 
-                    // Launch compiler
-                    if ( file_exists( $input ) ) {
-                        $this->compiler( $input, $output, $this );
+                        // Launch compiler
+                        if ( file_exists( $scss_from ) ) {
+                            $this->compiler( $scss_from, $css_to, $this );
+                        }
                     }
                 }
             }
@@ -192,20 +229,26 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
             if ( count( $this->compile_errors ) < 1 ) {
                 // Browse all directories
                 foreach ( $this->dirs as $dir ) {
+
                     // If pilopress directory in theme is writable
                     if ( is_writable( $dir['css_dir'] ) ) {
                         foreach ( new DirectoryIterator( $this->cache ) as $cache_file ) {
+                            if ( $cache_file->getFilename() !== $dir['css_file'] ) {
+                                continue;
+                            }
 
                             // If there's a CSS file in cache directory
                             if ( pathinfo( $cache_file->getFilename(), PATHINFO_EXTENSION ) == 'css' ) {
+
                                 // Put content in CSS file in pilopress directory in theme
-                                file_put_contents( $dir['css_dir'] . $cache_file, file_get_contents( $this->cache . $cache_file ) );
+                                file_put_contents( $dir['css_dir'] . $cache_file->getFilename(), file_get_contents( $this->cache . $cache_file->getFilename() ) );
 
                                 // Delete cache file on successful write
                                 unlink( $this->cache . $cache_file->getFilename() );
                             }
                         }
                     } else {
+
                         // Log errors
                         $errors = array(
                             'file'    => __( 'CSS Directory: ', 'pilopress' ) . $dir['css_dir'],

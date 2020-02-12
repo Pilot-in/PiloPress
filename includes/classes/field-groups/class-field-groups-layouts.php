@@ -126,10 +126,10 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                 'value'         => isset( $field_group['_pip_render_layout'] ) ? $field_group['_pip_render_layout'] : '',
             ) );
 
-            // Style
+            // Style - CSS
             acf_render_field_wrap( array(
                 'label'         => __( 'Style', 'pilopress' ),
-                'instructions'  => __( 'Nom du fichier de style', 'pilopress' ),
+                'instructions'  => __( 'Nom du fichier de style CSS', 'pilopress' ),
                 'type'          => 'text',
                 'name'          => '_pip_render_style',
                 'prefix'        => 'acf_field_group',
@@ -137,6 +137,19 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                 'default_value' => $layout_name . '.css',
                 'prepend'       => $layout_path_prefix,
                 'value'         => isset( $field_group['_pip_render_style'] ) ? $field_group['_pip_render_style'] : '',
+            ) );
+
+            // Style - SCSS
+            acf_render_field_wrap( array(
+                'label'         => __( 'Style', 'pilopress' ),
+                'instructions'  => __( 'Nom du fichier de style SCSS', 'pilopress' ),
+                'type'          => 'text',
+                'name'          => '_pip_render_style_scss',
+                'prefix'        => 'acf_field_group',
+                'placeholder'   => $layout_name . '.scss',
+                'default_value' => $layout_name . '.scss',
+                'prepend'       => $layout_path_prefix,
+                'value'         => isset( $field_group['_pip_render_style_scss'] ) ? $field_group['_pip_render_style_scss'] : '',
             ) );
 
             // Script
