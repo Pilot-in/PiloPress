@@ -249,8 +249,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Get style options
             $variables = get_field( 'variables', 'options' );
 
+            // Compile base style for admin & front
             self::compile_bootstrap_styles( $variables );
 
+            // Compile layouts styles
             self::compile_layouts_styles( $variables );
         }
 
@@ -264,6 +266,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Front-office
             $front = self::get_front_scss_code( $variables );
+
             array_push( $dirs, array(
                 'scss_dir'  => _PIP_PATH . 'assets/libs/bootstrap/scss/',
                 'scss_code' => $front,
@@ -273,6 +276,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Back-office
             $admin = self::get_admin_scss_code( $variables );
+
             array_push( $dirs, array(
                 'scss_dir'  => _PIP_PATH . 'assets/scss/', // For @import
                 'scss_code' => $admin,
@@ -332,8 +336,11 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
                     echo $variables; ?>
 
-                    // Import Bootstrap
-                    @import '../libs/bootstrap/scss/bootstrap';
+                    // Import Bootstrap utilities
+                    @import '../libs/bootstrap/scss/functions';
+                    @import '../libs/bootstrap/scss/variables';
+                    @import '../libs/bootstrap/scss/mixins';
+                    @import '../libs/bootstrap/scss/utilities';
 
                     <?php
                     echo file_get_contents( $file_path . $field_group['_pip_render_style_scss'] );
