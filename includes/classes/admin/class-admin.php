@@ -331,7 +331,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                         continue;
                     }
 
-                    $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../plugins/pilopress/assets/libs/bootstrap/scss/' );
+                    $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../..' . parse_url( _PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH ) );
 
                     // Store directory and scss code
                     ob_start();
