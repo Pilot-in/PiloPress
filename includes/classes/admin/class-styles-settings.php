@@ -35,7 +35,6 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             // Front-office
             $front = self::get_front_scss_code( $variables );
-
             array_push( $dirs, array(
                 'scss_dir'  => _PIP_PATH . 'assets/libs/bootstrap/scss/',
                 'scss_code' => $front,
@@ -45,9 +44,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             // Back-office
             $admin = self::get_admin_scss_code( $variables );
-
             array_push( $dirs, array(
-                'scss_dir'  => _PIP_PATH . 'assets/scss/', // For @import
+                'scss_dir'  => _PIP_PATH . 'assets/scss/',
                 'scss_code' => $admin,
                 'css_dir'   => _PIP_THEME_STYLE_PATH . '/pilopress/',
                 'css_file'  => 'style-pilopress-admin.css',
@@ -72,17 +70,19 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $args = array(
                 'post_type'        => 'acf-field-group',
                 'posts_per_page'   => - 1,
+                'fields'           => 'ids',
+                'suppress_filters' => 0,
+                'post_status'      => array( 'acf-disabled' ),
                 'pip_post_content' => array(
                     'compare' => 'LIKE',
                     'value'   => 's:14:"_pip_is_layout";i:1',
                 ),
-                'fields'           => 'ids',
             );
 
             // Get layout dirs
-            $query = new WP_Query( $args );
-            if ( $query->have_posts() ) {
-                foreach ( $query->get_posts() as $post_id ) {
+            $posts = get_posts( $args );
+            if ( $posts ) {
+                foreach ( $posts as $post_id ) {
                     // Get field group
                     $field_group = acf_get_field_group( $post_id );
                     if ( !$field_group ) {
@@ -145,7 +145,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          */
         private static function get_admin_scss_code( $variables ) {
             ob_start(); ?>
-            .-preview {
+            .-preview, body#tinymce{
 
             <?php echo $variables; ?>
 

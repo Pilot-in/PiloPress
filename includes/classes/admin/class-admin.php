@@ -12,6 +12,30 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_filter( 'posts_where', array( $this, 'query_pip_post_content' ), 10, 2 );
             add_action( 'adminmenu', array( $this, 'admin_menu_parent' ) );
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
+            add_filter( 'mce_css', array( $this, 'editor_style' ) );
+        }
+
+        /**
+         * Add custom editor style and remove WP's one
+         *
+         * @param $stylesheets
+         *
+         * @return string
+         */
+        public function editor_style( $stylesheets ) {
+            $stylesheets = explode( ',', $stylesheets );
+
+            // Parse stylesheets to remove WP CSS
+            foreach ( $stylesheets as $key => $stylesheet ) {
+                if ( strstr( $stylesheet, 'wp-content.css' ) ) {
+                    unset( $stylesheets[ $key ] );
+                }
+            }
+
+            // Add custom admin stylesheet
+            $stylesheets[] = _PIP_THEME_STYLE_URL . '/pilopress/style-pilopress-admin.css';
+
+            return implode( ',', $stylesheets );
         }
 
         /**
