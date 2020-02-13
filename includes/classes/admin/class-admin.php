@@ -331,23 +331,25 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                         continue;
                     }
 
+                    $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../plugins/pilopress/assets/libs/bootstrap/scss/' );
+
                     // Store directory and scss code
                     ob_start();
 
                     echo $variables; ?>
 
                     // Import Bootstrap utilities
-                    @import '../libs/bootstrap/scss/functions';
-                    @import '../libs/bootstrap/scss/variables';
-                    @import '../libs/bootstrap/scss/mixins';
-                    @import '../libs/bootstrap/scss/utilities';
+                    @import '<?php echo $path_to_scss_bootstrap; ?>functions';
+                    @import '<?php echo $path_to_scss_bootstrap; ?>variables';
+                    @import '<?php echo $path_to_scss_bootstrap; ?>mixins';
+                    @import '<?php echo $path_to_scss_bootstrap; ?>utilities';
 
                     <?php
                     echo file_get_contents( $file_path . $field_group['_pip_render_style_scss'] );
                     $layout_code = ob_get_clean();
 
                     array_push( $dirs, array(
-                        'scss_dir'  => _PIP_PATH . 'assets/scss/', // For @import
+                        'scss_dir'  => _PIP_THEME_LAYOUTS_PATH . $name . '/', // For @import
                         'scss_code' => $layout_code,
                         'css_dir'   => $file_path,
                         'css_file'  => acf_maybe_get( $field_group, '_pip_render_style' ) ? $field_group['_pip_render_style'] : $name . '.css',
