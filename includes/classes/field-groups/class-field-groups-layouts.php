@@ -5,7 +5,10 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
         public function __construct() {
             // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
-            add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 10, 3 );
+            add_action( 'register_post_type_args', array( $this, 'modify_acf_post_type' ), 10, 2 );
+
+            // PILO_TODO: Create files and directory or rename directory
+//            add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 10, 3 );
         }
 
         /**
@@ -18,6 +21,35 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             }
 
             add_action( 'acf/field_group/admin_head', array( $this, 'layout_meta_boxes' ) );
+        }
+
+        /**
+         * Change title on layouts pages
+         *
+         * @param $args
+         * @param $post_type
+         *
+         * @return mixed
+         */
+        public function modify_acf_post_type( $args, $post_type ) {
+            // If AJAX, not admin or not acf-field-group, return
+            if ( wp_doing_ajax() || !is_admin() || $post_type !== 'acf-field-group' ) {
+                return $args;
+            }
+
+            // Get current post
+            $post = get_post( acf_maybe_get_GET( 'post' ) );
+
+            // Layouts
+            $is_layout = PIP_Field_Groups_Layouts::is_layout( $post );
+            if ( acf_maybe_get_GET( 'layouts' ) == 1 || $is_layout || acf_maybe_get_GET( 'layout' ) == 1 ) {
+                // Change title on layouts pages
+                $args['labels']['name']         = __( 'Layouts', 'pilopress' );
+                $args['labels']['edit_item']    = __( 'Edit Layout', 'pilopress' );
+                $args['labels']['add_new_item'] = __( 'Add New Layout', 'pilopress' );
+            }
+
+            return $args;
         }
 
         /**
@@ -100,17 +132,19 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
 
             // Layout
             $layout_name        = sanitize_title( $field_group['title'] );
-            $layout_path_prefix = str_replace( home_url() . '/wp-content/themes/', '', _PIP_THEME_LAYOUTS_URL ) . $layout_name . '/';
+            $layout_slug        = acf_maybe_get( $field_group, '_pip_layout_slug' ) ? sanitize_title( $field_group['_pip_layout_slug'] ) : 'layout';
+            $layout_path_prefix = str_replace( home_url() . '/wp-content/themes/', '', _PIP_THEME_LAYOUTS_URL ) . '<span>' . $layout_slug . '</span>' . '/';
 
-            // Category
+            // Layout slug
             acf_render_field_wrap( array(
-                'label'         => __( 'Catégorie', 'pilopress' ),
-                'instructions'  => __( 'Nom de catégorie du layout', 'pilopress' ),
-                'type'          => 'text',
-                'name'          => '_pip_category',
-                'prefix'        => 'acf_field_group',
-                'default_value' => 'classic',
-                'value'         => isset( $field_group['_pip_category'] ) ? $field_group['_pip_category'] : 'Classic',
+                'label'        => __( 'Layout slug', 'pilopress' ),
+                'instructions' => __( 'Nom du layout et de son dossier', 'pilopress' ),
+                'type'         => 'acfe_slug',
+                'name'         => '_pip_layout_slug',
+                'prefix'       => 'acf_field_group',
+                'placeholder'  => 'layout',
+                'required'     => 1,
+                'value'        => isset( $field_group['_pip_layout_slug'] ) ? $field_group['_pip_layout_slug'] : $layout_slug,
             ) );
 
             // Layout
@@ -120,7 +154,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                 'type'          => 'text',
                 'name'          => '_pip_render_layout',
                 'prefix'        => 'acf_field_group',
-                'placeholder'   => $layout_name . '.php',
+                'placeholder'   => 'template.php',
                 'default_value' => $layout_name . '.php',
                 'prepend'       => $layout_path_prefix,
                 'value'         => isset( $field_group['_pip_render_layout'] ) ? $field_group['_pip_render_layout'] : '',
@@ -128,12 +162,12 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
 
             // Style - CSS
             acf_render_field_wrap( array(
-                'label'         => __( 'Style', 'pilopress' ),
+                'label'         => __( 'Style CSS', 'pilopress' ),
                 'instructions'  => __( 'Nom du fichier de style CSS', 'pilopress' ),
                 'type'          => 'text',
                 'name'          => '_pip_render_style',
                 'prefix'        => 'acf_field_group',
-                'placeholder'   => $layout_name . '.css',
+                'placeholder'   => 'style.css',
                 'default_value' => $layout_name . '.css',
                 'prepend'       => $layout_path_prefix,
                 'value'         => isset( $field_group['_pip_render_style'] ) ? $field_group['_pip_render_style'] : '',
@@ -141,12 +175,12 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
 
             // Style - SCSS
             acf_render_field_wrap( array(
-                'label'         => __( 'Style', 'pilopress' ),
+                'label'         => __( 'Style SCSS', 'pilopress' ),
                 'instructions'  => __( 'Nom du fichier de style SCSS', 'pilopress' ),
                 'type'          => 'text',
                 'name'          => '_pip_render_style_scss',
                 'prefix'        => 'acf_field_group',
-                'placeholder'   => $layout_name . '.scss',
+                'placeholder'   => 'style.scss',
                 'default_value' => $layout_name . '.scss',
                 'prepend'       => $layout_path_prefix,
                 'value'         => isset( $field_group['_pip_render_style_scss'] ) ? $field_group['_pip_render_style_scss'] : '',
@@ -159,7 +193,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                 'type'          => 'text',
                 'name'          => '_pip_render_script',
                 'prefix'        => 'acf_field_group',
-                'placeholder'   => $layout_name . '.js',
+                'placeholder'   => 'script.js',
                 'default_value' => $layout_name . '.js',
                 'prepend'       => $layout_path_prefix,
                 'value'         => isset( $field_group['_pip_render_script'] ) ? $field_group['_pip_render_script'] : '',
@@ -191,6 +225,40 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                 'return_format' => 0,
             ) );
 
+            // Modal size
+            acf_render_field_wrap( array(
+                'label'         => __( 'Modal size', 'pilopress' ),
+                'instructions'  => __( 'Taille de la modale de configuration', 'pilopress' ),
+                'name'          => '_pip_modal_size',
+                'type'          => 'select',
+                'class'         => '',
+                'prefix'        => 'acf_field_group',
+                'value'         => ( isset( $field_group['_pip_modal_size'] ) ? $field_group['_pip_modal_size'] : 'medium' ),
+                'choices'       => array(
+                    'small'  => 'Small',
+                    'medium' => 'Medium',
+                    'large'  => 'Large',
+                    'xlarge' => 'Extra Large',
+                    'full'   => 'Full',
+                ),
+                'allow_null'    => 0,
+                'multiple'      => 0,
+                'ui'            => 1,
+                'ajax'          => 0,
+                'return_format' => 0,
+            ) );
+
+            // Category
+            acf_render_field_wrap( array(
+                'label'         => __( 'Catégorie', 'pilopress' ),
+                'instructions'  => __( 'Nom de catégorie du layout', 'pilopress' ),
+                'type'          => 'text',
+                'name'          => '_pip_category',
+                'prefix'        => 'acf_field_group',
+                'default_value' => 'classic',
+                'value'         => isset( $field_group['_pip_category'] ) ? $field_group['_pip_category'] : 'Classic',
+            ) );
+
             // Miniature
             acf_render_field_wrap( array(
                 'label'         => __( 'Thumbnail', 'pilopress' ),
@@ -212,7 +280,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                 acf.postbox.render({
                   'id': 'pip_layout_settings',
                   'label': 'left'
-                })
+                });
               }
             </script>
             <?php

@@ -45,11 +45,12 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
 
                     $title          = $field_group['title'];
                     $name           = sanitize_title( $field_group['title'] );
-                    $layout_uniq_id = 'layout_' . $name;
+                    $layout_slug    = acf_maybe_get( $field_group, '_pip_layout_slug' ) ? sanitize_title( $field_group['_pip_layout_slug'] ) : '';
+                    $layout_uniq_id = 'layout_' . $layout_slug;
 
                     // Paths
-                    $file_path = _PIP_THEME_LAYOUTS_PATH . $name . '/';
-                    $file_url  = _PIP_THEME_LAYOUTS_URL . $name . '/';
+                    $file_path = _PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
+                    $file_url  = _PIP_THEME_LAYOUTS_URL . $layout_slug . '/';
 
                     // Settings
                     $modal_category   = acf_maybe_get( $field_group, '_pip_category' ) ? $field_group['_pip_category'] : 'Classic';
@@ -58,6 +59,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                     $render_script    = acf_maybe_get( $field_group, '_pip_render_script' ) ? $file_url . $field_group['_pip_render_script'] : $file_url . $name . '.js';
                     $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail' ) ? $field_group['_pip_thumbnail'] : '870';
                     $configuration    = acf_maybe_get( $field_group, '_pip_configuration' ) ? $field_group['_pip_configuration'] : array();
+                    $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size' ) ? $field_group['_pip_modal_size'] : array();
 
                     // Store layout
                     $layouts[ $layout_uniq_id ] = [
@@ -67,7 +69,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                         'display'                       => 'row',
                         'sub_fields'                    => [
                             [
-                                'key'               => 'field_clone_' . $name,
+                                'key'               => 'field_clone_' . $layout_slug,
                                 'label'             => $title,
                                 'name'              => $name,
                                 'type'              => 'clone',
@@ -96,6 +98,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                         'acfe_flexible_render_script'   => $render_script,
                         'acfe_flexible_thumbnail'       => $layout_thumbnail,
                         'acfe_flexible_settings'        => $configuration,
+                        'acfe_flexible_settings_size'   => $modal_size,
                         'min'                           => '',
                         'max'                           => '',
                     ];

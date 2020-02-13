@@ -73,6 +73,7 @@ require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-layo
  * Admin
  */
 require_once( _PIP_PATH . 'includes/classes/admin/class-admin.php' );
+require_once( _PIP_PATH . 'includes/classes/admin/class-styles-settings.php' );
 
 /**
  * SCSS - PHP

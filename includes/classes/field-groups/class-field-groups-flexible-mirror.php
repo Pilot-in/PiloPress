@@ -35,6 +35,12 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
          * Change title on flexible edition page
          */
         public function modify_acf_post_type() {
+            // If AJAX or not admin, return
+            if ( wp_doing_ajax() || !is_admin() ) {
+                return;
+            }
+
+            // Get current post
             $post = get_post( acf_maybe_get_GET( 'post' ) );
 
             // Mirror flexible
@@ -46,15 +52,6 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
 
                 // Hide "Add new" button
                 $acf_field_group->cap->create_posts = false;
-            }
-
-            // Layouts
-            $is_layout = PIP_Field_Groups_Layouts::is_layout( $post );
-            if ( acf_maybe_get_GET( 'layouts' ) == 1 || $is_layout ) {
-                $acf_field_group = get_post_type_object( 'acf-field-group' );
-
-                // Change title on layouts page
-                $acf_field_group->labels->name = __( 'Layouts', 'pilopress' );
             }
         }
 
