@@ -13,6 +13,23 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_action( 'adminmenu', array( $this, 'admin_menu_parent' ) );
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'mce_css', array( $this, 'editor_style' ) );
+            add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
+        }
+
+        /**
+         * Allow mimes types
+         *
+         * @param $mimes
+         *
+         * @return mixed
+         */
+        public function allow_mimes_types( $mimes ) {
+            $mimes['svg']   = 'image/svg+xml';
+            $mimes['ttf']   = 'application/x-font-ttf';
+            $mimes['woff']  = 'application/font-woff';
+            $mimes['woff2'] = 'application/font-woff2';
+
+            return $mimes;
         }
 
         /**

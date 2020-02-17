@@ -15,26 +15,29 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 return;
             }
 
-            // Get style options
-            $variables = get_field( 'variables', 'options' );
+            // Get SCSS line for custom fonts
+            $custom_scss = self::scss_custom_fonts();
+
+            // Get custom CSS/SCSS
+            $custom_scss .= get_field( 'pip_custom_style', 'options' );
 
             // Compile base style for admin & front
-            self::compile_bootstrap_styles( $variables );
+            self::compile_bootstrap_styles( $custom_scss );
 
             // Compile layouts styles
-            self::compile_layouts_styles( $variables );
+            self::compile_layouts_styles( $custom_scss );
         }
 
         /**
          * Compile bootstrap styles
          *
-         * @param $variables
+         * @param $custom_scss
          */
-        private function compile_bootstrap_styles( $variables ) {
+        private function compile_bootstrap_styles( $custom_scss ) {
             $dirs = array();
 
             // Front-office
-            $front = self::get_front_scss_code( $variables );
+            $front = self::get_front_scss_code( $custom_scss );
             array_push( $dirs, array(
                 'scss_dir'  => _PIP_PATH . 'assets/libs/bootstrap/scss/',
                 'scss_code' => $front,
@@ -43,7 +46,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             ) );
 
             // Back-office
-            $admin = self::get_admin_scss_code( $variables );
+            $admin = self::get_admin_scss_code( $custom_scss );
             array_push( $dirs, array(
                 'scss_dir'  => _PIP_PATH . 'assets/scss/',
                 'scss_code' => $admin,
@@ -53,7 +56,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             // Compile style
             $class = new PIP_Scss_Php( array(
-                'dirs' => $dirs,
+                'dirs'      => $dirs,
+                'variables' => $custom_scss,
             ) );
             $class->compile();
         }
@@ -61,9 +65,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         /**
          * Compile layouts styles
          *
-         * @param $variables
+         * @param $custom_scss
          */
-        private static function compile_layouts_styles( $variables ) {
+        private static function compile_layouts_styles( $custom_scss ) {
             $dirs = array();
 
             // Layouts args
@@ -85,12 +89,14 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 foreach ( $posts as $post_id ) {
                     // Get field group
                     $field_group = acf_get_field_group( $post_id );
+
+                    // No field group, skip
                     if ( !$field_group ) {
                         continue;
                     }
 
-                    // Get sanitized name
-                    $name = sanitize_title( $field_group['title'] );
+                    // Get sanitized slug
+                    $name = sanitize_title( $field_group['_pip_layout_slug'] );
 
                     // Paths
                     $file_path = _PIP_THEME_LAYOUTS_PATH . $name . '/';
@@ -100,23 +106,10 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                         continue;
                     }
 
-                    $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../..' . parse_url( _PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH ) );
+                    // Get layout SCSS code
+                    $layout_code = self::get_layout_scss_code( $custom_scss, $file_path, $field_group );
 
-                    // Store directory and scss code
-                    ob_start();
-
-                    echo $variables; ?>
-
-                    // Import Bootstrap utilities
-                    @import '<?php echo $path_to_scss_bootstrap; ?>functions';
-                    @import '<?php echo $path_to_scss_bootstrap; ?>variables';
-                    @import '<?php echo $path_to_scss_bootstrap; ?>mixins';
-                    @import '<?php echo $path_to_scss_bootstrap; ?>utilities';
-
-                    <?php
-                    echo file_get_contents( $file_path . $field_group['_pip_render_style_scss'] );
-                    $layout_code = ob_get_clean();
-
+                    // Store data
                     array_push( $dirs, array(
                         'scss_dir'  => _PIP_THEME_LAYOUTS_PATH . $name . '/', // For @import
                         'scss_code' => $layout_code,
@@ -126,12 +119,15 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 }
             }
 
+            // If no dirs, return
             if ( !$dirs ) {
                 return;
             }
 
+            // Compile style
             $class = new PIP_Scss_Php( array(
-                'dirs' => $dirs,
+                'dirs'      => $dirs,
+                'variables' => $custom_scss,
             ) );
             $class->compile();
         }
@@ -139,15 +135,15 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         /**
          * Get admin SCSS code
          *
-         * @param $variables
+         * @param $custom_scss
          *
          * @return false|string
          */
-        private static function get_admin_scss_code( $variables ) {
+        private static function get_admin_scss_code( $custom_scss ) {
             ob_start(); ?>
             .-preview, body#tinymce{
 
-            <?php echo $variables; ?>
+            <?php echo $custom_scss; ?>
 
             // Import Bootstrap
             @import '../libs/bootstrap/scss/bootstrap';
@@ -168,19 +164,115 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         /**
          * Get front SCSS code
          *
-         * @param $variables
+         * @param $custom_scss
          *
          * @return false|string
          */
-        private static function get_front_scss_code( $variables ) {
+        private static function get_front_scss_code( $custom_scss ) {
             ob_start();
 
-            echo $variables; ?>
+            echo $custom_scss; ?>
 
             // Import Bootstrap
             @import 'bootstrap';
 
             <?php return ob_get_clean();
+        }
+
+        /**
+         * Get layout SCSS code
+         *
+         * @param $custom_scss
+         * @param $file_path
+         * @param $field_group
+         *
+         * @return false|string
+         */
+        private static function get_layout_scss_code( $custom_scss, $file_path, $field_group ) {
+            $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../..' . parse_url( _PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH ) );
+
+            // Store directory and scss code
+            ob_start();
+
+            echo $custom_scss; ?>
+
+            // Import Bootstrap utilities
+            @import '<?php echo $path_to_scss_bootstrap; ?>functions';
+            @import '<?php echo $path_to_scss_bootstrap; ?>variables';
+            @import '<?php echo $path_to_scss_bootstrap; ?>mixins';
+            @import '<?php echo $path_to_scss_bootstrap; ?>utilities';
+
+            <?php
+            echo file_get_contents( $file_path . $field_group['_pip_render_style_scss'] );
+
+            return ob_get_clean();
+        }
+
+        /**
+         * Get SCSS to enqueue custom fonts
+         *
+         * @return string
+         */
+        private static function scss_custom_fonts() {
+            $scss_custom_fonts = '';
+
+            if ( have_rows( 'pip_fonts', 'option' ) ) {
+                while ( have_rows( 'pip_fonts', 'option' ) ) {
+                    the_row();
+
+                    // If not custom font, skip
+                    if ( get_row_layout() !== 'custom_font' ) {
+                        continue;
+                    }
+
+                    // Get sub fields
+                    $name    = get_sub_field( 'name' );
+                    $files   = get_sub_field( 'files' );
+                    $weight  = get_sub_field( 'weight' );
+                    $style   = get_sub_field( 'style' );
+                    $enqueue = get_sub_field( 'enqueue' );
+
+                    // Auto enqueue to false
+                    if ( !$enqueue ) {
+                        continue;
+                    }
+
+                    // Build @font-face
+                    $scss_custom_fonts .= "@font-face {\n";
+                    $scss_custom_fonts .= 'font-family: "' . $name . '";' . "\n";
+
+                    // Get URLs
+                    $url = array();
+                    if ( $files ) {
+                        foreach ( $files as $file ) {
+                            // Format file name
+                            $file_name = $file['file']['url'];
+                            $file_name = pathinfo( $file_name, PATHINFO_BASENAME );
+
+                            // Get format
+                            $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
+
+                            // Upload dir
+                            $upload_path = wp_upload_dir();
+
+                            // Store URL
+                            $url[] = 'url(' . $upload_path['url'] . '/' . $file_name . ') format("' . $format . '")';
+                        }
+                    }
+                    // Implode URLs for src
+                    $scss_custom_fonts .= 'src: ' . implode( ",\n", $url ) . ";\n";
+
+                    // Font parameters
+                    $scss_custom_fonts .= 'font-weight: ' . $weight . ";\n";
+                    $scss_custom_fonts .= 'font-style: ' . $style . ";\n";
+
+                    // End @font-face
+                    $scss_custom_fonts .= "}\n";
+
+                }
+            }
+
+            return $scss_custom_fonts;
         }
     }
 
