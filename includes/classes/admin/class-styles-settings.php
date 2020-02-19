@@ -158,6 +158,11 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             @import 'reset-wp';
 
             }
+
+            //.mce-text[style="text-primary"]{
+            //color: $primary;
+            //}
+
             <?php return ob_get_clean();
         }
 

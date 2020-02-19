@@ -1,7 +1,7 @@
 <?php
 
-if ( !class_exists( 'PIP_Tiny_MCE' ) ) {
-    class PIP_Tiny_MCE {
+if ( !class_exists( 'PIP_TinyMCE' ) ) {
+    class PIP_TinyMCE {
         public function __construct() {
             // WP hooks
             add_action( 'wp_head', array( $this, 'custom_fonts_stylesheets' ) );
@@ -77,7 +77,7 @@ if ( !class_exists( 'PIP_Tiny_MCE' ) ) {
          */
         public function before_tiny_mce_init( $options ) {
             // Formats
-            $options['block_formats'] = apply_filters( 'pip/editor/block_formats', 'Paragraphe=p;Titre 1=h1;Titre 2=h2;Titre 3=h3;Titre 4=h4;Titre 5=h5;Titre 6=h6;Adresse=address;Preformatted=pre' );
+            $options['block_formats'] = apply_filters( 'pip/editor/block_formats', 'Paragraph=p;H1 tag=h1;H2 tag=h2;H3 tag=h3;H4 tag=h4;H5 tag=h5;H6 tag=h6;Address=address;Preformatted=pre' );
 
             // Add HTML tags as valid
             $options['valid_elements']          = '*[*]';
@@ -87,19 +87,20 @@ if ( !class_exists( 'PIP_Tiny_MCE' ) ) {
             $options['fontsize_formats'] = apply_filters( 'pip/editor/fontsize_formats', '1rem 1.5rem 2rem' );
 
             // Fonts
-            $fonts = '';
-            if ( have_rows( 'pip_fonts', 'option' ) ) {
-                while ( have_rows( 'pip_fonts', 'option' ) ) {
-                    the_row();
-
-                    // Get font name
-                    $name = get_sub_field( 'name' );
-
-                    // Add custom font
-                    $fonts .= $name . '=' . $name . ';';
-                }
-            }
-            $options['font_formats'] = $fonts;
+            // PILO_TODO: send to tinymce-custom-styles.js
+//            $fonts = '';
+//            if ( have_rows( 'pip_fonts', 'option' ) ) {
+//                while ( have_rows( 'pip_fonts', 'option' ) ) {
+//                    the_row();
+//
+//                    // Get font name
+//                    $name = get_sub_field( 'name' );
+//
+//                    // Add custom font
+//                    $fonts .= $name . '=' . $name . ';';
+//                }
+//            }
+//            $options['font_formats'] = $fonts;
 
             // Add menu bar
             $options['menubar'] = true;
@@ -130,10 +131,12 @@ if ( !class_exists( 'PIP_Tiny_MCE' ) ) {
 
             // Ordered buttons to add
             $buttons_to_add = array(
-                'fontselect',
                 'fontsizeselect',
                 'styleselect',
                 '_pip_shortcodes_button',
+                'pip_colors',
+                'pip_fonts',
+                'pip_styles',
             );
             // Add buttons
             foreach ( $buttons_to_add as $key => $button ) {
@@ -158,12 +161,14 @@ if ( !class_exists( 'PIP_Tiny_MCE' ) ) {
          */
         public function editor_button_script( $scripts ) {
             $scripts['_pip_shortcodes'] = _PIP_URL . 'assets/js/editor.js';
-            $scripts['codemirror']      = get_stylesheet_directory_uri() . '/pilopress/codemirror/plugin.min.js';
+            $scripts['pip_colors']      = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
+            $scripts['pip_fonts']       = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
+            $scripts['pip_styles']      = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
 
             return $scripts;
         }
     }
 
     // Instantiate class
-    new PIP_Tiny_MCE();
+    new PIP_TinyMCE();
 }

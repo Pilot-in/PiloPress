@@ -1,6 +1,11 @@
 (function ($) {
+  'use strict';
 
   $(document).ready(function () {
+
+    /**
+     * Layout admin page
+     */
 
     var $title = $('#title');
     var $prepend = $('.acf-input-prepend span');

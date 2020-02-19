@@ -17,19 +17,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         }
 
         /**
-         * Allow mimes types
-         *
-         * @param $mimes
-         *
-         * @return mixed
+         * Enqueue admin style & scripts
          */
-        public function allow_mimes_types( $mimes ) {
-            $mimes['svg']   = 'image/svg+xml';
-            $mimes['ttf']   = 'application/x-font-ttf';
-            $mimes['woff']  = 'application/font-woff';
-            $mimes['woff2'] = 'application/font-woff2';
+        public function enqueue_scripts() {
+            // Style
+            wp_enqueue_style( 'admin-style', _PIP_URL . 'assets/css/pilopress-admin.css', array(), null );
 
-            return $mimes;
+            // Scripts
+            wp_enqueue_script( 'admin-script', _PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
         }
 
         /**
@@ -53,14 +48,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $stylesheets[] = _PIP_THEME_STYLE_URL . '/pilopress/style-pilopress-admin.css';
 
             return implode( ',', $stylesheets );
-        }
-
-        /**
-         * Enqueue admin style
-         */
-        public function enqueue_scripts() {
-            wp_enqueue_style( 'admin-style', _PIP_URL . 'assets/css/pilopress-admin.css', array(), null );
-            wp_enqueue_script( 'admin-script', _PIP_URL . 'assets/js/pilopress-admin.js', array(), null );
         }
 
         /**
@@ -277,6 +264,22 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             return $url;
+        }
+
+        /**
+         * Allow mimes types
+         *
+         * @param $mimes
+         *
+         * @return mixed
+         */
+        public function allow_mimes_types( $mimes ) {
+            $mimes['svg']   = 'image/svg+xml';
+            $mimes['ttf']   = 'application/x-font-ttf';
+            $mimes['woff']  = 'application/font-woff';
+            $mimes['woff2'] = 'application/font-woff2';
+
+            return $mimes;
         }
     }
 

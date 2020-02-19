@@ -74,7 +74,7 @@ require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-layo
  */
 require_once( _PIP_PATH . 'includes/classes/admin/class-admin.php' );
 require_once( _PIP_PATH . 'includes/classes/admin/class-styles-settings.php' );
-require_once( _PIP_PATH . 'includes/classes/admin/class-tiny-mce.php' );
+require_once( _PIP_PATH . 'includes/classes/admin/class-tinymce.php' );
 
 /**
  * SCSS - PHP
