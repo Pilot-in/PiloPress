@@ -141,6 +141,10 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          */
         private static function get_admin_scss_code( $custom_scss ) {
             ob_start(); ?>
+            i.mce-i-wp_adv:before {
+            content: "\f111" !important;
+            }
+
             .-preview, body#tinymce{
 
             <?php echo $custom_scss; ?>

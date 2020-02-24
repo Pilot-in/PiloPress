@@ -1,6 +1,14 @@
 (function ($) {
-  'use strict';
 
+  // Check if "acf" is available
+  if (typeof acf === 'undefined') {
+    return;
+  }
+
+  /**
+   * Define variables
+   */
+  var fonts = acf.get('custom_fonts');
   var colors = {
     primary: 'Primary',
     secondary: 'Secondary',
@@ -15,11 +23,6 @@
     white: 'White',
     'white-50': 'White 50%',
     'black-50': 'Black 50%',
-  };
-  var fonts = {
-    primary: 'Roboto',
-    secondary: 'Dancing Script',
-    tertiary: 'Freshman',
   };
   var styles = {
     h1: 'H1 style',
@@ -40,12 +43,14 @@
         name: 'pip-text-' + key,
         value: 'pip-text-' + key,
         text: color,
-        inline: 'span',
-        classes: 'text-' + key,
         textStyle: 'text-' + key,
-        wrapper: true,
-        deep: true,
-        split: true,
+        format: {
+          inline: 'span',
+          classes: 'text-' + key,
+          wrapper: true,
+          deep: true,
+          split: true,
+        }
       };
     });
   };
@@ -59,13 +64,15 @@
       return {
         name: 'pip-font-' + key,
         value: 'pip-font-' + key,
-        text: font,
-        block: 'span',
-        classes: 'font-' + key,
-        textStyle: 'font-family:' + font,
-        wrapper: true,
-        deep: true,
-        split: true,
+        text: font.name,
+        textStyle: 'font-family:' + font.font,
+        format: {
+          inline: 'span',
+          classes: 'font-' + key,
+          wrapper: true,
+          deep: true,
+          split: true,
+        }
       };
     });
   };
@@ -80,17 +87,38 @@
         name: 'pip-style-' + key,
         value: 'pip-style-' + key,
         text: style,
-        block: 'span',
-        classes: key,
         textStyle: key,
-        wrapper: true,
-        deep: true,
-        split: true,
+        format: {
+          block: 'span',
+          classes: key,
+          wrapper: true,
+          deep: true,
+          split: true,
+        }
       };
     });
   };
 
+  /**
+   * Customize TinyMCE Editor
+   */
+  acf.addFilter('wysiwyg_tinymce_settings', function (init) {
+
+    init.toolbar1 = 'formatselect pip_styles pip_fonts pip_colors _pip_shortcodes_button bold italic underline strikethrough bullist numlist alignleft aligncenter alignright alignjustify link wp_add_media wp_adv';
+    init.toolbar2 = 'blockquote hr forecolor backcolor pastetext removeformat charmap outdent indent subscript superscript fullscreen wp_help';
+
+    init.menubar = true;
+    init.elementpath = false;
+    init.block_formats = '<p>=p;<h1>=h1;<h2>=h2;<h3>=h3;<h4>=h4;<h5>=h5;<h6>=h6;<address>=address;<pre>=pre';
+    init.valid_elements = '*[*]';
+    init.extended_valid_elements = '*[*]';
+
+    return init;
+  });
+
+  // Wait for TinyMCE to be ready
   $(document).on('tinymce-editor-setup', function (event, editor) {
+
     // Register custom commands
     Commands.register(editor);
 
@@ -98,22 +126,11 @@
      * Add colors menu button
      */
     editor.addButton('pip_colors', function () {
-
-      var clean_items = Array();
-
-      // Clone original items array
-      $.extend(true, clean_items, get_custom_colors());
-
-      // Remove classes for menu items
-      $.each(clean_items, function (key, item) {
-        delete item.classes;
-      });
-
       return {
         type: 'listbox',
         text: 'Colors',
         tooltip: 'Colors',
-        values: clean_items,
+        values: get_custom_colors(),
         fixedWidth: true,
         onPostRender: custom_list_box_change_handler(editor, get_custom_colors()),
         onselect: function (event) {
@@ -122,29 +139,17 @@
           }
         },
       };
-
     });
 
     /**
      * Add fonts menu button
      */
     editor.addButton('pip_fonts', function () {
-
-      var clean_items = Array();
-
-      // Clone original items array
-      $.extend(true, clean_items, get_custom_fonts());
-
-      // Remove classes for menu items
-      $.each(clean_items, function (key, item) {
-        delete item.classes;
-      });
-
       return {
         type: 'listbox',
         text: 'Fonts',
         tooltip: 'Fonts',
-        values: clean_items,
+        values: get_custom_fonts(),
         fixedWidth: true,
         onPostRender: custom_list_box_change_handler(editor, get_custom_fonts()),
         onselect: function (event) {
@@ -153,29 +158,17 @@
           }
         },
       };
-
     });
 
     /**
      * Add styles menu button
      */
     editor.addButton('pip_styles', function () {
-
-      var clean_items = Array();
-
-      // Clone original items array
-      $.extend(true, clean_items, get_custom_styles());
-
-      // Remove classes for menu items
-      $.each(clean_items, function (key, item) {
-        delete item.classes;
-      });
-
       return {
         type: 'listbox',
         text: 'Styles',
         tooltip: 'Styles',
-        values: clean_items,
+        values: get_custom_styles(),
         fixedWidth: true,
         onPostRender: custom_list_box_change_handler(editor, get_custom_styles()),
         onselect: function (event) {
@@ -184,7 +177,6 @@
           }
         },
       };
-
     });
 
     /**
@@ -192,13 +184,15 @@
      */
     editor.on('init', function () {
       get_custom_colors().map(function (item) {
-        editor.formatter.register(item.name, item);
+        editor.formatter.register(item.name, item.format);
       });
+
       get_custom_fonts().map(function (item) {
-        editor.formatter.register(item.name, item);
+        editor.formatter.register(item.name, item.format);
       });
+
       get_custom_styles().map(function (item) {
-        editor.formatter.register(item.name, item);
+        editor.formatter.register(item.name, item.format);
       });
     });
 

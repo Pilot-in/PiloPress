@@ -25,8 +25,8 @@
     editor.addButton('_pip_shortcodes_button', {
       icon: false,
       text: 'Shortcodes',
-      type: 'menubutton',
-      menu: [
+      type: 'listbox',
+      values: [
         {
           text: 'Bouton',
           onclick: set_shortcodes_atts(editor, {
