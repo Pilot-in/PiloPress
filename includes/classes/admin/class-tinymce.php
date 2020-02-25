@@ -16,9 +16,34 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Enqueue custom TinyMCE script and add variables to it
          */
         public function localize_data() {
+            $image_sizes = self::get_all_image_sizes();
+
             acf_localize_data( array(
                 'custom_fonts' => self::get_custom_fonts(),
+                'image_sizes'  => $image_sizes,
             ) );
+        }
+
+        /**
+         * Get all image sizes
+         * @return array
+         */
+        private static function get_all_image_sizes() {
+            $image_sizes         = array();
+            $default_image_sizes = get_intermediate_image_sizes();
+
+            foreach ( $default_image_sizes as $size ) {
+                $image_sizes[ $size ] = array(
+                    'width'  => intval( get_option( "{$size}_size_w" ) ),
+                    'height' => intval( get_option( "{$size}_size_h" ) ),
+                );
+            }
+
+            if ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) ) {
+                $image_sizes = array_merge( $image_sizes, $_wp_additional_image_sizes );
+            }
+
+            return $image_sizes;
         }
 
         /**
@@ -124,10 +149,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * @return mixed
          */
         public function editor_button_script( $scripts ) {
-            $scripts['_pip_shortcodes'] = _PIP_URL . 'assets/js/editor.js';
-            $scripts['pip_colors']      = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
-            $scripts['pip_fonts']       = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
-            $scripts['pip_styles']      = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
+            $scripts['pip_colors']     = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
+            $scripts['pip_fonts']      = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
+            $scripts['pip_styles']     = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
+            $scripts['pip_shortcodes'] = _PIP_URL . 'assets/js/tinymce-shortcodes.js';
 
             return $scripts;
         }

@@ -104,10 +104,9 @@
    */
   acf.addFilter('wysiwyg_tinymce_settings', function (init) {
 
-    init.toolbar1 = 'formatselect pip_styles pip_fonts pip_colors _pip_shortcodes_button bold italic underline strikethrough bullist numlist alignleft aligncenter alignright alignjustify link wp_add_media wp_adv';
+    init.toolbar1 = 'formatselect pip_styles pip_fonts pip_colors pip_shortcodes bold italic underline strikethrough bullist numlist alignleft aligncenter alignright alignjustify link wp_add_media wp_adv';
     init.toolbar2 = 'blockquote hr forecolor backcolor pastetext removeformat charmap outdent indent subscript superscript fullscreen wp_help';
 
-    init.menubar = true;
     init.elementpath = false;
     init.block_formats = '<p>=p;<h1>=h1;<h2>=h2;<h3>=h3;<h4>=h4;<h5>=h5;<h6>=h6;<address>=address;<pre>=pre';
     init.valid_elements = '*[*]';

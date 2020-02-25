@@ -45,6 +45,7 @@ add_action( 'init', '_pip_post_type_page_remove_supports' );
 function _pip_post_type_page_remove_supports() {
     remove_post_type_support( 'page', 'editor' );
     remove_post_type_support( 'post', 'editor' );
+    add_theme_support( 'post-thumbnails' );
 }
 
 // END : remove
@@ -75,6 +76,7 @@ require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-layo
 require_once( _PIP_PATH . 'includes/classes/admin/class-admin.php' );
 require_once( _PIP_PATH . 'includes/classes/admin/class-styles-settings.php' );
 require_once( _PIP_PATH . 'includes/classes/admin/class-tinymce.php' );
+require_once( _PIP_PATH . 'includes/classes/admin/class-shortcodes.php' );
 
 /**
  * SCSS - PHP

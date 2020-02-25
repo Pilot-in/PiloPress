@@ -161,6 +161,24 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Reset WP styles
             @import 'reset-wp';
 
+            // TinyMCE Shortcodes
+            .wpview {
+            &[data-wpview-type="acf"],
+            &[data-wpview-type="pip_title"],
+            &[data-wpview-type="pip_button"],
+            &[data-wpview-type="pip_thumbnail"],
+            &[data-wpview-type="pip_breadcrumb"] {
+            display: inline-block;
+            }
+            &[data-wpview-type="acf"],
+            &[data-wpview-type="pip_title"],
+            &[data-wpview-type="pip_breadcrumb"] {
+            padding: 10px;
+            background-color: $gray-200;
+            border: 2px dashed $gray-600;
+            }
+            }
+
             }
 
             //.mce-text[style="text-primary"]{
