@@ -16,11 +16,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Enqueue custom TinyMCE script and add variables to it
          */
         public function localize_data() {
-            $image_sizes = self::get_all_image_sizes();
-
             acf_localize_data( array(
-                'custom_fonts' => self::get_custom_fonts(),
-                'image_sizes'  => $image_sizes,
+                'custom_fonts'  => self::get_custom_fonts(),
+                'image_sizes'   => self::get_all_image_sizes(),
+                'custom_colors' => self:: get_custom_colors(),
             ) );
         }
 
@@ -44,6 +43,25 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             }
 
             return $image_sizes;
+        }
+
+        /**
+         * Get colors
+         * @return array|null
+         */
+        public function get_custom_colors() {
+            $color_range = array();
+            $pip_colors  = get_field( 'pip_colors', 'options' );
+            if ( !$pip_colors ) {
+                return null;
+            }
+
+            foreach ( $pip_colors as $name => $color ) {
+                $color_range[] = str_replace( '#', '', $color );
+                $color_range[] = $name;
+            }
+
+            return $color_range;
         }
 
         /**

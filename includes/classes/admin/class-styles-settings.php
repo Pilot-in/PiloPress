@@ -18,6 +18,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Get SCSS line for custom fonts
             $custom_scss = self::scss_custom_fonts();
 
+            // Get custom colors
+            $custom_scss .= self::scss_custom_colors();
+
             // Get custom CSS/SCSS
             $custom_scss .= get_field( 'pip_custom_style', 'options' );
 
@@ -141,6 +144,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          */
         private static function get_admin_scss_code( $custom_scss ) {
             ob_start(); ?>
+
             i.mce-i-wp_adv:before {
             content: "\f111" !important;
             }
@@ -160,24 +164,6 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             // Reset WP styles
             @import 'reset-wp';
-
-            // TinyMCE Shortcodes
-            .wpview {
-            &[data-wpview-type="acf"],
-            &[data-wpview-type="pip_title"],
-            &[data-wpview-type="pip_button"],
-            &[data-wpview-type="pip_thumbnail"],
-            &[data-wpview-type="pip_breadcrumb"] {
-            display: inline-block;
-            }
-            &[data-wpview-type="acf"],
-            &[data-wpview-type="pip_title"],
-            &[data-wpview-type="pip_breadcrumb"] {
-            padding: 10px;
-            background-color: $gray-200;
-            border: 2px dashed $gray-600;
-            }
-            }
 
             }
 
@@ -296,6 +282,40 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     // End @font-face
                     $scss_custom_fonts .= "}\n";
 
+                }
+            }
+
+            return $scss_custom_fonts;
+        }
+
+        /**
+         * Get SCSS to enqueue custom colors
+         * @return string
+         */
+        private static function scss_custom_colors() {
+            $scss_custom_fonts = '';
+
+            if ( have_rows( 'pip_colors', 'option' ) ) {
+                while ( have_rows( 'pip_colors', 'option' ) ) {
+                    the_row();
+
+                    $colors = array(
+                        'primary',
+                        'secondary',
+                        'success',
+                        'danger',
+                        'warning',
+                        'info',
+                        'light',
+                        'dark',
+                        'body-color',
+                        'text-muted',
+                        'white',
+                    );
+
+                    foreach ( $colors as $color ) {
+                        $scss_custom_fonts .= '$' . $color . ': ' . get_sub_field( $color ) . ';' . "\n";
+                    }
                 }
             }
 
