@@ -2,6 +2,7 @@
 
 if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
     class PIP_Field_Groups_Layouts {
+        private static $layout_group_keys         = array();
         public function __construct() {
             // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
@@ -245,7 +246,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
 
             // Get layouts for configuration field
             $choices = array();
-            foreach ( PIP_Field_Groups_Flexible_Mirror::get_layout_group_keys() as $layout_group_key ) {
+            foreach ( PIP_Field_Groups_Layouts::get_layout_group_keys() as $layout_group_key ) {
                 // Get current field group
                 $group = acf_get_field_group( $layout_group_key );
 
@@ -423,6 +424,25 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
          */
         private function modify_layout_dir( $old_title, $new_title ) {
             rename( _PIP_THEME_LAYOUTS_PATH . $old_title, _PIP_THEME_LAYOUTS_PATH . $new_title );
+        }
+
+        /**
+         * Setter: $layout_group_keys
+         *
+         * @param $layout_group_keys
+         *
+         * @return void
+         */
+        public static function set_layout_group_keys( $layout_group_keys ) {
+            self::$layout_group_keys = $layout_group_keys;
+        }
+
+        /**
+         * Getter: $layout_group_keys
+         * @return array
+         */
+        public static function get_layout_group_keys() {
+            return self::$layout_group_keys;
         }
     }
 

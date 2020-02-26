@@ -74,12 +74,14 @@ require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-layo
  * Admin
  */
 require_once( _PIP_PATH . 'includes/classes/admin/class-admin.php' );
+require_once( _PIP_PATH . 'includes/classes/admin/class-admin-layouts.php' );
 require_once( _PIP_PATH . 'includes/classes/admin/class-styles-settings.php' );
 require_once( _PIP_PATH . 'includes/classes/admin/class-tinymce.php' );
 require_once( _PIP_PATH . 'includes/classes/admin/class-shortcodes.php' );
+require_once( _PIP_PATH . 'includes/classes/admin/class-json-sync.php' );
+require_once( _PIP_PATH . 'includes/classes/admin/class-fields.php' );
 
 /**
  * SCSS - PHP
  */
 require_once( _PIP_PATH . 'includes/classes/scssphp/class-scss-php.php' );
-

@@ -10,6 +10,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             add_action( 'admin_enqueue_scripts', array( $this, 'localize_data' ) );
             add_filter( 'mce_external_plugins', array( $this, 'editor_button_script' ) );
             add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
+            add_filter( 'mce_css', array( $this, 'editor_style' ) );
         }
 
         /**
@@ -17,9 +18,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         public function localize_data() {
             acf_localize_data( array(
-                'custom_fonts'  => self::get_custom_fonts(),
-                'image_sizes'   => self::get_all_image_sizes(),
-                'custom_colors' => self:: get_custom_colors(),
+                'custom_fonts'        => self::get_custom_fonts(),
+                'image_sizes'         => self::get_all_image_sizes(),
+                'custom_colors'       => self:: get_custom_colors( true ),
+                'custom_colors_assoc' => self:: get_custom_colors(),
             ) );
         }
 
@@ -47,18 +49,25 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
         /**
          * Get colors
+         *
+         * @param bool $split
+         *
          * @return array|null
          */
-        public function get_custom_colors() {
+        public function get_custom_colors( $split = false ) {
             $color_range = array();
             $pip_colors  = get_field( 'pip_colors', 'options' );
             if ( !$pip_colors ) {
                 return null;
             }
 
-            foreach ( $pip_colors as $name => $color ) {
-                $color_range[] = str_replace( '#', '', $color );
-                $color_range[] = $name;
+            if ( $split ) {
+                foreach ( $pip_colors as $name => $color ) {
+                    $color_range[] = str_replace( '#', '', $color );
+                    $color_range[] = $name;
+                }
+            } else {
+                $color_range = $pip_colors;
             }
 
             return $color_range;
@@ -173,6 +182,29 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $scripts['pip_shortcodes'] = _PIP_URL . 'assets/js/tinymce-shortcodes.js';
 
             return $scripts;
+        }
+
+        /**
+         * Add custom editor style and remove WP's one
+         *
+         * @param $stylesheets
+         *
+         * @return string
+         */
+        public function editor_style( $stylesheets ) {
+            $stylesheets = explode( ',', $stylesheets );
+
+            // Parse stylesheets to remove WP CSS
+            foreach ( $stylesheets as $key => $stylesheet ) {
+                if ( strstr( $stylesheet, 'wp-content.css' ) ) {
+                    unset( $stylesheets[ $key ] );
+                }
+            }
+
+            // Add custom admin stylesheet
+            $stylesheets[] = _PIP_THEME_STYLE_URL . '/pilopress/style-pilopress-admin.css';
+
+            return implode( ',', $stylesheets );
         }
     }
 

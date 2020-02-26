@@ -15,10 +15,10 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 return;
             }
 
-            // Get SCSS line for custom fonts
+            // Get custom fonts SCSS
             $custom_scss = self::scss_custom_fonts();
 
-            // Get custom colors
+            // Get custom colors SCSS
             $custom_scss .= self::scss_custom_colors();
 
             // Get custom CSS/SCSS

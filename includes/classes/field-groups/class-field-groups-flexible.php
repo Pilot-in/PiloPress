@@ -108,7 +108,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                 }
             }
 
-            PIP_Field_Groups_Flexible_Mirror::set_layout_group_keys( $group_keys );
+            PIP_Field_Groups_Layouts::set_layout_group_keys( $group_keys );
             PIP_Field_Groups_Flexible_Mirror::set_flexible_mirror_group( acf_get_field_group( PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group_key() ) );
 
             $locations = apply_filters( 'pip/flexible/locations', array() );

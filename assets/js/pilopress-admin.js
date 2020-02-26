@@ -86,6 +86,14 @@
         .replace(/\_\_+/g, '_')     // Replace multiple _ with single _
         .replace(/^-+/, '');         // Trim - from start of text
     }
+
+    /**
+     * Remove search for layouts admin page
+     */
+    var searchParams = new URLSearchParams(window.location.search);
+    if ($('body').hasClass('wp-admin', 'post-type-acf-field-group') && searchParams.get('layouts') == 1) {
+      $('.subsubsub li:last-child:not([class])').remove();
+    }
   });
 
 })(jQuery);

@@ -39,11 +39,26 @@
    */
   var get_custom_colors = function () {
     return $.map(colors, function (color, key) {
+
+      // Get style color
+      var textStyle = '';
+      var custom_colors = acf.get('custom_colors_assoc');
+      $.each(custom_colors, function (custom_key, custom_value) {
+        if (custom_key === key || custom_key === 'text-' + key) {
+          textStyle = 'color:' + custom_value + ';';
+
+          // Dark background for light text colors
+          if (key === 'light' || key === 'white') {
+            textStyle += 'background-color: #343a40;';
+          }
+        }
+      });
+
       return {
         name: 'pip-text-' + key,
         value: 'pip-text-' + key,
         text: color,
-        textStyle: 'text-' + key,
+        textStyle: textStyle,
         format: {
           inline: 'span',
           classes: 'text-' + key,
@@ -135,6 +150,7 @@
         onPostRender: custom_list_box_change_handler(editor, get_custom_colors()),
         onselect: function (event) {
           if (event.control.settings.value) {
+            event.control.settings.type = 'colors';
             editor.execCommand('add_custom_style', false, event.control.settings);
           }
         },
@@ -154,6 +170,7 @@
         onPostRender: custom_list_box_change_handler(editor, get_custom_fonts()),
         onselect: function (event) {
           if (event.control.settings.value) {
+            event.control.settings.type = 'fonts';
             editor.execCommand('add_custom_style', false, event.control.settings);
           }
         },
@@ -173,6 +190,7 @@
         onPostRender: custom_list_box_change_handler(editor, get_custom_styles()),
         onselect: function (event) {
           if (event.control.settings.value) {
+            event.control.settings.type = 'styles';
             editor.execCommand('add_custom_style', false, event.control.settings);
           }
         },
@@ -204,6 +222,25 @@
    */
   var register = function (editor) {
     editor.addCommand('add_custom_style', function (command, item) {
+
+      // Get style to remove
+      var to_remove = Array();
+      if (item.type === 'styles') {
+        to_remove = get_custom_styles();
+      } else if (item.type === 'colors') {
+        to_remove = get_custom_colors();
+      } else if (item.type === 'fonts') {
+        to_remove = get_custom_fonts();
+      }
+
+      // Remove old style
+      $.each(to_remove, function (key, style_item) {
+        if (style_item.name !== item.name) {
+          editor.formatter.remove(style_item.name);
+        }
+      });
+
+      // Apply selected style
       editor.formatter.toggle(item.name);
       editor.nodeChanged();
     });
@@ -224,15 +261,17 @@
       editor.on('nodeChange', function (e) {
 
         // Get value
-        var current_value = null;
+        var current_value = null, current_style = null;
         $.map(items, function (item) {
           if (editor.formatter.match(item.name)) {
             current_value = item.value;
+            current_style = item.textStyle;
           }
         });
 
         // Update value
         self.value(current_value);
+        self.$el.find('span').attr('style', current_style);
 
       });
     };
