@@ -40,9 +40,11 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 unset( $views['acf-disabled'] );
 
                 self::update_layouts_counters( $views );
+                self::update_sync_counters( $views );
             } else {
                 // Update counters for field groups page
                 self::update_field_groups_counters( $views );
+                self::update_sync_counters( $views, false );
             }
 
             return $views;
@@ -171,6 +173,77 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
                 // Update counter
                 $views[ $post_status ] = '<a href="' . $url . '" class="' . $class . '">' . $title . ' <span class="count">(' . $count . ')</span></a>';
+            }
+        }
+
+        /**
+         * Update counters for sync available
+         *
+         * @param $views
+         * @param bool $is_layout
+         */
+        private static function update_sync_counters( &$views, $is_layout = true ) {
+            // Get field groups
+            $field_groups = acf_get_field_groups();
+
+            // If no field group, return
+            if ( empty( $field_groups ) ) {
+                return;
+            }
+
+            // Get field group
+            $sync = array();
+            foreach ( $field_groups as $group ) {
+
+                // Get type
+                $local    = acf_maybe_get( $group, 'local', false );
+                $modified = acf_maybe_get( $group, 'modified', 0 );
+                $private  = acf_maybe_get( $group, 'private', false );
+
+                if ( $private || $local !== 'json' ) {
+
+                    // Continue if private or not JSON
+                    continue;
+
+                } elseif ( !$group['ID'] || ( $modified && $modified > get_post_modified_time( 'U', true, $group['ID'], true ) ) ) {
+                    // If not in DB or JSON newer than post
+
+                    if ( $is_layout && acf_maybe_get( $group, '_pip_is_layout' ) && $group['_pip_is_layout'] === 1 ) {
+
+                        // Store layout
+                        $sync[ $group['key'] ] = $group['title'];
+
+                    } elseif ( !$is_layout && ( !acf_maybe_get( $group, '_pip_is_layout' ) || $group['_pip_is_layout'] !== 1 ) ) {
+
+                        // Store non layout
+                        $sync[ $group['key'] ] = $group['title'];
+
+                    }
+                }
+            }
+
+            if ( count( $sync ) > 0 ) {
+                // If there's field group to sync
+
+                // Admin URL
+                $url = add_query_arg( array(
+                    'post_type'   => 'acf-field-group',
+                    'post_status' => 'sync',
+                ), admin_url( 'edit.php' ) );
+                if ( $is_layout ) {
+                    $url = add_query_arg( array( 'layouts' => 1 ), $url );
+                }
+
+                // Maybe add current class
+                $class = ( acf_maybe_get_GET( 'post_status' ) === 'sync' ) ? 'current' : '';
+
+                // Update counter
+                $views['json'] = '<a href="' . $url . '" class="' . $class . '">Sync available <span class="count">(' . count( $sync ) . ')</span></a>';
+            } else {
+                // If there isn't field group to sync
+
+                // Hide JSON
+                unset( $views['json'] );
             }
         }
     }
