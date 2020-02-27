@@ -66,7 +66,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
             // Mirror flexible field group
             $flexible_mirror = array(
                 'key'                   => self::get_flexible_mirror_group_key(),
-                'title'                 => 'Flexible Content',
+                'title'                 => __( 'Flexible Content', 'pilopress' ),
                 'fields'                => array(),
                 'location'              => array(
                     array(

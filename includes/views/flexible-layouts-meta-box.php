@@ -23,8 +23,8 @@ acf_hidden_input( array(
 <table class="wp-list-table widefat fixed striped" style="border: 0">
     <thead>
     <tr>
-        <th scope="col">Layout</th>
-        <th scope="col">Locations</th>
+        <th scope="col"><?php _e( 'Layout', 'pilopress' ) ?></th>
+        <th scope="col"><?php _e( 'Locations', 'pilopress' ) ?></th>
     </tr>
     </thead>
     <tbody>
@@ -57,8 +57,8 @@ acf_hidden_input( array(
     </tbody>
     <tfoot>
     <tr>
-        <th scope="col">Layout</th>
-        <th scope="col">Locations</th>
+        <th scope="col"><?php _e( 'Layout', 'pilopress' ) ?></th>
+        <th scope="col"><?php _e( 'Locations', 'pilopress' ) ?></th>
     </tr>
     </tfoot>
 </table>

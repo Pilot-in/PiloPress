@@ -2,7 +2,8 @@
 
 if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
     class PIP_Field_Groups_Layouts {
-        private static $layout_group_keys         = array();
+        private static $layout_group_keys = array();
+
         public function __construct() {
             // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
@@ -183,7 +184,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Layout slug
             acf_render_field_wrap( array(
                 'label'        => __( 'Layout slug', 'pilopress' ),
-                'instructions' => __( 'Nom du layout et de son dossier', 'pilopress' ),
+                'instructions' => __( 'Layout name and layout directory name', 'pilopress' ),
                 'type'         => 'acfe_slug',
                 'name'         => '_pip_layout_slug',
                 'prefix'       => 'acf_field_group',
@@ -195,7 +196,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Layout template
             acf_render_field_wrap( array(
                 'label'         => __( 'Layout', 'pilopress' ),
-                'instructions'  => __( 'Nom du fichier de layout', 'pilopress' ),
+                'instructions'  => __( 'Layout file name', 'pilopress' ),
                 'type'          => 'text',
                 'name'          => '_pip_render_layout',
                 'prefix'        => 'acf_field_group',
@@ -208,7 +209,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Style - CSS
             acf_render_field_wrap( array(
                 'label'         => __( 'Style CSS', 'pilopress' ),
-                'instructions'  => __( 'Nom du fichier de style CSS', 'pilopress' ),
+                'instructions'  => __( 'CSS file name', 'pilopress' ),
                 'type'          => 'text',
                 'name'          => '_pip_render_style',
                 'prefix'        => 'acf_field_group',
@@ -221,7 +222,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Style - SCSS
             acf_render_field_wrap( array(
                 'label'         => __( 'Style SCSS', 'pilopress' ),
-                'instructions'  => __( 'Nom du fichier de style SCSS', 'pilopress' ),
+                'instructions'  => __( 'SCSS file name', 'pilopress' ),
                 'type'          => 'text',
                 'name'          => '_pip_render_style_scss',
                 'prefix'        => 'acf_field_group',
@@ -234,7 +235,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Script
             acf_render_field_wrap( array(
                 'label'         => __( 'Script', 'pilopress' ),
-                'instructions'  => __( 'Nom du fichier de script', 'pilopress' ),
+                'instructions'  => __( 'JS file name', 'pilopress' ),
                 'type'          => 'text',
                 'name'          => '_pip_render_script',
                 'prefix'        => 'acf_field_group',
@@ -257,7 +258,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Configuration
             acf_render_field_wrap( array(
                 'label'         => __( 'Configuration', 'pilopress' ),
-                'instructions'  => __( 'Clones de configuration', 'pilopress' ),
+                'instructions'  => __( 'Configuration clone', 'pilopress' ),
                 'type'          => 'select',
                 'name'          => '_pip_configuration',
                 'prefix'        => 'acf_field_group',
@@ -273,7 +274,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Modal size
             acf_render_field_wrap( array(
                 'label'         => __( 'Modal size', 'pilopress' ),
-                'instructions'  => __( 'Taille de la modale de configuration', 'pilopress' ),
+                'instructions'  => __( 'Configuration modal size', 'pilopress' ),
                 'name'          => '_pip_modal_size',
                 'type'          => 'select',
                 'class'         => '',
@@ -296,7 +297,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Category
             acf_render_field_wrap( array(
                 'label'         => __( 'Catégorie', 'pilopress' ),
-                'instructions'  => __( 'Catégorie du layout', 'pilopress' ),
+                'instructions'  => __( 'Layout category', 'pilopress' ),
                 'type'          => 'text',
                 'name'          => '_pip_category',
                 'prefix'        => 'acf_field_group',
@@ -307,7 +308,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Miniature
             acf_render_field_wrap( array(
                 'label'         => __( 'Thumbnail', 'pilopress' ),
-                'instructions'  => __( 'Aperçu du layout', 'pilopress' ),
+                'instructions'  => __( 'Layout preview', 'pilopress' ),
                 'name'          => '_pip_thumbnail',
                 'type'          => 'image',
                 'class'         => '',
@@ -392,6 +393,11 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                 ),
                 array(
                     'render'    => '_pip_render_style',
+                    'extension' => '.css',
+                    'default'   => $layout_title,
+                ),
+                array(
+                    'render'    => '_pip_render_style_scss',
                     'extension' => '.scss',
                     'default'   => $layout_title,
                 ),

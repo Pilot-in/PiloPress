@@ -110,7 +110,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             $class = ( !acf_maybe_get_GET( 'post_status' ) ) ? 'current' : '';
 
             // Update counter
-            $views['all'] = '<a href="' . $url . '" class="' . $class . '">All <span class="count">(' . $query->found_posts . ')</span></a>';
+            $views['all'] = '<a href="' . $url . '" class="' . $class . '">' . __( 'All', 'acf' ) . ' <span class="count">(' . $query->found_posts . ')</span></a>';
         }
 
         /**
@@ -154,25 +154,25 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 switch ( $post_status ) {
                     case 'all':
                         $class = ( !acf_maybe_get_GET( 'post_status' ) ) ? 'current' : '';
-                        $title = __( 'All', 'pilopress' );
+                        $title = 'All';
                         $count = $query->found_posts;
                         break;
                     case 'publish':
                         $url   = add_query_arg( array( 'post_status' => 'publish' ), $url );
                         $class = ( acf_maybe_get_GET( 'post_status' ) === 'publish' ) ? 'current' : '';
-                        $title = __( 'Inactive', 'pilopress' );
+                        $title = 'Active';
                         $count = $query->found_posts;
                         break;
                     case 'acf-disabled':
                         $url   = add_query_arg( array( 'post_status' => 'acf-disabled' ), $url );
                         $class = ( acf_maybe_get_GET( 'post_status' ) === 'acf-disabled' ) ? 'current' : '';
-                        $title = __( 'Inactive', 'pilopress' );
+                        $title = 'Inactive';
                         $count = $query->found_posts;
                         break;
                 }
 
                 // Update counter
-                $views[ $post_status ] = '<a href="' . $url . '" class="' . $class . '">' . $title . ' <span class="count">(' . $count . ')</span></a>';
+                $views[ $post_status ] = '<a href="' . $url . '" class="' . $class . '">' . __( $title, 'acf' ) . ' <span class="count">(' . $count . ')</span></a>';
             }
         }
 
@@ -238,7 +238,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 $class = ( acf_maybe_get_GET( 'post_status' ) === 'sync' ) ? 'current' : '';
 
                 // Update counter
-                $views['json'] = '<a href="' . $url . '" class="' . $class . '">Sync available <span class="count">(' . count( $sync ) . ')</span></a>';
+                $views['json'] = '<a href="' . $url . '" class="' . $class . '">' . __( 'Sync available', 'acf' ) . ' <span class="count">(' . count( $sync ) . ')</span></a>';
             } else {
                 // If there isn't field group to sync
 

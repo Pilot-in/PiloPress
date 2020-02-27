@@ -80,7 +80,7 @@ if ( !class_exists( 'PIP_Fields' ) ) {
          */
         public function add_setting_color_picker( $field ) {
             acf_render_field_setting( $field, array(
-                'label'         => __( 'Show bootstrap colors only' ),
+                'label'         => __( 'Show bootstrap colors only', 'pilopress' ),
                 'instructions'  => __( '' ),
                 'name'          => 'bootstrap_colors_only',
                 'type'          => 'true_false',

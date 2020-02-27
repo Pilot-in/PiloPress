@@ -63,7 +63,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             }
 
             if ( wp_doing_ajax() ) {
-                return 'You > Are > Here';
+                return __( 'You > Are > Here', 'pilopress' );
             }
 
             return yoast_breadcrumb( '<p class="pip_breadcrumb">', '</p>', false );
@@ -75,7 +75,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          */
         public function pip_title() {
             if ( wp_doing_ajax() ) {
-                return 'Title here';
+                return __( 'Title here', 'pilopress' );
             }
 
             return get_the_title();
@@ -97,7 +97,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             $post_thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), $image_size );
 
             if ( !$post_thumbnail_url ) {
-                return 'Post thumbnail here';
+                return __( 'Post thumbnail here', 'pilopress' );
             }
 
             return '<img class="post-thumbnail" src="' . $post_thumbnail_url . '"/>';
