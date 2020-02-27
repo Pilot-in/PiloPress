@@ -15,6 +15,18 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 return;
             }
 
+            // Compile base style for admin & front
+            self::compile_bootstrap_styles();
+
+            // Compile layouts styles
+            self::compile_layouts_styles();
+        }
+
+        /**
+         * Get custom SCSS
+         * @return string
+         */
+        public static function get_custom_scss() {
             // Get custom fonts SCSS
             $custom_scss = self::scss_custom_fonts();
 
@@ -24,20 +36,17 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Get custom CSS/SCSS
             $custom_scss .= get_field( 'pip_custom_style', 'options' );
 
-            // Compile base style for admin & front
-            self::compile_bootstrap_styles( $custom_scss );
-
-            // Compile layouts styles
-            self::compile_layouts_styles( $custom_scss );
+            return $custom_scss;
         }
 
         /**
          * Compile bootstrap styles
-         *
-         * @param $custom_scss
          */
-        private function compile_bootstrap_styles( $custom_scss ) {
+        private function compile_bootstrap_styles() {
             $dirs = array();
+
+            // Get custom SCSS
+            $custom_scss = self::get_custom_scss();
 
             // Front-office
             $front = self::get_front_scss_code( $custom_scss );
@@ -68,26 +77,35 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         /**
          * Compile layouts styles
          *
-         * @param $custom_scss
+         * @param null $layout_id
          */
-        private static function compile_layouts_styles( $custom_scss ) {
+        public static function compile_layouts_styles( $layout_id = null ) {
             $dirs = array();
 
-            // Layouts args
-            $args = array(
-                'post_type'        => 'acf-field-group',
-                'posts_per_page'   => - 1,
-                'fields'           => 'ids',
-                'suppress_filters' => 0,
-                'post_status'      => array( 'acf-disabled' ),
-                'pip_post_content' => array(
-                    'compare' => 'LIKE',
-                    'value'   => 's:14:"_pip_is_layout";i:1',
-                ),
-            );
+            // Get custom SCSS
+            $custom_scss = self::get_custom_scss();
 
-            // Get layout dirs
-            $posts = get_posts( $args );
+            if ( !$layout_id ) {
+                // Layouts args
+                $args = array(
+                    'post_type'        => 'acf-field-group',
+                    'posts_per_page'   => - 1,
+                    'fields'           => 'ids',
+                    'suppress_filters' => 0,
+                    'post_status'      => array( 'acf-disabled' ),
+                    'pip_post_content' => array(
+                        'compare' => 'LIKE',
+                        'value'   => 's:14:"_pip_is_layout";i:1',
+                    ),
+                );
+
+                // Get layout dirs
+                $posts = get_posts( $args );
+            } else {
+                // Use specified layout
+                $posts[] = $layout_id;
+            }
+
             if ( $posts ) {
                 foreach ( $posts as $post_id ) {
                     // Get field group
@@ -95,6 +113,11 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
                     // No field group, skip
                     if ( !$field_group ) {
+                        continue;
+                    }
+
+                    // If no slug, skip
+                    if ( !acf_maybe_get( $field_group, '_pip_layout_slug' ) ) {
                         continue;
                     }
 

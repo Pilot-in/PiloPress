@@ -16,7 +16,12 @@ if ( !class_exists( 'PIP_Json_Sync' ) ) {
          * @return string
          */
         public function change_save_path( $path ) {
-            $post        = get_post();
+            $post = get_post();
+            if ( !$post ) {
+                return $path;
+            }
+
+            // Get field group
             $field_group = acf_get_field_group( $post->post_name );
 
             // If no group, return
