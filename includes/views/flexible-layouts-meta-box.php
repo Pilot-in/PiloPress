@@ -28,25 +28,27 @@ acf_hidden_input( array(
     </tr>
     </thead>
     <tbody>
-    <?php foreach ( $layouts as $layout ) : ?>
-        <tr>
-            <td class="title column-title has-row-actions">
-                <strong>
-                    <a class="row-title" href="<?php echo $layout['edit_link'] ?>" aria-label="<?php echo $layout['title'] . ' (' . __( 'Edit', 'pilopress' ) . ')' ?>">
-                        <?php echo $layout['title'] ?>
-                    </a>
-                </strong>
-                <div class="row-actions">
+    <?php if ( $layouts ): ?>
+        <?php foreach ( $layouts as $layout ) : ?>
+            <tr>
+                <td class="title column-title has-row-actions">
+                    <strong>
+                        <a class="row-title" href="<?php echo $layout['edit_link'] ?>" aria-label="<?php echo $layout['title'] . ' (' . __( 'Edit', 'pilopress' ) . ')' ?>">
+                            <?php echo $layout['title'] ?>
+                        </a>
+                    </strong>
+                    <div class="row-actions">
                     <span class="edit">
                         <a href="<?php echo $layout['edit_link']; ?>" aria-label="<?php echo __( 'Edit', 'pilopress' ) . ' ' . $layout['title'] ?>">
                             <?php _e( 'Edit', 'pilopress' ); ?>
                         </a>
                     </span>
-                </div>
-            </td>
-            <td><?php echo $layout['locations']; ?></td>
-        </tr>
-    <?php endforeach; ?>
+                    </div>
+                </td>
+                <td><?php echo $layout['locations']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
     <tr>
         <td colspan="2">
             <a class="button-secondary" href="<?php echo $add_new_link; ?>" target="_blank">
