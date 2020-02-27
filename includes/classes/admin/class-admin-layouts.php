@@ -4,7 +4,25 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
     class PIP_Admin_Layouts {
         public function __construct() {
             // WP hooks
+            add_action( 'current_screen', array( $this, 'admin_layouts_page' ), 1 );
+        }
+
+        /**
+         * Fire actions only on layouts page
+         */
+        public function admin_layouts_page() {
+            // If not in admin acf field group listing, return
+            if ( !is_admin() || !acf_is_screen( 'edit-acf-field-group' ) ) {
+                return;
+            }
+
+            // Edit quick links
             add_filter( 'views_edit-acf-field-group', array( $this, 'edit_views' ), 999 );
+
+            // Sync page
+            if ( acf_maybe_get_GET( 'post_status' ) == 'sync' ) {
+                add_filter( 'acf/load_field_groups', array( $this, 'filter_sync_field_groups' ) );
+            }
         }
 
         /**
@@ -15,11 +33,6 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
          * @return bool
          */
         public function edit_views( $views ) {
-            // If not in admin acf field group listing, return
-            if ( !is_admin() || !acf_is_screen( 'edit-acf-field-group' ) ) {
-                return $views;
-            }
-
             if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
                 // If layouts page, remove links and update counters
                 unset( $views['publish'] );
@@ -33,6 +46,36 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             }
 
             return $views;
+        }
+
+        /**
+         * Filter field groups to sync
+         *
+         * @param $field_groups
+         *
+         * @return mixed
+         */
+        public function filter_sync_field_groups( $field_groups ) {
+            if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
+
+                // Layouts page
+                foreach ( $field_groups as $key => $field_group ) {
+                    if ( !acf_maybe_get( $field_group, '_pip_is_layout' ) ) {
+                        unset( $field_groups[ $key ] );
+                    }
+                }
+
+            } elseif ( !acf_maybe_get_GET( 'layouts' ) ) {
+
+                // ACF Field groups
+                foreach ( $field_groups as $key => $field_group ) {
+                    if ( acf_maybe_get( $field_group, '_pip_is_layout' ) === 1 ) {
+                        unset( $field_groups[ $key ] );
+                    }
+                }
+            }
+
+            return $field_groups;
         }
 
         /**
