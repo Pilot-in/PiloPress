@@ -12,50 +12,153 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 defined( 'ABSPATH' ) || exit;
 
+if ( !class_exists( 'PiloPress' ) ) {
+    class PiloPress {
+
+        var $version = '0.1';
+
+        // ACF
+        var $acf = false;
+
+        // ACFE
+        var $acfe = false;
+
+        /**
+         * PiloPress constructor.
+         */
+        public function __construct() {
+            // Do nothing.
+        }
+
+        public function initialize() {
+            // Constants
+            $this->define( 'PIP_FILE', __FILE__ );
+            $this->define( 'PIP_PATH', plugin_dir_path( __FILE__ ) );
+            $this->define( 'PIP_URL', plugin_dir_url( __FILE__ ) );
+            $this->define( 'PIP_BASENAME', plugin_basename( __FILE__ ) );
+            $this->define( 'PIP_THEME_STYLE_PATH', get_stylesheet_directory() . '/pilopress/' );
+            $this->define( 'PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() . '/pilopress/' );
+            $this->define( 'PIP_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/pilopress/layouts/' );
+            $this->define( 'PIP_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/pilopress/layouts/' );
+
+            // Init
+            include_once( PIP_PATH . 'init.php' );
+
+            // Load
+            add_action( 'acf/include_field_types', array( $this, 'load' ) );
+        }
+
+        /**
+         * Check if ACF and ACFE are activated and load files
+         */
+        public function load() {
+            if ( !$this->has_acf() || !$this->has_acfe() ) {
+                return;
+            }
+
+            // Includes
+            add_action( 'acf/init', array( $this, 'includes' ), 99 );
+
+            // PILO_TODO: Remove
+            add_action( 'init', array( $this, '_pip_post_type_page_remove_supports' ) );
+        }
+
+        /**
+         * Include files
+         */
+        public function includes() {
+            // Field groups
+            pilopress_include( 'includes/classes/field-groups/class-field-groups-flexible.php' );
+            pilopress_include( 'includes/classes/field-groups/class-field-groups-flexible-mirror.php' );
+            pilopress_include( 'includes/classes/field-groups/class-field-groups-layouts.php' );
+
+            // Admin
+            pilopress_include( 'includes/classes/admin/class-admin.php' );
+            pilopress_include( 'includes/classes/admin/class-admin-layouts.php' );
+            pilopress_include( 'includes/classes/admin/class-styles-settings.php' );
+            pilopress_include( 'includes/classes/admin/class-tinymce.php' );
+            pilopress_include( 'includes/classes/admin/class-shortcodes.php' );
+            pilopress_include( 'includes/classes/admin/class-json-sync.php' );
+            pilopress_include( 'includes/classes/admin/class-fields.php' );
+
+            // SCSS - PHP
+            pilopress_include( 'includes/classes/scssphp/class-scss-php.php' );
+        }
+
+        // PILO_TODO: Remove
+        public function _pip_post_type_page_remove_supports() {
+            remove_post_type_support( 'page', 'editor' );
+            remove_post_type_support( 'post', 'editor' );
+            add_theme_support( 'post-thumbnails' );
+        }
+
+        /**
+         * Define constants
+         *
+         * @param $name
+         * @param bool $value
+         */
+        private function define( $name, $value = true ) {
+            if ( !defined( $name ) ) {
+                define( $name, $value );
+            }
+        }
+
+        /**
+         * Check if ACF Pro is activated
+         * @return bool
+         */
+        public function has_acf() {
+            // If ACF already available, return
+            if ( $this->acf ) {
+                return true;
+            }
+
+            // Check if ACF Pro is activated
+            $this->acf = class_exists( 'ACF' ) && defined( 'ACF_PRO' ) && defined( 'ACF_VERSION' ) && version_compare( ACF_VERSION, '5.7.10', '>=' );
+
+            return $this->acf;
+        }
+
+        /**
+         * Check if ACFE is activated
+         * @return bool
+         */
+        public function has_acfe() {
+            // If ACFE already available, return
+            if ( $this->acfe ) {
+                return true;
+            }
+
+            // Check if ACFE activated
+            $this->acfe = class_exists( 'ACFE' );
+
+            return $this->acfe;
+        }
+    }
+}
+
+// Instantiate.
+function pilopress() {
+    global $pilopress;
+
+    // If PiloPress not already initialized, do it
+    if ( !isset( $pilopress ) ) {
+        $pilopress = new PiloPress();
+        $pilopress->initialize();
+    }
+
+    return $pilopress;
+}
+
+pilopress();
+
 /**
- *  Constants
+ *  Activation
  */
-if ( !defined( '_PIP_FILE' ) ) {
-    define( '_PIP_FILE', __FILE__ );
-}
-if ( !defined( '_PIP_PATH' ) ) {
-    define( '_PIP_PATH', plugin_dir_path( __FILE__ ) );
-}
-if ( !defined( '_PIP_URL' ) ) {
-    define( '_PIP_URL', plugin_dir_url( __FILE__ ) );
-}
-if ( !defined( '_PIP_BASENAME' ) ) {
-    define( '_PIP_BASENAME', plugin_basename( __FILE__ ) );
-}
-if ( !defined( '_PIP_THEME_STYLE_PATH' ) ) {
-    define( '_PIP_THEME_STYLE_PATH', get_stylesheet_directory() );
-}
-if ( !defined( '_PIP_THEME_STYLE_URL' ) ) {
-    define( '_PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() );
-}
-if ( !defined( '_PIP_THEME_LAYOUTS_PATH' ) ) {
-    define( '_PIP_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/pilopress/layouts/' );
-}
-if ( !defined( '_PIP_THEME_LAYOUTS_URL' ) ) {
-    define( '_PIP_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/pilopress/layouts/' );
-}
-
-// PILO_TODO: Remove
-add_action( 'init', '_pip_post_type_page_remove_supports' );
-function _pip_post_type_page_remove_supports() {
-    remove_post_type_support( 'page', 'editor' );
-    remove_post_type_support( 'post', 'editor' );
-    add_theme_support( 'post-thumbnails' );
-}
-
-// END : remove
-
-/**
- *  Init
- */
-register_activation_hook( _PIP_FILE, '_pip_activation_hook' );
+register_activation_hook( PIP_FILE, '_pip_activation_hook' );
 function _pip_activation_hook() {
-    if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
+    if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) && !class_exists( 'PIP_Styles_Settings' ) ) {
         return;
     }
 
@@ -64,30 +167,7 @@ function _pip_activation_hook() {
     $class->generate_flexible_mirror();
 
     // Compile styles
-    if ( file_exists( _PIP_THEME_STYLE_PATH . '/pilopress/' ) ) {
+    if ( file_exists( PIP_THEME_STYLE_PATH ) ) {
         PIP_Styles_Settings::compile_styles_settings( true );
     }
 }
-
-/**
- * Field groups
- */
-require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-flexible.php' );
-require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-flexible-mirror.php' );
-require_once( _PIP_PATH . 'includes/classes/field-groups/class-field-groups-layouts.php' );
-
-/**
- * Admin
- */
-require_once( _PIP_PATH . 'includes/classes/admin/class-admin.php' );
-require_once( _PIP_PATH . 'includes/classes/admin/class-admin-layouts.php' );
-require_once( _PIP_PATH . 'includes/classes/admin/class-styles-settings.php' );
-require_once( _PIP_PATH . 'includes/classes/admin/class-tinymce.php' );
-require_once( _PIP_PATH . 'includes/classes/admin/class-shortcodes.php' );
-require_once( _PIP_PATH . 'includes/classes/admin/class-json-sync.php' );
-require_once( _PIP_PATH . 'includes/classes/admin/class-fields.php' );
-
-/**
- * SCSS - PHP
- */
-require_once( _PIP_PATH . 'includes/classes/scssphp/class-scss-php.php' );

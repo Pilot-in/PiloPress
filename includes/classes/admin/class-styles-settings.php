@@ -57,18 +57,18 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Front-office
             $front = self::get_front_scss_code( $custom_scss );
             array_push( $dirs, array(
-                'scss_dir'  => _PIP_PATH . 'assets/libs/bootstrap/scss/',
+                'scss_dir'  => PIP_PATH . 'assets/libs/bootstrap/scss/',
                 'scss_code' => $front,
-                'css_dir'   => _PIP_THEME_STYLE_PATH . '/pilopress/',
+                'css_dir'   => PIP_THEME_STYLE_PATH,
                 'css_file'  => 'style-pilopress.css',
             ) );
 
             // Back-office
             $admin = self::get_admin_scss_code( $custom_scss );
             array_push( $dirs, array(
-                'scss_dir'  => _PIP_PATH . 'assets/scss/',
+                'scss_dir'  => PIP_PATH . 'assets/scss/',
                 'scss_code' => $admin,
-                'css_dir'   => _PIP_THEME_STYLE_PATH . '/pilopress/',
+                'css_dir'   => PIP_THEME_STYLE_PATH,
                 'css_file'  => 'style-pilopress-admin.css',
             ) );
 
@@ -131,7 +131,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     $name = sanitize_title( $field_group['_pip_layout_slug'] );
 
                     // Paths
-                    $file_path = _PIP_THEME_LAYOUTS_PATH . $name . '/';
+                    $file_path = PIP_THEME_LAYOUTS_PATH . $name . '/';
 
                     // No SCSS file, skip
                     if ( !acf_maybe_get( $field_group, '_pip_render_style_scss' ) ) {
@@ -143,7 +143,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
                     // Store data
                     array_push( $dirs, array(
-                        'scss_dir'  => _PIP_THEME_LAYOUTS_PATH . $name . '/', // For @import
+                        'scss_dir'  => PIP_THEME_LAYOUTS_PATH . $name . '/', // For @import
                         'scss_code' => $layout_code,
                         'css_dir'   => $file_path,
                         'css_file'  => acf_maybe_get( $field_group, '_pip_render_style' ) ? $field_group['_pip_render_style'] : $name . '.css',
@@ -231,7 +231,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return false|string
          */
         private static function get_layout_scss_code( $custom_scss, $file_path, $field_group ) {
-            $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../..' . parse_url( _PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH ) );
+            $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../..' . parse_url( PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH ) );
 
             // Store directory and scss code
             ob_start();

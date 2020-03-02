@@ -176,10 +176,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * @return mixed
          */
         public function editor_button_script( $scripts ) {
-            $scripts['pip_colors']     = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
-            $scripts['pip_fonts']      = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
-            $scripts['pip_styles']     = _PIP_URL . 'assets/js/tinymce-custom-styles.js';
-            $scripts['pip_shortcodes'] = _PIP_URL . 'assets/js/tinymce-shortcodes.js';
+            $scripts['pip_colors']     = PIP_URL . 'assets/js/tinymce-custom-styles.js';
+            $scripts['pip_fonts']      = PIP_URL . 'assets/js/tinymce-custom-styles.js';
+            $scripts['pip_styles']     = PIP_URL . 'assets/js/tinymce-custom-styles.js';
+            $scripts['pip_shortcodes'] = PIP_URL . 'assets/js/tinymce-shortcodes.js';
 
             return $scripts;
         }
@@ -202,7 +202,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             }
 
             // Add custom admin stylesheet
-            $stylesheets[] = _PIP_THEME_STYLE_URL . '/pilopress/style-pilopress-admin.css';
+            $stylesheets[] = PIP_THEME_STYLE_URL . 'style-pilopress-admin.css';
 
             return implode( ',', $stylesheets );
         }

@@ -49,8 +49,8 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                     $layout_uniq_id = 'layout_' . $layout_slug;
 
                     // Paths
-                    $file_path = _PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
-                    $file_url  = _PIP_THEME_LAYOUTS_URL . $layout_slug . '/';
+                    $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
+                    $file_url  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/';
 
                     // Settings
                     $modal_category   = acf_maybe_get( $field_group, '_pip_category' ) ? $field_group['_pip_category'] : 'Classic';

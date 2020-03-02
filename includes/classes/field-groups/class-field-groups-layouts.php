@@ -149,7 +149,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             $new_title   = sanitize_title( $post->post_title );
 
             // Do layout directory already exists ?
-            $directory_exists = file_exists( _PIP_THEME_LAYOUTS_PATH . $old_title );
+            $directory_exists = file_exists( PIP_THEME_LAYOUTS_PATH . $old_title );
 
             if ( $old_title === $new_title && !$directory_exists ) {
 
@@ -185,7 +185,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             // Layout
             $layout_name        = sanitize_title( $field_group['title'] );
             $layout_slug        = acf_maybe_get( $field_group, '_pip_layout_slug' ) ? sanitize_title( $field_group['_pip_layout_slug'] ) : 'layout';
-            $layout_path_prefix = str_replace( home_url() . '/wp-content/themes/', '', _PIP_THEME_LAYOUTS_URL ) . '<span>' . $layout_slug . '</span>' . '/';
+            $layout_path_prefix = str_replace( home_url() . '/wp-content/themes/', '', PIP_THEME_LAYOUTS_URL ) . '<span>' . $layout_slug . '</span>' . '/';
 
             // Layout slug
             acf_render_field_wrap( array(
@@ -388,7 +388,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
          */
         private function create_layout_dir( $layout_title, $field_group ) {
             // Create directory
-            wp_mkdir_p( _PIP_THEME_LAYOUTS_PATH . $layout_title );
+            wp_mkdir_p( PIP_THEME_LAYOUTS_PATH . $layout_title );
 
             // Options to check/modify
             $render = array(
@@ -421,7 +421,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                     // Get default file name
                     $field_group[ $item['render'] ] = $item['default'] . $item['extension'];
                 }
-                touch( _PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $field_group[ $item['render'] ] );
+                touch( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $field_group[ $item['render'] ] );
             }
 
             // Update field group
@@ -435,7 +435,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
          * @param $new_title
          */
         private function modify_layout_dir( $old_title, $new_title ) {
-            rename( _PIP_THEME_LAYOUTS_PATH . $old_title, _PIP_THEME_LAYOUTS_PATH . $new_title );
+            rename( PIP_THEME_LAYOUTS_PATH . $old_title, PIP_THEME_LAYOUTS_PATH . $new_title );
         }
 
         /**

@@ -195,7 +195,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
             );
 
             // Template file
-            include_once( _PIP_PATH . 'includes/views/flexible-layouts-meta-box.php' );
+            include_once( PIP_PATH . 'includes/views/flexible-layouts-meta-box.php' );
         }
 
         /**

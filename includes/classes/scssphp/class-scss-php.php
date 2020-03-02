@@ -1,6 +1,6 @@
 <?php
 
-require_once( _PIP_PATH . 'assets/libs/scssphp/scss.inc.php' );
+require_once( PIP_PATH . 'assets/libs/scssphp/scss.inc.php' );
 
 use ScssPhp\ScssPhp\Compiler;
 
@@ -14,7 +14,7 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
         private $sourcemaps;
         private $variables;
         private $scss_dirs;
-        private $cache = _PIP_PATH . 'cache/';
+        private $cache = PIP_PATH . 'cache/';
 
         /**
          * PIP_Scss_Php constructor.
@@ -28,8 +28,8 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
             $scss_args = wp_parse_args( $scss_args, array(
                 'dirs'       => array(
                     array(
-                        'scss_dir' => _PIP_PATH . 'assets/src/scss/',
-                        'css_dir'  => _PIP_PATH . 'assets/dist/css/',
+                        'scss_dir' => PIP_PATH . 'assets/src/scss/',
+                        'css_dir'  => PIP_PATH . 'assets/dist/css/',
                     ),
                 ),
                 'compiling'  => 'ScssPhp\ScssPhp\Formatter\Crunched',

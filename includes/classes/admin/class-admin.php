@@ -22,10 +22,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function enqueue_scripts() {
             // Style
-            wp_enqueue_style( 'admin-style', _PIP_URL . 'assets/css/pilopress-admin.css', array(), null );
+            wp_enqueue_style( 'admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), null );
 
             // Scripts
-            wp_enqueue_script( 'admin-script', _PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
+            wp_enqueue_script( 'admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
         }
 
         /**

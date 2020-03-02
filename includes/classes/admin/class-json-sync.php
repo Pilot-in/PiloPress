@@ -34,7 +34,7 @@ if ( !class_exists( 'PIP_Json_Sync' ) ) {
                 return $path;
             }
 
-            return _PIP_THEME_LAYOUTS_PATH . $field_group['_pip_layout_slug'];
+            return PIP_THEME_LAYOUTS_PATH . $field_group['_pip_layout_slug'];
         }
 
         /**
@@ -46,7 +46,7 @@ if ( !class_exists( 'PIP_Json_Sync' ) ) {
          */
         public function add_layouts_paths( $paths ) {
             // Get layouts dirs
-            $layouts_dirs = glob( _PIP_THEME_LAYOUTS_PATH . '*', GLOB_ONLYDIR );
+            $layouts_dirs = glob( PIP_THEME_LAYOUTS_PATH . '*', GLOB_ONLYDIR );
             $paths        = array_merge( $paths, $layouts_dirs );
 
             return $paths;
