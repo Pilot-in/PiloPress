@@ -1,20 +1,21 @@
 <?php
-/*
-Plugin Name: Pilo'Press
-Plugin URI: www.pilot-in.com
-Description: Pilo'Press: Awesome WordPress Framework
-Version: 0.1
-Author: Pilot'In
-Author URI: www.pilot-in.com
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-*/
+/**
+ * Plugin Name: Pilo'Press
+ * Plugin URI: www.pilot-in.com
+ * Description: Awesome WordPress Framework
+ * Version: 0.1
+ * Author: Pilot'In
+ * Author URI: www.pilot-in.com
+ * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ */
 
 defined( 'ABSPATH' ) || exit;
 
 if ( !class_exists( 'PiloPress' ) ) {
     class PiloPress {
 
+        // Plugin version
         var $version = '0.1';
 
         // ACF
@@ -24,12 +25,15 @@ if ( !class_exists( 'PiloPress' ) ) {
         var $acfe = false;
 
         /**
-         * PiloPress constructor.
+         * Pilo'Press constructor.
          */
         public function __construct() {
             // Do nothing.
         }
 
+        /**
+         * Initialize plugin
+         */
         public function initialize() {
             // Constants
             $this->define( 'PIP_FILE', __FILE__ );
@@ -52,9 +56,10 @@ if ( !class_exists( 'PiloPress' ) ) {
         }
 
         /**
-         * Check if ACF and ACFE are activated and load files
+         * Load classes
          */
         public function load() {
+            // Check if ACF Pro and ACFE are activated
             if ( !$this->has_acf() || !$this->has_acfe() ) {
                 return;
             }
@@ -63,7 +68,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             add_action( 'acf/init', array( $this, 'includes' ) );
 
             // Activation actions
-            add_action( 'acf/init', array( $this, 'activation' ), 20 );
+            add_action( 'wp_loaded', array( $this, 'activation' ), 20 );
         }
 
         /**
@@ -162,8 +167,10 @@ if ( !class_exists( 'PiloPress' ) ) {
     }
 }
 
-// Instantiate
-pilopress();
+/**
+ * Instantiate Pilo'Press
+ * @return PiloPress
+ */
 function pilopress() {
     global $pilopress;
 
@@ -174,3 +181,6 @@ function pilopress() {
 
     return $pilopress;
 }
+
+// Instantiate
+pilopress();
