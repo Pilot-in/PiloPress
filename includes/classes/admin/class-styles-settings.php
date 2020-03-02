@@ -4,15 +4,19 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
     class PIP_Styles_Settings {
         public function __construct() {
             // WP hooks
-            add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20 );
+            add_action( 'acf/save_post', array( $this, 'compile_styles_settings' ), 20 );
         }
 
         /**
          * Compile style on Styles page save
+         *
+         * @param bool $force
+         *
+         * @return bool
          */
-        public function save_styles_settings() {
-            if ( !acf_is_screen( 'admin_page_styles' ) ) {
-                return;
+        public static function compile_styles_settings( $force = false ) {
+            if ( !acf_is_screen( 'admin_page_styles' ) && !$force ) {
+                return false;
             }
 
             // Compile base style for admin & front
@@ -20,6 +24,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             // Compile layouts styles
             self::compile_layouts_styles();
+
+            return true;
         }
 
         /**
@@ -42,7 +48,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         /**
          * Compile bootstrap styles
          */
-        private function compile_bootstrap_styles() {
+        private static function compile_bootstrap_styles() {
             $dirs = array();
 
             // Get custom SCSS

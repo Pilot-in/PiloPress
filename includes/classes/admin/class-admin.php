@@ -4,8 +4,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
     class PIP_Admin {
         public function __construct() {
             // WP hooks
+            add_action( 'admin_init', array( $this, 'compile_styles' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
             add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+            add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 9999 );
             add_filter( 'parent_file', array( $this, 'menu_parent_file' ) );
             add_filter( 'submenu_file', array( $this, 'menu_submenu_file' ) );
             add_action( 'pre_get_posts', array( $this, 'admin_pre_get_posts' ) );
@@ -24,6 +26,34 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Scripts
             wp_enqueue_script( 'admin-script', _PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
+        }
+
+        /**
+         * Compile styles
+         */
+        public function compile_styles() {
+            // Compile styles
+            if ( acf_maybe_get_GET( 'compile_scss' ) === '1' ) {
+
+                // Compile
+                $compiled = PIP_Styles_Settings::compile_styles_settings( true );
+
+                // Redirect
+                $url = remove_query_arg( 'compile_scss' );
+                wp_redirect( add_query_arg( array( 'compiled_scss' => $compiled ? 'success' : 'error' ), $url ) );
+                exit;
+            }
+
+            // Show notice after styles compiled
+            $compiled_scss = acf_maybe_get_GET( 'compiled_scss' );
+            switch ( $compiled_scss ) {
+                case 'success' :
+                    acf_add_admin_notice( __( 'Styles compiled successfully.', 'pilopress' ), 'success' );
+                    break;
+                case 'error' :
+                    acf_add_admin_notice( __( 'An error appended. Please try again later.', 'pilopress' ), 'error' );
+                    break;
+            }
         }
 
         /**
@@ -143,6 +173,37 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Remove useless menu
             unset( $submenu['pilopress.php'] );
+        }
+
+        /**
+         * @param WP_Admin_Bar $wp_admin_bar
+         */
+        public function add_admin_bar_menu( $wp_admin_bar ) {
+            // Get flexible mirror
+            $flexible_mirror = PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group();
+
+            // Pilo'Press menu
+            $wp_admin_bar->add_node( array(
+                'id'    => 'pilopress',
+                'title' => "<span class='pip-icon'></span> Pilo'Press",
+                'href'  => add_query_arg( array( 'post' => $flexible_mirror['ID'], 'action' => 'edit' ), admin_url( 'post.php' ) ),
+            ) );
+
+            // Styles
+            $wp_admin_bar->add_node( array(
+                'parent' => 'pilopress',
+                'id'     => 'styles',
+                'title'  => __( 'Styles', 'pilopress' ),
+                'href'   => add_query_arg( array( 'post' => $flexible_mirror['ID'], 'action' => 'edit', 'page' => 'styles' ), admin_url( 'post.php' ) ),
+            ) );
+
+            // Compile styles
+            $wp_admin_bar->add_node( array(
+                'parent' => 'pilopress',
+                'id'     => 'compile_scss',
+                'title'  => __( 'Compile styles', 'pilopress' ),
+                'href'   => add_query_arg( array( 'compile_scss' => '1' ), acf_get_current_url() ),
+            ) );
         }
 
         /**
