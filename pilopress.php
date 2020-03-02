@@ -46,6 +46,9 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
+
+            // PILO_TODO: Remove
+            add_action( 'init', array( $this, '_pip_post_type_page_remove_supports' ) );
         }
 
         /**
@@ -57,10 +60,10 @@ if ( !class_exists( 'PiloPress' ) ) {
             }
 
             // Includes
-            add_action( 'acf/init', array( $this, 'includes' ), 99 );
+            add_action( 'acf/init', array( $this, 'includes' ) );
 
-            // PILO_TODO: Remove
-            add_action( 'init', array( $this, '_pip_post_type_page_remove_supports' ) );
+            // Activation actions
+            add_action( 'acf/init', array( $this, 'activation' ), 20 );
         }
 
         /**
@@ -83,6 +86,27 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // SCSS - PHP
             pilopress_include( 'includes/classes/scssphp/class-scss-php.php' );
+        }
+
+        /**
+         * Activation actions
+         */
+        public static function activation() {
+            if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) && !class_exists( 'PIP_Styles_Settings' ) ) {
+                return;
+            }
+
+            // Generate flexible mirror field group
+            $class = new PIP_Field_Groups_Flexible_Mirror();
+            $class->generate_flexible_mirror();
+
+            // Compile styles
+            $theme_style_path = PIP_THEME_STYLE_PATH;
+            if ( file_exists( $theme_style_path )
+                 && !file_exists( $theme_style_path . 'style-pilopress.css' )
+                 && !file_exists( $theme_style_path . 'style-pilopress-admin.css' ) ) {
+                PIP_Styles_Settings::compile_styles_settings( true );
+            }
         }
 
         // PILO_TODO: Remove
@@ -138,36 +162,15 @@ if ( !class_exists( 'PiloPress' ) ) {
     }
 }
 
-// Instantiate.
+// Instantiate
+pilopress();
 function pilopress() {
     global $pilopress;
 
-    // If PiloPress not already initialized, do it
     if ( !isset( $pilopress ) ) {
         $pilopress = new PiloPress();
         $pilopress->initialize();
     }
 
     return $pilopress;
-}
-
-pilopress();
-
-/**
- *  Activation
- */
-register_activation_hook( PIP_FILE, '_pip_activation_hook' );
-function _pip_activation_hook() {
-    if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) && !class_exists( 'PIP_Styles_Settings' ) ) {
-        return;
-    }
-
-    // Generate flexible mirror field group
-    $class = new PIP_Field_Groups_Flexible_Mirror();
-    $class->generate_flexible_mirror();
-
-    // Compile styles
-    if ( file_exists( PIP_THEME_STYLE_PATH ) ) {
-        PIP_Styles_Settings::compile_styles_settings( true );
-    }
 }
