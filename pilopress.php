@@ -59,8 +59,14 @@ function _pip_activation_hook() {
         return;
     }
 
+    // Generate flexible mirror field group
     $class = new PIP_Field_Groups_Flexible_Mirror();
     $class->generate_flexible_mirror();
+
+    // Compile styles
+    if ( file_exists( _PIP_THEME_STYLE_PATH . '/pilopress/' ) ) {
+        PIP_Styles_Settings::compile_styles_settings( true );
+    }
 }
 
 /**

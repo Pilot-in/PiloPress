@@ -73,6 +73,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     'compare' => 'LIKE',
                     'value'   => 's:14:"_pip_is_layout";i:1',
                 ) );
+
             } elseif ( acf_maybe_get_GET( 'layouts' ) === null && acf_maybe_get_GET( 'post_status' ) != 'trash' ) {
                 // Classic view
 
@@ -98,10 +99,13 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function query_pip_post_content( $where, $wp_query ) {
             global $wpdb;
+
+            // If no custom var, return
             if ( !$pip_post_content = $wp_query->get( 'pip_post_content' ) ) {
                 return $where;
             }
 
+            // Add custom condition
             if ( is_array( $pip_post_content ) ) {
                 $where .= ' AND ' . $wpdb->posts . '.post_content ' . $pip_post_content['compare'] . ' \'%' . esc_sql( $wpdb->esc_like( $pip_post_content['value'] ) ) . '%\'';
             }
@@ -176,6 +180,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         }
 
         /**
+         * Add Pilo'Press admin bar menu
+         *
          * @param WP_Admin_Bar $wp_admin_bar
          */
         public function add_admin_bar_menu( $wp_admin_bar ) {
