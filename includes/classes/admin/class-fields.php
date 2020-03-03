@@ -14,7 +14,7 @@ if ( !class_exists( 'PIP_Fields' ) ) {
          */
         public function customize_color_picker() {
             // Get colors
-            $pip_colors = get_field( 'pip_colors', 'options' );
+            $pip_colors = get_field( 'pip_colors', 'styles_colors' );
             if ( !$pip_colors ) {
                 return;
             }

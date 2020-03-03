@@ -40,7 +40,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $custom_scss .= self::scss_custom_colors();
 
             // Get custom CSS/SCSS
-            $custom_scss .= get_field( 'pip_custom_style', 'options' );
+            $custom_scss .= get_field( 'pip_custom_style', 'styles_css' );
 
             return $custom_scss;
         }
@@ -258,8 +258,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         private static function scss_custom_fonts() {
             $scss_custom_fonts = '';
 
-            if ( have_rows( 'pip_fonts', 'option' ) ) {
-                while ( have_rows( 'pip_fonts', 'option' ) ) {
+            if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
+                while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                     the_row();
 
                     // If not custom font, skip
@@ -289,16 +289,22 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                         foreach ( $files as $file ) {
                             // Format file name
                             $file_name = $file['file']['url'];
-                            $file_name = pathinfo( $file_name, PATHINFO_BASENAME );
+                            $file_name = pathinfo( $file_name, PATHINFO_FILENAME );
 
                             // Get format
                             $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
 
-                            // Upload dir
-                            $upload_path = wp_upload_dir();
+                            // Get post
+                            $posts   = get_posts( array(
+                                'post_name'      => $file_name,
+                                'post_type'      => 'attachment',
+                                'posts_per_page' => 1,
+                                'fields'         => 'ids',
+                            ) );
+                            $post_id = reset( $posts );
 
                             // Store URL
-                            $url[] = 'url(' . $upload_path['url'] . '/' . $file_name . ') format("' . $format . '")';
+                            $url[] = 'url(' . wp_get_attachment_url( $post_id ) . ') format("' . $format . '")';
                         }
                     }
                     // Implode URLs for src
@@ -324,8 +330,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         private static function scss_custom_colors() {
             $scss_custom_fonts = '';
 
-            if ( have_rows( 'pip_colors', 'option' ) ) {
-                while ( have_rows( 'pip_colors', 'option' ) ) {
+            if ( have_rows( 'pip_colors', 'styles_colors' ) ) {
+                while ( have_rows( 'pip_colors', 'styles_colors' ) ) {
                     the_row();
 
                     $colors = array(

@@ -83,6 +83,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Admin
             pilopress_include( 'includes/classes/admin/class-admin.php' );
             pilopress_include( 'includes/classes/admin/class-admin-layouts.php' );
+            pilopress_include( 'includes/classes/admin/class-admin-options-page.php' );
             pilopress_include( 'includes/classes/admin/class-styles-settings.php' );
             pilopress_include( 'includes/classes/admin/class-tinymce.php' );
             pilopress_include( 'includes/classes/admin/class-shortcodes.php' );

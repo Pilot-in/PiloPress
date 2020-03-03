@@ -56,7 +56,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         public function get_custom_colors( $split = false ) {
             $color_range = array();
-            $pip_colors  = get_field( 'pip_colors', 'options' );
+            $pip_colors  = get_field( 'pip_colors', 'styles_colors' );
             if ( !$pip_colors ) {
                 return null;
             }
@@ -79,8 +79,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         private static function get_custom_fonts() {
             $fonts = array();
-            if ( have_rows( 'pip_fonts', 'option' ) ) {
-                while ( have_rows( 'pip_fonts', 'option' ) ) {
+            if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
+                while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                     the_row();
 
                     // Get font name
@@ -102,8 +102,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Enqueue custom fonts
          */
         public function custom_fonts_stylesheets() {
-            if ( have_rows( 'pip_fonts', 'option' ) ) {
-                while ( have_rows( 'pip_fonts', 'option' ) ) {
+            if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
+                while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                     the_row();
 
                     // If not google font, skip
@@ -130,8 +130,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Add custom fonts to editor
          */
         public function add_custom_fonts_to_editor() {
-            if ( have_rows( 'pip_fonts', 'option' ) ) {
-                while ( have_rows( 'pip_fonts', 'option' ) ) {
+            if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
+                while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                     the_row();
 
                     // If not google font, skip

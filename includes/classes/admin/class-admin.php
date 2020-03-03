@@ -6,7 +6,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // WP hooks
             add_action( 'admin_init', array( $this, 'compile_styles' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-            add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+            add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 20 );
             add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 9999 );
             add_filter( 'parent_file', array( $this, 'menu_parent_file' ) );
             add_filter( 'submenu_file', array( $this, 'menu_submenu_file' ) );
@@ -152,17 +152,9 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'edit.php?layouts=1&post_type=acf-field-group'
             );
 
-            acf_add_options_page( array(
-                'parent_slug' => 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit',
-                'page_title'  => __( 'Styles', 'pilopress' ),
-                'menu_title'  => __( 'Styles', 'pilopress' ),
-                'menu_slug'   => 'styles',
-                'capability'  => 'manage_options',
-            ) );
-
             global $menu, $submenu;
 
-            // Change menu_slug for main menu page to have the same fo first child (Flexible menu)
+            // Change menu_slug for main menu page to have the same first child (Flexible menu)
             foreach ( $menu as $key => $item ) {
                 if ( $item[2] === 'pilopress.php' ) {
                     $menu[ $key ][2] = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
@@ -254,8 +246,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // Define submenu for Styles menu
-            if ( acf_maybe_get_GET( 'page' ) == 'styles' ) {
-                $submenu_file = 'styles';
+            if ( acf_maybe_get_GET( 'page' ) == 'styles' || strpos( acf_maybe_get_GET( 'page' ), 'styles' ) === 0 ) {
+                $submenu_file = 'styles-demo';
             }
 
             return $submenu_file;
@@ -269,7 +261,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Define parent menu for Layouts menu
             $is_layout = PIP_Field_Groups_Layouts::is_layout( acf_maybe_get_GET( 'post' ) );
-            if ( ( $current_screen->id === 'edit-acf-field-group' && acf_maybe_get_GET( 'layouts' ) == 1 ) || $is_layout || acf_maybe_get_GET( 'layout' ) == 1 ) :
+            if ( ( $current_screen->id === 'edit-acf-field-group' && acf_maybe_get_GET( 'layouts' ) == 1 )
+                 || $is_layout
+                 || acf_maybe_get_GET( 'layout' ) == 1
+                 || strpos( acf_maybe_get_GET( 'page' ), 'styles' ) === 0 ) :
                 ?>
                 <script type="text/javascript">
                   (function ($) {
