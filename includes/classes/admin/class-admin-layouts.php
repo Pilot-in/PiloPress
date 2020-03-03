@@ -123,6 +123,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
             foreach ( $post_statuses as $post_status ) {
                 $class = $count = $title = null;
+
                 // Get all field groups ids
                 $args = array(
                     'post_type'        => 'acf-field-group',

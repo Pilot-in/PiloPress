@@ -3,6 +3,7 @@
 if ( !class_exists( 'PIP_Shortcodes' ) ) {
     class PIP_Shortcodes {
         public function __construct() {
+            // WP hooks
             add_action( 'init', array( $this, 'register_shortcodes' ) );
         }
 
@@ -24,6 +25,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          * @return string
          */
         public function pip_button( $attrs ) {
+            // Parse attributes
             $attrs = shortcode_atts( array(
                 'text'     => false,
                 'type'     => false,
@@ -36,6 +38,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                 'link'     => '',
             ), $attrs, 'pip_button' );
 
+            // Build class
             $class = 'btn';
             $class .= ( $attrs['type'] ) ? ' btn-' . $attrs['type'] : ' btn-default';
             $class .= ( $attrs['size'] ) ? ' btn-' . $attrs['size'] : '';
@@ -44,6 +47,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             $class .= ( $attrs['active'] ) ? ' active' : '';
             $class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
+            // Render shortcode
             return do_shortcode( sprintf(
                 '<a href="%s" class="%s"%s>%s</a>',
                 esc_url( $attrs['link'] ),
@@ -58,14 +62,17 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          * @return string|null
          */
         public function pip_breadcrumb() {
+            // If no Yoast, return
             if ( !function_exists( 'yoast_breadcrumb' ) ) {
                 return null;
             }
 
+            // If AJAX, display default message
             if ( wp_doing_ajax() ) {
                 return __( 'You > Are > Here', 'pilopress' );
             }
 
+            // Render shortcode
             return yoast_breadcrumb( '<p class="pip_breadcrumb">', '</p>', false );
         }
 
@@ -74,10 +81,12 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          * @return string
          */
         public function pip_title() {
+            // If AJAX, display default message
             if ( wp_doing_ajax() ) {
                 return __( 'Title here', 'pilopress' );
             }
 
+            // Render shortcode
             return get_the_title();
         }
 
@@ -89,17 +98,21 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          * @return string|null
          */
         public function pip_thumbnail( $attrs ) {
+            // Parse attributes
             $attrs = shortcode_atts( array(
                 'size' => 'full',
             ), $attrs, 'pip_thumbnail' );
 
+            // Get post thumbnail URL
             $image_size         = $attrs['size'];
             $post_thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), $image_size );
 
+            // If no URL, display default message
             if ( !$post_thumbnail_url ) {
                 return __( 'Post thumbnail here', 'pilopress' );
             }
 
+            // Render shortcode
             return '<img class="post-thumbnail" src="' . $post_thumbnail_url . '"/>';
         }
     }

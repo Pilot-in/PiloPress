@@ -95,15 +95,18 @@ if ( !class_exists( 'PIP_Fields' ) ) {
          * @param $field
          */
         public function bootstrap_colors_only( $field ) {
+            // If option not set, return
             if ( !isset( $field['bootstrap_colors_only'] ) ) {
                 return;
             }
 
+            // Get field key
             $field_key = $field['key'];
             if ( !$field_key ) {
                 return;
             }
 
+            // If "bootstrap only" option set to false, return
             $bootstrap_colors_only = $field['bootstrap_colors_only'] ? $field['bootstrap_colors_only'] : false;
             if ( $bootstrap_colors_only !== 1 ) {
                 return;

@@ -9,8 +9,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             add_action( 'admin_init', array( $this, 'add_custom_fonts_to_editor' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'localize_data' ) );
             add_filter( 'mce_external_plugins', array( $this, 'editor_button_script' ) );
-            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
             add_filter( 'mce_css', array( $this, 'editor_style' ) );
+
+            // ACF hooks
+            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
         }
 
         /**
@@ -30,7 +32,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * @return array
          */
         private static function get_all_image_sizes() {
-            $image_sizes         = array();
+            $image_sizes = array();
+
+            // Get image sizes
             $default_image_sizes = get_intermediate_image_sizes();
 
             foreach ( $default_image_sizes as $size ) {
@@ -56,7 +60,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         public function get_custom_colors( $split = false ) {
             $color_range = array();
-            $pip_colors  = get_field( 'pip_colors', 'styles_colors' );
+
+            // Get custom colors
+            $pip_colors = get_field( 'pip_colors', 'styles_colors' );
             if ( !$pip_colors ) {
                 return null;
             }
@@ -79,6 +85,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         private static function get_custom_fonts() {
             $fonts = array();
+
+            // Get custom fonts
             if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                 while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                     the_row();
@@ -102,6 +110,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Enqueue custom fonts
          */
         public function custom_fonts_stylesheets() {
+            // Get custom fonts
             if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                 while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                     the_row();
@@ -130,6 +139,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Add custom fonts to editor
          */
         public function add_custom_fonts_to_editor() {
+            // Get custom fonts
             if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                 while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                     the_row();

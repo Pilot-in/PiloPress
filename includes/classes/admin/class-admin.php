@@ -192,7 +192,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'parent' => 'pilopress',
                 'id'     => 'styles',
                 'title'  => __( 'Styles', 'pilopress' ),
-                'href'   => add_query_arg( array( 'post' => $flexible_mirror['ID'], 'action' => 'edit', 'page' => 'styles' ), admin_url( 'post.php' ) ),
+                'href'   => add_query_arg( array( 'post' => $flexible_mirror['ID'], 'action' => 'edit', 'page' => 'styles-demo' ), admin_url( 'post.php' ) ),
             ) );
 
             // Compile styles

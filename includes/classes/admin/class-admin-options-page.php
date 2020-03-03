@@ -86,18 +86,20 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * @return mixed
          */
         public function rule_values( $values, $rule ) {
+            // If not admin or not AJAX, return
             if ( !is_admin() && !wp_doing_ajax() ) {
                 return $values;
             }
 
+            // If not options pages, return
             if ( $rule['param'] !== 'options_page' ) {
                 return $values;
             }
 
-            $values['styles-colors'] = 'Colors';
-            $values['styles-css']    = 'CSS';
-            $values['styles-demo']   = 'Demo';
-            $values['styles-fonts']  = 'Fonts';
+            // Add custom pages
+            foreach ( $this->pages as $page ) {
+                $values[ $page['menu_slug'] ] = $page['menu_title'];
+            }
 
             return $values;
         }
@@ -107,13 +109,14 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          */
         public function admin_menu() {
             foreach ( $this->pages as $page ) {
+                // Add parent slug for "Demo" item
                 if ( !$page['parent_slug'] ) {
-                    // Get flexible mirror
                     $flexible_mirror     = PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group();
                     $parent_slug         = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
                     $page['parent_slug'] = $parent_slug;
                 }
 
+                // Register submenu page
                 $slug = add_submenu_page( $page['parent_slug'], $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], array( $this, 'html' ) );
 
                 add_action( "load-{$slug}", array( $this, 'admin_load' ) );
@@ -126,9 +129,11 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
         public function admin_load() {
             global $plugin_page;
 
+            // Get current page
             $this->page            = $this->pages[ str_replace( 'styles-', '', $plugin_page ) ];
             $this->page['post_id'] = acf_get_valid_post_id( $this->page['post_id'] );
 
+            // Validate
             if ( acf_verify_nonce( 'options' ) ) {
                 if ( acf_validate_save_post( true ) ) {
 
@@ -142,6 +147,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 }
             }
 
+            // Enqueue scripts
             acf_enqueue_scripts();
 
             add_action( 'acf/input/admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
@@ -162,23 +168,30 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          */
         public function admin_head() {
 
-            $menu_slug    = acf_maybe_get_GET( 'page' );
-            $this->page   = $this->pages[ str_replace( 'styles-', '', $menu_slug ) ];
+            // Get current page
+            $menu_slug  = acf_maybe_get_GET( 'page' );
+            $this->page = $this->pages[ str_replace( 'styles-', '', $menu_slug ) ];
+
+            // Get associated field groups
             $field_groups = acf_get_field_groups( array(
                 'options_page' => $menu_slug,
             ) );
 
             if ( acf_maybe_get_GET( 'message' ) == '1' ) {
+                // Add notice
                 acf_add_admin_notice( __( 'Options Updated', 'acf' ), 'success' );
             }
 
+            // Add "Publish" meta box
             add_meta_box( 'submitdiv', __( 'Publish', 'acf' ), array( $this, 'postbox_submitdiv' ), 'acf_options_page', 'side', 'high' );
 
             if ( empty( $field_groups ) ) {
+
+                // No field group, display warning message
                 acf_add_admin_notice( sprintf( __( 'No Custom Field Groups found for this options page. <a href="%s">Create a Custom Field Group</a>', 'acf' ), admin_url( 'post-new.php?post_type=acf-field-group' ) ), 'warning' );
+
             } else {
                 foreach ( $field_groups as $i => $field_group ) {
-
                     $id       = "acf-{$field_group['key']}";
                     $title    = $field_group['title'];
                     $context  = $field_group['position'];
@@ -193,8 +206,8 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
                     $priority = apply_filters( 'acf/input/meta_box_priority', $priority, $field_group );
 
+                    // Add field group meta box
                     add_meta_box( $id, $title, array( $this, 'postbox_acf' ), 'acf_options_page', $context, $priority, $args );
-
                 }
             }
         }
@@ -207,6 +220,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          */
         public function postbox_submitdiv( $post, $args ) {
             do_action( 'acf/options_page/submitbox_before_major_actions', $this->page ); ?>
+
             <div id="major-publishing-actions">
 
                 <div id="publishing-action">
@@ -218,6 +232,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 <div class="clear"></div>
 
             </div>
+
             <?php
         }
 
@@ -231,6 +246,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             $id          = $args['id'];
             $field_group = $args['args']['field_group'];
 
+            // Field group object
             $field_group_object = array(
                 'id'         => $id,
                 'key'        => $field_group['key'],
@@ -241,12 +257,15 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'visibility' => true,
             );
 
+            // If current user can edit field group, add edit link
             if ( $field_group['ID'] && acf_current_user_can_admin() ) {
                 $field_group_object['editLink'] = admin_url( 'post.php?post=' . $field_group['ID'] . '&action=edit' );
             }
 
+            // Get fields
             $fields = acf_get_fields( $field_group );
 
+            // Render fields
             acf_render_fields( $fields, $this->page['post_id'], 'div', $field_group['instruction_placement'] );
 
             ?>
@@ -262,8 +281,11 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * Output template
          */
         public function html() {
-            $menu_slug       = acf_maybe_get_GET( 'page' );
-            $this->page      = $this->pages[ str_replace( 'styles-', '', $menu_slug ) ];
+            // Get current page
+            $menu_slug  = acf_maybe_get_GET( 'page' );
+            $this->page = $this->pages[ str_replace( 'styles-', '', $menu_slug ) ];
+
+            // Get flexible mirror
             $flexible_mirror = PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group();
 
             // Define variables for template
@@ -273,9 +295,11 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             $current_page = $menu_slug;
             $admin_url    = admin_url( 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit' );
 
+            // Display custom option page
             include_once( PIP_PATH . 'includes/views/styles-admin-page.php' );
         }
     }
 
+    // Instantiate class
     new PIP_Admin_Options_Page();
 }

@@ -3,7 +3,7 @@
 if ( !class_exists( 'PIP_Styles_Settings' ) ) {
     class PIP_Styles_Settings {
         public function __construct() {
-            // WP hooks
+            // ACF hooks
             add_action( 'acf/save_post', array( $this, 'compile_styles_settings' ), 20 );
         }
 
@@ -130,7 +130,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     // Get sanitized slug
                     $name = sanitize_title( $field_group['_pip_layout_slug'] );
 
-                    // Paths
+                    // Path
                     $file_path = PIP_THEME_LAYOUTS_PATH . $name . '/';
 
                     // No SCSS file, skip
@@ -196,10 +196,6 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             }
 
-            //.mce-text[style="text-primary"]{
-            //color: $primary;
-            //}
-
             <?php return ob_get_clean();
         }
 
@@ -258,6 +254,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         private static function scss_custom_fonts() {
             $scss_custom_fonts = '';
 
+            // Get custom fonts
             if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                 while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                     the_row();
@@ -330,6 +327,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         private static function scss_custom_colors() {
             $scss_custom_fonts = '';
 
+            // Get custom colors
             if ( have_rows( 'pip_colors', 'styles_colors' ) ) {
                 while ( have_rows( 'pip_colors', 'styles_colors' ) ) {
                     the_row();
