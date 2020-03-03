@@ -227,6 +227,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return false|string
          */
         private static function get_layout_scss_code( $custom_scss, $file_path, $field_group ) {
+            // Path to bootstrap from layout directory
             $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../..' . parse_url( PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH ) );
 
             // Store directory and scss code
