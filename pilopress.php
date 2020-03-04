@@ -114,7 +114,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             if ( file_exists( $theme_style_path )
                  && !file_exists( $theme_style_path . 'style-pilopress.css' )
                  && !file_exists( $theme_style_path . 'style-pilopress-admin.css' ) ) {
-                PIP_Styles_Settings::compile_styles_settings( true );
+                PIP_Styles_Settings::compile_styles_settings();
             }
         }
 

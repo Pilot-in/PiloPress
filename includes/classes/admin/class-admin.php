@@ -36,7 +36,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             if ( acf_maybe_get_GET( 'compile_scss' ) === '1' ) {
 
                 // Compile
-                $compiled = PIP_Styles_Settings::compile_styles_settings( true );
+                $compiled = PIP_Styles_Settings::compile_styles_settings();
 
                 // Redirect
                 $url = remove_query_arg( 'compile_scss' );

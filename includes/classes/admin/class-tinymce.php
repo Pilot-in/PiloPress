@@ -31,7 +31,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Get all image sizes
          * @return array
          */
-        private static function get_all_image_sizes() {
+        public static function get_all_image_sizes() {
             $image_sizes = array();
 
             // Get image sizes
@@ -41,6 +41,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 $image_sizes[ $size ] = array(
                     'width'  => intval( get_option( "{$size}_size_w" ) ),
                     'height' => intval( get_option( "{$size}_size_h" ) ),
+                    'crop'   => intval( get_option( "{$size}_crop" ) ),
                 );
             }
 

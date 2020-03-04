@@ -8,20 +8,26 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             add_filter( 'image_size_names_choose', array( $this, 'custom_image_sizes_names' ) );
 
             // ACF hooks
-            add_action( 'acf/save_post', array( $this, 'compile_styles_settings' ), 20 );
+            add_action( 'acf/save_post', array( $this, 'compile_styles_settings' ), 20, 2 );
+            add_filter( 'acf/load_value/name=pip_wp_image_sizes', array( $this, 'pre_populate_wp_image_sizes' ), 10, 3 );
+            add_filter( 'acf/prepare_field/name=pip_wp_image_sizes', array( $this, 'configure_wp_image_sizes' ) );
         }
 
         /**
          * Compile style on Styles page save
          *
+         * @param $post_id
          * @param bool $force
          *
          * @return bool
          */
-        public static function compile_styles_settings( $force = false ) {
-            if ( !acf_is_screen( 'admin_page_styles' ) && !$force ) {
+        public static function compile_styles_settings( $post_id = 'styles_demo' ) {
+            if ( strpos( $post_id, 'styles_' ) !== 0 ) {
                 return false;
             }
+
+            // Save WP image sizes
+            self::save_wp_image_sizes();
 
             // Compile base style for admin & front
             self::compile_bootstrap_styles();
@@ -505,6 +511,101 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             self::add_to_scss_custom( $scss_custom, 'pip_links', 'styles_links' );
 
             return $scss_custom;
+        }
+
+        /**
+         * Save WP image sizes
+         */
+        private static function save_wp_image_sizes() {
+            $posted_values = acf_maybe_get_POST( 'acf' );
+            if ( !$posted_values ) {
+                return;
+            }
+
+            // Browse values
+            foreach ( $posted_values as $key => $posted_value ) {
+                $field = acf_get_field( $key );
+
+                // If not WP image sizes, continue
+                if ( $field['name'] !== 'pip_wp_image_sizes' ) {
+                    continue;
+                }
+
+                // Browse each repeater values
+                foreach ( $posted_value as $image_key => $image_size ) {
+
+                    // Format posted value array
+                    foreach ( $image_size as $field_key => $value ) {
+                        $image_field = acf_get_field( $field_key );
+                        unset( $image_size[ $field_key ] );
+                        $image_size[ $image_field['name'] ] = $value;
+                    }
+
+                    // Update values
+                    update_option( $image_size['name'] . '_size_w', $image_size['width'] );
+                    update_option( $image_size['name'] . '_size_h', $image_size['height'] );
+                    update_option( $image_size['name'] . '_crop', $image_size['crop'] );
+                }
+            }
+        }
+
+        /**
+         * Pre-populate repeater with WP native image sizes
+         *
+         * @param $value
+         * @param $post_id
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function pre_populate_wp_image_sizes( $value, $post_id, $field ) {
+            $image_sizes = $fields = $new_values = array();
+
+            // Get only WP image sizes
+            $all_image_sizes        = PIP_TinyMCE::get_all_image_sizes();
+            $additional_image_sizes = wp_get_additional_image_sizes();
+            foreach ( $additional_image_sizes as $key => $additional_image_size ) {
+                unset( $all_image_sizes[ $key ] );
+            }
+
+            // Format image sizes array
+            $i = 0;
+            foreach ( $all_image_sizes as $key => $image_size ) {
+                $image_sizes[ $i ]['name']   = $key;
+                $image_sizes[ $i ]['width']  = $image_size['width'];
+                $image_sizes[ $i ]['height'] = $image_size['height'];
+                $image_sizes[ $i ]['crop']   = $image_size['crop'];
+                $i ++;
+            }
+
+            // Get sub fields keys
+            $sub_fields = acf_get_fields( $field );
+            foreach ( $sub_fields as $sub_field ) {
+                $fields[ $sub_field['name'] ] = $sub_field['key'];
+            }
+
+            // Set new values
+            foreach ( $image_sizes as $image_key => $image_size ) {
+                foreach ( $image_size as $key => $value ) {
+                    $new_values[ $image_key ][ $fields[ $key ] ] = $value;
+                }
+            }
+
+            return $new_values;
+        }
+
+        /**
+         * Set max and min for wp_image_sizes field
+         *
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function configure_wp_image_sizes( $field ) {
+            $field['min'] = count( $field['value'] );
+            $field['max'] = count( $field['value'] );
+
+            return $field;
         }
 
         /**

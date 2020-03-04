@@ -449,7 +449,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                 return;
             }
 
-            // Sync
+            // Compile
             PIP_Styles_Settings::compile_layouts_styles( $field_group['ID'] );
         }
 
