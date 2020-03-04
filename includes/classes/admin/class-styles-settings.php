@@ -3,6 +3,10 @@
 if ( !class_exists( 'PIP_Styles_Settings' ) ) {
     class PIP_Styles_Settings {
         public function __construct() {
+            // WP hooks
+            add_action( 'init', array( $this, 'custom_image_sizes' ) );
+            add_filter( 'image_size_names_choose', array( $this, 'custom_image_sizes_names' ) );
+
             // ACF hooks
             add_action( 'acf/save_post', array( $this, 'compile_styles_settings' ), 20 );
         }
@@ -39,8 +43,29 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Get custom colors SCSS
             $custom_scss .= self::scss_custom_colors();
 
+            // Get custom options SCSS
+            $custom_scss .= self::scss_custom_options();
+
+            // Get custom breakpoints SCSS
+            $custom_scss .= self::scss_custom_breakpoints();
+
+            // Get custom containers SCSS
+            $custom_scss .= self::scss_custom_containers();
+
+            // Get custom components SCSS
+            $custom_scss .= self::scss_custom_components();
+
+            // Get custom typography SCSS
+            $custom_scss .= self::scss_custom_typography();
+
+            // Get custom btn & forms SCSS
+            $custom_scss .= self::scss_custom_btn_forms();
+
+            // Get custom links SCSS
+            $custom_scss .= self::scss_custom_links();
+
             // Get custom CSS/SCSS
-            $custom_scss .= get_field( 'pip_custom_style', 'styles_css' );
+            $custom_scss .= get_field( 'pip_custom_style', 'styles_css' )['custom_style'];
 
             return $custom_scss;
         }
@@ -180,6 +205,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             .-preview, body#tinymce{
 
+            @import '../libs/bootstrap/scss/functions';
+
             <?php echo $custom_scss; ?>
 
             // Import Bootstrap
@@ -253,9 +280,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return string
          */
         private static function scss_custom_fonts() {
-            $scss_custom_fonts = '';
+            $scss_custom = '';
 
-            // Get custom fonts
+            // Get fonts
             if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                 while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
                     the_row();
@@ -278,8 +305,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     }
 
                     // Build @font-face
-                    $scss_custom_fonts .= "@font-face {\n";
-                    $scss_custom_fonts .= 'font-family: "' . $name . '";' . "\n";
+                    $scss_custom .= "@font-face {\n";
+                    $scss_custom .= 'font-family: "' . $name . '";' . "\n";
 
                     // Get URLs
                     $url = array();
@@ -306,19 +333,19 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                         }
                     }
                     // Implode URLs for src
-                    $scss_custom_fonts .= 'src: ' . implode( ",\n", $url ) . ";\n";
+                    $scss_custom .= 'src: ' . implode( ",\n", $url ) . ";\n";
 
                     // Font parameters
-                    $scss_custom_fonts .= 'font-weight: ' . $weight . ";\n";
-                    $scss_custom_fonts .= 'font-style: ' . $style . ";\n";
+                    $scss_custom .= 'font-weight: ' . $weight . ";\n";
+                    $scss_custom .= 'font-style: ' . $style . ";\n";
 
                     // End @font-face
-                    $scss_custom_fonts .= "}\n";
+                    $scss_custom .= "}\n";
 
                 }
             }
 
-            return $scss_custom_fonts;
+            return $scss_custom;
         }
 
         /**
@@ -326,34 +353,231 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return string
          */
         private static function scss_custom_colors() {
-            $scss_custom_fonts = '';
+            $scss_custom = '';
 
-            // Get custom colors
-            if ( have_rows( 'pip_colors', 'styles_colors' ) ) {
-                while ( have_rows( 'pip_colors', 'styles_colors' ) ) {
+            // Get colors
+            self::add_to_scss_custom( $scss_custom, 'pip_colors', 'styles_colors' );
+
+            // Get grays
+            self::add_to_scss_custom( $scss_custom, 'pip_grays', 'styles_colors' );
+
+            // Get theme colors
+            self::add_to_scss_custom( $scss_custom, 'pip_theme_colors', 'styles_colors' );
+
+            return $scss_custom;
+        }
+
+        /**
+         * Get SCSS to enqueue custom options
+         * @return string
+         */
+        private static function scss_custom_options() {
+            $scss_custom = '';
+
+            // Get options
+            self::add_to_scss_custom( $scss_custom, 'pip_bt_options', 'styles_bt_options', true );
+
+            return $scss_custom;
+        }
+
+        /**
+         * Get SCSS to enqueue custom breakpoints
+         * @return string
+         */
+        private static function scss_custom_breakpoints() {
+            $scss_custom = '';
+
+            // Get breakpoints
+            if ( have_rows( 'pip_breakpoints', 'styles_breakpoints' ) ) {
+                while ( have_rows( 'pip_breakpoints', 'styles_breakpoints' ) ) {
                     the_row();
 
-                    $colors = array(
-                        'primary',
-                        'secondary',
-                        'success',
-                        'danger',
-                        'warning',
-                        'info',
-                        'light',
-                        'dark',
-                        'body-color',
-                        'text-muted',
-                        'white',
-                    );
+                    $scss_custom .= '$grid-breakpoints: (' . "\n";
+                    foreach ( get_row() as $field_key => $value ) {
 
-                    foreach ( $colors as $color ) {
-                        $scss_custom_fonts .= '$' . $color . ': ' . get_sub_field( $color ) . ';' . "\n";
+                        // Get field
+                        $field_name = get_field_object( $field_key, 'styles_breakpoints' );
+                        if ( !$field_name ) {
+                            continue;
+                        }
+
+                        $scss_custom .= $field_name['name'] . ': ' . $value . ',' . "\n";
                     }
+                    $scss_custom .= ');';
                 }
             }
 
-            return $scss_custom_fonts;
+            return $scss_custom;
+        }
+
+        /**
+         * Get SCSS to enqueue custom containers
+         * @return string
+         */
+        private static function scss_custom_containers() {
+            $scss_custom = '';
+
+            // Get containers
+            if ( have_rows( 'pip_containers', 'styles_containers' ) ) {
+                while ( have_rows( 'pip_containers', 'styles_containers' ) ) {
+                    the_row();
+
+                    $scss_custom .= '$container-max-widths: (' . "\n";
+                    foreach ( get_row() as $field_key => $value ) {
+
+                        // Get field
+                        $field_name = get_field_object( $field_key, 'styles_containers' );
+                        if ( !$field_name ) {
+                            continue;
+                        }
+
+                        $scss_custom .= $field_name['name'] . ': ' . $value . ',' . "\n";
+                    }
+                    $scss_custom .= ');';
+                }
+            }
+
+            return $scss_custom;
+        }
+
+        /**
+         * Get SCSS to enqueue custom components
+         * @return string
+         */
+        private static function scss_custom_components() {
+            $scss_custom = '';
+
+            // Get components
+            self::add_to_scss_custom( $scss_custom, 'pip_components', 'styles_components' );
+
+            return $scss_custom;
+        }
+
+        /**
+         * Get SCSS to enqueue custom typography
+         * @return string
+         */
+        private static function scss_custom_typography() {
+            $scss_custom = '';
+
+            // Get default
+            self::add_to_scss_custom( $scss_custom, 'pip_default_typography', 'styles_typography' );
+
+            // Get headings
+            self::add_to_scss_custom( $scss_custom, 'pip_headings_typography', 'styles_typography' );
+
+            // Get display
+            self::add_to_scss_custom( $scss_custom, 'pip_display_typography', 'styles_typography' );
+
+            // Get lead
+            self::add_to_scss_custom( $scss_custom, 'pip_lead_typography', 'styles_typography' );
+
+            return $scss_custom;
+        }
+
+        /**
+         * Get SCSS to enqueue custom buttons & forms
+         * @return string
+         */
+        private static function scss_custom_btn_forms() {
+            $scss_custom = '';
+
+            // Get common
+            self::add_to_scss_custom( $scss_custom, 'pip_btn_forms', 'styles_btn_form' );
+
+            // Get buttons
+            self::add_to_scss_custom( $scss_custom, 'pip_btn', 'styles_btn_form' );
+
+            // Get forms
+            self::add_to_scss_custom( $scss_custom, 'pip_forms', 'styles_btn_form' );
+
+            return $scss_custom;
+        }
+
+        /**
+         * Get SCSS to enqueue custom links
+         * @return string
+         */
+        private static function scss_custom_links() {
+            $scss_custom = '';
+
+            // Get links
+            self::add_to_scss_custom( $scss_custom, 'pip_links', 'styles_links' );
+
+            return $scss_custom;
+        }
+
+        /**
+         * Register custom image sizes
+         */
+        public function custom_image_sizes() {
+            // Get custom sizes
+            $custom_sizes = get_field( 'pip_image_sizes', 'styles_image_sizes' );
+            if ( !$custom_sizes ) {
+                return;
+            }
+
+            // Register custom sizes
+            foreach ( $custom_sizes as $size ) {
+                add_image_size( $size['name'], $size['width'], $size['height'], $size['crop'] );
+            }
+        }
+
+        /**
+         * Add custom image sizes names
+         *
+         * @param $size_names
+         *
+         * @return mixed
+         */
+        public function custom_image_sizes_names( $size_names ) {
+            // Get custom sizes
+            $custom_sizes = get_field( 'pip_image_sizes', 'styles_image_sizes' );
+            if ( !$custom_sizes ) {
+                return $size_names;
+            }
+
+            // Add custom sizes names
+            foreach ( $custom_sizes as $size ) {
+                $size_names[ $size['name'] ] = __( $size['name'], 'pilopress' );
+            }
+
+            return $size_names;
+        }
+
+        /**
+         * Add custom style
+         *
+         * @param $scss_custom
+         * @param $selector
+         * @param $post_id
+         * @param bool $format_value
+         */
+        private static function add_to_scss_custom( &$scss_custom, $selector, $post_id, $format_value = false ) {
+            if ( have_rows( $selector, $post_id ) ) {
+                while ( have_rows( $selector, $post_id ) ) {
+                    the_row();
+
+                    foreach ( get_row() as $field_key => $value ) {
+                        // Get field
+                        $field_name = get_field_object( $field_key, $post_id );
+                        if ( !$field_name ) {
+                            continue;
+                        }
+
+                        if ( $format_value ) {
+                            // Format value
+                            if ( $value === '1' ) {
+                                $value = 'true';
+                            } elseif ( $value === '0' ) {
+                                $value = 'false';
+                            }
+                        }
+
+                        $scss_custom .= '$' . $field_name['name'] . ': ' . $value . ';' . "\n";
+                    }
+                }
+            }
         }
     }
 

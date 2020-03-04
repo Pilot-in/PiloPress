@@ -12,14 +12,6 @@
 
     <h1><?php echo $page_title; ?></h1>
 
-    <div class="nav-tab-wrapper">
-        <?php foreach ( $pages as $page ) : ?>
-            <a href="<?php echo $admin_url . '&page=' . $page['menu_slug'] ?>" class="nav-tab <?php echo $current_page === $page['menu_slug'] ? 'nav-tab-active' : ''; ?>">
-                <?php echo $page['page_title'] ?>
-            </a>
-        <?php endforeach; ?>
-    </div>
-
     <form id="post" method="post" name="post">
 
         <?php
@@ -41,6 +33,15 @@
                 </div>
 
                 <div id="postbox-container-2" class="postbox-container">
+
+                    <div class="nav-tab-wrapper">
+                        <?php foreach ( $pages as $page ) : ?>
+                            <a href="<?php echo $admin_url . '&page=' . $page['menu_slug'] ?>" class="nav-tab <?php echo $current_page === $page['menu_slug'] ? 'nav-tab-active' : ''; ?>">
+                                <?php echo $page['page_title'] ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
+
                     <?php do_meta_boxes( 'acf_options_page', 'normal', null ); ?>
                 </div>
 

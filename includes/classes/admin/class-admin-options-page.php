@@ -15,7 +15,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          */
         public function __construct() {
             $this->pages = array(
-                'demo'   => array(
+                'demo'        => array(
                     'page_title'     => 'Demo',
                     'menu_title'     => 'Styles',
                     'menu_slug'      => 'styles-demo',
@@ -29,7 +29,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 61,
                 ),
-                'css'    => array(
+                'css'         => array(
                     'page_title'     => 'CSS',
                     'menu_title'     => 'CSS',
                     'menu_slug'      => 'styles-css',
@@ -43,7 +43,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 61,
                 ),
-                'fonts'  => array(
+                'fonts'       => array(
                     'page_title'     => 'Fonts',
                     'menu_title'     => 'Fonts',
                     'menu_slug'      => 'styles-fonts',
@@ -57,11 +57,123 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 61,
                 ),
-                'colors' => array(
+                'colors'      => array(
                     'page_title'     => 'Colors',
                     'menu_title'     => 'Colors',
                     'menu_slug'      => 'styles-colors',
                     'post_id'        => 'styles_colors',
+                    'capability'     => 'manage_options',
+                    'parent_slug'    => 'styles-demo',
+                    'update_button'  => 'Update',
+                    'update_message' => 'Options Updated',
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 61,
+                ),
+                'bt-options'  => array(
+                    'page_title'     => 'Options',
+                    'menu_title'     => 'Options',
+                    'menu_slug'      => 'styles-bt-options',
+                    'post_id'        => 'styles_bt_options',
+                    'capability'     => 'manage_options',
+                    'parent_slug'    => 'styles-demo',
+                    'update_button'  => 'Update',
+                    'update_message' => 'Options Updated',
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 61,
+                ),
+                'breakpoints' => array(
+                    'page_title'     => 'Breakpoints',
+                    'menu_title'     => 'Breakpoints',
+                    'menu_slug'      => 'styles-breakpoints',
+                    'post_id'        => 'styles_breakpoints',
+                    'capability'     => 'manage_options',
+                    'parent_slug'    => 'styles-demo',
+                    'update_button'  => 'Update',
+                    'update_message' => 'Options Updated',
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 61,
+                ),
+                'containers'  => array(
+                    'page_title'     => 'Containers',
+                    'menu_title'     => 'Containers',
+                    'menu_slug'      => 'styles-containers',
+                    'post_id'        => 'styles_containers',
+                    'capability'     => 'manage_options',
+                    'parent_slug'    => 'styles-demo',
+                    'update_button'  => 'Update',
+                    'update_message' => 'Options Updated',
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 61,
+                ),
+                'components'  => array(
+                    'page_title'     => 'Components',
+                    'menu_title'     => 'Components',
+                    'menu_slug'      => 'styles-components',
+                    'post_id'        => 'styles_components',
+                    'capability'     => 'manage_options',
+                    'parent_slug'    => 'styles-demo',
+                    'update_button'  => 'Update',
+                    'update_message' => 'Options Updated',
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 61,
+                ),
+                'typography'  => array(
+                    'page_title'     => 'Typography',
+                    'menu_title'     => 'Typography',
+                    'menu_slug'      => 'styles-typography',
+                    'post_id'        => 'styles_typography',
+                    'capability'     => 'manage_options',
+                    'parent_slug'    => 'styles-demo',
+                    'update_button'  => 'Update',
+                    'update_message' => 'Options Updated',
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 61,
+                ),
+                'btn-form'    => array(
+                    'page_title'     => 'Buttons & Forms',
+                    'menu_title'     => 'Buttons & Forms',
+                    'menu_slug'      => 'styles-btn-form',
+                    'post_id'        => 'styles_btn_form',
+                    'capability'     => 'manage_options',
+                    'parent_slug'    => 'styles-demo',
+                    'update_button'  => 'Update',
+                    'update_message' => 'Options Updated',
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 61,
+                ),
+                'links'       => array(
+                    'page_title'     => 'Links',
+                    'menu_title'     => 'Links',
+                    'menu_slug'      => 'styles-links',
+                    'post_id'        => 'styles_links',
+                    'capability'     => 'manage_options',
+                    'parent_slug'    => 'styles-demo',
+                    'update_button'  => 'Update',
+                    'update_message' => 'Options Updated',
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 61,
+                ),
+                'image-sizes' => array(
+                    'page_title'     => 'Image sizes',
+                    'menu_title'     => 'Image sizes',
+                    'menu_slug'      => 'styles-image-sizes',
+                    'post_id'        => 'styles_image_sizes',
                     'capability'     => 'manage_options',
                     'parent_slug'    => 'styles-demo',
                     'update_button'  => 'Update',
@@ -98,8 +210,11 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             // Add custom pages
             foreach ( $this->pages as $page ) {
-                $values[ $page['menu_slug'] ] = $page['menu_title'];
+                $values[ $page['menu_slug'] ] = $page['page_title'];
             }
+
+            // Unset "No options pages exist"
+            unset( $values[''] );
 
             return $values;
         }

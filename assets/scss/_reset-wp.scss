@@ -24,9 +24,9 @@ h2 {
 .postbox .inside h3,
 h3 {
   @include font-size($h3-font-size, true);
-  padding: 0 !important;
+  padding: 0;
   margin-top: 0 !important;
-  margin-bottom: $headings-margin-bottom !important;
+  margin-bottom: $headings-margin-bottom;
   font-weight: $headings-font-weight !important;
   color: $gray-900;
 }
