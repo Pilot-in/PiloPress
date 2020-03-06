@@ -163,6 +163,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
                     // Path
                     $file_path = PIP_THEME_LAYOUTS_PATH . $name . '/';
+                    if ( !file_exists( $file_path ) ) {
+                        continue;
+                    }
 
                     // No SCSS file, skip
                     if ( !acf_maybe_get( $field_group, '_pip_render_style_scss' ) ) {
@@ -278,7 +281,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             @import '<?php echo $path_to_scss_bootstrap; ?>utilities';
 
             <?php
-            echo file_get_contents( $file_path . $field_group['_pip_render_style_scss'] );
+            if ( file_exists( $file_path . $field_group['_pip_render_style_scss'] ) ) {
+                echo file_get_contents( $file_path . $field_group['_pip_render_style_scss'] );
+            }
 
             return ob_get_clean();
         }

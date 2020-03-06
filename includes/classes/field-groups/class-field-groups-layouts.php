@@ -130,8 +130,6 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
          * @param WP_Post $post
          * @param bool $update
          *
-         * @todo Use layout slug, not title
-         *
          */
         public function save_field_group( $post_id, $post, $update ) {
             // If is a revision, not a field group or not a layout, return
@@ -145,8 +143,9 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
 
             // Get old and new title
             $field_group = acf_get_field_group( $post_id );
-            $old_title   = sanitize_title( $field_group['title'] );
-            $new_title   = sanitize_title( $post->post_title );
+            $old_title   = sanitize_title( $field_group['_pip_layout_slug'] );
+            $data        = unserialize( $post->post_content );
+            $new_title   = $data['_pip_layout_slug'];
 
             // Do layout directory already exists ?
             $directory_exists = file_exists( PIP_THEME_LAYOUTS_PATH . $old_title );
