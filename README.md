@@ -1,12 +1,46 @@
 # Pilo'Press
 
-## Points à améliorer
+### Points à améliorer
 
 - Icônes de localisation dans le menu Flexible : depuis ACFE
 - Changement de menu parent pour l'édition des layouts : enlever le JS
 - Utiliser les fonctions WP pour créer les fichiers des layouts : _PIP_Field_Groups_Layouts::create_layout_dir()_
 - Regarder et enlever les _PILO_TODO_
 
+___
+
+## Install
+
+- Activate **Advanced Custom Fields Pro** plugin
+- Activate **ACF Extended** plugin
+- Create a `pilopress` directory with a `layouts` subdirectory in your theme
+- Activate **Pilo'Press** plugin
+- If you want to use **Pilo'Press**' styles, enqueue it in your theme like this :
+
+```
+// For front-office
+add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
+function enqueue_pilopress_styles() {
+    wp_enqueue_style( 'style-pilopress', get_stylesheet_directory_uri() . '/pilopress/style-pilopress.css', false );
+}
+ 
+// For back-office
+add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
+function admin_enqueue_pilopress_styles() {
+    wp_enqueue_style( 'style-pilopress-admin', get_stylesheet_directory_uri() . '/pilopress/style-pilopress-admin.css', false );
+}
+```
+
+### Add new layout
+
+- Add new layout in back-office in `Pilo'Press > Layouts`
+- Create layout subdirectory in `layouts` in your theme. You have to name the files the same way you did in back-office.
+
+### Customizing
+
+To customize default bootstrap styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
+When you will save, SCSS files for `style-pilopress*.css` files and layouts files will be compiled.  
+To force compilation, you can use the top bar menu `Pilo'Press > Compile styles`.
 
 ## Available filters/actions
 
