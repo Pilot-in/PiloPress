@@ -38,7 +38,7 @@ function admin_enqueue_pilopress_styles() {
 - Add new layout in back-office in `Pilo'Press > Layouts`.
 - Create layout subdirectory in `layouts` in your theme. You have to name the files the same way you did in back-office.
 
-### Customizing
+### Customizing style
 
 To customize default bootstrap styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
 When you will save, SCSS files for `style-pilopress*.css` files and layouts files will be compiled.  

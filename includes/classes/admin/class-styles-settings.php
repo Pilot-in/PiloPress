@@ -49,26 +49,14 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Get custom colors SCSS
             $custom_scss .= self::scss_custom_colors();
 
-            // Get custom options SCSS
+            // Get custom options, breakpoints, containers and components SCSS
             $custom_scss .= self::scss_custom_options();
-
-            // Get custom breakpoints SCSS
-            $custom_scss .= self::scss_custom_breakpoints();
-
-            // Get custom containers SCSS
-            $custom_scss .= self::scss_custom_containers();
-
-            // Get custom components SCSS
-            $custom_scss .= self::scss_custom_components();
 
             // Get custom typography SCSS
             $custom_scss .= self::scss_custom_typography();
 
-            // Get custom btn & forms SCSS
+            // Get custom btn, forms and links SCSS
             $custom_scss .= self::scss_custom_btn_forms();
-
-            // Get custom links SCSS
-            $custom_scss .= self::scss_custom_links();
 
             // Get custom CSS/SCSS
             $custom_scss .= get_field( 'pip_custom_style', 'styles_css' )['custom_style'];
@@ -391,26 +379,16 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Get options
             self::add_to_scss_custom( $scss_custom, 'pip_bt_options', 'styles_bt_options', true );
 
-            return $scss_custom;
-        }
-
-        /**
-         * Get SCSS to enqueue custom breakpoints
-         * @return string
-         */
-        private static function scss_custom_breakpoints() {
-            $scss_custom = '';
-
             // Get breakpoints
-            if ( have_rows( 'pip_breakpoints', 'styles_breakpoints' ) ) {
-                while ( have_rows( 'pip_breakpoints', 'styles_breakpoints' ) ) {
+            if ( have_rows( 'pip_breakpoints', 'styles_bt_options' ) ) {
+                while ( have_rows( 'pip_breakpoints', 'styles_bt_options' ) ) {
                     the_row();
 
                     $scss_custom .= '$grid-breakpoints: (' . "\n";
                     foreach ( get_row() as $field_key => $value ) {
 
                         // Get field
-                        $field_name = get_field_object( $field_key, 'styles_breakpoints' );
+                        $field_name = get_field_object( $field_key, 'styles_bt_options' );
                         if ( !$field_name ) {
                             continue;
                         }
@@ -421,26 +399,16 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 }
             }
 
-            return $scss_custom;
-        }
-
-        /**
-         * Get SCSS to enqueue custom containers
-         * @return string
-         */
-        private static function scss_custom_containers() {
-            $scss_custom = '';
-
             // Get containers
-            if ( have_rows( 'pip_containers', 'styles_containers' ) ) {
-                while ( have_rows( 'pip_containers', 'styles_containers' ) ) {
+            if ( have_rows( 'pip_containers', 'styles_bt_options' ) ) {
+                while ( have_rows( 'pip_containers', 'styles_bt_options' ) ) {
                     the_row();
 
                     $scss_custom .= '$container-max-widths: (' . "\n";
                     foreach ( get_row() as $field_key => $value ) {
 
                         // Get field
-                        $field_name = get_field_object( $field_key, 'styles_containers' );
+                        $field_name = get_field_object( $field_key, 'styles_bt_options' );
                         if ( !$field_name ) {
                             continue;
                         }
@@ -451,18 +419,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 }
             }
 
-            return $scss_custom;
-        }
-
-        /**
-         * Get SCSS to enqueue custom components
-         * @return string
-         */
-        private static function scss_custom_components() {
-            $scss_custom = '';
-
             // Get components
-            self::add_to_scss_custom( $scss_custom, 'pip_components', 'styles_components' );
+            self::add_to_scss_custom( $scss_custom, 'pip_components', 'styles_bt_options' );
 
             return $scss_custom;
         }
@@ -505,18 +463,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Get forms
             self::add_to_scss_custom( $scss_custom, 'pip_forms', 'styles_btn_form' );
 
-            return $scss_custom;
-        }
-
-        /**
-         * Get SCSS to enqueue custom links
-         * @return string
-         */
-        private static function scss_custom_links() {
-            $scss_custom = '';
-
             // Get links
-            self::add_to_scss_custom( $scss_custom, 'pip_links', 'styles_links' );
+            self::add_to_scss_custom( $scss_custom, 'pip_links', 'styles_btn_form' );
 
             return $scss_custom;
         }
