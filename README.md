@@ -82,11 +82,11 @@ To force compilation, you can use the top bar menu `Pilo'Press > Compile styles`
 
 ### Templating
 
-To display the content of your post, you have to use the following function : `the_pip_content()` ou `echo get_pip_content()` .
+To display the content of your post, you have to use the following function : `the_pip_content()` or `echo get_pip_content()` .
 
 ## Available hooks
 
-- Path to bootstrap in Pilo'Press plugin from layout directory (for @import to work in layouts SCSS files)  
+- Path to bootstrap in Pilo'Press plugin, from layout directory (for @import to work in layouts SCSS files)  
 `add_filter( 'pip/layouts/bootstrap_path', 'path/to/bootstrap/' );`  
 _Default value_  
 `'../../../../../..' . parse_url( PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH )`
