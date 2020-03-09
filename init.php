@@ -26,18 +26,24 @@ function pilopress_include( $filename = '' ) {
 
 /**
  * Get flexible content
+ *
+ * @param bool|int $post_id
+ *
  * @return false|string|void
  */
-function get_pip_content() {
-    return get_flexible( PIP_Flexible::get_flexible_field_name() );
+function get_pip_content( $post_id = false ) {
+    return get_flexible( PIP_Flexible::get_flexible_field_name(), $post_id );
 }
 
 /**
  * Return flexible content
+ *
+ * @param bool|int $post_id
+ *
  * @return false|string|void
  */
-function the_pip_content() {
-    echo get_pip_content();
+function the_pip_content( $post_id = false ) {
+    echo get_pip_content( $post_id );
 }
 
 /**
