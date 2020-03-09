@@ -53,9 +53,6 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
-
-            // PILO_TODO: Remove
-            add_action( 'init', array( $this, '_pip_post_type_page_remove_supports' ) );
         }
 
         /**
@@ -116,13 +113,6 @@ if ( !class_exists( 'PiloPress' ) ) {
                  && !file_exists( $theme_style_path . 'style-pilopress-admin.css' ) ) {
                 PIP_Styles_Settings::compile_styles_settings();
             }
-        }
-
-        // PILO_TODO: Remove
-        public function _pip_post_type_page_remove_supports() {
-            remove_post_type_support( 'page', 'editor' );
-            remove_post_type_support( 'post', 'editor' );
-            add_theme_support( 'post-thumbnails' );
         }
 
         /**

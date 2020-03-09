@@ -215,8 +215,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             /**
              * Extract ACF id from URL id
-             * @var $type
-             * @var $id
+             * @var $type string post type
+             * @var $id int|string post ID
              */
             extract( acf_get_post_id_info( $post_id ) );
 

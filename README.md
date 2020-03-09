@@ -48,9 +48,9 @@ To force compilation, you can use the top bar menu `Pilo'Press > Compile styles`
 
 To display the content of your post, you have to use the following function : `the_flexible( PIP_Flexible::get_flexible_field_name() );`.
 
-## Available filters/actions
+## Available hooks
 
-- Path to bootstrap in Pilo'Press plugin (for @import to work in layout SCSS files)  
+- Path to bootstrap in Pilo'Press plugin from layout directory (for @import to work in layouts SCSS files)  
 `add_filter( 'pip/layouts/bootstrap_path', 'path/to/bootstrap/' );`
 
 - Locations where main flexible is visible  
