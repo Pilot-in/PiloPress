@@ -55,3 +55,6 @@ To display the content of your post, you have to use the following function : `t
 
 - Locations where main flexible is visible  
 `add_filter( 'pip/flexible/locations', array() );`
+
+- Capability for Pilo'Press options pages
+`add_filter('pip/options/capability', 'your_capability');`

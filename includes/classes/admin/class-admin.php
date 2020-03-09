@@ -123,11 +123,17 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Get flexible mirror
             $flexible_mirror = PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group();
 
+            // Capability
+            $capability = apply_filters( 'pip/options/capability', 'manage_options' );
+            if ( !current_user_can( $capability ) ) {
+                return;
+            }
+
             // Main menu page
             add_menu_page(
                 __( "Pilo'Press", 'pilopress' ),
                 __( "Pilo'Press", 'pilopress' ),
-                'manage_options',
+                $capability,
                 'pilopress.php',
                 false,
                 'data:image/svg+xml;base64,' . $pip_logo_base64_svg,
@@ -139,7 +145,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'pilopress.php',
                 __( 'Flexible', 'pilopress' ),
                 __( 'Flexible', 'pilopress' ),
-                'manage_options',
+                $capability,
                 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit'
             );
 
@@ -148,7 +154,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'pilopress.php',
                 __( 'Layouts', 'pilopress' ),
                 __( 'Layouts', 'pilopress' ),
-                'manage_options',
+                $capability,
                 'edit.php?layouts=1&post_type=acf-field-group'
             );
 
@@ -179,6 +185,12 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         public function add_admin_bar_menu( $wp_admin_bar ) {
             // Get flexible mirror
             $flexible_mirror = PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group();
+
+            // Capability
+            $capability = apply_filters( 'pip/options/capability', 'manage_options' );
+            if ( !current_user_can( $capability ) ) {
+                return;
+            }
 
             // Pilo'Press menu
             $wp_admin_bar->add_node( array(

@@ -14,13 +14,16 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * PIP_Admin_Options_Page constructor.
          */
         public function __construct() {
+            // Capability
+            $capability = apply_filters( 'pip/options/capability', 'manage_options' );
+
             $this->pages = array(
                 'demo'        => array(
                     'page_title'     => 'Demo',
                     'menu_title'     => 'Styles',
                     'menu_slug'      => 'styles-demo',
                     'post_id'        => 'styles_demo',
-                    'capability'     => 'manage_options',
+                    'capability'     => $capability,
                     'parent_slug'    => '',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
@@ -34,7 +37,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'menu_title'     => 'CSS',
                     'menu_slug'      => 'styles-css',
                     'post_id'        => 'styles_css',
-                    'capability'     => 'manage_options',
+                    'capability'     => $capability,
                     'parent_slug'    => 'styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
@@ -48,7 +51,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'menu_title'     => 'Fonts',
                     'menu_slug'      => 'styles-fonts',
                     'post_id'        => 'styles_fonts',
-                    'capability'     => 'manage_options',
+                    'capability'     => $capability,
                     'parent_slug'    => 'styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
@@ -62,7 +65,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'menu_title'     => 'Colors',
                     'menu_slug'      => 'styles-colors',
                     'post_id'        => 'styles_colors',
-                    'capability'     => 'manage_options',
+                    'capability'     => $capability,
                     'parent_slug'    => 'styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
@@ -76,7 +79,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'menu_title'     => 'Options',
                     'menu_slug'      => 'styles-bt-options',
                     'post_id'        => 'styles_bt_options',
-                    'capability'     => 'manage_options',
+                    'capability'     => $capability,
                     'parent_slug'    => 'styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
@@ -90,7 +93,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'menu_title'     => 'Typography',
                     'menu_slug'      => 'styles-typography',
                     'post_id'        => 'styles_typography',
-                    'capability'     => 'manage_options',
+                    'capability'     => $capability,
                     'parent_slug'    => 'styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
@@ -104,7 +107,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'menu_title'     => 'Buttons & Forms',
                     'menu_slug'      => 'styles-btn-form',
                     'post_id'        => 'styles_btn_form',
-                    'capability'     => 'manage_options',
+                    'capability'     => $capability,
                     'parent_slug'    => 'styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
@@ -118,7 +121,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'menu_title'     => 'Image sizes',
                     'menu_slug'      => 'styles-image-sizes',
                     'post_id'        => 'styles_image_sizes',
-                    'capability'     => 'manage_options',
+                    'capability'     => $capability,
                     'parent_slug'    => 'styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
