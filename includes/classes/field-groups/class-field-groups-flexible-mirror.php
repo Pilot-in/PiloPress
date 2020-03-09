@@ -63,27 +63,29 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 return;
             }
 
+            $locations = apply_filters( 'pip/flexible/locations', array(
+                array(
+                    array(
+                        'param'    => 'post_type',
+                        'operator' => '==',
+                        'value'    => 'all',
+                    ),
+                ),
+                array(
+                    array(
+                        'param'    => 'taxonomy',
+                        'operator' => '==',
+                        'value'    => 'all',
+                    ),
+                ),
+            ) );
+
             // Mirror flexible field group
             $flexible_mirror = array(
                 'key'                   => self::get_flexible_mirror_group_key(),
                 'title'                 => __( 'Flexible Content', 'pilopress' ),
                 'fields'                => array(),
-                'location'              => array(
-                    array(
-                        array(
-                            'param'    => 'post_type',
-                            'operator' => '==',
-                            'value'    => 'all',
-                        ),
-                    ),
-                    array(
-                        array(
-                            'param'    => 'taxonomy',
-                            'operator' => '==',
-                            'value'    => 'all',
-                        ),
-                    ),
-                ),
+                'location'              => $locations,
                 'menu_order'            => 0,
                 'position'              => 'normal',
                 'style'                 => 'seamless',

@@ -111,8 +111,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             PIP_Layouts::set_layout_group_keys( $group_keys );
             PIP_Flexible_Mirror::set_flexible_mirror_group( acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() ) );
 
-            $locations = apply_filters( 'pip/flexible/locations', array() );
-
             // Main flexible content field group
             $args = array(
                 'key'                   => $this->flexible_group_key,
@@ -160,7 +158,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         'max'                               => '',
                     ),
                 ),
-                'location'              => $locations,
+                'location'              => array(),
                 'menu_order'            => 0,
                 'position'              => 'normal',
                 'style'                 => 'seamless',

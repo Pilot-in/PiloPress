@@ -15,7 +15,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          */
         public function __construct() {
             // Capability
-            $capability = apply_filters( 'pip/options/capability', 'manage_options' );
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting('capability') );
 
             $this->pages = array(
                 'demo'        => array(

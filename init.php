@@ -25,6 +25,22 @@ function pilopress_include( $filename = '' ) {
 }
 
 /**
+ * Get flexible content
+ * @return false|string|void
+ */
+function get_pip_content() {
+    return get_flexible( PIP_Flexible::get_flexible_field_name() );
+}
+
+/**
+ * Return flexible content
+ * @return false|string|void
+ */
+function the_pip_content() {
+    echo get_pip_content();
+}
+
+/**
  * Check if ACF Pro and ACFE are activated
  */
 add_action( 'after_plugin_row_' . PIP_BASENAME, 'pilopress_plugin_row', 5, 3 );

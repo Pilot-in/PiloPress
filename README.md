@@ -13,10 +13,13 @@ ___
 
 ## Install
 
+- Create a `pilopress` directory with a `layouts` subdirectory in your theme as you can see in _Theme structure_ part.
 - Activate **Advanced Custom Fields Pro** plugin.
 - Activate **ACF Extended** plugin.
-- Create a `pilopress` directory with a `layouts` subdirectory in your theme.
 - Activate **Pilo'Press** plugin.
+
+### Optional (but recommended)
+
 - If you want to use **Pilo'Press'** styles, enqueue it in your theme like this :
 
 ```
@@ -33,10 +36,43 @@ function admin_enqueue_pilopress_styles() {
 }
 ```
 
+### Theme structure
+
+Ideal structure :
+
+```
+your-theme/
+└── pilopress/
+    ├── layouts/
+    |   ├── layout-1/
+    |   |      ├── layout-1.js
+    |   |      ├── layout-1.php
+    |   |      ├── layout-1.scss
+    |   |      ├── layout-1.css
+    |   |      ├── layout-1.css.map
+    |   |      └── group_123abcde.json
+    |   └── layout-2/
+    |          ├── layout-2.js
+    |          ├── layout-2.php
+    |          ├── layout-2.scss
+    |          ├── layout-2.css
+    |          ├── layout-2.css.map
+    |          └── group_123abcde.json
+    ├── style-pilopress.css
+    ├── style-pilopress.css.map
+    ├── style-pilopress-admin.css
+    └── style-pilopress-admin.css.map
+```
+
 ### Add new layout
 
 - Add new layout in back-office in `Pilo'Press > Layouts`.
-- Create layout subdirectory in `layouts` in your theme. You have to name the files the same way you did in back-office.
+- Create layout subdirectory in `pilopress/layouts/` in your theme. You have to name the files the same way you did in back-office options.
+
+### Sync layout
+
+- Add new directory in `pilopress/layouts/` with your layout files (PHP, JS, SCSS, CSS, JSON).
+- Go to `Custom Fields > Field groups > Sync available` and sync your layout field group.
 
 ### Customizing style
 
@@ -46,15 +82,38 @@ To force compilation, you can use the top bar menu `Pilo'Press > Compile styles`
 
 ### Templating
 
-To display the content of your post, you have to use the following function : `the_flexible( PIP_Flexible::get_flexible_field_name() );`.
+To display the content of your post, you have to use the following function : `the_pip_content()` ou `echo get_pip_content()` .
 
 ## Available hooks
 
 - Path to bootstrap in Pilo'Press plugin from layout directory (for @import to work in layouts SCSS files)  
-`add_filter( 'pip/layouts/bootstrap_path', 'path/to/bootstrap/' );`
+`add_filter( 'pip/layouts/bootstrap_path', 'path/to/bootstrap/' );`  
+_Default value_  
+`'../../../../../..' . parse_url( PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH )`
 
 - Locations where main flexible is visible  
-`add_filter( 'pip/flexible/locations', array() );`
+`add_filter( 'pip/flexible/locations', array() );`  
+_Default value_ 
+    ```
+    array(
+        array(
+          array(
+              'param'    => 'post_type',
+              'operator' => '==',
+              'value'    => 'all',
+          ),
+        ),
+        array(
+          array(
+              'param'    => 'taxonomy',
+              'operator' => '==',
+              'value'    => 'all',
+          ),
+        ),
+    )  
+  ```
 
 - Capability for Pilo'Press options pages  
-`add_filter('pip/options/capability', 'your_capability');`
+`add_filter('pip/options/capability', 'your_capability');`  
+_Default value_  
+`acf_get_setting('capability')`

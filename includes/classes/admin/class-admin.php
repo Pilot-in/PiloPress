@@ -124,7 +124,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
 
             // Capability
-            $capability = apply_filters( 'pip/options/capability', 'manage_options' );
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting('capability') );
             if ( !current_user_can( $capability ) ) {
                 return;
             }
@@ -187,7 +187,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
 
             // Capability
-            $capability = apply_filters( 'pip/options/capability', 'manage_options' );
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting('capability') );
             if ( !current_user_can( $capability ) ) {
                 return;
             }
