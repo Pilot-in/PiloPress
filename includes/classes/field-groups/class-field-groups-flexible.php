@@ -1,7 +1,7 @@
 <?php
 
-if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
-    class PIP_Field_Groups_Flexible {
+if ( !class_exists( 'PIP_Flexible' ) ) {
+    class PIP_Flexible {
 
         private static $flexible_field_name = '_pip_flexible';
         private        $flexible_group_key  = 'group_pip_flexible_main';
@@ -39,7 +39,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
             if ( $field_groups ) {
                 foreach ( $field_groups as $field_group ) {
                     // If not layout, skip
-                    if ( !PIP_Field_Groups_Layouts::is_layout( $field_group ) ) {
+                    if ( !PIP_Layouts::is_layout( $field_group ) ) {
                         continue;
                     }
 
@@ -108,8 +108,8 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
                 }
             }
 
-            PIP_Field_Groups_Layouts::set_layout_group_keys( $group_keys );
-            PIP_Field_Groups_Flexible_Mirror::set_flexible_mirror_group( acf_get_field_group( PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group_key() ) );
+            PIP_Layouts::set_layout_group_keys( $group_keys );
+            PIP_Flexible_Mirror::set_flexible_mirror_group( acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() ) );
 
             $locations = apply_filters( 'pip/flexible/locations', array() );
 
@@ -368,7 +368,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
          */
         public function flexible_locations( $locations ) {
             // Get field group
-            $mirror = acf_get_field_group( PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group_key() );
+            $mirror = acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() );
 
             // If field group doesn't exist, return
             if ( !$mirror ) {
@@ -384,5 +384,5 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible' ) ) {
     }
 
     // Instantiate class
-    new PIP_Field_Groups_Flexible();
+    new PIP_Flexible();
 }

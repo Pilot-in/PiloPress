@@ -7,7 +7,7 @@
 // To avoid change of field group key
 acf_hidden_input( array(
     'name'  => 'acf_field_group[key]',
-    'value' => PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group_key(),
+    'value' => PIP_Flexible_Mirror::get_flexible_mirror_group_key(),
 ) );
 // To avoid change of field group label_placement
 acf_hidden_input( array(

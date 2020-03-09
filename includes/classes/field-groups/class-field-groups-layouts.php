@@ -1,7 +1,7 @@
 <?php
 
-if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
-    class PIP_Field_Groups_Layouts {
+if ( !class_exists( 'PIP_Layouts' ) ) {
+    class PIP_Layouts {
         private static $layout_group_keys = array();
 
         public function __construct() {
@@ -87,7 +87,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             $post = get_post( acf_maybe_get_GET( 'post' ) );
 
             // Layouts
-            $is_layout = PIP_Field_Groups_Layouts::is_layout( $post );
+            $is_layout = PIP_Layouts::is_layout( $post );
             if ( acf_maybe_get_GET( 'layouts' ) == 1 || $is_layout || acf_maybe_get_GET( 'layout' ) == 1 ) {
 
                 // Change title on layouts pages
@@ -107,7 +107,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
             global $field_group;
 
             // If mirror flexible page, don't register meta boxes
-            if ( $field_group['key'] === PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group_key() ) {
+            if ( $field_group['key'] === PIP_Flexible_Mirror::get_flexible_mirror_group_key() ) {
                 return;
             }
 
@@ -137,7 +137,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
                  || $post->post_status == 'draft'
                  || $post->post_status == 'auto-draft'
                  || $post->post_type !== 'acf-field-group'
-                 || !PIP_Field_Groups_Layouts::is_layout( $post_id ) ) {
+                 || !PIP_Layouts::is_layout( $post_id ) ) {
                 return;
             }
 
@@ -252,7 +252,7 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
 
             // Get layouts for configuration field
             $choices = array();
-            foreach ( PIP_Field_Groups_Layouts::get_layout_group_keys() as $layout_group_key ) {
+            foreach ( PIP_Layouts::get_layout_group_keys() as $layout_group_key ) {
                 // Get current field group
                 $group = acf_get_field_group( $layout_group_key );
 
@@ -473,5 +473,5 @@ if ( !class_exists( 'PIP_Field_Groups_Layouts' ) ) {
     }
 
     // Instantiate class
-    new PIP_Field_Groups_Layouts();
+    new PIP_Layouts();
 }

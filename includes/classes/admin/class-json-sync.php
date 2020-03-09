@@ -30,7 +30,7 @@ if ( !class_exists( 'PIP_Json_Sync' ) ) {
             }
 
             // If not a layout, return
-            if ( !in_array( $field_group['key'], PIP_Field_Groups_Layouts::get_layout_group_keys() ) ) {
+            if ( !in_array( $field_group['key'], PIP_Layouts::get_layout_group_keys() ) ) {
                 return $path;
             }
 

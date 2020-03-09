@@ -42,7 +42,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
          * @param $post_id
          */
         public function untrash_field_group( $post_id ) {
-            if ( !PIP_Field_Groups_Layouts::is_layout( $post_id ) ) {
+            if ( !PIP_Layouts::is_layout( $post_id ) ) {
                 return;
             }
 
@@ -92,7 +92,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
                 // Layouts page
                 foreach ( $field_groups as $key => $field_group ) {
-                    if ( !PIP_Field_Groups_Layouts::is_layout( $field_group ) ) {
+                    if ( !PIP_Layouts::is_layout( $field_group ) ) {
                         unset( $field_groups[ $key ] );
                     }
                 }
@@ -101,7 +101,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
                 // ACF Field groups
                 foreach ( $field_groups as $key => $field_group ) {
-                    if ( PIP_Field_Groups_Layouts::is_layout( $field_group ) ) {
+                    if ( PIP_Layouts::is_layout( $field_group ) ) {
                         unset( $field_groups[ $key ] );
                     }
                 }
@@ -275,12 +275,12 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 } elseif ( !$field_group['ID'] || ( $modified && $modified > get_post_modified_time( 'U', true, $field_group['ID'], true ) ) ) {
                     // If not in DB or JSON newer than post
 
-                    if ( $is_layout && PIP_Field_Groups_Layouts::is_layout( $field_group ) ) {
+                    if ( $is_layout && PIP_Layouts::is_layout( $field_group ) ) {
 
                         // Store layout
                         $sync[ $field_group['key'] ] = $field_group['title'];
 
-                    } elseif ( !$is_layout && !PIP_Field_Groups_Layouts::is_layout( $field_group ) ) {
+                    } elseif ( !$is_layout && !PIP_Layouts::is_layout( $field_group ) ) {
 
                         // Store non layout
                         $sync[ $field_group['key'] ] = $field_group['title'];
@@ -326,7 +326,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 $field_groups = explode( ',', $field_groups );
 
                 foreach ( $field_groups as $field_group ) {
-                    if ( PIP_Field_Groups_Layouts::is_layout( $field_group ) ) {
+                    if ( PIP_Layouts::is_layout( $field_group ) ) {
                         $redirect = true;
                     }
                 }

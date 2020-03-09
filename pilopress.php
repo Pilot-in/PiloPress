@@ -101,12 +101,12 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Activation actions
          */
         public static function activation() {
-            if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) && !class_exists( 'PIP_Styles_Settings' ) ) {
+            if ( !class_exists( 'PIP_Flexible_Mirror' ) && !class_exists( 'PIP_Styles_Settings' ) ) {
                 return;
             }
 
             // Generate flexible mirror field group
-            $class = new PIP_Field_Groups_Flexible_Mirror();
+            $class = new PIP_Flexible_Mirror();
             $class->generate_flexible_mirror();
 
             // Compile styles

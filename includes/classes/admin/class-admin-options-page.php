@@ -173,7 +173,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             foreach ( $this->pages as $page ) {
                 // Add parent slug for "Demo" item
                 if ( !$page['parent_slug'] ) {
-                    $flexible_mirror     = PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group();
+                    $flexible_mirror     = PIP_Flexible_Mirror::get_flexible_mirror_group();
                     $parent_slug         = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
                     $page['parent_slug'] = $parent_slug;
                 }
@@ -348,7 +348,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             $this->page = $this->pages[ str_replace( 'styles-', '', $menu_slug ) ];
 
             // Get flexible mirror
-            $flexible_mirror = PIP_Field_Groups_Flexible_Mirror::get_flexible_mirror_group();
+            $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
 
             // Define variables for template
             $page_title   = $this->page['page_title'];

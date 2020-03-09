@@ -6,7 +6,7 @@ ___
 
 - Icônes de localisation dans le menu Flexible : depuis ACFE
 - Changement de menu parent pour l'édition des layouts : enlever le JS
-- Utiliser les fonctions WP pour créer les fichiers des layouts : _PIP_Field_Groups_Layouts::create_layout_dir()_
+- Utiliser les fonctions WP pour créer les fichiers des layouts : _PIP_Layouts::create_layout_dir()_
 - Regarder et enlever les _PILO_TODO_
 
 ___
@@ -46,7 +46,7 @@ To force compilation, you can use the top bar menu `Pilo'Press > Compile styles`
 
 ### Templating
 
-To display the content of your post, you have to use the following function : `the_flexible( PIP_Field_Groups_Flexible::get_flexible_field_name() );`.
+To display the content of your post, you have to use the following function : `the_flexible( PIP_Flexible::get_flexible_field_name() );`.
 
 ## Available filters/actions
 
@@ -56,5 +56,5 @@ To display the content of your post, you have to use the following function : `t
 - Locations where main flexible is visible  
 `add_filter( 'pip/flexible/locations', array() );`
 
-- Capability for Pilo'Press options pages
+- Capability for Pilo'Press options pages  
 `add_filter('pip/options/capability', 'your_capability');`

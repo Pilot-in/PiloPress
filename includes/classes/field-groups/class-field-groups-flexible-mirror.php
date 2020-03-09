@@ -1,7 +1,7 @@
 <?php
 
-if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
-    class PIP_Field_Groups_Flexible_Mirror {
+if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
+    class PIP_Flexible_Mirror {
 
         private static $flexible_mirror_group;
         private static $flexible_mirror_group_key = 'group_pip_flexible_mirror';
@@ -170,7 +170,7 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
          * Add custom meta box for mirror flexible
          */
         public function layouts_meta_box() {
-            foreach ( PIP_Field_Groups_Layouts::get_layout_group_keys() as $layout_group_key ) {
+            foreach ( PIP_Layouts::get_layout_group_keys() as $layout_group_key ) {
                 // Get current field group
                 $layout_field_group = acf_get_field_group( $layout_group_key );
 
@@ -226,5 +226,5 @@ if ( !class_exists( 'PIP_Field_Groups_Flexible_Mirror' ) ) {
     }
 
     // Instantiate class
-    new PIP_Field_Groups_Flexible_Mirror();
+    new PIP_Flexible_Mirror();
 }
