@@ -13,7 +13,7 @@ ___
 
 ## Install
 
-- Create a `pilopress` directory with a `layouts` subdirectory in your theme as you can see in _Theme structure_ part.
+- In your theme, create a `pilopress` directory with a `layouts` subdirectory as you can see in _Theme structure_ part.
 - Activate **Advanced Custom Fields Pro** plugin.
 - Activate **ACF Extended** plugin.
 - Activate **Pilo'Press** plugin.
@@ -93,25 +93,25 @@ _Default value_
 
 - Locations where main flexible is visible  
 `add_filter( 'pip/flexible/locations', array() );`  
-_Default value_ 
-    ```
+_Default value_  
+```
+array(
     array(
-        array(
-          array(
-              'param'    => 'post_type',
-              'operator' => '==',
-              'value'    => 'all',
-          ),
-        ),
-        array(
-          array(
-              'param'    => 'taxonomy',
-              'operator' => '==',
-              'value'    => 'all',
-          ),
-        ),
-    )  
-  ```
+      array(
+          'param'    => 'post_type',
+          'operator' => '==',
+          'value'    => 'all',
+      ),
+    ),
+    array(
+      array(
+          'param'    => 'taxonomy',
+          'operator' => '==',
+          'value'    => 'all',
+      ),
+    ),
+)
+```
 
 - Capability for Pilo'Press options pages  
 `add_filter('pip/options/capability', 'your_capability');`  
