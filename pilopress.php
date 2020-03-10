@@ -69,6 +69,9 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Activation actions
             add_action( 'wp_loaded', array( $this, 'activation' ), 20 );
+
+            // Sync JSON
+            pilopress_include( 'includes/classes/admin/class-json-sync.php' );
         }
 
         /**
@@ -87,11 +90,14 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/admin/class-styles-settings.php' );
             pilopress_include( 'includes/classes/admin/class-tinymce.php' );
             pilopress_include( 'includes/classes/admin/class-shortcodes.php' );
-            pilopress_include( 'includes/classes/admin/class-json-sync.php' );
             pilopress_include( 'includes/classes/admin/class-fields.php' );
 
             // SCSS - PHP
             pilopress_include( 'includes/classes/scssphp/class-scss-php.php' );
+
+            // Components
+            pilopress_include( 'includes/classes/components/class-components.php' );
+            pilopress_include( 'includes/classes/components/class-component-field-type.php' );
         }
 
         /**

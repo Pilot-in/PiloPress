@@ -72,7 +72,7 @@ your-theme/
 ### Sync layout
 
 - Add new directory in `pilopress/layouts/` with your layout files (PHP, JS, SCSS, CSS, JSON).
-- Go to `Custom Fields > Field groups > Sync available` and sync your layout field group.
+- Go to `Pilo'Press > Layouts > Sync available` and sync your layout field group.
 
 ### Customizing style
 
