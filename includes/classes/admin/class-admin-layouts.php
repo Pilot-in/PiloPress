@@ -58,18 +58,30 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
          */
         public function edit_views( $views ) {
             if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
+
                 // If layouts page, remove links and update counters
                 self::update_layouts_counters( $views );
                 self::update_sync_counters( $views );
+
+                // Remove category terms counters
+                $terms = get_terms( array( 'taxonomy' => 'acf-field-group-category', 'hide_empty' => false, 'fields' => 'id=>slug', ) );
+                if ( $terms ) {
+                    foreach ( $terms as $term ) {
+                        unset( $views[ 'category-' . $term ] );
+                    }
+                }
 
                 // Remove useless counters
                 unset( $views['publish'] );
                 unset( $views['acfe-third-party'] );
                 unset( $views['acf-disabled'] );
+
             } else {
+
                 // Update counters for field groups page
                 self::update_field_groups_counters( $views );
                 self::update_sync_counters( $views, false );
+
             }
 
             return $views;

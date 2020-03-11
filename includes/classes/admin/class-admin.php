@@ -124,7 +124,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
 
             // Capability
-            $capability = apply_filters( 'pip/options/capability', acf_get_setting('capability') );
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
             if ( !current_user_can( $capability ) ) {
                 return;
             }
@@ -158,6 +158,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'edit.php?layouts=1&post_type=acf-field-group'
             );
 
+            // Layouts categories sub menu
+            add_submenu_page(
+                'pilopress.php',
+                __( 'Categories', 'pilopress' ),
+                __( 'Categories', 'pilopress' ),
+                $capability,
+                'edit-tags.php?taxonomy=acf-layouts-category'
+            );
+
             global $menu, $submenu;
 
             // Change menu_slug for main menu page to have the same first child (Flexible menu)
@@ -187,7 +196,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
 
             // Capability
-            $capability = apply_filters( 'pip/options/capability', acf_get_setting('capability') );
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
             if ( !current_user_can( $capability ) ) {
                 return;
             }
@@ -243,6 +252,13 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          * @return string
          */
         public function menu_submenu_file( $submenu_file ) {
+            global $current_screen;
+
+            // If layouts categories, return
+            if ( $current_screen->taxonomy === 'acf-layouts-category' ) {
+                return $submenu_file;
+            }
+
             // Get flexible mirror
             $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
 

@@ -182,6 +182,11 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                     'title'     => $layout_field_group['title'],
                     'locations' => $locations,
                     'edit_link' => get_edit_post_link( $layout_field_group['ID'] ),
+                    'terms'     => self::get_terms_html( $layout_field_group['ID'] ),
+                    'fields'    => acf_get_field_count( $layout_field_group ),
+                    'load'      => self::layout_load_from( $layout_field_group ),
+                    'php'       => self::layout_php_sync( $layout_field_group ),
+                    'json'      => self::layout_json_sync( $layout_field_group ),
                 );
             }
 
@@ -196,6 +201,138 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
             // Template file
             include_once( PIP_PATH . 'includes/views/flexible-layouts-meta-box.php' );
+        }
+
+        /**
+         * Get layout "load from" data
+         *
+         * @param $field_group
+         *
+         * @return string
+         */
+        private static function layout_load_from( $field_group ) {
+            // Get local field group
+            $local_field_group      = acf_get_local_field_group( $field_group['key'] );
+            $local_field_group_type = acf_maybe_get( $local_field_group, 'local', false );
+
+            // Get HTML
+            if ( $local_field_group_type === 'php' ) {
+                $html = '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is registered locally">PHP</span>';
+            } elseif ( $local_field_group_type === 'json' ) {
+                $html = '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is registered locally">JSON</span>';
+            } else {
+                $html = '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is not registered locally">DB</span>';
+            }
+
+            return $html;
+        }
+
+        /**
+         * Get layout "PHP sync" data
+         *
+         * @param $field_group
+         *
+         * @return string
+         */
+        private static function layout_php_sync( $field_group ) {
+            // Not sync
+            if ( !acfe_has_field_group_autosync( $field_group, 'php' ) ) {
+                $html = '<span style="color:#ccc" class="dashicons dashicons-no-alt"></span>';
+
+                // Third party sync
+                if ( acfe_has_field_group_autosync_file( $field_group, 'php' ) ) {
+                    $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Field group: ' . $field_group['key'] . ' is registered via a third-party PHP code"></span>';
+                }
+
+                return $html;
+            }
+
+            if ( !acf_get_setting( 'acfe/php_found' ) ) {
+
+                // No "acfe-php" directory
+                $html = '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
+                $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Folder \'/acfe-php\' was not found in your theme.<br />You must create it to activate this setting"></span>';
+
+            } elseif ( !acfe_has_field_group_autosync_file( $field_group, 'php' ) ) {
+
+                // File will be created
+                $html = '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
+                $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Local file ' . $field_group['key'] . '.php will be created upon update"></span>';
+            } else {
+
+                // Sync
+                $html = '<span class="dashicons dashicons-yes"></span>';
+            }
+
+            return $html;
+        }
+
+        /**
+         * Get layout "JSON sync" data
+         *
+         * @param $field_group
+         *
+         * @return string
+         */
+        private static function layout_json_sync( $field_group ) {
+            if ( acfe_has_field_group_autosync_file( $field_group, 'json' ) ) {
+
+                // Sync
+                $html = '<span class="dashicons dashicons-yes"></span>';
+
+            } else {
+
+                if ( !acfe_has_field_group_autosync( $field_group, 'json' ) ) {
+
+                    // Not sync
+                    $html = '<span style="color:#ccc" class="dashicons dashicons-no-alt"></span>';
+                } else {
+
+                    // Sync
+                    $html = '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
+
+                    if ( !acf_get_setting( 'acfe/json_found' ) ) {
+
+                        // No "acf-json" directory
+                        $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Folder \'/acf-json\' was not found in your theme.<br />You must create it to activate this setting"></span>';
+
+                    } else {
+
+                        // File will be created
+                        $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Local file ' . $field_group['key'] . '.json will be created upon update."></span>';
+
+                    }
+                }
+            }
+
+            return $html;
+        }
+
+        /**
+         * Get terms html
+         *
+         * @param $field_group_id
+         *
+         * @return string
+         */
+        private static function get_terms_html( $field_group_id ) {
+            $terms_html = '';
+            $terms      = get_the_terms( $field_group_id, 'acf-layouts-category' );
+            if ( $terms ) {
+                foreach ( $terms as $term ) {
+                    $url        = add_query_arg(
+                        array(
+                            'layouts'              => 1,
+                            'acf-layouts-category' => $term->slug,
+                            'post_type'            => 'acf-field-group',
+                        ),
+                        admin_url( 'edit.php' )
+                    );
+                    $terms_html .= '<a href="' . $url . '">' . $term->name . '</a>';
+                }
+            }
+
+            return $terms_html;
         }
 
         /**

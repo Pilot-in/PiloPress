@@ -12,3 +12,30 @@
     background-position: 0 6px;
     background-size: 20px;
 }
+
+td.acf-layouts-category a {
+    word-wrap: break-word;
+    padding: 2px 5px;
+    margin: 0 1px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, .06);
+    color: #23282d;
+}
+
+#pilopress-flexible-layouts-table {
+    border: 0;
+}
+
+#pilopress-flexible-layouts-table .column-acf-fg-count,
+#pilopress-flexible-layouts-table .column-acfe-local,
+#pilopress-flexible-layouts-table .column-acfe-locations {
+    text-align: center;
+}
+
+#pilopress-flexible-layouts-table .column-acf-layouts-category {
+    width: 125px;
+}
+
+#pilopress-flexible-layouts-table .column-acf-fg-count {
+    width: 70px;
+}

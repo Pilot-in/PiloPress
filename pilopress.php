@@ -82,10 +82,11 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Include files
          */
         public function includes() {
-            // Field groups
-            pilopress_include( 'includes/classes/field-groups/class-field-groups-flexible.php' );
-            pilopress_include( 'includes/classes/field-groups/class-field-groups-flexible-mirror.php' );
-            pilopress_include( 'includes/classes/field-groups/class-field-groups-layouts.php' );
+            // Main
+            pilopress_include( 'includes/classes/main/class-flexible.php' );
+            pilopress_include( 'includes/classes/main/class-flexible-mirror.php' );
+            pilopress_include( 'includes/classes/main/class-layouts.php' );
+            pilopress_include( 'includes/classes/main/class-layouts-categories.php' );
 
             // Admin
             pilopress_include( 'includes/classes/admin/class-admin.php' );

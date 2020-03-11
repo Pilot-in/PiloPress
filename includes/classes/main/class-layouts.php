@@ -106,8 +106,13 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // Get current field group
             global $field_group;
 
-            // If mirror flexible page, don't register meta boxes
+            // If mirror flexible page, remove categories boxes and return
             if ( $field_group['key'] === PIP_Flexible_Mirror::get_flexible_mirror_group_key() ) {
+
+                // Remove categories meta boxes
+                remove_meta_box( 'acf-field-group-categorydiv', 'acf-field-group', 'side' );
+                remove_meta_box( 'acf-layouts-categorydiv', 'acf-field-group', 'side' );
+
                 return;
             }
 
@@ -120,6 +125,14 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     $this,
                     'render_meta_box_main',
                 ), 'acf-field-group', 'normal', 'high', array( 'field_group' => $field_group ) );
+
+                // Hide field groups categories meta box
+                remove_meta_box( 'acf-field-group-categorydiv', 'acf-field-group', 'side' );
+
+            } elseif ( !$is_layout ) {
+
+                // Hide layouts categories meta box
+                remove_meta_box( 'acf-layouts-categorydiv', 'acf-field-group', 'side' );
             }
         }
 

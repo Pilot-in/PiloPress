@@ -20,18 +20,24 @@ acf_hidden_input( array(
     'value' => 'seamless',
 ) );
 ?>
-<table class="wp-list-table widefat fixed striped" style="border: 0">
+<table id="pilopress-flexible-layouts-table" class="wp-list-table widefat fixed striped">
     <thead>
     <tr>
-        <th scope="col"><?php _e( 'Layout', 'pilopress' ) ?></th>
-        <th scope="col"><?php _e( 'Locations', 'pilopress' ) ?></th>
+        <th scope="col" id="acf-layouts-category" class="column-acf-layouts-category"><?php _e( 'Categories', 'pilopress' ) ?></th>
+        <th scope="col" id="title" class="column-title column-primary"><?php _e( 'Layout', 'pilopress' ) ?></th>
+        <th scope="col" id="acf-fg-count" class="column-acf-fg-count"><?php _e( 'Fields', 'pilopress' ) ?></th>
+        <th scope="col" id="acfe-locations" class="column-acfe-locations"><?php _e( 'Locations', 'pilopress' ) ?></th>
+        <th scope="col" id="acfe-local" class="column-acfe-local"><?php _e( 'Load', 'pilopress' ) ?></th>
+        <th scope="col" id="acfe-autosync-php" class="column-acfe-autosync-php"><?php _e( 'PHP sync', 'pilopress' ) ?></th>
+        <th scope="col" id="acfe-autosync-json" class="column-acfe-autosync-json"><?php _e( 'JSON sync', 'pilopress' ) ?></th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="the-list">
     <?php if ( $layouts ): ?>
         <?php foreach ( $layouts as $layout ) : ?>
-            <tr>
-                <td class="title column-title has-row-actions">
+            <tr class="iedit author-self level-0 type-acf-field-group hentry">
+                <td class="acf-layouts-category column-acf-layouts-category"><?php echo $layout['terms']; ?></td>
+                <td class="title column-title has-row-actions column-primary page-title">
                     <strong>
                         <a class="row-title" href="<?php echo $layout['edit_link'] ?>" aria-label="<?php echo $layout['title'] . ' (' . __( 'Edit', 'pilopress' ) . ')' ?>">
                             <?php echo $layout['title'] ?>
@@ -45,12 +51,16 @@ acf_hidden_input( array(
                     </span>
                     </div>
                 </td>
-                <td><?php echo $layout['locations']; ?></td>
+                <td class="acf-fg-count column-acf-fg-count"><?php echo $layout['fields'] ?></td>
+                <td class="acfe-locations column-acfe-locations"><?php echo $layout['locations']; ?></td>
+                <td class="acfe-local column-acfe-local"><?php echo $layout['load']; ?></td>
+                <td class="acfe-autosync-php column-acfe-autosync-php"><?php echo $layout['php']; ?></td>
+                <td class="acfe-autosync-json column-acfe-autosync-json"><?php echo $layout['json']; ?></td>
             </tr>
         <?php endforeach; ?>
     <?php endif; ?>
     <tr>
-        <td colspan="2">
+        <td colspan="7">
             <a class="button-secondary" href="<?php echo $add_new_link; ?>" target="_blank">
                 <?php _e( 'Add layout', 'pilopress' ) ?>
             </a>
@@ -59,8 +69,13 @@ acf_hidden_input( array(
     </tbody>
     <tfoot>
     <tr>
-        <th scope="col"><?php _e( 'Layout', 'pilopress' ) ?></th>
-        <th scope="col"><?php _e( 'Locations', 'pilopress' ) ?></th>
+        <th scope="col" id="acf-layouts-category" class="column-acf-layouts-category"><?php _e( 'Categories', 'pilopress' ) ?></th>
+        <th scope="col" id="title" class="column-title column-primary"><?php _e( 'Layout', 'pilopress' ) ?></th>
+        <th scope="col" id="acf-fg-count" class="column-acf-fg-count"><?php _e( 'Fields', 'acf' ) ?></th>
+        <th scope="col" id="acfe-locations" class="column-acfe-locations"><?php _e( 'Locations', 'acf' ) ?></th>
+        <th scope="col" id="acfe-local" class="column-acfe-local"><?php _e( 'Load', 'acf' ) ?></th>
+        <th scope="col" id="acfe-autosync-php" class="column-acfe-autosync-php"><?php _e( 'PHP sync', 'pilopress' ) ?></th>
+        <th scope="col" id="acfe-autosync-json" class="column-acfe-autosync-json"><?php _e( 'JSON sync', 'pilopress' ) ?></th>
     </tr>
     </tfoot>
 </table>
