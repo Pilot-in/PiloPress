@@ -66,3 +66,97 @@ if ( !class_exists( 'PIP_Components' ) ) {
     // Instantiate class
     new PIP_Components();
 }
+
+
+if ( !function_exists( 'have_component' ) ) {
+
+    // Initiate component globals
+    $pip_component_i      = 0;
+    $component_loop_setup = false;
+    $component_values     = array();
+
+    /**
+     * Initiate/end component loop
+     *
+     * @param $selector
+     * @param bool $post_id
+     *
+     * @return bool
+     */
+    function have_component( $selector, $post_id = false ) {
+
+        global $pip_component_i, $component_loop_setup, $component_values;
+
+        // Store preview post ID
+        $instance    = acf_get_instance( 'ACF_Local_Meta' );
+        $previous_id = $instance->post_id;
+
+        // Initiate loop
+        if ( $pip_component_i == 0 ) {
+
+            // Setup loop
+            $values = get_sub_field( $selector, false );
+
+            // Get values
+            $component_values = $values ? $values : $component_values;
+
+            // Fake wrapper field
+            $field_key = 'field_component_wrapper';
+
+            // Get sub fields
+            $sub_fields = array();
+            foreach ( $component_values as $k => $v ) {
+                $sub_fields[] = array(
+                    'key'  => $k,
+                    'type' => 'text',
+                );
+            }
+
+            // Create fake field
+            acf_add_local_field( array(
+                'key'        => $field_key,
+                'type'       => 'group',
+                'sub_fields' => $sub_fields,
+            ) );
+
+            // Wrap values
+            $values = array(
+                $field_key => $values,
+            );
+
+            // If not already setup, setup meta
+            if ( !$component_loop_setup ) {
+                acf_setup_meta( $values, 'pip_component', true );
+                $component_loop_setup = true;
+            }
+
+            // Continue loop
+            return have_rows( $field_key );
+        }
+
+        // Reset meta and post ID
+        acf_reset_meta( 'pip_component' );
+        $instance->post_id = $previous_id;
+
+        // Reset globals
+        $pip_component_i      = 0;
+        $component_loop_setup = false;
+
+        // Stop loop
+        return false;
+    }
+}
+
+if ( !function_exists( 'the_component' ) ) {
+
+    /**
+     * Increment component loop
+     */
+    function the_component() {
+
+        global $pip_component_i;
+        $pip_component_i ++;
+
+        return the_row();
+    }
+}

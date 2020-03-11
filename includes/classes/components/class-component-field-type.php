@@ -64,6 +64,36 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
         }
 
         /**
+         * Load value
+         *
+         * @param $value
+         * @param $post_id
+         * @param $field
+         *
+         * @return array|int|string
+         */
+        public function load_value( $value, $post_id, $field ) {
+            // Store value for format value
+            if ( is_numeric( $value ) ) {
+                $this->initial_value = $value;
+            }
+
+            // Get component sub fields
+            $sub_fields = get_field_objects( $this->initial_value, false );
+            if ( !$sub_fields ) {
+                return $value;
+            }
+
+            // Format values
+            $values = array();
+            foreach ( $sub_fields as $sub_field ) {
+                $values[ $sub_field['key'] ] = $sub_field['value'];
+            }
+
+            return $values;
+        }
+
+        /**
          * Prepare values
          *
          * @param $field
@@ -73,9 +103,22 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
         public function prepare_field( $field ) {
             $field['choices'] = self::get_choices( $field );
             $field['type']    = $field['field_type'];
-            $field['value']   = $this->initial_value ? $this->initial_value : $field['value'];
+            $field['value']   = $this->initial_value ? $this->initial_value : '';
 
             return $field;
+        }
+
+        /**
+         * Format value
+         *
+         * @param $value
+         * @param $post_id
+         * @param $field
+         *
+         * @return array|bool
+         */
+        public function format_value( $value, $post_id, $field ) {
+            return get_fields( $this->initial_value, true );
         }
 
         /**
@@ -378,43 +421,6 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
             ) );
         }
 
-        /**
-         * Load value
-         *
-         * @param $value
-         * @param $post_id
-         * @param $field
-         *
-         * @return array
-         */
-        public function load_value( $value, $post_id, $field ) {
-            // Store value for format_value
-            $this->initial_value = $value;
-
-            // Get component sub fields
-            $sub_fields = get_field_objects( $value, false );
-
-            // Format values
-            $values = array();
-            foreach ( $sub_fields as $sub_field ) {
-                $values[ $sub_field['key'] ] = $sub_field['value'];
-            }
-
-            return $values;
-        }
-
-        /**
-         * Format value
-         *
-         * @param $value
-         * @param $post_id
-         * @param $field
-         *
-         * @return array|bool
-         */
-        public function format_value( $value, $post_id, $field ) {
-            return get_fields( $this->initial_value, true );
-        }
     }
 
     // Initialize

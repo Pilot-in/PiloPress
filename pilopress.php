@@ -72,6 +72,10 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Sync JSON
             pilopress_include( 'includes/classes/admin/class-json-sync.php' );
+
+            // PILO_TODO: remove
+            remove_post_type_support( 'post', 'editor' );
+            remove_post_type_support( 'page', 'editor' );
         }
 
         /**
