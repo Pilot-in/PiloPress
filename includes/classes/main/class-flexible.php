@@ -383,15 +383,14 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 }
 
 /**
- * Include if file exists
+ * Return flexible content
  *
- * @param string $filename
+ * @param bool|int $post_id
+ *
+ * @return false|string|void
  */
-function pilopress_include( $filename = '' ) {
-    $file_path = pilopress_path() . ltrim( $filename, '/' );
-    if ( file_exists( $file_path ) ) {
-        include_once( $file_path );
-    }
+function the_pip_content( $post_id = false ) {
+    echo get_pip_content( $post_id );
 }
 
 /**
