@@ -12,7 +12,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
          */
         public function initialize() {
             $this->name  = 'pilopress_tool_styles_import';
-            $this->title = __( 'Import styles configuration', 'pilopress' );
+            $this->title = __( 'Import styles settings', 'pilopress' );
         }
 
         /**

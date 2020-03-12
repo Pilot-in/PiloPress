@@ -18,7 +18,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          */
         public function initialize() {
             $this->name  = 'pilopress_tool_styles_export';
-            $this->title = __( 'Export styles configuration', 'pilopress' );
+            $this->title = __( 'Export styles settings', 'pilopress' );
         }
 
         /**
