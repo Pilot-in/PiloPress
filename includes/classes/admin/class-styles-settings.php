@@ -570,7 +570,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         public function custom_image_sizes() {
             // Get custom sizes
             $custom_sizes = get_field( 'pip_image_sizes', 'styles_image_sizes' );
-            if ( !$custom_sizes ) {
+            if ( !is_array( $custom_sizes ) ) {
                 return;
             }
 

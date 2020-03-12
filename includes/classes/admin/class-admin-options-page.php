@@ -15,7 +15,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          */
         public function __construct() {
             // Capability
-            $capability = apply_filters( 'pip/options/capability', acf_get_setting('capability') );
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
 
             $this->pages = array(
                 'demo'        => array(
@@ -134,6 +134,24 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             add_action( 'admin_menu', array( $this, 'admin_menu' ), 99, 0 );
             add_filter( 'acf/location/rule_values', array( $this, 'rule_values' ), 10, 2 );
+            add_filter( 'acfe/field_groups_third_party/source', array( $this, 'styles_options_page_source' ), 10, 3 );
+        }
+
+        /**
+         * Set source to Pilo'Press for third party field groups
+         *
+         * @param $source
+         * @param $post_id
+         * @param $field_group
+         *
+         * @return string
+         */
+        public function styles_options_page_source( $source, $post_id, $field_group ) {
+            if ( strpos( $post_id, 'group_styles_' ) === 0 || strpos( $post_id, 'group_pip_' ) === 0 ) {
+                $source = "Pilo'Press";
+            }
+
+            return $source;
         }
 
         /**
