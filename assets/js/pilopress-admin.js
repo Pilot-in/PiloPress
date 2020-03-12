@@ -41,11 +41,6 @@
 
       // Change values with sanitized slug
       change_values($this);
-
-      if (!$this.val()) {
-        $prepend.html('layout');
-        $this.focus();
-      }
     });
 
     /**
@@ -60,6 +55,10 @@
       if (draft) {
         updateRenderSettings($this.val());
       }
+
+      if (!$this.val()) {
+        $prepend.html('layout');
+      }
     }
 
     /**
@@ -67,10 +66,10 @@
      * @param val
      */
     function updateRenderSettings (val) {
-      $layoutTemplate.val(sanitize_title(val) + '.php');
-      $renderCSS.val(sanitize_title(val) + '.css');
-      $renderSCSS.val(sanitize_title(val) + '.scss');
-      $renderScript.val(sanitize_title(val) + '.js');
+      $layoutTemplate.val((sanitize_title(val) ? sanitize_title(val) : 'template') + '.php');
+      $renderCSS.val((sanitize_title(val) ? sanitize_title(val) : 'style') + '.css');
+      $renderSCSS.val((sanitize_title(val) ? sanitize_title(val) : 'style') + '.scss');
+      $renderScript.val((sanitize_title(val) ? sanitize_title(val) : 'scrip') + '.js');
     }
 
     /**

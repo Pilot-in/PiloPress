@@ -45,7 +45,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                     $title          = $field_group['title'];
                     $name           = sanitize_title( $field_group['title'] );
-                    $layout_slug    = acf_maybe_get( $field_group, '_pip_layout_slug' ) ? sanitize_title( $field_group['_pip_layout_slug'] ) : '';
+                    $layout_slug    = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug', '' ) );
                     $layout_uniq_id = 'layout_' . $layout_slug;
 
                     // Paths
@@ -53,13 +53,13 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     $file_url  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/';
 
                     // Settings
-                    $modal_category   = acf_maybe_get( $field_group, '_pip_category' ) ? $field_group['_pip_category'] : 'Classic';
-                    $render_layout    = acf_maybe_get( $field_group, '_pip_render_layout' ) ? $file_path . $field_group['_pip_render_layout'] : $file_path . $name . '.php';
-                    $render_style     = acf_maybe_get( $field_group, '_pip_render_style' ) ? $file_url . $field_group['_pip_render_style'] : $file_url . $name . '.css';
-                    $render_script    = acf_maybe_get( $field_group, '_pip_render_script' ) ? $file_url . $field_group['_pip_render_script'] : $file_url . $name . '.js';
-                    $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail' ) ? $field_group['_pip_thumbnail'] : '870';
-                    $configuration    = acf_maybe_get( $field_group, '_pip_configuration' ) ? $field_group['_pip_configuration'] : array();
-                    $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size' ) ? $field_group['_pip_modal_size'] : array();
+                    $modal_category   = acf_maybe_get( $field_group, '_pip_category', 'Classic' );
+                    $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $name . '.php' );
+                    $render_style     = $file_url . acf_maybe_get( $field_group, '_pip_render_style', $name . '.css' );
+                    $render_script    = $file_url . acf_maybe_get( $field_group, '_pip_render_script', $name . '.js' );
+                    $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail', '870' );
+                    $configuration    = acf_maybe_get( $field_group, '_pip_configuration', array() );
+                    $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size', array() );
 
                     // Store layout
                     $layouts[ $layout_uniq_id ] = [
