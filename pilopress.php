@@ -104,6 +104,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/admin/class-fields.php' );
 
             // Options pages
+            pilopress_include( 'includes/classes/admin/options-pages/styles-option-demo.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-css.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-colors.php' );
