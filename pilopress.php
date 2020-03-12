@@ -78,10 +78,6 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Tools
             add_action( 'acf/include_admin_tools', array( $this, 'tools' ), 9 );
-
-            // PILO_TODO: remove
-            remove_post_type_support( 'post', 'editor' );
-            remove_post_type_support( 'page', 'editor' );
         }
 
         /**

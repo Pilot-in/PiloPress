@@ -250,11 +250,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 case 'post':
                     $post_type = get_post_type( $post_id );
 
-                    // If Dynamic Template: Stop! // PILO_TODO: uncomment
-//				if ( $post_type === 'acfe-template' ) {
-//					return $field;
-//				}
-
                     $args = array(
                         'post_id'   => $post_id,
                         'post_type' => $post_type,
