@@ -39,3 +39,7 @@ td.acf-layouts-category a {
 #pilopress-flexible-layouts-table .column-acf-fg-count {
     width: 70px;
 }
+
+#acf-admin-tool-pilopress_tool_styles_export ul {
+    column-width: 200px;
+}

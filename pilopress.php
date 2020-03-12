@@ -73,6 +73,9 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Sync JSON
             pilopress_include( 'includes/classes/admin/class-json-sync.php' );
 
+            // Tools
+            add_action( 'acf/include_admin_tools', array( $this, 'tools' ), 9 );
+
             // PILO_TODO: remove
             remove_post_type_support( 'post', 'editor' );
             remove_post_type_support( 'page', 'editor' );
@@ -103,6 +106,14 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Components
             pilopress_include( 'includes/classes/components/class-components.php' );
             pilopress_include( 'includes/classes/components/class-component-field-type.php' );
+        }
+
+        /**
+         * Include tools
+         */
+        public function tools() {
+            pilopress_include( 'includes/classes/admin/tools/class-styles-export-tool.php' );
+            pilopress_include( 'includes/classes/admin/tools/class-styles-import-tool.php' );
         }
 
         /**
