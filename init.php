@@ -13,29 +13,6 @@ function pilopress_path() {
 }
 
 /**
- * Include if file exists
- *
- * @param string $filename
- */
-function pilopress_include( $filename = '' ) {
-    $file_path = pilopress_path() . ltrim( $filename, '/' );
-    if ( file_exists( $file_path ) ) {
-        include_once( $file_path );
-    }
-}
-
-/**
- * Get flexible content
- *
- * @param bool|int $post_id
- *
- * @return false|string|void
- */
-function get_pip_content( $post_id = false ) {
-    return get_flexible( PIP_Flexible::get_flexible_field_name(), $post_id );
-}
-
-/**
  * Return flexible content
  *
  * @param bool|int $post_id
