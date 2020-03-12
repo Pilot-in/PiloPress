@@ -63,18 +63,42 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $color_range = array();
 
             // Get custom colors
-            $pip_colors = get_field( 'pip_colors', 'styles_colors' );
-            if ( !$pip_colors ) {
+            $pip_colors       = get_field( 'pip_colors', 'styles_colors' );
+            $pip_grays        = get_field( 'pip_grays', 'styles_colors' );
+            $pip_theme_colors = get_field( 'pip_theme_colors', 'styles_colors' );
+
+            // If no theme colors, return
+            if ( !$pip_theme_colors ) {
                 return null;
             }
 
+            // Change variable by values
+            foreach ( $pip_theme_colors as $name => $color_var ) {
+
+                // Remove $ from variables
+                $color_var = str_replace( '$', '', $color_var );
+
+                if ( acf_maybe_get( $pip_colors, $color_var ) ) {
+
+                    // Get hexadecimal value from colors
+                    $pip_theme_colors[ $name ] = $pip_colors[ $color_var ];
+
+                } elseif ( acf_maybe_get( $pip_grays, $color_var ) ) {
+
+                    // Get hexadecimal value from grays
+                    $pip_theme_colors[ $name ] = $pip_grays[ $color_var ];
+
+                }
+            }
+
+            // Associative array or split values
             if ( $split ) {
-                foreach ( $pip_colors as $name => $color ) {
+                foreach ( $pip_theme_colors as $name => $color ) {
                     $color_range[] = str_replace( '#', '', $color );
                     $color_range[] = $name;
                 }
             } else {
-                $color_range = $pip_colors;
+                $color_range = $pip_theme_colors;
             }
 
             return $color_range;
