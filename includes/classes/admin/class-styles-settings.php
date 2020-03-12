@@ -302,8 +302,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     $enqueue = get_sub_field( 'enqueue' );
                     $tinymce = get_sub_field( 'tinymce' );
 
-                    $tinymce_fonts .= '.font-' . $tinymce['value'] . '{';
-                    $tinymce_fonts .= 'font-family: ' . $name . '";' . "\n";
+                    $tinymce_fonts .= '.font-' . $tinymce['value'] . ' {' . "\n";
+                    $tinymce_fonts .= 'font-family: "' . $name . '";' . "\n";
                     $tinymce_fonts .= '}' . "\n";
 
                     // Auto enqueue to false
@@ -351,6 +351,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
                 }
             }
+            acf_log( $tinymce_fonts );
 
             return $scss_custom . $tinymce_fonts;
         }
