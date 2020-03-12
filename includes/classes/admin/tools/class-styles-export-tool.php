@@ -214,7 +214,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
                 // Add notice
                 if ( $selected ) {
                     $count = count( $selected );
-                    $text  = sprintf( _n( 'Exported 1 style configuration.', 'Exported %s styles configurations.', $count, 'pilopress' ), $count );
+                    $text  = sprintf( _n( 'Exported 1 style settings.', 'Exported %s styles settings.', $count, 'pilopress' ), $count );
                     acf_add_admin_notice( $text, 'success' );
                 }
             }

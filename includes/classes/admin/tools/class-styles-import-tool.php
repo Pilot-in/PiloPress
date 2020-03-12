@@ -88,7 +88,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             PIP_Styles_Settings::compile_styles_settings();
 
             // Add notice
-            acf_add_admin_notice( sprintf( _n( 'Imported 1 style configuration.', 'Imported %s styles configurations.', $total, 'pilopress' ), $total ), 'success' );
+            acf_add_admin_notice( sprintf( _n( 'Imported 1 style settings.', 'Imported %s styles settings.', $total, 'pilopress' ), $total ), 'success' );
         }
     }
 

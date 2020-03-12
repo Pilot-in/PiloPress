@@ -71,7 +71,7 @@ your-theme/
 
 ### Sync layout
 
-- Add new directory in `pilopress/layouts/` with your layout files (PHP, JS, SCSS, CSS, JSON).
+- Add new directory in `pilopress/layouts/your-layout/` with your layout files (PHP, JS, SCSS, CSS, JSON) in it.
 - Go to `Pilo'Press > Layouts > Sync available` and sync your layout field group.
 
 ### Customizing style
@@ -83,6 +83,10 @@ To force compilation, you can use the top bar menu `Pilo'Press > Compile styles`
 ### Templating
 
 To display the content of your post, you have to use the following function : `the_pip_content()` or `echo get_pip_content()` .
+
+### Styles settings Import/Export
+
+Go to `Custom Fields > Tools`, you have two new tools to import and export your styles settings.
 
 ## Available hooks
 
