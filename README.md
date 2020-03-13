@@ -22,7 +22,7 @@ ___
 
 - If you want to use **Pilo'Press'** styles, enqueue it in your theme like this :
 
-```
+```php
 // For front-office
 add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
 function enqueue_pilopress_styles() {
@@ -98,7 +98,7 @@ _Default value_
 - Locations where main flexible is visible  
 `add_filter( 'pip/flexible/locations', array() );`  
 _Default value_  
-```
+```php
 array(
     array(
       array(
@@ -114,7 +114,7 @@ array(
           'value'    => 'all',
       ),
     ),
-)
+);
 ```
 
 - Capability for Pilo'Press options pages  
