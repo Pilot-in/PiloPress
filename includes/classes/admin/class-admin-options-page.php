@@ -138,53 +138,6 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
         }
 
         /**
-         * Set source to Pilo'Press for third party field groups
-         *
-         * @param $source
-         * @param $post_id
-         * @param $field_group
-         *
-         * @return string
-         */
-        public function styles_options_page_source( $source, $post_id, $field_group ) {
-            if ( strpos( $post_id, 'group_styles_' ) === 0 || strpos( $post_id, 'group_pip_' ) === 0 ) {
-                $source = "Pilo'Press";
-            }
-
-            return $source;
-        }
-
-        /**
-         * Add custom pages to ACF locations
-         *
-         * @param $values
-         * @param $rule
-         *
-         * @return mixed
-         */
-        public function rule_values( $values, $rule ) {
-            // If not admin or not AJAX, return
-            if ( !is_admin() && !wp_doing_ajax() ) {
-                return $values;
-            }
-
-            // If not options pages, return
-            if ( $rule['param'] !== 'options_page' ) {
-                return $values;
-            }
-
-            // Add custom pages
-            foreach ( $this->pages as $page ) {
-                $values[ $page['menu_slug'] ] = $page['page_title'];
-            }
-
-            // Unset "No options pages exist"
-            unset( $values[''] );
-
-            return $values;
-        }
-
-        /**
          * Add submenus
          */
         public function admin_menu() {
@@ -377,6 +330,53 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             // Display custom option page
             include_once( PIP_PATH . 'includes/views/styles-admin-page.php' );
+        }
+
+        /**
+         * Set source to Pilo'Press for third party field groups
+         *
+         * @param $source
+         * @param $post_id
+         * @param $field_group
+         *
+         * @return string
+         */
+        public function styles_options_page_source( $source, $post_id, $field_group ) {
+            if ( strpos( $post_id, 'group_styles_' ) === 0 || strpos( $post_id, 'group_pip_' ) === 0 ) {
+                $source = "Pilo'Press";
+            }
+
+            return $source;
+        }
+
+        /**
+         * Add custom pages to ACF locations
+         *
+         * @param $values
+         * @param $rule
+         *
+         * @return mixed
+         */
+        public function rule_values( $values, $rule ) {
+            // If not admin or not AJAX, return
+            if ( !is_admin() && !wp_doing_ajax() ) {
+                return $values;
+            }
+
+            // If not options pages, return
+            if ( $rule['param'] !== 'options_page' ) {
+                return $values;
+            }
+
+            // Add custom pages
+            foreach ( $this->pages as $page ) {
+                $values[ $page['menu_slug'] ] = $page['page_title'];
+            }
+
+            // Unset "No options pages exist"
+            unset( $values[''] );
+
+            return $values;
         }
     }
 

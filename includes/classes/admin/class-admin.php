@@ -278,6 +278,11 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 $submenu_file = 'styles-demo';
             }
 
+            // Define submenu for Pattern menu
+            if ( acf_maybe_get_GET( 'page' ) === PIP_Pattern::get_pattern_option_page()['menu_slug'] ) {
+                $submenu_file = PIP_Pattern::get_pattern_option_page()['menu_slug'];
+            }
+
             return $submenu_file;
         }
 

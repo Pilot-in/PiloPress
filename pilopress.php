@@ -85,10 +85,12 @@ if ( !class_exists( 'PiloPress' ) ) {
          */
         public function includes() {
             // Main
+            pilopress_include( 'includes/classes/main/class-layouts-categories.php' );
             pilopress_include( 'includes/classes/main/class-flexible.php' );
             pilopress_include( 'includes/classes/main/class-flexible-mirror.php' );
+            pilopress_include( 'includes/classes/main/class-pattern.php' );
+            pilopress_include( 'includes/classes/main/class-flexible-header.php' );
             pilopress_include( 'includes/classes/main/class-layouts.php' );
-            pilopress_include( 'includes/classes/main/class-layouts-categories.php' );
 
             // Admin
             pilopress_include( 'includes/classes/admin/class-admin.php' );

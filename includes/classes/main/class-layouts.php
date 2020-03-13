@@ -312,17 +312,6 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 'return_format' => 0,
             ) );
 
-            // Category
-            acf_render_field_wrap( array(
-                'label'         => __( 'Catégorie', 'pilopress' ),
-                'instructions'  => __( 'Layout category', 'pilopress' ),
-                'type'          => 'text',
-                'name'          => '_pip_category',
-                'prefix'        => 'acf_field_group',
-                'default_value' => 'classic',
-                'value'         => isset( $field_group['_pip_category'] ) ? $field_group['_pip_category'] : 'Classic',
-            ) );
-
             // Miniature
             acf_render_field_wrap( array(
                 'label'         => __( 'Thumbnail', 'pilopress' ),
@@ -473,7 +462,11 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @return void
          */
         public static function set_layout_group_keys( $layout_group_keys ) {
-            self::$layout_group_keys = $layout_group_keys;
+            if ( self::$layout_group_keys ) {
+                self::$layout_group_keys = array_merge( self::$layout_group_keys, $layout_group_keys );
+            } else {
+                self::$layout_group_keys = $layout_group_keys;
+            }
         }
 
         /**

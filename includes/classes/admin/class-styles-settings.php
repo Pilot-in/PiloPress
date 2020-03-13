@@ -59,7 +59,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $custom_scss .= self::scss_custom_btn_forms();
 
             // Get custom CSS/SCSS
-            $custom_scss .= get_field( 'pip_custom_style', 'styles_css' )['custom_style'];
+            $custom_style = get_field( 'pip_custom_style', 'styles_css' );
+            $custom_scss  .= $custom_style ? $custom_style['custom_style'] : '';
 
             return $custom_scss;
         }
@@ -351,7 +352,6 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
                 }
             }
-            acf_log( $tinymce_fonts );
 
             return $scss_custom . $tinymce_fonts;
         }
