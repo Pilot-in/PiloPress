@@ -5,7 +5,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
         private static $flexible_field_name = 'pip_flexible';
         private        $flexible_group_key  = 'group_pip_flexible_main';
-        private        $user_view           = 'edit';
+        private static $user_view           = 'edit';
 
         public function __construct() {
             // WP hooks
@@ -208,7 +208,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          *
          * @return mixed
          */
-        public function prepare_flexible_field( $field ) {
+        public static function prepare_flexible_field( $field ) {
             // If no layouts, return
             if ( empty( $field['layouts'] ) ) {
                 return $field;
@@ -243,7 +243,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 case 'user':
                     $args = array(
                         'user_id'   => $id,
-                        'user_form' => $this->user_view,
+                        'user_form' => self::$user_view,
                     );
                     break;
                 case 'attachment':
@@ -271,6 +271,11 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     $args = array(
                         'post_id'   => $post_id,
                         'post_type' => $post_type,
+                    );
+                    break;
+                case 'options':
+                    $args = array(
+                        'options_page' => str_replace( '_', '-', $post_id ),
                     );
                     break;
             }

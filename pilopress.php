@@ -90,6 +90,8 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/main/class-flexible-mirror.php' );
             pilopress_include( 'includes/classes/main/class-pattern.php' );
             pilopress_include( 'includes/classes/main/class-flexible-header.php' );
+            pilopress_include( 'includes/classes/main/class-pattern-message.php' );
+            pilopress_include( 'includes/classes/main/class-flexible-footer.php' );
             pilopress_include( 'includes/classes/main/class-layouts.php' );
 
             // Admin

@@ -1,38 +1,38 @@
 <?php
 
-if ( !class_exists( 'PIP_Flexible_Header' ) ) {
-    class PIP_Flexible_Header {
+if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
+    class PIP_Flexible_Footer {
 
-        private static $flexible_header_field_name = 'pip_flexible_header';
-        private        $flexible_header_group_key  = 'group_pip_flexible_header';
+        private static $flexible_footer_field_name = 'pip_flexible_footer';
+        private        $flexible_footer_group_key  = 'group_pip_flexible_footer';
 
         public function __construct() {
             // WP hooks
             add_action( 'init', array( $this, 'init' ) );
 
             // ACF hooks
-            $flexible_header_field_name = self::get_flexible_header_field_name();
-            add_filter( "acf/prepare_field/name={$flexible_header_field_name}", array( 'PIP_Flexible', 'prepare_flexible_field' ), 20 );
+            $flexible_footer_field_name = self::get_flexible_footer_field_name();
+            add_filter( "acf/prepare_field/name={$flexible_footer_field_name}", array( 'PIP_Flexible', 'prepare_flexible_field' ), 20 );
         }
 
         /**
-         * Register header flexible field group
-         * Add layouts to header flexible
+         * Register footer flexible field group
+         * Add layouts to footer flexible
          */
         public function init() {
             // Get layouts
             $data    = PIP_Flexible::get_layouts_and_group_keys();
             $layouts = $data['layouts'];
 
-            // Header flexible content field group
+            // Footer flexible content field group
             $args = array(
-                'key'                   => $this->flexible_header_group_key,
-                'title'                 => 'Flexible Content Header',
+                'key'                   => $this->flexible_footer_group_key,
+                'title'                 => 'Flexible Content Footer',
                 'fields'                => array(
                     array(
-                        'key'                               => 'field_' . self::get_flexible_header_field_name(),
-                        'label'                             => 'Header',
-                        'name'                              => self::get_flexible_header_field_name(),
+                        'key'                               => 'field_' . self::get_flexible_footer_field_name(),
+                        'label'                             => 'Footer',
+                        'name'                              => self::get_flexible_footer_field_name(),
                         'type'                              => 'flexible_content',
                         'instructions'                      => '',
                         'required'                          => 0,
@@ -79,7 +79,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
                         ),
                     ),
                 ),
-                'menu_order'            => 0,
+                'menu_order'            => 2,
                 'position'              => 'normal',
                 'style'                 => 'seamless',
                 'label_placement'       => 'top',
@@ -99,24 +99,24 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
         }
 
         /**
-         * Getter: $flexible_header_field_name
+         * Getter: $flexible_footer_field_name
          * @return string
          */
-        public static function get_flexible_header_field_name() {
-            return self::$flexible_header_field_name;
+        public static function get_flexible_footer_field_name() {
+            return self::$flexible_footer_field_name;
         }
 
     }
 
     // Instantiate class
-    new PIP_Flexible_Header();
+    new PIP_Flexible_Footer();
 }
 
 /**
- * Return flexible header content
+ * Return flexible footer content
  *
  * @return false|string|void
  */
-function get_pip_header() {
-    echo get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::get_pattern_option_page()['post_id'] );
+function get_pip_footer() {
+    echo get_flexible( PIP_Flexible_Footer::get_flexible_footer_field_name(), PIP_Pattern::get_pattern_option_page()['post_id'] );
 }
