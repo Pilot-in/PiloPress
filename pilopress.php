@@ -102,6 +102,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/admin/class-tinymce.php' );
             pilopress_include( 'includes/classes/admin/class-shortcodes.php' );
             pilopress_include( 'includes/classes/admin/class-fields.php' );
+            pilopress_include( 'includes/classes/admin/class-options-single-meta.php' );
 
             // Options pages
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-demo.php' );

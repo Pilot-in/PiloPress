@@ -63,9 +63,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $color_range = array();
 
             // Get custom colors
-            $pip_colors       = get_field( 'pip_colors', 'styles_colors' );
-            $pip_grays        = get_field( 'pip_grays', 'styles_colors' );
-            $pip_theme_colors = get_field( 'pip_theme_colors', 'styles_colors' );
+            $pip_colors       = get_field( 'pip_colors', 'pip_styles_colors' );
+            $pip_grays        = get_field( 'pip_grays', 'pip_styles_colors' );
+            $pip_theme_colors = get_field( 'pip_theme_colors', 'pip_styles_colors' );
 
             // If no theme colors, return
             if ( !$pip_theme_colors ) {
@@ -112,8 +112,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $fonts = array();
 
             // Get custom fonts
-            if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
-                while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
+            if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
+                while ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
                     the_row();
 
                     // Get font name
@@ -136,8 +136,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         public function custom_fonts_stylesheets() {
             // Get custom fonts
-            if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
-                while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
+            if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
+                while ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
                     the_row();
 
                     // If not google font, skip
@@ -165,8 +165,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         public function add_custom_fonts_to_editor() {
             // Get custom fonts
-            if ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
-                while ( have_rows( 'pip_fonts', 'styles_fonts' ) ) {
+            if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
+                while ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
                     the_row();
 
                     // If not google font, skip

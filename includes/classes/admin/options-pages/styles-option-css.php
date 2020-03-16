@@ -40,7 +40,7 @@ acf_add_local_field_group( array(
                     'default_value'     => '',
                     'placeholder'       => '',
                     'mode'              => 'css',
-                    'lines'             => 1,
+                    'lines'             => 8,
                     'indent_unit'       => 4,
                     'maxlength'         => '',
                     'rows'              => '',
@@ -53,7 +53,7 @@ acf_add_local_field_group( array(
             array(
                 'param'    => 'options_page',
                 'operator' => '==',
-                'value'    => 'styles-css',
+                'value'    => 'pip-styles-css',
             ),
         ),
     ),

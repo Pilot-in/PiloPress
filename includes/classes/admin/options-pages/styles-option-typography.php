@@ -799,7 +799,7 @@ acf_add_local_field_group( array(
             array(
                 'param'    => 'options_page',
                 'operator' => '==',
-                'value'    => 'styles-typography',
+                'value'    => 'pip-styles-typography',
             ),
         ),
     ),

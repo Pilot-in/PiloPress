@@ -979,7 +979,7 @@ acf_add_local_field_group( array(
             array(
                 'param'    => 'options_page',
                 'operator' => '==',
-                'value'    => 'styles-bt-options',
+                'value'    => 'pip-styles-bt-options',
             ),
         ),
     ),

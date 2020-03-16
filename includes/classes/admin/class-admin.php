@@ -213,7 +213,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'parent' => 'pilopress',
                 'id'     => 'styles',
                 'title'  => __( 'Styles', 'pilopress' ),
-                'href'   => add_query_arg( array( 'post' => $flexible_mirror['ID'], 'action' => 'edit', 'page' => 'styles-demo' ), admin_url( 'post.php' ) ),
+                'href'   => add_query_arg( array( 'post' => $flexible_mirror['ID'], 'action' => 'edit', 'page' => 'pip-styles-demo' ), admin_url( 'post.php' ) ),
             ) );
 
             // Compile styles
@@ -274,8 +274,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // Define submenu for Styles menu
-            if ( acf_maybe_get_GET( 'page' ) == 'styles' || strpos( acf_maybe_get_GET( 'page' ), 'styles' ) === 0 ) {
-                $submenu_file = 'styles-demo';
+            if ( acf_maybe_get_GET( 'page' ) == 'pip-styles' || strpos( acf_maybe_get_GET( 'page' ), 'pip-styles' ) === 0 ) {
+                $submenu_file = 'pip-styles-demo';
             }
 
             // Define submenu for Pattern menu
@@ -300,13 +300,13 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                  || strpos( acf_maybe_get_GET( 'page' ), 'styles' ) === 0 ) :
                 ?>
                 <script type="text/javascript">
-                  (function ($) {
-                    $('#toplevel_page_edit-post_type-acf-field-group').removeClass('wp-has-current-submenu').addClass('wp-not-current-submenu');
-                    $('#toplevel_page_edit-post_type-acf-field-group > .wp-has-current-submenu').removeClass('wp-has-current-submenu').addClass('wp-not-current-submenu');
+                    (function ($) {
+                        $('#toplevel_page_edit-post_type-acf-field-group').removeClass('wp-has-current-submenu').addClass('wp-not-current-submenu');
+                        $('#toplevel_page_edit-post_type-acf-field-group > .wp-has-current-submenu').removeClass('wp-has-current-submenu').addClass('wp-not-current-submenu');
 
-                    $('#toplevel_page_pilopress').addClass('wp-has-current-submenu').removeClass('wp-not-current-submenu');
-                    $('#toplevel_page_pilopress > .wp-not-current-submenu').addClass('wp-has-current-submenu').removeClass('wp-not-current-submenu');
-                  })(jQuery);
+                        $('#toplevel_page_pilopress').addClass('wp-has-current-submenu').removeClass('wp-not-current-submenu');
+                        $('#toplevel_page_pilopress > .wp-not-current-submenu').addClass('wp-has-current-submenu').removeClass('wp-not-current-submenu');
+                    })(jQuery);
                 </script>
             <?php
             endif;

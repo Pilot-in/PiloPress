@@ -21,8 +21,8 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'demo'        => array(
                     'page_title'     => 'Demo',
                     'menu_title'     => 'Styles',
-                    'menu_slug'      => 'styles-demo',
-                    'post_id'        => 'styles_demo',
+                    'menu_slug'      => 'pip-styles-demo',
+                    'post_id'        => 'pip_styles_demo',
                     'capability'     => $capability,
                     'parent_slug'    => '',
                     'update_button'  => 'Update',
@@ -35,10 +35,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'css'         => array(
                     'page_title'     => 'CSS',
                     'menu_title'     => 'CSS',
-                    'menu_slug'      => 'styles-css',
-                    'post_id'        => 'styles_css',
+                    'menu_slug'      => 'pip-styles-css',
+                    'post_id'        => 'pip_styles_css',
                     'capability'     => $capability,
-                    'parent_slug'    => 'styles-demo',
+                    'parent_slug'    => 'pip-styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
                     'autoload'       => 1,
@@ -49,10 +49,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'fonts'       => array(
                     'page_title'     => 'Fonts',
                     'menu_title'     => 'Fonts',
-                    'menu_slug'      => 'styles-fonts',
-                    'post_id'        => 'styles_fonts',
+                    'menu_slug'      => 'pip-styles-fonts',
+                    'post_id'        => 'pip_styles_fonts',
                     'capability'     => $capability,
-                    'parent_slug'    => 'styles-demo',
+                    'parent_slug'    => 'pip-styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
                     'autoload'       => 1,
@@ -63,10 +63,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'colors'      => array(
                     'page_title'     => 'Colors',
                     'menu_title'     => 'Colors',
-                    'menu_slug'      => 'styles-colors',
-                    'post_id'        => 'styles_colors',
+                    'menu_slug'      => 'pip-styles-colors',
+                    'post_id'        => 'pip_styles_colors',
                     'capability'     => $capability,
-                    'parent_slug'    => 'styles-demo',
+                    'parent_slug'    => 'pip-styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
                     'autoload'       => 1,
@@ -77,10 +77,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'bt-options'  => array(
                     'page_title'     => 'Options',
                     'menu_title'     => 'Options',
-                    'menu_slug'      => 'styles-bt-options',
-                    'post_id'        => 'styles_bt_options',
+                    'menu_slug'      => 'pip-styles-bt-options',
+                    'post_id'        => 'pip_styles_bt_options',
                     'capability'     => $capability,
-                    'parent_slug'    => 'styles-demo',
+                    'parent_slug'    => 'pip-styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
                     'autoload'       => 1,
@@ -91,10 +91,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'typography'  => array(
                     'page_title'     => 'Typography',
                     'menu_title'     => 'Typography',
-                    'menu_slug'      => 'styles-typography',
-                    'post_id'        => 'styles_typography',
+                    'menu_slug'      => 'pip-styles-typography',
+                    'post_id'        => 'pip_styles_typography',
                     'capability'     => $capability,
-                    'parent_slug'    => 'styles-demo',
+                    'parent_slug'    => 'pip-styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
                     'autoload'       => 1,
@@ -105,10 +105,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'btn-form'    => array(
                     'page_title'     => 'Buttons & Forms',
                     'menu_title'     => 'Buttons & Forms',
-                    'menu_slug'      => 'styles-btn-form',
-                    'post_id'        => 'styles_btn_form',
+                    'menu_slug'      => 'pip-styles-btn-form',
+                    'post_id'        => 'pip_styles_btn_form',
                     'capability'     => $capability,
-                    'parent_slug'    => 'styles-demo',
+                    'parent_slug'    => 'pip-styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
                     'autoload'       => 1,
@@ -119,10 +119,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'image-sizes' => array(
                     'page_title'     => 'Image sizes',
                     'menu_title'     => 'Image sizes',
-                    'menu_slug'      => 'styles-image-sizes',
-                    'post_id'        => 'styles_image_sizes',
+                    'menu_slug'      => 'pip-styles-image-sizes',
+                    'post_id'        => 'pip_styles_image_sizes',
                     'capability'     => $capability,
-                    'parent_slug'    => 'styles-demo',
+                    'parent_slug'    => 'pip-styles-demo',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
                     'autoload'       => 1,
@@ -163,7 +163,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             global $plugin_page;
 
             // Get current page
-            $this->page            = $this->pages[ str_replace( 'styles-', '', $plugin_page ) ];
+            $this->page            = $this->pages[ str_replace( 'pip-styles-', '', $plugin_page ) ];
             $this->page['post_id'] = acf_get_valid_post_id( $this->page['post_id'] );
 
             // Validate
@@ -203,7 +203,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             // Get current page
             $menu_slug  = acf_maybe_get_GET( 'page' );
-            $this->page = $this->pages[ str_replace( 'styles-', '', $menu_slug ) ];
+            $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
 
             // Get associated field groups
             $field_groups = acf_get_field_groups( array(
@@ -303,9 +303,9 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             ?>
             <script type="text/javascript">
-              if (typeof acf !== 'undefined') {
-                acf.newPostbox(<?php echo json_encode( $field_group_object ); ?>);
-              }
+                if (typeof acf !== 'undefined') {
+                    acf.newPostbox(<?php echo json_encode( $field_group_object ); ?>);
+                }
             </script>
             <?php
         }
@@ -316,7 +316,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
         public function html() {
             // Get current page
             $menu_slug  = acf_maybe_get_GET( 'page' );
-            $this->page = $this->pages[ str_replace( 'styles-', '', $menu_slug ) ];
+            $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
 
             // Get flexible mirror
             $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
