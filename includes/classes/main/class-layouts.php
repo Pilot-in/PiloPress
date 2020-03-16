@@ -221,6 +221,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 'placeholder'   => 'template.php',
                 'default_value' => $layout_name . '.php',
                 'prepend'       => $layout_path_prefix,
+                'required'      => 1,
                 'value'         => isset( $field_group['_pip_render_layout'] ) ? $field_group['_pip_render_layout'] : '',
             ) );
 
@@ -329,12 +330,12 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // Script for admin style
             ?>
             <script type="text/javascript">
-              if (typeof acf !== 'undefined') {
-                acf.postbox.render({
-                  'id': 'pip_layout_settings',
-                  'label': 'left'
-                });
-              }
+                if (typeof acf !== 'undefined') {
+                    acf.postbox.render({
+                        'id': 'pip_layout_settings',
+                        'label': 'left'
+                    });
+                }
             </script>
             <?php
         }
