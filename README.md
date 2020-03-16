@@ -11,6 +11,8 @@ ___
 
 ___
 
+/!\ This plugin needs **Advanced Custom Fields PRO** and **Advanced Custom Fields: Extended** plugins. /!\
+
 ## Install
 
 - In your theme, create a `pilopress` directory with a `layouts` subdirectory as you can see in _Theme structure_ part.
