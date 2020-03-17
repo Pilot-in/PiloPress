@@ -2,7 +2,7 @@
 
 ___
 
-### Points à améliorer
+### Enhancements
 
 - Icônes de localisation dans le menu Flexible : depuis ACFE
 - Changement de menu parent pour l'édition des layouts : enlever le JS
@@ -11,36 +11,43 @@ ___
 
 ___
 
-/!\ This plugin needs **Advanced Custom Fields PRO** and **Advanced Custom Fields: Extended** plugins. /!\
+## Requirements
 
-## Install
+This plugin requires **Advanced Custom Fields PRO** and **Advanced Custom Fields: Extended** plugins in order to work correctly.
 
-- In your theme, create a `pilopress` directory with a `layouts` subdirectory as you can see in _Theme structure_ part.
+## Plugin installation
+
 - Activate **Advanced Custom Fields Pro** plugin.
 - Activate **ACF Extended** plugin.
 - Activate **Pilo'Press** plugin.
 
-### Optional (but recommended)
+### Theme installation
 
-- If you want to use **Pilo'Press'** styles, enqueue it in your theme like this :
+- In your theme, create a `pilopress` directory
+- Within the `pilopress` directory, create a `layouts` subdirectory as you can see in _Theme structure_ part.
+- Add the following code in the `funtions.php` file:
 
 ```php
-// For front-office
+// Pilo'Press: Front-end
 add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
 function enqueue_pilopress_styles() {
+
     wp_enqueue_style( 'style-pilopress', get_stylesheet_directory_uri() . '/pilopress/style-pilopress.css', false );
+    
 }
  
-// For back-office
+// Pilo'Press: Back-end
 add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
 function admin_enqueue_pilopress_styles() {
+
     wp_enqueue_style( 'style-pilopress-admin', get_stylesheet_directory_uri() . '/pilopress/style-pilopress-admin.css', false );
+    
 }
 ```
 
 ### Theme structure
 
-Ideal structure :
+Ideal structure:
 
 ```
 your-theme/
@@ -68,8 +75,10 @@ your-theme/
 
 ### Add new layout
 
-- Add new layout in back-office in `Pilo'Press > Layouts`.
-- Create layout subdirectory in `pilopress/layouts/` in your theme. You have to name the files the same way you did in back-office options.
+- In the admin menu `Pilo'Press > Layouts`, add a new layout
+- Configure the layouts fields
+- Configure the layouts settings to match your theme `/theme/pilopress/layouts/` folder structure
+- You have to name the files the same way you did in back-end settings
 
 ### Sync layout
 
