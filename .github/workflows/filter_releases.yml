@@ -5,10 +5,11 @@ on:
 jobs:
     filter_fields:
         name: Filter files
+        runs-on: ubuntu-latest
         steps:
-            - name: Remove useless files
-              run: |
-                  rm .editorconfig
-                  rm -rf .git
-                  rm -rf .github
-                  rm cache/.gitkeep
+            -   name: Remove useless files
+                run: |
+                    rm .editorconfig
+                    rm -rf .git
+                    rm -rf .github
+                    rm cache/.gitkeep
