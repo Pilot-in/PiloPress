@@ -175,6 +175,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * Add custom meta box for mirror flexible
          */
         public function layouts_meta_box() {
+            $layouts = array();
             foreach ( PIP_Layouts::get_layout_group_keys() as $layout_group_key ) {
                 // Get current field group
                 $layout_field_group = acf_get_field_group( $layout_group_key );
