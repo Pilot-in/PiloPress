@@ -24,6 +24,41 @@ This plugin requires **Advanced Custom Fields PRO** and **Advanced Custom Fields
 ### Instructions
 - In your theme, create a `pilopress` directory
 - Within the `pilopress` directory, create a `layouts` subdirectory as you can see in _Theme structure_ part.
+- In the `index.php` file, add the following code:
+```php
+<?php 
+
+// WordPress Header
+get_header(); 
+
+// Pilo'Press: Header
+get_pip_header();
+
+?>
+
+<?php if(have_posts()): ?>
+    <?php while(have_posts()): the_post(); ?>
+        
+        <?php 
+        
+        // Pilo'Press: Content
+        the_pip_content();
+        
+        ?>
+    
+    <?php endwhile; ?>
+<?php endif; ?>
+    
+<?php 
+
+// Pilo'Press: Footer
+get_pip_footer();
+
+// WordPress: Footer
+get_footer();
+
+?>
+```
 - Add the following code in the `funtions.php` file:
 
 ```php
@@ -45,8 +80,6 @@ function admin_enqueue_pilopress_styles() {
 ```
 
 ### Theme structure
-Ideal structure:
-
 ```
 your-theme/
 └── pilopress/
