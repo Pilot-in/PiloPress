@@ -11,5 +11,5 @@ jobs:
                 working-directory: ./
                 shell: bash
                 run: |
-                pwd
-                rm -rf .github
+                    pwd
+                    rm -rf .github
