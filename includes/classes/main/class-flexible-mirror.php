@@ -75,6 +75,11 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                             'operator' => '==',
                             'value'    => 'all',
                         ),
+                        array(
+                            'param'    => 'post_type',
+                            'operator' => '!=',
+                            'value'    => 'component',
+                        ),
                     ),
                     array(
                         array(
