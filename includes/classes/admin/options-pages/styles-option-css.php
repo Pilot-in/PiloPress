@@ -43,7 +43,7 @@ acf_add_local_field_group( array(
                     'lines'             => 8,
                     'indent_unit'       => 4,
                     'maxlength'         => '',
-                    'rows'              => '',
+                    'rows'              => 8,
                 ),
             ),
         ),
