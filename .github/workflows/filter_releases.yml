@@ -11,8 +11,5 @@ jobs:
                 working-directory: ./
                 shell: bash
                 run: |
-                    echo $PATH
-                    rm -rf .git
-                    rm -rf .github
-                    rm cache/.gitkeep
-                    rm .editorconfig
+                pwd
+                rm -rf .github
