@@ -1,47 +1,76 @@
 # Pilo'Press
 
-___
+## Requirements
 
-### Points à améliorer
+This plugin requires **Advanced Custom Fields PRO** and **Advanced Custom Fields: Extended** plugins in order to work correctly.
 
-- Icônes de localisation dans le menu Flexible : depuis ACFE
-- Changement de menu parent pour l'édition des layouts : enlever le JS
-- Utiliser les fonctions WP pour créer les fichiers des layouts : _PIP_Layouts::create_layout_dir()_
-- Regarder et enlever les _PILO_TODO_
+## Plugin installation
 
-___
-
-/!\ This plugin needs **Advanced Custom Fields PRO** and **Advanced Custom Fields: Extended** plugins. /!\
-
-## Install
-
-- In your theme, create a `pilopress` directory with a `layouts` subdirectory as you can see in _Theme structure_ part.
 - Activate **Advanced Custom Fields Pro** plugin.
 - Activate **ACF Extended** plugin.
 - Activate **Pilo'Press** plugin.
 
-### Optional (but recommended)
+## Theme installation
 
-- If you want to use **Pilo'Press'** styles, enqueue it in your theme like this :
+### Instructions
+- In your theme, create a `pilopress` directory
+- Within the `pilopress` directory, create a `layouts` subdirectory as you can see in _Theme structure_ part.
+- In the `index.php` file, add the following code:
+```php
+<?php 
+
+// WordPress Header
+get_header(); 
+
+// Pilo'Press: Header
+get_pip_header();
+
+?>
+
+<?php if(have_posts()): ?>
+    <?php while(have_posts()): the_post(); ?>
+        
+        <?php 
+        
+        // Pilo'Press: Content
+        the_pip_content();
+        
+        ?>
+    
+    <?php endwhile; ?>
+<?php endif; ?>
+    
+<?php 
+
+// Pilo'Press: Footer
+get_pip_footer();
+
+// WordPress: Footer
+get_footer();
+
+?>
+```
+- Add the following code in the `functions.php` file:
 
 ```php
-// For front-office
+// Pilo'Press: Front-end
 add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
 function enqueue_pilopress_styles() {
+
     wp_enqueue_style( 'style-pilopress', get_stylesheet_directory_uri() . '/pilopress/style-pilopress.css', false );
+    
 }
  
-// For back-office
+// Pilo'Press: Back-end
 add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
 function admin_enqueue_pilopress_styles() {
+
     wp_enqueue_style( 'style-pilopress-admin', get_stylesheet_directory_uri() . '/pilopress/style-pilopress-admin.css', false );
+    
 }
 ```
 
 ### Theme structure
-
-Ideal structure :
-
 ```
 your-theme/
 └── pilopress/
@@ -68,8 +97,10 @@ your-theme/
 
 ### Add new layout
 
-- Add new layout in back-office in `Pilo'Press > Layouts`.
-- Create layout subdirectory in `pilopress/layouts/` in your theme. You have to name the files the same way you did in back-office options.
+- In the admin menu `Pilo'Press > Layouts`, add a new layout
+- Configure the layouts fields
+- Configure the layouts settings to match your theme `/theme/pilopress/layouts/` folder structure
+- You have to name the files the same way you did in back-end settings
 
 ### Sync layout
 
@@ -123,3 +154,10 @@ array(
 `add_filter('pip/options/capability', 'your_capability');`  
 _Default value_  
 `acf_get_setting('capability')`
+
+### Enhancements
+
+- Icônes de localisation dans le menu Flexible : depuis ACFE
+- Changement de menu parent pour l'édition des layouts : enlever le JS
+- Utiliser les fonctions WP pour créer les fichiers des layouts : _PIP_Layouts::create_layout_dir()_
+- Regarder et enlever les _PILO_TODO_
