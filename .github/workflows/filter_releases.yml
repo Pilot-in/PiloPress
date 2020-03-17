@@ -9,6 +9,7 @@ jobs:
         steps:
             -   name: Remove useless files
                 working-directory: ./
+                shell: bash
                 run: |
                     rm .editorconfig
                     rm -rf .git
