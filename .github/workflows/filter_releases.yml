@@ -1,0 +1,13 @@
+name: Filter releases files
+on:
+    release:
+        types: [created, published, prereleased, edited]
+jobs:
+    filter_fields:
+        name: Filter files
+        runs-on: ubuntu-latest
+        run: |
+            rm .editorconfig
+            rm -rf .git
+            rm -rf .github
+            rm cache/.gitkeep
