@@ -59,7 +59,7 @@ get_footer();
 
 ?>
 ```
-- Add the following code in the `funtions.php` file:
+- Add the following code in the `functions.php` file:
 
 ```php
 // Pilo'Press: Front-end
