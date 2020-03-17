@@ -8,7 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   name: Remove useless files
-                working-directory: ../
+                working-directory: ../../
                 shell: bash
                 run: |
                     pwd
