@@ -1,14 +1,5 @@
 # Pilo'Press
 
-___
-
-### Enhancements
-
-- Icônes de localisation dans le menu Flexible : depuis ACFE
-- Changement de menu parent pour l'édition des layouts : enlever le JS
-- Utiliser les fonctions WP pour créer les fichiers des layouts : _PIP_Layouts::create_layout_dir()_
-- Regarder et enlever les _PILO_TODO_
-
 ## Requirements
 
 This plugin requires **Advanced Custom Fields PRO** and **Advanced Custom Fields: Extended** plugins in order to work correctly.
@@ -163,3 +154,10 @@ array(
 `add_filter('pip/options/capability', 'your_capability');`  
 _Default value_  
 `acf_get_setting('capability')`
+
+### Enhancements
+
+- Icônes de localisation dans le menu Flexible : depuis ACFE
+- Changement de menu parent pour l'édition des layouts : enlever le JS
+- Utiliser les fonctions WP pour créer les fichiers des layouts : _PIP_Layouts::create_layout_dir()_
+- Regarder et enlever les _PILO_TODO_
