@@ -60,22 +60,17 @@ acf_hidden_input( array(
         <?php endforeach; ?>
     <?php endif; ?>
     <tr>
-        <td colspan="7">
-            <a class="button-secondary" href="<?php echo $add_new_link; ?>" target="_blank">
-                <?php _e( 'Add layout', 'pilopress' ) ?>
-            </a>
+        <td colspan="7" style="text-align:center;">
+
+            <div style="padding: 40px 20px;border: #ccc dashed 2px;text-align: center;">
+
+                <a class="button-secondary" href="<?php echo $add_new_link; ?>">
+                    <?php _e( 'Add layout', 'pilopress' ) ?>
+                </a>
+
+            </div>
+
         </td>
     </tr>
     </tbody>
-    <tfoot>
-    <tr>
-        <th scope="col" id="acf-layouts-category" class="column-acf-layouts-category"><?php _e( 'Categories', 'pilopress' ) ?></th>
-        <th scope="col" id="title" class="column-title column-primary"><?php _e( 'Layout', 'pilopress' ) ?></th>
-        <th scope="col" id="acf-fg-count" class="column-acf-fg-count"><?php _e( 'Fields', 'acf' ) ?></th>
-        <th scope="col" id="acfe-locations" class="column-acfe-locations"><?php _e( 'Locations', 'acf' ) ?></th>
-        <th scope="col" id="acfe-local" class="column-acfe-local"><?php _e( 'Load', 'acf' ) ?></th>
-        <th scope="col" id="acfe-autosync-php" class="column-acfe-autosync-php"><?php _e( 'PHP sync', 'pilopress' ) ?></th>
-        <th scope="col" id="acfe-autosync-json" class="column-acfe-autosync-json"><?php _e( 'JSON sync', 'pilopress' ) ?></th>
-    </tr>
-    </tfoot>
 </table>

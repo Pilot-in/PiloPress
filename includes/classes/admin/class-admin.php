@@ -141,8 +141,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Flexible sub menu
             add_submenu_page(
                 'pilopress.php',
-                __( 'Flexible', 'pilopress' ),
-                __( 'Flexible', 'pilopress' ),
+                __( 'Builder', 'pilopress' ),
+                __( 'Builder', 'pilopress' ),
                 $capability,
                 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit'
             );

@@ -168,7 +168,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             remove_meta_box( 'acfe-wp-custom-fields', 'acf-field-group', 'normal' );
 
             // Add meta box
-            add_meta_box( 'pip-flexible-layouts', __( 'Available layouts', 'pilopress' ), array( $this, 'layouts_meta_box' ), 'acf-field-group', 'normal', 'high' );
+            add_meta_box( 'pip-flexible-layouts', __( 'Layouts', 'pilopress' ), array( $this, 'layouts_meta_box' ), 'acf-field-group', 'normal', 'high' );
         }
 
         /**
