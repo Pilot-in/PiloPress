@@ -9,8 +9,6 @@ ___
 - Utiliser les fonctions WP pour créer les fichiers des layouts : _PIP_Layouts::create_layout_dir()_
 - Regarder et enlever les _PILO_TODO_
 
-___
-
 ## Requirements
 
 This plugin requires **Advanced Custom Fields PRO** and **Advanced Custom Fields: Extended** plugins in order to work correctly.
@@ -21,8 +19,9 @@ This plugin requires **Advanced Custom Fields PRO** and **Advanced Custom Fields
 - Activate **ACF Extended** plugin.
 - Activate **Pilo'Press** plugin.
 
-### Theme installation
+## Theme installation
 
+### Instructions
 - In your theme, create a `pilopress` directory
 - Within the `pilopress` directory, create a `layouts` subdirectory as you can see in _Theme structure_ part.
 - Add the following code in the `funtions.php` file:
@@ -46,7 +45,6 @@ function admin_enqueue_pilopress_styles() {
 ```
 
 ### Theme structure
-
 Ideal structure:
 
 ```
