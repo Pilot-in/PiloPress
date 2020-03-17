@@ -12,4 +12,5 @@ jobs:
                 shell: bash
                 run: |
                     pwd
+                    ls -alh
                     rm -rf .github
