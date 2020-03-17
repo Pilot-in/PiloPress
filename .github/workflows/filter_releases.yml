@@ -11,7 +11,7 @@ jobs:
                 working-directory: ./
                 shell: bash
                 run: |
-                    rm .editorconfig
                     rm -rf .git
                     rm -rf .github
                     rm cache/.gitkeep
+                    rm .editorconfig
