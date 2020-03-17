@@ -43,3 +43,55 @@ td.acf-layouts-category a {
 #acf-admin-tool-pilopress_tool_styles_export ul {
     column-width: 200px;
 }
+
+body.admin_page_pip-styles-colors .inside,
+body.admin_page_pip-styles-typography .inside,
+body.admin_page_pip-styles-bt-options .inside,
+body.admin_page_pip-styles-btn-form .inside {
+    background: none;
+}
+
+body.admin_page_pip-styles-colors .inside .acf-tab-wrap,
+body.admin_page_pip-styles-typography .inside .acf-tab-wrap,
+body.admin_page_pip-styles-bt-options .inside .acf-tab-wrap,
+body.admin_page_pip-styles-btn-form .inside .acf-tab-wrap {
+    background: none;
+}
+
+body.admin_page_pip-styles-colors .inside .acf-tab-wrap ul.acf-tab-group,
+body.admin_page_pip-styles-typography .inside .acf-tab-wrap ul.acf-tab-group,
+body.admin_page_pip-styles-bt-options .inside .acf-tab-wrap ul.acf-tab-group,
+body.admin_page_pip-styles-btn-form .inside .acf-tab-wrap ul.acf-tab-group {
+    border: 0;
+    padding-left: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+body.admin_page_pip-styles-colors .inside .acf-tab-wrap ul.acf-tab-group li,
+body.admin_page_pip-styles-typography .inside .acf-tab-wrap ul.acf-tab-group li,
+body.admin_page_pip-styles-bt-options .inside .acf-tab-wrap ul.acf-tab-group li,
+body.admin_page_pip-styles-btn-form .inside .acf-tab-wrap ul.acf-tab-group li {
+    margin-right: 20px;
+}
+
+body.admin_page_pip-styles-colors .inside .acf-tab-wrap ul.acf-tab-group li a,
+body.admin_page_pip-styles-typography .inside .acf-tab-wrap ul.acf-tab-group li a,
+body.admin_page_pip-styles-bt-options .inside .acf-tab-wrap ul.acf-tab-group li a,
+body.admin_page_pip-styles-btn-form .inside .acf-tab-wrap ul.acf-tab-group li a {
+    color: #999 !important;
+    border: 0;
+    padding: 0;
+    background: none !important;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+}
+
+
+body.admin_page_pip-styles-colors .inside .acf-tab-wrap ul.acf-tab-group li.active > a,
+body.admin_page_pip-styles-typography .inside .acf-tab-wrap ul.acf-tab-group li.active > a,
+body.admin_page_pip-styles-bt-options .inside .acf-tab-wrap ul.acf-tab-group li.active > a,
+body.admin_page_pip-styles-btn-form .inside .acf-tab-wrap ul.acf-tab-group li.active > a {
+    color: #23282d !important;
+}

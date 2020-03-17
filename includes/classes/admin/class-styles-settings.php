@@ -201,9 +201,6 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             content: "\f111" !important;
             }
 
-            // Styles for admin
-            @import 'admin-style';
-
             .-preview, body#tinymce{
 
             @import '../libs/bootstrap/scss/functions';

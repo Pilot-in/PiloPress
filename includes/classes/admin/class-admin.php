@@ -295,7 +295,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             if ( ( $current_screen->id === 'edit-acf-field-group' && acf_maybe_get_GET( 'layouts' ) == 1 )
                  || $is_layout
                  || acf_maybe_get_GET( 'layout' ) == 1
-                 || strpos( acf_maybe_get_GET( 'page' ), 'styles' ) === 0 ) :
+                 || strpos( acf_maybe_get_GET( 'page' ), 'pip-styles' ) === 0 ) :
                 ?>
                 <script type="text/javascript">
                     (function ($) {
