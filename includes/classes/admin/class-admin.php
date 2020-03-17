@@ -4,7 +4,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
     class PIP_Admin {
         public function __construct() {
             // WP hooks
-            add_action( 'admin_init', array( $this, 'compile_styles' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
             add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 20 );
             add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 9999 );
@@ -15,6 +14,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_action( 'adminmenu', array( $this, 'admin_menu_parent' ) );
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
+
+            // AJAX hooks
+            add_action( 'wp_ajax_compile_styles', array( $this, 'compile_styles' ) );
+            add_action( 'wp_ajax_nopriv_compile_styles', array( $this, 'compile_styles' ) );
         }
 
         /**
@@ -22,38 +25,33 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function enqueue_scripts() {
             // Style
-            wp_enqueue_style( 'admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), null );
+            wp_enqueue_style( 'pilopress-admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), null );
 
             // Scripts
-            wp_enqueue_script( 'admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
+            wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
+            wp_localize_script( 'pilopress-admin-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
         }
 
         /**
          * Compile styles
          */
         public function compile_styles() {
-            // Compile styles
-            if ( acf_maybe_get_GET( 'compile_scss' ) === '1' ) {
+            // Get action
+            $action = filter_input( INPUT_POST, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 
-                // Compile
-                $compiled = PIP_Styles_Settings::compile_styles_settings();
-
-                // Redirect
-                $url = remove_query_arg( 'compile_scss' );
-                wp_redirect( add_query_arg( array( 'compiled_scss' => $compiled ? 'success' : 'error' ), $url ) );
-                exit;
+            // If not compile_styles action, return
+            if ( $action !== 'compile_styles' ) {
+                return;
             }
 
-            // Show notice after styles compiled
-            $compiled_scss = acf_maybe_get_GET( 'compiled_scss' );
-            switch ( $compiled_scss ) {
-                case 'success' :
-                    acf_add_admin_notice( __( 'Styles compiled successfully.', 'pilopress' ), 'success' );
-                    break;
-                case 'error' :
-                    acf_add_admin_notice( __( 'An error appended. Please try again later.', 'pilopress' ), 'error' );
-                    break;
-            }
+            // Compile
+            $compiled = PIP_Styles_Settings::compile_styles_settings();
+
+            // Return result
+            echo (string) $compiled;
+
+            // End AJAX action
+            die();
         }
 
         /**
