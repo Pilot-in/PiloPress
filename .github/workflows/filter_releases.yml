@@ -8,6 +8,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             -   name: Remove useless files
+                working-directory: ./
                 run: |
                     rm .editorconfig
                     rm -rf .git
