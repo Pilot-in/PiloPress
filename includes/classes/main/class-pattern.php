@@ -7,6 +7,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
 
         public function __construct() {
             add_action( 'init', array( $this, 'register_option_page' ) );
+//            add_action( 'admin_init', array( $this, 'show_admin_notice' ) );
         }
 
         /**
@@ -38,6 +39,15 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
 
             // Set pattern option page
             self::set_pattern_option_page( $option_page );
+        }
+
+        public function show_admin_notice() {
+            if ( !PIP_Flexible::$show_pattern_notice ) {
+                return;
+            }
+
+            // PILO_TODO: not working
+            acf_add_admin_notice( __( 'Please configure your first layout in order to use Patterns.', 'pilopress' ), 'warning' );
         }
 
         /**

@@ -332,9 +332,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             <script type="text/javascript">
                 if (typeof acf !== 'undefined') {
                     acf.postbox.render({
-                        'id': 'pip_layout_settings',
-                        'label': 'left'
-                    });
+                                           'id': 'pip_layout_settings',
+                                           'label': 'left'
+                                       });
                 }
             </script>
             <?php

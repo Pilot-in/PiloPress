@@ -62,9 +62,13 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
          * Pattern_Message message content
          */
         public function pattern_message() {
+            if ( PIP_Flexible::$show_pattern_notice ) {
+                return;
+            }
+
             echo '<div class="border border-dark px-3 py-5 rounded text-center">
-                <p class="text-uppercase font-weight-bold text-monospace">Website content here</p>
-            </div>';
+                    <p class="text-uppercase font-weight-bold text-monospace">Website content here</p>
+                </div>';
         }
     }
 

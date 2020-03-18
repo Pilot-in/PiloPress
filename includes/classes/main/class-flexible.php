@@ -4,6 +4,10 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
     class PIP_Flexible {
 
         private static $flexible_field_name = 'pip_flexible';
+        /**
+         * @var bool
+         */
+        public static  $show_pattern_notice = false;
         private        $flexible_group_key  = 'group_pip_flexible_main';
         private static $user_view           = 'edit';
 
@@ -210,8 +214,10 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          */
         public static function prepare_flexible_field( $field ) {
             // If no layouts, return
-            if ( empty( $field['layouts'] ) ) {
-                return $field;
+            if ( empty( $field['layouts'] ) && strpos( $field['_name'], self::get_flexible_field_name() ) === 0 ) {
+                self::$show_pattern_notice = true;
+
+                return false;
             }
 
             // If AJAX, filters not needed
