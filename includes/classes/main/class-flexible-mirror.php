@@ -27,7 +27,29 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             // ACF field group single
             if ( acf_is_screen( 'acf-field-group' ) ) {
                 add_action( 'acf/input/admin_head', array( $this, 'meta_boxes' ) );
+                add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
             }
+        }
+
+        /**
+         * Re-order meta-boxes
+         *
+         * @param $order
+         *
+         * @return array
+         */
+        public function metabox_order( $order ) {
+            if ( !$order ) {
+                $order = array(
+                    'normal' => implode( ',', array(
+                            'pip-flexible-layouts',
+                            'acf-field-group-locations',
+                        )
+                    ),
+                );
+            }
+
+            return $order;
         }
 
         /**

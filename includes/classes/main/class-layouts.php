@@ -28,6 +28,29 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             add_action( 'acf/field_group/admin_head', array( $this, 'layout_meta_boxes' ) );
             add_action( 'acf/input/admin_head', array( $this, 'layout_settings' ), 20 );
             add_action( 'acf/update_field_group', array( $this, 'set_field_group_to_inactive' ) );
+            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
+        }
+
+        /**
+         * Re-order meta-boxes
+         *
+         * @param $order
+         *
+         * @return array
+         */
+        public function metabox_order( $order ) {
+            if ( !$order ) {
+                $order = array(
+                    'normal' => implode( ',', array(
+                            'acf-field-group-fields',
+                            'pip_layout_settings',
+                            'acf-field-group-options',
+                        )
+                    ),
+                );
+            }
+
+            return $order;
         }
 
         /**
