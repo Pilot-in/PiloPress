@@ -105,22 +105,22 @@
             let compiling_message      = '<div class="notice notice-info is-dismissible compiling-notice"><p>Compiling...</p></div>';
             let compiled_message       = '<div class="notice notice-success is-dismissible compiling-notice"><p>Styles compiled successfully!</p></div>';
             let compiled_error_message = '<div class="notice notice-error is-dismissible compiling-notice"><p>An error occurred while compiling.</p></div>';
+            let options_page           = (body.hasClass('admin_page_pip-styles-demo')
+                                          || body.hasClass('admin_page_pip-styles-css')
+                                          || body.hasClass('admin_page_pip-styles-fonts')
+                                          || body.hasClass('admin_page_pip-styles-colors')
+                                          || body.hasClass('admin_page_pip-styles-bt-options')
+                                          || body.hasClass('admin_page_pip-styles-typography')
+                                          || body.hasClass('admin_page_pip-styles-btn-form')
+                                          || body.hasClass('admin_page_pip-styles-image-sizes'));
 
             // On styles option page, check if modified options
-            if ((body.hasClass('admin_page_pip-styles-demo')
-                 || body.hasClass('admin_page_pip-styles-css')
-                 || body.hasClass('admin_page_pip-styles-fonts')
-                 || body.hasClass('admin_page_pip-styles-colors')
-                 || body.hasClass('admin_page_pip-styles-bt-options')
-                 || body.hasClass('admin_page_pip-styles-typography')
-                 || body.hasClass('admin_page_pip-styles-btn-form')
-                 || body.hasClass('admin_page_pip-styles-image-sizes'))
-                && $('#_acf_changed').val() == 1) {
+            if (options_page && $('#_acf_changed').val() == 1) {
                 confirmed = confirm('Are you sure? You will lose all your changes. Click on "Update" button to save it.');
             }
 
             // Cancel action
-            if (!confirmed) {
+            if (!confirmed && options_page) {
                 return;
             }
 
