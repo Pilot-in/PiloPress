@@ -141,10 +141,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                             'fields'     => 'names',
                         )
                     );
-                    $terms = implode( '|', $terms );
 
                     // Settings
-                    $modal_category   = $terms ? $terms : 'Classic';
+                    $modal_category   = $terms ? $terms : array();
                     $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $name . '.php' );
                     $render_style     = $file_url . acf_maybe_get( $field_group, '_pip_render_style', $name . '.css' );
                     $render_script    = $file_url . acf_maybe_get( $field_group, '_pip_render_script', $name . '.js' );
