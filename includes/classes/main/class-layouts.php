@@ -31,6 +31,38 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         }
 
         /**
+         * Remove old layout group keys
+         * @return array
+         */
+        public static function clean_group_keys() {
+            $clean_array = array();
+
+            // Get Layout group keys
+            $layout_group_keys = PIP_Layouts::get_layout_group_keys();
+
+            // Browse all group keys
+            foreach ( $layout_group_keys as $layout_group_key ) {
+                // Get field group
+                $field_group = acf_get_field_group( $layout_group_key );
+
+                if ( $field_group ) {
+
+                    // If field group, stock it
+                    $clean_array[] = $layout_group_key;
+
+                } else {
+
+                    // If no field group, remove from group keys
+                    unset( $layout_group_keys[ $layout_group_key ] );
+                    PIP_Layouts::set_layout_group_keys( $layout_group_keys );
+
+                }
+            }
+
+            return $clean_array;
+        }
+
+        /**
          * Force layout to be inactive
          *
          * @param $field_group
