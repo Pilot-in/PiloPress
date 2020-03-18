@@ -288,12 +288,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             // Get layouts for configuration field
             $choices = array();
-            foreach ( PIP_Layouts::get_layout_group_keys() as $layout_group_key ) {
-                // Get current field group
-                $group = acf_get_field_group( $layout_group_key );
-
-                // Save title
-                $choices[ $group['key'] ] = $group['title'];
+            foreach ( acf_get_field_groups() as $field_group ) {
+                $choices[ $field_group['key'] ] = $field_group['title'];
             }
 
             // Configuration
