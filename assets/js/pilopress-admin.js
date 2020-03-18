@@ -50,7 +50,7 @@
          */
         function change_values ($this, draft = false) {
             $layoutSlug.val(sanitize_title($this.val()));
-            $prepend.html(sanitize_title($this.val()));
+            $prepend.html(sanitize_title($this.val().replace(/-$/, '')));
 
             if (draft) {
                 updateRenderSettings($this.val());
@@ -83,7 +83,7 @@
                        .replace(/[^\w\-]+/g, '')   // Remove all non-word chars
                        .replace(/\-\-+/g, '-')     // Replace multiple - with single -
                        .replace(/\_\_+/g, '_')     // Replace multiple _ with single _
-                       .replace(/^-+/, '');         // Trim - from start of text
+                       .replace(/^-+/, '');        // Trim - from start of text
         }
 
         /**
