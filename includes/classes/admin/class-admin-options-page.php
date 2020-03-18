@@ -30,7 +30,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'autoload'       => 1,
                     'redirect'       => 0,
                     'icon_url'       => '',
-                    'position'       => 61,
+                    'position'       => 82,
                 ),
                 'css'         => array(
                     'page_title'     => 'CSS',
@@ -44,7 +44,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'autoload'       => 1,
                     'redirect'       => 0,
                     'icon_url'       => '',
-                    'position'       => 61,
+                    'position'       => 82,
                 ),
                 'fonts'       => array(
                     'page_title'     => 'Fonts',
@@ -58,7 +58,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'autoload'       => 1,
                     'redirect'       => 0,
                     'icon_url'       => '',
-                    'position'       => 61,
+                    'position'       => 82,
                 ),
                 'colors'      => array(
                     'page_title'     => 'Colors',
@@ -72,7 +72,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'autoload'       => 1,
                     'redirect'       => 0,
                     'icon_url'       => '',
-                    'position'       => 61,
+                    'position'       => 82,
                 ),
                 'bt-options'  => array(
                     'page_title'     => 'Options',
@@ -86,7 +86,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'autoload'       => 1,
                     'redirect'       => 0,
                     'icon_url'       => '',
-                    'position'       => 61,
+                    'position'       => 82,
                 ),
                 'typography'  => array(
                     'page_title'     => 'Typography',
@@ -100,7 +100,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'autoload'       => 1,
                     'redirect'       => 0,
                     'icon_url'       => '',
-                    'position'       => 61,
+                    'position'       => 82,
                 ),
                 'btn-form'    => array(
                     'page_title'     => 'Buttons & Forms',
@@ -114,7 +114,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'autoload'       => 1,
                     'redirect'       => 0,
                     'icon_url'       => '',
-                    'position'       => 61,
+                    'position'       => 82,
                 ),
                 'image-sizes' => array(
                     'page_title'     => 'Image sizes',
@@ -128,7 +128,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'autoload'       => 1,
                     'redirect'       => 0,
                     'icon_url'       => '',
-                    'position'       => 61,
+                    'position'       => 82,
                 ),
             );
 

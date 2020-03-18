@@ -135,7 +135,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'pilopress.php',
                 false,
                 'data:image/svg+xml;base64,' . $pip_logo_base64_svg,
-                61 // After 'Appearance' menu
+                82 // After 'ACF' menu
             );
 
             // Flexible sub menu
@@ -163,6 +163,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 __( 'Categories', 'pilopress' ),
                 $capability,
                 'edit-tags.php?taxonomy=acf-layouts-category'
+            );
+
+            // Components sub menu
+            add_submenu_page(
+                'pilopress.php',
+                __( 'Components', 'pilopress' ),
+                __( 'Components', 'pilopress' ),
+                $capability,
+                'edit.php?post_type=' . PIP_Components::$post_type
             );
 
             global $menu, $submenu;
@@ -219,7 +228,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'parent' => 'pilopress',
                 'id'     => 'compile_scss',
                 'title'  => __( 'Compile styles', 'pilopress' ),
-                'href'   => add_query_arg( array( 'compile_scss' => '1' ), acf_get_current_url() ),
+                'href'   => acf_get_current_url(),
             ) );
         }
 
