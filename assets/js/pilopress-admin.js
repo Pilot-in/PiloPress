@@ -1,6 +1,12 @@
 (function ($) {
     'use strict';
 
+    // The global acf object
+    var pilopress = {};
+
+    // Set as a browser global
+    window.pilopress = pilopress;
+
     $(document).ready(function () {
 
         /**
@@ -49,8 +55,8 @@
          * @param draft
          */
         function change_values ($this, draft = false) {
-            $layoutSlug.val(sanitize_title($this.val()));
-            $prepend.html(sanitize_title($this.val().replace(/-$/, '')));
+            $layoutSlug.val(pilopress.sanitize_title($this.val()));
+            $prepend.html(pilopress.sanitize_title($this.val().replace(/-$/, '')));
 
             if (draft) {
                 updateRenderSettings($this.val());
@@ -66,24 +72,10 @@
          * @param val
          */
         function updateRenderSettings (val) {
-            $layoutTemplate.val((sanitize_title(val) ? sanitize_title(val) : 'template') + '.php');
-            $renderCSS.val((sanitize_title(val) ? sanitize_title(val) : 'style') + '.css');
-            $renderSCSS.val((sanitize_title(val) ? sanitize_title(val) : 'style') + '.scss');
-            $renderScript.val((sanitize_title(val) ? sanitize_title(val) : 'scrip') + '.js');
-        }
-
-        /**
-         * Sanitize value like wp function "sanitize_title"
-         * @param $val
-         * @returns {string}
-         */
-        function sanitize_title ($val) {
-            return $val.toLowerCase()
-                       .replace(/\s+/g, '-')       // Replace spaces with -
-                       .replace(/[^\w\-]+/g, '')   // Remove all non-word chars
-                       .replace(/\-\-+/g, '-')     // Replace multiple - with single -
-                       .replace(/\_\_+/g, '_')     // Replace multiple _ with single _
-                       .replace(/^-+/, '');        // Trim - from start of text
+            $layoutTemplate.val((pilopress.sanitize_title(val) ? pilopress.sanitize_title(val) : 'template') + '.php');
+            $renderCSS.val((pilopress.sanitize_title(val) ? pilopress.sanitize_title(val) : 'style') + '.css');
+            $renderSCSS.val((pilopress.sanitize_title(val) ? pilopress.sanitize_title(val) : 'style') + '.scss');
+            $renderScript.val((pilopress.sanitize_title(val) ? pilopress.sanitize_title(val) : 'scrip') + '.js');
         }
 
         /**
@@ -146,4 +138,17 @@
         });
     });
 
+    /**
+     * Sanitize value like wp function "sanitize_title"
+     * @param $val
+     * @returns {string}
+     */
+    pilopress.sanitize_title = function ($val) {
+        return $val.toLowerCase()
+            .replace(/\s+/g, '-')       // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')   // Remove all non-word chars
+            .replace(/\-\-+/g, '-')     // Replace multiple - with single -
+            .replace(/\_\_+/g, '_')     // Replace multiple _ with single _
+            .replace(/^-+/, '');        // Trim - from start of text
+    };
 })(jQuery);

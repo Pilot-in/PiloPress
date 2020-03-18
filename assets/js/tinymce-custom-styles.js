@@ -8,7 +8,7 @@
     /**
      * Define variables
      */
-    var fonts = acf.get('custom_fonts');
+    var fonts  = acf.get('custom_fonts');
     var colors = {
         primary: 'Primary',
         secondary: 'Secondary',
@@ -41,7 +41,7 @@
         return $.map(colors, function (color, key) {
 
             // Get style color
-            var textStyle = '';
+            var textStyle     = '';
             var custom_colors = acf.get('custom_colors_assoc');
             $.each(custom_colors, function (custom_key, custom_value) {
                 if (custom_key === key || custom_key === 'text-' + key) {
@@ -122,11 +122,11 @@
         init.toolbar1 = 'formatselect pip_styles pip_fonts pip_colors pip_shortcodes bold italic underline strikethrough bullist numlist alignleft aligncenter alignright alignjustify link wp_add_media wp_adv';
         init.toolbar2 = 'blockquote hr forecolor backcolor pastetext removeformat charmap outdent indent subscript superscript fullscreen wp_help';
 
-        init.elementpath = false;
-        init.block_formats = '<p>=p;<h1>=h1;<h2>=h2;<h3>=h3;<h4>=h4;<h5>=h5;<h6>=h6;<address>=address;<pre>=pre';
-        init.valid_elements = '*[*]';
+        init.elementpath             = false;
+        init.block_formats           = '<p>=p;<h1>=h1;<h2>=h2;<h3>=h3;<h4>=h4;<h5>=h5;<h6>=h6;<address>=address;<pre>=pre';
+        init.valid_elements          = '*[*]';
         init.extended_valid_elements = '*[*]';
-        init.textcolor_map = acf.get('custom_colors');
+        init.textcolor_map           = acf.get('custom_colors');
 
         return init;
     });
