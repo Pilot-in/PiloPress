@@ -8,6 +8,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_action( 'register_post_type_args', array( $this, 'modify_acf_post_type' ), 10, 2 );
+            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ), 10, 3 );
 
             // ACF hooks
             add_action( 'acf/import_field_group', array( $this, 'compile_on_sync' ) );
@@ -28,7 +29,6 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             add_action( 'acf/field_group/admin_head', array( $this, 'layout_meta_boxes' ) );
             add_action( 'acf/input/admin_head', array( $this, 'layout_settings' ), 20 );
             add_action( 'acf/update_field_group', array( $this, 'set_field_group_to_inactive' ) );
-            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
         }
 
         /**
@@ -39,16 +39,15 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @return array
          */
         public function metabox_order( $order ) {
-            if ( !$order ) {
-                $order = array(
-                    'normal' => implode( ',', array(
-                            'acf-field-group-fields',
-                            'pip_layout_settings',
-                            'acf-field-group-options',
-                        )
-                    ),
-                );
-            }
+            $order = array(
+                'normal' => implode( ',', array(
+                        'acf-field-group-fields',
+                        'pip_layout_settings',
+                        'acf-field-group-locations',
+                        'acf-field-group-options',
+                    )
+                ),
+            );
 
             return $order;
         }
