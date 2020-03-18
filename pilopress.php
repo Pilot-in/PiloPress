@@ -51,11 +51,42 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Init
             include_once( PIP_PATH . 'init.php' );
 
+            // Init hook
+            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
+
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
 
             // Options pages
             $this->options_pages();
+        }
+
+        /**
+         * Re-order meta-boxes
+         * @param $order
+         *
+         * @return array
+         */
+        public function metabox_order( $order ) {
+            if ( !$order ) {
+                $order = array(
+                    'normal' => implode( ',', array(
+
+                            // Layouts
+                            'acf-field-group-fields',
+                            'pip_layout_settings',
+                            'acf-field-group-options',
+
+                            // Flexible Mirror
+                            'pip-flexible-layouts',
+                            'acf-field-group-locations',
+
+                        )
+                    ),
+                );
+            }
+
+            return $order;
         }
 
         /**

@@ -12,7 +12,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_filter( 'pre_delete_post', array( $this, 'delete_post' ), 10, 2 );
             add_filter( 'pre_trash_post', array( $this, 'delete_post' ), 10, 2 );
-            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
         }
 
         /**
@@ -29,25 +28,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             if ( acf_is_screen( 'acf-field-group' ) ) {
                 add_action( 'acf/input/admin_head', array( $this, 'meta_boxes' ) );
             }
-        }
-
-        /**
-         * Re-order meta-boxes
-         *
-         * @param $order
-         *
-         * @return array
-         */
-        public function metabox_order( $order ) {
-            $order = array(
-                'normal' => implode( ',', array(
-                        'pip-flexible-layouts',
-                        'acf-field-group-locations',
-                    )
-                ),
-            );
-
-            return $order;
         }
 
         /**
