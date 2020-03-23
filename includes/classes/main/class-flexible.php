@@ -67,6 +67,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         'acfe_flexible_disable_ajax_title'  => 1,
                         'acfe_flexible_close_button'        => 1,
                         'acfe_flexible_title_edition'       => 1,
+                        'acfe_flexible_clone'               => 1,
                         'acfe_flexible_copy_paste'          => 1,
                         'acfe_flexible_modal_edition'       => 0,
                         'acfe_flexible_modal'               => array(
