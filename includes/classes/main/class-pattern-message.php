@@ -59,13 +59,30 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
         }
 
         /**
-         * Pattern_Message message content
+         * Message content or alert if no layout
          */
         public function pattern_message() {
-            if ( PIP_Flexible::$show_pattern_notice ) {
+            $header = acf_get_field_group( PIP_Flexible_Header::get_flexible_header_field_name() );
+            $footer = acf_get_field_group( PIP_Flexible_Footer::get_flexible_footer_field_name() );
+
+            // No header and no footer
+            if ( !$header && !$footer ) {
+                // Display alert message
+                echo '
+                <script type="application/javascript">
+                    (function ($) {
+
+                        $(document).ready(function () {
+                            alert("Please configure your first layout in order to use Patterns.\nGo to Pilo\'Press > Layouts menu.");
+                        });
+
+                    })(jQuery);
+                </script>';
+
                 return;
             }
 
+            // Echo default content
             echo '<div class="border border-dark px-3 py-5 rounded text-center">
                     <p class="text-uppercase font-weight-bold text-monospace">Website content here</p>
                 </div>';
