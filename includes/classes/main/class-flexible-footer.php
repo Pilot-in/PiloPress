@@ -4,7 +4,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
     class PIP_Flexible_Footer {
 
         private static $flexible_footer_field_name = 'pip_flexible_footer';
-        private        $flexible_footer_group_key  = 'group_pip_flexible_footer';
+        private static $flexible_footer_group_key  = 'group_pip_flexible_footer';
 
         public function __construct() {
             // WP hooks
@@ -26,7 +26,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
 
             // Footer flexible content field group
             $args = array(
-                'key'                   => $this->flexible_footer_group_key,
+                'key'                   => self::get_flexible_footer_group_key(),
                 'title'                 => 'Flexible Content Footer',
                 'fields'                => array(
                     array(
@@ -104,6 +104,13 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
          */
         public static function get_flexible_footer_field_name() {
             return self::$flexible_footer_field_name;
+        }
+
+        /**
+         * @return string
+         */
+        public static function get_flexible_footer_group_key() {
+            return self::$flexible_footer_group_key;
         }
 
     }

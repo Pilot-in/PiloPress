@@ -38,7 +38,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             $clean_array = array();
 
             // Get Layout group keys
-            $layout_group_keys = PIP_Layouts::get_layout_group_keys();
+            $layout_group_keys = self::get_layout_group_keys();
 
             // Browse all group keys
             foreach ( $layout_group_keys as $layout_group_key ) {
@@ -54,7 +54,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
                     // If no field group, remove from group keys
                     unset( $layout_group_keys[ $layout_group_key ] );
-                    PIP_Layouts::set_layout_group_keys( $layout_group_keys );
+                    self::set_layout_group_keys( $layout_group_keys );
 
                 }
             }
@@ -119,7 +119,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             $post = get_post( acf_maybe_get_GET( 'post' ) );
 
             // Layouts
-            $is_layout = PIP_Layouts::is_layout( $post );
+            $is_layout = self::is_layout( $post );
             if ( acf_maybe_get_GET( 'layouts' ) == 1 || $is_layout || acf_maybe_get_GET( 'layout' ) == 1 ) {
 
                 // Change title on layouts pages
@@ -182,7 +182,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                  || $post->post_status == 'draft'
                  || $post->post_status == 'auto-draft'
                  || $post->post_type !== 'acf-field-group'
-                 || !PIP_Layouts::is_layout( $post_id ) ) {
+                 || !self::is_layout( $post_id ) ) {
                 return;
             }
 

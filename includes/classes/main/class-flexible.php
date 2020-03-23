@@ -329,6 +329,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Replace layouts
             $field['layouts'] = $keep;
 
+            // Pattern alert
+            PIP_Pattern::$show_alert = false;
+
             // Return field with layouts for current screen
             return $field;
         }

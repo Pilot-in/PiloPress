@@ -4,7 +4,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
     class PIP_Flexible_Header {
 
         private static $flexible_header_field_name = 'pip_flexible_header';
-        private        $flexible_header_group_key  = 'group_pip_flexible_header';
+        private static $flexible_header_group_key  = 'group_pip_flexible_header';
 
         public function __construct() {
             // WP hooks
@@ -26,7 +26,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
 
             // Header flexible content field group
             $args = array(
-                'key'                   => $this->flexible_header_group_key,
+                'key'                   => self::get_flexible_header_group_key(),
                 'title'                 => 'Flexible Content Header',
                 'fields'                => array(
                     array(
@@ -104,6 +104,14 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
          */
         public static function get_flexible_header_field_name() {
             return self::$flexible_header_field_name;
+        }
+
+        /**
+         * Getter: $flexible_header_group_key
+         * @return string
+         */
+        public static function get_flexible_header_group_key() {
+            return self::$flexible_header_group_key;
         }
 
     }

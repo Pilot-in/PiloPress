@@ -4,7 +4,7 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
     class PIP_Pattern_Message {
         public function __construct() {
             add_action( 'init', array( $this, 'add_local_field_group' ) );
-            add_action( 'acf/render_field/name=pip_flexible_pattern_message', array( $this, 'pattern_message' ) );
+            add_action( 'acf/prepare_field/name=pip_flexible_pattern_message', array( $this, 'pattern_message' ), 99 );
         }
 
         /**
@@ -62,11 +62,10 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
          * Message content or alert if no layout
          */
         public function pattern_message() {
-            $header = acf_get_field_group( PIP_Flexible_Header::get_flexible_header_field_name() );
-            $footer = acf_get_field_group( PIP_Flexible_Footer::get_flexible_footer_field_name() );
 
-            // No header and no footer
-            if ( !$header && !$footer ) {
+            // No layout for header and footer
+            if ( PIP_Pattern::$show_alert ) {
+
                 // Display alert message
                 echo '
                 <script type="application/javascript">

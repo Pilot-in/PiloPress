@@ -282,8 +282,6 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         private static function scss_custom_fonts() {
             $scss_custom = $tinymce_fonts = '';
 
-            acf_log( have_rows( 'pip_fonts', 'pip_styles_fonts' ) );
-
             // Get fonts
             if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
                 while ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
@@ -352,8 +350,6 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
                 }
             }
-
-            acf_log( $tinymce_fonts );
 
             return $scss_custom . $tinymce_fonts;
         }
