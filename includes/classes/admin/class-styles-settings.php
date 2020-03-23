@@ -282,15 +282,12 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         private static function scss_custom_fonts() {
             $scss_custom = $tinymce_fonts = '';
 
+            acf_log( have_rows( 'pip_fonts', 'pip_styles_fonts' ) );
+
             // Get fonts
             if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
                 while ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
                     the_row();
-
-                    // If not custom font, skip
-                    if ( get_row_layout() !== 'custom_font' ) {
-                        continue;
-                    }
 
                     // Get sub fields
                     $name    = get_sub_field( 'name' );
@@ -300,9 +297,15 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     $enqueue = get_sub_field( 'enqueue' );
                     $tinymce = get_sub_field( 'tinymce' );
 
+                    // Build font class
                     $tinymce_fonts .= '.font-' . $tinymce['value'] . ' {' . "\n";
                     $tinymce_fonts .= 'font-family: "' . $name . '";' . "\n";
                     $tinymce_fonts .= '}' . "\n";
+
+                    // If not custom font, skip
+                    if ( get_row_layout() !== 'custom_font' ) {
+                        continue;
+                    }
 
                     // Auto enqueue to false
                     if ( !$enqueue ) {
@@ -349,6 +352,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
                 }
             }
+
+            acf_log( $tinymce_fonts );
 
             return $scss_custom . $tinymce_fonts;
         }
