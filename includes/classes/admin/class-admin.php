@@ -31,11 +31,13 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
             wp_localize_script( 'pilopress-admin-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
 
-            // If pilopress admin style not enqueued and on demo page
-            if ( !file_exists( PIP_THEME_STYLE_PATH . 'style-pilopress-admin.css' ) && get_current_screen()->id === 'admin_page_pip-styles-demo' ) {
+            // If Pilo'Press admin style not enqueued
+            if ( !file_exists( PIP_THEME_STYLE_PATH . 'style-pilopress-admin.css' ) && strpos( get_current_screen()->id, 'admin_page_pip-styles' ) === 0 ) {
 
-                // Enqueue bootstrap default style
-                wp_enqueue_style( 'default-style-demo-admin', PIP_URL . 'assets/css/default-style-demo-admin.css', false );
+                // Enqueue bootstrap default style on demo page
+                if ( get_current_screen()->id === 'admin_page_pip-styles-demo' ) {
+                    wp_enqueue_style( 'default-style-demo-admin', PIP_URL . 'assets/css/default-style-demo-admin.css', false );
+                }
 
                 // Add admin notice
                 acf_add_admin_notice(
