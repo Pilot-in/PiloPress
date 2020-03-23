@@ -22,6 +22,18 @@ td.acf-layouts-category a {
     color: #23282d;
 }
 
+.toplevel_page_pilopress .config-status .dashicons-yes {
+    color: #46B450;
+}
+
+.toplevel_page_pilopress .config-status .dashicons-no-alt {
+    color: #DC3232;
+}
+
+.toplevel_page_pilopress .pilopress-layouts-table .widefat {
+    border: none;
+}
+
 #pilopress-flexible-layouts-table {
     border: 0;
 }

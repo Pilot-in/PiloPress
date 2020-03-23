@@ -36,7 +36,8 @@
 
                     <div class="nav-tab-wrapper">
                         <?php foreach ( $pages as $page ) : ?>
-                            <a href="<?php echo $admin_url . '&page=' . $page['menu_slug'] ?>" class="nav-tab <?php echo $current_page === $page['menu_slug'] ? 'nav-tab-active' : ''; ?>">
+                            <a href="<?php echo add_query_arg( array( 'page' => $page['menu_slug'] ), admin_url( 'admin.php' ) ) ?>"
+                               class="nav-tab <?php echo $current_page === $page['menu_slug'] ? 'nav-tab-active' : ''; ?>">
                                 <?php echo $page['page_title'] ?>
                             </a>
                         <?php endforeach; ?>

@@ -24,7 +24,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'menu_slug'      => 'pip-styles-demo',
                     'post_id'        => 'pip_styles_demo',
                     'capability'     => $capability,
-                    'parent_slug'    => '',
+                    'parent_slug'    => 'pilopress',
                     'update_button'  => 'Update',
                     'update_message' => 'Options Updated',
                     'autoload'       => 1,
@@ -142,13 +142,6 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          */
         public function admin_menu() {
             foreach ( $this->pages as $page ) {
-                // Add parent slug for "Demo" item
-                if ( !$page['parent_slug'] ) {
-                    $flexible_mirror     = PIP_Flexible_Mirror::get_flexible_mirror_group();
-                    $parent_slug         = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
-                    $page['parent_slug'] = $parent_slug;
-                }
-
                 // Register submenu page
                 $slug = add_submenu_page( $page['parent_slug'], $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], array( $this, 'html' ) );
 
@@ -318,15 +311,12 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             $menu_slug  = acf_maybe_get_GET( 'page' );
             $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
 
-            // Get flexible mirror
-            $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
-
             // Define variables for template
             $page_title   = $this->page['page_title'];
             $post_id      = $this->page['post_id'];
             $pages        = $this->pages;
             $current_page = $menu_slug;
-            $admin_url    = admin_url( 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit' );
+            $admin_url    = admin_url( 'admin.php' );
 
             // Display custom option page
             include_once( PIP_PATH . 'includes/views/styles-admin-page.php' );

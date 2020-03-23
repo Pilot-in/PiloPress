@@ -12,7 +12,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // ACF hooks
             add_action( 'acf/import_field_group', array( $this, 'compile_on_sync' ) );
 
-            // Create files and directory or rename directory
+            // Create files and folder or rename folder
 //            add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 10, 3 );
         }
 
@@ -169,7 +169,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         }
 
         /**
-         * Manage layout directory and files on save
+         * Manage layout folder and files on save
          *
          * @param int $post_id
          * @param WP_Post $post
@@ -192,16 +192,16 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             $data        = unserialize( $post->post_content );
             $new_title   = $data['_pip_layout_slug'];
 
-            // Do layout directory already exists ?
-            $directory_exists = file_exists( PIP_THEME_LAYOUTS_PATH . $old_title );
+            // Do layout folder already exists ?
+            $folder_exists = file_exists( PIP_THEME_LAYOUTS_PATH . $old_title );
 
-            if ( $old_title === $new_title && !$directory_exists ) {
+            if ( $old_title === $new_title && !$folder_exists ) {
 
-                // If old and new title are the same, create new layout directory
+                // If old and new title are the same, create new layout folder
                 $this->create_layout_dir( $old_title, $field_group );
-            } elseif ( $old_title !== $new_title && $directory_exists ) {
+            } elseif ( $old_title !== $new_title && $folder_exists ) {
 
-                // If old and new title aren't the same, change layout directory name
+                // If old and new title aren't the same, change layout folder name
                 $this->modify_layout_dir( $old_title, $new_title );
             }
         }
@@ -234,7 +234,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // Layout slug
             acf_render_field_wrap( array(
                 'label'        => __( 'Layout slug', 'pilopress' ),
-                'instructions' => __( 'Layout name and layout directory name', 'pilopress' ),
+                'instructions' => __( 'Layout name and layout folder name', 'pilopress' ),
                 'type'         => 'acfe_slug',
                 'name'         => '_pip_layout_slug',
                 'prefix'       => 'acf_field_group',
@@ -411,13 +411,13 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         }
 
         /**
-         * Create layout directory with corresponding files
+         * Create layout folder with corresponding files
          *
          * @param $layout_title
          * @param $field_group
          */
         private function create_layout_dir( $layout_title, $field_group ) {
-            // Create directory
+            // Create folder
             wp_mkdir_p( PIP_THEME_LAYOUTS_PATH . $layout_title );
 
             // Options to check/modify
@@ -459,7 +459,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         }
 
         /**
-         * Modify layout directory title
+         * Modify layout folder title
          *
          * @param $old_title
          * @param $new_title

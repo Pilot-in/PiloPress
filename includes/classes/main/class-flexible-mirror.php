@@ -262,7 +262,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
             if ( !acf_get_setting( 'acfe/php_found' ) ) {
 
-                // No "acfe-php" directory
+                // No "acfe-php" folder
                 $html = '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
                 $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Folder \'/acfe-php\' was not found in your theme.<br />You must create it to activate this setting"></span>';
 
@@ -306,7 +306,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
                     if ( !acf_get_setting( 'acfe/json_found' ) ) {
 
-                        // No "acf-json" directory
+                        // No "acf-json" folder
                         $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Folder \'/acf-json\' was not found in your theme.<br />You must create it to activate this setting"></span>';
 
                     } else {

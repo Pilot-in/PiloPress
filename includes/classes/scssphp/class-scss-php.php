@@ -71,7 +71,7 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
         }
 
         /**
-         * Put compiled and minified SCSS in wanted directory
+         * Put compiled and minified SCSS in wanted folder
          */
         public function compile() {
             $input_files = array();
@@ -155,10 +155,10 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
                                 continue;
                             }
 
-                            // If there's a CSS file in cache directory
+                            // If there's a CSS file in cache folder
                             if ( pathinfo( $cache_file->getFilename(), PATHINFO_EXTENSION ) == 'css' ) {
 
-                                // Put content in CSS file in pilopress directory in theme
+                                // Put content in CSS file in pilopress folder in theme
                                 file_put_contents( $dir['css_dir'] . $cache_file->getFilename(), file_get_contents( $this->cache . $cache_file->getFilename() ) );
 
                                 // Delete cache file on successful write
@@ -169,8 +169,8 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
 
                         // Log errors
                         $errors = array(
-                            'file'    => __( 'CSS Directory: ', 'pilopress' ) . $dir['css_dir'],
-                            'message' => __( 'File Permissions Error, permission denied. Please make your CSS directory writable.', 'pilopress' ),
+                            'file'    => __( 'CSS Folder: ', 'pilopress' ) . $dir['css_dir'],
+                            'message' => __( 'File Permissions Error, permission denied. Please make your CSS folder writable.', 'pilopress' ),
                         );
                         array_push( $this->compile_errors, $errors );
                     }
@@ -184,7 +184,7 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
         }
 
         /**
-         * Compiles and minifies $scss_from into $css_to file, in cache directory
+         * Compiles and minifies $scss_from into $css_to file, in cache folder
          *
          * @param $scss_from
          * @param $css_to
@@ -210,13 +210,13 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
                     continue;
                 }
 
-                // If cache directory is not writable
+                // If cache folder is not writable
                 if ( !is_writable( $this->cache ) ) {
 
                     // Log error
                     $errors = array(
                         'file'    => __( 'CSS Directories: ', 'pilopress' ) . $dir['css_dir'],
-                        'message' => __( 'File Permission Error, permission denied. Please make the cache directory writable.', 'pilopress' ),
+                        'message' => __( 'File Permission Error, permission denied. Please make the cache folder writable.', 'pilopress' ),
                     );
                     array_push( $instance->compile_errors, $errors );
                 }

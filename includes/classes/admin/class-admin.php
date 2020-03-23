@@ -35,7 +35,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             if ( !file_exists( PIP_THEME_STYLE_PATH . 'style-pilopress-admin.css' ) && strpos( get_current_screen()->id, 'admin_page_pip-styles' ) === 0 ) {
 
                 // Add admin notice
-                acf_add_admin_notice( '<p>Compilation impossible. Please create a <code>pilopress</code> directory in your theme.</p>', 'error' );
+                acf_add_admin_notice( '<p>Compilation impossible. Please create a <code>pilopress</code> folder in your theme.</p>', 'error' );
 
                 // Demo page
                 if ( get_current_screen()->id === 'admin_page_pip-styles-demo' ) {
@@ -49,13 +49,11 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                         'warning'
                     );
                 }
-
-
             }
         }
 
         /**
-         * Compile styles
+         * AJAX action: compile_styles
          */
         public function compile_styles() {
             // Get action
@@ -154,15 +152,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 __( "Pilo'Press", 'pilopress' ),
                 __( "Pilo'Press", 'pilopress' ),
                 $capability,
-                'pilopress.php',
-                false,
+                'pilopress',
+                array( $this, 'pilopress_admin_page' ),
                 'data:image/svg+xml;base64,' . $pip_logo_base64_svg,
                 82 // After 'ACF' menu
             );
 
             // Flexible sub menu
             add_submenu_page(
-                'pilopress.php',
+                'pilopress',
                 __( 'Builder', 'pilopress' ),
                 __( 'Builder', 'pilopress' ),
                 $capability,
@@ -171,7 +169,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Layouts sub menu
             add_submenu_page(
-                'pilopress.php',
+                'pilopress',
                 __( 'Layouts', 'pilopress' ),
                 __( 'Layouts', 'pilopress' ),
                 $capability,
@@ -180,7 +178,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Layouts categories sub menu
             add_submenu_page(
-                'pilopress.php',
+                'pilopress',
                 __( 'Categories', 'pilopress' ),
                 __( 'Categories', 'pilopress' ),
                 $capability,
@@ -189,30 +187,68 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Components sub menu
             add_submenu_page(
-                'pilopress.php',
+                'pilopress',
                 __( 'Components', 'pilopress' ),
                 __( 'Components', 'pilopress' ),
                 $capability,
                 'edit.php?post_type=' . PIP_Components::$post_type
             );
+        }
 
-            global $menu, $submenu;
+        /**
+         * Pilo'Press admin page
+         */
+        public function pilopress_admin_page() {
+            // Icons HTML
+            $success_icon = '<span class="dashicons dashicons-yes"></span>';
+            $error_icon   = '<span class="dashicons dashicons-no-alt"></span>';
 
-            // Change menu_slug for main menu page to have the same first child (Flexible menu)
-            foreach ( $menu as $key => $item ) {
-                if ( $item[2] === 'pilopress.php' ) {
-                    $menu[ $key ][2] = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
+            // Check if "style-pilopress-admin.css" enqueued
+            global $wp_styles;
+            $admin_style_enqueued = false;
+            $front_style_enqueued = false;
+            foreach ( $wp_styles->queue as $style ) {
+                if ( $wp_styles->registered[ $style ]->src === get_stylesheet_directory_uri() . '/pilopress/style-pilopress-admin.css' ) {
+                    $admin_style_enqueued = true;
                 }
             }
 
-            // Remove first item (main menu page)
-            unset( $submenu['pilopress.php'][0] );
+            // Configurations
+            $configurations = array(
+                array(
+                    'label'  => __( '<code>pilopress</code> folder found', 'pilopress' ),
+                    'status' => file_exists( PIP_THEME_STYLE_PATH ),
+                ),
+                array(
+                    'label'  => __( '<code>layout</code> sub-folder found', 'pilopress' ),
+                    'status' => file_exists( PIP_THEME_LAYOUTS_PATH ),
+                ),
+                array(
+                    'label'  => __( 'Admin style enqueued', 'pilopress' ),
+                    'status' => $admin_style_enqueued,
+                ),
+            );
 
-            // Re-assign sub-items
-            $submenu[ 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit' ] = $submenu['pilopress.php'];
+            // Layouts list
+            $layouts      = array();
+            $layouts_keys = PIP_Layouts::get_layout_group_keys();
+            foreach ( $layouts_keys as $layout_key ) {
+                // Get field group
+                $field_group = acf_get_field_group( $layout_key );
 
-            // Remove useless menu
-            unset( $submenu['pilopress.php'] );
+                // Get locations html
+                $locations = ''; // PILO_TODO: get ACFE helper (next version)
+
+                // Structured array for template file
+                $layouts[] = array(
+                    'title'     => $field_group['title'],
+                    'location'  => $locations,
+                    'edit_link' => get_edit_post_link( $field_group['ID'] ),
+                );
+            }
+
+            // Template file
+            include_once( PIP_PATH . 'includes/views/pilopress-admin-page.php' );
         }
 
         /**
@@ -221,9 +257,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          * @param WP_Admin_Bar $wp_admin_bar
          */
         public function add_admin_bar_menu( $wp_admin_bar ) {
-            // Get flexible mirror
-            $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
-
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
             if ( !current_user_can( $capability ) ) {
@@ -234,7 +267,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $wp_admin_bar->add_node( array(
                 'id'    => 'pilopress',
                 'title' => "<span class='pip-icon'></span> Pilo'Press",
-                'href'  => add_query_arg( array( 'post' => $flexible_mirror['ID'], 'action' => 'edit' ), admin_url( 'post.php' ) ),
+                'href'  => add_query_arg( array( 'page' => 'pilopress' ), admin_url( 'admin.php' ) ),
             ) );
 
             // Styles
@@ -242,7 +275,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'parent' => 'pilopress',
                 'id'     => 'styles',
                 'title'  => __( 'Styles', 'pilopress' ),
-                'href'   => add_query_arg( array( 'post' => $flexible_mirror['ID'], 'action' => 'edit', 'page' => 'pip-styles-demo' ), admin_url( 'post.php' ) ),
+                'href'   => add_query_arg( array( 'page' => 'pip-styles-demo' ), admin_url( 'admin.php' ) ),
             ) );
 
             // Compile styles
@@ -267,7 +300,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Define parent menu for Flexible menu
             if ( acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID'] ) {
-                $parent_file = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
+                $parent_file = 'pilopress';
             }
 
             return $parent_file;
