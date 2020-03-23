@@ -82,7 +82,7 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
             }
 
             // Echo default content
-            echo '<div class="border border-dark px-3 py-5 rounded text-center">
+            echo '<div class="border border-dark px-3 py-4 mx-4 rounded text-center">
                     <p class="text-uppercase font-weight-bold text-monospace">Website content here</p>
                 </div>';
         }

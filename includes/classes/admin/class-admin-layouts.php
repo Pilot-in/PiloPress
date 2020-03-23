@@ -75,6 +75,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 unset( $views['publish'] );
                 unset( $views['acfe-third-party'] );
                 unset( $views['acf-disabled'] );
+                unset( $views['acfe-local'] );
 
             } else {
 
