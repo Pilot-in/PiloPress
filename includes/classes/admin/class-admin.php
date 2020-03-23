@@ -34,18 +34,23 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // If Pilo'Press admin style not enqueued
             if ( !file_exists( PIP_THEME_STYLE_PATH . 'style-pilopress-admin.css' ) && strpos( get_current_screen()->id, 'admin_page_pip-styles' ) === 0 ) {
 
-                // Enqueue bootstrap default style on demo page
+                // Add admin notice
+                acf_add_admin_notice( '<p>Compilation impossible. Please create a <code>pilopress</code> directory in your theme.</p>', 'error' );
+
+                // Demo page
                 if ( get_current_screen()->id === 'admin_page_pip-styles-demo' ) {
+
+                    // Enqueue default style
                     wp_enqueue_style( 'default-style-demo-admin', PIP_URL . 'assets/css/default-style-demo-admin.css', false );
+
+                    // Add admin notice
+                    acf_add_admin_notice(
+                        '<p>Pilo\'Press style not detected, default Bootstrap style is loaded.</p>',
+                        'warning'
+                    );
                 }
 
-                // Add admin notice
-                acf_add_admin_notice(
-                    '<p>Pilo\'Press style not detected, default Bootstrap style is loaded.</p>
-                         <p>If you want to use configurations below, please enqueue <code>style-pilopress-admin.css</code> file.</p>
-                         <p><a href="https://developer.wordpress.org/reference/functions/wp_enqueue_style/" target="_blank">See documentation</a></p>',
-                    'warning'
-                );
+
             }
         }
 
