@@ -206,7 +206,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Check if "style-pilopress-admin.css" enqueued
             global $wp_styles;
             $admin_style_enqueued = false;
-            $front_style_enqueued = false;
             foreach ( $wp_styles->queue as $style ) {
                 if ( $wp_styles->registered[ $style ]->src === get_stylesheet_directory_uri() . '/pilopress/style-pilopress-admin.css' ) {
                     $admin_style_enqueued = true;
@@ -216,12 +215,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Configurations
             $configurations = array(
                 array(
-                    'label'  => __( '<code>pilopress</code> folder found', 'pilopress' ),
-                    'status' => file_exists( PIP_THEME_STYLE_PATH ),
+                    'label'        => __( '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/</code>', 'pilopress' ),
+                    'status'       => file_exists( PIP_THEME_STYLE_PATH ),
+                    'status_label' => file_exists( PIP_THEME_STYLE_PATH ) ? ' folder found' : ' folder not found',
                 ),
                 array(
-                    'label'  => __( '<code>layout</code> sub-folder found', 'pilopress' ),
-                    'status' => file_exists( PIP_THEME_LAYOUTS_PATH ),
+                    'label'        => __( '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/layouts/</code>', 'pilopress' ),
+                    'status'       => file_exists( PIP_THEME_LAYOUTS_PATH ),
+                    'status_label' => file_exists( PIP_THEME_LAYOUTS_PATH ) ? ' folder found' : ' folder not found',
                 ),
                 array(
                     'label'  => __( 'Admin style enqueued', 'pilopress' ),

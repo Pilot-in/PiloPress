@@ -2,10 +2,10 @@
     'use strict';
 
     // The global acf object
-    var pilopress = {};
+    var pip = {};
 
     // Set as a browser global
-    window.pilopress = pilopress;
+    window.pip = pip;
 
     $(document).ready(function () {
 
@@ -55,8 +55,8 @@
          * @param draft
          */
         function change_values ($this, draft = false) {
-            $layoutSlug.val(pilopress.sanitize_title($this.val()));
-            $prepend.html(pilopress.sanitize_title($this.val().replace(/-$/, '')));
+            $layoutSlug.val(pip.sanitize_title($this.val()));
+            $prepend.html(pip.sanitize_title($this.val().replace(/-$/, '')));
 
             if (draft) {
                 updateRenderSettings($this.val());
@@ -72,10 +72,10 @@
          * @param val
          */
         function updateRenderSettings (val) {
-            $layoutTemplate.val((pilopress.sanitize_title(val) ? pilopress.sanitize_title(val) : 'template') + '.php');
-            $renderCSS.val((pilopress.sanitize_title(val) ? pilopress.sanitize_title(val) : 'style') + '.css');
-            $renderSCSS.val((pilopress.sanitize_title(val) ? pilopress.sanitize_title(val) : 'style') + '.scss');
-            $renderScript.val((pilopress.sanitize_title(val) ? pilopress.sanitize_title(val) : 'scrip') + '.js');
+            $layoutTemplate.val((pip.sanitize_title(val) ? pip.sanitize_title(val) : 'template') + '.php');
+            $renderCSS.val((pip.sanitize_title(val) ? pip.sanitize_title(val) : 'style') + '.css');
+            $renderSCSS.val((pip.sanitize_title(val) ? pip.sanitize_title(val) : 'style') + '.scss');
+            $renderScript.val((pip.sanitize_title(val) ? pip.sanitize_title(val) : 'scrip') + '.js');
         }
 
         /**
@@ -143,7 +143,7 @@
      * @param $val
      * @returns {string}
      */
-    pilopress.sanitize_title = function ($val) {
+    pip.sanitize_title = function ($val) {
         return $val.toLowerCase()
             .replace(/\s+/g, '-')       // Replace spaces with -
             .replace(/[^\w\-]+/g, '')   // Remove all non-word chars
@@ -151,4 +151,5 @@
             .replace(/\_\_+/g, '_')     // Replace multiple _ with single _
             .replace(/^-+/, '');        // Trim - from start of text
     };
+
 })(jQuery);
