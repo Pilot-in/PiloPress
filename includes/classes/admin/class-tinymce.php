@@ -24,7 +24,29 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 'image_sizes'         => self::get_all_image_sizes(),
                 'custom_colors'       => self:: get_custom_colors( true ),
                 'custom_colors_assoc' => self:: get_custom_colors(),
+                'custom_styles'       => self:: get_custom_styles(),
             ) );
+        }
+
+        /**
+         * Get custom typography
+         * @return array
+         */
+        public static function get_custom_styles() {
+            $custom_styles = array();
+            $styles        = get_field( 'pip_custom_typography', 'pip_styles_typography' );
+
+            // If no custom style, return
+            if ( !$styles ) {
+                return $custom_styles;
+            }
+
+            // Format array for TinyMCE
+            foreach ( $styles as $style ) {
+                $custom_styles[ $style['class_name'] ] = $style['name'];
+            }
+
+            return $custom_styles;
         }
 
         /**
@@ -119,6 +141,11 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     // Get font name
                     $font     = get_sub_field( 'name' );
                     $tiny_mce = get_sub_field( 'tinymce' );
+
+                    // Not displayed in TinyMCE
+                    if ( !$tiny_mce ) {
+                        continue;
+                    }
 
                     // Add custom font
                     $fonts[ $tiny_mce['value'] ] = [

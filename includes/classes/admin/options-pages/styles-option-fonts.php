@@ -127,7 +127,7 @@ acf_add_local_field_group( array(
 								'tertiary'  => __( 'Tertiary', 'pilopress' ),
 							),
 							'default_value'     => array(),
-							'allow_null'        => 0,
+							'allow_null'        => 1,
 							'multiple'          => 0,
 							'ui'                => 0,
 							'return_format'     => 'array',

@@ -8,8 +8,8 @@
     /**
      * Define variables
      */
-    var fonts  = acf.get('custom_fonts');
-    var colors = {
+    var fonts       = acf.get('custom_fonts');
+    var colors      = {
         primary: 'Primary',
         secondary: 'Secondary',
         success: 'Success',
@@ -24,13 +24,17 @@
         'white-50': 'White 50%',
         'black-50': 'Black 50%',
     };
-    var styles = {
+    var base_styles = {
         h1: 'H1 style',
         h2: 'H2 style',
         h3: 'H3 style',
         h4: 'H4 style',
         h5: 'H5 style',
         h6: 'H6 style',
+    };
+    var styles      = {
+        ...base_styles,
+        ...acf.get('custom_styles')
     };
 
     /**
