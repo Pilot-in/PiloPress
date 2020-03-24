@@ -360,9 +360,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             <script type="text/javascript">
                 if (typeof acf !== 'undefined') {
                     acf.postbox.render({
-                                           'id': 'pip_layout_settings',
-                                           'label': 'left'
-                                       });
+                        'id': 'pip_layout_settings',
+                        'label': 'left'
+                    });
                 }
             </script>
             <?php
@@ -408,6 +408,51 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             return $is_layout;
+        }
+
+        /**
+         * Get a layout by its slug
+         *
+         * @param $slug
+         * @param bool $excluded_id
+         *
+         * @return array|null
+         */
+        public static function get_layout_by_slug( $slug, $excluded_id = false ) {
+            $field_group = null;
+
+            // Get slug length
+            $count = strlen( $slug );
+
+            // Arguments for query
+            $args = array(
+                'post_type'        => 'acf-field-group',
+                'post_status'      => 'acf-disabled',
+                'fields'           => 'ids',
+                'posts_per_page'   => - 1,
+                'suppress_filters' => 0,
+                'pip_post_content' => array(
+                    'compare' => 'LIKE',
+                    'value'   => 's:16:"_pip_layout_slug";s:' . $count . ':"' . $slug . '";',
+                ),
+            );
+
+            // Maybe exclude post
+            if ( $excluded_id ) {
+                $args['post__not_in'] = array( $excluded_id );
+            }
+
+            // Get post ids
+            $posts_ids = get_posts( $args );
+
+            // If posts found, get field groups
+            if ( $posts_ids ) {
+                foreach ( $posts_ids as $post_id ) {
+                    $field_group[] = acf_get_field_group( $post_id );
+                }
+            }
+
+            return $field_group;
         }
 
         /**

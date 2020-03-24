@@ -6,6 +6,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             // WP hooks
             add_action( 'current_screen', array( $this, 'admin_layouts_page' ), 1 );
             add_action( 'untrashed_post', array( $this, 'untrash_field_group' ), 1 );
+            add_action( 'acf/update_field_group', array( $this, 'update_layout_setting' ), 10, 1 );
         }
 
         /**
@@ -34,6 +35,52 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             if ( acf_maybe_get_GET( 'sync_ok' ) ) {
                 self::show_notice_message();
             }
+        }
+
+        /**
+         * Make layout slug unique
+         *
+         * @param $field_group
+         *
+         * @return mixed
+         */
+        public function update_layout_setting( $field_group ) {
+            // Get layout slug
+            $slug = $field_group['_pip_layout_slug'];
+
+            // Get layout with current slug
+            $original = PIP_Layouts::get_layout_by_slug( $slug, $field_group['ID'] );
+
+            // If not a duplicated layout slug, return
+            if ( !$original ) {
+                return $field_group;
+            }
+
+            // Initialize suffix
+            $suffix = 2;
+
+            // Make unique layout slug
+            do {
+                // Build new slug
+                $alt_post_name = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
+
+                // Check if layout exists with new slug
+                $unique_layout_slug = PIP_Layouts::get_layout_by_slug( $alt_post_name );
+
+                // Increment suffix
+                $suffix ++;
+
+                // Do it again until no layout is find
+            } while ( $unique_layout_slug );
+
+            // Store new slug
+            $slug = $alt_post_name;
+
+            // Update field group with new slug
+            $field_group['_pip_layout_slug'] = $slug;
+            acf_update_field_group( $field_group );
+
+            return $field_group;
         }
 
         /**
