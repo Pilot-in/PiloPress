@@ -256,8 +256,9 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     'status_label' => file_exists( PIP_THEME_LAYOUTS_PATH ) ? ' folder found' : ' folder not found',
                 ),
                 array(
-                    'label'  => __( 'Admin style enqueued', 'pilopress' ),
-                    'status' => $admin_style_enqueued,
+                    'label'        => __( 'Admin style', 'pilopress' ),
+                    'status'       => $admin_style_enqueued,
+                    'status_label' => $admin_style_enqueued ? ' enqueued' : ' not enqueued',
                 ),
             );
 
