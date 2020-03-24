@@ -9756,7 +9756,7 @@ a.-preview .badge-dark:focus, abody#tinymce .badge-dark:focus, a.-preview .badge
     min-width: 992px !important
 }
 
-.-preview .navbar, body#tinymce .navbar {
+body#tinymce .navbar {
     display: none
 }
 
