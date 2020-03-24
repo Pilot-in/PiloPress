@@ -32,42 +32,42 @@ if ( !class_exists( 'PIP_Fields' ) ) {
             $color_range_names = json_encode( $color_range_names ); ?>
 
             <script type="text/javascript">
-              (function ($) {
+                (function ($) {
 
-                // Custom palette
-                acf.addFilter('color_picker_args', function (args) {
-                  args.palettes = [<?php echo $color_range ?>];
-                  return args;
-                });
+                    // Custom palette
+                    acf.addFilter('color_picker_args', function (args) {
+                        args.palettes = [<?php echo $color_range ?>];
+                        return args;
+                    });
 
-                var fix_color_picker_height = function (field) {
-                  var $iris_el = field.$el;
-                  var $iris_palettes = $iris_el.find('.iris-palette');
-                  var paletteCount = $iris_palettes.length;
+                    var fix_color_picker_height = function (field) {
+                        var $iris_el       = field.$el;
+                        var $iris_palettes = $iris_el.find('.iris-palette');
+                        var paletteCount   = $iris_palettes.length;
 
-                  // Dirty loop to wait till "wpColorPicker" is loaded (no event so we have no choice)
-                  if (!paletteCount) { setTimeout(() => { fix_color_picker_height(field); }, 500); }
+                        // Dirty loop to wait till "wpColorPicker" is loaded (no event so we have no choice)
+                        if (!paletteCount) { setTimeout(() => { fix_color_picker_height(field); }, 500); }
 
-                  var paletteRowCount = Math.ceil(paletteCount / 10);
-                  var palettes = <?php echo $color_range_names ?>;
-                  var $iris_slider = $iris_el.find('.iris-slider');
-                  var $iris_picker = $iris_el.find('.iris-picker');
+                        var paletteRowCount = Math.ceil(paletteCount / 10);
+                        var palettes        = <?php echo $color_range_names ?>;
+                        var $iris_slider    = $iris_el.find('.iris-slider');
+                        var $iris_picker    = $iris_el.find('.iris-picker');
 
-                  // Fix height
-                  $iris_slider.css('height', '180px');
-                  $iris_picker.css({ height: 240 + (paletteRowCount * 10) + 'px', 'padding-bottom': '15px' });
+                        // Fix height
+                        $iris_slider.css('height', '180px');
+                        $iris_picker.css({ height: 240 + (paletteRowCount * 10) + 'px', 'padding-bottom': '15px' });
 
-                  // Add tooltip and fix style
-                  $iris_palettes.each(function (index) {
-                    var $iris_palette = $(this), paletteName = palettes[index];
+                        // Add tooltip and fix style
+                        $iris_palettes.each(function (index) {
+                            var $iris_palette = $(this), paletteName = palettes[index];
 
-                    $iris_palette.attr('title', paletteName).addClass('acf-js-tooltip');
-                    $iris_palette.css({ height: '20px', width: '20px', 'margin-left': '', 'margin-right': '3px', 'margin-top': '3px' });
-                  });
-                };
-                acf.addAction('new_field/type=color_picker', fix_color_picker_height, 20);
+                            $iris_palette.attr('title', paletteName).addClass('acf-js-tooltip');
+                            $iris_palette.css({ height: '20px', width: '20px', 'margin-left': '', 'margin-right': '3px', 'margin-top': '3px' });
+                        });
+                    };
+                    acf.addAction('new_field/type=color_picker', fix_color_picker_height, 20);
 
-              })(jQuery);
+                })(jQuery);
             </script>
 
             <?php
@@ -114,26 +114,26 @@ if ( !class_exists( 'PIP_Fields' ) ) {
 
             ?>
             <script type="text/javascript">
-              (function () {
+                (function () {
 
-                var hide_color_picker = function (field) {
-                  var $iris_el = field.$el;
-                  var $iris_palette_container = $iris_el.find('.iris-palette-container');
-                  var $iris_picker = $iris_el.find('.iris-picker');
-                  var $iris_picker_inner = $iris_el.find('.iris-picker-inner');
+                    var hide_color_picker = function (field) {
+                        var $iris_el                = field.$el;
+                        var $iris_palette_container = $iris_el.find('.iris-palette-container');
+                        var $iris_picker            = $iris_el.find('.iris-picker');
+                        var $iris_picker_inner      = $iris_el.find('.iris-picker-inner');
 
-                  // Dirty loop to wait till "wpColorPicker" is loaded (no event so we have no choice)
-                  if (!$iris_picker_inner.length) { setTimeout(() => { hide_color_picker(field); }, 500); }
+                        // Dirty loop to wait till "wpColorPicker" is loaded (no event so we have no choice)
+                        if (!$iris_picker_inner.length) { setTimeout(() => { hide_color_picker(field); }, 500); }
 
-                  // Hide color picker and fix style
-                  $iris_picker_inner.hide();
-                  $iris_picker.css({ width: '255px', height: 'auto', position: 'relative', border: '0px', padding: '0px' });
-                  $iris_palette_container.css({ position: 'relative', top: 'auto', left: 'auto', right: 'auto', bottom: 'auto' });
-                };
+                        // Hide color picker and fix style
+                        $iris_picker_inner.hide();
+                        $iris_picker.css({ width: '255px', height: 'auto', position: 'relative', border: '0px', padding: '0px' });
+                        $iris_palette_container.css({ position: 'relative', top: 'auto', left: 'auto', right: 'auto', bottom: 'auto' });
+                    };
 
-                acf.addAction('new_field/key=<?php echo $field_key; ?>', hide_color_picker, 20);
+                    acf.addAction('new_field/key=<?php echo $field_key; ?>', hide_color_picker, 20);
 
-              })();
+                })();
             </script>
             <?php
         }

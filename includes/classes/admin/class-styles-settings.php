@@ -203,12 +203,10 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             .-preview, body#tinymce{
 
-            @import '../libs/bootstrap/scss/functions';
-
-            <?php echo $custom_scss; ?>
-
             // Import Bootstrap
             @import '../libs/bootstrap/scss/bootstrap';
+
+            <?php echo $custom_scss; ?>
 
             color: $body-color;
             font-family: $font-family-base;
@@ -232,14 +230,15 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return false|string
          */
         private static function get_front_scss_code( $custom_scss ) {
-            ob_start();
-
-            echo $custom_scss; ?>
+            ob_start(); ?>
 
             // Import Bootstrap
             @import 'bootstrap';
 
-            <?php return ob_get_clean();
+            <?php
+            echo $custom_scss;
+
+            return ob_get_clean();
         }
 
         /**
@@ -256,17 +255,18 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../..' . parse_url( PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH ) );
 
             // Store folder and scss code
-            ob_start();
-
-            echo $custom_scss; ?>
+            ob_start(); ?>
 
             // Import Bootstrap utilities
             @import '<?php echo $path_to_scss_bootstrap; ?>functions';
             @import '<?php echo $path_to_scss_bootstrap; ?>variables';
             @import '<?php echo $path_to_scss_bootstrap; ?>mixins';
             @import '<?php echo $path_to_scss_bootstrap; ?>utilities';
+            @import '<?php echo $path_to_scss_bootstrap; ?>type';
 
             <?php
+            echo $custom_scss;
+
             if ( file_exists( $file_path . $field_group['_pip_render_style_scss'] ) ) {
                 echo file_get_contents( $file_path . $field_group['_pip_render_style_scss'] );
             }
@@ -474,6 +474,22 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             // Get lead
             self::add_to_scss_custom( $scss_custom, 'pip_lead_typography', 'pip_styles_typography' );
+
+            // Get custom
+            if ( have_rows( 'pip_custom_typography', 'pip_styles_typography' ) ) {
+                while ( have_rows( 'pip_custom_typography', 'pip_styles_typography' ) ) {
+                    the_row();
+
+                    // Get sub fields
+                    $class_name = get_sub_field( 'class_name' );
+                    $value      = get_sub_field( 'value' );
+
+                    // Build class
+                    $scss_custom .= '.' . $class_name . "{\n";
+                    $scss_custom .= $value . "\n";
+                    $scss_custom .= "}\n";
+                }
+            }
 
             return $scss_custom;
         }
