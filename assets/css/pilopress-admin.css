@@ -34,6 +34,16 @@ td.acf-layouts-category a {
     border: none;
 }
 
+.toplevel_page_pilopress .wp-heading-inline {
+    display: flex;
+}
+
+.toplevel_page_pilopress .pilopress-logo {
+    width: 30px;
+    fill: #2eb6e5;
+    padding: 9px 9px 4px 0;
+}
+
 #pilopress-flexible-layouts-table {
     border: 0;
 }

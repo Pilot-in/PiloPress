@@ -100,17 +100,17 @@ your-theme/
 - In the admin menu `Pilo'Press > Layouts`, add a new layout
 - Configure the layouts fields
 - Configure the layouts settings to match your theme `/theme/pilopress/layouts/` folder structure
-- You have to name the files the same way you did in back-end settings
+- You have to name the files the same way you did in back-office settings
 
 ### Sync layout
 
-- Add new directory in `pilopress/layouts/your-layout/` with your layout files (PHP, JS, SCSS, CSS, JSON) in it.
+- Add folder `pilopress/layouts/your-layout/` with your layout files in it (PHP, JS, SCSS, CSS, JSON).
 - Go to `Pilo'Press > Layouts > Sync available` and sync your layout field group.
 
 ### Customizing style
 
 To customize default bootstrap styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
-When you will save, SCSS files for `style-pilopress*.css` files and layouts files will be compiled.  
+When you will save, `style-pilopress*.css` files and layouts `.css` files will be updated.  
 To force compilation, you can use the top bar menu `Pilo'Press > Compile styles`.
 
 ### Templating
