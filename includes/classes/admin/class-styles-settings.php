@@ -370,6 +370,33 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Get theme colors
             self::add_to_scss_custom( $scss_custom, 'pip_theme_colors', 'pip_styles_colors' );
 
+            // Get custom colors
+            if ( have_rows( 'pip_custom_colors', 'pip_styles_colors' ) ) {
+                while ( have_rows( 'pip_custom_colors', 'pip_styles_colors' ) ) {
+                    the_row();
+
+                    // Get sub fields
+                    $name  = get_sub_field( 'name' );
+                    $value = get_sub_field( 'value' );
+
+                    // Add ";" if needed
+                    $suffix = strpos( $value, ';' ) === ( strlen( $value ) - 1 ) ? '' : ';';
+
+                    // Build $color variable
+                    $scss_custom .= '$' . $name . ': ' . $value . $suffix . "\n";
+
+                    // Build text-$color class
+                    $scss_custom .= '.text-' . $name . "{\n";
+                    $scss_custom .= 'color: $' . $name . ";\n";
+                    $scss_custom .= "}\n";
+
+                    // Build bg-$color class
+                    $scss_custom .= '.bg-' . $name . "{\n";
+                    $scss_custom .= 'background-color: $' . $name . ";\n";
+                    $scss_custom .= "}\n";
+                }
+            }
+
             return $scss_custom;
         }
 

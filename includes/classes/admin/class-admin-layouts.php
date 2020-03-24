@@ -45,6 +45,11 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
          * @return mixed
          */
         public function update_layout_setting( $field_group ) {
+            // If not a layout, return
+            if ( !PIP_Layouts::is_layout( $field_group ) ) {
+                return $field_group;
+            }
+
             // Get layout slug
             $slug = $field_group['_pip_layout_slug'];
 
