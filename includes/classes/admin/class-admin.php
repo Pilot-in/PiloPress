@@ -31,23 +31,54 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
             wp_localize_script( 'pilopress-admin-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
 
-            // If Pilo'Press admin style not enqueued
-            if ( !file_exists( PIP_THEME_STYLE_PATH . 'style-pilopress-admin.css' ) && strpos( get_current_screen()->id, 'admin_page_pip-styles' ) === 0 ) {
+            self::maybe_enqueue_default_style();
+        }
 
-                // Add admin notice
-                acf_add_admin_notice( '<p>Compilation impossible. Please create a <code>pilopress</code> folder in your theme.</p>', 'error' );
+        private static function maybe_enqueue_default_style() {
+            $demo_page         = 'pilopress_page_pip-styles-demo';
+            $style_file_exists = file_exists( PIP_THEME_STYLE_PATH . 'style-pilopress-admin.css' );
+            $styles_pages      = strpos( get_current_screen()->id, 'pilopress_page_pip-styles' ) === 0;
+
+            // Check if "style-pilopress-admin.css" enqueued
+            global $wp_styles;
+            $admin_style_enqueued = false;
+            foreach ( $wp_styles->queue as $style ) {
+                if ( $wp_styles->registered[ $style ]->src === get_stylesheet_directory_uri() . '/pilopress/style-pilopress-admin.css' ) {
+                    $admin_style_enqueued = true;
+                }
+            }
+
+            // If Pilo'Press admin style not enqueued
+            if ( ( !$style_file_exists || $admin_style_enqueued === false ) && $styles_pages ) {
+
+                // Add admin notice if no 'pilopress' folder
+                if ( !$style_file_exists ) {
+                    acf_add_admin_notice( '<p>Compilation impossible. Please create a <code>pilopress</code> folder in your theme.</p>', 'error' );
+                }
 
                 // Demo page
-                if ( get_current_screen()->id === 'admin_page_pip-styles-demo' ) {
+                if ( get_current_screen()->id === $demo_page ) {
 
                     // Enqueue default style
                     wp_enqueue_style( 'default-style-demo-admin', PIP_URL . 'assets/css/default-style-demo-admin.css', false );
 
-                    // Add admin notice
-                    acf_add_admin_notice(
-                        '<p>Pilo\'Press style not detected, default Bootstrap style is loaded.</p>',
-                        'warning'
-                    );
+                    if ( $admin_style_enqueued === false && !$style_file_exists ) {
+
+                        // Add admin notice if no styles files
+                        acf_add_admin_notice(
+                            '<p>Pilo\'Press style not detected, default Bootstrap style is loaded.</p>',
+                            'warning'
+                        );
+
+                    } elseif ( $admin_style_enqueued === false ) {
+
+                        // Add admin notice if styles files not enqueued
+                        acf_add_admin_notice(
+                            '<p>Pilo\'Press style detected but not enqueued, default Bootstrap style is loaded.</p>',
+                            'warning'
+                        );
+
+                    }
                 }
             }
         }
