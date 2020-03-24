@@ -118,11 +118,8 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
                 return $parent_file;
             }
 
-            // Get flexible mirror
-            $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
-
-            // Define parent menu for Flexible menu
-            $parent_file = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
+            // Define parent menu
+            $parent_file = 'pilopress';
 
             return $parent_file;
         }
