@@ -15,6 +15,9 @@ if ( !class_exists( 'PIP_Fields' ) ) {
         public function customize_color_picker() {
             // Get colors
             $colors = PIP_Styles_Settings::get_colors();
+            if ( !$colors ) {
+                return;
+            }
 
             // Separate color value and color name
             $color_range       = array();

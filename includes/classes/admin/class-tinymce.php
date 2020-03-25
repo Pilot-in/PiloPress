@@ -87,6 +87,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
             // Get colors
             $colors = PIP_Styles_Settings::get_colors();
+            if ( !$colors ) {
+                return $color_range;
+            }
 
             // Associative array or split values
             if ( $split ) {

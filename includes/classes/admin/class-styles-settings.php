@@ -291,12 +291,10 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         public static function get_spacers( $format = 'scss' ) {
             switch ( $format ) {
                 case 'array':
+                    // Get spacer value
                     $options = get_field( 'pip_bt_options', 'pip_styles_bt_options' );
-                    $spacer  = $options['spacer'];
-                    $spacer  = str_replace( 'rem', '', $spacer );
-                    $spacer  = str_replace( 'em', '', $spacer );
-                    $spacer  = str_replace( 'vh', '', $spacer );
-                    $spacer  = str_replace( 'px', '', $spacer );
+                    $spacer  = $options['spacer'] ? $options['spacer'] : 1;
+                    $spacer  = (int) $spacer;
 
                     $return = array(
                         0,
@@ -316,7 +314,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     break;
                 default:
                 case 'scss':
-                    $return = '$spacers: (
+                    $return = '
+                    $spacer: 1rem;
+                    $spacers: (
                       0: 0,
                       1: ($spacer * .25),
                       2: ($spacer * .5),
@@ -761,7 +761,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $pip_custom_colors = get_field( 'pip_custom_colors', 'pip_styles_colors' );
 
             // If no theme colors, return
-            if ( !$pip_theme_colors ) {
+            if ( !$pip_theme_colors || !$pip_grays || !$pip_colors ) {
                 return null;
             }
 
@@ -771,38 +771,62 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 // Remove $ from variables
                 $color_var = str_replace( '$', '', $color_var );
 
+                // If no data yet, add
+                $sanitized_name = '';
+                if ( strpos( $name, 'field_' ) === 0 ) {
+                    // Get color var
+                    $color_var = str_replace( '-', '_', $color_var );
+                    $color_var = 'field_' . $color_var;
+
+                    // Get sanitized name
+                    $sanitized_name = str_replace( 'field_', '', $name );
+                    $sanitized_name = str_replace( '_', '-', $sanitized_name );
+                }
+
                 if ( acf_maybe_get( $pip_colors, $color_var ) ) {
 
                     // Get hexadecimal value from colors
-                    $pip_theme_colors[ $name ] = $pip_colors[ $color_var ];
+                    if ( strpos( $name, 'field_' ) === 0 ) {
+                        unset( $pip_theme_colors[ $name ] );
+                        $pip_theme_colors[ $sanitized_name ] = $pip_colors[ $color_var ];
+                    } else {
+                        $pip_theme_colors[ $name ] = $pip_colors[ $color_var ];
+                    }
 
                 } elseif ( acf_maybe_get( $pip_grays, $color_var ) ) {
 
                     // Get hexadecimal value from grays
-                    $pip_theme_colors[ $name ] = $pip_grays[ $color_var ];
+                    if ( strpos( $name, 'field_' ) === 0 ) {
+                        unset( $pip_theme_colors[ $name ] );
+                        $pip_theme_colors[ $sanitized_name ] = $pip_grays[ $color_var ];
+                    } else {
+                        $pip_theme_colors[ $name ] = $pip_grays[ $color_var ];
+                    }
 
                 }
             }
 
             // Change variable by values
             $custom_colors = array();
-            foreach ( $pip_custom_colors as $color ) {
+            if ( $pip_custom_colors ) {
+                foreach ( $pip_custom_colors as $color ) {
 
-                if ( acf_maybe_get( $pip_colors, $color['value'] ) ) {
+                    if ( acf_maybe_get( $pip_colors, $color['value'] ) ) {
 
-                    // Get hexadecimal value from colors
-                    $custom_colors[ $color['name'] ] = $pip_colors[ $color['value'] ];
+                        // Get hexadecimal value from colors
+                        $custom_colors[ $color['name'] ] = $pip_colors[ $color['value'] ];
 
-                } elseif ( acf_maybe_get( $pip_grays, $color['value'] ) ) {
+                    } elseif ( acf_maybe_get( $pip_grays, $color['value'] ) ) {
 
-                    // Get hexadecimal value from grays
-                    $custom_colors[ $color['name'] ] = $pip_grays[ $color['value'] ];
+                        // Get hexadecimal value from grays
+                        $custom_colors[ $color['name'] ] = $pip_grays[ $color['value'] ];
 
-                } else {
+                    } else {
 
-                    // Get hexadecimal value
-                    $custom_colors[ $color['name'] ] = str_replace( ';', '', $color['value'] );
+                        // Get hexadecimal value
+                        $custom_colors[ $color['name'] ] = str_replace( ';', '', $color['value'] );
 
+                    }
                 }
             }
 
