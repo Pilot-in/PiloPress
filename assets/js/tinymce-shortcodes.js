@@ -42,6 +42,15 @@
                     ],
                 },
                 {
+                    label: 'Style',
+                    name: 'style',
+                    type: 'listbox',
+                    values: [
+                        { text: 'Plain', value: '' },
+                        { text: 'Outline', value: 'outline' },
+                    ],
+                },
+                {
                     label: 'Size',
                     name: 'size',
                     type: 'listbox',
@@ -49,6 +58,16 @@
                         { text: 'Normal', value: '' },
                         { text: 'Small', value: 'sm' },
                         { text: 'Large', value: 'lg' },
+                    ],
+                },
+                {
+                    label: 'Alignment',
+                    name: 'alignment',
+                    type: 'listbox',
+                    values: [
+                        { text: 'Left', value: 'text-left' },
+                        { text: 'Center', value: 'text-center' },
+                        { text: 'Right', value: 'text-right' },
                     ],
                 },
                 {
@@ -257,7 +276,15 @@
 
                 // Build button class
                 var btn_class = '';
-                if (button.type) { btn_class += 'btn btn-' + button.type; }
+                var btn       = '';
+                if (button.type) {
+                    if (button.style) {
+                        btn = 'btn-' + button.style + '-' + button.type;
+                    } else {
+                        btn = 'btn-' + button.type;
+                    }
+                }
+                btn_class += 'btn ' + btn;
                 if (button.xclass) { btn_class += ' ' + button.xclass; }
                 if (button.size) { btn_class += ' btn-' + button.size; }
                 if (button.block == 'true') { btn_class += ' btn-block'; }
@@ -265,8 +292,11 @@
                 if (button.disabled == 'true') { btn_disabled = 'disabled'; }
 
                 // Build button
+                var html = '';
                 if (button.text) {
-                    var html = '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape(btn_class) + '" ' + btn_disabled + '>' + _.escape(button.text) + '</a>';
+                    html = '<div class="' + button.alignment + '">';
+                    html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape(btn_class) + '" ' + btn_disabled + '>' + _.escape(button.text) + '</a>';
+                    html += '</div>';
                 }
 
                 // Render button
@@ -471,15 +501,17 @@
     var get_button_attributes = function (item) {
         var button = {};
 
-        button.text     = getAttr(item, 'text');
-        button.type     = getAttr(item, 'type');
-        button.size     = getAttr(item, 'size');
-        button.block    = getAttr(item, 'block');
-        button.disabled = getAttr(item, 'disabled');
-        button.active   = getAttr(item, 'active');
-        button.xclass   = getAttr(item, 'xclass');
-        button.link     = getAttr(item, 'link');
-        button.target   = getAttr(item, 'target');
+        button.text      = getAttr(item, 'text');
+        button.type      = getAttr(item, 'type');
+        button.style     = getAttr(item, 'style');
+        button.size      = getAttr(item, 'size');
+        button.alignment = getAttr(item, 'alignment');
+        button.block     = getAttr(item, 'block');
+        button.disabled  = getAttr(item, 'disabled');
+        button.active    = getAttr(item, 'active');
+        button.xclass    = getAttr(item, 'xclass');
+        button.link      = getAttr(item, 'link');
+        button.target    = getAttr(item, 'target');
 
         return button;
     };

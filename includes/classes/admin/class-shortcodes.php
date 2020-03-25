@@ -28,20 +28,30 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
         public function pip_button( $attrs ) {
             // Parse attributes
             $attrs = shortcode_atts( array(
-                'text'     => false,
-                'type'     => false,
-                'size'     => false,
-                'target'   => false,
-                'block'    => false,
-                'active'   => false,
-                'disabled' => false,
-                'xclass'   => false,
-                'link'     => '',
+                'text'      => false,
+                'type'      => false,
+                'style'     => false,
+                'size'      => false,
+                'alignment' => false,
+                'target'    => false,
+                'block'     => false,
+                'active'    => false,
+                'disabled'  => false,
+                'xclass'    => false,
+                'link'      => '',
             ), $attrs, 'pip_button' );
 
             // Build class
             $class = 'btn';
-            $class .= ( $attrs['type'] ) ? ' btn-' . $attrs['type'] : ' btn-default';
+            $btn   = '';
+            if ( $attrs['type'] ) {
+                if ( $attrs['style'] ) {
+                    $btn = ' btn-' . $attrs['style'] . '-' . $attrs['type'];
+                } else {
+                    $btn = ' btn-' . $attrs['type'];
+                }
+            }
+            $class .= $btn;
             $class .= ( $attrs['size'] ) ? ' btn-' . $attrs['size'] : '';
             $class .= ( $attrs['block'] ) ? ' btn-block' : '';
             $class .= ( $attrs['disabled'] ) ? ' disabled' : '';
@@ -50,7 +60,8 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
 
             // Render shortcode
             return do_shortcode( sprintf(
-                '<a href="%s" class="%s"%s>%s</a>',
+                '<div class="%s"><a href="%s" class="%s"%s>%s</a></div>',
+                esc_attr( $attrs['alignment'] ),
                 esc_url( $attrs['link'] ),
                 esc_attr( trim( $class ) ),
                 ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
