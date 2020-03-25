@@ -7,6 +7,13 @@
 
     // Wait for TinyMCE to be ready
     $(document).on('tinymce-editor-setup', function (event, editor) {
+        // Vars
+        var spacers            = acf.get('custom_spacers');
+        var get_custom_spacers = function () {
+            return $.map(spacers, function (value, key) {
+                return { text: key, value: key };
+            });
+        };
 
         // Button shortcode
         var pip_button = {
@@ -91,7 +98,7 @@
 
                 // Get attributes
                 var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode';
-                var tag = attributes.tag;
+                var tag          = attributes.tag;
 
                 // Modal
                 editor.windowManager.open({
@@ -145,7 +152,7 @@
             ],
             onclick: function (event) {
                 // Get attributes
-                var attributes = event.control.settings;
+                var attributes   = event.control.settings;
                 var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode';
 
                 // Modal
@@ -179,7 +186,36 @@
             ],
             onclick: function (event) {
                 // Get attributes
-                var attributes = event.control.settings;
+                var attributes   = event.control.settings;
+                var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode';
+
+                // Modal
+                editor.windowManager.open({
+                    title: window_title,
+                    body: attributes.body,
+                    onsubmit: function (event) {
+                        editor.insertContent(build_shortcode(event, attributes));
+                    },
+                });
+            }
+        };
+
+        // Spacer shortcode
+        var pip_spacer = {
+            text: 'Spacer',
+            tag: 'pip_spacer',
+            name: 'Add spacer',
+            body: [
+                {
+                    label: 'Spacer',
+                    name: 'spacer',
+                    type: 'listbox',
+                    values: get_custom_spacers(),
+                },
+            ],
+            onclick: function (event) {
+                // Get attributes
+                var attributes   = event.control.settings;
                 var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode';
 
                 // Modal
@@ -204,7 +240,8 @@
                     pip_button,
                     pip_breadcrumb,
                     pip_field,
-                    pip_thumbnail
+                    pip_thumbnail,
+                    pip_spacer
                 ],
                 fixedWidth: true,
             };
@@ -215,7 +252,7 @@
 
             initialize: function () {
                 // Get attributes
-                var button = get_button_attributes(this.text);
+                var button       = get_button_attributes(this.text);
                 var btn_disabled = '';
 
                 // Build button class
@@ -317,7 +354,7 @@
             initialize: function () {
                 // Get ACF field value
                 var field_name = getAttr(this.text, 'field');
-                var post_id = getAttr(this.text, 'post_id');
+                var post_id    = getAttr(this.text, 'post_id');
 
                 // Render button
                 this.render('Field "' + field_name + '" in post ' + post_id);
@@ -346,16 +383,16 @@
 
         });
 
-        // Register ACF field view
+        // Register thumbnail view
         window.wp.mce.views.register('pip_thumbnail', {
 
             initialize: function () {
                 // Get size
-                var size = getAttr(this.text, 'size');
+                var size       = getAttr(this.text, 'size');
                 var image_size = acf.get('image_sizes')[size];
 
                 // Custom style
-                var p_css = 'vertical-align: middle;';
+                var p_css   = 'vertical-align: middle;';
                 var div_css = 'width: ' + image_size.width + 'px;';
                 div_css += 'height: ' + image_size.height + 'px;';
                 div_css += 'line-height: ' + image_size.height + 'px;';
@@ -390,6 +427,40 @@
 
         });
 
+        // Register spacer view
+        window.wp.mce.views.register('pip_spacer', {
+
+            initialize: function () {
+                // Get size
+                var spacer = getAttr(this.text, 'spacer');
+
+                // Render button
+                this.render('<div class="mb-' + spacer + ' text-center"><span> - spacer (' + spacer + ') - </span></div>');
+            },
+
+            edit: function (text, update) {
+                // Get current spacer from shortcode text
+                var spacer = getAttr(this.text, 'spacer');
+
+                // Update value
+                $.each(pip_spacer.body, function (key, item) {
+                    if (item.name === 'spacer') {
+                        item.value = parseInt(spacer);
+                    }
+                });
+
+                // Modal
+                editor.windowManager.open({
+                    title: 'Edit spacer',
+                    body: pip_spacer.body,
+                    onsubmit: function (event) {
+                        update(build_shortcode(event, pip_spacer));
+                    },
+                });
+            },
+
+        });
+
     });
 
     /**
@@ -400,15 +471,15 @@
     var get_button_attributes = function (item) {
         var button = {};
 
-        button.text = getAttr(item, 'text');
-        button.type = getAttr(item, 'type');
-        button.size = getAttr(item, 'size');
-        button.block = getAttr(item, 'block');
+        button.text     = getAttr(item, 'text');
+        button.type     = getAttr(item, 'type');
+        button.size     = getAttr(item, 'size');
+        button.block    = getAttr(item, 'block');
         button.disabled = getAttr(item, 'disabled');
-        button.active = getAttr(item, 'active');
-        button.xclass = getAttr(item, 'xclass');
-        button.link = getAttr(item, 'link');
-        button.target = getAttr(item, 'target');
+        button.active   = getAttr(item, 'active');
+        button.xclass   = getAttr(item, 'xclass');
+        button.link     = getAttr(item, 'link');
+        button.target   = getAttr(item, 'target');
 
         return button;
     };

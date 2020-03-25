@@ -15,6 +15,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             add_shortcode( 'pip_breadcrumb', array( $this, 'pip_breadcrumb' ) );
             add_shortcode( 'pip_title', array( $this, 'pip_title' ) );
             add_shortcode( 'pip_thumbnail', array( $this, 'pip_thumbnail' ) );
+            add_shortcode( 'pip_spacer', array( $this, 'pip_spacer' ) );
         }
 
         /**
@@ -114,6 +115,22 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
 
             // Render shortcode
             return '<img class="post-thumbnail" src="' . $post_thumbnail_url . '"/>';
+        }
+
+        /**
+         * Spacer shortcode
+         *
+         * @param $attrs
+         *
+         * @return string
+         */
+        public function pip_spacer( $attrs ) {
+            // Parse attributes
+            $attrs = shortcode_atts( array(
+                'spacer' => 3,
+            ), $attrs, 'pip_spacer' );
+
+            return '<div class="mb-' . $attrs['spacer'] . '"></div>';
         }
     }
 

@@ -25,6 +25,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 'custom_colors'       => self:: get_custom_colors( true ),
                 'custom_colors_assoc' => self:: get_custom_colors(),
                 'custom_styles'       => self:: get_custom_styles(),
+                'custom_spacers'      => PIP_Styles_Settings::get_spacers( 'array' ),
             ) );
         }
 

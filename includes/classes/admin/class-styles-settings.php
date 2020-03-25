@@ -283,24 +283,58 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
         /**
          * Custom spacers
+         *
+         * @param string $format
+         *
          * @return string
          */
-        private static function get_spacers() {
-            return '$spacers: (
-              0: 0,
-              1: ($spacer * .25),
-              2: ($spacer * .5),
-              3: $spacer,
-              4: ($spacer * 1.5),
-              5: ($spacer * 3),
-              6: ($spacer * 4.5),
-              7: ($spacer * 6),
-              8: ($spacer * 7.5),
-              9: ($spacer * 9),
-              10: ($spacer * 10.5),
-              11: ($spacer * 12),
-              12: ($spacer * 13.5),
-            );';
+        public static function get_spacers( $format = 'scss' ) {
+            switch ( $format ) {
+                case 'array':
+                    $options = get_field( 'pip_bt_options', 'pip_styles_bt_options' );
+                    $spacer  = $options['spacer'];
+                    $spacer  = str_replace( 'rem', '', $spacer );
+                    $spacer  = str_replace( 'em', '', $spacer );
+                    $spacer  = str_replace( 'vh', '', $spacer );
+                    $spacer  = str_replace( 'px', '', $spacer );
+
+                    $return = array(
+                        0,
+                        $spacer * 0.25,
+                        $spacer * 0.5,
+                        $spacer * 1,
+                        $spacer * 1.5,
+                        $spacer * 3,
+                        $spacer * 4.5,
+                        $spacer * 6,
+                        $spacer * 7.5,
+                        $spacer * 9,
+                        $spacer * 10.5,
+                        $spacer * 12,
+                        $spacer * 13.5,
+                    );
+                    break;
+                default:
+                case 'scss':
+                    $return = '$spacers: (
+                      0: 0,
+                      1: ($spacer * .25),
+                      2: ($spacer * .5),
+                      3: $spacer,
+                      4: ($spacer * 1.5),
+                      5: ($spacer * 3),
+                      6: ($spacer * 4.5),
+                      7: ($spacer * 6),
+                      8: ($spacer * 7.5),
+                      9: ($spacer * 9),
+                      10: ($spacer * 10.5),
+                      11: ($spacer * 12),
+                      12: ($spacer * 13.5),
+                    );';
+                    break;
+            }
+
+            return $return;
         }
 
         /**
