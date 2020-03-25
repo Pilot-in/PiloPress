@@ -85,7 +85,8 @@ ol {
     &[data-wpview-type="acf"],
     &[data-wpview-type="pip_title"],
     &[data-wpview-type="pip_thumbnail"],
-    &[data-wpview-type="pip_breadcrumb"] {
+    &[data-wpview-type="pip_breadcrumb"],
+    &[data-wpview-text*="nodiv%3D%22true%22"] {
         display: inline-block;
     }
 
@@ -96,4 +97,8 @@ ol {
         background-color: $gray-200;
         border: 2px dashed $gray-600;
     }
+}
+
+.pip_button_group p {
+    display: inline-block;
 }

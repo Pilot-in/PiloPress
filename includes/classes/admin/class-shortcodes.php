@@ -12,6 +12,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          */
         public function register_shortcodes() {
             add_shortcode( 'pip_button', array( $this, 'pip_button' ) );
+            add_shortcode( 'pip_button_group', array( $this, 'pip_button_group' ) );
             add_shortcode( 'pip_breadcrumb', array( $this, 'pip_breadcrumb' ) );
             add_shortcode( 'pip_title', array( $this, 'pip_title' ) );
             add_shortcode( 'pip_thumbnail', array( $this, 'pip_thumbnail' ) );
@@ -39,6 +40,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                 'disabled'  => false,
                 'xclass'    => false,
                 'link'      => '',
+                'nodiv'     => false,
             ), $attrs, 'pip_button' );
 
             // Build class
@@ -58,15 +60,53 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             $class .= ( $attrs['active'] ) ? ' active' : '';
             $class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
+            if ( !$attrs['nodiv'] ) {
+                $html = do_shortcode( sprintf(
+                    '<div class="%s"><a href="%s" class="%s"%s>%s</a></div>',
+                    esc_attr( $attrs['alignment'] ),
+                    esc_url( $attrs['link'] ),
+                    esc_attr( trim( $class ) ),
+                    ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
+                    ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : ''
+                ) );
+            } else {
+                $html = do_shortcode( sprintf(
+                    '<a href="%s" class="%s"%s>%s</a>',
+                    esc_url( $attrs['link'] ),
+                    esc_attr( trim( $class ) ),
+                    ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
+                    ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : ''
+                ) );
+            }
+
             // Render shortcode
-            return do_shortcode( sprintf(
-                '<div class="%s"><a href="%s" class="%s"%s>%s</a></div>',
-                esc_attr( $attrs['alignment'] ),
-                esc_url( $attrs['link'] ),
+            return $html;
+        }
+
+        /**
+         * Button group shortcode
+         *
+         * @param $attrs
+         *
+         * @param null $content
+         *
+         * @return string
+         */
+        public function pip_button_group( $attrs, $content = null ) {
+            // Parse attributes
+            $attrs = shortcode_atts( array(
+                'number'    => false,
+                'alignment' => false,
+            ), $attrs, 'pip_button_group' );
+
+            $class = acf_maybe_get( $attrs, 'alignment', '' );
+
+            // Render shortcode
+            return sprintf(
+                '<div class="%s pip_button_group">%s</div>',
                 esc_attr( trim( $class ) ),
-                ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
-                ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : ''
-            ) );
+                do_shortcode( $content )
+            );
         }
 
         /**

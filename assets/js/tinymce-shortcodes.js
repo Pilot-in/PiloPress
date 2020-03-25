@@ -32,7 +32,6 @@
                     name: 'type',
                     type: 'listbox',
                     values: [
-                        { text: 'Default', value: 'default' },
                         { text: 'Primary', value: 'primary' },
                         { text: 'Success', value: 'success' },
                         { text: 'Info', value: 'info' },
@@ -106,6 +105,11 @@
                     type: 'textbox',
                     value: '#',
                 },
+                {
+                    label: 'Button group',
+                    name: 'nodiv',
+                    type: 'checkbox',
+                },
             ],
             onclick: function (event) {
                 var attributes = event.control.settings;
@@ -117,7 +121,6 @@
 
                 // Get attributes
                 var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode';
-                var tag          = attributes.tag;
 
                 // Modal
                 editor.windowManager.open({
@@ -248,6 +251,52 @@
             }
         };
 
+        // Button group shortcode
+        var pip_button_group = {
+            text: 'Button group',
+            tag: 'pip_button_group',
+            name: 'Add button group',
+            inside: 'pip_button',
+            body: [
+                {
+                    label: 'Number of buttons',
+                    name: 'number',
+                    type: 'listbox',
+                    values: [
+                        { text: '2', value: 2 },
+                        { text: '3', value: 3 },
+                        { text: '4', value: 4 },
+                        { text: '5', value: 5 },
+                        { text: '6', value: 6 },
+                    ],
+                },
+                {
+                    label: 'Alignment',
+                    name: 'alignment',
+                    type: 'listbox',
+                    values: [
+                        { text: 'Left', value: 'text-left' },
+                        { text: 'Center', value: 'text-center' },
+                        { text: 'Right', value: 'text-right' },
+                    ],
+                },
+            ],
+            onclick: function (event) {
+                // Get attributes
+                var attributes   = event.control.settings;
+                var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode';
+
+                // Modal
+                editor.windowManager.open({
+                    title: window_title,
+                    body: attributes.body,
+                    onsubmit: function (event) {
+                        editor.insertContent(build_btn_group_shortcode(event, attributes));
+                    },
+                });
+            }
+        };
+
         // Add shortcode menu list
         editor.addButton('pip_shortcodes', function () {
             return {
@@ -257,6 +306,7 @@
                 menu: [
                     pip_title,
                     pip_button,
+                    pip_button_group,
                     pip_breadcrumb,
                     pip_field,
                     pip_thumbnail,
@@ -294,9 +344,9 @@
                 // Build button
                 var html = '';
                 if (button.text) {
-                    html = '<div class="' + button.alignment + '">';
+                    if (!button.nodiv) { html = '<div class="' + button.alignment + '">'; }
                     html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape(btn_class) + '" ' + btn_disabled + '>' + _.escape(button.text) + '</a>';
-                    html += '</div>';
+                    if (!button.nodiv) { html += '</div>'; }
                 }
 
                 // Render button
@@ -512,6 +562,7 @@
         button.xclass    = getAttr(item, 'xclass');
         button.link      = getAttr(item, 'link');
         button.target    = getAttr(item, 'target');
+        button.nodiv     = getAttr(item, 'nodiv');
 
         return button;
     };
@@ -534,6 +585,41 @@
 
         // Close shortcode
         out += ']';
+
+        return out;
+    };
+
+    /**
+     * Build button group shortcode
+     * @param event
+     * @param attributes
+     * @returns {string}
+     */
+    var build_btn_group_shortcode = function (event, attributes) {
+        var i;
+        var nb_buttons = 0;
+
+        // Open shortcode
+        var out = '[' + attributes.tag;
+
+        // Add attributes to shortcode
+        $.each(event.data, function (key, value) {
+            if (value === false) { value = ''; }
+            if (key === 'number') {
+                nb_buttons = parseInt(value);
+                return;
+            }
+            out += ' ' + key + '="' + value + '"';
+        });
+        out += ']';
+
+        // Add buttons with default values
+        for (i = 0; i < nb_buttons; i++) {
+            out += '[' + attributes.inside + ' text="Button" type="primary" alignment="text-left" target="_self" xclass="mr-2" nodiv="true"]';
+        }
+
+        // Close shortcode
+        out += '[/' + attributes.tag + ']';
 
         return out;
     };

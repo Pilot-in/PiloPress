@@ -241,6 +241,10 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Import Bootstrap
             @import 'bootstrap';
 
+            .pip_button_group p {
+            display: inline-block;
+            }
+
             <?php
 
             return ob_get_clean();
