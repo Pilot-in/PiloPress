@@ -62,6 +62,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $custom_style = get_field( 'pip_custom_style', 'pip_styles_css' );
             $custom_scss  .= $custom_style ? $custom_style['custom_style'] : '';
 
+            // Get custom spacers SCSS
+            $custom_scss .= self::get_spacers();
+
             return $custom_scss;
         }
 
@@ -203,10 +206,10 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             .-preview, body#tinymce{
 
+            <?php echo $custom_scss; ?>
+
             // Import Bootstrap
             @import '../libs/bootstrap/scss/bootstrap';
-
-            <?php echo $custom_scss; ?>
 
             color: $body-color;
             font-family: $font-family-base;
@@ -230,13 +233,15 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return false|string
          */
         private static function get_front_scss_code( $custom_scss ) {
-            ob_start(); ?>
+            ob_start();
+
+            echo $custom_scss;
+            ?>
 
             // Import Bootstrap
             @import 'bootstrap';
 
             <?php
-            echo $custom_scss;
 
             return ob_get_clean();
         }
@@ -255,7 +260,10 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../..' . parse_url( PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH ) );
 
             // Store folder and scss code
-            ob_start(); ?>
+            ob_start();
+
+            echo $custom_scss;
+            ?>
 
             // Import Bootstrap utilities
             @import '<?php echo $path_to_scss_bootstrap; ?>functions';
@@ -265,13 +273,34 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             @import '<?php echo $path_to_scss_bootstrap; ?>type';
 
             <?php
-            echo $custom_scss;
 
             if ( file_exists( $file_path . $field_group['_pip_render_style_scss'] ) ) {
                 echo file_get_contents( $file_path . $field_group['_pip_render_style_scss'] );
             }
 
             return ob_get_clean();
+        }
+
+        /**
+         * Custom spacers
+         * @return string
+         */
+        private static function get_spacers() {
+            return '$spacers: (
+              0: 0,
+              1: ($spacer * .25),
+              2: ($spacer * .5),
+              3: $spacer,
+              4: ($spacer * 1.5),
+              5: ($spacer * 3),
+              6: ($spacer * 4.5),
+              7: ($spacer * 6),
+              8: ($spacer * 7.5),
+              9: ($spacer * 9),
+              10: ($spacer * 10.5),
+              11: ($spacer * 12),
+              12: ($spacer * 13.5),
+            );';
         }
 
         /**
