@@ -37,11 +37,11 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Main flexible content field group
             $args = array(
                 'key'                   => $this->flexible_group_key,
-                'title'                 => __( 'Flexible Content', 'pilopress' ),
+                'title'                 => __( 'Builder', 'pilopress' ),
                 'fields'                => array(
                     array(
                         'key'                           => 'field_' . self::get_flexible_field_name(),
-                        'label'                         => __( 'Flexible Content', 'pilopress' ),
+                        'label'                         => '',
                         'name'                          => self::get_flexible_field_name(),
                         'type'                          => 'flexible_content',
                         'instructions'                  => '',

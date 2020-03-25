@@ -293,7 +293,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 case 'array':
                     // Get spacer value
                     $options = get_field( 'pip_bt_options', 'pip_styles_bt_options' );
-                    $spacer  = $options['spacer'] ? $options['spacer'] : 1;
+                    $spacer  = acf_maybe_get( $options, 'spacer', 1 );
                     $spacer  = (int) $spacer;
 
                     $return = array(

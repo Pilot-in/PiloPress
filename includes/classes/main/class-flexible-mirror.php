@@ -47,7 +47,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 $acf_field_group = get_post_type_object( 'acf-field-group' );
 
                 // Change title on flexible edition page
-                $acf_field_group->labels->edit_item = __( 'Edit Flexible Content', 'pilopress' );
+                $acf_field_group->labels->edit_item = __( 'Edit Builder', 'pilopress' );
 
                 // Hide "Add new" button
                 $acf_field_group->cap->create_posts = false;
@@ -66,7 +66,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             // Mirror flexible field group
             $flexible_mirror = array(
                 'key'                   => self::get_flexible_mirror_group_key(),
-                'title'                 => __( 'Flexible Content', 'pilopress' ),
+                'title'                 => __( 'Builder', 'pilopress' ),
                 'fields'                => array(),
                 'location'              => array(
                     array(
