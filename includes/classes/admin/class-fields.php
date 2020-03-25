@@ -14,15 +14,12 @@ if ( !class_exists( 'PIP_Fields' ) ) {
          */
         public function customize_color_picker() {
             // Get colors
-            $pip_colors = get_field( 'pip_colors', 'pip_styles_colors' );
-            if ( !$pip_colors ) {
-                return;
-            }
+            $colors = PIP_Styles_Settings::get_colors();
 
             // Separate color value and color name
             $color_range       = array();
             $color_range_names = array();
-            foreach ( $pip_colors as $name => $color ) {
+            foreach ( $colors as $name => $color ) {
                 $color_range[]       = '"' . $color . '"';
                 $color_range_names[] = $name;
             }

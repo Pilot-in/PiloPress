@@ -295,10 +295,12 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     $enqueue = get_sub_field( 'enqueue' );
                     $tinymce = get_sub_field( 'tinymce' );
 
-                    // Build font class
-                    $tinymce_fonts .= '.font-' . $tinymce['value'] . ' {' . "\n";
-                    $tinymce_fonts .= 'font-family: "' . $name . '";' . "\n";
-                    $tinymce_fonts .= '}' . "\n";
+                    if ( $tinymce ) {
+                        // Build font class
+                        $tinymce_fonts .= '.font-' . $tinymce['value'] . ' {' . "\n";
+                        $tinymce_fonts .= 'font-family: "' . $name . '";' . "\n";
+                        $tinymce_fonts .= '}' . "\n";
+                    }
 
                     // If not custom font, skip
                     if ( get_row_layout() !== 'custom_font' ) {
@@ -682,6 +684,66 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     }
                 }
             }
+        }
+
+        /**
+         * Get colors
+         * @return array|null
+         */
+        public static function get_colors() {
+            // Get colors
+            $pip_colors        = get_field( 'pip_colors', 'pip_styles_colors' );
+            $pip_grays         = get_field( 'pip_grays', 'pip_styles_colors' );
+            $pip_theme_colors  = get_field( 'pip_theme_colors', 'pip_styles_colors' );
+            $pip_custom_colors = get_field( 'pip_custom_colors', 'pip_styles_colors' );
+
+            // If no theme colors, return
+            if ( !$pip_theme_colors ) {
+                return null;
+            }
+
+            // Change variable by values
+            foreach ( $pip_theme_colors as $name => $color_var ) {
+
+                // Remove $ from variables
+                $color_var = str_replace( '$', '', $color_var );
+
+                if ( acf_maybe_get( $pip_colors, $color_var ) ) {
+
+                    // Get hexadecimal value from colors
+                    $pip_theme_colors[ $name ] = $pip_colors[ $color_var ];
+
+                } elseif ( acf_maybe_get( $pip_grays, $color_var ) ) {
+
+                    // Get hexadecimal value from grays
+                    $pip_theme_colors[ $name ] = $pip_grays[ $color_var ];
+
+                }
+            }
+
+            // Change variable by values
+            $custom_colors = array();
+            foreach ( $pip_custom_colors as $color ) {
+
+                if ( acf_maybe_get( $pip_colors, $color['value'] ) ) {
+
+                    // Get hexadecimal value from colors
+                    $custom_colors[ $color['name'] ] = $pip_colors[ $color['value'] ];
+
+                } elseif ( acf_maybe_get( $pip_grays, $color['value'] ) ) {
+
+                    // Get hexadecimal value from grays
+                    $custom_colors[ $color['name'] ] = $pip_grays[ $color['value'] ];
+
+                } else {
+
+                    // Get hexadecimal value
+                    $custom_colors[ $color['name'] ] = str_replace( ';', '', $color['value'] );
+
+                }
+            }
+
+            return array_merge( $pip_theme_colors, $custom_colors );
         }
     }
 
