@@ -771,9 +771,10 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 // Remove $ from variables
                 $color_var = str_replace( '$', '', $color_var );
 
-                // If no data yet, add
+                // If no option saved yet, sanitized variables
                 $sanitized_name = '';
                 if ( strpos( $name, 'field_' ) === 0 ) {
+
                     // Get color var
                     $color_var = str_replace( '-', '_', $color_var );
                     $color_var = 'field_' . $color_var;
