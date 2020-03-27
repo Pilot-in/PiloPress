@@ -66,6 +66,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * Force layout to be inactive
          *
          * @param $field_group
+         *
+         * @return array|bool|void
          */
         public function set_field_group_to_inactive( $field_group ) {
             // Is current post a layout ?
@@ -517,6 +519,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * Compile layout SCSS on sync
          *
          * @param $field_group
+         *
+         * @return array|bool|void
          */
         public function compile_on_sync( $field_group ) {
             // If not a layout, return

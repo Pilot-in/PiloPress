@@ -72,6 +72,7 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
 
         /**
          * Put compiled and minified SCSS in wanted folder
+         * @return array|bool
          */
         public function compile() {
             $input_files = array();
@@ -180,7 +181,11 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
             // SCSS compilation errors
             if ( !empty( $this->compile_errors ) ) {
                 acf_log( 'DEBUG: SCSS Compile Errors', $this->compile_errors );
+
+                return $this->compile_errors;
             }
+
+            return true;
         }
 
         /**
@@ -190,6 +195,8 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
          * @param $css_to
          * @param $instance
          * @param bool $css_dir
+         *
+         * @return array|bool
          */
         private function compiler( $scss_from, $css_to, $instance, $css_dir = false ) {
             // Browse all directories
@@ -273,7 +280,11 @@ if ( !class_exists( 'PIP_Scss_Php' ) ) {
             // SCSS compilation errors
             if ( !empty( $instance->compile_errors ) ) {
                 acf_log( 'DEBUG: SCSS Compile Errors', $instance->compile_errors );
+
+                return $this->compile_errors;
             }
+
+            return true;
         }
     }
 

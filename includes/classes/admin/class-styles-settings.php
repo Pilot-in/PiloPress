@@ -16,8 +16,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         /**
          * Compile style on Styles page save
          *
-         * @param $post_id
-         * @param bool $force
+         * @param string $post_id
          *
          * @return bool
          */
@@ -30,12 +29,25 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             self::save_wp_image_sizes();
 
             // Compile base style for admin & front
-            self::compile_bootstrap_styles();
+            $compiled = self::compile_bootstrap_styles();
 
             // Compile layouts styles
-            self::compile_layouts_styles();
+            $layouts_compiled = self::compile_layouts_styles();
 
-            return true;
+            // Check if error occurred while compiling
+            if ( is_array( $layouts_compiled ) ) {
+                if ( is_array( $compiled ) ) {
+                    $compiled = array_merge( $compiled, $layouts_compiled );
+                } else {
+                    $compiled = $layouts_compiled;
+                }
+            } else {
+                if ( !is_array( $compiled ) ) {
+                    $compiled = $layouts_compiled && $compiled;
+                }
+            }
+
+            return $compiled;
         }
 
         /**
@@ -70,6 +82,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
         /**
          * Compile bootstrap styles
+         * @return array|bool
          */
         private static function compile_bootstrap_styles() {
             $dirs = array();
@@ -100,13 +113,16 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 'dirs'      => $dirs,
                 'variables' => $custom_scss,
             ) );
-            $class->compile();
+
+            return $class->compile();
         }
 
         /**
          * Compile layouts styles
          *
          * @param null $layout_id
+         *
+         * @return array|bool|void
          */
         public static function compile_layouts_styles( $layout_id = null ) {
             $dirs = array();
@@ -187,7 +203,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 'dirs'      => $dirs,
                 'variables' => $custom_scss,
             ) );
-            $class->compile();
+
+            return $class->compile();
         }
 
         /**

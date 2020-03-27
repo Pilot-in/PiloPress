@@ -99,7 +99,11 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $compiled = PIP_Styles_Settings::compile_styles_settings();
 
             // Return result
-            echo (string) $compiled;
+            if ( is_array( $compiled ) ) {
+                echo print_r( $compiled );
+            } else {
+                echo $compiled;
+            }
 
             // End AJAX action
             die();
