@@ -6,7 +6,17 @@ if ( !class_exists( 'PIP_Components' ) ) {
         public static $post_type = 'pip-components';
 
         public function __construct() {
+            // WP hooks
             add_action( 'init', array( $this, 'register_components' ) );
+
+            // ACF hooks
+            add_filter( 'acf/location/rule_values/post_type', array( $this, 'remove_component_from_post_types' ) );
+            add_filter( 'acf/location/rule_values/post', array( $this, 'remove_component_from_posts' ) );
+
+            // ACF hooks - Component location rule
+            add_filter( 'acf/location/rule_types', array( $this, 'location_types' ) );
+            add_filter( 'acf/location/rule_values/' . PIP_Components::$post_type, array( $this, 'location_values' ) );
+            add_filter( 'acf/location/rule_match/' . PIP_Components::$post_type, array( $this, 'location_match' ), 10, 3 );
         }
 
         /**
@@ -61,6 +71,122 @@ if ( !class_exists( 'PIP_Components' ) ) {
                     'supports'            => array( 'title', 'revisions' ),
                 )
             );
+        }
+
+        /**
+         * Remove Component from post types list
+         *
+         * @param $choices
+         *
+         * @return mixed
+         */
+        public function remove_component_from_post_types( $choices ) {
+            // Remove component
+            unset( $choices[ PIP_Components::$post_type ] );
+
+            return $choices;
+        }
+
+        /**
+         * Remove Components from posts list
+         *
+         * @param $choices
+         *
+         * @return mixed
+         */
+        public function remove_component_from_posts( $choices ) {
+            // Get post type labels
+            $post_type = get_post_type_labels( get_post_type_object( PIP_Components::$post_type ) );
+
+            // Remove components
+            unset( $choices[ $post_type->singular_name ] );
+
+            return $choices;
+        }
+
+        /**
+         * Add component rule
+         *
+         * @param $choices
+         *
+         * @return mixed
+         */
+        public function location_types( $choices ) {
+            // Get post type labels
+            $post_type = get_post_type_labels( get_post_type_object( PIP_Components::$post_type ) );
+
+            // Add component option
+            $choices[ $post_type->singular_name ] = array(
+                PIP_Components::$post_type => $post_type->singular_name,
+            );
+
+            return $choices;
+        }
+
+        /**
+         * Component rule values
+         *
+         * @param $choices
+         *
+         * @return array
+         */
+        public function location_values( $choices ) {
+            // Get posts grouped by
+            $posts = get_posts( array(
+                'post_type'      => PIP_Components::$post_type,
+                'posts_per_page' => - 1,
+            ) );
+
+            // Build choices array
+            if ( !empty( $posts ) ) {
+
+                // Add "all" option
+                $choices = array(
+                    'all' => __( 'All', 'acf' ),
+                );
+
+                // Add posts
+                foreach ( $posts as $post ) {
+                    $choices[ $post->ID ] = $post->post_title;
+                };
+            }
+
+            return $choices;
+        }
+
+        /**
+         * Component rule matches
+         *
+         * @param $result
+         * @param $rule
+         * @param $screen
+         *
+         * @return bool
+         */
+        public function location_match( $result, $rule, $screen ) {
+            // Get post ID
+            $post_id = acf_maybe_get( $screen, 'post_id' );
+
+            // If no post, return
+            if ( !$post_id ) {
+                return false;
+            }
+
+            if ( $rule['value'] === 'all' ) {
+                // Allow "all" to match any value.
+                $match = true;
+
+            } else {
+                // Compare all other values.
+                $match = ( $post_id == $rule['value'] );
+            }
+
+            // Allow for "!=" operator.
+            if ( $rule['operator'] == '!=' ) {
+                $match = !$match;
+            }
+
+            return $match;
         }
     }
 
