@@ -225,6 +225,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @param $meta_box
          */
         public function render_meta_box_main( $post, $meta_box ) {
+            // Get field group
             $field_group = $meta_box['args']['field_group'];
 
             // Layout settings
@@ -317,6 +318,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 }
             }
 
+            // Add configuration ?
             acf_render_field_wrap( array(
                 'label'         => __( 'Add configuration?', 'pilopress' ),
                 'instructions'  => '',
@@ -406,10 +408,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @param $meta_box
          */
         public function render_meta_box_thumbnail( $post, $meta_box ) {
+            // Get field group
             $field_group = $meta_box['args']['field_group'];
-
-            // Layout
-            $layout_slug = acf_maybe_get( $field_group, '_pip_layout_slug' ) ? sanitize_title( $field_group['_pip_layout_slug'] ) : 'layout';
 
             // Thumbnail
             acf_render_field_wrap( array(
