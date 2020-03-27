@@ -425,6 +425,18 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 'library'       => 'all',
             ) );
 
+
+            // Script for admin style
+            ?>
+            <script type="text/javascript">
+                if (typeof acf !== 'undefined') {
+                    acf.postbox.render({
+                        'id': 'pip_layout_thumbnail',
+                        'label': 'left'
+                    });
+                }
+            </script>
+            <?php
         }
 
         /**
