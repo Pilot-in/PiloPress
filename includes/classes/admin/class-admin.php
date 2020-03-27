@@ -269,7 +269,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Layouts list
             $layouts      = array();
             $layouts_keys = PIP_Layouts::get_layout_group_keys();
-            if (is_array($layouts_keys)) {
+            if ( is_array( $layouts_keys ) ) {
                 foreach ( $layouts_keys as $layout_key ) {
                     // Get field group
                     $field_group = acf_get_field_group( $layout_key );
@@ -339,6 +339,11 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Define parent menu for Flexible menu
             if ( acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID'] ) {
+                $parent_file = 'pilopress';
+            }
+
+            // Define parent menu for Components menu
+            if ( strstr( $parent_file, 'post_type=' . PIP_Components::$post_type ) ) {
                 $parent_file = 'pilopress';
             }
 
