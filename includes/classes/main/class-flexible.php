@@ -148,12 +148,23 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     $configuration    = acf_maybe_get( $field_group, '_pip_configuration', array() );
                     $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size', array() );
 
+                    // Get layout alignment
+                    switch ( $field_group['label_placement'] ) {
+                        case 'left':
+                            $display = 'row';
+                            break;
+                        case 'top':
+                        default:
+                            $display = 'block';
+                            break;
+                    }
+
                     // Store layout
                     $layouts[ $layout_uniq_id ] = [
                         'key'                           => $layout_uniq_id,
                         'name'                          => $name,
                         'label'                         => $title,
-                        'display'                       => 'row',
+                        'display'                       => $display,
                         'sub_fields'                    => [
                             [
                                 'key'               => 'field_clone_' . $layout_slug,
