@@ -54,6 +54,9 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                 'post__in'       => $post_in,
             );
             $posts = get_posts( $args );
+            if ( empty( $posts ) ) {
+                return $choices;
+            }
 
             // Get only titles
             foreach ( $posts as $post ) {

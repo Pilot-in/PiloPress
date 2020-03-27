@@ -348,7 +348,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          */
         public static function get_field_group_visibility( $field_group, $args = array() ) {
             // Check if location rules exist
-            if ( $field_group['location'] ) {
+            if ( isset( $field_group['location'] ) ) {
 
                 // Get the current screen.
                 $screen = acf_get_location_screen( $args );

@@ -39,6 +39,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             // Get Layout group keys
             $layout_group_keys = self::get_layout_group_keys();
+            if ( !$layout_group_keys ) {
+                return $clean_array;
+            }
 
             // Browse all group keys
             foreach ( $layout_group_keys as $layout_group_key ) {
@@ -299,9 +302,12 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             ) );
 
             // Get layouts for configuration field
-            $choices = array();
-            foreach ( acf_get_field_groups() as $field_group ) {
-                $choices[ $field_group['key'] ] = $field_group['title'];
+            $choices      = array();
+            $field_groups = acf_get_field_groups();
+            if ( $field_groups ) {
+                foreach ( $field_groups as $field_group ) {
+                    $choices[ $field_group['key'] ] = $field_group['title'];
+                }
             }
 
             // Configuration

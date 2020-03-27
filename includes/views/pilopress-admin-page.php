@@ -61,17 +61,19 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach ( $layouts as $key => $layout ) : ?>
-                                <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
-                                    <td><?php echo $key + 1 ?></td>
-                                    <td>
-                                        <a href="<?php echo $layout['edit_link'] ?>">
-                                            <?php echo $layout['title'] ?>
-                                        </a>
-                                    </td>
-                                    <td><?php echo $layout['location'] ?></td>
-                                </tr>
-                            <?php endforeach ?>
+                            <?php if ( $layouts ): ?>
+                                <?php foreach ( $layouts as $key => $layout ) : ?>
+                                    <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
+                                        <td><?php echo $key + 1 ?></td>
+                                        <td>
+                                            <a href="<?php echo $layout['edit_link'] ?>">
+                                                <?php echo $layout['title'] ?>
+                                            </a>
+                                        </td>
+                                        <td><?php echo $layout['location'] ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            <?php endif; ?>
                             </tbody>
                         </table>
                     </div>

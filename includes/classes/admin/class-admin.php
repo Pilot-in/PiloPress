@@ -269,19 +269,21 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Layouts list
             $layouts      = array();
             $layouts_keys = PIP_Layouts::get_layout_group_keys();
-            foreach ( $layouts_keys as $layout_key ) {
-                // Get field group
-                $field_group = acf_get_field_group( $layout_key );
+            if (is_array($layouts_keys)) {
+                foreach ( $layouts_keys as $layout_key ) {
+                    // Get field group
+                    $field_group = acf_get_field_group( $layout_key );
 
-                // Get locations html
-                $locations = ''; // PILO_TODO: get ACFE helper (next version)
+                    // Get locations html
+                    $locations = ''; // PILO_TODO: get ACFE helper (next version)
 
-                // Structured array for template file
-                $layouts[] = array(
-                    'title'     => $field_group['title'],
-                    'location'  => $locations,
-                    'edit_link' => get_edit_post_link( $field_group['ID'] ),
-                );
+                    // Structured array for template file
+                    $layouts[] = array(
+                        'title'     => $field_group['title'],
+                        'location'  => $locations,
+                        'edit_link' => get_edit_post_link( $field_group['ID'] ),
+                    );
+                }
             }
 
             // Template file

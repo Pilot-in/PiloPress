@@ -653,30 +653,40 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Get only WP image sizes
             $all_image_sizes        = PIP_TinyMCE::get_all_image_sizes();
             $additional_image_sizes = wp_get_additional_image_sizes();
-            foreach ( $additional_image_sizes as $key => $additional_image_size ) {
-                unset( $all_image_sizes[ $key ] );
+            if ( $additional_image_sizes ) {
+                foreach ( $additional_image_sizes as $key => $additional_image_size ) {
+                    unset( $all_image_sizes[ $key ] );
+                }
             }
 
             // Format image sizes array
             $i = 0;
-            foreach ( $all_image_sizes as $key => $image_size ) {
-                $image_sizes[ $i ]['name']   = $key;
-                $image_sizes[ $i ]['width']  = $image_size['width'];
-                $image_sizes[ $i ]['height'] = $image_size['height'];
-                $image_sizes[ $i ]['crop']   = $image_size['crop'];
-                $i ++;
+            if ( !empty( $all_image_sizes ) ) {
+                foreach ( $all_image_sizes as $key => $image_size ) {
+                    $image_sizes[ $i ]['name']   = $key;
+                    $image_sizes[ $i ]['width']  = $image_size['width'];
+                    $image_sizes[ $i ]['height'] = $image_size['height'];
+                    $image_sizes[ $i ]['crop']   = $image_size['crop'];
+                    $i ++;
+                }
             }
 
             // Get sub fields keys
             $sub_fields = acf_get_fields( $field );
-            foreach ( $sub_fields as $sub_field ) {
-                $fields[ $sub_field['name'] ] = $sub_field['key'];
+            if ( $sub_fields ) {
+                foreach ( $sub_fields as $sub_field ) {
+                    $fields[ $sub_field['name'] ] = $sub_field['key'];
+                }
             }
 
             // Set new values
-            foreach ( $image_sizes as $image_key => $image_size ) {
-                foreach ( $image_size as $key => $value ) {
-                    $new_values[ $image_key ][ $fields[ $key ] ] = $value;
+            if ( $image_sizes ) {
+                foreach ( $image_sizes as $image_key => $image_size ) {
+                    if ( $image_size ) {
+                        foreach ( $image_size as $key => $value ) {
+                            $new_values[ $image_key ][ $fields[ $key ] ] = $value;
+                        }
+                    }
                 }
             }
 
