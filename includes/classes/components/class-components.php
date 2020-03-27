@@ -115,6 +115,18 @@ if ( !class_exists( 'PIP_Components' ) ) {
             // Get post type labels
             $post_type = get_post_type_labels( get_post_type_object( PIP_Components::$post_type ) );
 
+            // Get posts
+            $posts = get_posts( array(
+                'post_type'      => PIP_Components::$post_type,
+                'posts_per_page' => - 1,
+                'fields'         => 'ids',
+            ) );
+
+            // If no posts, return
+            if ( empty( $posts ) ) {
+                return $choices;
+            }
+
             // Add component option
             $choices[ $post_type->singular_name ] = array(
                 PIP_Components::$post_type => $post_type->singular_name,
