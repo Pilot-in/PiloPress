@@ -47,6 +47,7 @@ acf_add_local_field_group( array(
                     'maxlength'         => '',
                     'acfe_settings'     => '',
                     'acfe_validate'     => '',
+                    'readonly'          => 1,
                 ),
                 array(
                     'key'               => 'field_image_size_width',
