@@ -150,12 +150,12 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                     // Get layout alignment
                     switch ( $field_group['label_placement'] ) {
-                        case 'left':
-                            $display = 'row';
-                            break;
                         case 'top':
-                        default:
                             $display = 'block';
+                            break;
+                        case 'left':
+                        default:
+                            $display = 'row';
                             break;
                     }
 
