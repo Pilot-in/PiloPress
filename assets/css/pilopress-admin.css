@@ -1,87 +1,90 @@
 /* PIP Flexible: Layout */
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content.-empty > .values{
-    margin-bottom:0 !important;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content.-empty > .values {
+    margin-bottom: 0 !important;
 }
 
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout{
-    border:0;
-    background:none;
-    margin-top:20px !important;
-}
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:first-child{
-    margin-top:-25px !important;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout {
+    border: 0;
+    background: none;
+    margin-top: 20px !important;
 }
 
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover{
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:first-child {
+    margin-top: -25px !important;
+}
+
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover {
 
 }
 
 /* Handle */
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle{
-    border:0;
-    border:2px dashed transparent !important;
-    margin-bottom:5px;
-    visibility:hidden;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle {
+    border: 2px dashed transparent !important;
+    margin-bottom: 5px;
+    visibility: hidden;
 }
 
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acf-fc-layout-handle{
-    visibility:visible;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acf-fc-layout-handle {
+    visibility: visible;
 }
 
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle:hover{
-    border-color:#ccc !important;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle:hover {
+    border-color: #ccc !important;
 }
 
 /* Order */
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle > .acf-fc-layout-order{
-    display:none;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle > .acf-fc-layout-order {
+    display: none;
 }
 
 /* Title */
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle > .acfe-layout-title{
-    color:#aaa;
-    text-transform:uppercase;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle > .acfe-layout-title {
+    color: #aaa;
+    text-transform: uppercase;
 }
 
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle > .acfe-layout-title input{
-    color:#aaa;
-    text-transform:uppercase;
-    background:none;
-    min-height:14px !important;
-    height:14px !important;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-handle > .acfe-layout-title input {
+    color: #aaa;
+    text-transform: uppercase;
+    background: none;
+    min-height: 14px !important;
+    height: 14px !important;
 }
 
 /* Control */
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-controls{
-    display:none;
-}
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acf-fc-layout-controls{
-    display:block;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-controls {
+    display: none;
 }
 
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-controls > .-collapse{
-    display:none;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acf-fc-layout-controls {
+    display: block;
+}
+
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-controls > .-collapse {
+    display: none;
 }
 
 /* Placeholder */
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acfe-fc-placeholder{
-    border:2px dashed transparent;
-    padding:10px;
-}
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acfe-fc-placeholder{
-    border-color:#ccc;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acfe-fc-placeholder {
+    border: 2px dashed transparent;
+    padding: 10px;
 }
 
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acfe-fc-placeholder > .acfe-fc-overlay{
-    display:none;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acfe-fc-placeholder {
+    border-color: #ccc;
+}
+
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acfe-fc-placeholder > .acfe-fc-overlay {
+    display: none;
 }
 
 /* Fields */
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fields{
-    border:2px dashed transparent;
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fields {
+    border: 2px dashed transparent;
 }
-.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acf-fields{
-    border-color:#ccc;
+
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acf-fields {
+    border-color: #ccc;
 }
 
 .postbox#pip-flexible-layouts > .inside {

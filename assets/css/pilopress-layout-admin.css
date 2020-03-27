@@ -1,0 +1,7 @@
+div[data-name='active'],
+div[data-name='style'],
+div[data-name='position'],
+div[data-name='menu_order'],
+div[data-name='hide_on_screen'] {
+    display: none;
+}

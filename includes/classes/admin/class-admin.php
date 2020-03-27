@@ -32,8 +32,28 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             wp_localize_script( 'pilopress-admin-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
 
             self::maybe_enqueue_default_style();
+
+            self::enqueue_layout_admin_style();
         }
 
+        private static function enqueue_layout_admin_style() {
+            // If not acf field group page, return
+            if ( get_current_screen()->id !== 'acf-field-group' ) {
+                return;
+            }
+
+            // If not layout page, return
+            $post_id = acf_maybe_get_GET( 'post' );
+            if ( !PIP_Layouts::is_layout( $post_id ) && acf_maybe_get_GET( 'layout' ) !== '1' ) {
+                return;
+            }
+
+            wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), null );
+        }
+
+        /**
+         * Maybe enqueue default bootstrap file
+         */
         private static function maybe_enqueue_default_style() {
             $demo_page         = 'pilopress_page_pip-styles-demo';
             $style_file_exists = file_exists( PIP_THEME_STYLE_PATH . 'style-pilopress-admin.css' );
