@@ -195,7 +195,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             // If no dirs, return
             if ( !$dirs ) {
-                return;
+                return true;
             }
 
             // Compile style
