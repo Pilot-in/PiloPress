@@ -409,6 +409,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 $submenu_file = PIP_Pattern::get_pattern_option_page()['menu_slug'];
             }
 
+            if ( strstr( $submenu_file, 'post_type=' . PIP_Components::$post_type ) ) {
+                $submenu_file = 'edit.php?post_type=' . PIP_Components::$post_type;
+            }
+
             return $submenu_file;
         }
 
