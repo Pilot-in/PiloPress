@@ -66,6 +66,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
                     'publicly_queryable'  => false,
                     'show_in_nav_menus'   => false,
                     'show_in_rest'        => false,
+                    'rewrite'             => false,
                     'menu_position'       => 83,
                     'menu_icon'           => 'dashicons-layout',
                     'supports'            => array( 'title', 'revisions' ),
