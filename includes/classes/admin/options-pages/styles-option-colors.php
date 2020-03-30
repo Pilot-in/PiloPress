@@ -213,7 +213,7 @@ acf_add_local_field_group( array(
             ),
         ),
         array(
-            'key'               => 'field_gray__tab',
+            'key'               => 'field_gray_tab',
             'label'             => __( 'Grays', 'pilopress' ),
             'name'              => '',
             'type'              => 'tab',
@@ -713,7 +713,7 @@ acf_add_local_field_group( array(
             'sub_fields'                    => array(
                 array(
                     'key'               => 'field_custom_color_name',
-                    'label'             => 'Name',
+                    'label'             => __('Name', 'pilopress'),
                     'name'              => 'name',
                     'type'              => 'acfe_slug',
                     'instructions'      => '',
@@ -733,7 +733,7 @@ acf_add_local_field_group( array(
                 ),
                 array(
                     'key'               => 'field_custom_color_value',
-                    'label'             => 'Value',
+                    'label'             => __('Value', 'pilopress'),
                     'name'              => 'value',
                     'type'              => 'text',
                     'instructions'      => __( 'You can use variables like <code>$blue</code>, <code>$gray-500</code> or <code>$primary</code>.', 'pilopress' ),

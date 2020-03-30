@@ -38,7 +38,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $styles        = get_field( 'pip_custom_typography', 'pip_styles_typography' );
 
             // If no custom style, return
-            if ( empty( $styles ) ) {
+            if ( !is_array( $styles ) ) {
                 return $custom_styles;
             }
 
