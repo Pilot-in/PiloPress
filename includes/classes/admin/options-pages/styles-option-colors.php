@@ -713,8 +713,8 @@ acf_add_local_field_group( array(
             'sub_fields'                    => array(
                 array(
                     'key'               => 'field_custom_color_name',
-                    'label'             => __('Name', 'pilopress'),
-                    'name'              => 'name',
+                    'label'             => __( 'Name', 'pilopress' ),
+                    'name'              => 'custom_color_name',
                     'type'              => 'acfe_slug',
                     'instructions'      => '',
                     'required'          => 0,
@@ -734,7 +734,7 @@ acf_add_local_field_group( array(
                 array(
                     'key'               => 'field_custom_color_value',
                     'label'             => __('Value', 'pilopress'),
-                    'name'              => 'value',
+                    'name'              => 'custom_color_value',
                     'type'              => 'text',
                     'instructions'      => __( 'You can use variables like <code>$blue</code>, <code>$gray-500</code> or <code>$primary</code>.', 'pilopress' ),
                     'required'          => 0,

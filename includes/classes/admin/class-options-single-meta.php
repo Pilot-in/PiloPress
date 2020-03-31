@@ -190,7 +190,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
                 return $value;
             }
 
-            // If hidden, return
+            // If not hidden, return
             if ( !$hidden ) {
                 return $value;
             }

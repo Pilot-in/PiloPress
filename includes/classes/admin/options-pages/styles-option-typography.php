@@ -834,7 +834,7 @@ acf_add_local_field_group( array(
                 array(
                     'key'               => 'field_custom_typography_name',
                     'label'             => __( 'Human readable name', 'pilopress' ),
-                    'name'              => 'name',
+                    'name'              => 'custom_typography_name',
                     'type'              => 'text',
                     'instructions'      => __( 'Displayed as title in the "Styles" dropdown in WYSIWYG fields.', 'pilopress' ),
                     'required'          => 0,
@@ -854,7 +854,7 @@ acf_add_local_field_group( array(
                 array(
                     'key'               => 'field_custom_typography_class_name',
                     'label'             => __( 'Class name', 'pilopress' ),
-                    'name'              => 'class_name',
+                    'name'              => 'custom_typography_class_name',
                     'type'              => 'acfe_slug',
                     'instructions'      => '',
                     'required'          => 0,
@@ -874,7 +874,7 @@ acf_add_local_field_group( array(
                 array(
                     'key'                => 'field_custom_typography_value',
                     'label'              => __( 'Value', 'pilopress' ),
-                    'name'               => 'value',
+                    'name'               => 'custom_typography_value',
                     'type'               => 'textarea',
                     'instructions'       => __( 'You can enter CSS or SCSS code.', 'pilopress' ),
                     'required'           => 0,

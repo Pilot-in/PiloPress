@@ -44,7 +44,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
             // Format array for TinyMCE
             foreach ( $styles as $style ) {
-                $custom_styles[ $style['class_name'] ] = $style['name'];
+                $custom_styles[ $style['custom_typography_class_name'] ] = $style['custom_typography_name'];
             }
 
             return $custom_styles;

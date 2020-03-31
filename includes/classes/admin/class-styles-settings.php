@@ -55,8 +55,11 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return string
          */
         public static function get_custom_scss() {
+            // Get custom spacers SCSS
+            $custom_scss = self::get_spacers();
+
             // Get custom fonts SCSS
-            $custom_scss = self::scss_custom_fonts();
+            $custom_scss .= self::scss_custom_fonts();
 
             // Get custom colors SCSS
             $custom_scss .= self::scss_custom_colors();
@@ -73,9 +76,6 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Get custom CSS/SCSS
             $custom_style = get_field( 'pip_custom_style', 'pip_styles_css' );
             $custom_scss  .= $custom_style ? $custom_style['custom_style'] : '';
-
-            // Get custom spacers SCSS
-            $custom_scss .= self::get_spacers();
 
             return $custom_scss;
         }
@@ -333,8 +333,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                         $spacer * 13.5,
                     );
                     break;
-                default:
                 case 'scss':
+                default:
                     $return = '
                     $spacer: 1rem;
                     $spacers: (
@@ -462,8 +462,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     the_row();
 
                     // Get sub fields
-                    $name  = get_sub_field( 'name' );
-                    $value = get_sub_field( 'value' );
+                    $name  = get_sub_field( 'custom_color_name' );
+                    $value = get_sub_field( 'custom_color_value' );
 
                     // Add ";" if needed
                     $suffix = strpos( $value, ';' ) === ( strlen( $value ) - 1 ) ? '' : ';';
@@ -567,8 +567,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     the_row();
 
                     // Get sub fields
-                    $class_name = get_sub_field( 'class_name' );
-                    $value      = get_sub_field( 'value' );
+                    $class_name = get_sub_field( 'custom_typography_class_name' );
+                    $value      = get_sub_field( 'custom_typography_value' );
 
                     // Build class
                     $scss_custom .= '.' . $class_name . "{\n";
@@ -843,20 +843,20 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             if ( $pip_custom_colors ) {
                 foreach ( $pip_custom_colors as $color ) {
 
-                    if ( acf_maybe_get( $pip_colors, $color['value'] ) ) {
+                    if ( acf_maybe_get( $pip_colors, $color['custom_color_value'] ) ) {
 
                         // Get hexadecimal value from colors
-                        $custom_colors[ $color['name'] ] = $pip_colors[ $color['value'] ];
+                        $custom_colors[ $color['custom_color_name'] ] = $pip_colors[ $color['custom_color_value'] ];
 
-                    } elseif ( acf_maybe_get( $pip_grays, $color['value'] ) ) {
+                    } elseif ( acf_maybe_get( $pip_grays, $color['custom_color_value'] ) ) {
 
                         // Get hexadecimal value from grays
-                        $custom_colors[ $color['name'] ] = $pip_grays[ $color['value'] ];
+                        $custom_colors[ $color['custom_color_name'] ] = $pip_grays[ $color['custom_color_value'] ];
 
                     } else {
 
                         // Get hexadecimal value
-                        $custom_colors[ $color['name'] ] = str_replace( ';', '', $color['value'] );
+                        $custom_colors[ $color['custom_color_name'] ] = str_replace( ';', '', $color['custom_color_value'] );
 
                     }
                 }
