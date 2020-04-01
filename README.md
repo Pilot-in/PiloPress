@@ -2,7 +2,7 @@
 
 ## Requirements
 
-This plugin requires **Advanced Custom Fields PRO** and **Advanced Custom Fields: Extended** plugins in order to work correctly.
+This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfields.com/pro/) and [Advanced Custom Fields: Extended](https://wordpress.org/plugins/acf-extended/) plugins in order to work correctly.
 
 ## Plugin installation
 
@@ -14,7 +14,7 @@ This plugin requires **Advanced Custom Fields PRO** and **Advanced Custom Fields
 
 ### Instructions
 - In your theme, create a `pilopress` directory
-- Within the `pilopress` directory, create a `layouts` subdirectory as you can see in _Theme structure_ part.
+- Within the `pilopress` directory, create a `layouts` subdirectory as you can see in [Theme structure](https://github.com/Pilotin/PiloPress#theme-structure) part.
 - In the `index.php` file, add the following code:
 ```php
 <?php 
@@ -155,7 +155,57 @@ array(
 _Default value_  
 `acf_get_setting('capability')`
 
-### Enhancements
+## Timber compatibility
+
+We will use the Timber [Starter Theme](https://github.com/timber/starter-theme) in this example. You will need [Timber plugin](https://fr.wordpress.org/plugins/timber-library/) to be activated.  
+To make the starter theme Pilo'Press ready, you have to create a `pilopress` folder in your theme (as described in [Theme Structure](https://github.com/Pilotin/PiloPress#theme-structure) part).  
+You can enqueue Pilo'Press styles as described in [Instructions](https://github.com/Pilotin/PiloPress#instructions) part.  
+Finally, you have to add `'pilopress/layouts'` the `Timber::$dirname` array in `functions.php` file.  
+
+Regarding layouts files, you can use the PHP/Twig files duo perfectly.  
+
+**Example**  
+Let's say we have a layout named "Title" with a single ACF field (type text) named _title_.
+
+- The PHP file will look like that:
+```php
+<?php
+
+// Get Timber context
+$context = Timber::context();
+
+// If you need the post object, you will have to re-add it to the context
+// $timber_post      = new Timber\Post();
+// $context['post']  = $timber_post;
+
+// Get the ACF field
+$context['title'] = get_sub_field( 'title' );
+
+// Render
+Timber::render( 'title.twig', $context );
+?>
+```
+- The Twig file will look like that:
+```twig
+<h3>{{ title }}</h3>
+```
+
+So the theme structure will be almost the same, but with a `title.twig` file added:  
+```
+starter-theme/
+└── pilopress/
+    └── layouts/
+        └── title/
+            ├── title.js
+            ├── title.php
+            ├── title.twig
+            ├── title.scss
+            ├── title.css
+            ├── title.css.map
+            └── group_123abcde.json
+```
+
+## Enhancements
 
 - Icônes de localisation dans le menu Flexible : depuis ACFE
 - Changement de menu parent pour l'édition des layouts : enlever le JS
