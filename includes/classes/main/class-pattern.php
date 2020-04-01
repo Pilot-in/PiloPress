@@ -20,10 +20,6 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
                 return;
             }
 
-            // Get parent slug
-            $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
-            $parent_slug     = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
-
             // Add option page
             $option_page = acf_add_options_page(
                 array(
@@ -31,7 +27,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
                     'menu_title'  => __( 'Pattern', 'pilopress' ),
                     'menu_slug'   => 'pip-pattern',
                     'capability'  => $capability,
-                    'parent_slug' => $parent_slug,
+                    'parent_slug' => 'pilopress',
                     'post_id'     => 'pip_pattern',
                     'autoload'    => true,
                 )
