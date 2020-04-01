@@ -5,6 +5,8 @@ acf_add_local_field_group( array(
     'key'                   => 'group_styles_btn_form',
     'title'                 => __( 'Buttons & Forms', 'pilopress' ),
     'fields'                => array(
+
+        // Common tab
         array(
             'key'               => 'field_common_tab',
             'label'             => __( 'Common', 'pilopress' ),
@@ -382,6 +384,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Buttons tab
         array(
             'key'               => 'field_buttons_tab',
             'label'             => __( 'Buttons', 'pilopress' ),
@@ -959,6 +963,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Forms tab
         array(
             'key'               => 'field_forms_tab',
             'label'             => __( 'Forms', 'pilopress' ),
@@ -1776,6 +1782,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Links tab
         array(
             'key'               => 'field_links_tab',
             'label'             => __( 'Links', 'pilopress' ),
@@ -1893,6 +1901,7 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
     ),
     'location'              => array(
         array(

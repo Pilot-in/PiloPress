@@ -4,6 +4,8 @@ acf_add_local_field_group( array(
     'key'                   => 'group_styles_demo',
     'title'                 => __( 'Demo', 'pilopress' ),
     'fields'                => array(
+
+        // Demo
         array(
             'key'               => 'field_bootstrap',
             'label'             => '',
@@ -1437,6 +1439,7 @@ acf_add_local_field_group( array(
             'new_lines'         => '',
             'esc_html'          => 0,
         ),
+
     ),
     'location'              => array(
         array(

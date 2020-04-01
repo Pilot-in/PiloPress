@@ -5,6 +5,8 @@ acf_add_local_field_group( array(
     'key'                   => 'group_styles_image_sizes',
     'title'                 => __( 'Image sizes', 'pilopress' ),
     'fields'                => array(
+
+        // WP Image sizes
         array(
             'key'                           => 'field_pip_wp_image_sizes',
             'label'                         => '',
@@ -111,6 +113,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Custom image sizes
         array(
             'key'                           => 'field_pip_image_sizes',
             'label'                         => '',
@@ -214,6 +218,7 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
     ),
     'location'              => array(
         array(

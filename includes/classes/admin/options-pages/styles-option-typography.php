@@ -5,6 +5,8 @@ acf_add_local_field_group( array(
     'key'                   => 'group_styles_typography',
     'title'                 => __( 'Typography', 'pilopress' ),
     'fields'                => array(
+
+        // Default tab
         array(
             'key'               => 'field_default_tab',
             'label'             => __( 'Default', 'pilopress' ),
@@ -242,6 +244,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Headings tab
         array(
             'key'               => 'field_headings_tab',
             'label'             => __( 'Headings', 'pilopress' ),
@@ -499,6 +503,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Display tab
         array(
             'key'               => 'field_display_tab',
             'label'             => __( 'Display', 'pilopress' ),
@@ -716,6 +722,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Lead tab
         array(
             'key'               => 'field_lead_tab',
             'label'             => __( 'Lead', 'pilopress' ),
@@ -793,6 +801,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Custom tab
         array(
             'key'               => 'field_custom_typo_tab',
             'label'             => __( 'Custom', 'pilopress' ),
@@ -894,6 +904,7 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
     ),
     'location'              => array(
         array(

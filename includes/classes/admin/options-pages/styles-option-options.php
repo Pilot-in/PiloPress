@@ -5,6 +5,8 @@ acf_add_local_field_group( array(
     'key'                   => 'group_styles_bt_options',
     'title'                 => 'Options',
     'fields'                => array(
+
+        // Options tab
         array(
             'key'               => 'field_options_tab',
             'label'             => __( 'Options', 'pilopress' ),
@@ -302,6 +304,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Breakpoints tab
         array(
             'key'               => 'field_breakpoints_tab',
             'label'             => __( 'Breakpoints', 'pilopress' ),
@@ -439,6 +443,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Containers tab
         array(
             'key'               => 'field_containers_tab',
             'label'             => __( 'Containers', 'pilopress' ),
@@ -556,6 +562,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Components tab
         array(
             'key'               => 'field_components_tab',
             'label'             => __( 'Components', 'pilopress' ),
@@ -973,6 +981,7 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
     ),
     'location'              => array(
         array(

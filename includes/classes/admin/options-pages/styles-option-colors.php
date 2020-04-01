@@ -5,6 +5,8 @@ acf_add_local_field_group( array(
     'key'                   => 'group_styles_colors',
     'title'                 => 'Colors',
     'fields'                => array(
+
+        // Colors tab
         array(
             'key'               => 'field_colors_tab',
             'label'             => __( 'Colors', 'pilopress' ),
@@ -212,6 +214,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Grays tab
         array(
             'key'               => 'field_gray_tab',
             'label'             => __( 'Grays', 'pilopress' ),
@@ -436,6 +440,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Theme colors tab
         array(
             'key'               => 'field_theme_colors_tab',
             'label'             => __( 'Theme colors', 'pilopress' ),
@@ -673,6 +679,8 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
+        // Custom colors tab
         array(
             'key'               => 'field_custom_colors_tab',
             'label'             => __( 'Custom', 'pilopress' ),
@@ -733,7 +741,7 @@ acf_add_local_field_group( array(
                 ),
                 array(
                     'key'               => 'field_custom_color_value',
-                    'label'             => __('Value', 'pilopress'),
+                    'label'             => __( 'Value', 'pilopress' ),
                     'name'              => 'custom_color_value',
                     'type'              => 'text',
                     'instructions'      => __( 'You can use variables like <code>$blue</code>, <code>$gray-500</code> or <code>$primary</code>.', 'pilopress' ),
@@ -753,6 +761,7 @@ acf_add_local_field_group( array(
                 ),
             ),
         ),
+
     ),
     'location'              => array(
         array(
