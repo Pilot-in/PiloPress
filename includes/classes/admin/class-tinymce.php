@@ -4,9 +4,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
     class PIP_TinyMCE {
         public function __construct() {
             // WP hooks
-            add_action( 'wp_head', array( $this, 'custom_fonts_stylesheets' ) );
-            add_action( 'admin_head', array( $this, 'custom_fonts_stylesheets' ) );
-            add_action( 'admin_init', array( $this, 'add_custom_fonts_to_editor' ) );
+//            add_action( 'wp_head', array( $this, 'custom_fonts_stylesheets' ) );
+//            add_action( 'admin_head', array( $this, 'custom_fonts_stylesheets' ) );
+//            add_action( 'admin_init', array( $this, 'add_custom_fonts_to_editor' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'localize_data' ) );
             add_filter( 'mce_external_plugins', array( $this, 'editor_button_script' ) );
             add_filter( 'mce_css', array( $this, 'editor_style' ) );

@@ -141,6 +141,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Options pages
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-css.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-config.php' );
+            pilopress_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
 
             // SCSS - PHP
