@@ -58,9 +58,6 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
-
-            // Options pages
-            $this->options_pages();
         }
 
         /**
@@ -142,23 +139,12 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/admin/class-options-single-meta.php' );
 
             // Options pages
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-demo.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-css.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-colors.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-options.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-typography.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-button-form.php' );
+            pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-css.php' );
+            pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-config.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
 
             // SCSS - PHP
             pilopress_include( 'includes/classes/scssphp/class-scss-php.php' );
-        }
-
-        /**
-         * Options pages
-         */
-        public function options_pages() {
         }
 
         /**

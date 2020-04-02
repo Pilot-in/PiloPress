@@ -8,7 +8,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             add_filter( 'image_size_names_choose', array( $this, 'custom_image_sizes_names' ) );
 
             // ACF hooks
-            add_action( 'acf/save_post', array( $this, 'compile_styles_settings' ), 20, 2 );
+//            add_action( 'acf/save_post', array( $this, 'compile_styles_settings' ), 20, 2 );
             add_filter( 'acf/load_value/name=pip_wp_image_sizes', array( $this, 'pre_populate_wp_image_sizes' ), 10, 3 );
             add_filter( 'acf/prepare_field/name=pip_wp_image_sizes', array( $this, 'configure_wp_image_sizes' ) );
         }
