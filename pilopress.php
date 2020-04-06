@@ -114,6 +114,9 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Include files
          */
         public function includes() {
+            // Helpers
+            pilopress_include( 'includes/classes/class-helpers.php' );
+
             // Main
             pilopress_include( 'includes/classes/main/class-layouts-categories.php' );
             pilopress_include( 'includes/classes/main/class-flexible.php' );
@@ -135,7 +138,6 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/admin/class-styles-settings.php' );
             pilopress_include( 'includes/classes/admin/class-tinymce.php' );
             pilopress_include( 'includes/classes/admin/class-shortcodes.php' );
-            pilopress_include( 'includes/classes/admin/class-fields.php' );
             pilopress_include( 'includes/classes/admin/class-options-single-meta.php' );
 
             // Options pages
@@ -143,6 +145,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-config.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
+            pilopress_include( 'includes/classes/admin/options-pages/styles-option-tinymce.php' );
 
             // SCSS - PHP
             pilopress_include( 'includes/classes/scssphp/class-scss-php.php' );
@@ -160,21 +163,13 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Activation actions
          */
         public static function activation() {
-            if ( !class_exists( 'PIP_Flexible_Mirror' ) && !class_exists( 'PIP_Styles_Settings' ) ) {
+            if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 return;
             }
 
             // Generate flexible mirror field group
             $class = new PIP_Flexible_Mirror();
             $class->generate_flexible_mirror();
-
-            // Compile styles
-            $theme_style_path = PIP_THEME_STYLE_PATH;
-            if ( file_exists( $theme_style_path )
-                 && !file_exists( $theme_style_path . 'style-pilopress.css' )
-                 && !file_exists( $theme_style_path . 'style-pilopress-admin.css' ) ) {
-                PIP_Styles_Settings::compile_styles_settings();
-            }
         }
 
         /**
