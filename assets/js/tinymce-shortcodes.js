@@ -5,16 +5,15 @@
         return;
     }
 
+    var buttons            = acf.get('custom_buttons');
+    var get_custom_buttons = function () {
+        return $.map(buttons, function (button, key) {
+            return { text: button.name, value: button.classes };
+        });
+    };
+
     // Wait for TinyMCE to be ready
     $(document).on('tinymce-editor-setup', function (event, editor) {
-        // Vars
-        var spacers            = acf.get('custom_spacers');
-        var get_custom_spacers = function () {
-            return $.map(spacers, function (value, key) {
-                return { text: key, value: key };
-            });
-        };
-
         // Button shortcode
         var pip_button = {
             text: 'Button',
@@ -31,33 +30,7 @@
                     label: 'Type',
                     name: 'type',
                     type: 'listbox',
-                    values: [
-                        { text: 'Primary', value: 'primary' },
-                        { text: 'Success', value: 'success' },
-                        { text: 'Info', value: 'info' },
-                        { text: 'Warning', value: 'warning' },
-                        { text: 'Danger', value: 'danger' },
-                        { text: 'Link', value: 'link' },
-                    ],
-                },
-                {
-                    label: 'Style',
-                    name: 'style',
-                    type: 'listbox',
-                    values: [
-                        { text: 'Plain', value: '' },
-                        { text: 'Outline', value: 'outline' },
-                    ],
-                },
-                {
-                    label: 'Size',
-                    name: 'size',
-                    type: 'listbox',
-                    values: [
-                        { text: 'Normal', value: '' },
-                        { text: 'Small', value: 'sm' },
-                        { text: 'Large', value: 'lg' },
-                    ],
+                    values: get_custom_buttons(),
                 },
                 {
                     label: 'Alignment',
@@ -77,21 +50,6 @@
                         { text: 'Same page', value: '_self' },
                         { text: 'New page', value: '_blank' },
                     ],
-                },
-                {
-                    label: 'Block',
-                    name: 'block',
-                    type: 'checkbox',
-                },
-                {
-                    label: 'Active',
-                    name: 'active',
-                    type: 'checkbox',
-                },
-                {
-                    label: 'Disabled',
-                    name: 'disabled',
-                    type: 'checkbox',
                 },
                 {
                     label: 'Extra class',
@@ -231,8 +189,8 @@
                 {
                     label: 'Spacer',
                     name: 'spacer',
-                    type: 'listbox',
-                    values: get_custom_spacers(),
+                    type: 'textbox',
+                    value: '',
                 },
             ],
             onclick: function (event) {
@@ -304,13 +262,13 @@
                 text: 'Shortcodes',
                 tooltip: 'Shortcodes',
                 menu: [
-                    pip_title,
+                    pip_field,
+                    pip_breadcrumb,
                     pip_button,
                     pip_button_group,
-                    pip_breadcrumb,
-                    pip_field,
-                    pip_thumbnail,
-                    pip_spacer
+                    pip_spacer,
+                    pip_title,
+                    pip_thumbnail
                 ],
                 fixedWidth: true,
             };
@@ -515,7 +473,7 @@
                 var spacer = getAttr(this.text, 'spacer');
 
                 // Render button
-                this.render('<div class="mb-' + spacer + ' text-center"><span> - spacer (' + spacer + ') - </span></div>');
+                this.render('<div class="' + spacer + ' text-center"><span> - spacer (' + spacer + ') - </span></div>');
             },
 
             edit: function (text, update) {
@@ -525,7 +483,7 @@
                 // Update value
                 $.each(pip_spacer.body, function (key, item) {
                     if (item.name === 'spacer') {
-                        item.value = parseInt(spacer);
+                        item.value = spacer;
                     }
                 });
 
@@ -553,12 +511,7 @@
 
         button.text      = getAttr(item, 'text');
         button.type      = getAttr(item, 'type');
-        button.style     = getAttr(item, 'style');
-        button.size      = getAttr(item, 'size');
         button.alignment = getAttr(item, 'alignment');
-        button.block     = getAttr(item, 'block');
-        button.disabled  = getAttr(item, 'disabled');
-        button.active    = getAttr(item, 'active');
         button.xclass    = getAttr(item, 'xclass');
         button.link      = getAttr(item, 'link');
         button.target    = getAttr(item, 'target');
@@ -615,7 +568,7 @@
 
         // Add buttons with default values
         for (i = 0; i < nb_buttons; i++) {
-            out += '[' + attributes.inside + ' text="Button" type="primary" alignment="text-left" target="_self" xclass="mr-2" nodiv="true"]';
+            out += '[' + attributes.inside + ' text="Button" type="" alignment="text-left" target="_self" xclass="mr-2" nodiv="true"]';
         }
 
         // Close shortcode

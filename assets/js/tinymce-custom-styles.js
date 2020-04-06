@@ -8,34 +8,9 @@
     /**
      * Define variables
      */
-    var fonts       = acf.get('custom_fonts');
-    var colors      = {
-        primary: 'Primary',
-        secondary: 'Secondary',
-        success: 'Success',
-        info: 'Info',
-        warning: 'Warning',
-        danger: 'Danger',
-        light: 'Light',
-        dark: 'Dark',
-        body: 'Body',
-        muted: 'Muted',
-        white: 'White',
-        'white-50': 'White 50%',
-        'black-50': 'Black 50%',
-    };
-    var base_styles = {
-        h1: 'H1 style',
-        h2: 'H2 style',
-        h3: 'H3 style',
-        h4: 'H4 style',
-        h5: 'H5 style',
-        h6: 'H6 style',
-    };
-    var styles      = {
-        ...base_styles,
-        ...acf.get('custom_styles')
-    };
+    var fonts  = acf.get('custom_fonts');
+    var colors = acf.get('custom_colors');
+    var styles = acf.get('custom_styles');
 
     /**
      * Colors
@@ -43,29 +18,14 @@
      */
     var get_custom_colors = function () {
         return $.map(colors, function (color, key) {
-
-            // Get style color
-            var textStyle     = '';
-            var custom_colors = acf.get('custom_colors_assoc');
-            $.each(custom_colors, function (custom_key, custom_value) {
-                if (custom_key === key || custom_key === 'text-' + key) {
-                    textStyle = 'color:' + custom_value + ';';
-
-                    // Dark background for light text colors
-                    if (key === 'light' || key === 'white') {
-                        textStyle += 'background-color: #343a40;';
-                    }
-                }
-            });
-
             return {
                 name: 'pip-text-' + key,
                 value: 'pip-text-' + key,
-                text: color,
-                textStyle: textStyle,
+                text: color.name,
+                textStyle: key,
                 format: {
                     inline: 'span',
-                    classes: 'text-' + key,
+                    classes: color.classes,
                     wrapper: true,
                     deep: true,
                     split: true,
@@ -87,7 +47,7 @@
                 textStyle: 'font-family:' + font.font,
                 format: {
                     inline: 'span',
-                    classes: 'font-' + key,
+                    classes: font.classes,
                     wrapper: true,
                     deep: true,
                     split: true,
@@ -105,11 +65,11 @@
             return {
                 name: 'pip-style-' + key,
                 value: 'pip-style-' + key,
-                text: style,
+                text: style.name,
                 textStyle: key,
                 format: {
                     block: 'span',
-                    classes: key,
+                    classes: style.classes,
                     wrapper: true,
                     deep: true,
                     split: true,
@@ -130,7 +90,6 @@
         init.block_formats           = '<p>=p;<h1>=h1;<h2>=h2;<h3>=h3;<h4>=h4;<h5>=h5;<h6>=h6;<address>=address;<pre>=pre';
         init.valid_elements          = '*[*]';
         init.extended_valid_elements = '*[*]';
-        init.textcolor_map           = acf.get('custom_colors');
 
         return init;
     });
@@ -144,62 +103,68 @@
         /**
          * Add colors menu button
          */
-        editor.addButton('pip_colors', function () {
-            return {
-                type: 'listbox',
-                text: 'Colors',
-                tooltip: 'Colors',
-                values: get_custom_colors(),
-                fixedWidth: true,
-                onPostRender: custom_list_box_change_handler(editor, get_custom_colors()),
-                onselect: function (event) {
-                    if (event.control.settings.value) {
-                        event.control.settings.type = 'colors';
-                        editor.execCommand('add_custom_style', false, event.control.settings);
-                    }
-                },
-            };
-        });
+        if (get_custom_colors().length > 0) {
+            editor.addButton('pip_colors', function () {
+                return {
+                    type: 'listbox',
+                    text: 'Colors',
+                    tooltip: 'Colors',
+                    values: get_custom_colors(),
+                    fixedWidth: true,
+                    onPostRender: custom_list_box_change_handler(editor, get_custom_colors()),
+                    onselect: function (event) {
+                        if (event.control.settings.value) {
+                            event.control.settings.type = 'colors';
+                            editor.execCommand('add_custom_style', false, event.control.settings);
+                        }
+                    },
+                };
+            });
+        }
 
         /**
          * Add fonts menu button
          */
-        editor.addButton('pip_fonts', function () {
-            return {
-                type: 'listbox',
-                text: 'Fonts',
-                tooltip: 'Fonts',
-                values: get_custom_fonts(),
-                fixedWidth: true,
-                onPostRender: custom_list_box_change_handler(editor, get_custom_fonts()),
-                onselect: function (event) {
-                    if (event.control.settings.value) {
-                        event.control.settings.type = 'fonts';
-                        editor.execCommand('add_custom_style', false, event.control.settings);
-                    }
-                },
-            };
-        });
+        if (get_custom_fonts().length > 0) {
+            editor.addButton('pip_fonts', function () {
+                return {
+                    type: 'listbox',
+                    text: 'Fonts',
+                    tooltip: 'Fonts',
+                    values: get_custom_fonts(),
+                    fixedWidth: true,
+                    onPostRender: custom_list_box_change_handler(editor, get_custom_fonts()),
+                    onselect: function (event) {
+                        if (event.control.settings.value) {
+                            event.control.settings.type = 'fonts';
+                            editor.execCommand('add_custom_style', false, event.control.settings);
+                        }
+                    },
+                };
+            });
+        }
 
         /**
          * Add styles menu button
          */
-        editor.addButton('pip_styles', function () {
-            return {
-                type: 'listbox',
-                text: 'Styles',
-                tooltip: 'Styles',
-                values: get_custom_styles(),
-                fixedWidth: true,
-                onPostRender: custom_list_box_change_handler(editor, get_custom_styles()),
-                onselect: function (event) {
-                    if (event.control.settings.value) {
-                        event.control.settings.type = 'styles';
-                        editor.execCommand('add_custom_style', false, event.control.settings);
-                    }
-                },
-            };
-        });
+        if (get_custom_styles().length > 0) {
+            editor.addButton('pip_styles', function () {
+                return {
+                    type: 'listbox',
+                    text: 'Styles',
+                    tooltip: 'Styles',
+                    values: get_custom_styles(),
+                    fixedWidth: true,
+                    onPostRender: custom_list_box_change_handler(editor, get_custom_styles()),
+                    onselect: function (event) {
+                        if (event.control.settings.value) {
+                            event.control.settings.type = 'styles';
+                            editor.execCommand('add_custom_style', false, event.control.settings);
+                        }
+                    },
+                };
+            });
+        }
 
         /**
          * Register custom formats

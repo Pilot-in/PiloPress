@@ -85,57 +85,6 @@
         if ($('body').hasClass('wp-admin', 'post-type-acf-field-group') && searchParams.get('layouts') == 1) {
             $('.subsubsub li:last-child:not([class])').remove();
         }
-
-        // Compile styles button
-        $('#wp-admin-bar-compile_scss').on('click', function (e) {
-            e.preventDefault();
-
-            // Variables
-            let confirmed              = '';
-            let page_title             = '.wrap h1';
-            let body                   = $('body');
-            let compiling_message      = '<div class="notice notice-info is-dismissible compiling-notice"><p>Compiling...</p></div>';
-            let compiled_message       = '<div class="notice notice-success is-dismissible compiling-notice"><p>Styles compiled successfully!</p></div>';
-            let compiled_error_message = '<div class="notice notice-error is-dismissible compiling-notice"><p>An error occurred while compiling.</p></div>';
-            let options_page           = (body.hasClass('admin_page_pip-styles-demo')
-                                          || body.hasClass('admin_page_pip-styles-css')
-                                          || body.hasClass('admin_page_pip-styles-fonts')
-                                          || body.hasClass('admin_page_pip-styles-colors')
-                                          || body.hasClass('admin_page_pip-styles-bt-options')
-                                          || body.hasClass('admin_page_pip-styles-typography')
-                                          || body.hasClass('admin_page_pip-styles-btn-form')
-                                          || body.hasClass('admin_page_pip-styles-image-sizes'));
-
-            // On styles option page, check if modified options
-            if (options_page && $('#_acf_changed').val() == 1) {
-                confirmed = confirm('Are you sure? You will lose all your changes. Click on "Update" button to save it.');
-            }
-
-            // Cancel action
-            if (!confirmed && options_page) {
-                return;
-            }
-
-            // Show loading message
-            $(compiling_message).insertAfter(page_title);
-
-            // AJAX action
-            $.post(
-                ajaxurl,
-                {
-                    'action': 'compile_styles',
-                },
-                function (response) {
-                    if (response === '1') {
-                        $('.compiling-notice').remove();
-                        $(compiled_message).insertAfter(page_title);
-                    } else {
-                        $('.compiling-notice').remove();
-                        $(compiled_error_message).insertAfter(page_title);
-                    }
-                }
-            );
-        });
     });
 
     /**
