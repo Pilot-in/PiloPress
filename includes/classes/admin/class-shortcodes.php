@@ -11,12 +11,12 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          * Register shortcodes
          */
         public function register_shortcodes() {
+            add_shortcode( 'pip_breadcrumb', array( $this, 'pip_breadcrumb' ) );
             add_shortcode( 'pip_button', array( $this, 'pip_button' ) );
             add_shortcode( 'pip_button_group', array( $this, 'pip_button_group' ) );
-            add_shortcode( 'pip_breadcrumb', array( $this, 'pip_breadcrumb' ) );
+            add_shortcode( 'pip_spacer', array( $this, 'pip_spacer' ) );
             add_shortcode( 'pip_title', array( $this, 'pip_title' ) );
             add_shortcode( 'pip_thumbnail', array( $this, 'pip_thumbnail' ) );
-            add_shortcode( 'pip_spacer', array( $this, 'pip_spacer' ) );
         }
 
         /**
@@ -31,33 +31,16 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             $attrs = shortcode_atts( array(
                 'text'      => false,
                 'type'      => false,
-                'style'     => false,
-                'size'      => false,
                 'alignment' => false,
                 'target'    => false,
-                'block'     => false,
-                'active'    => false,
-                'disabled'  => false,
                 'xclass'    => false,
                 'link'      => '',
                 'nodiv'     => false,
             ), $attrs, 'pip_button' );
 
             // Build class
-            $class = 'btn';
-            $btn   = '';
-            if ( $attrs['type'] ) {
-                if ( $attrs['style'] ) {
-                    $btn = ' btn-' . $attrs['style'] . '-' . $attrs['type'];
-                } else {
-                    $btn = ' btn-' . $attrs['type'];
-                }
-            }
-            $class .= $btn;
-            $class .= ( $attrs['size'] ) ? ' btn-' . $attrs['size'] : '';
-            $class .= ( $attrs['block'] ) ? ' btn-block' : '';
-            $class .= ( $attrs['disabled'] ) ? ' disabled' : '';
-            $class .= ( $attrs['active'] ) ? ' active' : '';
+            $class = '';
+            $class .= ( $attrs['type'] ) ? ' ' . $attrs['type'] : '';
             $class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
             if ( !$attrs['nodiv'] ) {
@@ -178,10 +161,10 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
         public function pip_spacer( $attrs ) {
             // Parse attributes
             $attrs = shortcode_atts( array(
-                'spacer' => 3,
+                'spacer' => 1,
             ), $attrs, 'pip_spacer' );
 
-            return '<div class="mb-' . $attrs['spacer'] . '"></div>';
+            return '<div class="' . $attrs['spacer'] . '"></div>';
         }
     }
 

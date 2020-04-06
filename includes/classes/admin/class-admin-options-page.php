@@ -74,6 +74,20 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
+                'tinymce'         => array(
+                    'page_title'     => 'TinyMCE',
+                    'menu_title'     => 'TinyMCE',
+                    'menu_slug'      => 'pip-styles-tinymce',
+                    'post_id'        => 'pip_styles_tinymce',
+                    'capability'     => $capability,
+                    'parent_slug'    => 'pip-styles-tailwind-css',
+                    'update_button'  => 'Update',
+                    'update_message' => 'Options Updated',
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 82,
+                ),
             );
 
             add_action( 'admin_menu', array( $this, 'admin_menu' ), 99, 0 );

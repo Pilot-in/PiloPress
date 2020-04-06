@@ -4,9 +4,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
     class PIP_TinyMCE {
         public function __construct() {
             // WP hooks
-//            add_action( 'wp_head', array( $this, 'custom_fonts_stylesheets' ) );
-//            add_action( 'admin_head', array( $this, 'custom_fonts_stylesheets' ) );
-//            add_action( 'admin_init', array( $this, 'add_custom_fonts_to_editor' ) );
+            add_action( 'wp_head', array( $this, 'custom_fonts_stylesheets' ) );
+            add_action( 'admin_head', array( $this, 'custom_fonts_stylesheets' ) );
+            add_action( 'admin_init', array( $this, 'add_custom_fonts_to_editor' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'localize_data' ) );
             add_filter( 'mce_external_plugins', array( $this, 'editor_button_script' ) );
             add_filter( 'mce_css', array( $this, 'editor_style' ) );
@@ -20,34 +20,118 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         public function localize_data() {
             acf_localize_data( array(
-                'custom_fonts'        => self::get_custom_fonts(),
-                'image_sizes'         => self::get_all_image_sizes(),
-                'custom_colors'       => self:: get_custom_colors( true ),
-                'custom_colors_assoc' => self:: get_custom_colors(),
-                'custom_styles'       => self:: get_custom_styles(),
-                'custom_spacers'      => PIP_Styles_Settings::get_spacers( 'array' ),
+                'custom_fonts'   => self::get_custom_fonts(),
+                'custom_styles'  => self:: get_custom_styles(),
+                'custom_colors'  => self:: get_custom_colors(),
+                'custom_buttons' => self:: get_custom_buttons(),
+                'image_sizes'    => self::get_all_image_sizes(),
             ) );
         }
 
         /**
-         * Get custom typography
+         * Get custom fonts families
+         * @return array
+         */
+        private static function get_custom_fonts() {
+            $fonts = array();
+
+            // Get custom fonts
+            if ( have_rows( 'pip_font_family', 'pip_styles_tinymce' ) ) {
+                while ( have_rows( 'pip_font_family', 'pip_styles_tinymce' ) ) {
+                    the_row();
+
+                    // Get font name
+                    $label   = get_sub_field( 'label' );
+                    $classes = get_sub_field( 'classes_to_apply' );
+
+                    // Add custom font
+                    $fonts[ sanitize_title( $label ) ] = [
+                        'name'    => $label,
+                        'classes' => $classes,
+                    ];
+                }
+            }
+
+            return $fonts;
+        }
+
+        /**
+         * Get custom font styles
          * @return array
          */
         public static function get_custom_styles() {
             $custom_styles = array();
-            $styles        = get_field( 'pip_custom_typography', 'pip_styles_typography' );
 
-            // If no custom style, return
-            if ( !is_array( $styles ) ) {
-                return $custom_styles;
-            }
+            // Get custom styles
+            if ( have_rows( 'pip_font_style', 'pip_styles_tinymce' ) ) {
+                while ( have_rows( 'pip_font_style', 'pip_styles_tinymce' ) ) {
+                    the_row();
 
-            // Format array for TinyMCE
-            foreach ( $styles as $style ) {
-                $custom_styles[ $style['custom_typography_class_name'] ] = $style['custom_typography_name'];
+                    $label   = get_sub_field( 'label' );
+                    $classes = get_sub_field( 'classes_to_apply' );
+
+                    // Add custom style
+                    $custom_styles[ sanitize_title( $label ) ] = [
+                        'name'    => $label,
+                        'classes' => $classes,
+                    ];
+                }
             }
 
             return $custom_styles;
+        }
+
+        /**
+         * Get custom font colors
+         * @return array
+         */
+        public static function get_custom_colors() {
+            $colors = array();
+
+            // Get custom styles
+            if ( have_rows( 'pip_font_color', 'pip_styles_tinymce' ) ) {
+                while ( have_rows( 'pip_font_color', 'pip_styles_tinymce' ) ) {
+                    the_row();
+
+                    $label   = get_sub_field( 'label' );
+                    $classes = get_sub_field( 'classes_to_apply' );
+
+                    // Add custom style
+                    $colors[ sanitize_title( $label ) ] = [
+                        'name'    => $label,
+                        'font'    => $label,
+                        'classes' => $classes,
+                    ];
+                }
+            }
+
+            return $colors;
+        }
+
+        /**
+         * Get custom font buttons
+         * @return array
+         */
+        public static function get_custom_buttons() {
+            $buttons = array();
+
+            // Get custom buttons
+            if ( have_rows( 'pip_button', 'pip_styles_tinymce' ) ) {
+                while ( have_rows( 'pip_button', 'pip_styles_tinymce' ) ) {
+                    the_row();
+
+                    $label   = get_sub_field( 'label' );
+                    $classes = get_sub_field( 'classes_to_apply' );
+
+                    // Add custom button
+                    $buttons[ sanitize_title( $label ) ] = [
+                        'name'    => $label,
+                        'classes' => $classes,
+                    ];
+                }
+            }
+
+            return $buttons;
         }
 
         /**
@@ -73,67 +157,6 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             }
 
             return $image_sizes;
-        }
-
-        /**
-         * Get colors
-         *
-         * @param bool $split
-         *
-         * @return array|null
-         */
-        public function get_custom_colors( $split = false ) {
-            $color_range = array();
-
-            // Get colors
-            $colors = PIP_Styles_Settings::get_colors();
-            if ( !$colors ) {
-                return $color_range;
-            }
-
-            // Associative array or split values
-            if ( $split ) {
-                foreach ( $colors as $name => $color ) {
-                    $color_range[] = str_replace( '#', '', $color );
-                    $color_range[] = $name;
-                }
-            } else {
-                $color_range = $colors;
-            }
-
-            return $color_range;
-        }
-
-        /**
-         * Get custom fonts for TinyMCE
-         * @return array
-         */
-        private static function get_custom_fonts() {
-            $fonts = array();
-
-            // Get custom fonts
-            if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
-                while ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
-                    the_row();
-
-                    // Get font name
-                    $font     = get_sub_field( 'name' );
-                    $tiny_mce = get_sub_field( 'tinymce' );
-
-                    // Not displayed in TinyMCE
-                    if ( !$tiny_mce ) {
-                        continue;
-                    }
-
-                    // Add custom font
-                    $fonts[ $tiny_mce['value'] ] = [
-                        'name' => $tiny_mce['label'],
-                        'font' => $font,
-                    ];
-                }
-            }
-
-            return $fonts;
         }
 
         /**
@@ -180,13 +203,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     }
 
                     // Get sub fields
-                    $enqueue = get_sub_field( 'enqueue' );
-                    $url     = get_sub_field( 'url' );
-
-                    // Auto enqueue to false
-                    if ( !$enqueue ) {
-                        continue;
-                    }
+                    $url = get_sub_field( 'url' );
 
                     // Enqueue google font
                     add_editor_style( str_replace( ',', '%2C', $url ) );
@@ -242,7 +259,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             }
 
             // Add custom admin stylesheet
-            $stylesheets[] = PIP_THEME_STYLE_URL . 'style-pilopress-admin.css';
+            if ( file_exists( PIP_THEME_STYLE_PATH . 'tailwind/tailwind.min.css' ) ) {
+                $stylesheets[] = PIP_THEME_STYLE_URL . 'tailwind/tailwind.min.css';
+            }
 
             return implode( ',', $stylesheets );
         }
