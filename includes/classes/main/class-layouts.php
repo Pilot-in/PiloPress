@@ -84,9 +84,6 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 $field_group['active'] = 0;
                 acf_update_field_group( $field_group );
             }
-
-            // Compile SCSS
-            PIP_Styles_Settings::compile_layouts_styles( $field_group['ID'] );
         }
 
         /**
