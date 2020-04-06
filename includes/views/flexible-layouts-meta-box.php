@@ -20,7 +20,7 @@ acf_hidden_input( array(
     'value' => 'seamless',
 ) );
 ?>
-<table id="pilopress-flexible-layouts-table" class="wp-list-table widefat fixed striped">
+<table id="pilopress-flexible-layouts-table" class="wp-list-table widefat striped">
     <thead>
     <tr>
         <th scope="col" id="acf-layouts-category" class="column-acf-layouts-category"><?php _e( 'Categories', 'pilopress' ) ?></th>
@@ -44,11 +44,11 @@ acf_hidden_input( array(
                         </a>
                     </strong>
                     <div class="row-actions">
-                    <span class="edit">
-                        <a href="<?php echo $layout['edit_link']; ?>" aria-label="<?php echo __( 'Edit', 'pilopress' ) . ' ' . $layout['title'] ?>">
-                            <?php _e( 'Edit', 'pilopress' ); ?>
-                        </a>
-                    </span>
+                <span class="edit">
+                    <a href="<?php echo $layout['edit_link']; ?>" aria-label="<?php echo __( 'Edit', 'pilopress' ) . ' ' . $layout['title'] ?>">
+                        <?php _e( 'Edit', 'pilopress' ); ?>
+                    </a>
+                </span>
                     </div>
                 </td>
                 <td class="acf-fg-count column-acf-fg-count"><?php echo $layout['fields'] ?></td>
