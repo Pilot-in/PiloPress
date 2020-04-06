@@ -9,353 +9,54 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             // ACF hooks
 //            add_action( 'acf/save_post', array( $this, 'compile_styles_settings' ), 20, 2 );
+            add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
             add_filter( 'acf/load_value/name=pip_wp_image_sizes', array( $this, 'pre_populate_wp_image_sizes' ), 10, 3 );
             add_filter( 'acf/prepare_field/name=pip_wp_image_sizes', array( $this, 'configure_wp_image_sizes' ) );
         }
 
         /**
-         * Compile style on Styles page save
+         * Save styles settings
          *
-         * @param string $post_id
-         *
-         * @return bool
+         * @param $post_id
          */
-        public static function compile_styles_settings( $post_id = 'pip_styles_demo' ) {
+        public function save_styles_settings( $post_id ) {
             if ( strpos( $post_id, 'pip_styles_' ) !== 0 ) {
-                return false;
+                return;
             }
 
             // Save WP image sizes
             self::save_wp_image_sizes();
 
-            // Compile base style for admin & front
-            $compiled = self::compile_bootstrap_styles();
+            // If tailwind folder doesn't exists, return
+            if ( !file_exists( PIP_THEME_STYLE_PATH . 'tailwind' ) ) {
+                return;
+            }
 
-            // Compile layouts styles
-            $layouts_compiled = self::compile_layouts_styles();
+            // Save CSS
+            $tailwind_css = get_field( 'pip_tailwind_style', 'pip_styles_tailwind_css' );
+            if ( $tailwind_css ) {
+                // Get style
+                $tailwind_style = $tailwind_css['tailwind_style'];
 
-            // Check if error occurred while compiling
-            if ( is_array( $layouts_compiled ) ) {
-                if ( is_array( $compiled ) ) {
-                    $compiled = array_merge( $compiled, $layouts_compiled );
-                } else {
-                    $compiled = $layouts_compiled;
+                // Get include position and get custom fonts
+                $base_include_pos = strpos( $tailwind_style, '@tailwind components;' );
+                $custom_fonts     = self::scss_custom_fonts();
+
+                // If include position is positive and there is custom fonts
+                if ( $base_include_pos !== false && $custom_fonts ) {
+
+                    // Insert @font-face lines
+                    $tailwind_style = substr_replace( $tailwind_style, $custom_fonts, $base_include_pos, 0 );
                 }
-            } else {
-                if ( !is_array( $compiled ) ) {
-                    $compiled = $layouts_compiled && $compiled;
-                }
+
+                file_put_contents( PIP_THEME_STYLE_PATH . 'tailwind/tailwind.css', $tailwind_style );
             }
 
-            return $compiled;
-        }
-
-        /**
-         * Get custom SCSS
-         * @return string
-         */
-        public static function get_custom_scss() {
-            // Get custom spacers SCSS
-            $custom_scss = self::get_spacers();
-
-            // Get custom fonts SCSS
-            $custom_scss .= self::scss_custom_fonts();
-
-            // Get custom colors SCSS
-            $custom_scss .= self::scss_custom_colors();
-
-            // Get custom options, breakpoints, containers and components SCSS
-            $custom_scss .= self::scss_custom_options();
-
-            // Get custom typography SCSS
-            $custom_scss .= self::scss_custom_typography();
-
-            // Get custom btn, forms and links SCSS
-            $custom_scss .= self::scss_custom_btn_forms();
-
-            // Get custom CSS/SCSS
-            $custom_style = get_field( 'pip_custom_style', 'pip_styles_css' );
-            $custom_scss  .= $custom_style ? $custom_style['custom_style'] : '';
-
-            return $custom_scss;
-        }
-
-        /**
-         * Compile bootstrap styles
-         * @return array|bool
-         */
-        private static function compile_bootstrap_styles() {
-            $dirs = array();
-
-            // Get custom SCSS
-            $custom_scss = self::get_custom_scss();
-
-            // Front-office
-            $front = self::get_front_scss_code( $custom_scss );
-            array_push( $dirs, array(
-                'scss_dir'  => PIP_PATH . 'assets/libs/bootstrap/scss/',
-                'scss_code' => $front,
-                'css_dir'   => PIP_THEME_STYLE_PATH,
-                'css_file'  => 'style-pilopress.css',
-            ) );
-
-            // Back-office
-            $admin = self::get_admin_scss_code( $custom_scss );
-            array_push( $dirs, array(
-                'scss_dir'  => PIP_PATH . 'assets/scss/',
-                'scss_code' => $admin,
-                'css_dir'   => PIP_THEME_STYLE_PATH,
-                'css_file'  => 'style-pilopress-admin.css',
-            ) );
-
-            // Compile style
-            $class = new PIP_Scss_Php( array(
-                'dirs'      => $dirs,
-                'variables' => $custom_scss,
-            ) );
-
-            return $class->compile();
-        }
-
-        /**
-         * Compile layouts styles
-         *
-         * @param null $layout_id
-         *
-         * @return array|bool|void
-         */
-        public static function compile_layouts_styles( $layout_id = null ) {
-            $dirs = array();
-
-            // Get custom SCSS
-            $custom_scss = self::get_custom_scss();
-
-            if ( !$layout_id ) {
-                // Layouts args
-                $args = array(
-                    'post_type'        => 'acf-field-group',
-                    'posts_per_page'   => - 1,
-                    'fields'           => 'ids',
-                    'suppress_filters' => 0,
-                    'post_status'      => array( 'acf-disabled' ),
-                    'pip_post_content' => array(
-                        'compare' => 'LIKE',
-                        'value'   => 's:14:"_pip_is_layout";i:1',
-                    ),
-                );
-
-                // Get layout dirs
-                $posts = get_posts( $args );
-            } else {
-                // Use specified layout
-                $posts[] = $layout_id;
+            // Save config
+            $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_config' );
+            if ( $tailwind_config ) {
+                file_put_contents( PIP_THEME_STYLE_PATH . 'tailwind/tailwind.config.js', $tailwind_config['tailwind_config'] );
             }
-
-            if ( $posts ) {
-                foreach ( $posts as $post_id ) {
-                    // Get field group
-                    $field_group = acf_get_field_group( $post_id );
-
-                    // No field group, skip
-                    if ( !$field_group ) {
-                        continue;
-                    }
-
-                    // If no slug, skip
-                    if ( !acf_maybe_get( $field_group, '_pip_layout_slug' ) ) {
-                        continue;
-                    }
-
-                    // Get sanitized slug
-                    $name = sanitize_title( $field_group['_pip_layout_slug'] );
-
-                    // Path
-                    $file_path = PIP_THEME_LAYOUTS_PATH . $name . '/';
-                    if ( !file_exists( $file_path ) ) {
-                        continue;
-                    }
-
-                    // No SCSS file, skip
-                    if ( !acf_maybe_get( $field_group, '_pip_render_style_scss' ) ) {
-                        continue;
-                    }
-
-                    // Get layout SCSS code
-                    $layout_code = self::get_layout_scss_code( $custom_scss, $file_path, $field_group );
-
-                    // Store data
-                    array_push( $dirs, array(
-                        'scss_dir'  => PIP_THEME_LAYOUTS_PATH . $name . '/', // For @import
-                        'scss_code' => $layout_code,
-                        'css_dir'   => $file_path,
-                        'css_file'  => acf_maybe_get( $field_group, '_pip_render_style' ) ? $field_group['_pip_render_style'] : $name . '.css',
-                    ) );
-                }
-            }
-
-            // If no dirs, return
-            if ( !$dirs ) {
-                return true;
-            }
-
-            // Compile style
-            $class = new PIP_Scss_Php( array(
-                'dirs'      => $dirs,
-                'variables' => $custom_scss,
-            ) );
-
-            return $class->compile();
-        }
-
-        /**
-         * Get admin SCSS code
-         *
-         * @param $custom_scss
-         *
-         * @return false|string
-         */
-        private static function get_admin_scss_code( $custom_scss ) {
-            ob_start(); ?>
-
-            i.mce-i-wp_adv:before {
-            content: "\f111" !important;
-            }
-
-            .-preview, body#tinymce{
-
-            <?php echo $custom_scss; ?>
-
-            // Import Bootstrap
-            @import '../libs/bootstrap/scss/bootstrap';
-
-            color: $body-color;
-            font-family: $font-family-base;
-            @include font-size($font-size-base);
-            font-weight: $font-weight-base;
-            line-height: $line-height-base;
-
-            // Reset WP styles
-            @import 'reset-wp';
-
-            }
-
-            <?php return ob_get_clean();
-        }
-
-        /**
-         * Get front SCSS code
-         *
-         * @param $custom_scss
-         *
-         * @return false|string
-         */
-        private static function get_front_scss_code( $custom_scss ) {
-            ob_start();
-
-            echo $custom_scss;
-            ?>
-
-            // Import Bootstrap
-            @import 'bootstrap';
-
-            .pip_button_group p {
-            display: inline-block;
-            }
-
-            <?php
-
-            return ob_get_clean();
-        }
-
-        /**
-         * Get layout SCSS code
-         *
-         * @param $custom_scss
-         * @param $file_path
-         * @param $field_group
-         *
-         * @return false|string
-         */
-        private static function get_layout_scss_code( $custom_scss, $file_path, $field_group ) {
-            // Path to bootstrap from layout folder
-            $path_to_scss_bootstrap = apply_filters( 'pip/layouts/bootstrap_path', '../../../../../..' . parse_url( PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH ) );
-
-            // Store folder and scss code
-            ob_start();
-
-            echo $custom_scss;
-            ?>
-
-            // Import Bootstrap utilities
-            @import '<?php echo $path_to_scss_bootstrap; ?>functions';
-            @import '<?php echo $path_to_scss_bootstrap; ?>variables';
-            @import '<?php echo $path_to_scss_bootstrap; ?>mixins';
-            @import '<?php echo $path_to_scss_bootstrap; ?>utilities';
-            @import '<?php echo $path_to_scss_bootstrap; ?>type';
-
-            <?php
-
-            if ( file_exists( $file_path . $field_group['_pip_render_style_scss'] ) ) {
-                echo file_get_contents( $file_path . $field_group['_pip_render_style_scss'] );
-            }
-
-            return ob_get_clean();
-        }
-
-        /**
-         * Custom spacers
-         *
-         * @param string $format
-         *
-         * @return string
-         */
-        public static function get_spacers( $format = 'scss' ) {
-            switch ( $format ) {
-                case 'array':
-                    // Get spacer value
-                    $options = get_field( 'pip_bt_options', 'pip_styles_bt_options' );
-                    $spacer  = acf_maybe_get( $options, 'spacer', 1 );
-                    $spacer  = (int) $spacer;
-
-                    $return = array(
-                        0,
-                        $spacer * 0.25,
-                        $spacer * 0.5,
-                        $spacer * 1,
-                        $spacer * 1.5,
-                        $spacer * 3,
-                        $spacer * 4.5,
-                        $spacer * 6,
-                        $spacer * 7.5,
-                        $spacer * 9,
-                        $spacer * 10.5,
-                        $spacer * 12,
-                        $spacer * 13.5,
-                    );
-                    break;
-                case 'scss':
-                default:
-                    $return = '
-                    $spacer: 1rem;
-                    $spacers: (
-                      0: 0,
-                      1: ($spacer * .25),
-                      2: ($spacer * .5),
-                      3: $spacer,
-                      4: ($spacer * 1.5),
-                      5: ($spacer * 3),
-                      6: ($spacer * 4.5),
-                      7: ($spacer * 6),
-                      8: ($spacer * 7.5),
-                      9: ($spacer * 9),
-                      10: ($spacer * 10.5),
-                      11: ($spacer * 12),
-                      12: ($spacer * 13.5),
-                    );';
-                    break;
-            }
-
-            return $return;
         }
 
         /**
@@ -372,27 +73,13 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     the_row();
 
                     // Get sub fields
-                    $name    = get_sub_field( 'name' );
-                    $files   = get_sub_field( 'files' );
-                    $weight  = get_sub_field( 'weight' );
-                    $style   = get_sub_field( 'style' );
-                    $enqueue = get_sub_field( 'enqueue' );
-                    $tinymce = get_sub_field( 'tinymce' );
-
-                    if ( $tinymce ) {
-                        // Build font class
-                        $tinymce_fonts .= '.font-' . $tinymce['value'] . ' {' . "\n";
-                        $tinymce_fonts .= 'font-family: "' . $name . '";' . "\n";
-                        $tinymce_fonts .= '}' . "\n";
-                    }
+                    $name   = get_sub_field( 'name' );
+                    $files  = get_sub_field( 'files' );
+                    $weight = get_sub_field( 'weight' );
+                    $style  = get_sub_field( 'style' );
 
                     // If not custom font, skip
                     if ( get_row_layout() !== 'custom_font' ) {
-                        continue;
-                    }
-
-                    // Auto enqueue to false
-                    if ( !$enqueue ) {
                         continue;
                     }
 
@@ -778,91 +465,6 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     }
                 }
             }
-        }
-
-        /**
-         * Get colors
-         * @return array|null
-         */
-        public static function get_colors() {
-            // Get colors
-            $pip_colors        = get_field( 'pip_colors', 'pip_styles_colors' );
-            $pip_grays         = get_field( 'pip_grays', 'pip_styles_colors' );
-            $pip_theme_colors  = get_field( 'pip_theme_colors', 'pip_styles_colors' );
-            $pip_custom_colors = get_field( 'pip_custom_colors', 'pip_styles_colors' );
-
-            // If no theme colors, return
-            if ( !$pip_theme_colors || !$pip_grays || !$pip_colors ) {
-                return null;
-            }
-
-            // Change variable by values
-            foreach ( $pip_theme_colors as $name => $color_var ) {
-
-                // Remove $ from variables
-                $color_var = str_replace( '$', '', $color_var );
-
-                // If no option saved yet, sanitized variables
-                $sanitized_name = '';
-                if ( strpos( $name, 'field_' ) === 0 ) {
-
-                    // Get color var
-                    $color_var = str_replace( '-', '_', $color_var );
-                    $color_var = 'field_' . $color_var;
-
-                    // Get sanitized name
-                    $sanitized_name = str_replace( 'field_', '', $name );
-                    $sanitized_name = str_replace( '_', '-', $sanitized_name );
-                }
-
-                if ( acf_maybe_get( $pip_colors, $color_var ) ) {
-
-                    // Get hexadecimal value from colors
-                    if ( strpos( $name, 'field_' ) === 0 ) {
-                        unset( $pip_theme_colors[ $name ] );
-                        $pip_theme_colors[ $sanitized_name ] = $pip_colors[ $color_var ];
-                    } else {
-                        $pip_theme_colors[ $name ] = $pip_colors[ $color_var ];
-                    }
-
-                } elseif ( acf_maybe_get( $pip_grays, $color_var ) ) {
-
-                    // Get hexadecimal value from grays
-                    if ( strpos( $name, 'field_' ) === 0 ) {
-                        unset( $pip_theme_colors[ $name ] );
-                        $pip_theme_colors[ $sanitized_name ] = $pip_grays[ $color_var ];
-                    } else {
-                        $pip_theme_colors[ $name ] = $pip_grays[ $color_var ];
-                    }
-
-                }
-            }
-
-            // Change variable by values
-            $custom_colors = array();
-            if ( $pip_custom_colors ) {
-                foreach ( $pip_custom_colors as $color ) {
-
-                    if ( acf_maybe_get( $pip_colors, $color['custom_color_value'] ) ) {
-
-                        // Get hexadecimal value from colors
-                        $custom_colors[ $color['custom_color_name'] ] = $pip_colors[ $color['custom_color_value'] ];
-
-                    } elseif ( acf_maybe_get( $pip_grays, $color['custom_color_value'] ) ) {
-
-                        // Get hexadecimal value from grays
-                        $custom_colors[ $color['custom_color_name'] ] = $pip_grays[ $color['custom_color_value'] ];
-
-                    } else {
-
-                        // Get hexadecimal value
-                        $custom_colors[ $color['custom_color_name'] ] = str_replace( ';', '', $color['custom_color_value'] );
-
-                    }
-                }
-            }
-
-            return array_merge( $pip_theme_colors, $custom_colors );
         }
     }
 
