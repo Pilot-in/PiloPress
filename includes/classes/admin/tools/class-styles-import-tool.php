@@ -84,9 +84,6 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             // Count number of imported styles
             $total = count( $json );
 
-            // Compile styles
-            PIP_Styles_Settings::compile_styles_settings();
-
             // Add notice
             acf_add_admin_notice( sprintf( _n( 'Imported 1 style settings.', 'Imported %s styles settings.', $total, 'pilopress' ), $total ), 'success' );
         }

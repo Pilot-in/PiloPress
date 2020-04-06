@@ -146,9 +146,6 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-tinymce.php' );
-
-            // SCSS - PHP
-            pilopress_include( 'includes/classes/scssphp/class-scss-php.php' );
         }
 
         /**
@@ -195,7 +192,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             }
 
             // Check if ACF Pro is activated
-            $this->acf = class_exists( 'ACF' ) && defined( 'ACF_PRO' ) && defined( 'ACF_VERSION' ) && version_compare( ACF_VERSION, '5.7.10', '>=' );
+            $this->acf = class_exists( 'ACF' ) && defined( 'ACF_PRO' ) && defined( 'ACF_VERSION' ) && version_compare( ACF_VERSION, '5.7.13', '>=' );
 
             return $this->acf;
         }

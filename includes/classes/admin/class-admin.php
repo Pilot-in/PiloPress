@@ -6,7 +6,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // WP hooks
             add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
             add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 20 );
-//            add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 9999 );
+            add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 9999 );
             add_filter( 'parent_file', array( $this, 'menu_parent_file' ) );
             add_filter( 'submenu_file', array( $this, 'menu_submenu_file' ) );
             add_action( 'pre_get_posts', array( $this, 'admin_pre_get_posts' ) );
@@ -14,10 +14,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_action( 'adminmenu', array( $this, 'admin_menu_parent' ) );
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
-
-            // AJAX hooks
-//            add_action( 'wp_ajax_compile_styles', array( $this, 'compile_styles' ) );
-//            add_action( 'wp_ajax_nopriv_compile_styles', array( $this, 'compile_styles' ) );
         }
 
         /**
@@ -34,6 +30,9 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             self::enqueue_layout_admin_style();
         }
 
+        /**
+         * Enqueue layouts admin style
+         */
         private static function enqueue_layout_admin_style() {
             // If not acf field group page, return
             if ( get_current_screen()->id !== 'acf-field-group' ) {
@@ -47,32 +46,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), null );
-        }
-
-        /**
-         * AJAX action: compile_styles
-         */
-        public function compile_styles() {
-            // Get action
-            $action = filter_input( INPUT_POST, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-
-            // If not compile_styles action, return
-            if ( $action !== 'compile_styles' ) {
-                return;
-            }
-
-            // Compile
-            $compiled = PIP_Styles_Settings::compile_styles_settings();
-
-            // Return result
-            if ( is_array( $compiled ) ) {
-                echo print_r( $compiled );
-            } else {
-                echo $compiled;
-            }
-
-            // End AJAX action
-            die();
         }
 
         /**
@@ -267,14 +240,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'id'     => 'styles',
                 'title'  => __( 'Styles', 'pilopress' ),
                 'href'   => add_query_arg( array( 'page' => 'pip-styles-tailwind-css' ), admin_url( 'admin.php' ) ),
-            ) );
-
-            // Compile styles
-            $wp_admin_bar->add_node( array(
-                'parent' => 'pilopress',
-                'id'     => 'compile_scss',
-                'title'  => __( 'Compile styles', 'pilopress' ),
-                'href'   => acf_get_current_url(),
             ) );
         }
 

@@ -65,7 +65,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
                         'acfe_flexible_empty_message'       => '',
                         'acfe_flexible_layouts_previews'    => 1,
                         'layouts'                           => $layouts,
-                        'button_label'                      => 'Add Row',
+                        'button_label'                      => __('Add Row', 'pilopress'),
                         'min'                               => '',
                         'max'                               => '',
                     ),

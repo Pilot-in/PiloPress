@@ -9,9 +9,6 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_action( 'register_post_type_args', array( $this, 'modify_acf_post_type' ), 10, 2 );
 
-            // ACF hooks
-            add_action( 'acf/import_field_group', array( $this, 'compile_on_sync' ) );
-
             // Create files and folder or rename folder
 //            add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 10, 3 );
         }
@@ -579,23 +576,6 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          */
         private function modify_layout_dir( $old_title, $new_title ) {
             rename( PIP_THEME_LAYOUTS_PATH . $old_title, PIP_THEME_LAYOUTS_PATH . $new_title );
-        }
-
-        /**
-         * Compile layout SCSS on sync
-         *
-         * @param $field_group
-         *
-         * @return array|bool|void
-         */
-        public function compile_on_sync( $field_group ) {
-            // If not a layout, return
-            if ( !self::is_layout( $field_group ) ) {
-                return;
-            }
-
-            // Compile
-            PIP_Styles_Settings::compile_layouts_styles( $field_group['ID'] );
         }
 
         /**

@@ -14,7 +14,7 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
             // Message flexible content field group
             acf_add_local_field_group( array(
                 'key'                   => 'group_pip_flexible_pattern_message',
-                'title'                 => 'Message',
+                'title'                 => __( 'Message', 'pilopress' ),
                 'fields'                => array(
                     array(
                         'key'               => 'field_pip_flexible_pattern_message',
@@ -83,7 +83,7 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
 
             // Echo default content
             echo '<div class="border border-dark px-3 py-4 mx-4 rounded text-center">
-                    <p class="text-uppercase font-weight-bold text-monospace">Website content here</p>
+                    <p class="text-uppercase font-weight-bold text-monospace">' . __( 'Website content here', 'pilopress' ) . '</p>
                 </div>';
         }
     }

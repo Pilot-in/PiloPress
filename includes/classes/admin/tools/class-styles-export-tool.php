@@ -45,11 +45,6 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
             $choices = array();
             if ( $styles_options->pages ) {
                 foreach ( $styles_options->pages as $key => $style_option ) {
-                    // If demo, skip
-                    if ( $key === 'demo' ) {
-                        continue;
-                    }
-
                     // Store choice
                     $choices[ $style_option['post_id'] ] = esc_html( $style_option['page_title'] );
                 }
