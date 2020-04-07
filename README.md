@@ -13,8 +13,8 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 ## Theme installation
 
 ### Instructions
-- In your theme, create a `pilopress` directory
-- Within the `pilopress` directory, create a `layouts` subdirectory as you can see in [Theme structure](https://github.com/Pilotin/PiloPress#theme-structure) part.
+- In your theme, create a `pilopress` folder
+- Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder as you can see in [Theme structure](https://github.com/Pilotin/PiloPress#theme-structure) part.
 - In the `index.php` file, add the following code:
 ```php
 <?php 
@@ -57,7 +57,7 @@ get_footer();
 add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
 function enqueue_pilopress_styles() {
 
-    wp_enqueue_style( 'style-pilopress', get_stylesheet_directory_uri() . '/pilopress/style-pilopress.css', false, time() );
+    wp_enqueue_style( 'style-pilopress', get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind.min.css', false );
     
 }
  
@@ -65,7 +65,7 @@ function enqueue_pilopress_styles() {
 add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
 function admin_enqueue_pilopress_styles() {
 
-    wp_enqueue_style( 'style-pilopress-admin', get_stylesheet_directory_uri() . '/pilopress/style-pilopress-admin.css', false, time() );
+    wp_enqueue_style( 'style-pilopress-admin', get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind-admin.min.css', false );
     
 }
 ```
@@ -89,11 +89,23 @@ your-theme/
     |          ├── layout-2.css
     |          ├── layout-2.css.map
     |          └── group_123abcde.json
-    ├── style-pilopress.css
-    ├── style-pilopress.css.map
-    ├── style-pilopress-admin.css
-    └── style-pilopress-admin.css.map
+    └── tailwind/
+        ├── tailwind.config.js
+        ├── tailwind.css
+        ├── tailwind.min.css
+        └── tailwind-admin.min.css
 ```
+
+### Tailwind CSS files
+
+All files under the `tailwind` folder are generated automatically.  
+When you will save `Pilo'Press > Styles` options in back-office, two files will be generated: 
+- `tailwind.css` file will take the content of the "Tailwind CSS" option.  
+- `tailwing.config.js` file will take the content of the "Tailwind Configuration" option.
+
+If you click on "Update & Compile" and compile remotely thank to [TailwindAPI](https://www.tailwindapi.com/), `tailwind.min.css` and `tailwind-admin.min.css` will be generated.
+
+For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation/).
 
 ### Add new layout
 
@@ -123,37 +135,32 @@ Go to `Custom Fields > Tools`, you have two new tools to import and export your 
 
 ## Available hooks
 
-- Path to bootstrap in Pilo'Press plugin, from layout directory (for @import to work in layouts SCSS files)  
-`add_filter( 'pip/layouts/bootstrap_path', 'path/to/bootstrap/' );`  
-_Default value_  
-`'../../../../../..' . parse_url( PIP_URL . 'assets/libs/bootstrap/scss/', PHP_URL_PATH )`
-
 - Locations where main flexible is visible  
 `add_filter( 'pip/flexible/locations', array() );`  
 _Default value_  
 ```php
 array(
     array(
-      array(
-          'param'    => 'post_type',
-          'operator' => '==',
-          'value'    => 'all',
-      ),
+        array(
+            'param'    => 'post_type',
+            'operator' => '==',
+            'value'    => 'all',
+        ),
     ),
     array(
-      array(
-          'param'    => 'taxonomy',
-          'operator' => '==',
-          'value'    => 'all',
-      ),
+        array(
+            'param'    => 'taxonomy',
+            'operator' => '==',
+            'value'    => 'all',
+        ),
     ),
 );
 ```
 
 - Capability for Pilo'Press options pages  
-`add_filter('pip/options/capability', 'your_capability');`  
+`add_filter( 'pip/options/capability', 'your_capability' );`  
 _Default value_  
-`acf_get_setting('capability')`
+`acf_get_setting( 'capability' );`
 
 ## Timber compatibility
 
@@ -211,5 +218,3 @@ starter-theme/
 
 - Icônes de localisation dans le menu Flexible : depuis ACFE
 - Changement de menu parent pour l'édition des layouts : enlever le JS
-- Utiliser les fonctions WP pour créer les fichiers des layouts : _PIP_Layouts::create_layout_dir()_
-- Regarder et enlever les _PILO_TODO_
