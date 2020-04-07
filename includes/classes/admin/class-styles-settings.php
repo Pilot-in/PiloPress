@@ -15,7 +15,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         }
 
         /**
-         * Add compile button
+         * Add Update & Compile button
          *
          * @param $page
          */
@@ -84,7 +84,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 require( PIP_PATH . '/assets/libs/tailwindapi.php' );
                 $tailwind = new TailwindAPI();
 
-                // Build
+                // Build front style
                 $tailwind->build(
                     array(
                         'css'          => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.css',
@@ -92,6 +92,18 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                         'autoprefixer' => true,
                         'minify'       => true,
                         'output'       => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.min.css',
+                    )
+                );
+
+                // Build admin style
+                $tailwind->build(
+                    array(
+                        'css'          => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.css',
+                        'config'       => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.config.js',
+                        'autoprefixer' => true,
+                        'minify'       => true,
+                        'prefixer'     => '.-preview',
+                        'output'       => PIP_THEME_STYLE_PATH . 'tailwind/tailwind-admin.min.css',
                     )
                 );
             }
