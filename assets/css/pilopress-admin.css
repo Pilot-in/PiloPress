@@ -170,6 +170,34 @@ body.admin_page_pip-styles-tinymce .inside .acf-tab-wrap ul.acf-tab-group li.act
     color: #23282d !important;
 }
 
+body.pilopress_page_pip-styles-tailwind-css #major-publishing-actions,
+body.admin_page_pip-styles-tailwind-config #major-publishing-actions,
+body.admin_page_pip-styles-fonts #major-publishing-actions,
+body.admin_page_pip-styles-image-sizes #major-publishing-actions,
+body.admin_page_pip-styles-tinymce #major-publishing-actions {
+    text-align: right;
+}
+
+body.pilopress_page_pip-styles-tailwind-css #publishing-action,
+body.admin_page_pip-styles-tailwind-config #publishing-action,
+body.admin_page_pip-styles-fonts #publishing-action,
+body.admin_page_pip-styles-image-sizes #publishing-action,
+body.admin_page_pip-styles-tinymce #publishing-action {
+    display: inline-block;
+    text-align: left;
+    float: none;
+    line-height: normal;
+    vertical-align: middle;
+}
+
+body.pilopress_page_pip-styles-tailwind-css #publishing-action .spinner,
+body.admin_page_pip-styles-tailwind-config #publishing-action .spinner,
+body.admin_page_pip-styles-fonts #publishing-action .spinner,
+body.admin_page_pip-styles-image-sizes #publishing-action .spinner,
+body.admin_page_pip-styles-tinymce #publishing-action .spinner {
+    display: none;
+}
+
 /* Pilo'Press Dashboard */
 .toplevel_page_pilopress .config-status .dashicons-yes {
     color: #46B450;

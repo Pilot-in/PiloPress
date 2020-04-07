@@ -11,6 +11,25 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
             add_filter( 'acf/load_value/name=pip_wp_image_sizes', array( $this, 'pre_populate_wp_image_sizes' ), 10, 3 );
             add_filter( 'acf/prepare_field/name=pip_wp_image_sizes', array( $this, 'configure_wp_image_sizes' ) );
+            add_action( 'acf/options_page/submitbox_major_actions', array( $this, 'add_compile_styles_button' ) );
+        }
+
+        /**
+         * Add compile button
+         *
+         * @param $page
+         */
+        public function add_compile_styles_button( $page ) {
+            if ( strpos( $page['post_id'], 'pip_styles_' ) !== 0 ) {
+                return;
+            }
+
+            echo '
+            <div id="publishing-action">
+                <input type="submit" accesskey="p" value="' . __( 'Update & Compile', 'pilopress' ) . '"
+                class="button button-secondary button-large" id="update_compile" name="update_compile">
+			</div>
+            ';
         }
 
         /**
@@ -55,6 +74,26 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_config' );
             if ( $tailwind_config ) {
                 file_put_contents( PIP_THEME_STYLE_PATH . 'tailwind/tailwind.config.js', $tailwind_config['tailwind_config'] );
+            }
+
+            // Update & Compile button
+            $compile = acf_maybe_get_POST( 'update_compile' );
+            if ( $compile ) {
+
+                // Get Tailwind API
+                require( PIP_PATH . '/assets/libs/tailwindapi.php' );
+                $tailwind = new TailwindAPI();
+
+                // Build
+                $tailwind->build(
+                    array(
+                        'css'          => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.css',
+                        'config'       => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.config.js',
+                        'autoprefixer' => true,
+                        'minify'       => true,
+                        'output'       => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.min.css',
+                    )
+                );
             }
         }
 
