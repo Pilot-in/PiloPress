@@ -46,7 +46,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             self::save_wp_image_sizes();
 
             // If tailwind folder doesn't exists, return
-            if ( !file_exists( PIP_THEME_STYLE_PATH . 'tailwind' ) ) {
+            if ( !file_exists( PIP_THEME_TAILWIND_PATH ) ) {
                 return;
             }
 
@@ -67,13 +67,13 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     $tailwind_style = substr_replace( $tailwind_style, $custom_fonts, $base_include_pos, 0 );
                 }
 
-                file_put_contents( PIP_THEME_STYLE_PATH . 'tailwind/tailwind.css', $tailwind_style );
+                file_put_contents( PIP_THEME_TAILWIND_PATH . 'tailwind.css', $tailwind_style );
             }
 
             // Save config
             $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_config' );
             if ( $tailwind_config ) {
-                file_put_contents( PIP_THEME_STYLE_PATH . 'tailwind/tailwind.config.js', $tailwind_config['tailwind_config'] );
+                file_put_contents( PIP_THEME_TAILWIND_PATH . 'tailwind.config.js', $tailwind_config['tailwind_config'] );
             }
 
             // Update & Compile button
@@ -87,23 +87,23 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 // Build front style
                 $tailwind->build(
                     array(
-                        'css'          => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.css',
-                        'config'       => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.config.js',
+                        'css'          => PIP_THEME_TAILWIND_PATH . 'tailwind.css',
+                        'config'       => PIP_THEME_TAILWIND_PATH . 'tailwind.config.js',
                         'autoprefixer' => true,
                         'minify'       => true,
-                        'output'       => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.min.css',
+                        'output'       => PIP_THEME_TAILWIND_PATH . 'tailwind.min.css',
                     )
                 );
 
                 // Build admin style
                 $tailwind->build(
                     array(
-                        'css'          => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.css',
-                        'config'       => PIP_THEME_STYLE_PATH . 'tailwind/tailwind.config.js',
+                        'css'          => PIP_THEME_TAILWIND_PATH . 'tailwind.css',
+                        'config'       => PIP_THEME_TAILWIND_PATH . 'tailwind.config.js',
                         'autoprefixer' => true,
                         'minify'       => true,
                         'prefixer'     => '.-preview',
-                        'output'       => PIP_THEME_STYLE_PATH . 'tailwind/tailwind-admin.min.css',
+                        'output'       => PIP_THEME_TAILWIND_PATH . 'tailwind-admin.min.css',
                     )
                 );
             }

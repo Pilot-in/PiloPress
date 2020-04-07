@@ -49,6 +49,8 @@ if ( !class_exists( 'PiloPress' ) ) {
             $this->define( 'PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() . '/pilopress/' );
             $this->define( 'PIP_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/pilopress/layouts/' );
             $this->define( 'PIP_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/pilopress/layouts/' );
+            $this->define( 'PIP_THEME_TAILWIND_PATH', get_stylesheet_directory() . '/pilopress/tailwind/' );
+            $this->define( 'PIP_THEME_TAILWIND_URL', get_stylesheet_directory_uri() . '/pilopress/tailwind/' );
 
             // Init
             include_once( PIP_PATH . 'init.php' );
