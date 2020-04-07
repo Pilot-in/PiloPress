@@ -44,7 +44,7 @@
                 name: 'pip-font-' + key,
                 value: 'pip-font-' + key,
                 text: font.name,
-                textStyle: 'font-family:' + font.font,
+                textStyle: 'font-family:' + font.name,
                 format: {
                     inline: 'span',
                     classes: font.classes,
