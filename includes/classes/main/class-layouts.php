@@ -277,19 +277,6 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 'value'         => isset( $field_group['_pip_render_style'] ) ? $field_group['_pip_render_style'] : '',
             ) );
 
-            // Style - SCSS
-            acf_render_field_wrap( array(
-                'label'         => __( 'Style SCSS', 'pilopress' ),
-                'instructions'  => __( 'SCSS file name', 'pilopress' ),
-                'type'          => 'text',
-                'name'          => '_pip_render_style_scss',
-                'prefix'        => 'acf_field_group',
-                'placeholder'   => 'style.scss',
-                'default_value' => $layout_name . '.scss',
-                'prepend'       => $layout_path_prefix,
-                'value'         => isset( $field_group['_pip_render_style_scss'] ) ? $field_group['_pip_render_style_scss'] : '',
-            ) );
-
             // Script
             acf_render_field_wrap( array(
                 'label'         => __( 'Script', 'pilopress' ),
@@ -543,11 +530,6 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'default'   => $layout_title,
                 ),
                 array(
-                    'render'    => '_pip_render_style_scss',
-                    'extension' => '.scss',
-                    'default'   => $layout_title,
-                ),
-                array(
                     'render'    => '_pip_render_script',
                     'extension' => '.js',
                     'default'   => $layout_title,
@@ -576,6 +558,30 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          */
         private function modify_layout_dir( $old_title, $new_title ) {
             rename( PIP_THEME_LAYOUTS_PATH . $old_title, PIP_THEME_LAYOUTS_PATH . $new_title );
+        }
+
+        /**
+         * Get all layouts CSS files content
+         * @return string
+         */
+        public static function get_layouts_css() {
+            $css_content = '';
+
+            // Get layouts CSS files
+            $layouts_css_files = glob( PIP_THEME_LAYOUTS_PATH . '*/*.css' );
+
+            // If no CSS files, return
+            if ( !$layouts_css_files ) {
+                return $css_content;
+            }
+
+            // Store CSS contents
+            foreach ( $layouts_css_files as $layouts_css_file ) {
+                $css_file    = file_get_contents( $layouts_css_file );
+                $css_content .= $css_file ? $css_file : '';
+            }
+
+            return $css_content;
         }
 
         /**

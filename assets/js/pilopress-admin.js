@@ -18,7 +18,6 @@
         var $layoutSlug     = $('#acf_field_group-_pip_layout_slug');
         var $layoutTemplate = $('#acf_field_group-_pip_render_layout');
         var $renderCSS      = $('#acf_field_group-_pip_render_style');
-        var $renderSCSS     = $('#acf_field_group-_pip_render_style_scss');
         var $renderScript   = $('#acf_field_group-_pip_render_script');
         var layoutSwitch    = false;
 
@@ -74,7 +73,6 @@
         function updateRenderSettings (val) {
             $layoutTemplate.val((pip.sanitize_title(val) ? pip.sanitize_title(val) : 'template') + '.php');
             $renderCSS.val((pip.sanitize_title(val) ? pip.sanitize_title(val) : 'style') + '.css');
-            $renderSCSS.val((pip.sanitize_title(val) ? pip.sanitize_title(val) : 'style') + '.scss');
             $renderScript.val((pip.sanitize_title(val) ? pip.sanitize_title(val) : 'scrip') + '.js');
         }
 

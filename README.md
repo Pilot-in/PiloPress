@@ -78,14 +78,12 @@ your-theme/
     |   ├── layout-1/
     |   |      ├── layout-1.js
     |   |      ├── layout-1.php
-    |   |      ├── layout-1.scss
     |   |      ├── layout-1.css
     |   |      ├── layout-1.css.map
     |   |      └── group_123abcde.json
     |   └── layout-2/
     |          ├── layout-2.js
     |          ├── layout-2.php
-    |          ├── layout-2.scss
     |          ├── layout-2.css
     |          ├── layout-2.css.map
     |          └── group_123abcde.json
@@ -116,7 +114,7 @@ For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/
 
 ### Sync layout
 
-- Add folder `pilopress/layouts/your-layout/` with your layout files in it (PHP, JS, SCSS, CSS, JSON).
+- Add folder `pilopress/layouts/your-layout/` with your layout files in it (PHP, JS, CSS, JSON).
 - Go to `Pilo'Press > Layouts > Sync available` and sync your layout field group.
 
 ### Customizing style
@@ -208,7 +206,6 @@ starter-theme/
             ├── title.js
             ├── title.php
             ├── title.twig
-            ├── title.scss
             ├── title.css
             ├── title.css.map
             └── group_123abcde.json

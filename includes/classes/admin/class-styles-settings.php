@@ -58,7 +58,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
                 // Get include position and get custom fonts
                 $base_include_pos = strpos( $tailwind_style, '@tailwind components;' );
-                $custom_fonts     = self::scss_custom_fonts();
+                $custom_fonts     = self::css_custom_fonts();
 
                 // If include position is positive and there is custom fonts
                 if ( $base_include_pos !== false && $custom_fonts ) {
@@ -79,43 +79,52 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Update & Compile button
             $compile = acf_maybe_get_POST( 'update_compile' );
             if ( $compile ) {
-
-                // Get Tailwind API
-                require( PIP_PATH . '/assets/libs/tailwindapi.php' );
-                $tailwind = new TailwindAPI();
-
-                // Build front style
-                $tailwind->build(
-                    array(
-                        'css'          => PIP_THEME_TAILWIND_PATH . 'tailwind.css',
-                        'config'       => PIP_THEME_TAILWIND_PATH . 'tailwind.config.js',
-                        'autoprefixer' => true,
-                        'minify'       => true,
-                        'output'       => PIP_THEME_TAILWIND_PATH . 'tailwind.min.css',
-                    )
-                );
-
-                // Build admin style
-                $tailwind->build(
-                    array(
-                        'css'          => PIP_THEME_TAILWIND_PATH . 'tailwind.css',
-                        'config'       => PIP_THEME_TAILWIND_PATH . 'tailwind.config.js',
-                        'autoprefixer' => true,
-                        'minify'       => true,
-                        'prefixer'     => '.-preview',
-                        'output'       => PIP_THEME_TAILWIND_PATH . 'tailwind-admin.min.css',
-                    )
-                );
+                self::compile_tailwind();
             }
         }
 
         /**
-         * Get SCSS to enqueue custom fonts
+         * Compile Tailwind styles
+         */
+        public static function compile_tailwind() {
+            // Get Tailwind API
+            require( PIP_PATH . '/assets/libs/tailwindapi.php' );
+            $tailwind = new TailwindAPI();
+
+            $css_content = file_get_contents( PIP_THEME_TAILWIND_PATH . 'tailwind.css' );
+            $css_content .= PIP_Layouts::get_layouts_css();
+
+            // Build front style
+            $tailwind->build(
+                array(
+                    'css'          => $css_content,
+                    'config'       => PIP_THEME_TAILWIND_PATH . 'tailwind.config.js',
+                    'autoprefixer' => true,
+                    'minify'       => true,
+                    'output'       => PIP_THEME_TAILWIND_PATH . 'tailwind.min.css',
+                )
+            );
+
+            // Build admin style
+            $tailwind->build(
+                array(
+                    'css'          => $css_content,
+                    'config'       => PIP_THEME_TAILWIND_PATH . 'tailwind.config.js',
+                    'autoprefixer' => true,
+                    'minify'       => true,
+                    'prefixer'     => '.-preview',
+                    'output'       => PIP_THEME_TAILWIND_PATH . 'tailwind-admin.min.css',
+                )
+            );
+        }
+
+        /**
+         * Get CSS to enqueue custom fonts
          *
          * @return string
          */
-        private static function scss_custom_fonts() {
-            $scss_custom = $tinymce_fonts = '';
+        private static function css_custom_fonts() {
+            $css_custom = $tinymce_fonts = '';
 
             // Get fonts
             if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
@@ -134,8 +143,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     }
 
                     // Build @font-face
-                    $scss_custom .= "@font-face {\n";
-                    $scss_custom .= 'font-family: "' . $name . '";' . "\n";
+                    $css_custom .= "@font-face {\n";
+                    $css_custom .= 'font-family: "' . $name . '";' . "\n";
 
                     // Get URLs
                     $url = array();
@@ -162,19 +171,19 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                         }
                     }
                     // Implode URLs for src
-                    $scss_custom .= 'src: ' . implode( ",\n", $url ) . ";\n";
+                    $css_custom .= 'src: ' . implode( ",\n", $url ) . ";\n";
 
                     // Font parameters
-                    $scss_custom .= 'font-weight: ' . $weight . ";\n";
-                    $scss_custom .= 'font-style: ' . $style . ";\n";
+                    $css_custom .= 'font-weight: ' . $weight . ";\n";
+                    $css_custom .= 'font-style: ' . $style . ";\n";
 
                     // End @font-face
-                    $scss_custom .= "}\n";
+                    $css_custom .= "}\n";
 
                 }
             }
 
-            return $scss_custom . $tinymce_fonts;
+            return $css_custom . $tinymce_fonts;
         }
 
         /**
