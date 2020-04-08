@@ -154,6 +154,11 @@ if ( !class_exists( 'PIP_Components' ) ) {
                 'posts_per_page' => - 1,
             ) );
 
+            // Add "all" option
+            $choices = array(
+                'all' => __( 'All', 'acf' ),
+            );
+
             // Build choices array
             if ( !empty( $posts ) ) {
                 // Add posts
@@ -161,11 +166,6 @@ if ( !class_exists( 'PIP_Components' ) ) {
                     $choices[ $post->ID ] = $post->post_title;
                 }
             }
-
-            // Add "all" option
-            $choices = array(
-                'all' => __( 'All', 'acf' ),
-            );
 
             return $choices;
         }
