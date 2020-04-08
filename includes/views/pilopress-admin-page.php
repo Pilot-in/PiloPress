@@ -95,6 +95,39 @@
                 <div id="column4-sortables" class="meta-box-sortables ui-sortable">
 
                     <?php // Meta-boxes ?>
+                    <div id="pilopress_quick_links" class="postbox">
+                        <div class="inside">
+                            <h3><strong><?php _e( 'Documentations', 'pilopress' ) ?></strong></h3>
+                            <div class="main">
+                                <ul>
+                                    <li>
+                                        <span class="dashicons dashicons-external"></span>
+                                        <a href="https://github.com/Pilotin/PiloPress" target="_blank">
+                                            Github Pilo'Press
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <span class="dashicons dashicons-external"></span>
+                                        <a href="https://www.advancedcustomfields.com/resources/" target="_blank">
+                                            Advanced Custom Fields
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <span class="dashicons dashicons-external"></span>
+                                        <a href="https://wordpress.org/plugins/acf-extended/" target="_blank">
+                                            Advanced Custom Fields: Extended
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <span class="dashicons dashicons-external"></span>
+                                        <a href="https://tailwindcss.com/docs/installation" target="_blank">
+                                            Tailwind CSS
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
