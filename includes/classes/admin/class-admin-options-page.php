@@ -61,8 +61,8 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'position'       => 82,
                 ),
                 'image-sizes'     => array(
-                    'page_title'     => __( 'Image sizes', 'pilopress' ),
-                    'menu_title'     => __( 'Image sizes', 'pilopress' ),
+                    'page_title'     => __( 'Images', 'pilopress' ),
+                    'menu_title'     => __( 'Images', 'pilopress' ),
                     'menu_slug'      => 'pip-styles-image-sizes',
                     'post_id'        => 'pip_styles_image_sizes',
                     'capability'     => $capability,

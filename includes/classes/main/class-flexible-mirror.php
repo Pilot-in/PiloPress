@@ -162,53 +162,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             remove_meta_box( 'acf-field-group-acfe', 'acf-field-group', 'normal' );
             remove_meta_box( 'acfe-wp-custom-fields', 'acf-field-group', 'normal' );
 
-            // Add meta box
-            add_meta_box( 'pip-flexible-layouts', __( 'Layouts', 'pilopress' ), array( $this, 'layouts_meta_box' ), 'acf-field-group', 'normal', 'high' );
-        }
-
-        /**
-         * Add custom meta box for mirror flexible
-         */
-        public function layouts_meta_box() {
-            $layouts = array();
-
-            // Get clean layout field groups array
-            $layout_group_keys = PIP_Layouts::clean_group_keys();
-
-            // Browse all field groups
-            if ( $layout_group_keys ) {
-                foreach ( $layout_group_keys as $layout_group_key ) {
-                    // Get current field group
-                    $layout_field_group = acf_get_field_group( $layout_group_key );
-
-                    // Get locations html
-                    $locations = ''; // PILO_TODO: get ACFE helper (next version)
-
-                    // Structured array for template file
-                    $layouts[] = array(
-                        'title'     => $layout_field_group['title'],
-                        'locations' => $locations,
-                        'edit_link' => get_edit_post_link( $layout_field_group['ID'] ),
-                        'terms'     => self::get_terms_html( $layout_field_group['ID'] ),
-                        'fields'    => acf_get_field_count( $layout_field_group ),
-                        'load'      => self::layout_load_from( $layout_field_group ),
-                        'php'       => self::layout_php_sync( $layout_field_group ),
-                        'json'      => self::layout_json_sync( $layout_field_group ),
-                    );
-                }
-            }
-
-            // New field group link
-            $add_new_link = add_query_arg(
-                array(
-                    'post_type' => 'acf-field-group',
-                    'layout'    => 1,
-                ),
-                admin_url( 'post-new.php' )
-            );
-
-            // Template file
-            include_once( PIP_PATH . 'includes/views/flexible-layouts-meta-box.php' );
         }
 
         /**

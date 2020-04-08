@@ -81,10 +81,18 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
                 return;
             }
 
-            // Echo default content
-            echo '<div class="border border-dark px-3 py-4 mx-4 rounded text-center">
-                    <p class="text-uppercase font-weight-bold text-monospace">' . __( 'Website content here', 'pilopress' ) . '</p>
-                </div>';
+            ?>
+            <div class="inside acf-fields -top">
+            <div class="-preview">
+
+                <div style="padding: 120px 20px;text-align: center;">
+                    <em style="color:#aaa;"><?php _e( 'Website content', 'pilopress' ); ?></em>
+                </div>
+
+            </div>
+            </div>
+            <?php
+
         }
     }
 
