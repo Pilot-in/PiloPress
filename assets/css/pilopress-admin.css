@@ -211,10 +211,6 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
     border: none;
 }
 
-.toplevel_page_pilopress .pilopress-layouts-table .widefat thead tr th {
-    border-top: 1px solid #ccd0d4;
-}
-
 .toplevel_page_pilopress .wp-heading-inline {
     display: flex;
 }
@@ -241,13 +237,13 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
     text-align: center;
 }
 
-.toplevel_page_pilopress #pilopress_layouts .inside {
+.toplevel_page_pilopress #pilopress_layouts_actions .inside {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.toplevel_page_pilopress #pilopress_layouts .inside h4 {
+.toplevel_page_pilopress #pilopress_layouts_actions .inside h4 {
     margin-bottom: 0;
 }
 

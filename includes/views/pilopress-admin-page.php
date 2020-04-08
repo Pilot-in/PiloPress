@@ -52,7 +52,7 @@
                 <div id="side-sortables" class="meta-box-sortables ui-sortable">
 
                     <?php // Meta-boxes ?>
-                    <div id="pilopress_layouts" class="postbox pilopress-layouts-table">
+                    <div id="pilopress_layouts_actions" class="postbox">
                         <div class="inside">
                             <h4>
                                 <strong><?php _e( 'Layouts', 'pilopress' ) ?></strong>
@@ -62,7 +62,9 @@
                                 <?php _e( 'Add new layout', 'pilopress' ) ?>
                             </a>
                         </div>
+                    </div>
 
+                    <div id="pilopress_layouts" class="postbox pilopress-layouts-table">
                         <table class="widefat">
                             <thead>
                             <tr>
