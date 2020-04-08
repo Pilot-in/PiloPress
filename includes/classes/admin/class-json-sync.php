@@ -34,6 +34,11 @@ if ( !class_exists( 'PIP_Json_Sync' ) ) {
                 return $path;
             }
 
+            // If layout folder doesn't exists, return
+            if ( !file_exists( PIP_THEME_LAYOUTS_PATH . $field_group['_pip_layout_slug'] ) ) {
+                return false;
+            }
+
             return PIP_THEME_LAYOUTS_PATH . $field_group['_pip_layout_slug'];
         }
 
