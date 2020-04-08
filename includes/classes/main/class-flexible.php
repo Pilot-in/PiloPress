@@ -140,7 +140,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     // Settings
                     $modal_category   = $terms ? $terms : array();
                     $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $name . '.php' );
-                    $render_style     = $file_url . acf_maybe_get( $field_group, '_pip_render_style', $name . '.css' );
                     $render_script    = $file_url . acf_maybe_get( $field_group, '_pip_render_script', $name . '.js' );
                     $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail', '870' );
                     $configuration    = acf_maybe_get( $field_group, '_pip_configuration', array() );
@@ -190,7 +189,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         ],
                         'acfe_flexible_category'        => $modal_category,
                         'acfe_flexible_render_template' => $render_layout,
-                        'acfe_flexible_render_style'    => $render_style,
+                        'acfe_flexible_render_style'    => '', // Empty for no enqueue
                         'acfe_flexible_render_script'   => $render_script,
                         'acfe_flexible_thumbnail'       => $layout_thumbnail,
                         'acfe_flexible_settings'        => $configuration,
