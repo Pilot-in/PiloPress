@@ -4,6 +4,7 @@
  * @var $error_icon
  * @var $configurations
  * @var $layouts
+ * @var $add_new_link
  */
 ?>
 
@@ -52,6 +53,16 @@
 
                     <?php // Meta-boxes ?>
                     <div id="pilopress_layouts" class="postbox pilopress-layouts-table">
+                        <div class="inside">
+                            <h4>
+                                <strong><?php _e( 'Layouts', 'pilopress' ) ?></strong>
+                                <span id="pilopress_layouts_count"><?php echo count( $layouts ) ?></span>
+                            </h4>
+                            <a href="<?php echo $add_new_link ?>" class="button button-secondary">
+                                <?php _e( 'Add new layout', 'pilopress' ) ?>
+                            </a>
+                        </div>
+
                         <table class="widefat">
                             <thead>
                             <tr>

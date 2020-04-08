@@ -229,6 +229,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 }
             }
 
+            // New field group link
+            $add_new_link = add_query_arg(
+                array(
+                    'post_type' => 'acf-field-group',
+                    'layout'    => 1,
+                ),
+                admin_url( 'post-new.php' )
+            );
+
             // Template file
             include_once( PIP_PATH . 'includes/views/pilopress-admin-page.php' );
         }

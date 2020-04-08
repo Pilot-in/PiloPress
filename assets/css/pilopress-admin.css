@@ -211,6 +211,10 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
     border: none;
 }
 
+.toplevel_page_pilopress .pilopress-layouts-table .widefat thead tr th {
+    border-top: 1px solid #ccd0d4;
+}
+
 .toplevel_page_pilopress .wp-heading-inline {
     display: flex;
 }
@@ -219,6 +223,32 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
     width: 30px;
     fill: #2eb6e5;
     padding: 9px 9px 4px 0;
+}
+
+.toplevel_page_pilopress #pilopress_layouts_count {
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    margin: 1px 0 -1px 2px;
+    padding: 0 5px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background-color: #007cba;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.toplevel_page_pilopress #pilopress_layouts .inside {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toplevel_page_pilopress #pilopress_layouts .inside h4 {
+    margin-bottom: 0;
 }
 
 /* Pilo'Press: Layouts */
