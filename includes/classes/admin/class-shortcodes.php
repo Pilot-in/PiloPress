@@ -40,7 +40,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
 
             // Build class
             $class = '';
-            $class .= ( $attrs['type'] ) ? ' ' . $attrs['type'] : '';
+            $class .= ( $attrs['type'] ) ? $attrs['type'] : '';
             $class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
             if ( !$attrs['nodiv'] ) {

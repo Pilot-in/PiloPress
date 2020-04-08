@@ -284,20 +284,8 @@
 
                 // Build button class
                 var btn_class = '';
-                var btn       = '';
-                if (button.type) {
-                    if (button.style) {
-                        btn = 'btn-' + button.style + '-' + button.type;
-                    } else {
-                        btn = 'btn-' + button.type;
-                    }
-                }
-                btn_class += 'btn ' + btn;
+                if (button.type) { btn_class += button.type; }
                 if (button.xclass) { btn_class += ' ' + button.xclass; }
-                if (button.size) { btn_class += ' btn-' + button.size; }
-                if (button.block == 'true') { btn_class += ' btn-block'; }
-                if (button.active == 'true') { btn_class += ' active'; }
-                if (button.disabled == 'true') { btn_disabled = 'disabled'; }
 
                 // Build button
                 var html = '';
