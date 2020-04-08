@@ -176,6 +176,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $success_icon = '<span class="dashicons dashicons-yes"></span>';
             $error_icon   = '<span class="dashicons dashicons-no-alt"></span>';
 
+            // Check if "style-pilopress-admin.css" enqueued
+            global $wp_styles;
+            $admin_style_enqueued = false;
+            foreach ( $wp_styles->queue as $style ) {
+                if ( $wp_styles->registered[ $style ]->src === get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind-admin.min.css' ) {
+                    $admin_style_enqueued = true;
+                }
+            }
+
             // Configurations
             $configurations = array(
                 array(
@@ -187,6 +196,16 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     'label'        => __( '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/layouts/</code>', 'pilopress' ),
                     'status'       => file_exists( PIP_THEME_LAYOUTS_PATH ),
                     'status_label' => file_exists( PIP_THEME_LAYOUTS_PATH ) ? ' folder found' : ' folder not found',
+                ),
+                array(
+                    'label'        => __( '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/tailwind/</code>', 'pilopress' ),
+                    'status'       => file_exists( PIP_THEME_TAILWIND_PATH ),
+                    'status_label' => file_exists( PIP_THEME_TAILWIND_PATH ) ? ' folder found' : ' folder not found',
+                ),
+                array(
+                    'label'        => __( 'Admin style', 'pilopress' ),
+                    'status'       => $admin_style_enqueued,
+                    'status_label' => $admin_style_enqueued ? ' enqueued' : ' not enqueued',
                 ),
             );
 
