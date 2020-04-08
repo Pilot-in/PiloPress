@@ -133,9 +133,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
             $post_type = get_post_type_labels( get_post_type_object( PIP_Components::$post_type ) );
 
             // Add component option
-            $choices[ $post_type->singular_name ] = array(
-                PIP_Components::$post_type => $post_type->singular_name,
-            );
+            $choices["Pilo'Press"][ PIP_Components::$post_type ] = $post_type->singular_name;
 
             return $choices;
         }

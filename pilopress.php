@@ -127,20 +127,24 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/main/class-layouts-categories.php' );
             pilopress_include( 'includes/classes/main/class-flexible.php' );
             pilopress_include( 'includes/classes/main/class-flexible-mirror.php' );
-            pilopress_include( 'includes/classes/main/class-pattern.php' );
-            pilopress_include( 'includes/classes/main/class-flexible-header.php' );
-            pilopress_include( 'includes/classes/main/class-flexible-footer.php' );
-            pilopress_include( 'includes/classes/main/class-pattern-message.php' );
             pilopress_include( 'includes/classes/main/class-layouts.php' );
+
+            // Pattern
+            pilopress_include( 'includes/classes/pattern/class-pattern.php' );
+            pilopress_include( 'includes/classes/pattern/class-flexible-header.php' );
+            pilopress_include( 'includes/classes/pattern/class-flexible-footer.php' );
+            pilopress_include( 'includes/classes/pattern/class-pattern-message.php' );
 
             // Admin
             pilopress_include( 'includes/classes/admin/class-admin.php' );
             pilopress_include( 'includes/classes/admin/class-admin-layouts.php' );
             pilopress_include( 'includes/classes/admin/class-admin-options-page.php' );
             pilopress_include( 'includes/classes/admin/class-styles-settings.php' );
-            pilopress_include( 'includes/classes/admin/class-tinymce.php' );
-            pilopress_include( 'includes/classes/admin/class-shortcodes.php' );
-            pilopress_include( 'includes/classes/admin/class-options-single-meta.php' );
+
+            // Admin - Editor
+            pilopress_include( 'includes/classes/admin/editor/class-tinymce.php' );
+            pilopress_include( 'includes/classes/admin/editor/class-shortcodes.php' );
+            pilopress_include( 'includes/classes/admin/editor/class-options-single-meta.php' );
 
             // Options pages
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-css.php' );

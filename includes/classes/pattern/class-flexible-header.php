@@ -12,7 +12,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
 
             // ACF hooks
             $flexible_header_field_name = self::get_flexible_header_field_name();
-            add_filter( "acf/prepare_field/name={$flexible_header_field_name}", array( 'PIP_Flexible', 'prepare_flexible_field' ), 20 );
+            add_filter( "acf/prepare_field/name={$flexible_header_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
         }
 
         /**
@@ -65,7 +65,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
                         'acfe_flexible_empty_message'       => '',
                         'acfe_flexible_layouts_previews'    => 1,
                         'layouts'                           => $layouts,
-                        'button_label'                      => __('Add Row', 'pilopress'),
+                        'button_label'                      => __( 'Add Row', 'pilopress' ),
                         'min'                               => '',
                         'max'                               => '',
                     ),
@@ -96,6 +96,100 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
 
             // Register field group
             acf_add_local_field_group( $args );
+        }
+
+        /**
+         * Parse all field groups and show only those for current screen
+         *
+         * @param $field
+         *
+         * @return bool
+         */
+        public static function prepare_flexible_field( $field ) {
+            // If no layouts, return
+            if ( empty( $field['layouts'] ) && strpos( $field['_name'], self::get_flexible_header_field_name() ) === 0 ) {
+                return false;
+            }
+
+            // If AJAX, filters not needed
+            if ( wp_doing_ajax() ) {
+
+                // Exception for attachments view in grid mode
+                if ( acf_maybe_get_POST( 'action' ) !== 'query-attachments' ) {
+                    return $field;
+                }
+            }
+
+            // Initiate layouts to empty array for returns
+            $layouts          = $field['layouts'];
+            $field['layouts'] = array();
+
+            // Get post_id and screen
+            $screen = acf_get_form_data( 'screen' );
+
+            // Get args depending on screen
+            switch ( $screen ) {
+                case 'options':
+                    $args = array(
+                        'pip-pattern' => self::get_flexible_header_field_name(),
+                    );
+                    break;
+            }
+
+            // If no args, return
+            if ( empty( $args ) ) {
+                return $field;
+            }
+
+            // Get all fields groups (hidden included)
+            $field_groups = acf_get_field_groups();
+
+            // If no field groups, return
+            if ( empty( $field_groups ) ) {
+                return $field;
+            }
+
+            // Array for valid layouts
+            $keep = array();
+
+            foreach ( $field_groups as $field_group ) {
+                // If current screen not included in field group location, skip
+                if ( !PIP_Flexible::get_field_group_visibility( $field_group, $args ) ) {
+                    continue;
+                }
+
+
+                // Sanitize name
+                $field_group_name = sanitize_title( $field_group['title'] );
+
+                // Browse all layouts
+                foreach ( $layouts as $key => $layout ) {
+
+                    // If field group not in layouts, skip
+                    if ( $layout['name'] !== $field_group_name ) {
+                        continue;
+                    }
+
+                    // If field group in layouts, keep it
+                    $keep[ $key ] = $layout;
+                    break;
+                }
+
+            }
+
+            // If no layouts, return false to hide field group
+            if ( empty( $keep ) ) {
+                return false;
+            }
+
+            // Replace layouts
+            $field['layouts'] = $keep;
+
+            // Pattern alert
+            PIP_Pattern::$show_alert = false;
+
+            // Return field with layouts for current screen
+            return $field;
         }
 
         /**
