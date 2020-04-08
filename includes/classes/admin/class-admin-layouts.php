@@ -23,6 +23,11 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             // Edit quick links
             add_filter( 'views_edit-acf-field-group', array( $this, 'edit_views' ), 999 );
 
+            // Layouts listing page
+            if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
+                add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'field_group_columns' ), 20 );
+            }
+
             // Sync page
             if ( acf_maybe_get_GET( 'post_status' ) == 'sync' ) {
                 add_filter( 'acf/load_field_groups', array( $this, 'filter_sync_field_groups' ) );
@@ -37,6 +42,19 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             if ( acf_maybe_get_GET( 'sync_ok' ) ) {
                 self::show_notice_message();
             }
+        }
+
+        /**
+         * Remove status column for layouts
+         *
+         * @param $columns
+         *
+         * @return mixed
+         */
+        public function field_group_columns( $columns ) {
+            unset( $columns['acf-fg-status'] );
+
+            return $columns;
         }
 
         /**
