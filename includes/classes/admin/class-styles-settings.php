@@ -27,7 +27,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             echo '
             <div id="publishing-action">
-                <input type="submit" accesskey="p" value="' . __( 'Update & Compile', 'pilopress' ) . '"
+                <input type="submit" accesskey="p" value="' . __( 'Update & Build', 'pilopress' ) . '"
                 class="button button-secondary button-large" id="update_compile" name="update_compile">
 			</div>
             ';

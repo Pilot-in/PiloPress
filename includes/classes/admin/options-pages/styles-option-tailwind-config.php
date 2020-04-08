@@ -39,7 +39,17 @@ acf_add_local_field_group( array(
                         'id'    => '',
                     ),
                     'acfe_permissions'  => '',
-                    'default_value'     => "module.exports = {\n  theme: {},\n  variants: {},\n  plugins: [],\n};",
+                    'default_value'     => "module.exports = {
+				theme: {
+
+				},
+				variants: {
+
+				},
+				plugins: [
+
+				],
+};",
                     'placeholder'       => '',
                     'mode'              => 'javascript',
                     'lines'             => 8,
