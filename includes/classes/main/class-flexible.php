@@ -14,9 +14,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // ACF hooks
             $flexible_field_name = self::get_flexible_field_name();
             add_filter( "acf/prepare_field/name={$flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
-
-            // Pilo'Press hooks
-            add_filter( 'pip/flexible/locations', array( $this, 'flexible_locations' ) );
         }
 
         /**
@@ -32,7 +29,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             PIP_Layouts::set_layout_group_keys( $group_keys );
             PIP_Flexible_Mirror::set_flexible_mirror_group( acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() ) );
 
-            $locations = apply_filters( 'pip/flexible/locations', array() );
+            $default_locations = self::flexible_locations();
+            $locations         = apply_filters( 'pip/flexible/locations', $default_locations );
 
             // Main flexible content field group
             $args = array(
@@ -398,7 +396,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          *
          * @return mixed
          */
-        public function flexible_locations( $locations ) {
+        public function flexible_locations( $locations = array() ) {
             // Get field group
             $mirror = acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() );
 

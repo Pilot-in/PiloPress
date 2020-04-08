@@ -116,6 +116,10 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Include files
          */
         public function includes() {
+            // Components
+            pilopress_include( 'includes/classes/components/class-components.php' );
+            pilopress_include( 'includes/classes/components/class-component-field-type.php' );
+
             // Helpers
             pilopress_include( 'includes/classes/class-helpers.php' );
 
@@ -128,10 +132,6 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/main/class-flexible-footer.php' );
             pilopress_include( 'includes/classes/main/class-pattern-message.php' );
             pilopress_include( 'includes/classes/main/class-layouts.php' );
-
-            // Components
-            pilopress_include( 'includes/classes/components/class-components.php' );
-            pilopress_include( 'includes/classes/components/class-component-field-type.php' );
 
             // Admin
             pilopress_include( 'includes/classes/admin/class-admin.php' );

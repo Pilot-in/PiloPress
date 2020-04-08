@@ -20,7 +20,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @param $page
          */
         public function add_compile_styles_button( $page ) {
-            if ( strpos( $page['post_id'], 'pip_styles_' ) !== 0 ) {
+            // If not on Styles admin page, return
+            if ( !str_starts( $page['post_id'], 'pip_styles_' ) ) {
                 return;
             }
 
@@ -38,7 +39,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @param $post_id
          */
         public function save_styles_settings( $post_id ) {
-            if ( strpos( $post_id, 'pip_styles_' ) !== 0 ) {
+            // If not on Styles admin page, return
+            if ( !str_starts( $post_id, 'pip_styles_' ) ) {
                 return;
             }
 

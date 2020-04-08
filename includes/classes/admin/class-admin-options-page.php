@@ -290,7 +290,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * @return string
          */
         public function styles_options_page_source( $source, $post_id, $field_group ) {
-            if ( strpos( $post_id, 'group_styles_' ) === 0 || strpos( $post_id, 'group_pip_' ) === 0 ) {
+            if ( str_starts( $post_id, 'group_styles_' ) || str_starts( $post_id, 'group_pip_' ) ) {
                 $source = "Pilo'Press";
             }
 

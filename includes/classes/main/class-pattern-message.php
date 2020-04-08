@@ -3,7 +3,10 @@
 if ( !class_exists( 'PIP_Pattern_Message' ) ) {
     class PIP_Pattern_Message {
         public function __construct() {
+            // WP hooks
             add_action( 'init', array( $this, 'add_local_field_group' ) );
+
+            // ACF hooks
             add_action( 'acf/prepare_field/name=pip_flexible_pattern_message', array( $this, 'pattern_message' ), 99 );
         }
 

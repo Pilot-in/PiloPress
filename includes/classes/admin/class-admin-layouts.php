@@ -6,6 +6,8 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             // WP hooks
             add_action( 'current_screen', array( $this, 'admin_layouts_page' ), 1 );
             add_action( 'untrashed_post', array( $this, 'untrash_field_group' ), 1 );
+
+            // ACF hooks
             add_action( 'acf/update_field_group', array( $this, 'update_layout_setting' ), 10, 1 );
         }
 

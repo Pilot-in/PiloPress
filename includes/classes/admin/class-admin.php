@@ -20,20 +20,19 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          * Enqueue admin style & scripts
          */
         public function enqueue_scripts() {
-            // Style
+            // Styles
             wp_enqueue_style( 'pilopress-admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), null );
+            self::maybe_enqueue_layout_admin_style();
 
             // Scripts
             wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
             wp_localize_script( 'pilopress-admin-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
-
-            self::enqueue_layout_admin_style();
         }
 
         /**
          * Enqueue layouts admin style
          */
-        private static function enqueue_layout_admin_style() {
+        private static function maybe_enqueue_layout_admin_style() {
             // If not acf field group page, return
             if ( get_current_screen()->id !== 'acf-field-group' ) {
                 return;
@@ -297,7 +296,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // Define submenu for Styles menu
-            if ( acf_maybe_get_GET( 'page' ) == 'pip-styles' || strpos( acf_maybe_get_GET( 'page' ), 'pip-styles' ) === 0 ) {
+            if ( acf_maybe_get_GET( 'page' ) == 'pip-styles' || str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
                 $submenu_file = 'pip-styles-tailwind-css';
             }
 
@@ -325,7 +324,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             if ( ( $current_screen->id === 'edit-acf-field-group' && acf_maybe_get_GET( 'layouts' ) == 1 )
                  || $is_layout
                  || acf_maybe_get_GET( 'layout' ) == 1
-                 || strpos( acf_maybe_get_GET( 'page' ), 'pip-styles' ) === 0 ) :
+                 || str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) :
                 ?>
                 <script type="text/javascript">
                     (function ($) {
@@ -358,8 +357,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Modify "Add new" link on layout single page
             $is_layout = PIP_Layouts::is_layout( acf_maybe_get_GET( 'post' ) );
             if ( $path === 'post-new.php?post_type=acf-field-group' && $is_layout ) {
+
                 // Add argument
                 $url = $url . '&layout=1';
+
             }
 
             return $url;
