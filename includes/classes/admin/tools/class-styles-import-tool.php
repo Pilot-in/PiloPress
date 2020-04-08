@@ -44,7 +44,6 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
          * @return ACF_Admin_Notice
          */
         public function submit() {
-
             // Check file size
             if ( empty( $_FILES['acf_import_styles_configuration']['size'] ) ) {
                 return acf_add_admin_notice( __( 'No file selected', 'pilopress' ), 'warning' );
@@ -75,9 +74,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             // Update pages
             foreach ( $json as $option_page ) {
                 acf_enable_filter( 'local' );
-
                 acf_update_values( $option_page['data'], $option_page['post_id'] );
-
                 acf_disable_filter( 'local' );
             }
 

@@ -7,6 +7,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
         public static $show_alert = true;
 
         public function __construct() {
+            // WP hooks
             add_action( 'init', array( $this, 'register_option_page' ) );
         }
 

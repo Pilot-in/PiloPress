@@ -25,7 +25,6 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * Generate HTML
          */
         public function html() {
-
             // Export JSON
             if ( !$this->is_active() ) {
                 $this->html_archive();
@@ -37,7 +36,6 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * HTML for archive page
          */
         public function html_archive() {
-
             // Get styles options
             $styles_options = new PIP_Admin_Options_Page();
 
@@ -86,7 +84,8 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
                 ?>
             </div>
             <p class="acf-submit">
-                <button type="submit" name="action" class="button button-primary" value="download" <?php echo $disabled; ?>><?php _e( 'Export File' ); ?></button>
+                <button type="submit" name="action" class="button button-primary"
+                        value="download" <?php echo $disabled; ?>><?php _e( 'Export File' ); ?></button>
             </p>
             <?php
         }
@@ -95,7 +94,6 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * Submit action
          */
         public function submit() {
-
             // Get action
             $action = acf_maybe_get_POST( 'action' );
 
@@ -111,29 +109,29 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * @return ACF_Admin_Notice
          */
         public function submit_download() {
-
-            // vars
+            // Get selected keys
             $keys = $this->get_selected_keys();
 
-
-            // validate
+            // If no keys, show warning message
             if ( $keys === false ) {
                 return acf_add_admin_notice( __( 'No style page selected', 'pilopress' ), 'warning' );
             }
 
+            // Get data
             $data = $this->get_data_for_export( $keys );
+
+            // If no data, show error message
             if ( !$data ) {
                 return acf_add_admin_notice( __( 'An error appended. Please try again later.', 'pilopress' ), 'error' );
             }
 
-            // headers
+            // File headers
             $file_name = 'acf-styles-export-' . date( 'Y-m-d' ) . '.json';
             header( "Content-Description: File Transfer" );
             header( "Content-Disposition: attachment; filename={$file_name}" );
             header( "Content-Type: application/json; charset=utf-8" );
 
-
-            // return
+            // Return
             echo acf_json_encode( $data );
             die;
         }
@@ -163,6 +161,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
                     $values[ $sub_field['key'] ] = $sub_field['value'];
                 }
 
+                // Store data
                 $data[] = array(
                     'post_id' => $post_id,
                     'data'    => $values,
@@ -178,13 +177,12 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * @return array|bool
          */
         public function get_selected_keys() {
-
-            // check $_POST
+            // Check $_POST
             if ( $keys = acf_maybe_get_POST( 'keys' ) ) {
                 return (array) $keys;
             }
 
-            // check $_GET
+            // Check $_GET
             if ( $keys = acf_maybe_get_GET( 'keys' ) ) {
                 $keys = str_replace( ' ', '+', $keys );
 
@@ -198,22 +196,23 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * Load action
          */
         public function load() {
-
-            // Active
+            // If not active, return
             if ( $this->is_active() ) {
-
-                // Get selected keys
-                $selected = $this->get_selected_keys();
-
-
-                // Add notice
-                if ( $selected ) {
-                    $count = count( $selected );
-                    $text  = sprintf( _n( 'Exported 1 style settings.', 'Exported %s styles settings.', $count, 'pilopress' ), $count );
-                    acf_add_admin_notice( $text, 'success' );
-                }
+                return;
             }
 
+            // Get selected keys
+            $selected = $this->get_selected_keys();
+
+            // If no keys, return
+            if ( $selected ) {
+                return;
+            }
+
+            // Add notice
+            $count = count( $selected );
+            $text  = sprintf( _n( 'Exported 1 style settings.', 'Exported %s styles settings.', $count, 'pilopress' ), $count );
+            acf_add_admin_notice( $text, 'success' );
         }
 
     }

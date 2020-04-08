@@ -3,10 +3,13 @@
 if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
     class PIP_Layouts_Categories {
         public function __construct() {
+            // WP hooks
             add_action( 'init', array( $this, 'init' ) );
             add_filter( 'parent_file', array( $this, 'menu_parent_file' ) );
-            add_filter( 'acf/get_taxonomies', array( $this, 'remove_layout_category' ), 10, 2 );
             add_action( 'current_screen', array( $this, 'current_screen' ) );
+
+            // ACF hooks
+            add_filter( 'acf/get_taxonomies', array( $this, 'remove_layout_category' ), 10, 2 );
         }
 
         /**

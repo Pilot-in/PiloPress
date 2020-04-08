@@ -21,9 +21,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
         public function localize_data() {
             acf_localize_data( array(
                 'custom_fonts'   => self::get_custom_fonts(),
-                'custom_styles'  => self:: get_custom_styles(),
-                'custom_colors'  => self:: get_custom_colors(),
-                'custom_buttons' => self:: get_custom_buttons(),
+                'custom_styles'  => self::get_custom_styles(),
+                'custom_colors'  => self::get_custom_colors(),
+                'custom_buttons' => self::get_custom_buttons(),
                 'image_sizes'    => self::get_all_image_sizes(),
             ) );
         }
