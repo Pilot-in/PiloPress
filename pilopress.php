@@ -147,8 +147,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/admin/editor/class-styles-settings.php' );
 
             // Admin - Options pages
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-css.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-config.php' );
+            pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-tinymce.php' );

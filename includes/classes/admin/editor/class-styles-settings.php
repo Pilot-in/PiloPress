@@ -53,7 +53,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             }
 
             // Save CSS
-            $tailwind_css = get_field( 'pip_tailwind_style', 'pip_styles_tailwind_css' );
+            $tailwind_css = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
             if ( $tailwind_css ) {
                 // Get style
                 $tailwind_style = $tailwind_css['tailwind_style'];
@@ -73,7 +73,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             }
 
             // Save config
-            $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_config' );
+            $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
             if ( $tailwind_config ) {
                 file_put_contents( PIP_THEME_TAILWIND_PATH . 'tailwind.config.js', $tailwind_config['tailwind_config'] );
             }

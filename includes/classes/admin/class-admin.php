@@ -266,7 +266,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'parent' => 'pilopress',
                 'id'     => 'styles',
                 'title'  => __( 'Styles', 'pilopress' ),
-                'href'   => add_query_arg( array( 'page' => 'pip-styles-tailwind-css' ), admin_url( 'admin.php' ) ),
+                'href'   => add_query_arg( array( 'page' => 'pip-styles-tailwind' ), admin_url( 'admin.php' ) ),
             ) );
         }
 
@@ -325,7 +325,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Define submenu for Styles menu
             if ( acf_maybe_get_GET( 'page' ) == 'pip-styles' || str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
-                $submenu_file = 'pip-styles-tailwind-css';
+                $submenu_file = 'pip-styles-tailwind';
             }
 
             // Define submenu for Pattern menu

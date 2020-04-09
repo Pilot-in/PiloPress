@@ -205,7 +205,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
             $selected = $this->get_selected_keys();
 
             // If no keys, return
-            if ( $selected ) {
+            if ( !$selected ) {
                 return;
             }
 
