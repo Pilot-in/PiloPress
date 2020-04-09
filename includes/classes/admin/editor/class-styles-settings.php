@@ -93,7 +93,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             require( PIP_PATH . '/assets/libs/tailwindapi.php' );
             $tailwind = new TailwindAPI();
 
-            $css_content = file_get_contents( PIP_THEME_TAILWIND_PATH . 'tailwind.css' );
+            $css_content = "body{ font-family:system-ui; }\n";
+            $css_content .= file_get_contents( PIP_THEME_TAILWIND_PATH . 'tailwind.css' );
             $css_content .= PIP_Layouts::get_layouts_css();
 
             // Build front style
@@ -107,17 +108,20 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 )
             );
 
+            // Reset WP styles
+            $admin_css = "#poststuff .-preview h2{ all:unset; }\n";
+
             // Build admin style
-            $tailwind->build(
+            $admin_css .= $tailwind->build(
                 array(
                     'css'          => $css_content,
                     'config'       => PIP_THEME_TAILWIND_PATH . 'tailwind.config.js',
                     'autoprefixer' => true,
                     'minify'       => true,
                     'prefixer'     => '.-preview',
-                    'output'       => PIP_THEME_TAILWIND_PATH . 'tailwind-admin.min.css',
                 )
             );
+            file_put_contents( PIP_THEME_TAILWIND_PATH . 'tailwind-admin.min.css', $admin_css );
         }
 
         /**
