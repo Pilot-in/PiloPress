@@ -8,28 +8,11 @@ acf_add_local_field_group( array(
 
         // CSS
         array(
-            'key'               => 'field_tailwind_css_tab',
-            'label'             => 'CSS',
-            'name'              => '',
-            'type'              => 'tab',
-            'instructions'      => '',
-            'required'          => 0,
-            'conditional_logic' => 0,
-            'wrapper'           => array(
-                'width' => '',
-                'class' => '',
-                'id'    => '',
-            ),
-            'acfe_permissions'  => '',
-            'placement'         => 'top',
-            'endpoint'          => 0,
-        ),
-        array(
             'key'                 => 'field_pip_tailwind_style',
             'label'               => '',
             'name'                => 'pip_tailwind_style',
             'type'                => 'group',
-            'instructions'        => '',
+            'instructions'        => __('CSS', 'pilopress'),
             'required'            => 0,
             'conditional_logic'   => 0,
             'wrapper'             => array(
@@ -69,28 +52,11 @@ acf_add_local_field_group( array(
 
         // JS Config
         array(
-            'key'               => 'field_tailwind_config_tab',
-            'label'             => 'Configuration',
-            'name'              => '',
-            'type'              => 'tab',
-            'instructions'      => '',
-            'required'          => 0,
-            'conditional_logic' => 0,
-            'wrapper'           => array(
-                'width' => '',
-                'class' => '',
-                'id'    => '',
-            ),
-            'acfe_permissions'  => '',
-            'placement'         => 'top',
-            'endpoint'          => 0,
-        ),
-        array(
             'key'                 => 'field_pip_tailwind_config',
             'label'               => '',
             'name'                => 'pip_tailwind_config',
             'type'                => 'group',
-            'instructions'        => '',
+            'instructions'        => __('Configuration', 'pilopress'),
             'required'            => 0,
             'conditional_logic'   => 0,
             'wrapper'             => array(
