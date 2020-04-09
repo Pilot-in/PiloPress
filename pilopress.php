@@ -139,14 +139,14 @@ if ( !class_exists( 'PiloPress' ) ) {
             pilopress_include( 'includes/classes/admin/class-admin.php' );
             pilopress_include( 'includes/classes/admin/class-admin-layouts.php' );
             pilopress_include( 'includes/classes/admin/class-admin-options-page.php' );
-            pilopress_include( 'includes/classes/admin/class-styles-settings.php' );
+            pilopress_include( 'includes/classes/admin/class-options-single-meta.php' );
 
             // Admin - Editor
             pilopress_include( 'includes/classes/admin/editor/class-tinymce.php' );
             pilopress_include( 'includes/classes/admin/editor/class-shortcodes.php' );
-            pilopress_include( 'includes/classes/admin/editor/class-options-single-meta.php' );
+            pilopress_include( 'includes/classes/admin/editor/class-styles-settings.php' );
 
-            // Options pages
+            // Admin - Options pages
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-css.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind-config.php' );
             pilopress_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
