@@ -94,7 +94,14 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          */
         public function location_match( $result, $rule, $screen ) {
             $match = false;
+
+            // If not on Pattern page, return
+            if ( !acf_maybe_get( $screen, 'pip-pattern' ) ) {
+                return $match;
+            }
+
             if ( $rule['value'] === 'all' ) {
+
                 // Allow "all" to match any value.
                 $match = true;
 
