@@ -203,7 +203,13 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     }
 
                     // Get sub fields
-                    $url = get_sub_field( 'url' );
+                    $enqueue = get_sub_field( 'enqueue' );
+                    $url     = get_sub_field( 'url' );
+
+                    // Auto enqueue to false
+                    if ( !$enqueue ) {
+                        continue;
+                    }
 
                     // Enqueue google font
                     add_editor_style( str_replace( ',', '%2C', $url ) );
