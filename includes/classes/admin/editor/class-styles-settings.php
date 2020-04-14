@@ -158,21 +158,17 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     $url = array();
                     if ( $files ) {
                         foreach ( $files as $file ) {
-                            // Format file name
-                            $file_name = $file['file']['url'];
-                            $file_name = pathinfo( $file_name, PATHINFO_FILENAME );
-
                             // Get format
                             $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
 
                             // Get post
-                            $posts   = get_posts( array(
-                                'post_name'      => $file_name,
+                            $posts   = new WP_Query( array(
+                                'name'           => $file['file']['name'],
                                 'post_type'      => 'attachment',
                                 'posts_per_page' => 1,
                                 'fields'         => 'ids',
                             ) );
-                            $post_id = reset( $posts );
+                            $post_id = reset( $posts->get_posts() );
 
                             // Store URL
                             $url[] = 'url(' . wp_get_attachment_url( $post_id ) . ') format("' . $format . '")';
