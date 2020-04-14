@@ -197,7 +197,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          */
         public function load() {
             // If not active, return
-            if ( $this->is_active() ) {
+            if ( !$this->is_active() ) {
                 return;
             }
 
