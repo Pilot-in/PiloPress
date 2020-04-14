@@ -60,7 +60,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
                 // Get include position and get custom fonts
                 $base_include_pos = strpos( $tailwind_style, '@tailwind components;' );
-                $custom_fonts     = self::css_custom_fonts();
+                $custom_fonts     = self::css_custom_fonts() . "\n";
 
                 // If include position is positive and there is custom fonts
                 if ( $base_include_pos !== false && $custom_fonts ) {
