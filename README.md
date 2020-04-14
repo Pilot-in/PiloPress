@@ -153,7 +153,7 @@ Something like that:
     font-family: "Homework", sans-serif;
 }
 ```
-We will be able to use those classes everywhere, after we have re-build the styles files.
+After re-building styles, we will be able to use those classes everywhere.
 
 ###### #2 - Tailwind configuration file
 As explain in [Tailwind Documentation](https://tailwindcss.com/docs/font-family/#font-families), you can define custom fonts and modify the default ones.  
