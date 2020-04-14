@@ -50,7 +50,7 @@ get_footer();
 
 ?>
 ```
-- Add the following code in the `functions.php` file:
+- In the `functions.php` file, add the following code:
 
 ```php
 // Pilo'Press: Front-end
@@ -97,19 +97,94 @@ your-theme/
 ### Tailwind CSS files
 
 All files under the `tailwind` folder are generated automatically.  
-When you will save `Pilo'Press > Styles` options in back-office, two files will be generated: 
+When you will save `Pilo'Press > Styles > Tailwind` options in back-office, two files will be generated: 
 - `tailwind.css` file will take the content of the "Tailwind CSS" option.  
 - `tailwing.config.js` file will take the content of the "Tailwind Configuration" option.
 
-If you click on "Update & Compile" and compile remotely thank to [TailwindAPI](https://www.tailwindapi.com/), `tailwind.min.css` and `tailwind-admin.min.css` will be generated.
+If you click on "Update & Compile" and compile remotely thank to [TailwindAPI](https://www.tailwindapi.com/), `tailwind.min.css` and `tailwind-admin.min.css` files will be generated.
 
 For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation/).
+
+### Customizing style
+
+#### General
+To customize default Tailwind styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
+You can add fonts, customize image sizes and add custom styles for TinyMCE editor.
+
+#### Add fonts
+First step, we will go to `Pilo'Press > Styles > Fonts` and add a font.  
+You have 2 choices : Google Font or Custom font.  
+
+##### Example: Google Font
+Let's say we want to add Google's Roboto Font.  
+We have to fill the fields as following:  
+```
+Name:            Roboto
+URL:             https://fonts.googleapis.com/css2?family=Roboto&display=swap
+Auto-enqueue:    true
+```
+**NB:** The `Auto-enqueue` option will add or not the `<link>` tag.  
+
+##### Example: Custom font
+Let's say we want to add [Homework Font](https://www.dafont.com/fr/homework-3.font).  
+_Be careful with your font formats, because of [browser compatibility](https://www.w3schools.com/css/css3_fonts.asp)._  
+
+We have to fill the fields as following:  
+```
+Name:      Homework
+Files:     <Your files>
+Weight:    normal         // Depends on your font
+Style:     normal         // Depends on your font
+```
+When you will save, the `@font-face` code will be added automatically.  
+
+
+Then, to use those fonts, we have 2 different ways.
+
+###### #1 - Custom class
+We can add a custom class in `Pilo'Press > Styles > Tailwind`, in CSS field.  
+Something like that:
+```css
+.font-roboto {
+    font-family: "Roboto", sans-serif;
+}
+
+.font-homework {
+    font-family: "Homework", sans-serif;
+}
+```
+We will be able to use those classes everywhere, after we have re-build the styles files.
+
+###### #2 - Tailwind configuration file
+As explain in [Tailwind Documentation](https://tailwindcss.com/docs/font-family/#font-families), you can define custom fonts and modify the default ones.  
+Let's say we want to add our custom fonts without removing default ones, so we can write something like that:
+```js
+module.exports = {
+    theme: {
+        extend: {
+            fontFamily: {
+                roboto: ['Roboto', 'sans-serif'],
+                homework: ['Homework', 'sans-serif'],
+            },
+        },
+    },
+};
+```
+Tailwind will generate the following classes: `font-roboto` and `font-homework`.
+
+#### Customize image sizes
+
+You can customize default WordPress image sizes and add new ones in `Pilo'Press > Styles > Images`.
+
+#### TinyMCE custom styles
+
+In `Pilo'Press > Styles > TinyMCE`, you will be able to add font style, font family, font color and buttons styles which will be available in TinyMCE Editor.
 
 ### Add new layout
 
 - In the admin menu `Pilo'Press > Layouts`, add a new layout
 - Configure the layouts fields
-- Configure the layouts settings to match your theme `/theme/pilopress/layouts/` folder structure
+- Configure the layouts settings to match your theme `/your-theme/pilopress/layouts/` folder structure
 - You have to name the files the same way you did in back-office settings
 
 ### Sync layout
@@ -117,11 +192,6 @@ For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/
 - Add folder `pilopress/layouts/your-layout/` with your layout files in it (PHP, JS, CSS, JSON).
 - Go to `Pilo'Press > Layouts > Sync available` and sync your layout field group.
 
-### Customizing style
-
-To customize default bootstrap styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
-When you will save, `style-pilopress*.css` files and layouts `.css` files will be updated.  
-To force compilation, you can use the top bar menu `Pilo'Press > Compile styles`.
 
 ### Templating
 
@@ -167,7 +237,7 @@ _Default value_
 We will use the Timber [Starter Theme](https://github.com/timber/starter-theme) in this example. You will need [Timber plugin](https://fr.wordpress.org/plugins/timber-library/) to be activated.  
 To make the starter theme Pilo'Press ready, you have to create a `pilopress` folder in your theme (as described in [Theme Structure](https://github.com/Pilotin/PiloPress#theme-structure) part).  
 You can enqueue Pilo'Press styles as described in [Instructions](https://github.com/Pilotin/PiloPress#instructions) part.  
-Finally, you have to add `'pilopress/layouts'` the `Timber::$dirname` array in `functions.php` file.  
+Finally, you have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.  
 
 Regarding layouts files, you can use the PHP/Twig files duo perfectly.  
 
