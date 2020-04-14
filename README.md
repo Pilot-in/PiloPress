@@ -126,7 +126,7 @@ Auto-enqueue:    true
 **NB:** The `Auto-enqueue` option will add or not the `<link>` tag.  
 
 ##### Example: Custom font
-Let's say we want to add [Homework Font](https://www.dafont.com/fr/homework-3.font).  
+Let's say we want to add a font named _Homework_.  
 _Be careful with your font formats, because of [browser compatibility](https://www.w3schools.com/css/css3_fonts.asp)._  
 
 We have to fill the fields as following:  
