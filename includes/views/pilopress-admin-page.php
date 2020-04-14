@@ -99,15 +99,6 @@
                 <div id="column3-sortables" class="meta-box-sortables ui-sortable">
 
                     <?php // Meta-boxes ?>
-
-                </div>
-            </div>
-
-            <?php // Column 4 ?>
-            <div id="postbox-container-4" class="postbox-container">
-                <div id="column4-sortables" class="meta-box-sortables ui-sortable">
-
-                    <?php // Meta-boxes ?>
                     <div id="pilopress_quick_links" class="postbox">
                         <div class="inside">
                             <h3><strong><?php _e( 'Documentations', 'pilopress' ) ?></strong></h3>
@@ -141,6 +132,15 @@
                             </div>
                         </div>
                     </div>
+
+                </div>
+            </div>
+
+            <?php // Column 4 ?>
+            <div id="postbox-container-4" class="postbox-container">
+                <div id="column4-sortables" class="meta-box-sortables ui-sortable">
+
+                    <?php // Meta-boxes ?>
 
                 </div>
             </div>
