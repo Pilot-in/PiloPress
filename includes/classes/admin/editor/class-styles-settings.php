@@ -93,10 +93,15 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             require( PIP_PATH . '/assets/libs/tailwindapi.php' );
             $tailwind = new TailwindAPI();
 
+            // Reset font family
             $css_content = "body{ @apply font-sans }\n";
+
+            // Get tailwind.css content
             if ( file_exists( PIP_THEME_TAILWIND_PATH . 'tailwind.css' ) ) {
                 $css_content .= file_get_contents( PIP_THEME_TAILWIND_PATH . 'tailwind.css' );
             }
+
+            // Get layouts CSS
             $css_content .= PIP_Layouts::get_layouts_css();
 
             // Build front style
@@ -123,6 +128,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     'prefixer'     => '.-preview',
                 )
             );
+
+            // Put generated CSS in admin style file
             file_put_contents( PIP_THEME_TAILWIND_PATH . 'tailwind-admin.min.css', $admin_css );
         }
 
