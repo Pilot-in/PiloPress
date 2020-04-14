@@ -93,7 +93,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             require( PIP_PATH . '/assets/libs/tailwindapi.php' );
             $tailwind = new TailwindAPI();
 
-            $css_content = "body{ font-family:system-ui; }\n";
+            $css_content = "body{ @apply font-sans }\n";
             if ( file_exists( PIP_THEME_TAILWIND_PATH . 'tailwind.css' ) ) {
                 $css_content .= file_get_contents( PIP_THEME_TAILWIND_PATH . 'tailwind.css' );
             }
