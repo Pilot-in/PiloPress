@@ -387,8 +387,3 @@ starter-theme/
             ├── title.css.map
             └── group_123abcde.json
 ```
-
-## Enhancements
-
-- Icônes de localisation dans le menu Flexible : depuis ACFE
-- Changement de menu parent pour l'édition des layouts : enlever le JS
