@@ -95,7 +95,7 @@ function admin_enqueue_pilopress_styles() {
 ```
 
 ### Theme structure
-```
+```text
 your-theme/
 └── pilopress/
     ├── layouts/
@@ -141,19 +141,19 @@ You have 2 choices : Google Font or Custom font.
 ##### Example: Google Font
 Let's say we want to add Google's Roboto Font.  
 We have to fill the fields as following:  
-```
+```text
 Name:            Roboto
 URL:             https://fonts.googleapis.com/css2?family=Roboto&display=swap
 Auto-enqueue:    true
 ```
-**NB:** The `Auto-enqueue` option will add or not the `<link>` tag.  
+**NB:** The `Auto-enqueue` option will automatically add the `<link>` tag if set to `true`.
 
 ##### Example: Custom font
 Let's say we want to add a font named _Homework_.  
 _Be careful with your font formats, because of [browser compatibility](https://www.w3schools.com/css/css3_fonts.asp)._  
 
 We have to fill the fields as following:  
-```
+```text
 Name:      Homework
 Files:     <Your files>
 Weight:    normal         // Depends on your font
@@ -218,15 +218,27 @@ In `Pilo'Press > Styles > TinyMCE`, you will be able to add font style, font fam
 
 ### Templating
 
-To display the content of your post, you have to use the following function : `the_pip_content()` or `echo get_pip_content()` .
+To display the content of your post, you have to use the following function:  
+```php
+// Pilo'Press content (doesn't need 'echo')
+the_pip_content();
+
+// Pilo'Press content (needs 'echo')
+echo get_pip_content();
+```
 
 ### Pattern
 
 You can customize your header and your footer sections using layouts in `Pilo'Press > Pattern` menu.  
 First of all, you have to assign a layout to Header Pattern and/or Footer Pattern.  
 To display those sections, you have to use the following functions in your template files:
-- `get_pip_header();`
-- `get_pip_footer();` 
+```php
+// Header Pattern
+get_pip_header();
+
+// Footer Pattern
+get_pip_footer();
+```
 
 See [Instructions](https://github.com/Pilot-in/PiloPress#instructions) part for example.
 
@@ -317,7 +329,9 @@ This filter allows you to manage the required capability to see Pilo'Press pages
  
 _Default value_
 
-`add_filter( 'pip/options/capability', acf_get_setting( 'capability' ) );`
+```php
+add_filter( 'pip/options/capability', acf_get_setting( 'capability' ) );
+```
 
 ## Timber compatibility
 
