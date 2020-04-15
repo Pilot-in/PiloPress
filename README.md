@@ -243,7 +243,6 @@ Assign that layout to Posts.
 - In the layout's PHP file, add the following code:
 ```php
 <?php
-<?php
 // Component loop
 while ( have_component( 'view_more' ) ): the_component(); ?>
 
