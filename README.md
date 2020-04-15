@@ -2,26 +2,28 @@
 
 ## Table of Contents
 
-- [Requirements](https://github.com/Pilotin/PiloPress#requirements)
-- [Plugin installation](https://github.com/Pilotin/PiloPress#plugin-installation)
-- [Theme installation](https://github.com/Pilotin/PiloPress#theme-installation)
-    - [Instructions](https://github.com/Pilotin/PiloPress#instructions)
-    - [Theme structure](https://github.com/Pilotin/PiloPress#theme-structure)
-    - [Tailwind CSS files](https://github.com/Pilotin/PiloPress#tailwind-css-files)
-    - [Customizing style](https://github.com/Pilotin/PiloPress#customizing-style)
-        - [Add fonts](https://github.com/Pilotin/PiloPress#add-fonts)
-            - [Example: Google Font](https://github.com/Pilotin/PiloPress#example-google-font)
-            - [Example: Custom font](https://github.com/Pilotin/PiloPress#example-custom-font)
-            - [\#1 - Custom class](https://github.com/Pilotin/PiloPress#1---custom-class)
-            - [\#2 - Tailwind configuration file](https://github.com/Pilotin/PiloPress#2---tailwind-configuration-file)
-        - [Customize image sizes](https://github.com/Pilotin/PiloPress#customize-image-sizes)
-        - [TinyMCE custom styles](https://github.com/Pilotin/PiloPress#tinymce-custom-styles)
-    - [Add new layout](https://github.com/Pilotin/PiloPress#add-new-layout)
-    - [Sync layout](https://github.com/Pilotin/PiloPress#sync-layout)
-    - [Templating](https://github.com/Pilotin/PiloPress#templating)
-    - [Styles settings Import/Export](https://github.com/Pilotin/PiloPress#styles-settings-importexport)
-- [Available hooks](https://github.com/Pilotin/PiloPress#available-hooks)
-- [Timber compatibility](https://github.com/Pilotin/PiloPress#timber-compatibility)
+- [Requirements](https://github.com/Pilot-in/PiloPress#requirements)
+- [Plugin installation](https://github.com/Pilot-in/PiloPress#plugin-installation)
+- [Theme installation](https://github.com/Pilot-in/PiloPress#theme-installation)
+    - [Instructions](https://github.com/Pilot-in/PiloPress#instructions)
+    - [Theme structure](https://github.com/Pilot-in/PiloPress#theme-structure)
+    - [Tailwind CSS files](https://github.com/Pilot-in/PiloPress#tailwind-css-files)
+    - [Customizing style](https://github.com/Pilot-in/PiloPress#customizing-style)
+        - [Add fonts](https://github.com/Pilot-in/PiloPress#add-fonts)
+            - [Example: Google Font](https://github.com/Pilot-in/PiloPress#example-google-font)
+            - [Example: Custom font](https://github.com/Pilot-in/PiloPress#example-custom-font)
+            - [\#1 - Custom class](https://github.com/Pilot-in/PiloPress#1---custom-class)
+            - [\#2 - Tailwind configuration file](https://github.com/Pilot-in/PiloPress#2---tailwind-configuration-file)
+        - [Customize image sizes](https://github.com/Pilot-in/PiloPress#customize-image-sizes)
+        - [TinyMCE custom styles](https://github.com/Pilot-in/PiloPress#tinymce-custom-styles)
+    - [Add new layout](https://github.com/Pilot-in/PiloPress#add-new-layout)
+    - [Sync layout](https://github.com/Pilot-in/PiloPress#sync-layout)
+    - [Templating](https://github.com/Pilot-in/PiloPress#templating)
+    - [Pattern](https://github.com/Pilot-in/PiloPress#pattern)
+    - [Components](https://github.com/Pilot-in/PiloPress#components)
+    - [Styles settings Import/Export](https://github.com/Pilot-in/PiloPress#styles-settings-importexport)
+- [Available hooks](https://github.com/Pilot-in/PiloPress#available-hooks)
+- [Timber compatibility](https://github.com/Pilot-in/PiloPress#timber-compatibility)
 
 ## Requirements
 
@@ -37,7 +39,7 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 
 ### Instructions
 - In your theme, create a `pilopress` folder
-- Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder as you can see in [Theme structure](https://github.com/Pilotin/PiloPress#theme-structure) part.
+- Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder as you can see in [Theme structure](https://github.com/Pilot-in/PiloPress#theme-structure) part.
 - In the `index.php` file, add the following code:
 ```php
 <?php 
@@ -220,9 +222,15 @@ To display the content of your post, you have to use the following function : `t
 
 You can customize your header and your footer sections using layouts in `Pilo'Press > Pattern` menu.  
 First of all, you have to assign a layout to Header Pattern and/or Footer Pattern.  
-To display those sections, you have to use the following functions:
+To display those sections, you have to use the following functions in your template files:
 - `get_pip_header();`
 - `get_pip_footer();` 
+
+See [Instructions](https://github.com/Pilot-in/PiloPress#instructions) part for example.
+
+### Components
+
+_@TODO_
 
 ### Styles settings Import/Export
 
@@ -262,8 +270,8 @@ _Default value_
 :link: [Timber documentation](https://timber.github.io/docs/)
 
 We will use the Timber [Starter Theme](https://github.com/timber/starter-theme) in this example. You will need [Timber plugin](https://fr.wordpress.org/plugins/timber-library/) to be activated.  
-To make the starter theme Pilo'Press ready, you have to create a `pilopress` folder in your theme (as described in [Theme Structure](https://github.com/Pilotin/PiloPress#theme-structure) part).  
-You can enqueue Pilo'Press styles as described in [Instructions](https://github.com/Pilotin/PiloPress#instructions) part.  
+To make the starter theme Pilo'Press ready, you have to create a `pilopress` folder in your theme (as described in [Theme Structure](https://github.com/Pilot-in/PiloPress#theme-structure) part).  
+You can enqueue Pilo'Press styles as described in [Instructions](https://github.com/Pilot-in/PiloPress#instructions) part.  
 Finally, you have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.  
 
 Regarding layouts files, you can use the PHP/Twig files duo perfectly.  

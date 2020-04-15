@@ -294,8 +294,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             $choices      = array();
             $field_groups = acf_get_field_groups();
             if ( $field_groups ) {
-                foreach ( $field_groups as $field_group ) {
-                    $choices[ $field_group['key'] ] = $field_group['title'];
+                foreach ( $field_groups as $field_grp ) {
+                    $choices[ $field_grp['key'] ] = $field_grp['title'];
                 }
             }
 
