@@ -106,8 +106,8 @@
                                 <ul>
                                     <li>
                                         <span class="dashicons dashicons-external"></span>
-                                        <a href="https://github.com/Pilotin/PiloPress" target="_blank">
-                                            Github Pilo'Press
+                                        <a href="https://github.com/Pilot-in/PiloPress" target="_blank">
+                                            GitHub Pilo'Press
                                         </a>
                                     </li>
                                     <li>
