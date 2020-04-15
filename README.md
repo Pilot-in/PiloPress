@@ -22,7 +22,9 @@
     - [Pattern](https://github.com/Pilot-in/PiloPress#pattern)
     - [Components](https://github.com/Pilot-in/PiloPress#components)
     - [Styles settings Import/Export](https://github.com/Pilot-in/PiloPress#styles-settings-importexport)
-- [Available hooks](https://github.com/Pilot-in/PiloPress#available-hooks)
+- [Hooks](https://github.com/Pilot-in/PiloPress#hooks)
+    - Filter `pip/builder/locations`
+    - Filter `pip/options/capability`
 - [Timber compatibility](https://github.com/Pilot-in/PiloPress#timber-compatibility)
 
 ## Requirements
@@ -82,13 +84,13 @@ get_footer();
 // Pilo'Press: Front-end
 add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
 function enqueue_pilopress_styles() {
-    pip_enqueue_style();
+    pip_enqueue();
 }
  
 // Pilo'Press: Back-end
 add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
 function admin_enqueue_pilopress_styles() {
-    pip_enqueue_admin_style();
+    pip_enqueue_admin();
 }
 ```
 
@@ -283,13 +285,15 @@ Thanks to those functions, you can use ACF functions in the loop, in the exact s
 
 Go to `Custom Fields > Tools`, you have two new tools to import and export your styles settings.
 
-## Available hooks
+## Hooks
 
-- Locations where main flexible is visible  
-`add_filter( 'pip/flexible/locations', array() );`  
-_Default value_  
+### Filter `pip/builder/locations`
+
+This filter allows you to manage where Pilo'Press builder is visible.
+
+_Default value_
 ```php
-array(
+add_filter( 'pip/builder/locations', array(
     array(
         array(
             'param'    => 'post_type',
@@ -304,13 +308,16 @@ array(
             'value'    => 'all',
         ),
     ),
-);
+) );
 ```
 
-- Capability for Pilo'Press options pages  
-`add_filter( 'pip/options/capability', 'your_capability' );`  
-_Default value_  
-`acf_get_setting( 'capability' );`
+### Filter `pip/options/capability`
+
+This filter allows you to manage the required capability to see Pilo'Press pages  
+ 
+_Default value_
+
+`add_filter( 'pip/options/capability', acf_get_setting( 'capability' ) );`
 
 ## Timber compatibility
 

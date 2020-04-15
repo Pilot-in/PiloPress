@@ -27,7 +27,7 @@ function pip_include( $filename = '' ) {
 /**
  * Enqueue Pilo'Press style
  */
-function pip_enqueue_style() {
+function pip_enqueue() {
     wp_enqueue_style(
         'style-pilopress',
         get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind.min.css',
@@ -38,7 +38,7 @@ function pip_enqueue_style() {
 /**
  * Enqueue Pilo'Press admin style
  */
-function pip_enqueue_admin_style() {
+function pip_enqueue_admin() {
     wp_enqueue_style(
         'style-pilopress-admin',
         get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind-admin.min.css',

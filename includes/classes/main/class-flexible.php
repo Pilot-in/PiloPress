@@ -30,7 +30,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             PIP_Flexible_Mirror::set_flexible_mirror_group( acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() ) );
 
             $default_locations = self::flexible_locations();
-            $locations         = apply_filters( 'pip/flexible/locations', $default_locations );
+            $locations         = apply_filters( 'pip/builder/locations', $default_locations );
 
             // Main flexible content field group
             $args = array(
