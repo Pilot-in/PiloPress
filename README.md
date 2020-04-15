@@ -230,7 +230,55 @@ See [Instructions](https://github.com/Pilot-in/PiloPress#instructions) part for 
 
 ### Components
 
-_@TODO_
+Let's say we want to create a "View more" Component. To achieve that, we are going to follow those steps:
+
+- Create a "View more" component in `Pilo'Press > Components`.
+- Create a "View more (Component fields)" field group in `Custom Fields > Field Groups` and assign it to the "View more" component.  
+For our example, we will need 2 fields: "Posts per page" and "Post type".
+- Go back to the "View more" component in `Pilo'Press > Components` and fill in the fields.
+- Create a layout in `Pilo'Press > Layouts` with a component field.  
+We can restrict the field choices to our component.  
+Assign that layout to Posts.
+- Edit a post and add the layout with the component field.
+- In the layout's PHP file, add the following code:
+```php
+<?php
+<?php
+// Component loop
+while ( have_component( 'view_more' ) ): the_component(); ?>
+
+    <?php
+    // Custom query to display posts
+    $query = new WP_Query( array(
+        'post_type'      => get_sub_field( 'post_type' ),
+        'posts_per_page' => get_sub_field( 'posts_per_page' ),
+    ) );
+    ?>
+
+    <div class="text-center">
+
+        <p class="text-xl font-bold">View more</p>
+
+        <?php while ( $query->have_posts() ): // The Loop ?>
+
+            <?php $query->the_post(); ?>
+
+            <a class="inline-block text-lg font-semibold py-2 px-3 m-3 border-2 rounded"
+               href="<?php the_permalink(); ?>">
+                <?php the_title() ?>
+            </a>
+
+        <?php endwhile; // End of the loop ?>
+
+    </div>
+
+    <?php wp_reset_query(); // Reset WP Query ?>
+
+<?php endwhile; // End component loop ?>
+```
+
+As you can see in the code, we have used the functions `have_component( 'your_field' )` and `the_component();`.  
+Thanks to those functions, you can use ACF functions in the loop, in the exact same way of `have_rows()` and `the_row()`.
 
 ### Styles settings Import/Export
 
