@@ -1,5 +1,28 @@
 # Pilo'Press
 
+## Table of Contents
+
+- [Requirements](https://github.com/Pilotin/PiloPress#requirements)
+- [Plugin installation](https://github.com/Pilotin/PiloPress#plugin-installation)
+- [Theme installation](https://github.com/Pilotin/PiloPress#theme-installation)
+    - [Instructions](https://github.com/Pilotin/PiloPress#instructions)
+    - [Theme structure](https://github.com/Pilotin/PiloPress#theme-structure)
+    - [Tailwind CSS files](https://github.com/Pilotin/PiloPress#tailwind-css-files)
+    - [Customizing style](https://github.com/Pilotin/PiloPress#customizing-style)
+        - [Add fonts](https://github.com/Pilotin/PiloPress#add-fonts)
+            - [Example: Google Font](https://github.com/Pilotin/PiloPress#example-google-font)
+            - [Example: Custom font](https://github.com/Pilotin/PiloPress#example-custom-font)
+            - [\#1 - Custom class](https://github.com/Pilotin/PiloPress#1---custom-class)
+            - [\#2 - Tailwind configuration file](https://github.com/Pilotin/PiloPress#2---tailwind-configuration-file)
+        - [Customize image sizes](https://github.com/Pilotin/PiloPress#customize-image-sizes)
+        - [TinyMCE custom styles](https://github.com/Pilotin/PiloPress#tinymce-custom-styles)
+    - [Add new layout](https://github.com/Pilotin/PiloPress#add-new-layout)
+    - [Sync layout](https://github.com/Pilotin/PiloPress#sync-layout)
+    - [Templating](https://github.com/Pilotin/PiloPress#templating)
+    - [Styles settings Import/Export](https://github.com/Pilotin/PiloPress#styles-settings-importexport)
+- [Available hooks](https://github.com/Pilotin/PiloPress#available-hooks)
+- [Timber compatibility](https://github.com/Pilotin/PiloPress#timber-compatibility)
+
 ## Requirements
 
 This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfields.com/pro/) and [Advanced Custom Fields: Extended](https://wordpress.org/plugins/acf-extended/) plugins in order to work correctly.
@@ -50,6 +73,7 @@ get_footer();
 
 ?>
 ```
+
 - In the `functions.php` file, add the following code:
 
 ```php
@@ -107,7 +131,6 @@ For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/
 
 ### Customizing style
 
-#### General
 To customize default Tailwind styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
 You can add fonts, customize image sizes and add custom styles for TinyMCE editor.
 
@@ -141,7 +164,7 @@ When you will save, the `@font-face` code will be added automatically.
 
 Then, to use those fonts, we have 2 different ways.
 
-###### #1 - Custom class
+##### #1 - Custom class
 We can add a custom class in `Pilo'Press > Styles > Tailwind`, in CSS field.  
 Something like that:
 ```css
@@ -155,7 +178,7 @@ Something like that:
 ```
 After re-building styles, we will be able to use those classes everywhere.
 
-###### #2 - Tailwind configuration file
+##### #2 - Tailwind configuration file
 As explain in [Tailwind Documentation](https://tailwindcss.com/docs/font-family/#font-families), you can define custom fonts and modify the default ones.  
 Let's say we want to add our custom fonts without removing default ones, so we can write something like that:
 ```js
