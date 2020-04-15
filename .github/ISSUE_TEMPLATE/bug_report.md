@@ -19,8 +19,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**WordPress, ACF, plugins**
+**WordPress, Plugins**
 WordPress version:
+Pilo'Press version:
 ACF Pro version:
 ACFE version:
 ACF add-ons:
