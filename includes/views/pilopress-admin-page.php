@@ -133,6 +133,13 @@
                         </div>
                     </div>
 
+                    <div id="pilopress_pilotin" class="postbox">
+                        <div class="inside">
+                            Made with &#x2764; by
+                            <a href="https://www.pilot-in.com" target="_blank">Pilot’in</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
