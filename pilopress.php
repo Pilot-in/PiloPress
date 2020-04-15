@@ -106,7 +106,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             add_action( 'wp_loaded', array( $this, 'activation' ), 20 );
 
             // Sync JSON
-            pilopress_include( 'includes/classes/admin/class-json-sync.php' );
+            pip_include( 'includes/classes/admin/class-json-sync.php' );
 
             // Tools
             add_action( 'acf/include_admin_tools', array( $this, 'tools' ), 9 );
@@ -117,48 +117,48 @@ if ( !class_exists( 'PiloPress' ) ) {
          */
         public function includes() {
             // Components
-            pilopress_include( 'includes/classes/components/class-components.php' );
-            pilopress_include( 'includes/classes/components/class-component-field-type.php' );
+            pip_include( 'includes/classes/components/class-components.php' );
+            pip_include( 'includes/classes/components/class-component-field-type.php' );
 
             // Helpers
-            pilopress_include( 'includes/classes/class-helpers.php' );
+            pip_include( 'includes/classes/class-helpers.php' );
 
             // Main
-            pilopress_include( 'includes/classes/main/class-layouts-categories.php' );
-            pilopress_include( 'includes/classes/main/class-flexible.php' );
-            pilopress_include( 'includes/classes/main/class-flexible-mirror.php' );
-            pilopress_include( 'includes/classes/main/class-layouts.php' );
+            pip_include( 'includes/classes/main/class-layouts-categories.php' );
+            pip_include( 'includes/classes/main/class-flexible.php' );
+            pip_include( 'includes/classes/main/class-flexible-mirror.php' );
+            pip_include( 'includes/classes/main/class-layouts.php' );
 
             // Pattern
-            pilopress_include( 'includes/classes/pattern/class-pattern.php' );
-            pilopress_include( 'includes/classes/pattern/class-flexible-header.php' );
-            pilopress_include( 'includes/classes/pattern/class-flexible-footer.php' );
-            pilopress_include( 'includes/classes/pattern/class-pattern-message.php' );
+            pip_include( 'includes/classes/pattern/class-pattern.php' );
+            pip_include( 'includes/classes/pattern/class-flexible-header.php' );
+            pip_include( 'includes/classes/pattern/class-flexible-footer.php' );
+            pip_include( 'includes/classes/pattern/class-pattern-message.php' );
 
             // Admin
-            pilopress_include( 'includes/classes/admin/class-admin.php' );
-            pilopress_include( 'includes/classes/admin/class-admin-layouts.php' );
-            pilopress_include( 'includes/classes/admin/class-admin-options-page.php' );
-            pilopress_include( 'includes/classes/admin/class-options-single-meta.php' );
+            pip_include( 'includes/classes/admin/class-admin.php' );
+            pip_include( 'includes/classes/admin/class-admin-layouts.php' );
+            pip_include( 'includes/classes/admin/class-admin-options-page.php' );
+            pip_include( 'includes/classes/admin/class-options-single-meta.php' );
 
             // Admin - Editor
-            pilopress_include( 'includes/classes/admin/editor/class-tinymce.php' );
-            pilopress_include( 'includes/classes/admin/editor/class-shortcodes.php' );
-            pilopress_include( 'includes/classes/admin/editor/class-styles-settings.php' );
+            pip_include( 'includes/classes/admin/editor/class-tinymce.php' );
+            pip_include( 'includes/classes/admin/editor/class-shortcodes.php' );
+            pip_include( 'includes/classes/admin/editor/class-styles-settings.php' );
 
             // Admin - Options pages
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-tailwind.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
-            pilopress_include( 'includes/classes/admin/options-pages/styles-option-tinymce.php' );
+            pip_include( 'includes/classes/admin/options-pages/styles-option-tailwind.php' );
+            pip_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
+            pip_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
+            pip_include( 'includes/classes/admin/options-pages/styles-option-tinymce.php' );
         }
 
         /**
          * Include tools
          */
         public function tools() {
-            pilopress_include( 'includes/classes/admin/tools/class-styles-export-tool.php' );
-            pilopress_include( 'includes/classes/admin/tools/class-styles-import-tool.php' );
+            pip_include( 'includes/classes/admin/tools/class-styles-export-tool.php' );
+            pip_include( 'includes/classes/admin/tools/class-styles-import-tool.php' );
         }
 
         /**

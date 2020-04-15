@@ -80,17 +80,13 @@ get_footer();
 // Pilo'Press: Front-end
 add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
 function enqueue_pilopress_styles() {
-
-    wp_enqueue_style( 'style-pilopress', get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind.min.css', false );
-    
+    pip_enqueue_style();
 }
  
 // Pilo'Press: Back-end
 add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
 function admin_enqueue_pilopress_styles() {
-
-    wp_enqueue_style( 'style-pilopress-admin', get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind-admin.min.css', false );
-    
+    pip_enqueue_admin_style();
 }
 ```
 
@@ -219,6 +215,14 @@ In `Pilo'Press > Styles > TinyMCE`, you will be able to add font style, font fam
 ### Templating
 
 To display the content of your post, you have to use the following function : `the_pip_content()` or `echo get_pip_content()` .
+
+### Pattern
+
+You can customize your header and your footer sections using layouts in `Pilo'Press > Pattern` menu.  
+First of all, you have to assign a layout to Header Pattern and/or Footer Pattern.  
+To display those sections, you have to use the following functions:
+- `get_pip_header();`
+- `get_pip_footer();` 
 
 ### Styles settings Import/Export
 

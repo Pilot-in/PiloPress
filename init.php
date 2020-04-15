@@ -8,7 +8,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * Get Pilo'Press path
  * @return mixed
  */
-function pilopress_path() {
+function pip_path() {
     return PIP_PATH;
 }
 
@@ -17,18 +17,40 @@ function pilopress_path() {
  *
  * @param string $filename
  */
-function pilopress_include( $filename = '' ) {
-    $file_path = pilopress_path() . ltrim( $filename, '/' );
+function pip_include( $filename = '' ) {
+    $file_path = pip_path() . ltrim( $filename, '/' );
     if ( file_exists( $file_path ) ) {
         include_once( $file_path );
     }
 }
 
 /**
+ * Enqueue Pilo'Press style
+ */
+function pip_enqueue_style() {
+    wp_enqueue_style(
+        'style-pilopress',
+        get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind.min.css',
+        false
+    );
+}
+
+/**
+ * Enqueue Pilo'Press admin style
+ */
+function pip_enqueue_admin_style() {
+    wp_enqueue_style(
+        'style-pilopress-admin',
+        get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind-admin.min.css',
+        false
+    );
+}
+
+/**
  * Check if ACF Pro and ACFE are activated
  */
-add_action( 'after_plugin_row_' . PIP_BASENAME, 'pilopress_plugin_row', 5, 3 );
-function pilopress_plugin_row( $plugin_file, $plugin_data, $status ) {
+add_action( 'after_plugin_row_' . PIP_BASENAME, 'pip_plugin_row', 5, 3 );
+function pip_plugin_row( $plugin_file, $plugin_data, $status ) {
 
     // If ACF Pro and ACFE activated, return
     if ( pilopress()->has_acf() && pilopress()->has_acfe() ) {
