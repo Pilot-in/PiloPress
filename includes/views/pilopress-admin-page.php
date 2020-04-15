@@ -135,7 +135,7 @@
 
                     <div id="pilopress_pilotin" class="postbox">
                         <div class="inside">
-                            Made with &#x2764; by
+                            <?php echo __( 'Made with &#x2764; by', 'pilopress' ) ?>
                             <a href="https://www.pilot-in.com" target="_blank">Pilot’in</a>
                         </div>
                     </div>
