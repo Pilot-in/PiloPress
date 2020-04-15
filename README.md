@@ -23,8 +23,8 @@
     - [Components](https://github.com/Pilot-in/PiloPress#components)
     - [Styles settings Import/Export](https://github.com/Pilot-in/PiloPress#styles-settings-importexport)
 - [Hooks](https://github.com/Pilot-in/PiloPress#hooks)
-    - Filter `pip/builder/locations`
-    - Filter `pip/options/capability`
+    - [Filter `pip/builder/locations`](https://github.com/Pilot-in/PiloPress#filter-pipbuilderlocations)
+    - [Filter `pip/options/capability`](https://github.com/Pilot-in/PiloPress#filter-pipoptionscapability)
 - [Timber compatibility](https://github.com/Pilot-in/PiloPress#timber-compatibility)
 
 ## Requirements
