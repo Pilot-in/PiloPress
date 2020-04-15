@@ -305,22 +305,24 @@ This filter allows you to manage where Pilo'Press builder is visible.
 
 _Default value_
 ```php
-add_filter( 'pip/builder/locations', array(
-    array(
+add_filter( 'pip/builder/locations', function () {
+    return array(
         array(
-            'param'    => 'post_type',
-            'operator' => '==',
-            'value'    => 'all',
+            array(
+                'param'    => 'post_type',
+                'operator' => '==',
+                'value'    => 'all',
+            ),
         ),
-    ),
-    array(
         array(
-            'param'    => 'taxonomy',
-            'operator' => '==',
-            'value'    => 'all',
+            array(
+                'param'    => 'taxonomy',
+                'operator' => '==',
+                'value'    => 'all',
+            ),
         ),
-    ),
-) );
+    );
+} );
 ```
 
 ### Filter `pip/options/capability`
