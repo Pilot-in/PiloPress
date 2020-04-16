@@ -103,13 +103,11 @@ your-theme/
     |   |      ├── layout-1.js
     |   |      ├── layout-1.php
     |   |      ├── layout-1.css
-    |   |      ├── layout-1.css.map
     |   |      └── group_123abcde.json
     |   └── layout-2/
     |          ├── layout-2.js
     |          ├── layout-2.php
     |          ├── layout-2.css
-    |          ├── layout-2.css.map
     |          └── group_123abcde.json
     └── tailwind/
         ├── tailwind.config.js
@@ -384,6 +382,5 @@ starter-theme/
             ├── title.php
             ├── title.twig
             ├── title.css
-            ├── title.css.map
             └── group_123abcde.json
 ```

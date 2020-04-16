@@ -105,25 +105,25 @@
                             <div class="main">
                                 <ul>
                                     <li>
-                                        <span class="dashicons dashicons-external"></span>
+                                        <i aria-hidden="true" class="dashicons dashicons-external"></i>
                                         <a href="https://github.com/Pilot-in/PiloPress" target="_blank">
                                             GitHub Pilo'Press
                                         </a>
                                     </li>
                                     <li>
-                                        <span class="dashicons dashicons-external"></span>
+                                        <i aria-hidden="true" class="dashicons dashicons-external"></i>
                                         <a href="https://www.advancedcustomfields.com/resources/" target="_blank">
                                             Advanced Custom Fields
                                         </a>
                                     </li>
                                     <li>
-                                        <span class="dashicons dashicons-external"></span>
+                                        <i aria-hidden="true" class="dashicons dashicons-external"></i>
                                         <a href="https://wordpress.org/plugins/acf-extended/" target="_blank">
                                             Advanced Custom Fields: Extended
                                         </a>
                                     </li>
                                     <li>
-                                        <span class="dashicons dashicons-external"></span>
+                                        <i aria-hidden="true" class="dashicons dashicons-external"></i>
                                         <a href="https://tailwindcss.com/docs/installation" target="_blank">
                                             Tailwind CSS
                                         </a>
