@@ -242,7 +242,8 @@ See [Instructions](https://github.com/Pilot-in/PiloPress#instructions) part for 
 
 ## Components
 
-Let's say we want to create a "View more" Component. To achieve that, we are going to follow those steps:
+Let's say we want to create a "View more" Component. This component is going to display a given number of posts from a given post type.  
+To achieve that, we are going to follow those steps:
 
 - Create a "View more" component in `Pilo'Press > Components`.
 - Create a "View more (Component fields)" field group in `Custom Fields > Field Groups` and assign it to the "View more" component.  
