@@ -176,7 +176,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $success_icon = '<span class="dashicons dashicons-yes"></span>';
             $error_icon   = '<span class="dashicons dashicons-no-alt"></span>';
 
-            // Check if "style-pilopress-admin.css" enqueued
+            // Check if "tailwind-admin.min.css" enqueued
             global $wp_styles;
             $admin_style_enqueued = false;
             foreach ( $wp_styles->queue as $style ) {
