@@ -39,11 +39,14 @@ function pip_enqueue() {
  * Enqueue Pilo'Press admin style
  */
 function pip_enqueue_admin() {
-    wp_enqueue_style(
-        'style-pilopress-admin',
-        get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind-admin.min.css',
-        false
-    );
+    $tailwind_admin_css = get_stylesheet_directory() . '/pilopress/tailwind/tailwind-admin.min.css';
+    if (file_exists($tailwind_admin_css)) {
+        wp_enqueue_style(
+            'style-pilopress-admin',
+            get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind-admin.min.css',
+            false
+        );
+    } 
 }
 
 /**
