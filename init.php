@@ -28,25 +28,22 @@ function pip_include( $filename = '' ) {
  * Enqueue Pilo'Press style
  */
 function pip_enqueue() {
-    wp_enqueue_style(
-        'style-pilopress',
-        get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind.min.css',
-        false
-    );
+    $tailwind_css = PIP_THEME_TAILWIND_URL . 'tailwind.min.css';
+
+    if ( file_exists( $tailwind_css ) ) {
+        wp_enqueue_style( 'style-pilopress', $tailwind_css, false );
+    }
 }
 
 /**
  * Enqueue Pilo'Press admin style
  */
 function pip_enqueue_admin() {
-    $tailwind_admin_css = get_stylesheet_directory() . '/pilopress/tailwind/tailwind-admin.min.css';
-    if (file_exists($tailwind_admin_css)) {
-        wp_enqueue_style(
-            'style-pilopress-admin',
-            get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind-admin.min.css',
-            false
-        );
-    } 
+    $tailwind_admin_css = PIP_THEME_TAILWIND_URL . 'tailwind-admin.min.css';
+
+    if ( file_exists( $tailwind_admin_css ) ) {
+        wp_enqueue_style( 'style-pilopress-admin', $tailwind_admin_css, false );
+    }
 }
 
 /**
@@ -84,7 +81,7 @@ function pip_plugin_row( $plugin_file, $plugin_data, $status ) {
     <tr class="plugin-update-tr active pilopress-plugin-tr">
         <td colspan="3" class="plugin-update colspanchange">
             <div class="update-message notice inline notice-error notice-alt">
-                <p><?php _e( 'Pilo\'Press requires Advanced Custom Fields PRO (minimum: 5.7.10) and ACF Extended.', 'pilopress' ); ?></p>
+                <p><?php _e( 'Pilo\'Press requires Advanced Custom Fields PRO (minimum: 5.7.13) and ACF Extended.', 'pilopress' ); ?></p>
             </div>
         </td>
     </tr>
