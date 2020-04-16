@@ -28,10 +28,14 @@ function pip_include( $filename = '' ) {
  * Enqueue Pilo'Press style
  */
 function pip_enqueue() {
-    $tailwind_css = PIP_THEME_TAILWIND_URL . 'tailwind.min.css';
+    $tailwind_css = PIP_THEME_TAILWIND_PATH . 'tailwind.min.css';
 
     if ( file_exists( $tailwind_css ) ) {
-        wp_enqueue_style( 'style-pilopress', $tailwind_css, false );
+        wp_enqueue_style(
+            'style-pilopress',
+            PIP_THEME_TAILWIND_URL . 'tailwind.min.css',
+            false
+        );
     }
 }
 
@@ -39,10 +43,14 @@ function pip_enqueue() {
  * Enqueue Pilo'Press admin style
  */
 function pip_enqueue_admin() {
-    $tailwind_admin_css = PIP_THEME_TAILWIND_URL . 'tailwind-admin.min.css';
+    $tailwind_admin_css = PIP_THEME_TAILWIND_PATH . 'tailwind-admin.min.css';
 
     if ( file_exists( $tailwind_admin_css ) ) {
-        wp_enqueue_style( 'style-pilopress-admin', $tailwind_admin_css, false );
+        wp_enqueue_style(
+            'style-pilopress-admin',
+            PIP_THEME_TAILWIND_URL . 'tailwind-admin.min.css',
+            false
+        );
     }
 }
 
