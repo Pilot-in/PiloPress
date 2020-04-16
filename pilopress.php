@@ -45,8 +45,8 @@ if ( !class_exists( 'PiloPress' ) ) {
             $this->define( 'PIP_PATH', plugin_dir_path( __FILE__ ) );
             $this->define( 'PIP_URL', plugin_dir_url( __FILE__ ) );
             $this->define( 'PIP_BASENAME', plugin_basename( __FILE__ ) );
-            $this->define( 'PIP_THEME_STYLE_PATH', get_stylesheet_directory() . '/pilopress/' );
-            $this->define( 'PIP_THEME_STYLE_URL', get_stylesheet_directory_uri() . '/pilopress/' );
+            $this->define( 'PIP_THEME_PILOPRESS_PATH', get_stylesheet_directory() . '/pilopress/' );
+            $this->define( 'PIP_THEME_PILOPRESS_URL', get_stylesheet_directory_uri() . '/pilopress/' );
             $this->define( 'PIP_THEME_LAYOUTS_PATH', get_stylesheet_directory() . '/pilopress/layouts/' );
             $this->define( 'PIP_THEME_LAYOUTS_URL', get_stylesheet_directory_uri() . '/pilopress/layouts/' );
             $this->define( 'PIP_THEME_TAILWIND_PATH', get_stylesheet_directory() . '/pilopress/tailwind/' );

@@ -180,7 +180,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             global $wp_styles;
             $admin_style_enqueued = false;
             foreach ( $wp_styles->queue as $style ) {
-                if ( $wp_styles->registered[ $style ]->src === get_stylesheet_directory_uri() . '/pilopress/tailwind/tailwind-admin.min.css' ) {
+                if ( $wp_styles->registered[ $style ]->src === PIP_THEME_TAILWIND_URL . 'tailwind-admin.min.css' ) {
                     $admin_style_enqueued = true;
                 }
             }
@@ -189,8 +189,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $configurations = array(
                 array(
                     'label'        => __( '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/</code>', 'pilopress' ),
-                    'status'       => file_exists( PIP_THEME_STYLE_PATH ),
-                    'status_label' => file_exists( PIP_THEME_STYLE_PATH ) ? ' folder found' : ' folder not found',
+                    'status'       => file_exists( PIP_THEME_PILOPRESS_PATH ),
+                    'status_label' => file_exists( PIP_THEME_PILOPRESS_PATH ) ? ' folder found' : ' folder not found',
                 ),
                 array(
                     'label'        => __( '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/layouts/</code>', 'pilopress' ),
