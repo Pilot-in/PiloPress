@@ -343,7 +343,18 @@ add_filter( 'pip/options/capability', function () {
 We will use the Timber [Starter Theme](https://github.com/timber/starter-theme) in this example. You will need [Timber plugin](https://fr.wordpress.org/plugins/timber-library/) to be activated.  
 To make the starter theme Pilo'Press ready, you have to create a `pilopress` folder in your theme (as described in [Theme Structure](https://github.com/Pilot-in/PiloPress#theme-structure) part).  
 You can enqueue Pilo'Press styles as described in [Instructions](https://github.com/Pilot-in/PiloPress#instructions) part.  
-Finally, you have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.  
+You have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.  
+Finally, to display Pilo'Press content, you will have to add following code in your templates:
+```twig
+// To display Header Pattern, in your base.twig or in header block
+{{ function('get_pip_header') }}
+
+// In your template files, like front-page.twig
+{{ function('the_pip_content') }}
+
+// To display Footer Pattern, in your footer.twig or in footer block
+{{ function('get_pip_footer') }}
+```
 
 Regarding layouts files, you can use the PHP/Twig files duo perfectly.  
 
