@@ -1,6 +1,6 @@
 # Pilo'Press
 
-## Table of Contents
+# Table of Contents
 
 - [Requirements](https://github.com/Pilot-in/PiloPress#requirements)
 - [Plugin installation](https://github.com/Pilot-in/PiloPress#plugin-installation)
@@ -27,19 +27,19 @@
     - [Filter `pip/options/capability`](https://github.com/Pilot-in/PiloPress#filter-pipoptionscapability)
 - [Timber compatibility](https://github.com/Pilot-in/PiloPress#timber-compatibility)
 
-## Requirements
+# Requirements
 
 This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfields.com/pro/) and [Advanced Custom Fields: Extended](https://wordpress.org/plugins/acf-extended/) plugins in order to work correctly.
 
-## Plugin installation
+# Plugin installation
 
 - Activate **Advanced Custom Fields Pro** plugin.
 - Activate **ACF Extended** plugin.
 - Activate **Pilo'Press** plugin.
 
-## Theme installation
+# Theme installation
 
-### Instructions
+## Instructions
 - In your theme, create a `pilopress` folder
 - Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder as you can see in [Theme structure](https://github.com/Pilot-in/PiloPress#theme-structure) part.
 - In the `index.php` file, add the following code:
@@ -94,7 +94,7 @@ function admin_enqueue_pilopress_styles() {
 }
 ```
 
-### Theme structure
+## Theme structure
 ```text
 your-theme/
 └── pilopress/
@@ -116,7 +116,7 @@ your-theme/
         └── tailwind-admin.min.css
 ```
 
-### Tailwind CSS files
+## Tailwind CSS files
 
 All files under the `tailwind` folder are generated automatically.  
 When you will save `Pilo'Press > Styles > Tailwind` options in back-office, two files will be generated: 
@@ -127,16 +127,16 @@ If you click on "Update & Compile" and compile remotely thank to [TailwindAPI](h
 
 For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation/).
 
-### Customizing style
+## Customizing style
 
 To customize default Tailwind styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
 You can add fonts, customize image sizes and add custom styles for TinyMCE editor.
 
-#### Add fonts
+### Add fonts
 First step, we will go to `Pilo'Press > Styles > Fonts` and add a font.  
 You have 2 choices : Google Font or Custom font.  
 
-##### Example: Google Font
+#### Example: Google Font
 Let's say we want to add Google's Roboto Font.  
 We have to fill the fields as following:  
 ```text
@@ -146,7 +146,7 @@ Auto-enqueue:    true
 ```
 **NB:** The `Auto-enqueue` option will automatically add the `<link>` tag if set to `true`.
 
-##### Example: Custom font
+#### Example: Custom font
 Let's say we want to add a font named _Homework_.  
 _Be careful with your font formats, because of [browser compatibility](https://www.w3schools.com/css/css3_fonts.asp)._  
 
@@ -162,7 +162,7 @@ When you will save, the `@font-face` code will be added automatically.
 
 Then, to use those fonts, we have 2 different ways.
 
-##### #1 - Custom class
+#### #1 - Custom class
 We can add a custom class in `Pilo'Press > Styles > Tailwind`, in CSS field.  
 Something like that:
 ```css
@@ -176,7 +176,7 @@ Something like that:
 ```
 After re-building styles, we will be able to use those classes everywhere.
 
-##### #2 - Tailwind configuration file
+#### #2 - Tailwind configuration file
 As explain in [Tailwind Documentation](https://tailwindcss.com/docs/font-family/#font-families), you can define custom fonts and modify the default ones.  
 Let's say we want to add our custom fonts without removing default ones, so we can write something like that:
 ```js
@@ -193,28 +193,28 @@ module.exports = {
 ```
 Tailwind will generate the following classes: `font-roboto` and `font-homework`.
 
-#### Customize image sizes
+### Customize image sizes
 
 You can customize default WordPress image sizes and add new ones in `Pilo'Press > Styles > Images`.
 
-#### TinyMCE custom styles
+### TinyMCE custom styles
 
 In `Pilo'Press > Styles > TinyMCE`, you will be able to add font style, font family, font color and buttons styles which will be available in TinyMCE Editor.
 
-### Add new layout
+## Add new layout
 
 - In the admin menu `Pilo'Press > Layouts`, add a new layout
 - Configure the layouts fields
 - Configure the layouts settings to match your theme `/your-theme/pilopress/layouts/` folder structure
 - You have to name the files the same way you did in back-office settings
 
-### Sync layout
+## Sync layout
 
 - Add folder `pilopress/layouts/your-layout/` with your layout files in it (PHP, JS, CSS, JSON).
 - Go to `Pilo'Press > Layouts > Sync available` and sync your layout field group.
 
 
-### Templating
+## Templating
 
 To display the content of your post, you have to use the following function:  
 ```php
@@ -225,7 +225,7 @@ the_pip_content();
 echo get_pip_content();
 ```
 
-### Pattern
+## Pattern
 
 You can customize your header and your footer sections using layouts in `Pilo'Press > Pattern` menu.  
 First of all, you have to assign a layout to Header Pattern and/or Footer Pattern.  
@@ -240,7 +240,7 @@ get_pip_footer();
 
 See [Instructions](https://github.com/Pilot-in/PiloPress#instructions) part for example.
 
-### Components
+## Components
 
 Let's say we want to create a "View more" Component. To achieve that, we are going to follow those steps:
 
@@ -291,13 +291,13 @@ while ( have_component( 'view_more' ) ): the_component(); ?>
 As you can see in the code, we have used the functions `have_component( 'your_field' )` and `the_component();`.  
 Thanks to those functions, you can use ACF functions in the loop, in the exact same way of `have_rows()` and `the_row()`.
 
-### Styles settings Import/Export
+## Styles settings Import/Export
 
 Go to `Custom Fields > Tools`, you have two new tools to import and export your styles settings.
 
-## Hooks
+# Hooks
 
-### Filter `pip/builder/locations`
+## Filter `pip/builder/locations`
 
 This filter allows you to manage where Pilo'Press builder is visible.
 
@@ -323,7 +323,7 @@ add_filter( 'pip/builder/locations', function () {
 } );
 ```
 
-### Filter `pip/options/capability`
+## Filter `pip/options/capability`
 
 This filter allows you to manage the required capability to see Pilo'Press pages  
  
@@ -335,7 +335,7 @@ add_filter( 'pip/options/capability', function () {
 } );
 ```
 
-## Timber compatibility
+# Timber compatibility
 
 :link: [Timber documentation](https://timber.github.io/docs/)
 
