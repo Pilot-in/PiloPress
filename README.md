@@ -10,8 +10,6 @@
     - [Tailwind CSS files](#tailwind-css-files)
     - [Customizing style](#customizing-style)
         - [Add fonts](#add-fonts)
-            - [Example: Google Font](#example-google-font)
-            - [Example: Custom font](#example-custom-font)
             - [\#1 - Custom class](#1---custom-class)
             - [\#2 - Tailwind configuration file](#2---tailwind-configuration-file)
         - [Customize image sizes](#customize-image-sizes)
@@ -149,18 +147,8 @@ Auto-enqueue:    true
 **NB:** The `Auto-enqueue` option will automatically add the `<link>` tag if set to `true`.
 </details>
 
-#### Example: Google Font
-Let's say we want to add Google's Roboto Font.  
-We have to fill the fields as following:  
-```text
-Name:            Roboto
-URL:             https://fonts.googleapis.com/css2?family=Roboto&display=swap
-Auto-enqueue:    true
-```
-**NB:** The `Auto-enqueue` option will automatically add the `<link>` tag if set to `true`.
-
 <details>
-<summary>**Example: Custom font**</summary>
+<summary>Example: Custom font</summary>
 
 Let's say we want to add a font named _Homework_.  
 _Be careful with your font formats, because of [browser compatibility](https://www.w3schools.com/css/css3_fonts.asp)._  
@@ -174,20 +162,6 @@ Style:     normal         // Depends on your font
 ```
 When you will save, the `@font-face` code will be added automatically.  
 </details>
-
-#### Example: Custom font
-Let's say we want to add a font named _Homework_.  
-_Be careful with your font formats, because of [browser compatibility](https://www.w3schools.com/css/css3_fonts.asp)._  
-
-We have to fill the fields as following:  
-```text
-Name:      Homework
-Files:     <Your files>
-Weight:    normal         // Depends on your font
-Style:     normal         // Depends on your font
-```
-When you will save, the `@font-face` code will be added automatically.  
-
 
 Then, to use those fonts, we have 2 different ways.
 
