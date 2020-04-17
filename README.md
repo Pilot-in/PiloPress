@@ -135,7 +135,7 @@ First step, we will go to `Pilo'Press > Styles > Fonts` and add a font.
 You have 2 choices : Google Font or Custom font.  
 
 <details>
-<summary>**Example: Google Font**</summary>
+<summary>Example: Google Font</summary>
 
 Let's say we want to add Google's Roboto Font.  
 We have to fill the fields as following:  
@@ -148,7 +148,7 @@ Auto-enqueue:    true
 </details>
 
 <details>
-<summary>Example: Custom font</summary>
+<summary><strong>Example: Custom font</strong></summary>
 
 Let's say we want to add a font named _Homework_.  
 _Be careful with your font formats, because of [browser compatibility](https://www.w3schools.com/css/css3_fonts.asp)._  
