@@ -135,7 +135,7 @@ First step, we will go to `Pilo'Press > Styles > Fonts` and add a font.
 You have 2 choices : Google Font or Custom font.  
 
 <details>
-<summary>Example: Google Font</summary>
+<summary><strong>Example: Google Font</strong></summary>
 
 Let's say we want to add Google's Roboto Font.  
 We have to fill the fields as following:  
@@ -145,6 +145,7 @@ URL:             https://fonts.googleapis.com/css2?family=Roboto&display=swap
 Auto-enqueue:    true
 ```
 **NB:** The `Auto-enqueue` option will automatically add the `<link>` tag if set to `true`.
+____
 </details>
 
 <details>
@@ -160,7 +161,8 @@ Files:     <Your files>
 Weight:    normal         // Depends on your font
 Style:     normal         // Depends on your font
 ```
-When you will save, the `@font-face` code will be added automatically.  
+When you will save, the `@font-face` code will be added automatically.
+____
 </details>
 
 Then, to use those fonts, we have 2 different ways.
