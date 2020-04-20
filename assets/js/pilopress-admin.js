@@ -92,11 +92,13 @@
      */
     pip.sanitize_title = function ($val) {
         return $val.toLowerCase()
-            .replace(/\s+/g, '-')       // Replace spaces with -
-            .replace(/[^\w\-]+/g, '')   // Remove all non-word chars
-            .replace(/\-\-+/g, '-')     // Replace multiple - with single -
-            .replace(/\_\_+/g, '_')     // Replace multiple _ with single _
-            .replace(/^-+/, '');        // Trim - from start of text
+            .replace(/\s+/g, '-')               // Replace spaces with -
+            .replace(/\-\-+/g, '-')             // Replace multiple - with single -
+            .replace(/\_\_+/g, '_')             // Replace multiple _ with single _
+            .replace(/^-+/, '')                 // Trim - from start of text
+            .normalize('NFD')                                  // Change accent to unicode value
+            .replace(/[\u0300-\u036f]/g, '')    // From unicode value to letter
+            .replace(/[^a-zA-Z0-9_\-\s]+/g, '');          // Remove all non-word chars
     };
 
 })(jQuery);
