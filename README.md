@@ -39,7 +39,7 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 
 ## Instructions
 - In your theme, create a `pilopress` folder
-- Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder as you can see in [Theme structure](#theme-structure) part.
+- Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder.
 - In the `index.php` file, add the following code:
 ```php
 <?php 

@@ -12,7 +12,7 @@ acf_add_local_field_group( array(
             'label'               => '',
             'name'                => 'pip_tailwind_style',
             'type'                => 'group',
-            'instructions'        => __('CSS', 'pilopress'),
+            'instructions'        => __( 'CSS', 'pilopress' ),
             'required'            => 0,
             'conditional_logic'   => 0,
             'wrapper'             => array(
@@ -56,7 +56,7 @@ acf_add_local_field_group( array(
             'label'               => '',
             'name'                => 'pip_tailwind_config',
             'type'                => 'group',
-            'instructions'        => __('Configuration', 'pilopress'),
+            'instructions'        => __( 'Configuration', 'pilopress' ),
             'required'            => 0,
             'conditional_logic'   => 0,
             'wrapper'             => array(
