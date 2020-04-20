@@ -255,7 +255,7 @@ To achieve that, we are going to follow those steps:
 - Create a "Buttons" field group in `Custom Fields > Field Groups` and assign it to the "Blue Button" component.  
 For our example, we will need 2 fields: "Classes" and "Default text".
 - Go back to the "Blue Button" component in `Pilo'Press > Components` and fill in the fields.
-- Create a layout in `Pilo'Press > Layouts` with 4 fields: 
+- Create a "Button" layout in `Pilo'Press > Layouts` with 4 fields: 
     - a component field (`button_type`)
     - an alignment field (`alignment`)
     - a text field (`text`)
@@ -263,7 +263,7 @@ For our example, we will need 2 fields: "Classes" and "Default text".
     
   We can restrict the component choices to the "Blue Button" component.  
   Assign that layout to Posts.
-- Edit a post and add the layout with the component field.
+- Edit a post and add the "Button" layout.
 - In the layout's PHP file, add the following code:
 ```php
 <?php
