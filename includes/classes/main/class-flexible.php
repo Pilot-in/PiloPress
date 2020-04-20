@@ -145,6 +145,11 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     $configuration    = acf_maybe_get( $field_group, '_pip_configuration', array() );
                     $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size', array() );
 
+                    // Check if JS file exists before enqueue
+                    if ( !file_exists( str_replace( $file_url, $file_path, $render_script ) ) ) {
+                        $render_script = null;
+                    }
+
                     // Get layout alignment
                     switch ( $field_group['label_placement'] ) {
                         case 'top':
