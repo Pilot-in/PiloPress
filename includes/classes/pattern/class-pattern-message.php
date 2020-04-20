@@ -69,30 +69,36 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
             // No layout for header and footer
             if ( PIP_Pattern::$show_alert ) {
 
-                // Display alert message
-                echo '
-                <script type="application/javascript">
-                    (function ($) {
+                // Display message
+                $url = add_query_arg( array(
+                    'layouts'   => 1,
+                    'post_type' => 'acf-field-group',
+                ), admin_url( 'edit.php' ) );
+                ?>
 
-                        $(document).ready(function () {
-                            alert("Please configure your first layout in order to use Patterns.\nGo to Pilo\'Press > Layouts menu.");
-                        });
+                <div class="inside acf-fields -top">
+                    <p>
+                        <?php _e( 'Please assign a layout to Header Pattern and/or Footer Pattern in order to use this functionality.', 'pilopress' ); ?>
+                    </p>
+                    <a href="<?php echo $url ?>" class="button button-secondary">
+                        <?php _e( 'Go to Layouts', 'pilopress' ); ?>
+                    </a>
+                </div>
 
-                    })(jQuery);
-                </script>';
+                <?php
 
                 return;
             }
 
             ?>
             <div class="inside acf-fields -top">
-            <div class="-preview">
+                <div class="-preview">
 
-                <div style="padding: 120px 20px;text-align: center;">
-                    <em style="color:#aaa;"><?php _e( 'Website content', 'pilopress' ); ?></em>
+                    <div style="padding: 120px 20px;text-align: center;">
+                        <em style="color:#aaa;"><?php _e( 'Website content', 'pilopress' ); ?></em>
+                    </div>
+
                 </div>
-
-            </div>
             </div>
             <?php
 
