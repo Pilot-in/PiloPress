@@ -66,8 +66,16 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
          */
         public function pattern_message() {
 
+            $header_layouts = PIP_Layouts::get_layouts_by_location( array(
+                'pip-pattern' => PIP_Flexible_Header::get_flexible_header_field_name(),
+            ) );
+
+            $footer_layouts = PIP_Layouts::get_layouts_by_location( array(
+                'pip-pattern' => PIP_Flexible_Footer::get_flexible_footer_field_name(),
+            ) );
+
             // No layout for header and footer
-            if ( PIP_Pattern::$show_alert ) {
+            if ( !$header_layouts && !$footer_layouts ) {
 
                 // Display message
                 $url = add_query_arg( array(

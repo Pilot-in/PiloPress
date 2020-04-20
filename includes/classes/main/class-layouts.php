@@ -606,6 +606,40 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         public static function get_layout_group_keys() {
             return self::$layout_group_keys;
         }
+
+        /**
+         * Get layouts by location
+         *
+         * @param array $args
+         *
+         * @return array
+         */
+        public static function get_layouts_by_location( array $args ) {
+            $layouts = array();
+
+            // Get layout keys
+            $layout_keys = self::get_layout_group_keys();
+            if ( !$layout_keys ) {
+                return $layouts;
+            }
+
+            // Browse all layouts
+            foreach ( $layout_keys as $layout_key ) {
+                $layout = acf_get_field_group( $layout_key );
+                if ( !isset( $layout['location'] ) ) {
+                    continue;
+                }
+
+                // Layout not assign to location
+                if ( !PIP_Flexible::get_field_group_visibility( $layout, $args ) ) {
+                    continue;
+                }
+
+                $layouts[] = $layout;
+            }
+
+            return $layouts;
+        }
     }
 
     // Instantiate class
