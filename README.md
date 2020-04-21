@@ -17,7 +17,7 @@
     - [Add new layout](#add-new-layout)
     - [Sync layout](#sync-layout)
     - [Templating](#templating)
-    - [Pattern](#pattern)
+    - [Site template](#site-template)
     - [Components](#components)
     - [Styles settings Import/Export](#styles-settings-importexport)
 - [Hooks](#hooks)
@@ -230,10 +230,10 @@ the_pip_content();
 echo get_pip_content();
 ```
 
-## Pattern
+## Site template
 
-You can customize your header and your footer sections using layouts in `Pilo'Press > Pattern` menu.  
-First of all, you have to assign a layout to Header Pattern and/or Footer Pattern.  
+You can customize your header and your footer sections using layouts in `Pilo'Press > Site Template` menu.  
+First of all, you have to assign a layout to Header and/or Footer Site Template locations.  
 To display those sections, you have to use the following functions in your template files:
 ```php
 // Header Pattern
