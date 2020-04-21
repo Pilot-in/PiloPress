@@ -29,8 +29,8 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
             // Add option page
             $option_page = acf_add_options_page(
                 array(
-                    'page_title'  => __( 'Pattern', 'pilopress' ),
-                    'menu_title'  => __( 'Pattern', 'pilopress' ),
+                    'page_title'  => __( 'Site Template', 'pilopress' ),
+                    'menu_title'  => __( 'Site Template', 'pilopress' ),
                     'menu_slug'   => 'pip-pattern',
                     'capability'  => $capability,
                     'parent_slug' => 'pilopress',
@@ -59,7 +59,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          */
         public function location_types( $choices ) {
             // Add component option
-            $choices["Pilo'Press"]['pip-pattern'] = __( 'Pattern', 'pilopress' );
+            $choices["Pilo'Press"]['pip-pattern'] = __( 'Site Template', 'pilopress' );
 
             return $choices;
         }
