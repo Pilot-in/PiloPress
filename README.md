@@ -1,5 +1,7 @@
 # Pilo'Press
 
+Pilo'Press is a framework plugin for WordPress.
+
 # Table of Contents
 
 - [Requirements](#requirements)
