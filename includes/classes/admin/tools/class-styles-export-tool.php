@@ -149,8 +149,16 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
             // Browse selected options
             foreach ( $post_ids as $post_id ) {
 
+                // Enable "local" ACF filter
+                acf_enable_filter( 'local' );
+
                 // Get sub fields
                 $sub_fields = get_field_objects( $post_id, false );
+
+                // Disable "local" ACF filter
+                acf_disable_filter( 'local' );
+
+                // If no subfields, continue
                 if ( !$sub_fields ) {
                     continue;
                 }
