@@ -40,7 +40,7 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 ## Instructions
 - In your theme, create a `pilopress` folder
 - Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder.
-- In the `index.php` file, add the following code:
+- In the `index.php` file, add the following code:  
 ```php
 <?php 
 
@@ -144,7 +144,7 @@ Name:            Roboto
 URL:             https://fonts.googleapis.com/css2?family=Roboto&display=swap
 Auto-enqueue:    true
 ```
-**NB:** The `Auto-enqueue` option will automatically add the `<link>` tag if set to `true`.
+**NB:** The `Auto-enqueue` option will automatically add the `<link>` tag if set to `true`.  
 ____
 </details>
 
@@ -161,7 +161,7 @@ Files:     <Your files>
 Weight:    normal         // Depends on your font
 Style:     normal         // Depends on your font
 ```
-When you will save, the `@font-face` code will be added automatically.
+When you will save, the `@font-face` code will be added automatically.  
 ____
 </details>
 

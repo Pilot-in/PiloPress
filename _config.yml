@@ -1,7 +1,7 @@
 # Site Settings
-title: Pilo'Press
+title: "Pilo'Press"
 email: dev@pilot-in.com
-author: Pilot'in
+author: "Pilot'in"
 description: "Awesome framework for WordPress"
 baseurl: "/PiloPress"
 url: "https://pilot-in.github.io"
