@@ -1,13 +1,13 @@
 # Site Settings
-title: Pilo'Press
-email: dev@pilot-in.com
-author: Pilot'in
-description: "Awesome framework for WordPress"
+#title: Pilo'Press
+#email: dev@pilot-in.com
+#author: Pilot'in
+#description: "Awesome framework for WordPress"
 #baseurl: "/PiloPress"
 #url: "https://pilot-in.github.io"
 theme: minima
 
 # Build settings
 #markdown: kramdown
-permalink: pretty
+#permalink: pretty
 #encoding: utf-8
