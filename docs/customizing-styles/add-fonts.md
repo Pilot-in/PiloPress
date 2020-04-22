@@ -1,3 +1,10 @@
+---
+layout: default
+title: Add fonts
+parent: Customizing styles
+nav_order: 1
+---
+
 ## Add fonts
 First step, we will go to `Pilo'Press > Styles > Fonts` and add a font.  
 You have 2 choices : Google Font or Custom font.  
