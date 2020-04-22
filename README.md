@@ -220,7 +220,6 @@ In `Pilo'Press > Styles > TinyMCE`, you will be able to add font style, font fam
 - Add folder `pilopress/layouts/your-layout/` with your layout files in it (PHP, JS, CSS, JSON).
 - Go to `Pilo'Press > Layouts > Sync available` and sync your layout field group.
 
-
 ## Templating
 
 To display the content of your post, you have to use the following function:  
