@@ -5,7 +5,7 @@ author: "Pilot'in"
 description: "Awesome framework for WordPress"
 baseurl: "/PiloPress"
 url: "https://pilot-in.github.io"
-theme: minima
+remote_theme: pmarsceill/just-the-docs
 
 # Build settings
 markdown: kramdown
