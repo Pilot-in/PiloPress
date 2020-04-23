@@ -23,18 +23,18 @@ For our example, we will need 2 fields: "Classes" and "Default text".
   We can restrict the component choices to the "Blue Button" component.  
   Assign that layout to Posts.
 - Edit a post and add the "Button" layout.
-- In the layout's PHP file, add the following code:
-```markdown
-<?php
+- In the layout's PHP file, add the following code:  
+
+
+```php
 // Get layout fields
 $text      = get_sub_field( 'text' );
 $link      = get_sub_field( 'link' );
 $alignment = get_sub_field( 'alignment' );
 
 // Component loop
-while ( have_component( 'button_type' ) ): the_component(); ?>
+while ( have_component( 'button_type' ) ): the_component();
 
-    <?php
     // Get component fields
     $classes      = get_sub_field( 'classes' );
     $default_text = get_sub_field( 'default_text' );

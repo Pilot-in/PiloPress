@@ -12,7 +12,6 @@ nav_order: 1
 
 
 ```php
-
 // WordPress Header
 get_header(); 
 
