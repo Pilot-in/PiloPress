@@ -17,4 +17,4 @@ get_pip_header();
 get_pip_footer();
 ```
 
-See [Instructions](#instructions) part for example.
+See [Instructions](/PiloPress/theme-installation) part for example.
