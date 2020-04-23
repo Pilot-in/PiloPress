@@ -1,3 +1,9 @@
+---
+layout: default
+title: Components
+nav_order: 9
+---
+
 # Components
 
 Let's say we want to create a "Blue Button" Component.  

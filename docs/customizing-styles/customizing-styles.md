@@ -1,9 +1,16 @@
 ---
 layout: default
 title: Customizing style
-nav_order: 3
+nav_order: 4
 has_children: true
-permalink: /docs/customizing-styles
+---
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
 ---
 
 # Customizing style

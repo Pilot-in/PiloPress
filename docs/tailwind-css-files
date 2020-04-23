@@ -1,3 +1,9 @@
+---
+layout: default
+title: Tailwind CSS files
+nav_order: 3
+---
+
 # Tailwind CSS files
 
 All files under the `tailwind` folder are generated automatically.

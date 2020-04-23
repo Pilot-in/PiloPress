@@ -1,4 +1,11 @@
-# Filter `pip/builder/locations`
+---
+layout: default
+title: Filter `pip/builder/locations`
+parent: Hooks
+nav_order: 1
+---
+
+## Filter `pip/builder/locations`
 
 This filter allows you to manage where Pilo'Press builder is visible.
 

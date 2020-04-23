@@ -1,3 +1,9 @@
+---
+layout: default
+title: Theme installation
+nav_order: 1
+---
+
 # Instructions
 
 - In your theme, create a `pilopress` folder

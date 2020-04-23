@@ -1,3 +1,9 @@
+---
+layout: default
+title: Site template
+nav_order: 8
+---
+
 # Site template
 
 You can customize your header and your footer sections using layouts in `Pilo'Press > Site Template` menu.

@@ -1,3 +1,9 @@
+---
+layout: default
+title: Templating
+nav_order: 7
+---
+
 # Templating
 
 To display the content of your post, you have to use the following function:  

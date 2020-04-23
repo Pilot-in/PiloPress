@@ -1,3 +1,9 @@
+---
+layout: default
+title: Add new layout
+nav_order: 5
+---
+
 # Add new layout
 
 - In the admin menu `Pilo'Press > Layouts`, add a new layout

@@ -1,3 +1,9 @@
+---
+layout: default
+title: Theme structure
+nav_order: 2
+---
+
 # Theme structure
 ```text
 your-theme/

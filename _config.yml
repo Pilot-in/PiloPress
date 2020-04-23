@@ -7,7 +7,23 @@ baseurl: "/PiloPress"
 url: "https://pilot-in.github.io"
 theme: just-the-docs
 
-# Build settings
+# Theme settings
 markdown: kramdown
 permalink: pretty
 encoding: utf-8
+exclude: [ "assets/", "LICENSE.txt", "README.md" ]
+search_enabled: true
+search_tokenizer_separator: /[\s/]+/
+heading_anchors: true
+footer_content: "Copyright &copy; 2020 Pilot'in"
+color_scheme: nil
+compress_html:
+    clippings: all
+    comments: all
+    endings: all
+    startings: []
+    blanklines: false
+    profile: false
+aux_links:
+    "Just the Docs on GitHub":
+        - "//github.com/pmarsceill/just-the-docs"

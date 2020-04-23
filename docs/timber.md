@@ -1,3 +1,9 @@
+---
+layout: default
+title: Timber compatibility
+nav_order: 12
+---
+
 # Timber compatibility
 
 :link: [Timber documentation](https://timber.github.io/docs/)

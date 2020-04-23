@@ -1,4 +1,11 @@
-# Filter `pip/options/capability`
+---
+layout: default
+title: Filter `pip/options/capability`
+parent: Hooks
+nav_order: 2
+---
+
+## Filter `pip/options/capability`
 
 This filter allows you to manage the required capability to see Pilo'Press pages  
  

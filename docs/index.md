@@ -1,3 +1,17 @@
+---
+layout: default
+title: Main
+nav_order: 1
+---
+
+## Table of contents
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+---
+
 # Pilo'Press
 
 Pilo'Press is a framework plugin for WordPress.
