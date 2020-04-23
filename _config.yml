@@ -11,11 +11,11 @@ remote_theme: pmarsceill/just-the-docs
 markdown: kramdown
 permalink: pretty
 encoding: utf-8
-exclude: [ "assets/", "LICENSE.txt", "README.md" ]
+exclude: [ "assets/", "includes/", "languages/", "LICENSE.txt", "README.md" ]
 search_enabled: true
 search_tokenizer_separator: /[\s/]+/
 heading_anchors: true
-footer_content: "Copyright &copy; 2020 Pilot'in"
+footer_content: "Copyright &copy; Pilot'in"
 color_scheme: nil
 compress_html:
     clippings: all
