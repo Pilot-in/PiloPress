@@ -23,7 +23,7 @@ For our example, we will need 2 fields: "Classes" and "Default text".
   We can restrict the component choices to the "Blue Button" component.  
   Assign that layout to Posts.
 - Edit a post and add the "Button" layout.
-- In the layout's PHP file, add the following code:  
+- In the layout's PHP file, add the following code after `<?php` tag:  
 
 
 ```php
