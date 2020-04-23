@@ -9,6 +9,8 @@ nav_order: 1
 - In your theme, create a `pilopress` folder
 - Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder.
 - In the `index.php` file, add the following code after `<?php` tag:  
+
+
 ```php
 
 // WordPress Header
@@ -34,6 +36,7 @@ get_footer();
 ```
 
 - In the `functions.php` file, add the following code:
+
 
 ```php
 // Pilo'Press: Front-end
