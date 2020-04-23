@@ -24,7 +24,7 @@ For our example, we will need 2 fields: "Classes" and "Default text".
   Assign that layout to Posts.
 - Edit a post and add the "Button" layout.
 - In the layout's PHP file, add the following code:
-```php
+```
 <?php
 // Get layout fields
 $text      = get_sub_field( 'text' );

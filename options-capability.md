@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Filter `pip/options/capability`
+title: Filter pip/options/capability
 parent: Hooks
 nav_order: 2
 ---

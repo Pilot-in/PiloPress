@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Filter `pip/builder/locations`
+title: Filter pip/builder/locations
 parent: Hooks
 nav_order: 1
 ---
