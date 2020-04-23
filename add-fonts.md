@@ -19,7 +19,7 @@ URL:             https://fonts.googleapis.com/css2?family=Roboto&display=swap
 Auto-enqueue:    true
 ```
 **NB:** The `Auto-enqueue` option will automatically add the `<link>` tag if set to `true`.  
-____
+* * *
 
 **Example: Custom font**
 
@@ -34,7 +34,7 @@ Weight:    normal         // Depends on your font
 Style:     normal         // Depends on your font
 ```
 When you will save, the `@font-face` code will be added automatically.  
-____
+* * *
 
 Then, to use those fonts, we have 2 different ways.
 
