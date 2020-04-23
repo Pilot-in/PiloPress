@@ -13,7 +13,7 @@ To make the starter theme Pilo'Press ready, you have to create a `pilopress` fol
 You can enqueue Pilo'Press styles as described in [Instructions](#instructions) part.  
 You have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.  
 Finally, to display Pilo'Press content, you will have to add following code in your templates:
-```
+```html
 // To display Header Pattern, in your base.twig or in header block
 {{ function('get_pip_header') }}
 
@@ -46,8 +46,12 @@ $context['title'] = get_sub_field( 'title' );
 // Render
 Timber::render( 'title.twig', $context );
 ```
-- The Twig file will look like that:
-```
+
+
+- The Twig file will look like that:  
+
+
+```html
 <h3>{{ title }}</h3>
 ```
 
