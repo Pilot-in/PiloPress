@@ -5,7 +5,7 @@ author: "Pilot'in"
 description: "Awesome framework for WordPress"
 baseurl: "/PiloPress"
 url: "https://pilot-in.github.io"
-theme: just-the-docs
+remote_theme: pmarsceill/just-the-docs
 
 # Theme settings
 markdown: kramdown
