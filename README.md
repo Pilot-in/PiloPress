@@ -6,7 +6,7 @@ Please note that Tailwind CSS is not mandatory, you can choose to use it or not.
 
 **All features are describe in details, in our [GitHub Page](https://pilot-in.github.io/PiloPress/).**
 
-# Table of Contents
+## Table of Contents
 
 - [Requirements](#requirements)
 - [Plugin installation](#plugin-installation)
@@ -18,17 +18,17 @@ Please note that Tailwind CSS is not mandatory, you can choose to use it or not.
 - [Components](#components)
 - [Hooks](#hooks)
 
-# Requirements
+## Requirements
 
 This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfields.com/pro/) and [Advanced Custom Fields: Extended](https://wordpress.org/plugins/acf-extended/) plugins in order to work correctly.
 
-# Plugin installation
+## Plugin installation
 
 - Activate **Advanced Custom Fields Pro** plugin.
 - Activate **ACF Extended** plugin.
 - Activate **Pilo'Press** plugin.
 
-# Theme installation
+## Theme installation
 
 - In your theme, create a `pilopress` folder
 - Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder.
@@ -84,7 +84,7 @@ function admin_enqueue_pilopress_styles() {
 }
 ```
 
-# Tailwind CSS files
+## Tailwind CSS files
 
 All files under the `tailwind` folder are generate automatically.  
 When you will save `Pilo'Press > Styles > Tailwind` options in back-office, two files will be generated: 
@@ -95,12 +95,12 @@ If you click on "Update & Compile" and compile remotely thanks to [TailwindAPI](
 
 For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation/).
 
-# Customizing style
+## Customizing style
 
 To customize default Tailwind CSS styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
 For more details about customization, see [Github Page](https://pilot-in.github.io/PiloPress/customizing-styles/).
 
-# Add new layout
+## Add new layout
 
 - In the admin menu `Pilo'Press > Layouts`, add a new layout
 - Configure the layouts fields
@@ -109,7 +109,7 @@ For more details about customization, see [Github Page](https://pilot-in.github.
 
 **NB:** only PHP file is require.
 
-# Templating
+## Templating
 
 To display the content of your post, you have to use the following function:  
 ```php
@@ -120,10 +120,10 @@ the_pip_content();
 echo get_pip_content();
 ```
 
-# Components
+## Components
 
 See [GitHub Page](https://pilot-in.github.io/PiloPress/components/) for complete example.
 
-# Hooks
+## Hooks
 
 Available hooks are list and describe in [GitHub Page](https://pilot-in.github.io/PiloPress/hooks/)
