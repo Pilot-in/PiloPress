@@ -8,9 +8,8 @@ nav_order: 1
 
 - In your theme, create a `pilopress` folder
 - Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder.
-- In the `index.php` file, add the following code:  
-```markdown
-<?php 
+- In the `index.php` file, add the following code after `<?php` tag:  
+```php
 
 // WordPress Header
 get_header(); 
@@ -18,30 +17,20 @@ get_header();
 // Pilo'Press: Header
 get_pip_header();
 
-?>
-
-<?php if( have_posts() ): ?>
-    <?php while( have_posts() ): the_post(); ?>
-        
-        <?php 
+if( have_posts() ):
+    while( have_posts() ): the_post();
         
         // Pilo'Press: Content
         the_pip_content();
         
-        ?>
-    
-    <?php endwhile; ?>
-<?php endif; ?>
-    
-<?php 
+    endwhile;
+endif;
 
 // Pilo'Press: Footer
 get_pip_footer();
 
 // WordPress: Footer
 get_footer();
-
-?>
 ```
 
 - In the `functions.php` file, add the following code:
