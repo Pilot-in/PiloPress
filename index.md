@@ -18,3 +18,6 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 - Activate **Advanced Custom Fields Pro** plugin.
 - Activate **ACF Extended** plugin.
 - Activate **Pilo'Press** plugin.
+
+
+[Get started now](/PiloPress/theme-installation){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/Pilot-in/PiloPress){: .btn .fs-5 .mb-4 .mb-md-0 }
