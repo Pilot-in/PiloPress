@@ -12,16 +12,16 @@ We will use the Timber [Starter Theme](https://github.com/timber/starter-theme) 
 To make the starter theme Pilo'Press ready, you have to create a `pilopress` folder in your theme (as described in [Theme Structure](#theme-structure) part).  
 You can enqueue Pilo'Press styles as described in [Instructions](#instructions) part.  
 You have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.  
-Finally, to display Pilo'Press content, you will have to add following code in your templates:
+Finally, to display Pilo'Press content, you will have to add following code in your templates (without space between `{` chars):
 ~~~~twig
 // To display Header Pattern, in your base.twig or in header block
-{{ function('get_pip_header') }}
+{ { function('get_pip_header') } }
 
 // In your template files, like front-page.twig
-{{ function('the_pip_content') }}
+{ { function('the_pip_content') } }
 
 // To display Footer Pattern, in your footer.twig or in footer block
-{{ function('get_pip_footer') }}
+{ { function('get_pip_footer') } }
 ~~~~
 
 Regarding layouts files, you can use the PHP/Twig files duo perfectly.  
@@ -48,11 +48,11 @@ Timber::render( 'title.twig', $context );
 ```
 
 
-- The Twig file will look like that:  
+- The Twig file will look like that (without space between `{` chars):  
 
 
 ~~~~twig
-<h3>{{ title }}</h3>
+<h3>{ { title } }</h3>
 ~~~~
 
 So the theme structure will be almost the same, but with a `title.twig` file added:  
