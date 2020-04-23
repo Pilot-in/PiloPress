@@ -95,7 +95,7 @@ If you click on "Update & Compile" and compile remotely thanks to [TailwindAPI](
 
 For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation/).
 
-## Customizing style
+# Customizing style
 
 To customize default Tailwind CSS styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
 For more details about customization, see [Github Page](https://pilot-in.github.io/PiloPress/customizing-styles/).
