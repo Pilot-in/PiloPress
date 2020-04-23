@@ -7,4 +7,4 @@ nav_order: 2
 
 ## Customize image sizes
 
-You can customize default WordPress image sizes and add new ones in `Pilo'Press > Styles > Images`.
+In `Pilo'Press > Styles > Images`, you can customize default WordPress image sizes and add new ones.

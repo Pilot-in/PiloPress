@@ -7,7 +7,7 @@ nav_order: 1
 
 ## Add fonts
 First step, we will go to `Pilo'Press > Styles > Fonts` and add a font.  
-You have 2 choices : Google Font or Custom font.  
+We have 2 choices : Google Font or Custom font.  
 
 **Example: Google Font**
 
@@ -18,7 +18,7 @@ Name:            Roboto
 URL:             https://fonts.googleapis.com/css2?family=Roboto&display=swap
 Auto-enqueue:    true
 ```
-**NB:** The `Auto-enqueue` option will automatically add the `<link>` tag if set to `true`.  
+**NB:** The `Auto-enqueue` option will automatically add the `<link>` tag in your HTML if set to `true`.  
 * * *
 
 **Example: Custom font**
@@ -52,8 +52,8 @@ Something like that:
 ```
 After re-building styles, we will be able to use those classes everywhere.
 
-### #2 - Tailwind configuration file
-As explain in [Tailwind Documentation](https://tailwindcss.com/docs/font-family/#font-families), you can define custom fonts and modify the default ones.  
+### #2 - Tailwind CSS configuration file
+As explain in [Tailwind CSS Documentation](https://tailwindcss.com/docs/font-family/#font-families), you can define custom fonts and modify the default ones.  
 Let's say we want to add our custom fonts without removing default ones, so we can write something like that:
 ```js
 module.exports = {
@@ -67,4 +67,4 @@ module.exports = {
     },
 };
 ```
-Tailwind will generate the following classes: `font-roboto` and `font-homework`.
+Tailwind CSS will generate the following classes: `font-roboto` and `font-homework`.

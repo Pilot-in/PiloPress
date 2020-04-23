@@ -4,7 +4,7 @@ title: Theme installation
 nav_order: 1
 ---
 
-# Instructions
+# Theme installation
 
 - In your theme, create a `pilopress` folder
 - Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder.

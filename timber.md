@@ -8,11 +8,15 @@ nav_order: 12
 
 [Timber documentation](https://timber.github.io/docs/)
 
-We will use the Timber [Starter Theme](https://github.com/timber/starter-theme) in this example. You will need [Timber plugin](https://fr.wordpress.org/plugins/timber-library/) to be activated.  
-To make the starter theme Pilo'Press ready, you have to create a `pilopress` folder in your theme (as described in [Theme Structure](/PiloPress/theme-structure)).  
-You can enqueue Pilo'Press styles as described in [Theme installation](/PiloPress/theme-installation).  
-You have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.  
-Finally, to display Pilo'Press content, you will have to add following code in your templates (without space between `{` chars):
+We will use the Timber [Starter Theme](https://github.com/timber/starter-theme) in this example.  
+You will need [Timber plugin](https://fr.wordpress.org/plugins/timber-library/) to be activated.
+
+To make the starter theme Pilo'Press ready, you have to create folders in your theme as described in [Theme Structure](/PiloPress/theme-structure).  
+You can enqueue Pilo'Press styles as described in [Theme installation](/PiloPress/theme-installation) after you have generated styles files.
+
+You have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.
+
+Finally, to display Pilo'Press content, you will have to add following code in your templates (**without space between `{` chars**):
 ~~~~twig
 // To display Header Pattern, in your base.twig or in header block
 { { function('get_pip_header') } }
@@ -29,7 +33,7 @@ Regarding layouts files, you can use the PHP/Twig files duo perfectly.
 **Example**  
 Let's say we have a layout named "Title" with a single ACF field (type text) named _title_.
 
-- The PHP file will look like that ( after a `<?php` tag):  
+- The PHP file will look like that (after a `<?php` tag):  
 
 
 ```php
@@ -48,7 +52,7 @@ Timber::render( 'title.twig', $context );
 ```
 
 
-- The Twig file will look like that (without space between `{` chars):  
+- The Twig file will look like that (**without space between `{` chars**):  
 
 
 ~~~~twig

@@ -8,5 +8,7 @@ nav_order: 5
 
 - In the admin menu `Pilo'Press > Layouts`, add a new layout
 - Configure the layouts fields
-- Configure the layouts settings to match your theme `/your-theme/pilopress/layouts/` folder structure
-- You have to name the files the same way you did in back-office settings
+- Create PHP, CSS and JS files in your theme layout folder `/your-theme/pilopress/layouts/your-layout`
+- You have to name those files the same way you did in back-office settings. 
+
+**NB:** only PHP file is require.

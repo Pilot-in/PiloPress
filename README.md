@@ -129,7 +129,7 @@ For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/
 
 ## Customizing style
 
-To customize default Tailwind styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
+To customize default Tailwind CSS styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
 You can add fonts, customize image sizes and add custom styles for TinyMCE editor.
 
 ### Add fonts
@@ -184,7 +184,7 @@ Something like that:
 After re-building styles, we will be able to use those classes everywhere.
 
 #### #2 - Tailwind configuration file
-As explain in [Tailwind Documentation](https://tailwindcss.com/docs/font-family/#font-families), you can define custom fonts and modify the default ones.  
+As explain in [Tailwind CSS Documentation](https://tailwindcss.com/docs/font-family/#font-families), you can define custom fonts and modify the default ones.  
 Let's say we want to add our custom fonts without removing default ones, so we can write something like that:
 ```js
 module.exports = {

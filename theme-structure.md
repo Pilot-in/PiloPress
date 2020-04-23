@@ -5,6 +5,9 @@ nav_order: 2
 ---
 
 # Theme structure
+
+Your theme structure has to look like that for Pilo'Press to work correctly.
+
 ```text
 your-theme/
 └── pilopress/
