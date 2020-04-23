@@ -63,7 +63,7 @@ $blue-100: #337ab7;
 //$nav-child-link-color: $grey-dk-100;
 $link-color: $blue-000;
 $btn-primary-color: $blue-100;
-//$base-button-color: #f7f7f7;
+$base-button-color: $grey-lt-100;
 
 ////
 //// Spacing
@@ -127,3 +127,7 @@ $btn-primary-color: $blue-100;
 //lg: $content-width + $nav-width,
 //xl: 1400px
 //);
+
+body {
+    font-weight: 600;
+}
