@@ -11,8 +11,8 @@ nav_order: 12
 We will use the Timber [Starter Theme](https://github.com/timber/starter-theme) in this example.  
 You will need [Timber plugin](https://fr.wordpress.org/plugins/timber-library/) to be activated.
 
-To make the starter theme Pilo'Press ready, you have to create folders in your theme as described in [Theme Structure](/PiloPress/theme-structure).  
-You can enqueue Pilo'Press styles as described in [Theme installation](/PiloPress/theme-installation) after you have generated styles files.
+To make the starter theme Pilo'Press ready, you have to create folders in your theme as described in [Theme Structure](/PiloPress/docs/theme-structure).  
+You can enqueue Pilo'Press styles as described in [Theme installation](/PiloPress/docs/theme-installation) after you have generated styles files.
 
 You have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.
 

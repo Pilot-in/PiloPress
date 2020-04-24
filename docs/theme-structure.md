@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Theme structure
-nav_order: 2
+nav_order: 3
 ---
 
 # Theme structure
