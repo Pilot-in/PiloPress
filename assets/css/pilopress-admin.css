@@ -1,4 +1,4 @@
-/* PIP Flexible: Layout */
+/* Pilo'Press Flexible: Layout */
 .acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content.-empty > .values {
     margin-bottom: 0 !important;
 }
@@ -254,9 +254,6 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
     margin-bottom: 0;
 }
 
-/* Pilo'Press: Layouts */
-
-
 /* TinyMCE */
 .wpview[data-wpview-type="acf"],
 .wpview[data-wpview-type="pip_title"],
@@ -276,4 +273,36 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
 
 .pip_button_group p {
     display: inline-block;
+}
+
+/* Pilo'Press Banner */
+.pilopress_navbar {
+    background-color: #fff;
+    margin-left: -20px;
+    padding-left: 20px;
+    border-bottom: 1px solid #e2e4e7;
+}
+
+.pilopress_navbar nav {
+    margin: 0;
+    display: flex;
+}
+
+.pilopress_navbar nav a {
+    padding: 1rem;
+    margin: 0;
+}
+
+.pilopress_navbar nav a.active {
+    box-shadow: inset 0 -3px #007cba;
+    font-weight: 600;
+}
+
+.pilopress_navbar nav a {
+    text-decoration: none;
+    color: #32373c;
+}
+
+.pilopress_navbar nav a:hover {
+    color: #00a0d2;
 }

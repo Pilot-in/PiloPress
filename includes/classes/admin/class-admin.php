@@ -14,6 +14,45 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_action( 'adminmenu', array( $this, 'admin_menu_parent' ) );
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
+            add_action( 'all_admin_notices', array( $this, 'add_pip_navbar' ) );
+        }
+
+        /**
+         * Check if it is a Pilo'Press admin page
+         * @return bool
+         */
+        private function is_pip_admin_page() {
+            $is_pip_admin    = false;
+            $style_pages     = array();
+            $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
+            $pages           = PIP_Admin_Options_Page::$pages;
+
+            // Browse styles pages to get menu slugs
+            foreach ( $pages as $page ) {
+                $style_pages[] = $page['menu_slug'];
+            }
+
+            // If Pilo'Press admin page, set variable to true
+            if ( acf_maybe_get_GET( 'layouts' ) == '1'
+                 || PIP_Layouts::is_layout( get_post( acf_maybe_get_GET( 'post' ) ) )
+                 || acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID']
+                 || acf_maybe_get_GET( 'taxonomy' ) === PIP_Layouts_Categories::$taxonomy
+                 || acf_maybe_get_GET( 'post_type' ) === PIP_Components::$post_type
+                 || acf_maybe_get_GET( 'page' ) == PIP_Pattern::$menu_slug
+                 || in_array( acf_maybe_get_GET( 'page' ), $style_pages ) ) {
+                $is_pip_admin = true;
+            }
+
+            return $is_pip_admin;
+        }
+
+        /**
+         * Add Pilo'Press top navbar
+         */
+        public function add_pip_navbar() {
+            if ( $this->is_pip_admin_page() ) {
+                self::display_pip_navbar();
+            }
         }
 
         /**
@@ -251,6 +290,23 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Template file
             include_once( PIP_PATH . 'includes/views/pilopress-dashboard.php' );
+        }
+
+        /**
+         * Display Pilo'Press navbar
+         */
+        public static function display_pip_navbar() {
+            global $submenu;
+            $pilopress_menu = $submenu['pilopress'];
+            foreach ( $pilopress_menu as $menu_item ) {
+                $menu_items[] = array(
+                    'title' => $menu_item[0],
+                    'link'  => strstr( $menu_item[2], '.php?' ) ? admin_url() . $menu_item[2] : menu_page_url( $menu_item[2], false ),
+                );
+            }
+
+            // Add Pilo'Press navbar
+            include_once( PIP_PATH . 'includes/views/pilopress-navbar.php' );
         }
 
         /**

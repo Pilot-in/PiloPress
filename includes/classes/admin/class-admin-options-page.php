@@ -8,7 +8,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
     class PIP_Admin_Options_Page {
 
         public $page;
-        public $pages;
+        public static $pages;
 
         /**
          * PIP_Admin_Options_Page constructor.
@@ -17,7 +17,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
 
-            $this->pages = array(
+            self::$pages = array(
                 'tailwind'    => array(
                     'page_title'     => __( 'Tailwind', 'pilopress' ),
                     'menu_title'     => __( 'Styles', 'pilopress' ),
@@ -85,7 +85,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * Add submenus
          */
         public function admin_menu() {
-            foreach ( $this->pages as $page ) {
+            foreach ( self::$pages as $page ) {
                 // Register submenu page
                 $slug = add_submenu_page( $page['parent_slug'], $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], array( $this, 'html' ) );
 
@@ -100,7 +100,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             global $plugin_page;
 
             // Get current page
-            $this->page            = $this->pages[ str_replace( 'pip-styles-', '', $plugin_page ) ];
+            $this->page            = self::$pages[ str_replace( 'pip-styles-', '', $plugin_page ) ];
             $this->page['post_id'] = acf_get_valid_post_id( $this->page['post_id'] );
 
             // Validate
@@ -140,7 +140,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             // Get current page
             $menu_slug  = acf_maybe_get_GET( 'page' );
-            $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
+            $this->page = self::$pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
 
             // Get associated field groups
             $field_groups = acf_get_field_groups( array(
@@ -253,12 +253,12 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
         public function html() {
             // Get current page
             $menu_slug  = acf_maybe_get_GET( 'page' );
-            $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
+            $this->page = self::$pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
 
             // Define variables for template
             $page_title   = $this->page['page_title'];
             $post_id      = $this->page['post_id'];
-            $pages        = $this->pages;
+            $pages        = self::$pages;
             $current_page = $menu_slug;
             $admin_url    = admin_url( 'admin.php' );
 
@@ -303,7 +303,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             }
 
             // Add custom pages
-            foreach ( $this->pages as $page ) {
+            foreach ( self::$pages as $page ) {
                 $values[ $page['menu_slug'] ] = $page['page_title'];
             }
 

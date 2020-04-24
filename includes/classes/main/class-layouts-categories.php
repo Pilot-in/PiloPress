@@ -2,6 +2,9 @@
 
 if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
     class PIP_Layouts_Categories {
+
+        public static $taxonomy = 'acf-layouts-category';
+
         public function __construct() {
             // WP hooks
             add_action( 'init', array( $this, 'init' ) );
@@ -32,7 +35,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          */
         public function init() {
             // Register layouts category
-            register_taxonomy( 'acf-layouts-category',
+            register_taxonomy( self::$taxonomy,
                 array( 'acf-field-group' ),
                 array(
                     'hierarchical'          => true,
@@ -117,7 +120,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             global $current_screen, $pagenow;
 
             // If not acf-layouts-category page, return
-            if ( $current_screen->taxonomy !== 'acf-layouts-category' && ( $pagenow !== 'edit-tags.php' || $pagenow !== 'term.php' ) ) {
+            if ( $current_screen->taxonomy !== self::$taxonomy && ( $pagenow !== 'edit-tags.php' || $pagenow !== 'term.php' ) ) {
                 return $parent_file;
             }
 
@@ -144,7 +147,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             foreach ( $taxonomies as $k => $taxonomy ) {
 
                 // If not acf-layouts-category, continue
-                if ( $taxonomy !== 'acf-layouts-category' ) {
+                if ( $taxonomy !== self::$taxonomy ) {
                     continue;
                 }
 
@@ -168,7 +171,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             // Add new column
             foreach ( $columns as $key => $value ) {
                 if ( $key === 'title' ) {
-                    $new_columns['acf-layouts-category'] = __( 'Categories' );
+                    $new_columns[ self::$taxonomy ] = __( 'Categories' );
                 }
                 $new_columns[ $key ] = $value;
             }
@@ -185,11 +188,11 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          */
         public function layouts_category_column_html( $column, $post_id ) {
             // If not layouts category, return
-            if ( $column !== 'acf-layouts-category' ) {
+            if ( $column !== self::$taxonomy ) {
                 return;
             }
 
-            $terms = get_the_terms( $post_id, 'acf-layouts-category' );
+            $terms = get_the_terms( $post_id, self::$taxonomy );
             // If no terms, return
             if ( !$terms ) {
                 echo '—';
@@ -202,9 +205,9 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             foreach ( $terms as $term ) {
                 $url          = add_query_arg(
                     array(
-                        'layouts'              => 1,
-                        'acf-layouts-category' => $term->slug,
-                        'post_type'            => 'acf-field-group',
+                        'layouts'       => 1,
+                        self::$taxonomy => $term->slug,
+                        'post_type'     => 'acf-field-group',
                     ),
                     admin_url( 'edit.php' )
                 );
@@ -224,7 +227,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          */
         public function layouts_category_counters( $views ) {
             // Get all layouts categories
-            $terms = get_terms( 'acf-layouts-category', array( 'hide_empty' => false ) );
+            $terms = get_terms( self::$taxonomy, array( 'hide_empty' => false ) );
 
             // If no terms, return
             if ( !$terms ) {
@@ -241,7 +244,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
                     'posts_per_page'   => - 1,
                     'suppress_filters' => false,
                     'post_status'      => array( 'publish', 'acf-disabled' ),
-                    'taxonomy'         => 'acf-layouts-category',
+                    'taxonomy'         => self::$taxonomy,
                     'term'             => $term->slug,
                     'fields'           => 'ids',
                 ) );
@@ -257,16 +260,16 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
 
                 // If on current layout category, add current class
                 $class = '';
-                if ( isset( $wp_query->query_vars['acf-layouts-category'] ) && $wp_query->query_vars['acf-layouts-category'] === $term->slug ) {
+                if ( isset( $wp_query->query_vars[ self::$taxonomy ] ) && $wp_query->query_vars[ self::$taxonomy ] === $term->slug ) {
                     $class = ' class="current"';
                 }
 
                 // Build URL
                 $url = add_query_arg(
                     array(
-                        'layouts'              => 1,
-                        'acf-layouts-category' => $term->slug,
-                        'post_type'            => 'acf-field-group',
+                        'layouts'       => 1,
+                        self::$taxonomy => $term->slug,
+                        'post_type'     => 'acf-field-group',
                     ),
                     admin_url( 'edit.php' )
                 );
