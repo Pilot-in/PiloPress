@@ -26,7 +26,7 @@
             <div id="postbox-container-1" class="postbox-container">
                 <div id="normal-sortables" class="meta-box-sortables ui-sortable">
 
-                    <?php // Meta-boxes ?>
+                    <?php // Configuration ?>
                     <div id="pilopress_configuration" class="postbox">
                         <div class="inside">
                             <h4><strong><?php _e( 'Configuration status', 'pilopress' ) ?></strong></h4>
@@ -46,6 +46,7 @@
                         </div>
                     </div>
 
+                    <?php // Documentation links ?>
                     <div id="pilopress_quick_links" class="postbox">
                         <div class="inside">
                             <h3><strong><?php _e( 'Documentations', 'pilopress' ) ?></strong></h3>
@@ -80,6 +81,7 @@
                         </div>
                     </div>
 
+                    <?php // Pilot'in ?>
                     <div id="pilopress_pilotin" class="postbox">
                         <div class="inside">
                             <?php echo __( 'Made with &#x2764; by', 'pilopress' ) ?>
@@ -94,7 +96,7 @@
             <div id="postbox-container-2" class="postbox-container">
                 <div id="side-sortables" class="meta-box-sortables ui-sortable">
 
-                    <?php // Meta-boxes ?>
+                    <?php // Layouts actions ?>
                     <div id="pilopress_layouts_actions" class="postbox">
                         <div class="inside">
                             <h4>
@@ -107,6 +109,7 @@
                         </div>
                     </div>
 
+                    <?php // Layouts table ?>
                     <div id="pilopress_layouts" class="postbox pilopress-layouts-table">
                         <table class="widefat">
                             <thead>
@@ -141,7 +144,7 @@
             <div id="postbox-container-3" class="postbox-container">
                 <div id="column3-sortables" class="meta-box-sortables ui-sortable">
 
-                    <?php // Meta-boxes ?>
+                    <?php // Components actions ?>
                     <div id="pilopress_components_actions" class="postbox">
                         <div class="inside">
                             <h4>
@@ -154,6 +157,7 @@
                         </div>
                     </div>
 
+                    <?php // Components table ?>
                     <div id="pilopress_components" class="postbox pilopress-components-table">
                         <table class="widefat">
                             <thead>
@@ -178,15 +182,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                </div>
-            </div>
-
-            <?php // Column 4 ?>
-            <div id="postbox-container-4" class="postbox-container">
-                <div id="column4-sortables" class="meta-box-sortables ui-sortable">
-
-                    <?php // Meta-boxes ?>
 
                 </div>
             </div>
