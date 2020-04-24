@@ -307,7 +307,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 'type'          => 'true_false',
                 'name'          => '_pip_add_configuration',
                 'prefix'        => 'acf_field_group',
-                'value'         => ( isset( $field_group['_pip_add_configuration'] ) ? $field_group['_pip_add_configuration'] : '' ),
+                'value'         => ( isset( $field_group['field_add_configuration'] ) ? $field_group['field_add_configuration'] : '' ),
                 'default_value' => '',
                 'ui'            => 1,
             ) );
