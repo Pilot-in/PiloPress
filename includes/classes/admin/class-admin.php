@@ -230,7 +230,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // New field group link
-            $add_new_link = add_query_arg(
+            $add_new_layout = add_query_arg(
                 array(
                     'post_type' => 'acf-field-group',
                     'layout'    => 1,
@@ -238,8 +238,19 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 admin_url( 'post-new.php' )
             );
 
+            // Components
+            $components = get_posts( array(
+                'post_type'      => PIP_Components::$post_type,
+                'posts_per_page' => - 1,
+            ) );
+
+            // New field group link
+            $add_new_component = add_query_arg( array(
+                'post_type' => PIP_Components::$post_type,
+            ), admin_url( 'post-new.php' ) );
+
             // Template file
-            include_once( PIP_PATH . 'includes/views/pilopress-admin-page.php' );
+            include_once( PIP_PATH . 'includes/views/pilopress-dashboard.php' );
         }
 
         /**

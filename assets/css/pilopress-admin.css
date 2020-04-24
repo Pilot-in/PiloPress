@@ -205,8 +205,14 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
     color: #DC3232;
 }
 
-.toplevel_page_pilopress .pilopress-layouts-table .widefat {
+.toplevel_page_pilopress .pilopress-layouts-table .widefat,
+.toplevel_page_pilopress .pilopress-components-table .widefat {
     border: none;
+}
+
+.toplevel_page_pilopress .pilopress-layouts-table .widefat .pilopress_counter,
+.toplevel_page_pilopress .pilopress-components-table .widefat .pilopress_counter {
+    text-align: center;
 }
 
 .toplevel_page_pilopress .wp-heading-inline {
@@ -219,7 +225,8 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
     padding: 9px 9px 4px 0;
 }
 
-.toplevel_page_pilopress #pilopress_layouts_count {
+.toplevel_page_pilopress #pilopress_layouts_count,
+.toplevel_page_pilopress #pilopress_components_count {
     display: inline-block;
     vertical-align: top;
     box-sizing: border-box;
@@ -235,13 +242,15 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
     text-align: center;
 }
 
-.toplevel_page_pilopress #pilopress_layouts_actions .inside {
+.toplevel_page_pilopress #pilopress_layouts_actions .inside,
+.toplevel_page_pilopress #pilopress_components_actions .inside {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.toplevel_page_pilopress #pilopress_layouts_actions .inside h4 {
+.toplevel_page_pilopress #pilopress_layouts_actions .inside h4,
+.toplevel_page_pilopress #pilopress_components_actions .inside h4 {
     margin-bottom: 0;
 }
 

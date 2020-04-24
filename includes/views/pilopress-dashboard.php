@@ -4,7 +4,9 @@
  * @var $error_icon
  * @var $configurations
  * @var $layouts
- * @var $add_new_link
+ * @var $components
+ * @var $add_new_layout
+ * @var $add_new_component
  */
 ?>
 
@@ -44,61 +46,6 @@
                         </div>
                     </div>
 
-                </div>
-            </div>
-
-            <?php // Column 2 ?>
-            <div id="postbox-container-2" class="postbox-container">
-                <div id="side-sortables" class="meta-box-sortables ui-sortable">
-
-                    <?php // Meta-boxes ?>
-                    <div id="pilopress_layouts_actions" class="postbox">
-                        <div class="inside">
-                            <h4>
-                                <strong><?php _e( 'Layouts', 'pilopress' ) ?></strong>
-                                <span id="pilopress_layouts_count"><?php echo count( $layouts ) ?></span>
-                            </h4>
-                            <a href="<?php echo $add_new_link ?>" class="button button-secondary">
-                                <?php _e( 'Add new layout', 'pilopress' ) ?>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div id="pilopress_layouts" class="postbox pilopress-layouts-table">
-                        <table class="widefat">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th><strong><?php _e( 'Layout name', 'pilopress' ) ?></strong></th>
-                                <th><strong><?php _e( 'Locations', 'pilopress' ) ?></strong></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php if ( $layouts ): ?>
-                                <?php foreach ( $layouts as $key => $layout ) : ?>
-                                    <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
-                                        <td><?php echo $key + 1 ?></td>
-                                        <td>
-                                            <a href="<?php echo $layout['edit_link'] ?>">
-                                                <?php echo $layout['title'] ?>
-                                            </a>
-                                        </td>
-                                        <td><?php echo $layout['location'] ?></td>
-                                    </tr>
-                                <?php endforeach ?>
-                            <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-
-            <?php // Column 3 ?>
-            <div id="postbox-container-3" class="postbox-container">
-                <div id="column3-sortables" class="meta-box-sortables ui-sortable">
-
-                    <?php // Meta-boxes ?>
                     <div id="pilopress_quick_links" class="postbox">
                         <div class="inside">
                             <h3><strong><?php _e( 'Documentations', 'pilopress' ) ?></strong></h3>
@@ -138,6 +85,98 @@
                             <?php echo __( 'Made with &#x2764; by', 'pilopress' ) ?>
                             <a href="https://www.pilot-in.com" target="_blank">Pilot’in</a>
                         </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <?php // Column 2 ?>
+            <div id="postbox-container-2" class="postbox-container">
+                <div id="side-sortables" class="meta-box-sortables ui-sortable">
+
+                    <?php // Meta-boxes ?>
+                    <div id="pilopress_layouts_actions" class="postbox">
+                        <div class="inside">
+                            <h4>
+                                <strong><?php _e( 'Layouts', 'pilopress' ) ?></strong>
+                                <span id="pilopress_layouts_count"><?php echo count( $layouts ) ?></span>
+                            </h4>
+                            <a href="<?php echo $add_new_layout ?>" class="button button-secondary">
+                                <?php _e( 'Add new layout', 'pilopress' ) ?>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="pilopress_layouts" class="postbox pilopress-layouts-table">
+                        <table class="widefat">
+                            <thead>
+                            <tr>
+                                <th class="pilopress_counter">#</th>
+                                <th><strong><?php _e( 'Layout name', 'pilopress' ) ?></strong></th>
+                                <th><strong><?php _e( 'Locations', 'pilopress' ) ?></strong></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if ( $layouts ): ?>
+                                <?php foreach ( $layouts as $key => $layout ) : ?>
+                                    <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
+                                        <td class="pilopress_counter"><?php echo $key + 1 ?></td>
+                                        <td>
+                                            <a href="<?php echo $layout['edit_link'] ?>">
+                                                <?php echo $layout['title'] ?>
+                                            </a>
+                                        </td>
+                                        <td><?php echo $layout['location'] ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <?php // Column 3 ?>
+            <div id="postbox-container-3" class="postbox-container">
+                <div id="column3-sortables" class="meta-box-sortables ui-sortable">
+
+                    <?php // Meta-boxes ?>
+                    <div id="pilopress_components_actions" class="postbox">
+                        <div class="inside">
+                            <h4>
+                                <strong><?php _e( 'Components', 'pilopress' ) ?></strong>
+                                <span id="pilopress_components_count"><?php echo count( $components ) ?></span>
+                            </h4>
+                            <a href="<?php echo $add_new_component ?>" class="button button-secondary">
+                                <?php _e( 'Add new component', 'pilopress' ) ?>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div id="pilopress_components" class="postbox pilopress-components-table">
+                        <table class="widefat">
+                            <thead>
+                            <tr>
+                                <th class="pilopress_counter">#</th>
+                                <th><strong><?php _e( 'Component name', 'pilopress' ) ?></strong></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if ( $components ): ?>
+                                <?php foreach ( $components as $key => $component ) : ?>
+                                    <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
+                                        <td class="pilopress_counter"><?php echo $key + 1 ?></td>
+                                        <td>
+                                            <a href="<?php echo get_edit_post_link( $component->ID ) ?>">
+                                                <?php echo $component->post_title ?>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                            <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
