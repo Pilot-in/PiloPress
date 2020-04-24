@@ -98,7 +98,7 @@ For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/
 ## Customizing style
 
 To customize default Tailwind CSS styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
-For more details about customization, see [Github Page](https://pilot-in.github.io/PiloPress/customizing-styles/).
+For more details about customization, see [Github Page](https://pilot-in.github.io/PiloPress/docs/customizing-styles/).
 
 ## Add new layout
 
@@ -122,8 +122,8 @@ echo get_pip_content();
 
 ## Components
 
-See [GitHub Page](https://pilot-in.github.io/PiloPress/components/) for complete example.
+See [GitHub Page](https://pilot-in.github.io/PiloPress/docs/components/) for complete example.
 
 ## Hooks
 
-Available hooks are list and describe in [GitHub Page](https://pilot-in.github.io/PiloPress/hooks/)
+Available hooks are list and describe in [GitHub Page](https://pilot-in.github.io/PiloPress/docs/hooks/)
