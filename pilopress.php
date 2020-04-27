@@ -138,7 +138,6 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Admin
             pip_include( 'includes/classes/admin/class-admin.php' );
             pip_include( 'includes/classes/admin/class-admin-layouts.php' );
-            pip_include( 'includes/classes/admin/class-admin-options-page.php' );
             pip_include( 'includes/classes/admin/class-options-single-meta.php' );
 
             // Admin - Editor
@@ -147,6 +146,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/admin/editor/class-styles-settings.php' );
 
             // Admin - Options pages
+            pip_include( 'includes/classes/admin/options-pages/class-admin-options-page.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-tailwind.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
