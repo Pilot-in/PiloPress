@@ -8,6 +8,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_action( 'register_post_type_args', array( $this, 'modify_acf_post_type' ), 10, 2 );
+            add_filter( 'display_post_states', array( $this, 'hide_layouts_post_states' ), 20 );
 
             // Create files and folder or rename folder
 //            add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 10, 3 );
@@ -25,6 +26,25 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             add_action( 'acf/field_group/admin_head', array( $this, 'layout_meta_boxes' ) );
             add_action( 'acf/input/admin_head', array( $this, 'layout_settings' ), 20 );
             add_action( 'acf/update_field_group', array( $this, 'set_field_group_to_inactive' ) );
+        }
+
+        /**
+         * Hide "Disabled" state
+         *
+         * @param $states
+         *
+         * @return mixed
+         */
+        public function hide_layouts_post_states( $states ) {
+            // If not Layouts page, return
+            if ( acf_maybe_get_GET( 'layouts' ) != '1' ) {
+                return $states;
+            }
+
+            // Unset disabled state
+            unset( $states['acf-disabled'] );
+
+            return $states;
         }
 
         /**
