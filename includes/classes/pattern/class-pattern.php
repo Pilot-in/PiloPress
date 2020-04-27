@@ -4,6 +4,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
     class PIP_Pattern {
 
         public static $pattern_option_page;
+        public static $pattern_post_id = 'pip_pattern';
 
         public function __construct() {
             // WP hooks
@@ -34,7 +35,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
                     'menu_slug'   => 'pip-pattern',
                     'capability'  => $capability,
                     'parent_slug' => 'pilopress',
-                    'post_id'     => 'pip_pattern',
+                    'post_id'     => self::$pattern_post_id,
                     'autoload'    => true,
                 )
             );

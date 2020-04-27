@@ -217,5 +217,5 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
  * @return false|string|void
  */
 function get_pip_header() {
-    echo get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::get_pattern_option_page()['post_id'] );
+    echo get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::$pattern_post_id );
 }
