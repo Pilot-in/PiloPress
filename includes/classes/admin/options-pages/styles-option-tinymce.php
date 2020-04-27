@@ -3,11 +3,11 @@
 
 acf_add_local_field_group( array(
     'key'                   => 'group_styles_tinymce',
-    'title'                 => __('TinyMCE', 'pilopress'),
+    'title'                 => __( 'TinyMCE', 'pilopress' ),
     'fields'                => array(
         array(
             'key'               => 'field_font_style',
-            'label'             => __('Font Style', 'pilopress'),
+            'label'             => __( 'Font Style', 'pilopress' ),
             'name'              => '',
             'type'              => 'tab',
             'instructions'      => '',
@@ -41,18 +41,18 @@ acf_add_local_field_group( array(
             'min'                           => 0,
             'max'                           => 0,
             'layout'                        => 'table',
-            'button_label'                  => __('Add font style', 'pilopress'),
+            'button_label'                  => __( 'Add font style', 'pilopress' ),
             'sub_fields'                    => array(
                 array(
                     'key'               => 'field_font_style_label',
-                    'label'             => __('Label', 'pilopress'),
+                    'label'             => __( 'Label', 'pilopress' ),
                     'name'              => 'label',
                     'type'              => 'text',
                     'instructions'      => '',
                     'required'          => 0,
                     'conditional_logic' => 0,
                     'wrapper'           => array(
-                        'width' => '',
+                        'width' => '30',
                         'class' => '',
                         'id'    => '',
                     ),
@@ -65,14 +65,14 @@ acf_add_local_field_group( array(
                 ),
                 array(
                     'key'               => 'field_font_style_classes',
-                    'label'             => __('Class(es) to apply', 'pilopress'),
+                    'label'             => __( 'Class(es) to apply', 'pilopress' ),
                     'name'              => 'classes_to_apply',
                     'type'              => 'text',
                     'instructions'      => '',
                     'required'          => 0,
                     'conditional_logic' => 0,
                     'wrapper'           => array(
-                        'width' => '',
+                        'width' => '70',
                         'class' => '',
                         'id'    => '',
                     ),
@@ -87,7 +87,7 @@ acf_add_local_field_group( array(
         ),
         array(
             'key'               => 'field_font_family',
-            'label'             => __('Font Family', 'pilopress'),
+            'label'             => __( 'Font Family', 'pilopress' ),
             'name'              => '',
             'type'              => 'tab',
             'instructions'      => '',
@@ -121,18 +121,18 @@ acf_add_local_field_group( array(
             'min'                           => 0,
             'max'                           => 0,
             'layout'                        => 'table',
-            'button_label'                  => __('Add font family', 'pilopress'),
+            'button_label'                  => __( 'Add font family', 'pilopress' ),
             'sub_fields'                    => array(
                 array(
                     'key'               => 'field_font_family_label',
-                    'label'             => __('Label', 'pilopress'),
+                    'label'             => __( 'Label', 'pilopress' ),
                     'name'              => 'label',
                     'type'              => 'text',
                     'instructions'      => '',
                     'required'          => 0,
                     'conditional_logic' => 0,
                     'wrapper'           => array(
-                        'width' => '',
+                        'width' => '30',
                         'class' => '',
                         'id'    => '',
                     ),
@@ -145,14 +145,14 @@ acf_add_local_field_group( array(
                 ),
                 array(
                     'key'               => 'field_font_family_classes',
-                    'label'             => __('Class(es) to apply', 'pilopress'),
+                    'label'             => __( 'Class(es) to apply', 'pilopress' ),
                     'name'              => 'classes_to_apply',
                     'type'              => 'text',
                     'instructions'      => '',
                     'required'          => 0,
                     'conditional_logic' => 0,
                     'wrapper'           => array(
-                        'width' => '',
+                        'width' => '70',
                         'class' => '',
                         'id'    => '',
                     ),
@@ -167,7 +167,7 @@ acf_add_local_field_group( array(
         ),
         array(
             'key'               => 'field_font_color',
-            'label'             => __('Font Color', 'pilopress'),
+            'label'             => __( 'Font Color', 'pilopress' ),
             'name'              => '',
             'type'              => 'tab',
             'instructions'      => '',
@@ -201,18 +201,18 @@ acf_add_local_field_group( array(
             'min'                           => 0,
             'max'                           => 0,
             'layout'                        => 'table',
-            'button_label'                  => __('Add font color', 'pilopress'),
+            'button_label'                  => __( 'Add font color', 'pilopress' ),
             'sub_fields'                    => array(
                 array(
                     'key'               => 'field_font_color_label',
-                    'label'             => __('Label', 'pilopress'),
+                    'label'             => __( 'Label', 'pilopress' ),
                     'name'              => 'label',
                     'type'              => 'text',
                     'instructions'      => '',
                     'required'          => 0,
                     'conditional_logic' => 0,
                     'wrapper'           => array(
-                        'width' => '',
+                        'width' => '30',
                         'class' => '',
                         'id'    => '',
                     ),
@@ -225,14 +225,14 @@ acf_add_local_field_group( array(
                 ),
                 array(
                     'key'               => 'field_font_color_classes',
-                    'label'             => __('Class(es) to apply', 'pilopress'),
+                    'label'             => __( 'Class(es) to apply', 'pilopress' ),
                     'name'              => 'classes_to_apply',
                     'type'              => 'text',
                     'instructions'      => '',
                     'required'          => 0,
                     'conditional_logic' => 0,
                     'wrapper'           => array(
-                        'width' => '',
+                        'width' => '70',
                         'class' => '',
                         'id'    => '',
                     ),
@@ -247,7 +247,7 @@ acf_add_local_field_group( array(
         ),
         array(
             'key'               => 'field_button',
-            'label'             => __('Button', 'pilopress'),
+            'label'             => __( 'Button', 'pilopress' ),
             'name'              => '',
             'type'              => 'tab',
             'instructions'      => '',
@@ -281,18 +281,18 @@ acf_add_local_field_group( array(
             'min'                           => 0,
             'max'                           => 0,
             'layout'                        => 'table',
-            'button_label'                  => __('Add button style', 'pilopress'),
+            'button_label'                  => __( 'Add button style', 'pilopress' ),
             'sub_fields'                    => array(
                 array(
                     'key'               => 'field_custom_button_label',
-                    'label'             => __('Label', 'pilopress'),
+                    'label'             => __( 'Label', 'pilopress' ),
                     'name'              => 'label',
                     'type'              => 'text',
                     'instructions'      => '',
                     'required'          => 0,
                     'conditional_logic' => 0,
                     'wrapper'           => array(
-                        'width' => '',
+                        'width' => '30',
                         'class' => '',
                         'id'    => '',
                     ),
@@ -305,14 +305,14 @@ acf_add_local_field_group( array(
                 ),
                 array(
                     'key'               => 'field_custom_button_classes',
-                    'label'             => __('Class(es) to apply', 'pilopress'),
+                    'label'             => __( 'Class(es) to apply', 'pilopress' ),
                     'name'              => 'classes_to_apply',
                     'type'              => 'text',
                     'instructions'      => '',
                     'required'          => 0,
                     'conditional_logic' => 0,
                     'wrapper'           => array(
-                        'width' => '',
+                        'width' => '70',
                         'class' => '',
                         'id'    => '',
                     ),
