@@ -9,15 +9,13 @@
  * @var $add_new_component
  * @var $menu_items
  */
+$acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
 ?>
 
 <?php PIP_Admin::display_pip_navbar(); ?>
 
 <div class="wrap">
     <div class="wp-heading-inline">
-        <img class="pilopress-logo"
-             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iI2EwYTVhYSI+PHBhdGggZD0iTTEwIC4yQzQuNi4yLjMgNC42LjMgMTBzNC40IDkuOCA5LjcgOS44YzIuNiAwIDUuMS0xIDYuOS0yLjggMS44LTEuOCAyLjgtNC4zIDIuOC02LjkgMC01LjUtNC4zLTkuOS05LjctOS45em02LjQgMTYuM2MtMS43IDEuNy00IDIuNi02LjQgMi42LTUgMC05LTQuMS05LTkuMVM1IC45IDEwIC45IDE5IDUgMTkgMTBjMCAyLjUtLjkgNC43LTIuNiA2LjV6Ii8+PHBhdGggZD0iTTEwIDUuM2MtMi41IDAtNC42IDIuMS00LjYgNC43di41Yy4yIDEuOCAxLjQgMy4zIDMgMy45LjUuMiAxIC4zIDEuNS4zLjQgMCAuOS0uMSAxLjMtLjIuMSAwIC4xIDAgLjItLjEuMy0uMS41LS4yLjgtLjMgMCAwIC4xIDAgLjEtLjEgMCAwIC4xIDAgLjEtLjFoLjFzLjEgMCAuMS0uMWMwIDAgLjEgMCAuMS0uMS4yLS4yLjUtLjQuNy0uNmwuMy0uM2MuNi0uOCAxLTEuOSAxLTIuOSAwLTIuNS0yLjEtNC42LTQuNy00LjZ6bTMuMSA3LjNjMC0uMSAwLS4xIDAgMC0uNi0uNC0uNy0uOS0uNy0xLjR2LS40LS4xLS4zYzAtLjctLjItMS41LTEuNS0xLjYtLjUgMC0xLjMuMS0yLjMuNC0uMi0uMS0uNCAwLS42LjEtLjYuMi0xLjIuNC0yIC43IDAtMi4yIDEuOC00IDMuOS00IDEuNSAwIDIuOC44IDMuNSAyLjEuNC42LjYgMS4yLjYgMS45IDAgLjktLjMgMS44LS45IDIuNnoiLz48L3N2Zz4="
-             alt="logo">
         <h1>Dashboard</h1>
     </div>
 
@@ -119,7 +117,7 @@
                             <tr>
                                 <th class="pilopress_counter">#</th>
                                 <th><strong><?php _e( 'Layout name', 'pilopress' ) ?></strong></th>
-                                <th><strong><?php _e( 'Locations', 'pilopress' ) ?></strong></th>
+                                <th><strong><?php _e( 'Location', 'pilopress' ) ?></strong></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -128,11 +126,11 @@
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
                                         <td class="pilopress_counter"><?php echo $key + 1 ?></td>
                                         <td>
-                                            <a href="<?php echo $layout['edit_link'] ?>">
-                                                <?php echo $layout['title'] ?>
+                                            <a href="<?php echo get_edit_post_link( $layout['field_group']['ID'] ) ?>">
+                                                <?php echo $layout['field_group']['title'] ?>
                                             </a>
                                         </td>
-                                        <td><?php echo $layout['location'] ?></td>
+                                        <td><?php $acf_admin_field_groups->render_admin_table_column_locations( $layout['field_group'] ) ?></td>
                                     </tr>
                                 <?php endforeach ?>
                             <?php endif; ?>

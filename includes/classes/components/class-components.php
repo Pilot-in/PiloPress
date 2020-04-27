@@ -202,6 +202,22 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
             return $match;
         }
+
+        /**
+         * Check if post is a component
+         *
+         * @param $post_id
+         *
+         * @return bool
+         */
+        public static function is_component( $post_id ) {
+            $post_type = get_post_type( $post_id );
+            if ( $post_type === self::$post_type ) {
+                return true;
+            }
+
+            return false;
+        }
     }
 
     // Instantiate class

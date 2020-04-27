@@ -219,12 +219,6 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
     display: flex;
 }
 
-.toplevel_page_pilopress .pilopress-logo {
-    width: 30px;
-    fill: #2eb6e5;
-    padding: 9px 9px 4px 0;
-}
-
 .toplevel_page_pilopress #pilopress_layouts_count,
 .toplevel_page_pilopress #pilopress_components_count {
     display: inline-block;
@@ -276,33 +270,50 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
 }
 
 /* Pilo'Press Banner */
-.pilopress_navbar {
+.pip-admin-navigation {
     background-color: #fff;
     margin-left: -20px;
     padding-left: 20px;
-    border-bottom: 1px solid #e2e4e7;
+    border-bottom: 1px solid #ccd0d4;
 }
 
-.pilopress_navbar nav {
-    margin: 0;
-    display: flex;
+.pip-admin-navigation h2 {
+    font-size: 14px;
+    line-height: 2.57143;
+    display: inline-block;
+    padding: 5px 0;
+    margin: 0 10px 0 0;
 }
 
-.pilopress_navbar nav a {
-    padding: 1rem;
-    margin: 0;
+.pip-admin-navigation .pip-tab-icon {
+    width: 20px;
+    fill: #babbbc;
+    padding: 0;
+    vertical-align: text-bottom;
+
 }
 
-.pilopress_navbar nav a.active {
-    box-shadow: inset 0 -3px #007cba;
-    font-weight: 600;
+.pip-admin-navigation .pip-tab {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 2.57143;
+    padding: 5px 0;
+    margin: 0 10px;
+    text-decoration: none;
+    color: inherit;
 }
 
-.pilopress_navbar nav a {
+.pip-admin-navigation .pip-tab.is-active {
+    border-bottom: #0071a4 solid 3px;
+    /*font-weight: 600;*/
+    padding-bottom: 2px;
+}
+
+.pip-admin-navigation .pip-tab {
     text-decoration: none;
     color: #32373c;
 }
 
-.pilopress_navbar nav a:hover {
+.pip-admin-navigation .pip-tab:hover {
     color: #00a0d2;
 }
