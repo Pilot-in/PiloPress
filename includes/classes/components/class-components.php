@@ -206,17 +206,26 @@ if ( !class_exists( 'PIP_Components' ) ) {
         /**
          * Check if post is a component
          *
-         * @param $post_id
+         * @param $post
          *
          * @return bool
          */
-        public static function is_component( $post_id ) {
-            $post_type = get_post_type( $post_id );
-            if ( $post_type === self::$post_type ) {
-                return true;
+        public static function is_component( $post ) {
+            $is_component = false;
+
+            // Get post
+            $post = get_post( $post );
+            if ( !$post ) {
+                return $is_component;
             }
 
-            return false;
+            // Get post type
+            $post_type = get_post_type( $post );
+            if ( $post_type && $post_type === self::$post_type ) {
+                $is_component = true;
+            }
+
+            return $is_component;
         }
     }
 
