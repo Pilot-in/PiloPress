@@ -7,7 +7,7 @@
 if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
     class PIP_Admin_Options_Page {
 
-        public $page;
+        public        $page;
         public static $pages;
 
         /**
@@ -79,6 +79,25 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             add_action( 'admin_menu', array( $this, 'admin_menu' ), 99, 0 );
             add_filter( 'acf/location/rule_values', array( $this, 'rule_values' ), 10, 2 );
             add_filter( 'acfe/field_groups_third_party/source', array( $this, 'styles_options_page_source' ), 10, 3 );
+        }
+
+        /**
+         * Check if page ID is a style setting page
+         *
+         * @param $page_id
+         *
+         * @return bool
+         */
+        public static function is_style_page( $page_id ) {
+            $is_style_page = false;
+
+            foreach ( self::$pages as $page ) {
+                if ( $page['menu_slug'] === $page_id ) {
+                    $is_style_page = true;
+                }
+            }
+
+            return $is_style_page;
         }
 
         /**

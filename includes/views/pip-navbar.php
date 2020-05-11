@@ -12,8 +12,9 @@
         // Default tab class
         $item_class = 'pip-tab';
 
-        // Get current post ID
+        // Get current page/post ID
         $post_id = acf_maybe_get_GET( 'post' );
+        $page_id = acf_maybe_get_GET( 'page' );
 
         // Layouts category slug
         $layouts_cat = PIP_Layouts_Categories::$taxonomy;
@@ -22,7 +23,8 @@
         if ( acf_get_current_url() === $menu_item['link']
              || ( strstr( $menu_item['link'], 'layouts=1' ) && PIP_Layouts::is_layout( $post_id ) )
              || ( strstr( $menu_item['link'], 'taxonomy=' . $layouts_cat ) && acf_maybe_get_GET( 'taxonomy' ) === $layouts_cat )
-             || ( strstr( $menu_item['link'], 'post_type=' . PIP_Components::$post_type ) && PIP_Components::is_component( $post_id ) ) ) {
+             || ( strstr( $menu_item['link'], 'post_type=' . PIP_Components::$post_type ) && PIP_Components::is_component( $post_id ) )
+             || ( strstr( $menu_item['link'], 'page=pip-styles-' ) && PIP_Admin_Options_Page::is_style_page( $page_id ) ) ) {
             $item_class .= ' is-active';
         }
 
