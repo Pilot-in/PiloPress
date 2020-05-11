@@ -6,6 +6,7 @@ if ( !defined( 'ABSPATH' ) ) {
 
 /**
  * Get Pilo'Press path
+ *
  * @return mixed
  */
 function pip_path() {
@@ -22,6 +23,26 @@ function pip_include( $filename = '' ) {
     if ( file_exists( $file_path ) ) {
         include_once( $file_path );
     }
+}
+
+/**
+ * Load translation
+ *
+ * @param string $domain
+ *
+ * @return bool
+ */
+function pip_load_textdomain( $domain = 'pilopress' ) {
+    $locale  = apply_filters( 'plugin_locale', acf_get_locale(), $domain );
+    $mo_file = $domain . '-' . $locale . '.mo';
+
+    // Try to load from the languages directory first.
+    if ( load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $mo_file ) ) {
+        return true;
+    }
+
+    // Load from plugin lang folder.
+    return load_textdomain( $domain, pip_path() . 'lang/' . $mo_file );
 }
 
 /**

@@ -16,7 +16,7 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
 
 <div class="wrap">
     <div class="wp-heading-inline">
-        <h1>Dashboard</h1>
+        <h1><?php _e( "Dashboard", 'pilopress' ) ?></h1>
     </div>
 
     <?php // Widgets area ?>

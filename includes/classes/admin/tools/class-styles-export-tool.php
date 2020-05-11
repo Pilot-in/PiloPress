@@ -63,7 +63,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
 
                     // Render
                     acf_render_field_wrap( array(
-                        'label'   => __( 'Select style pages', 'pilopress' ),
+                        'label'   => __( 'Select styles settings', 'pilopress' ),
                         'type'    => 'checkbox',
                         'name'    => 'keys',
                         'prefix'  => false,
@@ -76,7 +76,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
 
                     // No choice
                     echo '<div style="padding:15px 12px;">';
-                    _e( 'No style option available.' );
+                    _e( 'No style setting available.' );
                     echo '</div>';
 
                 }
@@ -85,7 +85,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
             </div>
             <p class="acf-submit">
                 <button type="submit" name="action" class="button button-primary"
-                        value="download" <?php echo $disabled; ?>><?php _e( 'Export File' ); ?></button>
+                        value="download" <?php echo $disabled; ?>><?php _e( 'Export File', 'acf' ); ?></button>
             </p>
             <?php
         }
@@ -106,6 +106,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
 
         /**
          * Download styles data
+         *
          * @return ACF_Admin_Notice
          */
         public function submit_download() {
@@ -114,7 +115,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
 
             // If no keys, show warning message
             if ( $keys === false ) {
-                return acf_add_admin_notice( __( 'No style page selected', 'pilopress' ), 'warning' );
+                return acf_add_admin_notice( __( 'No style setting selected', 'pilopress' ), 'warning' );
             }
 
             // Get data
@@ -182,6 +183,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
 
         /**
          * Get selected keys
+         *
          * @return array|bool
          */
         public function get_selected_keys() {

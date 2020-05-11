@@ -49,6 +49,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
         /**
          * Remove old layout group keys
+         *
          * @return array
          */
         public static function clean_group_keys() {
@@ -197,9 +198,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         /**
          * Manage layout folder and files on save
          *
-         * @param int $post_id
+         * @param int     $post_id
          * @param WP_Post $post
-         * @param bool $update
+         * @param bool    $update
          *
          */
         public function save_field_group( $post_id, $post, $update ) {
@@ -261,7 +262,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // Layout slug
             acf_render_field_wrap( array(
                 'label'        => __( 'Layout slug', 'pilopress' ),
-                'instructions' => __( 'Layout name and layout folder name', 'pilopress' ),
+                'instructions' => __( 'Layout slug and layout folder name', 'pilopress' ),
                 'type'         => 'acfe_slug',
                 'name'         => '_pip_layout_slug',
                 'prefix'       => 'acf_field_group',
@@ -485,7 +486,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         /**
          * Get a layout by its slug
          *
-         * @param $slug
+         * @param      $slug
          * @param bool $excluded_id
          *
          * @return array|null
@@ -582,6 +583,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
         /**
          * Get all layouts CSS files content
+         *
          * @return string
          */
         public static function get_layouts_css() {
@@ -621,6 +623,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
         /**
          * Getter: $layout_group_keys
+         *
          * @return array
          */
         public static function get_layout_group_keys() {

@@ -31,7 +31,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
                 'fields'                => array(
                     array(
                         'key'                               => 'field_' . self::get_flexible_footer_field_name(),
-                        'label'                             => 'Footer',
+                        'label'                             => __( 'Footer', 'pilopress' ),
                         'name'                              => self::get_flexible_footer_field_name(),
                         'type'                              => 'flexible_content',
                         'instructions'                      => '',
@@ -191,6 +191,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
 
         /**
          * Getter: $flexible_footer_field_name
+         *
          * @return string
          */
         public static function get_flexible_footer_field_name() {
@@ -216,5 +217,5 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
  * @return false|string|void
  */
 function get_pip_footer() {
-    echo get_flexible( PIP_Flexible_Footer::get_flexible_footer_field_name(), PIP_Pattern::get_pattern_option_page()['post_id'] );
+    echo get_flexible( PIP_Flexible_Footer::get_flexible_footer_field_name(), PIP_Pattern::$pattern_post_id );
 }

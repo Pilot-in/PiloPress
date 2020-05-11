@@ -12,7 +12,7 @@
  * Requires at least:   4.9 or higher
  * WC tested up to:     5.3.2
  * Text Domain:         pilopress
- * Domain Path:         /languages
+ * Domain Path:         /lang
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -60,6 +60,9 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
+
+            // Load textdomain file.
+            pip_load_textdomain( 'pilopress' );
         }
 
         /**
@@ -177,7 +180,7 @@ if ( !class_exists( 'PiloPress' ) ) {
         /**
          * Define constants
          *
-         * @param $name
+         * @param      $name
          * @param bool $value
          */
         private function define( $name, $value = true ) {
@@ -188,6 +191,7 @@ if ( !class_exists( 'PiloPress' ) ) {
 
         /**
          * Check if ACF Pro is activated
+         *
          * @return bool
          */
         public function has_acf() {
@@ -204,6 +208,7 @@ if ( !class_exists( 'PiloPress' ) ) {
 
         /**
          * Check if ACFE is activated
+         *
          * @return bool
          */
         public function has_acfe() {
@@ -222,6 +227,7 @@ if ( !class_exists( 'PiloPress' ) ) {
 
 /**
  * Instantiate Pilo'Press
+ *
  * @return PiloPress
  */
 function pilopress() {

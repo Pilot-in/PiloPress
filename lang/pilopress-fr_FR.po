@@ -1,0 +1,818 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Pilo'Press\n"
+"POT-Creation-Date: 2020-05-11 15:58+0200\n"
+"PO-Revision-Date: 2020-05-11 16:37+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.3.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: pilopress.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: includes/classes/admin/class-admin-layouts.php:393
+msgid "Sync available"
+msgstr "Synchronisation disponible"
+
+#: includes/classes/admin/class-admin-layouts.php:445
+#, php-format
+msgid "Layout synchronised."
+msgid_plural "%s layouts synchronised."
+msgstr[0] "Disposition synchronisée."
+msgstr[1] "%s dispositions synchronisées."
+
+#. Plugin Name of the plugin/theme
+#: includes/classes/admin/class-admin.php:125
+#: includes/classes/admin/class-admin.php:126
+msgid "Pilo'Press"
+msgstr "Pilo'Press"
+
+#: includes/classes/admin/class-admin.php:137
+#: includes/classes/admin/class-admin.php:138
+#: includes/classes/main/class-flexible-mirror.php:69
+#: includes/classes/main/class-flexible.php:38
+msgid "Builder"
+msgstr "Éditeur"
+
+#: includes/classes/admin/class-admin.php:146
+#: includes/classes/admin/class-admin.php:147
+#: includes/classes/main/class-layouts.php:126
+#: includes/views/pilopress-dashboard.php:103
+msgid "Layouts"
+msgstr "Dispositions"
+
+#: includes/classes/admin/class-admin.php:155
+#: includes/classes/admin/class-admin.php:156
+#: includes/classes/main/class-layouts-categories.php:171
+msgid "Categories"
+msgstr "Catégories"
+
+#: includes/classes/admin/class-admin.php:164
+#: includes/classes/admin/class-admin.php:165
+#: includes/classes/components/class-components.php:29
+#: includes/classes/components/class-components.php:31
+#: includes/views/pilopress-dashboard.php:151
+msgid "Components"
+msgstr "Composants"
+
+#: includes/classes/admin/class-admin.php:193
+#: includes/classes/admin/class-admin.php:198
+#: includes/classes/admin/class-admin.php:203
+msgid " folder found"
+msgstr " dossier trouvé"
+
+#: includes/classes/admin/class-admin.php:193
+#: includes/classes/admin/class-admin.php:198
+#: includes/classes/admin/class-admin.php:203
+msgid " folder not found"
+msgstr " dossier non trouvé"
+
+#: includes/classes/admin/class-admin.php:206
+msgid "Admin style"
+msgstr "Style de l'administration"
+
+#: includes/classes/admin/class-admin.php:208
+msgid " enqueued"
+msgstr " ajouté"
+
+#: includes/classes/admin/class-admin.php:208
+msgid " not enqueued"
+msgstr " non ajouté"
+
+#: includes/classes/admin/class-admin.php:279
+#: includes/classes/admin/options-pages/class-admin-options-page.php:23
+msgid "Styles"
+msgstr "Styles"
+
+#: includes/classes/admin/editor/class-shortcodes.php:107
+msgid "You > Are > Here"
+msgstr "Vous > êtes > ici"
+
+#: includes/classes/admin/editor/class-shortcodes.php:121
+msgid "Title here"
+msgstr "Le titre ici"
+
+#: includes/classes/admin/editor/class-shortcodes.php:147
+msgid "Post thumbnail here"
+msgstr "Image à la une ici"
+
+#: includes/classes/admin/editor/class-styles-settings.php:30
+msgid "Update & Build"
+msgstr "Mettre à jour et compiler"
+
+#: includes/classes/admin/options-pages/class-admin-options-page.php:22
+msgid "Tailwind"
+msgstr "Tailwind"
+
+#: includes/classes/admin/options-pages/class-admin-options-page.php:28
+#: includes/classes/admin/options-pages/class-admin-options-page.php:42
+#: includes/classes/admin/options-pages/class-admin-options-page.php:56
+#: includes/classes/admin/options-pages/class-admin-options-page.php:70
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: includes/classes/admin/options-pages/class-admin-options-page.php:29
+#: includes/classes/admin/options-pages/class-admin-options-page.php:43
+#: includes/classes/admin/options-pages/class-admin-options-page.php:57
+#: includes/classes/admin/options-pages/class-admin-options-page.php:71
+#: includes/classes/admin/options-pages/class-admin-options-page.php:152
+msgid "Options Updated"
+msgstr "Options mises à jour"
+
+#: includes/classes/admin/options-pages/class-admin-options-page.php:36
+#: includes/classes/admin/options-pages/class-admin-options-page.php:37
+#: includes/classes/admin/options-pages/styles-option-fonts.php:6
+msgid "Fonts"
+msgstr "Polices"
+
+#: includes/classes/admin/options-pages/class-admin-options-page.php:50
+#: includes/classes/admin/options-pages/class-admin-options-page.php:51
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:6
+msgid "Images"
+msgstr "Images"
+
+#: includes/classes/admin/options-pages/class-admin-options-page.php:64
+#: includes/classes/admin/options-pages/class-admin-options-page.php:65
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:6
+msgid "TinyMCE"
+msgstr "TinyMCE"
+
+#: includes/classes/admin/options-pages/class-admin-options-page.php:156
+msgid "Publish"
+msgstr "Publier"
+
+#: includes/classes/admin/options-pages/class-admin-options-page.php:161
+#, php-format
+msgid ""
+"No Custom Field Groups found for this options page. <a href=\"%s\">Create a "
+"Custom Field Group</a>"
+msgstr ""
+"Aucun groupe de champs trouvé pour cette page options. <a href=\"%s\">Créer "
+"un groupe de champs</a>"
+
+#: includes/classes/admin/options-pages/class-admin-options-page.php:226
+msgid "Edit field group"
+msgstr "Modifier le groupe de champs"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:37
+msgid "Fonts."
+msgstr "Polices."
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:52
+msgid "Google Font"
+msgstr "Police Google"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:57
+#: includes/classes/admin/options-pages/styles-option-fonts.php:133
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:33
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:141
+msgid "Name"
+msgstr "Nom"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:77
+msgid "URL"
+msgstr "URL"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:94
+msgid "Auto-enqueue"
+msgstr "Ajout automatique"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:128
+msgid "Custom font"
+msgstr "Police personnalisée"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:153
+msgid "Files"
+msgstr "Fichiers"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:174
+msgid "File"
+msgstr "Fichier"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:197
+msgid "Weight"
+msgstr "Poids"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:217
+msgid "Style"
+msgstr "Style"
+
+#: includes/classes/admin/options-pages/styles-option-fonts.php:248
+msgid "Add font"
+msgstr "Ajouter une police"
+
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:15
+msgid "WordPress image sizes."
+msgstr "Tailles d'image WordPress."
+
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:56
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:161
+msgid "Width"
+msgstr "Largeur"
+
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:76
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:181
+msgid "Height"
+msgstr "Hauteur"
+
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:96
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:201
+msgid "Crop"
+msgstr "Rognage"
+
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:123
+msgid "Custom image sizes"
+msgstr "Tailles d'image personnalisées"
+
+#: includes/classes/admin/options-pages/styles-option-image-sizes.php:137
+msgid "Add custom size"
+msgstr "Ajouter une taille personnalisée"
+
+#: includes/classes/admin/options-pages/styles-option-tailwind.php:15
+msgid "CSS"
+msgstr "CSS"
+
+#: includes/classes/admin/options-pages/styles-option-tailwind.php:59
+#: includes/classes/main/class-layouts.php:318
+msgid "Configuration"
+msgstr "Configuration"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:10
+msgid "Font Style"
+msgstr "Style de police"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:44
+msgid "Add font style"
+msgstr "Ajouter un style de police"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:48
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:128
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:208
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:288
+msgid "Label"
+msgstr "Libellé"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:68
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:148
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:228
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:308
+msgid "Class(es) to apply"
+msgstr "Classe(es) à appliquer"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:90
+msgid "Font Family"
+msgstr "Famille de police"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:124
+msgid "Add font family"
+msgstr "Ajouter une famille de police"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:170
+msgid "Font Color"
+msgstr "Couleur de police"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:204
+msgid "Add font color"
+msgstr "Ajouter une couleur de police"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:250
+msgid "Button"
+msgstr "Bouton"
+
+#: includes/classes/admin/options-pages/styles-option-tinymce.php:284
+msgid "Add button style"
+msgstr "Ajouter un style de bouton"
+
+#: includes/classes/admin/tools/class-styles-export-tool.php:21
+msgid "Export styles settings"
+msgstr "Exporter les paramètres de styles"
+
+#: includes/classes/admin/tools/class-styles-export-tool.php:66
+msgid "Select styles settings"
+msgstr "Sélectionner les paramètres de styles"
+
+#: includes/classes/admin/tools/class-styles-export-tool.php:79
+msgid "No style setting available."
+msgstr "Aucun paramètre de styles disponible."
+
+#: includes/classes/admin/tools/class-styles-export-tool.php:88
+msgid "Export File"
+msgstr "Exporter le fichier"
+
+#: includes/classes/admin/tools/class-styles-export-tool.php:118
+msgid "No style setting selected"
+msgstr "Aucun paramètre de style sélectionné"
+
+#: includes/classes/admin/tools/class-styles-export-tool.php:126
+msgid "An error appended. Please try again later."
+msgstr "Une erreur est survenue. Merci de réessayer plus tard."
+
+#: includes/classes/admin/tools/class-styles-export-tool.php:224
+#, php-format
+msgid "Exported 1 style settings."
+msgid_plural "Exported %s styles settings."
+msgstr[0] "1 paramètre de style exporté."
+msgstr[1] "%s paramètres de styles exportés."
+
+#: includes/classes/admin/tools/class-styles-import-tool.php:15
+msgid "Import styles settings"
+msgstr "Importer des paramètres de styles"
+
+#: includes/classes/admin/tools/class-styles-import-tool.php:27
+msgid "Select File"
+msgstr "Choisir un fichier"
+
+#: includes/classes/admin/tools/class-styles-import-tool.php:37
+msgid "Import File"
+msgstr "Importer un fichier"
+
+#: includes/classes/admin/tools/class-styles-import-tool.php:49
+msgid "No file selected"
+msgstr "Aucun fichier sélectionné"
+
+#: includes/classes/admin/tools/class-styles-import-tool.php:57
+msgid "Error uploading file. Please try again"
+msgstr "Erreur lors du téléchargement, veuillez réessayer"
+
+#: includes/classes/admin/tools/class-styles-import-tool.php:62
+msgid "Incorrect file type"
+msgstr "Type de fichier incorrect"
+
+#: includes/classes/admin/tools/class-styles-import-tool.php:71
+msgid "Import file empty"
+msgstr "Le fichier d'import est vide"
+
+#: includes/classes/admin/tools/class-styles-import-tool.php:85
+#, php-format
+msgid "Imported 1 style settings."
+msgid_plural "Imported %s styles settings."
+msgstr[0] "1 paramètre de style importé."
+msgstr[1] "%s paramètres de styles importés."
+
+#: includes/classes/components/class-component-field-type.php:14
+#: includes/classes/components/class-components.php:32
+msgid "Component"
+msgstr "Composant"
+
+#: includes/classes/components/class-component-field-type.php:139
+msgid "Allow components"
+msgstr "Autoriser les composants"
+
+#: includes/classes/components/class-component-field-type.php:147
+#: includes/classes/components/class-components.php:43
+msgid "All components"
+msgstr "Tous les composants"
+
+#: includes/classes/components/class-component-field-type.php:152
+msgid "Appearance"
+msgstr "Apparence"
+
+#: includes/classes/components/class-component-field-type.php:153
+msgid "Select the appearance of this field"
+msgstr "Sélectionnez l'apparence de ce champ"
+
+#: includes/classes/components/class-component-field-type.php:158
+msgid "Checkbox"
+msgstr "Case à cocher"
+
+#: includes/classes/components/class-component-field-type.php:159
+msgid "Radio Buttons"
+msgstr "Boutons radio"
+
+#: includes/classes/components/class-component-field-type.php:160
+msgctxt "noun"
+msgid "Select"
+msgstr "Sélectionner"
+
+#: includes/classes/components/class-component-field-type.php:166
+msgid "Default Value"
+msgstr "Valeur par défaut"
+
+#: includes/classes/components/class-component-field-type.php:167
+msgid "Enter each default value on a new line"
+msgstr "Entrer chaque valeur par défaut sur une nouvelle ligne"
+
+#: includes/classes/components/class-component-field-type.php:174
+msgid "Allow Null?"
+msgstr "Autoriser une valeur « null » ?"
+
+#: includes/classes/components/class-component-field-type.php:199
+msgid "Placeholder Text"
+msgstr "Texte indicatif"
+
+#: includes/classes/components/class-component-field-type.php:200
+msgid "Appears within the input"
+msgstr "Apparaît dans l’entrée"
+
+#: includes/classes/components/class-component-field-type.php:203
+msgctxt "verb"
+msgid "Select"
+msgstr "Sélectionner"
+
+#: includes/classes/components/class-component-field-type.php:236
+msgid "Select multiple values?"
+msgstr "Sélectionnez plusieurs valeurs ?"
+
+#: includes/classes/components/class-component-field-type.php:254
+msgid "Stylised UI"
+msgstr "UI stylisée"
+
+#: includes/classes/components/class-component-field-type.php:272
+msgid "Use AJAX to lazy load choices?"
+msgstr "Utiliser AJAX pour charger les choix de manière différée ?"
+
+#: includes/classes/components/class-component-field-type.php:295
+msgid "Other"
+msgstr "Autre"
+
+#: includes/classes/components/class-component-field-type.php:300
+msgid "Add \"other\" choice to allow for custom values"
+msgstr ""
+"Ajouter un « autre » choix pour tenir compte des valeurs personnalisées"
+
+#: includes/classes/components/class-component-field-type.php:314
+msgid "Save Other"
+msgstr "Enregistrer Autres"
+
+#: includes/classes/components/class-component-field-type.php:319
+msgid "Save \"other\" values to the field's choices"
+msgstr "Enregistrer les valeurs « autres » dans les choix du champ"
+
+#: includes/classes/components/class-component-field-type.php:338
+#: includes/classes/main/class-layouts.php:256
+msgid "Layout"
+msgstr "Disposition"
+
+#: includes/classes/components/class-component-field-type.php:344
+msgid "Vertical"
+msgstr "Vertical"
+
+#: includes/classes/components/class-component-field-type.php:345
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: includes/classes/components/class-component-field-type.php:367
+msgid "Toggle"
+msgstr "Basculer"
+
+#: includes/classes/components/class-component-field-type.php:368
+msgid "Prepend an extra checkbox to toggle all choices"
+msgstr "Ajouter une case à cocher supplémentaire pour basculer tous les choix"
+
+#: includes/classes/components/class-component-field-type.php:385
+msgid "Allow Custom"
+msgstr "Autoriser les valeurs personnalisées"
+
+#: includes/classes/components/class-component-field-type.php:390
+msgid "Allow \"custom\" values to be added"
+msgstr "Permettre l’ajout de valeurs « personnalisées »"
+
+#: includes/classes/components/class-component-field-type.php:404
+msgid "Save Custom"
+msgstr "Enregistrer les valeurs personnalisées"
+
+#: includes/classes/components/class-component-field-type.php:409
+msgid "Save \"custom\" values to the field's choices"
+msgstr "Enregistrer les valeurs personnalisées dans les choix du champ"
+
+#: includes/classes/components/class-components.php:33
+msgid "Add new"
+msgstr "Ajouter"
+
+#: includes/classes/components/class-components.php:34
+#: includes/views/pilopress-dashboard.php:155
+msgid "Add new component"
+msgstr "Ajouter un nouveau composant"
+
+#: includes/classes/components/class-components.php:35
+msgid "Edit component"
+msgstr "Modifier le composant"
+
+#: includes/classes/components/class-components.php:36
+msgid "New component"
+msgstr "Nouveau composant"
+
+#: includes/classes/components/class-components.php:37
+msgid "View component"
+msgstr "Afficher le composant"
+
+#: includes/classes/components/class-components.php:38
+msgid "View components"
+msgstr "Afficher les composants"
+
+#: includes/classes/components/class-components.php:39
+msgid "Search components"
+msgstr "Chercher dans les composants"
+
+#: includes/classes/components/class-components.php:40
+msgid "No components found."
+msgstr "Aucun composant trouvé."
+
+#: includes/classes/components/class-components.php:41
+msgid "No components found in Trash."
+msgstr "Aucun composant trouvé dans la poubelle."
+
+#: includes/classes/components/class-components.php:42
+msgid "Parent page:"
+msgstr "Page parente :"
+
+#: includes/classes/components/class-components.php:44
+msgid "Component archives"
+msgstr "Archives de composants"
+
+#: includes/classes/components/class-components.php:45
+msgid "Component attributes"
+msgstr "Attributs des composants"
+
+#: includes/classes/components/class-components.php:46
+msgid "Insert into component"
+msgstr "Insérer dans le composant"
+
+#: includes/classes/components/class-components.php:47
+msgid "Uploaded to this component"
+msgstr "Téléchargé sur ce composant"
+
+#: includes/classes/components/class-components.php:48
+msgid "Featured image"
+msgstr "Image à la une"
+
+#: includes/classes/components/class-components.php:49
+msgid "Set featured image"
+msgstr "Définir l’image mise en avant"
+
+#: includes/classes/components/class-components.php:50
+msgid "Remove featured image"
+msgstr "Supprimer l'image mise en avant"
+
+#: includes/classes/components/class-components.php:51
+msgid "Use as featured image"
+msgstr "Utiliser comme image mise en avant"
+
+#: includes/classes/components/class-components.php:52
+msgid "Filter components list"
+msgstr "Filtrer la liste des composants"
+
+#: includes/classes/components/class-components.php:53
+msgid "Components list navigation"
+msgstr "Navigation de la liste des composants"
+
+#: includes/classes/components/class-components.php:54
+msgid "Components list"
+msgstr "Liste des composants"
+
+#: includes/classes/components/class-components.php:55
+msgid "Component published."
+msgstr "Composant publié."
+
+#: includes/classes/components/class-components.php:56
+msgid "Component published privately."
+msgstr "Composant publié en privé."
+
+#: includes/classes/components/class-components.php:57
+msgid "Component reverted to draft."
+msgstr "Composant retourné au brouillon."
+
+#: includes/classes/components/class-components.php:58
+msgid "Component scheduled."
+msgstr "Composant prévu."
+
+#: includes/classes/components/class-components.php:59
+msgid "Component updated."
+msgstr "Composant mis à jour."
+
+#: includes/classes/components/class-components.php:61
+msgid "Your Pilo'Press components"
+msgstr "Vos composants Pilo’Press"
+
+#: includes/classes/components/class-components.php:157
+#: includes/classes/pattern/class-pattern.php:78
+msgid "All"
+msgstr "Tout"
+
+#: includes/classes/main/class-flexible-mirror.php:50
+msgid "Edit Builder"
+msgstr "Modifier l'éditeur"
+
+#: includes/classes/main/class-flexible.php:78
+#: includes/classes/pattern/class-flexible-footer.php:68
+#: includes/classes/pattern/class-flexible-header.php:68
+msgid "Add Row"
+msgstr "Ajouter une ligne"
+
+#: includes/classes/main/class-layouts-categories.php:47
+#: includes/classes/main/class-layouts-categories.php:48
+msgctxt "Category"
+msgid "Categories"
+msgstr "Catégories"
+
+#: includes/classes/main/class-layouts-categories.php:49
+msgid "Search categories"
+msgstr "Chercher dans les catégories"
+
+#: includes/classes/main/class-layouts-categories.php:50
+msgid "All categories"
+msgstr "Toutes les catégories"
+
+#: includes/classes/main/class-layouts-categories.php:51
+msgid "Parent category"
+msgstr "Catégorie parente"
+
+#: includes/classes/main/class-layouts-categories.php:52
+msgid "Parent category:"
+msgstr "Catégorie parente :"
+
+#: includes/classes/main/class-layouts-categories.php:53
+msgid "Edit category"
+msgstr "Modifier la catégorie"
+
+#: includes/classes/main/class-layouts-categories.php:54
+msgid "Update category"
+msgstr "Mettre à jour la catégorie"
+
+#: includes/classes/main/class-layouts-categories.php:55
+msgid "Add New category"
+msgstr "Ajouter une catégorie"
+
+#: includes/classes/main/class-layouts-categories.php:56
+msgid "New category name"
+msgstr "Nom de la nouvelle catégorie"
+
+#: includes/classes/main/class-layouts-categories.php:57
+msgid "Category"
+msgstr "Catégorie"
+
+#: includes/classes/main/class-layouts.php:127
+msgid "Edit Layout"
+msgstr "Modifier la disposition"
+
+#: includes/classes/main/class-layouts.php:128
+msgid "Add New Layout"
+msgstr "Ajouter une nouvelle disposition"
+
+#: includes/classes/main/class-layouts.php:157
+msgid "Pilo'Press: Layout settings"
+msgstr "Pilo'Press : Paramètres de la disposition"
+
+#: includes/classes/main/class-layouts.php:163
+msgid "Pilo'Press: Layout thumbnail"
+msgstr "Pilo'Press : Image en avant"
+
+#: includes/classes/main/class-layouts.php:244
+msgid "Layout slug"
+msgstr "Identifiant de la disposition"
+
+#: includes/classes/main/class-layouts.php:245
+msgid "Layout slug and layout folder name"
+msgstr "Identifiant et nom du dossier de la disposition"
+
+#: includes/classes/main/class-layouts.php:257
+msgid "Layout file name"
+msgstr "Nom de la disposition"
+
+#: includes/classes/main/class-layouts.php:270
+msgid "Style CSS"
+msgstr "Style CSS"
+
+#: includes/classes/main/class-layouts.php:271
+msgid "CSS file name"
+msgstr "Nom de fichier CSS"
+
+#: includes/classes/main/class-layouts.php:283
+msgid "Script"
+msgstr "Script"
+
+#: includes/classes/main/class-layouts.php:284
+msgid "JS file name"
+msgstr "Nom de fichier JS"
+
+#: includes/classes/main/class-layouts.php:305
+msgid "Add configuration?"
+msgstr "Ajouter une configuration ?"
+
+#: includes/classes/main/class-layouts.php:319
+msgid "Configuration clone"
+msgstr "Clone de configuration"
+
+#: includes/classes/main/class-layouts.php:343
+msgid "Modal size"
+msgstr "Taille de la modale"
+
+#: includes/classes/main/class-layouts.php:344
+msgid "Configuration modal size"
+msgstr "Taille de la modale de configuration"
+
+#: includes/classes/main/class-layouts.php:398
+msgid "Thumbnail"
+msgstr "Image en avant"
+
+#: includes/classes/main/class-layouts.php:399
+msgid "Layout preview"
+msgstr "Aperçu de la disposition"
+
+#: includes/classes/pattern/class-flexible-footer.php:34
+#: includes/classes/pattern/class-pattern.php:80
+msgid "Footer"
+msgstr "Pied de page"
+
+#: includes/classes/pattern/class-flexible-header.php:34
+#: includes/classes/pattern/class-pattern.php:79
+msgid "Header"
+msgstr "En-tête"
+
+#: includes/classes/pattern/class-pattern-message.php:20
+msgid "Message"
+msgstr "Message"
+
+#: includes/classes/pattern/class-pattern-message.php:89
+msgid ""
+"Please assign a layout to Header Pattern and/or Footer Pattern in order to "
+"use this functionality."
+msgstr ""
+"Veuillez affecter une disposition au modèle d'en-tête et/ou au modèle de "
+"pied de page afin d’utiliser cette fonctionnalité."
+
+#: includes/classes/pattern/class-pattern-message.php:92
+msgid "Go to Layouts"
+msgstr "Aller aux dispositions"
+
+#: includes/classes/pattern/class-pattern-message.php:106
+msgid "Website content"
+msgstr "Contenu du site"
+
+#: includes/classes/pattern/class-pattern.php:33
+#: includes/classes/pattern/class-pattern.php:34
+#: includes/classes/pattern/class-pattern.php:63
+msgid "Site Template"
+msgstr "Modèle du site"
+
+#: includes/views/pilopress-dashboard.php:18
+msgid "Pilo'Press: Dashboard"
+msgstr "Pilo'Press : Tableau de bord"
+
+#: includes/views/pilopress-dashboard.php:32
+msgid "Configuration status"
+msgstr "Statut de la configuration"
+
+#: includes/views/pilopress-dashboard.php:52
+msgid "Documentations"
+msgstr "Documentations"
+
+#: includes/views/pilopress-dashboard.php:87
+msgid "Made with &#x2764; by"
+msgstr "Fait avec &#x2764; par"
+
+#: includes/views/pilopress-dashboard.php:107
+msgid "Add new layout"
+msgstr "Ajouter une nouvelle disposition"
+
+#: includes/views/pilopress-dashboard.php:118
+msgid "Layout name"
+msgstr "Nom de la disposition"
+
+#: includes/views/pilopress-dashboard.php:119
+msgid "Locations"
+msgstr "Emplacements"
+
+#: includes/views/pilopress-dashboard.php:166
+msgid "Component name"
+msgstr "Nom du composant"
+
+#: init.php:113
+msgid ""
+"Pilo'Press requires Advanced Custom Fields PRO (minimum: 5.7.13) and ACF "
+"Extended."
+msgstr ""
+"Pilo'Press a besoin du plugin Advanced Custom Fields PRO (minimum : 5.7.13) "
+"and ACF Extended."
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "https://www.pilot-in.com"
+msgstr "https://www.pilot-in.com"
+
+#. Description of the plugin/theme
+msgid "Awesome WordPress Framework"
+msgstr "Awesome WordPress Framework"
+
+#. Author of the plugin/theme
+msgid "Pilot'In"
+msgstr "Pilot'In"
+
+#~ msgctxt "pilopress"
+#~ msgid "Components"
+#~ msgstr "Composants"
+
+#~ msgctxt "pilopress"
+#~ msgid "Component"
+#~ msgstr "Composant"

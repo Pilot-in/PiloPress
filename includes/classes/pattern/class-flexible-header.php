@@ -31,7 +31,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
                 'fields'                => array(
                     array(
                         'key'                               => 'field_' . self::get_flexible_header_field_name(),
-                        'label'                             => 'Header',
+                        'label'                             => __( 'Header', 'pilopress' ),
                         'name'                              => self::get_flexible_header_field_name(),
                         'type'                              => 'flexible_content',
                         'instructions'                      => '',
@@ -191,6 +191,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
 
         /**
          * Getter: $flexible_header_field_name
+         *
          * @return string
          */
         public static function get_flexible_header_field_name() {
@@ -199,6 +200,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
 
         /**
          * Getter: $flexible_header_group_key
+         *
          * @return string
          */
         public static function get_flexible_header_group_key() {
@@ -217,5 +219,5 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
  * @return false|string|void
  */
 function get_pip_header() {
-    echo get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::get_pattern_option_page()['post_id'] );
+    echo get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::$pattern_post_id );
 }
