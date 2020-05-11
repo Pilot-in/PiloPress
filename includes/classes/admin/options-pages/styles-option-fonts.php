@@ -125,7 +125,7 @@ acf_add_local_field_group( array(
                 'layout_custom_font' => array(
                     'key'                           => 'layout_custom_font',
                     'name'                          => 'custom_font',
-                    'label'                         => 'Custom font',
+                    'label'                         => __( 'Custom font', 'pilopress' ),
                     'display'                       => 'row',
                     'sub_fields'                    => array(
                         array(

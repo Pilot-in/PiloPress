@@ -31,7 +31,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
                 'fields'                => array(
                     array(
                         'key'                               => 'field_' . self::get_flexible_footer_field_name(),
-                        'label'                             => 'Footer',
+                        'label'                             => __( 'Footer', 'pilopress' ),
                         'name'                              => self::get_flexible_footer_field_name(),
                         'type'                              => 'flexible_content',
                         'instructions'                      => '',
@@ -191,6 +191,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
 
         /**
          * Getter: $flexible_footer_field_name
+         *
          * @return string
          */
         public static function get_flexible_footer_field_name() {

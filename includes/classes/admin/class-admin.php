@@ -83,7 +83,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         /**
          * Add custom param for WP_Query
          *
-         * @param string $where
+         * @param string   $where
          * @param WP_Query $wp_query
          *
          * @return mixed
@@ -188,24 +188,24 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Configurations
             $configurations = array(
                 array(
-                    'label'        => __( '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/</code>', 'pilopress' ),
+                    'label'        => '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/</code>',
                     'status'       => file_exists( PIP_THEME_PILOPRESS_PATH ),
-                    'status_label' => file_exists( PIP_THEME_PILOPRESS_PATH ) ? ' folder found' : ' folder not found',
+                    'status_label' => file_exists( PIP_THEME_PILOPRESS_PATH ) ? __( ' folder found', 'pilopress' ) : __( ' folder not found', 'pilopress' ),
                 ),
                 array(
-                    'label'        => __( '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/layouts/</code>', 'pilopress' ),
+                    'label'        => '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/layouts/</code>',
                     'status'       => file_exists( PIP_THEME_LAYOUTS_PATH ),
-                    'status_label' => file_exists( PIP_THEME_LAYOUTS_PATH ) ? ' folder found' : ' folder not found',
+                    'status_label' => file_exists( PIP_THEME_LAYOUTS_PATH ) ? __( ' folder found', 'pilopress' ) : __( ' folder not found', 'pilopress' ),
                 ),
                 array(
-                    'label'        => __( '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/tailwind/</code>', 'pilopress' ),
+                    'label'        => '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/tailwind/</code>',
                     'status'       => file_exists( PIP_THEME_TAILWIND_PATH ),
-                    'status_label' => file_exists( PIP_THEME_TAILWIND_PATH ) ? ' folder found' : ' folder not found',
+                    'status_label' => file_exists( PIP_THEME_TAILWIND_PATH ) ? __( ' folder found', 'pilopress' ) : __( ' folder not found', 'pilopress' ),
                 ),
                 array(
                     'label'        => __( 'Admin style', 'pilopress' ),
                     'status'       => $admin_style_enqueued,
-                    'status_label' => $admin_style_enqueued ? ' enqueued' : ' not enqueued',
+                    'status_label' => $admin_style_enqueued ? __( ' enqueued', 'pilopress' ) : __( ' not enqueued', 'pilopress' ),
                 ),
             );
 

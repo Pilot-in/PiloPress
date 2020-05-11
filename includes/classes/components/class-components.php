@@ -28,9 +28,9 @@ if ( !class_exists( 'PIP_Components' ) ) {
                 array(
                     'label'               => __( 'Components', 'pilopress' ),
                     'labels'              => array(
-                        'name'                     => _x( 'Components', 'pilopress' ),
-                        'singular_name'            => _x( 'Component', 'pilopress' ),
-                        'add_new'                  => _x( 'Add new', 'pilopress' ),
+                        'name'                     => __( 'Components', 'pilopress' ),
+                        'singular_name'            => __( 'Component', 'pilopress' ),
+                        'add_new'                  => __( 'Add new', 'pilopress' ),
                         'add_new_item'             => __( 'Add new component', 'pilopress' ),
                         'edit_item'                => __( 'Edit component', 'pilopress' ),
                         'new_item'                 => __( 'New component', 'pilopress' ),
@@ -45,10 +45,10 @@ if ( !class_exists( 'PIP_Components' ) ) {
                         'attributes'               => __( 'Component attributes', 'pilopress' ),
                         'insert_into_item'         => __( 'Insert into component', 'pilopress' ),
                         'uploaded_to_this_item'    => __( 'Uploaded to this component', 'pilopress' ),
-                        'featured_image'           => _x( 'Featured image', 'pilopress' ),
-                        'set_featured_image'       => _x( 'Set featured image', 'pilopress' ),
-                        'remove_featured_image'    => _x( 'Remove featured image', 'pilopress' ),
-                        'use_featured_image'       => _x( 'Use as featured image', 'pilopress' ),
+                        'featured_image'           => __( 'Featured image', 'pilopress' ),
+                        'set_featured_image'       => __( 'Set featured image', 'pilopress' ),
+                        'remove_featured_image'    => __( 'Remove featured image', 'pilopress' ),
+                        'use_featured_image'       => __( 'Use as featured image', 'pilopress' ),
                         'filter_items_list'        => __( 'Filter components list', 'pilopress' ),
                         'items_list_navigation'    => __( 'Components list navigation', 'pilopress' ),
                         'items_list'               => __( 'Components list', 'pilopress' ),
@@ -219,7 +219,7 @@ if ( !function_exists( 'have_component' ) ) {
     /**
      * Initiate/end component loop
      *
-     * @param $selector
+     * @param      $selector
      * @param bool $post_id
      *
      * @return bool
