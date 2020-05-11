@@ -19,18 +19,12 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
         /**
          * Check if it is a Pilo'Press admin page
+         *
          * @return bool
          */
         private function is_pip_admin_page() {
             $is_pip_admin    = false;
-            $style_pages     = array();
             $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
-            $pages           = PIP_Admin_Options_Page::$pages;
-
-            // Browse styles pages to get menu slugs
-            foreach ( $pages as $page ) {
-                $style_pages[] = $page['menu_slug'];
-            }
 
             // If Pilo'Press admin page, set variable to true
             if ( acf_maybe_get_GET( 'layouts' ) == '1'
@@ -40,7 +34,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                  || acf_maybe_get_GET( 'post_type' ) === PIP_Components::$post_type
                  || PIP_Components::is_component( acf_maybe_get_GET( 'post' ) )
                  || acf_maybe_get_GET( 'page' ) == PIP_Pattern::$menu_slug
-                 || in_array( acf_maybe_get_GET( 'page' ), $style_pages ) ) {
+                 || PIP_Admin_Options_Page::is_style_page( acf_maybe_get_GET( 'page' ) ) ) {
                 $is_pip_admin = true;
             }
 
