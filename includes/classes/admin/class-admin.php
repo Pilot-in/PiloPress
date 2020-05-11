@@ -272,6 +272,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'href'  => add_query_arg( array( 'page' => 'pilopress' ), admin_url( 'admin.php' ) ),
             ) );
 
+            // Layouts
+            $wp_admin_bar->add_node( array(
+                'parent' => 'pilopress',
+                'id'     => 'layouts',
+                'title'  => __( 'Layouts', 'pilopress' ),
+                'href'   => add_query_arg( array( 'layouts' => 1, 'post_type' => 'acf-field-group' ), admin_url( 'edit.php' ) ),
+            ) );
+
             // Styles
             $wp_admin_bar->add_node( array(
                 'parent' => 'pilopress',
