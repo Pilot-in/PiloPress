@@ -175,7 +175,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                                 'posts_per_page' => 1,
                                 'fields'         => 'ids',
                             ) );
-                            $post_id = reset( $posts->get_posts() );
+                            $posts   = $posts->get_posts();
+                            $post_id = reset( $posts );
 
                             // Store URL
                             $url[] = 'url(' . wp_get_attachment_url( $post_id ) . ') format("' . $format . '")';

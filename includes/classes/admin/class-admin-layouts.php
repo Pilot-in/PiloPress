@@ -331,7 +331,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
         /**
          * Update counters for sync available
          *
-         * @param $views
+         * @param      $views
          * @param bool $is_layout
          */
         private static function update_sync_counters( &$views, $is_layout = true ) {

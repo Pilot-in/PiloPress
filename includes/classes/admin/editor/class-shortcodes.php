@@ -69,8 +69,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
         /**
          * Button group shortcode
          *
-         * @param $attrs
-         *
+         * @param      $attrs
          * @param null $content
          *
          * @return string
@@ -94,6 +93,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
 
         /**
          * Breadcrumb shortcode
+         *
          * @return string|null
          */
         public function pip_breadcrumb() {
@@ -113,6 +113,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
 
         /**
          * Title shortcode
+         *
          * @return string
          */
         public function pip_title() {

@@ -298,6 +298,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
         /**
          * Getter: $flexible_mirror_group_key
+         *
          * @return string
          */
         public static function get_flexible_mirror_group_key() {
@@ -306,6 +307,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
         /**
          * Getter: $flexible_mirror_group
+         *
          * @return mixed
          */
         public static function get_flexible_mirror_group() {

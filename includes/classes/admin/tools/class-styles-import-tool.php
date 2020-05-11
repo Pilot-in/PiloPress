@@ -41,6 +41,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
 
         /**
          * Import JSON
+         *
          * @return ACF_Admin_Notice
          */
         public function submit() {

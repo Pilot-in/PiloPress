@@ -2,7 +2,7 @@
 /**
  * @var string $page_title
  * @var string $post_id
- * @var array $pages
+ * @var array  $pages
  * @var string $current_page
  * @var string $admin_url
  */
