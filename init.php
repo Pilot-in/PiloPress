@@ -33,6 +33,10 @@ function pip_include( $filename = '' ) {
  * @return bool
  */
 function pip_load_textdomain( $domain = 'pilopress' ) {
+    if ( !function_exists( 'acf_get_locale' ) ) {
+        return false;
+    }
+
     $locale  = apply_filters( 'plugin_locale', acf_get_locale(), $domain );
     $mo_file = $domain . '-' . $locale . '.mo';
 
