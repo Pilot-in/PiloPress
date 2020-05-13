@@ -270,8 +270,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             }
 
             // Add custom admin stylesheet
-            if ( file_exists( PIP_THEME_TAILWIND_PATH . 'tailwind.min.css' ) ) {
-                $stylesheets[] = PIP_THEME_TAILWIND_URL . 'tailwind.min.css';
+            if ( file_exists( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css' ) ) {
+                $stylesheets[] = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_FILENAME . '.min.css';
             }
 
             return implode( ',', $stylesheets );
