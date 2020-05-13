@@ -180,7 +180,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             global $wp_styles;
             $admin_style_enqueued = false;
             foreach ( $wp_styles->queue as $style ) {
-                if ( $wp_styles->registered[ $style ]->src === PIP_THEME_ASSETS_URL . 'tailwind-admin.min.css' ) {
+                if ( $wp_styles->registered[ $style ]->src === PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css' ) {
                     $admin_style_enqueued = true;
                 }
             }
