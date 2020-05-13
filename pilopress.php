@@ -5,7 +5,6 @@
  * Description:         The most advanced WordPress Page Builder using Advanced Custom Field & TailwindCSS
  * Version:             0.1
  * Author:              pilotin
- * Author URI:          https://www.pilot-in.com
  * License:             GPLv2 or later
  * License URI:         http://www.gnu.org/licenses/gpl-2.0.html
  * Requires PHP:        5.6 or higher
