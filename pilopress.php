@@ -2,15 +2,15 @@
 /**
  * Plugin Name:         Pilo'Press
  * Plugin URI:          https://www.pilot-in.com
- * Description:         Awesome WordPress Framework
+ * Description:         The most advanced WordPress Page Builder using Advanced Custom Field & TailwindCSS
  * Version:             0.1
- * Author:              Pilot'In
+ * Author:              pilotin
  * Author URI:          https://www.pilot-in.com
  * License:             GPLv2 or later
  * License URI:         http://www.gnu.org/licenses/gpl-2.0.html
  * Requires PHP:        5.6 or higher
  * Requires at least:   4.9 or higher
- * WC tested up to:     5.3.2
+ * WC tested up to:     5.4.1
  * Text Domain:         pilopress
  * Domain Path:         /lang
  */
@@ -104,9 +104,6 @@ if ( !class_exists( 'PiloPress' ) ) {
                 return;
             }
 
-            // Helpers
-            pip_include( 'helpers.php' );
-
             // Includes
             add_action( 'acf/init', array( $this, 'includes' ) );
 
@@ -127,6 +124,9 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Components
             pip_include( 'includes/classes/components/class-components.php' );
             pip_include( 'includes/classes/components/class-component-field-type.php' );
+
+            // Helpers
+            pip_include( 'helpers.php' );
 
             // Main
             pip_include( 'includes/classes/main/class-layouts-categories.php' );
