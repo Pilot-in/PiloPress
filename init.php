@@ -33,6 +33,10 @@ function pip_include( $filename = '' ) {
  * @return bool
  */
 function pip_load_textdomain( $domain = 'pilopress' ) {
+    if ( !function_exists( 'acf_get_locale' ) ) {
+        return false;
+    }
+
     $locale  = apply_filters( 'plugin_locale', acf_get_locale(), $domain );
     $mo_file = $domain . '-' . $locale . '.mo';
 
@@ -49,12 +53,12 @@ function pip_load_textdomain( $domain = 'pilopress' ) {
  * Enqueue Pilo'Press style
  */
 function pip_enqueue() {
-    $tailwind_css = PIP_THEME_TAILWIND_PATH . 'tailwind.min.css';
+    $tailwind_css = PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css';
 
     if ( file_exists( $tailwind_css ) ) {
         wp_enqueue_style(
             'style-pilopress',
-            PIP_THEME_TAILWIND_URL . 'tailwind.min.css',
+            PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_FILENAME . '.min.css',
             false
         );
     }
@@ -64,12 +68,12 @@ function pip_enqueue() {
  * Enqueue Pilo'Press admin style
  */
 function pip_enqueue_admin() {
-    $tailwind_admin_css = PIP_THEME_TAILWIND_PATH . 'tailwind-admin.min.css';
+    $tailwind_admin_css = PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
 
     if ( file_exists( $tailwind_admin_css ) ) {
         wp_enqueue_style(
             'style-pilopress-admin',
-            PIP_THEME_TAILWIND_URL . 'tailwind-admin.min.css',
+            PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
             false
         );
     }

@@ -30,6 +30,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
         /**
          * Get custom fonts families
+         *
          * @return array
          */
         private static function get_custom_fonts() {
@@ -57,6 +58,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
         /**
          * Get custom font styles
+         *
          * @return array
          */
         public static function get_custom_styles() {
@@ -83,6 +85,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
         /**
          * Get custom font colors
+         *
          * @return array
          */
         public static function get_custom_colors() {
@@ -110,6 +113,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
         /**
          * Get custom font buttons
+         *
          * @return array
          */
         public static function get_custom_buttons() {
@@ -136,6 +140,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
         /**
          * Get all image sizes
+         *
          * @return array
          */
         public static function get_all_image_sizes() {
@@ -265,8 +270,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             }
 
             // Add custom admin stylesheet
-            if ( file_exists( PIP_THEME_TAILWIND_PATH . 'tailwind.min.css' ) ) {
-                $stylesheets[] = PIP_THEME_TAILWIND_URL . 'tailwind.min.css';
+            if ( file_exists( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css' ) ) {
+                $stylesheets[] = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_FILENAME . '.min.css';
             }
 
             return implode( ',', $stylesheets );

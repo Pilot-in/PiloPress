@@ -1,6 +1,6 @@
-////
-//// Typography
-////
+//
+// Typography
+//
 
 //$body-font-family: -apple-system, BlinkMacSystemFont, "helvetica neue", helvetica, roboto, noto, "segoe ui", arial, sans-serif;
 //$mono-font-family: "SFMono-Regular", Menlo, Consolas, Monospace;
@@ -9,17 +9,17 @@
 //$content-line-height: 1.5;
 //$body-heading-line-height: 1.15;
 
-////
-//// Colors
-////
+//
+// Colors
+//
 
 //$white: #fff;
 
-//$grey-dk-000: #959396;
+$grey-dk-000: #959396;
 //$grey-dk-100: #5c5962;
 //$grey-dk-200: #44434d;
 //$grey-dk-250: #302d36;
-//$grey-dk-300: #27262b;
+$grey-dk-300: #27262b;
 
 //$grey-lt-000: #f5f6fa;
 $grey-lt-100: #eeeeee;
@@ -65,9 +65,9 @@ $link-color: $blue-000;
 $btn-primary-color: $blue-100;
 $base-button-color: $grey-lt-100;
 
-////
-//// Spacing
-////
+//
+// Spacing
+//
 
 //$spacing-unit: 1rem; // 1rem == 16px
 
@@ -96,17 +96,17 @@ $base-button-color: $grey-lt-100;
 //$sp-9: map-get($spacers, sp-9); // 4    rem == 48px
 //$sp-10: map-get($spacers, sp-10); // 4.5  rem == 48px
 
-////
-//// Borders
-////
+//
+// Borders
+//
 
 //$border: 1px solid;
 //$border-radius: 4px;
 //$border-color: $grey-lt-100;
 
-////
-//// Grid system
-////
+//
+// Grid system
+//
 
 //$gutter-spacing: $sp-6;
 //$gutter-spacing-sm: $sp-4;
@@ -116,9 +116,9 @@ $base-button-color: $grey-lt-100;
 //$header-height: 60px;
 //$search-results-width: 500px;
 
-////
-//// Media queries in pixels
-////
+//
+// Media queries in pixels
+//
 
 //$media-queries: (
 //xs: 320px,
@@ -128,10 +128,22 @@ $base-button-color: $grey-lt-100;
 //xl: 1400px
 //);
 
+//
+// Custom
+//
+
 a {
     font-weight: 600;
 }
 
 .side-bar {
     background-color: #F7FAFB !important;
+}
+
+.navigation-list-child-list .navigation-list-link {
+    color: $grey-dk-000 !important;
+}
+
+.navigation-list-link.active {
+    color: $grey-dk-300 !important;
 }

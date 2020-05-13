@@ -434,7 +434,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 if (typeof acf !== 'undefined') {
                     acf.postbox.render({
                         'id': 'pip_layout_thumbnail',
-                        'label': 'left'
+                        'label': 'top'
                     });
                 }
             </script>

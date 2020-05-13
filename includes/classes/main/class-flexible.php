@@ -105,6 +105,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
         /**
          * Get layouts and group keys
+         *
          * @return array
          */
         public static function get_layouts_and_group_keys() {
@@ -246,8 +247,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             /**
              * Extract ACF id from URL id
+             *
              * @var $type string post type
-             * @var $id int|string post ID
+             * @var $id   int|string post ID
              */
             extract( acf_get_post_id_info( $post_id ) );
 
@@ -351,7 +353,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          *
          * @see ACF's acf_get_field_group_visibility()
          *
-         * @param $field_group
+         * @param       $field_group
          * @param array $args
          *
          * @return bool
@@ -414,6 +416,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
         /**
          * Getter: $flexible_field_name
+         *
          * @return string
          */
         public static function get_flexible_field_name() {

@@ -7,7 +7,7 @@ nav_order: 2
 # Theme installation
 
 - In your theme, create a `pilopress` folder
-- Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder.
+- Within the `pilopress` folder, create a `layouts` subfolder and a `assets` subfolder.
 - In the `index.php` file, add the following code after `<?php` tag:  
 
 

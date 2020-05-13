@@ -120,6 +120,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
 
         /**
          * Getter: $pattern_option_page
+         *
          * @return mixed
          */
         public static function get_pattern_option_page() {

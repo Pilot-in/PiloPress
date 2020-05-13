@@ -31,7 +31,7 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 ## Theme installation
 
 - In your theme, create a `pilopress` folder
-- Within the `pilopress` folder, create a `layouts` subfolder and a `tailwind` subfolder.
+- Within the `pilopress` folder, create a `layouts` subfolder and an `assets` subfolder.
 - In the `index.php` file, add the following code:  
 ```php
 <?php 
@@ -86,12 +86,12 @@ function admin_enqueue_pilopress_styles() {
 
 ## Tailwind CSS files
 
-All files under the `tailwind` folder are generate automatically.  
+All files under the `assets` folder are generate automatically.  
 When you will save `Pilo'Press > Styles > Tailwind` options in back-office, two files will be generated: 
-- `tailwind.css` file will take the content of the "Tailwind CSS" option.  
+- `styles.css` file will take the content of the "Tailwind CSS" option.  
 - `tailwing.config.js` file will take the content of the "Tailwind Configuration" option.
 
-If you click on "Update & Compile" and compile remotely thanks to [TailwindAPI](https://www.tailwindapi.com/), `tailwind.min.css` and `tailwind-admin.min.css` files will be generated.
+If you click on "Update & Compile" and compile remotely thanks to [TailwindAPI](https://www.tailwindapi.com/), `styles.min.css` and `styles-admin.min.css` files will be generated.
 
 For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation/).
 
