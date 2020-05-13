@@ -12,7 +12,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             add_filter( 'mce_css', array( $this, 'editor_style' ) );
 
             // ACF hooks
-            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
+            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ), 10 );
         }
 
         /**
@@ -233,6 +233,45 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             // Remove basic toolbar
             unset( $toolbars['Basic'] );
 
+            // Toolbar line 1
+            $toolbars['Full'][1] = array(
+                'formatselect',
+                'pip_styles',
+                'pip_fonts',
+                'pip_colors',
+                'pip_shortcodes',
+                'bold',
+                'italic',
+                'underline',
+                'strikethrough',
+                'bullist',
+                'numlist',
+                'alignleft',
+                'aligncenter',
+                'alignright',
+                'alignjustify',
+                'link',
+                'wp_add_media',
+                'wp_adv',
+            );
+
+            // Toolbar line 2
+            $toolbars['Full'][2] = array(
+                'blockquote',
+                'hr',
+                'forecolor',
+                'backcolor',
+                'pastetext',
+                'removeformat',
+                'charmap',
+                'outdent',
+                'indent',
+                'subscript',
+                'superscript',
+                'fullscreen',
+                'wp_help',
+            );
+
             return $toolbars;
         }
 
@@ -269,9 +308,14 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 }
             }
 
-            // Add custom admin stylesheet
+            // Add custom stylesheet
             if ( file_exists( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css' ) ) {
                 $stylesheets[] = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_FILENAME . '.min.css';
+            }
+
+            // Add custom stylesheet
+            if ( file_exists( PIP_PATH . 'assets/css/pilopress-tinymce.css' ) ) {
+                $stylesheets[] = PIP_URL . 'assets/css/pilopress-tinymce.css';
             }
 
             return implode( ',', $stylesheets );
