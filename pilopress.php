@@ -104,9 +104,6 @@ if ( !class_exists( 'PiloPress' ) ) {
                 return;
             }
 
-            // Helpers
-            pip_include( 'includes/helpers.php' );
-
             // Includes
             add_action( 'acf/init', array( $this, 'includes' ) );
 
@@ -124,6 +121,9 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Include files
          */
         public function includes() {
+            // Helpers
+            pip_include( 'includes/helpers.php' );
+
             // Components
             pip_include( 'includes/classes/components/class-components.php' );
             pip_include( 'includes/classes/components/class-component-field-type.php' );
