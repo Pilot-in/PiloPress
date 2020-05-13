@@ -105,7 +105,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             }
 
             // Helpers
-            pip_include( 'helpers.php' );
+            pip_include( 'includes/helpers.php' );
 
             // Includes
             add_action( 'acf/init', array( $this, 'includes' ) );
