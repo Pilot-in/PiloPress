@@ -235,9 +235,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             ) );
 
             // Layout
+            $current_theme      = wp_get_theme();
             $layout_name        = sanitize_title( $field_group['title'] );
             $layout_slug        = acf_maybe_get( $field_group, '_pip_layout_slug' ) ? sanitize_title( $field_group['_pip_layout_slug'] ) : 'layout';
-            $layout_path_prefix = str_replace( home_url() . '/wp-content/themes/', '', PIP_THEME_LAYOUTS_URL ) . '<span>' . $layout_slug . '</span>' . '/';
+            $layout_path_prefix = $current_theme->get_template() . '/pilopress/layouts/' . '<span>' . $layout_slug . '</span>' . '/';
 
             // Layout slug
             acf_render_field_wrap( array(
