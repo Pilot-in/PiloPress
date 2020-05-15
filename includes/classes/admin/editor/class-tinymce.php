@@ -4,8 +4,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
     class PIP_TinyMCE {
         public function __construct() {
             // WP hooks
-            add_action( 'wp_head', array( $this, 'custom_fonts_stylesheets' ) );
-            add_action( 'admin_head', array( $this, 'custom_fonts_stylesheets' ) );
+            add_action( 'wp_enqueue_scripts', array( $this, 'custom_fonts_stylesheets' ) );
+            add_action( 'admin_enqueue_scripts', array( $this, 'custom_fonts_stylesheets' ) );
             add_action( 'admin_init', array( $this, 'add_custom_fonts_to_editor' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'localize_data' ) );
             add_filter( 'mce_external_plugins', array( $this, 'editor_button_script' ) );
@@ -33,7 +33,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          *
          * @return array
          */
-        private static function get_custom_fonts() {
+        public static function get_custom_fonts() {
             $fonts = array();
 
             // Get custom fonts
@@ -179,6 +179,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     }
 
                     // Get sub fields
+                    $name    = get_sub_field( 'name' );
                     $enqueue = get_sub_field( 'enqueue' );
                     $url     = get_sub_field( 'url' );
 
@@ -188,7 +189,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     }
 
                     // Add google font
-                    echo '<link href="' . $url . '" rel="stylesheet">';
+                    wp_enqueue_style( 'google-font-' . sanitize_title( $name ), $url );
                 }
             }
         }
@@ -252,6 +253,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 'alignjustify',
                 'link',
                 'wp_add_media',
+//                'pip_dark_mode',
                 'wp_adv',
             );
 
