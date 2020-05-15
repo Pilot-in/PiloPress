@@ -119,7 +119,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $admin_css = "#poststuff .-preview h2{ all:unset; }\n";
 
             // Build admin style
-            $admin_css .= $tailwind->build(
+            $response = $tailwind->build(
                 array(
                     'css'          => $css_content,
                     'config'       => PIP_THEME_ASSETS_PATH . 'tailwind.config.js',
@@ -128,6 +128,14 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     'prefixer'     => '.-preview',
                 )
             );
+
+            // If error, return
+            if ( $response instanceof WP_Error ) {
+                return;
+            }
+
+            // Add generated css
+            $admin_css .= $response['body'];
 
             // Put generated CSS in admin style file
             file_put_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css', $admin_css );
