@@ -54,8 +54,8 @@
                                 <ul>
                                     <li>
                                         <i aria-hidden="true" class="dashicons dashicons-external"></i>
-                                        <a href="https://github.com/Pilot-in/PiloPress" target="_blank">
-                                            GitHub Pilo'Press
+                                        <a href="https://pilot-in.github.io/PiloPress/" target="_blank">
+                                            GitHub Page Pilo'Press
                                         </a>
                                     </li>
                                     <li>
