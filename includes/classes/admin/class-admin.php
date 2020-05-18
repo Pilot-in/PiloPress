@@ -185,20 +185,23 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 }
             }
 
+            // Get theme folder
+            $theme_folder = str_replace( get_home_url(), '', get_stylesheet_directory_uri() );
+
             // Configurations
             $configurations = array(
                 array(
-                    'label'        => '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/</code>',
+                    'label'        => '<code>' . $theme_folder . '/pilopress/</code>',
                     'status'       => file_exists( PIP_THEME_PILOPRESS_PATH ),
                     'status_label' => file_exists( PIP_THEME_PILOPRESS_PATH ) ? __( ' folder found', 'pilopress' ) : __( ' folder not found', 'pilopress' ),
                 ),
                 array(
-                    'label'        => '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/assets/</code>',
+                    'label'        => '<code>' . $theme_folder . '/pilopress/assets/</code>',
                     'status'       => file_exists( PIP_THEME_ASSETS_PATH ),
                     'status_label' => file_exists( PIP_THEME_ASSETS_PATH ) ? __( ' folder found', 'pilopress' ) : __( ' folder not found', 'pilopress' ),
                 ),
                 array(
-                    'label'        => '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/layouts/</code>',
+                    'label'        => '<code>' . $theme_folder . '/pilopress/layouts/</code>',
                     'status'       => file_exists( PIP_THEME_LAYOUTS_PATH ),
                     'status_label' => file_exists( PIP_THEME_LAYOUTS_PATH ) ? __( ' folder found', 'pilopress' ) : __( ' folder not found', 'pilopress' ),
                 ),
