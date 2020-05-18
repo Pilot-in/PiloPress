@@ -101,21 +101,19 @@
          * Add colors menu button
          */
         if (get_custom_colors().length > 0) {
-            editor.addButton('pip_colors', function () {
-                return {
-                    type: 'listbox',
-                    text: 'Colors',
-                    tooltip: 'Colors',
-                    values: get_custom_colors(),
-                    fixedWidth: true,
-                    onPostRender: custom_list_box_change_handler(editor, get_custom_colors()),
-                    onselect: function (event) {
-                        if (event.control.settings.value) {
-                            event.control.settings.type = 'colors';
-                            editor.execCommand('add_custom_style', false, event.control.settings);
-                        }
-                    },
-                };
+            editor.addButton('pip_colors', {
+                type: 'listbox',
+                text: 'Colors',
+                tooltip: 'Colors',
+                values: get_custom_colors(),
+                fixedWidth: true,
+                onPostRender: custom_list_box_change_handler(editor, get_custom_colors()),
+                onselect: function (event) {
+                    if (event.control.settings.value) {
+                        event.control.settings.type = 'colors';
+                        editor.execCommand('add_custom_style', false, event.control.settings);
+                    }
+                },
             });
         }
 
@@ -123,21 +121,19 @@
          * Add fonts menu button
          */
         if (get_custom_fonts().length > 0) {
-            editor.addButton('pip_fonts', function () {
-                return {
-                    type: 'listbox',
-                    text: 'Fonts',
-                    tooltip: 'Fonts',
-                    values: get_custom_fonts(),
-                    fixedWidth: true,
-                    onPostRender: custom_list_box_change_handler(editor, get_custom_fonts()),
-                    onselect: function (event) {
-                        if (event.control.settings.value) {
-                            event.control.settings.type = 'fonts';
-                            editor.execCommand('add_custom_style', false, event.control.settings);
-                        }
-                    },
-                };
+            editor.addButton('pip_fonts', {
+                type: 'listbox',
+                text: 'Fonts',
+                tooltip: 'Fonts',
+                values: get_custom_fonts(),
+                fixedWidth: true,
+                onPostRender: custom_list_box_change_handler(editor, get_custom_fonts()),
+                onselect: function (event) {
+                    if (event.control.settings.value) {
+                        event.control.settings.type = 'fonts';
+                        editor.execCommand('add_custom_style', false, event.control.settings);
+                    }
+                },
             });
         }
 
@@ -145,23 +141,42 @@
          * Add styles menu button
          */
         if (get_custom_styles().length > 0) {
-            editor.addButton('pip_styles', function () {
-                return {
-                    type: 'listbox',
-                    text: 'Styles',
-                    tooltip: 'Styles',
-                    values: get_custom_styles(),
-                    fixedWidth: true,
-                    onPostRender: custom_list_box_change_handler(editor, get_custom_styles()),
-                    onselect: function (event) {
-                        if (event.control.settings.value) {
-                            event.control.settings.type = 'styles';
-                            editor.execCommand('add_custom_style', false, event.control.settings);
-                        }
-                    },
-                };
+            editor.addButton('pip_styles', {
+                type: 'listbox',
+                text: 'Styles',
+                tooltip: 'Styles',
+                values: get_custom_styles(),
+                fixedWidth: true,
+                onPostRender: custom_list_box_change_handler(editor, get_custom_styles()),
+                onselect: function (event) {
+                    if (event.control.settings.value) {
+                        event.control.settings.type = 'styles';
+                        editor.execCommand('add_custom_style', false, event.control.settings);
+                    }
+                },
             });
         }
+
+        /**
+         * Add dark mode button
+         */
+        editor.addButton('pip_dark_mode', {
+            type: 'button',
+            icon: 'contrast',
+            tooltip: 'Dark Mode',
+            onClick: function () {
+                var new_color;
+
+                // Switch background color
+                if ('rgb(35, 40, 45)' === editor.getBody().style.backgroundColor) {
+                    new_color = '#FFFFFF';
+                } else {
+                    new_color = '#23282d';
+                }
+
+                editor.getBody().style.backgroundColor = new_color;
+            },
+        });
 
         /**
          * Register custom formats
