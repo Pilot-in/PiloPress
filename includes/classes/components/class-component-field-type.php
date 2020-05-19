@@ -267,29 +267,6 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                 ),
             ) );
 
-            // Select: AJAX
-            acf_render_field_setting( $field, array(
-                'label'        => __( 'Use AJAX to lazy load choices?', 'acf' ),
-                'instructions' => '',
-                'name'         => 'ajax',
-                'type'         => 'true_false',
-                'ui'           => 1,
-                'conditions'   => array(
-                    array(
-                        array(
-                            'field'    => 'field_type',
-                            'operator' => '==',
-                            'value'    => 'select',
-                        ),
-                        array(
-                            'field'    => 'ui',
-                            'operator' => '==',
-                            'value'    => 1,
-                        ),
-                    ),
-                ),
-            ) );
-
             // Radio: other choice
             acf_render_field_setting( $field, array(
                 'label'        => __( 'Other', 'acf' ),

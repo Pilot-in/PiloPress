@@ -102,7 +102,6 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     // Add custom style
                     $colors[ sanitize_title( $label ) ] = [
                         'name'    => $label,
-                        'font'    => $label,
                         'classes' => $classes,
                     ];
                 }
