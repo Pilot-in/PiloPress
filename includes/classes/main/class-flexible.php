@@ -437,6 +437,10 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
  * @return false|string|void
  */
 function the_pip_content( $post_id = false ) {
+    // Get current post ID
+    $post_id = $post_id ? $post_id : get_queried_object_id();
+
+    // Display content
     echo get_pip_content( $post_id );
 }
 
