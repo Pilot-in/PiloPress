@@ -16,7 +16,8 @@ if ( !class_exists( 'PIP_Json_Sync' ) ) {
          * @return string
          */
         public function change_save_path( $path ) {
-            $post = get_post();
+            $post_id = acf_maybe_get_POST( 'post_ID' );
+            $post    = get_post( $post_id );
             if ( !$post ) {
                 return $path;
             }
