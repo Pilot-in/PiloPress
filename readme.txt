@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.4.1
 Requires PHP: 5.6
-Stable tag: 0.1
+Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ The most advanced WordPress Page Builder using Advanced Custom Field & TailwindC
 
 Pilo'Press is a framework plugin for WordPress. Based on ACF and ACF Extended, it allows you to create layouts among other things and use the Flexible Content field as a page builder.  
 
-Pilo'Press uses Tailwind CSS for style templating which can be setup and build directly from the back-office.  
+Pilo'Press uses Tailwind CSS for style templating which can be setup and build directly from the back-office.
 Please note that Tailwind CSS is not mandatory, you can choose to use it or not. 
 
 == Requirements ==
@@ -83,18 +83,25 @@ function admin_enqueue_pilopress_styles() {
 
 == Tailwind CSS ==
 
-All files under the `assets` folder are generate automatically.  
-When you will save `Pilo'Press > Styles > Tailwind` options in back-office, two files will be generated: 
-- `styles.css` file will take the content of the "Tailwind CSS" option.  
-- `tailwing.config.js` file will take the content of the "Tailwind Configuration" option.
+In the administration, under `Pilo'Press > Styles`, when you click on "Update & Compile", TailwindCSS will be compiled remotely using [TailwindAPI](https://www.tailwindapi.com/). Minified CSS files are then created under `/pilopress/assets/styles.min.css` and `/pilopress/assets/styles-admin.min.css`.
 
-If you click on "Update & Compile" and compile remotely thanks to [TailwindAPI](https://www.tailwindapi.com/), `styles.min.css` and `styles-admin.min.css` files will be generated.
+You can manually enqueue those files in your theme for the front-end & the back-end, but we recommend to use automatic enqueue code above.
+
+It is possible to manually retrieve the Tailwind PostCSS & JS fields of the administration if you want to build TailwindCSS locally. To do so, you can use the following code:
+
+`
+<?php
+
+$tailwind_css = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
+$tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+`
 
 For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation/).
 
 == Customizing style ==
 
-To customize default Tailwind CSS styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.  
+To customize default Tailwind CSS styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.
+ 
 For more details about customization, see [Github Page](https://pilot-in.github.io/PiloPress/docs/customizing-styles/).
 
 == Add new layout ==
@@ -102,7 +109,7 @@ For more details about customization, see [Github Page](https://pilot-in.github.
 - In the admin menu `Pilo'Press > Layouts`, add a new layout
 - Configure the layouts fields
 - Create PHP, CSS and JS files in your theme layout folder `/your-theme/pilopress/layouts/your-layout`
-- You have to name those files the same way you did in back-office settings. 
+- You have to name those files the same way you did in back-office settings
 
 Note: only PHP template file is require.
 
@@ -144,6 +151,16 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.3 =
+* Improved: General Dashboard
+* Fixed: Layouts Json Sync when the folder doesn't exists
+* Removed: TailwindCSS PostCSS & JS file generation have been removed
+
+= 0.2 =
+* Fixed: Layout path prefix field to correctly check theme path
+* Fixed: Google Fonts are now enqueued using `wp_enqueue_style()`
+* Fixed: TaildwindAPI now use native `wp_remote_post()` function instead of CURL
 
 = 0.1 =
 * Initial commit

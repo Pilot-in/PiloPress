@@ -3,13 +3,12 @@
  * Plugin Name:         Pilo'Press
  * Plugin URI:          https://www.pilot-in.com
  * Description:         The most advanced WordPress Page Builder using Advanced Custom Field & TailwindCSS
- * Version:             0.1
+ * Version:             0.3
  * Author:              pilotin
  * License:             GPLv2 or later
  * License URI:         http://www.gnu.org/licenses/gpl-2.0.html
  * Requires PHP:        5.6 or higher
  * Requires at least:   4.9 or higher
- * WC tested up to:     5.4.1
  * Text Domain:         pilopress
  * Domain Path:         /lang
  */
@@ -20,7 +19,7 @@ if ( !class_exists( 'PiloPress' ) ) {
     class PiloPress {
 
         // Plugin version
-        var $version = '0.1';
+        var $version = '0.3';
 
         // ACF
         var $acf = false;
