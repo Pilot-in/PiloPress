@@ -69,20 +69,17 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     // Insert @font-face lines
                     $tailwind_style = substr_replace( $tailwind_style, $custom_fonts, $base_include_pos, 0 );
                 }
-
-                file_put_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.css', $tailwind_style );
-            }
-
-            // Save config
-            $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
-            if ( $tailwind_config ) {
-                file_put_contents( PIP_THEME_ASSETS_PATH . 'tailwind.config.js', $tailwind_config['tailwind_config'] );
+                
             }
 
             // Update & Compile button
             $compile = acf_maybe_get_POST( 'update_compile' );
             if ( $compile ) {
+                
+                $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+                
                 self::compile_tailwind( $tailwind_style, $tailwind_config['tailwind_config'] );
+                
             }
         }
 
