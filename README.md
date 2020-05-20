@@ -145,15 +145,15 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
-= 0.3 =
+### 0.3
 * Improved: General Dashboard
 * Fixed: Layouts Json Sync when the folder doesn't exists
 * Removed: TailwindCSS PostCSS & JS file generation have been removed
 
-= 0.2 =
+### 0.2
 * Fixed: Layout path prefix field to correctly check theme path
 * Fixed: Google Fonts are now enqueued using `wp_enqueue_style()`
 * Fixed: TaildwindAPI now use native `wp_remote_post()` function instead of CURL
 
-= 0.1 =
+### 0.1
 * Initial commit
