@@ -7,6 +7,9 @@
  * @var $components
  * @var $add_new_layout
  * @var $add_new_component
+ * @var $see_more_layouts
+ * @var $all_layouts
+ * @var $total_layouts_count
  */
 ?>
 
@@ -101,7 +104,7 @@
                         <div class="inside">
                             <h4>
                                 <strong><?php _e( 'Layouts', 'pilopress' ) ?></strong>
-                                <span id="pilopress_layouts_count"><?php echo count( $layouts ) ?></span>
+                                <span id="pilopress_layouts_count"><?php echo $total_layouts_count ?></span>
                             </h4>
                             <a href="<?php echo $add_new_layout ?>" class="button button-secondary">
                                 <?php _e( 'Add new layout', 'pilopress' ) ?>
@@ -131,9 +134,30 @@
                                         </td>
                                         <td><?php echo $layout['location'] ?></td>
                                     </tr>
+                                    <?php $last_key = $key; ?>
                                 <?php endforeach ?>
                             <?php endif; ?>
+                            <?php if ( $see_more_layouts ): ?>
+                                <tr class="<?php echo ( $last_key + 1 ) % 2 ? 'alternate' : ''; ?>">
+                                    <td></td>
+                                    <td>...</td>
+                                    <td></td>
+                                </tr>
+                            <?php endif; ?>
                             </tbody>
+                            <?php if ( $see_more_layouts ): ?>
+                                <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="<?php echo $all_layouts ?>" class="button button-secondary">
+                                            <?php _e( 'See all layouts', 'pilopress' ) ?>
+                                        </a>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                </tfoot>
+                            <?php endif; ?>
                         </table>
                     </div>
 
