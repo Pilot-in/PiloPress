@@ -53,7 +53,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             }
 
             // Save CSS
-            $tailwind_css = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
+            $tailwind_style = '';
+            $tailwind_css   = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
             if ( $tailwind_css ) {
                 // Get style
                 $tailwind_style = $tailwind_css['tailwind_style'];
@@ -81,14 +82,17 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // Update & Compile button
             $compile = acf_maybe_get_POST( 'update_compile' );
             if ( $compile ) {
-                self::compile_tailwind();
+                self::compile_tailwind( $tailwind_style, $tailwind_config['tailwind_config'] );
             }
         }
 
         /**
          * Compile Tailwind styles
+         *
+         * @param $tailwind_style
+         * @param $tailwind_config
          */
-        public static function compile_tailwind() {
+        public static function compile_tailwind( $tailwind_style, $tailwind_config ) {
             // Get Tailwind API
             require( PIP_PATH . '/assets/libs/tailwindapi.php' );
             $tailwind = new TailwindAPI();
@@ -97,9 +101,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $css_content = "body{ @apply font-sans }\n";
 
             // Get style css content
-            if ( file_exists( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.css' ) ) {
-                $css_content .= file_get_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.css' );
-            }
+            $css_content .= $tailwind_style;
 
             // Get layouts CSS
             $css_content .= PIP_Layouts::get_layouts_css();
@@ -108,7 +110,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $tailwind->build(
                 array(
                     'css'          => $css_content,
-                    'config'       => PIP_THEME_ASSETS_PATH . 'tailwind.config.js',
+                    'config'       => $tailwind_config,
                     'autoprefixer' => true,
                     'minify'       => true,
                     'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
@@ -119,26 +121,16 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $admin_css = "#poststuff .-preview h2{ all:unset; }\n";
 
             // Build admin style
-            $response = $tailwind->build(
+            $tailwind->build(
                 array(
-                    'css'          => $css_content,
-                    'config'       => PIP_THEME_ASSETS_PATH . 'tailwind.config.js',
+                    'css'          => $admin_css . $css_content,
+                    'config'       => $tailwind_config,
                     'autoprefixer' => true,
                     'minify'       => true,
                     'prefixer'     => '.-preview',
+                    'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
                 )
             );
-
-            // If error, return
-            if ( $response instanceof WP_Error ) {
-                return;
-            }
-
-            // Add generated css
-            $admin_css .= $response['body'];
-
-            // Put generated CSS in admin style file
-            file_put_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css', $admin_css );
         }
 
         /**
