@@ -148,6 +148,10 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/admin/editor/class-tinymce.php' );
             pip_include( 'includes/classes/admin/editor/class-shortcodes.php' );
             pip_include( 'includes/classes/admin/editor/class-styles-settings.php' );
+            pip_include( 'includes/classes/admin/editor/class-font-style-field.php' );
+            pip_include( 'includes/classes/admin/editor/class-font-family-field.php' );
+            pip_include( 'includes/classes/admin/editor/class-font-color-field.php' );
+            pip_include( 'includes/classes/admin/editor/class-button-field.php' );
 
             // Admin - Options pages
             pip_include( 'includes/classes/admin/options-pages/class-admin-options-page.php' );
