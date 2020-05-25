@@ -13,10 +13,10 @@ The most advanced WordPress Page Builder using Advanced Custom Field & TailwindC
 
 == Description ==
 
-Pilo'Press is a framework plugin for WordPress. Based on ACF and ACF Extended, it allows you to create layouts among other things and use the Flexible Content field as a page builder.  
+Pilo'Press is a framework plugin for WordPress. Based on ACF and ACF Extended, it allows you to create layouts among other things and use the Flexible Content field as a page builder.
 
 Pilo'Press uses Tailwind CSS for style templating which can be setup and build directly from the back-office.
-Please note that Tailwind CSS is not mandatory, you can choose to use it or not. 
+Please note that Tailwind CSS is not mandatory, you can choose to use it or not.
 
 == Requirements ==
 
@@ -30,55 +30,53 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 4. In your theme, create a `pilopress` folder
 5. Within the `pilopress` folder, create `layouts` subfolder
 6. Within the `pilopress` folder, create `assets` subfolder
-7. In the `index.php` file, add the following code:
+7. In the `index.php` file, add the following code after `<?php` tag:
 
 `
-<?php 
 
-// WordPress Header
-get_header(); 
+    // WordPress Header
+    get_header();
 
-// Pilo'Press: Header
-get_pip_header();
+    // Pilo'Press: Header
+    get_pip_header();
 
-?>
+    ?>
 
-<?php if( have_posts() ): ?>
-    <?php while( have_posts() ): the_post(); ?>
-        
-        <?php 
-        
-        // Pilo'Press: Content
-        the_pip_content();
-        
-        ?>
-    
-    <?php endwhile; ?>
-<?php endif; ?>
-    
-<?php 
+    <?php if( have_posts() ): ?>
+        <?php while( have_posts() ): the_post(); ?>
 
-// Pilo'Press: Footer
-get_pip_footer();
+            <?php
 
-// WordPress: Footer
-get_footer();
+            // Pilo'Press: Content
+            the_pip_content();
 
-?>
+            ?>
+
+        <?php endwhile; ?>
+    <?php endif; ?>
+
+    <?php
+
+    // Pilo'Press: Footer
+    get_pip_footer();
+
+    // WordPress: Footer
+    get_footer();
+
 `
 
 8. In the `functions.php` file, add the following code:
 
 `
-add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
-function enqueue_pilopress_styles() {
-    pip_enqueue();
-}
- 
-add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
-function admin_enqueue_pilopress_styles() {
-    pip_enqueue_admin();
-}
+    add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
+    function enqueue_pilopress_styles() {
+        pip_enqueue();
+    }
+
+    add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
+    function admin_enqueue_pilopress_styles() {
+        pip_enqueue_admin();
+    }
 `
 
 == Tailwind CSS ==
@@ -101,7 +99,7 @@ For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/
 == Customizing style ==
 
 To customize default Tailwind CSS styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.
- 
+
 For more details about customization, see [Github Page](https://pilot-in.github.io/PiloPress/docs/customizing-styles/).
 
 == Add new layout ==
@@ -115,7 +113,7 @@ Note: only PHP template file is require.
 
 == Templating ==
 
-To display the content of your post, you have to use the following function:  
+To display the content of your post, you have to use the following function:
 `
 // Pilo'Press content (doesn't need 'echo')
 the_pip_content();
