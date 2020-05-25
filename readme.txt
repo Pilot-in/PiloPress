@@ -9,7 +9,7 @@ Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The most advanced WordPress Page Builder using Advanced Custom Field & TailwindCSS.
+The most advanced WordPress Page Builder using Advanced Custom Fields & TailwindCSS.
 
 == Description ==
 
