@@ -1,6 +1,6 @@
 # Pilo'Press
 
-The most advanced WordPress Page Builder using Advanced Custom Field & TailwindCSS.
+The most advanced WordPress Page Builder using Advanced Custom Fields & TailwindCSS.
 
 Pilo'Press is a framework plugin for WordPress. Based on ACF and ACF Extended, it allows you to create layouts among other things and use the Flexible Content field as a page builder.
 
