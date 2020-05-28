@@ -150,6 +150,10 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 == Changelog ==
 
+= 0.4 - 28/05/2020 =
+* Improved: Translations
+* Fixed: Save of builder field group
+
 = 0.3 - 20/05/2020 =
 * Improved: General Dashboard
 * Fixed: Layouts Json Sync when the folder doesn't exists
