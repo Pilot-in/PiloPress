@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pilo'Press\n"
-"POT-Creation-Date: 2020-05-11 15:58+0200\n"
-"PO-Revision-Date: 2020-05-11 16:37+0200\n"
+"POT-Creation-Date: 2020-05-28 12:45+0200\n"
+"PO-Revision-Date: 2020-05-28 12:47+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -47,8 +47,9 @@ msgstr "Éditeur"
 
 #: includes/classes/admin/class-admin.php:146
 #: includes/classes/admin/class-admin.php:147
+#: includes/classes/admin/class-admin.php:319
 #: includes/classes/main/class-layouts.php:126
-#: includes/views/pilopress-dashboard.php:103
+#: includes/views/pilopress-dashboard.php:106
 msgid "Layouts"
 msgstr "Dispositions"
 
@@ -62,48 +63,191 @@ msgstr "Catégories"
 #: includes/classes/admin/class-admin.php:165
 #: includes/classes/components/class-components.php:29
 #: includes/classes/components/class-components.php:31
-#: includes/views/pilopress-dashboard.php:151
+#: includes/views/pilopress-dashboard.php:175
 msgid "Components"
 msgstr "Composants"
 
-#: includes/classes/admin/class-admin.php:193
-#: includes/classes/admin/class-admin.php:198
-#: includes/classes/admin/class-admin.php:203
+#: includes/classes/admin/class-admin.php:196
+#: includes/classes/admin/class-admin.php:201
+#: includes/classes/admin/class-admin.php:206
 msgid " folder found"
 msgstr " dossier trouvé"
 
-#: includes/classes/admin/class-admin.php:193
-#: includes/classes/admin/class-admin.php:198
-#: includes/classes/admin/class-admin.php:203
+#: includes/classes/admin/class-admin.php:196
+#: includes/classes/admin/class-admin.php:201
+#: includes/classes/admin/class-admin.php:206
 msgid " folder not found"
 msgstr " dossier non trouvé"
 
-#: includes/classes/admin/class-admin.php:206
+#: includes/classes/admin/class-admin.php:209
 msgid "Admin style"
 msgstr "Style de l'administration"
 
-#: includes/classes/admin/class-admin.php:208
+#: includes/classes/admin/class-admin.php:211
 msgid " enqueued"
 msgstr " ajouté"
 
-#: includes/classes/admin/class-admin.php:208
+#: includes/classes/admin/class-admin.php:211
 msgid " not enqueued"
 msgstr " non ajouté"
 
-#: includes/classes/admin/class-admin.php:279
+#: includes/classes/admin/class-admin.php:327
 #: includes/classes/admin/options-pages/class-admin-options-page.php:23
 msgid "Styles"
 msgstr "Styles"
+
+#: includes/classes/admin/editor/class-button-field.php:13
+msgid "Button styles"
+msgstr "Ajouter un style de bouton"
+
+#: includes/classes/admin/editor/class-button-field.php:67
+#: includes/classes/admin/editor/class-button-field.php:113
+#: includes/classes/admin/editor/class-font-color-field.php:67
+#: includes/classes/admin/editor/class-font-color-field.php:113
+#: includes/classes/admin/editor/class-font-family-field.php:67
+#: includes/classes/admin/editor/class-font-family-field.php:113
+#: includes/classes/admin/editor/class-font-style-field.php:69
+#: includes/classes/admin/editor/class-font-style-field.php:115
+#: includes/classes/components/class-component-field-type.php:203
+msgctxt "verb"
+msgid "Select"
+msgstr "Sélectionner"
+
+#: includes/classes/admin/editor/class-button-field.php:95
+#: includes/classes/admin/editor/class-font-color-field.php:95
+#: includes/classes/admin/editor/class-font-family-field.php:95
+#: includes/classes/admin/editor/class-font-style-field.php:97
+#: includes/classes/components/class-component-field-type.php:152
+msgid "Appearance"
+msgstr "Apparence"
+
+#: includes/classes/admin/editor/class-button-field.php:96
+#: includes/classes/admin/editor/class-font-color-field.php:96
+#: includes/classes/admin/editor/class-font-family-field.php:96
+#: includes/classes/admin/editor/class-font-style-field.php:98
+#: includes/classes/components/class-component-field-type.php:153
+msgid "Select the appearance of this field"
+msgstr "Sélectionnez l'apparence de ce champ"
+
+#: includes/classes/admin/editor/class-button-field.php:101
+#: includes/classes/admin/editor/class-font-color-field.php:101
+#: includes/classes/admin/editor/class-font-family-field.php:101
+#: includes/classes/admin/editor/class-font-style-field.php:103
+#: includes/classes/components/class-component-field-type.php:158
+msgid "Checkbox"
+msgstr "Case à cocher"
+
+#: includes/classes/admin/editor/class-button-field.php:102
+#: includes/classes/admin/editor/class-font-color-field.php:102
+#: includes/classes/admin/editor/class-font-family-field.php:102
+#: includes/classes/admin/editor/class-font-style-field.php:104
+#: includes/classes/components/class-component-field-type.php:159
+msgid "Radio Buttons"
+msgstr "Boutons radio"
+
+#: includes/classes/admin/editor/class-button-field.php:103
+#: includes/classes/admin/editor/class-font-color-field.php:103
+#: includes/classes/admin/editor/class-font-family-field.php:103
+#: includes/classes/admin/editor/class-font-style-field.php:105
+#: includes/classes/components/class-component-field-type.php:160
+msgctxt "noun"
+msgid "Select"
+msgstr "Sélectionner"
+
+#: includes/classes/admin/editor/class-button-field.php:109
+#: includes/classes/admin/editor/class-font-color-field.php:109
+#: includes/classes/admin/editor/class-font-family-field.php:109
+#: includes/classes/admin/editor/class-font-style-field.php:111
+#: includes/classes/components/class-component-field-type.php:199
+msgid "Placeholder Text"
+msgstr "Texte indicatif"
+
+#: includes/classes/admin/editor/class-button-field.php:110
+#: includes/classes/admin/editor/class-font-color-field.php:110
+#: includes/classes/admin/editor/class-font-family-field.php:110
+#: includes/classes/admin/editor/class-font-style-field.php:112
+#: includes/classes/components/class-component-field-type.php:200
+msgid "Appears within the input"
+msgstr "Apparaît dans l’entrée"
+
+#: includes/classes/admin/editor/class-button-field.php:146
+#: includes/classes/admin/editor/class-font-color-field.php:146
+#: includes/classes/admin/editor/class-font-family-field.php:146
+#: includes/classes/admin/editor/class-font-style-field.php:148
+#: includes/classes/components/class-component-field-type.php:236
+msgid "Select multiple values?"
+msgstr "Sélectionnez plusieurs valeurs ?"
+
+#: includes/classes/admin/editor/class-button-field.php:164
+#: includes/classes/admin/editor/class-font-color-field.php:164
+#: includes/classes/admin/editor/class-font-family-field.php:164
+#: includes/classes/admin/editor/class-font-style-field.php:166
+#: includes/classes/components/class-component-field-type.php:254
+msgid "Stylised UI"
+msgstr "UI stylisée"
+
+#: includes/classes/admin/editor/class-button-field.php:182
+#: includes/classes/admin/editor/class-font-color-field.php:182
+#: includes/classes/admin/editor/class-font-family-field.php:182
+#: includes/classes/admin/editor/class-font-style-field.php:184
+#: includes/classes/components/class-component-field-type.php:315
+#: includes/classes/main/class-layouts.php:257
+msgid "Layout"
+msgstr "Disposition"
+
+#: includes/classes/admin/editor/class-button-field.php:188
+#: includes/classes/admin/editor/class-font-color-field.php:188
+#: includes/classes/admin/editor/class-font-family-field.php:188
+#: includes/classes/admin/editor/class-font-style-field.php:190
+#: includes/classes/components/class-component-field-type.php:321
+msgid "Vertical"
+msgstr "Vertical"
+
+#: includes/classes/admin/editor/class-button-field.php:189
+#: includes/classes/admin/editor/class-font-color-field.php:189
+#: includes/classes/admin/editor/class-font-family-field.php:189
+#: includes/classes/admin/editor/class-font-style-field.php:191
+#: includes/classes/components/class-component-field-type.php:322
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: includes/classes/admin/editor/class-button-field.php:211
+#: includes/classes/admin/editor/class-font-color-field.php:211
+#: includes/classes/admin/editor/class-font-family-field.php:211
+#: includes/classes/admin/editor/class-font-style-field.php:213
+#: includes/classes/components/class-component-field-type.php:344
+msgid "Toggle"
+msgstr "Basculer"
+
+#: includes/classes/admin/editor/class-button-field.php:212
+#: includes/classes/admin/editor/class-font-color-field.php:212
+#: includes/classes/admin/editor/class-font-family-field.php:212
+#: includes/classes/admin/editor/class-font-style-field.php:214
+#: includes/classes/components/class-component-field-type.php:345
+msgid "Prepend an extra checkbox to toggle all choices"
+msgstr "Ajouter une case à cocher supplémentaire pour basculer tous les choix"
+
+#: includes/classes/admin/editor/class-font-color-field.php:13
+msgid "Font color"
+msgstr "Couleur de police"
+
+#: includes/classes/admin/editor/class-font-family-field.php:13
+msgid "Font family"
+msgstr "Famille de police"
+
+#: includes/classes/admin/editor/class-font-style-field.php:15
+msgid "Font style"
+msgstr "Style de police"
 
 #: includes/classes/admin/editor/class-shortcodes.php:107
 msgid "You > Are > Here"
 msgstr "Vous > êtes > ici"
 
-#: includes/classes/admin/editor/class-shortcodes.php:121
+#: includes/classes/admin/editor/class-shortcodes.php:122
 msgid "Title here"
 msgstr "Le titre ici"
 
-#: includes/classes/admin/editor/class-shortcodes.php:147
+#: includes/classes/admin/editor/class-shortcodes.php:148
 msgid "Post thumbnail here"
 msgstr "Image à la une ici"
 
@@ -244,7 +388,7 @@ msgid "CSS"
 msgstr "CSS"
 
 #: includes/classes/admin/options-pages/styles-option-tailwind.php:59
-#: includes/classes/main/class-layouts.php:318
+#: includes/classes/main/class-layouts.php:319
 msgid "Configuration"
 msgstr "Configuration"
 
@@ -337,23 +481,23 @@ msgstr "Choisir un fichier"
 msgid "Import File"
 msgstr "Importer un fichier"
 
-#: includes/classes/admin/tools/class-styles-import-tool.php:49
+#: includes/classes/admin/tools/class-styles-import-tool.php:50
 msgid "No file selected"
 msgstr "Aucun fichier sélectionné"
 
-#: includes/classes/admin/tools/class-styles-import-tool.php:57
+#: includes/classes/admin/tools/class-styles-import-tool.php:58
 msgid "Error uploading file. Please try again"
 msgstr "Erreur lors du téléchargement, veuillez réessayer"
 
-#: includes/classes/admin/tools/class-styles-import-tool.php:62
+#: includes/classes/admin/tools/class-styles-import-tool.php:63
 msgid "Incorrect file type"
 msgstr "Type de fichier incorrect"
 
-#: includes/classes/admin/tools/class-styles-import-tool.php:71
+#: includes/classes/admin/tools/class-styles-import-tool.php:72
 msgid "Import file empty"
 msgstr "Le fichier d'import est vide"
 
-#: includes/classes/admin/tools/class-styles-import-tool.php:85
+#: includes/classes/admin/tools/class-styles-import-tool.php:86
 #, php-format
 msgid "Imported 1 style settings."
 msgid_plural "Imported %s styles settings."
@@ -374,27 +518,6 @@ msgstr "Autoriser les composants"
 msgid "All components"
 msgstr "Tous les composants"
 
-#: includes/classes/components/class-component-field-type.php:152
-msgid "Appearance"
-msgstr "Apparence"
-
-#: includes/classes/components/class-component-field-type.php:153
-msgid "Select the appearance of this field"
-msgstr "Sélectionnez l'apparence de ce champ"
-
-#: includes/classes/components/class-component-field-type.php:158
-msgid "Checkbox"
-msgstr "Case à cocher"
-
-#: includes/classes/components/class-component-field-type.php:159
-msgid "Radio Buttons"
-msgstr "Boutons radio"
-
-#: includes/classes/components/class-component-field-type.php:160
-msgctxt "noun"
-msgid "Select"
-msgstr "Sélectionner"
-
 #: includes/classes/components/class-component-field-type.php:166
 msgid "Default Value"
 msgstr "Valeur par défaut"
@@ -407,82 +530,36 @@ msgstr "Entrer chaque valeur par défaut sur une nouvelle ligne"
 msgid "Allow Null?"
 msgstr "Autoriser une valeur « null » ?"
 
-#: includes/classes/components/class-component-field-type.php:199
-msgid "Placeholder Text"
-msgstr "Texte indicatif"
-
-#: includes/classes/components/class-component-field-type.php:200
-msgid "Appears within the input"
-msgstr "Apparaît dans l’entrée"
-
-#: includes/classes/components/class-component-field-type.php:203
-msgctxt "verb"
-msgid "Select"
-msgstr "Sélectionner"
-
-#: includes/classes/components/class-component-field-type.php:236
-msgid "Select multiple values?"
-msgstr "Sélectionnez plusieurs valeurs ?"
-
-#: includes/classes/components/class-component-field-type.php:254
-msgid "Stylised UI"
-msgstr "UI stylisée"
-
 #: includes/classes/components/class-component-field-type.php:272
-msgid "Use AJAX to lazy load choices?"
-msgstr "Utiliser AJAX pour charger les choix de manière différée ?"
-
-#: includes/classes/components/class-component-field-type.php:295
 msgid "Other"
 msgstr "Autre"
 
-#: includes/classes/components/class-component-field-type.php:300
+#: includes/classes/components/class-component-field-type.php:277
 msgid "Add \"other\" choice to allow for custom values"
 msgstr ""
 "Ajouter un « autre » choix pour tenir compte des valeurs personnalisées"
 
-#: includes/classes/components/class-component-field-type.php:314
+#: includes/classes/components/class-component-field-type.php:291
 msgid "Save Other"
 msgstr "Enregistrer Autres"
 
-#: includes/classes/components/class-component-field-type.php:319
+#: includes/classes/components/class-component-field-type.php:296
 msgid "Save \"other\" values to the field's choices"
 msgstr "Enregistrer les valeurs « autres » dans les choix du champ"
 
-#: includes/classes/components/class-component-field-type.php:338
-#: includes/classes/main/class-layouts.php:256
-msgid "Layout"
-msgstr "Disposition"
-
-#: includes/classes/components/class-component-field-type.php:344
-msgid "Vertical"
-msgstr "Vertical"
-
-#: includes/classes/components/class-component-field-type.php:345
-msgid "Horizontal"
-msgstr "Horizontal"
-
-#: includes/classes/components/class-component-field-type.php:367
-msgid "Toggle"
-msgstr "Basculer"
-
-#: includes/classes/components/class-component-field-type.php:368
-msgid "Prepend an extra checkbox to toggle all choices"
-msgstr "Ajouter une case à cocher supplémentaire pour basculer tous les choix"
-
-#: includes/classes/components/class-component-field-type.php:385
+#: includes/classes/components/class-component-field-type.php:362
 msgid "Allow Custom"
 msgstr "Autoriser les valeurs personnalisées"
 
-#: includes/classes/components/class-component-field-type.php:390
+#: includes/classes/components/class-component-field-type.php:367
 msgid "Allow \"custom\" values to be added"
 msgstr "Permettre l’ajout de valeurs « personnalisées »"
 
-#: includes/classes/components/class-component-field-type.php:404
+#: includes/classes/components/class-component-field-type.php:381
 msgid "Save Custom"
 msgstr "Enregistrer les valeurs personnalisées"
 
-#: includes/classes/components/class-component-field-type.php:409
+#: includes/classes/components/class-component-field-type.php:386
 msgid "Save \"custom\" values to the field's choices"
 msgstr "Enregistrer les valeurs personnalisées dans les choix du champ"
 
@@ -491,7 +568,7 @@ msgid "Add new"
 msgstr "Ajouter"
 
 #: includes/classes/components/class-components.php:34
-#: includes/views/pilopress-dashboard.php:155
+#: includes/views/pilopress-dashboard.php:179
 msgid "Add new component"
 msgstr "Ajouter un nouveau composant"
 
@@ -668,55 +745,55 @@ msgstr "Pilo'Press : Paramètres de la disposition"
 msgid "Pilo'Press: Layout thumbnail"
 msgstr "Pilo'Press : Image en avant"
 
-#: includes/classes/main/class-layouts.php:244
+#: includes/classes/main/class-layouts.php:245
 msgid "Layout slug"
 msgstr "Identifiant de la disposition"
 
-#: includes/classes/main/class-layouts.php:245
+#: includes/classes/main/class-layouts.php:246
 msgid "Layout slug and layout folder name"
 msgstr "Identifiant et nom du dossier de la disposition"
 
-#: includes/classes/main/class-layouts.php:257
+#: includes/classes/main/class-layouts.php:258
 msgid "Layout file name"
 msgstr "Nom de la disposition"
 
-#: includes/classes/main/class-layouts.php:270
+#: includes/classes/main/class-layouts.php:271
 msgid "Style CSS"
 msgstr "Style CSS"
 
-#: includes/classes/main/class-layouts.php:271
+#: includes/classes/main/class-layouts.php:272
 msgid "CSS file name"
 msgstr "Nom de fichier CSS"
 
-#: includes/classes/main/class-layouts.php:283
+#: includes/classes/main/class-layouts.php:284
 msgid "Script"
 msgstr "Script"
 
-#: includes/classes/main/class-layouts.php:284
+#: includes/classes/main/class-layouts.php:285
 msgid "JS file name"
 msgstr "Nom de fichier JS"
 
-#: includes/classes/main/class-layouts.php:305
+#: includes/classes/main/class-layouts.php:306
 msgid "Add configuration?"
 msgstr "Ajouter une configuration ?"
 
-#: includes/classes/main/class-layouts.php:319
+#: includes/classes/main/class-layouts.php:320
 msgid "Configuration clone"
 msgstr "Clone de configuration"
 
-#: includes/classes/main/class-layouts.php:343
+#: includes/classes/main/class-layouts.php:344
 msgid "Modal size"
 msgstr "Taille de la modale"
 
-#: includes/classes/main/class-layouts.php:344
+#: includes/classes/main/class-layouts.php:345
 msgid "Configuration modal size"
 msgstr "Taille de la modale de configuration"
 
-#: includes/classes/main/class-layouts.php:398
+#: includes/classes/main/class-layouts.php:399
 msgid "Thumbnail"
 msgstr "Image en avant"
 
-#: includes/classes/main/class-layouts.php:399
+#: includes/classes/main/class-layouts.php:400
 msgid "Layout preview"
 msgstr "Aperçu de la disposition"
 
@@ -756,39 +833,43 @@ msgstr "Contenu du site"
 msgid "Site Template"
 msgstr "Modèle du site"
 
-#: includes/views/pilopress-dashboard.php:18
+#: includes/views/pilopress-dashboard.php:21
 msgid "Pilo'Press: Dashboard"
 msgstr "Pilo'Press : Tableau de bord"
 
-#: includes/views/pilopress-dashboard.php:32
+#: includes/views/pilopress-dashboard.php:35
 msgid "Configuration status"
 msgstr "Statut de la configuration"
 
-#: includes/views/pilopress-dashboard.php:52
+#: includes/views/pilopress-dashboard.php:55
 msgid "Documentations"
 msgstr "Documentations"
 
-#: includes/views/pilopress-dashboard.php:87
+#: includes/views/pilopress-dashboard.php:90
 msgid "Made with &#x2764; by"
 msgstr "Fait avec &#x2764; par"
 
-#: includes/views/pilopress-dashboard.php:107
+#: includes/views/pilopress-dashboard.php:110
 msgid "Add new layout"
 msgstr "Ajouter une nouvelle disposition"
 
-#: includes/views/pilopress-dashboard.php:118
+#: includes/views/pilopress-dashboard.php:121
 msgid "Layout name"
 msgstr "Nom de la disposition"
 
-#: includes/views/pilopress-dashboard.php:119
+#: includes/views/pilopress-dashboard.php:122
 msgid "Locations"
 msgstr "Emplacements"
 
-#: includes/views/pilopress-dashboard.php:166
+#: includes/views/pilopress-dashboard.php:154
+msgid "See all layouts"
+msgstr "Voir toutes les dispositions"
+
+#: includes/views/pilopress-dashboard.php:190
 msgid "Component name"
 msgstr "Nom du composant"
 
-#: init.php:113
+#: init.php:117
 msgid ""
 "Pilo'Press requires Advanced Custom Fields PRO (minimum: 5.7.13) and ACF "
 "Extended."
@@ -802,12 +883,22 @@ msgid "https://www.pilot-in.com"
 msgstr "https://www.pilot-in.com"
 
 #. Description of the plugin/theme
-msgid "Awesome WordPress Framework"
-msgstr "Awesome WordPress Framework"
+msgid ""
+"The most advanced WordPress Page Builder using Advanced Custom Field & "
+"TailwindCSS"
+msgstr ""
+"Le constructeur de page WordPress utilisant ACF et TailwindCSS le plus "
+"avancé"
 
 #. Author of the plugin/theme
-msgid "Pilot'In"
-msgstr "Pilot'In"
+msgid "Pilot'in"
+msgstr "Pilot'in"
+
+#~ msgid "Use AJAX to lazy load choices?"
+#~ msgstr "Utiliser AJAX pour charger les choix de manière différée ?"
+
+#~ msgid "Awesome WordPress Framework"
+#~ msgstr "Awesome WordPress Framework"
 
 #~ msgctxt "pilopress"
 #~ msgid "Components"

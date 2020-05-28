@@ -27,6 +27,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             // ACF field group single
             if ( acf_is_screen( 'acf-field-group' ) ) {
                 add_action( 'acf/input/admin_head', array( $this, 'meta_boxes' ) );
+                add_action( 'acf/form_data', array( $this, 'add_flexible_mirror_hidden_data' ) );
             }
         }
 
@@ -165,108 +166,41 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
         }
 
         /**
-         * Get layout "load from" data
-         *
-         * @param $field_group
-         *
-         * @return string
+         * Add hidden data on flexible mirror admin
          */
-        private static function layout_load_from( $field_group ) {
-            // Get local field group
-            $local_field_group      = acf_get_local_field_group( $field_group['key'] );
-            $local_field_group_type = acf_maybe_get( $local_field_group, 'local', false );
+        public function add_flexible_mirror_hidden_data() {
+            global $field_group;
 
-            // Get HTML
-            if ( $local_field_group_type === 'php' ) {
-                $html = '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is registered locally">PHP</span>';
-            } elseif ( $local_field_group_type === 'json' ) {
-                $html = '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is registered locally">JSON</span>';
-            } else {
-                $html = '<span class="acf-js-tooltip" title="' . $field_group['key'] . ' is not registered locally">DB</span>';
+            // If not mirror flexible group field, return
+            if ( $field_group['key'] !== self::get_flexible_mirror_group_key() ) {
+                return;
             }
 
-            return $html;
-        }
-
-        /**
-         * Get layout "PHP sync" data
-         *
-         * @param $field_group
-         *
-         * @return string
-         */
-        private static function layout_php_sync( $field_group ) {
-            // Not sync
-            if ( !acfe_has_field_group_autosync( $field_group, 'php' ) ) {
-                $html = '<span style="color:#ccc" class="dashicons dashicons-no-alt"></span>';
-
-                // Third party sync
-                if ( acfe_has_field_group_autosync_file( $field_group, 'php' ) ) {
-                    $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Field group: ' . $field_group['key'] . ' is registered via a third-party PHP code"></span>';
-                }
-
-                return $html;
-            }
-
-            if ( !acf_get_setting( 'acfe/php_found' ) ) {
-
-                // No "acfe-php" folder
-                $html = '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
-                $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Folder \'/acfe-php\' was not found in your theme.<br />You must create it to activate this setting"></span>';
-
-            } elseif ( !acfe_has_field_group_autosync_file( $field_group, 'php' ) ) {
-
-                // File will be created
-                $html = '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
-                $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Local file ' . $field_group['key'] . '.php will be created upon update"></span>';
-            } else {
-
-                // Sync
-                $html = '<span class="dashicons dashicons-yes"></span>';
-            }
-
-            return $html;
-        }
-
-        /**
-         * Get layout "JSON sync" data
-         *
-         * @param $field_group
-         *
-         * @return string
-         */
-        private static function layout_json_sync( $field_group ) {
-            if ( acfe_has_field_group_autosync_file( $field_group, 'json' ) ) {
-
-                // Sync
-                $html = '<span class="dashicons dashicons-yes"></span>';
-
-            } else {
-
-                if ( !acfe_has_field_group_autosync( $field_group, 'json' ) ) {
-
-                    // Not sync
-                    $html = '<span style="color:#ccc" class="dashicons dashicons-no-alt"></span>';
-                } else {
-
-                    // Sync
-                    $html = '<span style="color:#ccc" class="dashicons dashicons-yes"></span>';
-
-                    if ( !acf_get_setting( 'acfe/json_found' ) ) {
-
-                        // No "acf-json" folder
-                        $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Folder \'/acf-json\' was not found in your theme.<br />You must create it to activate this setting"></span>';
-
-                    } else {
-
-                        // File will be created
-                        $html .= '<span style="color:#ccc;font-size:16px;vertical-align:text-top;" class="acf-js-tooltip dashicons dashicons-warning" title="Local file ' . $field_group['key'] . '.json will be created upon update."></span>';
-
-                    }
-                }
-            }
-
-            return $html;
+            // Add hidden fields
+            acf_hidden_input( array(
+                'name'  => 'acf_field_group[key]',
+                'value' => PIP_Flexible_Mirror::get_flexible_mirror_group_key(),
+            ) );
+            acf_hidden_input( array(
+                'name'  => 'acf_field_group[style]',
+                'value' => 'seamless',
+            ) );
+            acf_hidden_input( array(
+                'name'  => 'acf_field_group[active]',
+                'value' => 1,
+            ) );
+            acf_hidden_input( array(
+                'name'  => 'acf_field_group[position]',
+                'value' => 'normal',
+            ) );
+            acf_hidden_input( array(
+                'name'  => 'acf_field_group[label_placement]',
+                'value' => 'left',
+            ) );
+            acf_hidden_input( array(
+                'name'  => 'acf_field_group[menu_order]',
+                'value' => 0,
+            ) );
         }
 
         /**

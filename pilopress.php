@@ -62,7 +62,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
 
-            // Load textdomain file.
+            // Load text domain file
             pip_load_textdomain( 'pilopress' );
         }
 
@@ -75,7 +75,8 @@ if ( !class_exists( 'PiloPress' ) ) {
         public function metabox_order( $order ) {
             if ( !$order ) {
                 $order = array(
-                    'normal' => implode( ',', array(
+                    'normal' => implode( ',',
+                        array(
 
                             // Layouts
                             'acf-field-group-fields',
