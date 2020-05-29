@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.4.1
 Requires PHP: 5.6
-Stable tag: 0.3
+Stable tag: 0.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -150,7 +150,7 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 == Changelog ==
 
-= 0.4 - 28/05/2020 =
+= 0.3.1 - 29/05/2020 =
 * Improved: Translations
 * Fixed: Save of builder field group
 
