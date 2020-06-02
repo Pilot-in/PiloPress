@@ -116,7 +116,11 @@ if ( !class_exists( 'PIP_Components' ) ) {
          */
         public function remove_component_from_acf_post_types( $post_types, $args ) {
             $key = array_search( PIP_Components::$post_type, $post_types );
-            unset( $post_types[ $key ] );
+
+            // If component key found, unset it
+            if ( $key ) {
+                unset( $post_types[ $key ] );
+            }
 
             return $post_types;
         }
