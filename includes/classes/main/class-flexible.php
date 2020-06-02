@@ -437,11 +437,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
  * @return false|string|void
  */
 function the_pip_content( $post_id = false ) {
-    // Get current post ID
-    $post_id = $post_id ? $post_id : get_queried_object_id();
-
     // Display content
-    echo get_pip_content( $post_id );
+    echo get_pip_content( get_formatted_post_id( $post_id ) );
 }
 
 /**
@@ -452,5 +449,5 @@ function the_pip_content( $post_id = false ) {
  * @return false|string|void
  */
 function get_pip_content( $post_id = false ) {
-    return get_flexible( PIP_Flexible::get_flexible_field_name(), $post_id );
+    return get_flexible( PIP_Flexible::get_flexible_field_name(), get_formatted_post_id( $post_id ) );
 }
