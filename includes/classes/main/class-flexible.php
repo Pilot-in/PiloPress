@@ -438,7 +438,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
  */
 function the_pip_content( $post_id = false ) {
     // Display content
-    echo get_pip_content( get_formatted_post_id( $post_id ) );
+    echo get_pip_content( $post_id );
 }
 
 /**

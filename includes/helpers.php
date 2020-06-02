@@ -41,29 +41,35 @@ function str_ends( $haystack, $needle ) {
  *
  */
 function get_formatted_post_id( $post_id = false ) {
+    // If ID is specified, return
+    if ( $post_id ) {
+        return $post_id;
+    }
+
     // Get current post ID
-    $post_id = $post_id ? $post_id : get_queried_object_id();
+    $post_id = get_queried_object_id();
 
     if ( is_home() ) {
 
         // Blog
         $post_id = get_option( 'page_for_posts' );
 
-    } elseif ( is_category() ) {
+    } elseif ( is_category() || is_tax() ) {
 
-        // Category
-        global $cat;
-        $post_id = 'term_' . $cat;
+        // Custom taxonomies or category
+        $post_id = 'term_' . $post_id;
 
     } elseif ( is_tag() ) {
 
         // Tags
         $post_id = 'post_tag_' . $post_id;
 
-    } elseif ( is_tax() ) {
+    } elseif ( is_post_type_archive() ) {
 
-        // Custom taxonomies
-        $post_id = 'term_' . $post_id;
+        // Custom post types
+        if ( acf_get_options_page( get_post_type() . '-archive' ) ) {
+            $post_id = get_post_type() . '_archive';
+        }
 
     }
 
