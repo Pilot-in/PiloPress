@@ -70,6 +70,11 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 return $field_group;
             }
 
+            // If ACF sync, skip
+            if ( acf_maybe_get_GET( 'acfsync' ) ) {
+                return $field_group;
+            }
+
             // Get layout slug
             $slug = $field_group['_pip_layout_slug'];
 
