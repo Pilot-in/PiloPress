@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Sync layout
-nav_order: 6
+nav_order: 7
 ---
 
 # Sync layout

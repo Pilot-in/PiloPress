@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Site template
-nav_order: 8
+nav_order: 9
 ---
 
 # Site template
