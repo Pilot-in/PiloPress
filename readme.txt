@@ -34,49 +34,15 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 
 `
 
-    // WordPress Header
+    // Header
     get_header();
 
-    // Pilo'Press: Header
-    get_pip_header();
+    // Pilo'Press: Content
+    the_pip_content();
 
-    ?>
-
-    <?php if( have_posts() ): ?>
-        <?php while( have_posts() ): the_post(); ?>
-
-            <?php
-
-            // Pilo'Press: Content
-            the_pip_content();
-
-            ?>
-
-        <?php endwhile; ?>
-    <?php endif; ?>
-
-    <?php
-
-    // Pilo'Press: Footer
-    get_pip_footer();
-
-    // WordPress: Footer
+    // Footer
     get_footer();
 
-`
-
-8. In the `functions.php` file, add the following code:
-
-`
-    add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
-    function enqueue_pilopress_styles() {
-        pip_enqueue();
-    }
-
-    add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
-    function admin_enqueue_pilopress_styles() {
-        pip_enqueue_admin();
-    }
 `
 
 == Tailwind CSS ==

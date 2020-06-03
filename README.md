@@ -40,54 +40,16 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 ```php
 <?php 
 
-// WordPress Header
+// Header
 get_header(); 
 
-// Pilo'Press: Header
-get_pip_header();
+// Pilo'Press: Content
+the_pip_content();
 
-?>
-
-<?php if( have_posts() ): ?>
-    <?php while( have_posts() ): the_post(); ?>
-        
-        <?php 
-        
-        // Pilo'Press: Content
-        the_pip_content();
-        
-        ?>
-    
-    <?php endwhile; ?>
-<?php endif; ?>
-    
-<?php 
-
-// Pilo'Press: Footer
-get_pip_footer();
-
-// WordPress: Footer
+// Footer
 get_footer();
 
 ?>
-```
-
-- In the `functions.php` file, add the following code:
-
-```php
-<?php
-
-// Pilo'Press: Front-end
-add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
-function enqueue_pilopress_styles() {
-    pip_enqueue();
-}
- 
-// Pilo'Press: Back-end
-add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
-function admin_enqueue_pilopress_styles() {
-    pip_enqueue_admin();
-}
 ```
 
 ## TailwindCSS
@@ -144,6 +106,10 @@ See [GitHub Page](https://pilot-in.github.io/PiloPress/docs/components/) for com
 Available hooks are list and describe in [GitHub Page](https://pilot-in.github.io/PiloPress/docs/hooks/)
 
 ## Changelog
+
+### 0.3.1 - 29/05/2020
+* Improved: Translations
+* Fixed: Save of builder field group
 
 ### 0.3 - 20/05/2020
 * Improved: General Dashboard
