@@ -6,11 +6,17 @@ nav_order: 3
 
 # Tailwind CSS files
 
-All files under the `assets` folder are generated automatically.
-When you will save `Pilo'Press > Styles > Tailwind` options in back-office, two files will be generated:
-- `styles.css` file will take the content of the "Tailwind CSS" option.
-- `tailwing.config.js` file will take the content of the "Tailwind Configuration" option.
+In the administration, under `Pilo'Press > Styles`, when you click on "Update & Compile", TailwindCSS will be compiled remotely using [TailwindAPI](https://www.tailwindapi.com/). Minified CSS files are then created under `/pilopress/assets/styles.min.css` and `/pilopress/assets/styles-admin.min.css`.
 
-If you click on "Update & Compile" and compile remotely thank to [TailwindAPI](https://www.tailwindapi.com/), `styles.min.css` and `styles-admin.min.css` files will be generated.
+You can manually enqueue those files in your theme for the front-end & the back-end, see [Site template](/PiloPress/docs/site-template) for more details.
+
+It is possible to manually retrieve the Tailwind PostCSS & JS fields of the administration if you want to build TailwindCSS locally. To do so, you can use the following code:
+
+```php
+<?php
+
+$tailwind_css    = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
+$tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+```
 
 For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation/).

@@ -49,7 +49,6 @@ the_pip_content();
 // Footer
 get_footer();
 
-?>
 ```
 
 ## TailwindCSS
@@ -63,7 +62,7 @@ It is possible to manually retrieve the Tailwind PostCSS & JS fields of the admi
 ```php
 <?php
 
-$tailwind_css = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
+$tailwind_css    = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
 $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
 ```
 

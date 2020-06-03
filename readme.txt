@@ -30,19 +30,19 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 4. In your theme, create a `pilopress` folder
 5. Within the `pilopress` folder, create `layouts` subfolder
 6. Within the `pilopress` folder, create `assets` subfolder
-7. In the `index.php` file, add the following code after `<?php` tag:
+7. In the `index.php` file, add the following code:
 
 `
+<?php
 
-    // Header
-    get_header();
+// Header
+get_header();
 
-    // Pilo'Press: Content
-    the_pip_content();
+// Pilo'Press: Content
+the_pip_content();
 
-    // Footer
-    get_footer();
-
+// Footer
+get_footer();
 `
 
 == Tailwind CSS ==
