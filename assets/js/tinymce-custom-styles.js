@@ -166,13 +166,18 @@
             tooltip: 'Dark Mode',
             onClick: function () {
                 var new_color;
+                var dark_mode_value;
 
                 // Switch background color
                 if ('rgb(35, 40, 45)' === editor.getBody().style.backgroundColor) {
-                    new_color = '#FFFFFF';
+                    new_color       = '#FFFFFF';
+                    dark_mode_value = 'false';
                 } else {
-                    new_color = '#23282d';
+                    new_color       = '#23282d';
+                    dark_mode_value = 'true';
                 }
+
+                toggle_dark_mode(editor, dark_mode_value);
 
                 editor.getBody().style.backgroundColor = new_color;
             },
@@ -182,6 +187,9 @@
          * Register custom formats
          */
         editor.on('init', function () {
+
+            maybe_activate_dark_mode(editor);
+
             get_custom_colors().map(function (item) {
                 editor.formatter.register(item.name, item.format);
             });
@@ -196,6 +204,52 @@
         });
 
     });
+
+    /**
+     * Maybe set dark mode on editor init
+     * @param editor
+     */
+    var maybe_activate_dark_mode = function (editor) {
+        var acf_field  = get_acf_field_from_editor(editor);
+        var field_name = acf_field.data('name');
+
+        if (field_name) {
+
+            var input_field = acf_field.next('.acf-field.acf-field-' + field_name.replace('_', '-') + '-dark-mode').find('input');
+
+            if (input_field.val() === 'true') {
+                // Set dark mode
+                editor.getBody().style.backgroundColor = '#23282d';
+            }
+        }
+    };
+
+    /**
+     * Toggle dark mode value
+     * @param editor
+     * @param dark_mode_value
+     */
+    var toggle_dark_mode = function (editor, dark_mode_value) {
+        var acf_field  = get_acf_field_from_editor(editor);
+        var field_name = acf_field.data('name');
+
+        // Toggle dark mode value
+        if (field_name) {
+            acf_field.next('.acf-field.acf-field-' + field_name.replace('_', '-') + '-dark-mode').find('input').val(dark_mode_value);
+        }
+    };
+
+    /**
+     * Get ACF field from editor
+     * @param editor
+     * @returns {jQuery}
+     */
+    var get_acf_field_from_editor = function (editor) {
+        // Get field name
+        var textarea = editor.getElement();
+
+        return $(textarea).parents('.acf-field-wysiwyg');
+    };
 
     /**
      * Register custom commands

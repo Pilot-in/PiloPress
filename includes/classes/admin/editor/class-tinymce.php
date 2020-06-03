@@ -12,7 +12,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             add_filter( 'mce_css', array( $this, 'editor_style' ) );
 
             // ACF hooks
-            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ), 10 );
+            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
+            add_filter( 'acf/load_fields', array( $this, 'load_fields_dark_mode' ) );
         }
 
         /**
@@ -252,7 +253,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 'alignjustify',
                 'link',
                 'wp_add_media',
-//                'pip_dark_mode',
+                'pip_dark_mode',
                 'wp_adv',
             );
 
@@ -320,6 +321,75 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             }
 
             return implode( ',', $stylesheets );
+        }
+
+        /**
+         * Get dark mode field data
+         *
+         * @param $field
+         *
+         * @return mixed
+         */
+        private function get_dark_mode_field( $field ) {
+            // Clone field
+            $new = $field;
+
+            // Change values
+            $new['type']      = 'acfe_hidden';
+            $new['label']     = 'Dark mode';
+            $new['key']       = 'field_' . $field['name'] . '_dark_mode';
+            $new['name']      = $field['name'] . '_dark_mode';
+            $new['_name']     = $field['name'] . '_dark_mode';
+            $new['append']    = '';
+            $new['prepend']   = '';
+            $new['maxlength'] = '';
+
+            // Remove useless values
+            unset( $new['tabs'] );
+            unset( $new['toolbar'] );
+            unset( $new['media_upload'] );
+            unset( $new['delay'] );
+            unset( $new['id'] );
+            unset( $new['class'] );
+            unset( $new['_valid'] );
+
+            return $new;
+        }
+
+        /**
+         * Add dark mode field
+         *
+         * @param $fields
+         *
+         * @return mixed
+         */
+        public function load_fields_dark_mode( $fields ) {
+
+            // If is ACF admin, return
+            if ( acfe_is_admin_screen() ) {
+                return $fields;
+            }
+
+            // Browse all fields
+            foreach ( $fields as $key => $field ) {
+
+                // If not a wysiwyg field, skip
+                if ( $field['type'] !== 'wysiwyg' ) {
+                    continue;
+                }
+
+                // Get filters data
+                $new = $this->get_dark_mode_field( $field );
+
+                // Add dark mode field
+                acf_add_local_field( $new, true );
+                $acf_get_field = acf_get_field( $new['key'] );
+
+                // Insert dark mode field after wysiwyg field
+                array_splice( $fields, $key + 1, 0, array( $acf_get_field ) );
+            }
+
+            return $fields;
         }
     }
 
