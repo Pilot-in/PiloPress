@@ -105,7 +105,8 @@
     margin: 0;
 }
 
-td.acf-layouts-category a {
+td.acf-layouts-category a,
+td.acf-layouts-collection a {
     word-wrap: break-word;
     padding: 2px 5px;
     margin: 0 1px;
@@ -128,7 +129,8 @@ td.acf-layouts-category a {
     width: 70px;
 }
 
-.column-acf-layouts-category {
+.column-acf-layouts-category,
+.column-acf-layouts-collection {
     width: 125px;
 }
 

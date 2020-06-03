@@ -158,6 +158,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'edit-tags.php?taxonomy=acf-layouts-category'
             );
 
+            // Layouts collections sub menu
+            add_submenu_page(
+                'pilopress',
+                __( 'Collections', 'pilopress' ),
+                __( 'Collections', 'pilopress' ),
+                $capability,
+                'edit-tags.php?taxonomy=acf-layouts-collection'
+            );
+
             // Components sub menu
             add_submenu_page(
                 'pilopress',
@@ -364,7 +373,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             global $current_screen;
 
             // If layouts categories, return
-            if ( $current_screen->taxonomy === 'acf-layouts-category' ) {
+            if ( $current_screen->taxonomy === PIP_Layouts_Categories::$taxonomy_name
+                 || $current_screen->taxonomy === PIP_Layouts_Collections::$taxonomy_name ) {
                 return $submenu_file;
             }
 

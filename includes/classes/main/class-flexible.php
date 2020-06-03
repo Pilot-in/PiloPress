@@ -13,6 +13,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             // ACF hooks
             $flexible_field_name = self::get_flexible_field_name();
+            add_filter( "acf/prepare_field/type=flexible_content", array( $this, 'layouts_labels_in_modal' ), 9 );
             add_filter( "acf/prepare_field/name={$flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
         }
 
@@ -345,6 +346,63 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             $field['layouts'] = $keep;
 
             // Return field with layouts for current screen
+            return $field;
+        }
+
+        /**
+         * Prepend layout label with collection
+         *
+         * @param $field
+         *
+         * @return bool
+         */
+        public function layouts_labels_in_modal( $field ) {
+            // If no layouts, return
+            if ( empty( $field['layouts'] ) && strpos( $field['_name'], self::get_flexible_field_name() ) === 0 ) {
+                return false;
+            }
+
+            // If AJAX, filters not needed
+            if ( wp_doing_ajax() ) {
+
+                // Exception for attachments view in grid mode
+                if ( acf_maybe_get_POST( 'action' ) !== 'query-attachments' ) {
+                    return $field;
+                }
+            }
+
+            // Get field groups
+            $field_groups = acf_get_field_groups();
+
+            // If no field groups, return
+            if ( empty( $field_groups ) ) {
+                return $field;
+            }
+
+            // Browse field groups
+            foreach ( $field_groups as $field_group ) {
+                // Sanitize field group name
+                $field_group_name = sanitize_title( $field_group['title'] );
+
+                // Browse all layouts
+                foreach ( $field['layouts'] as &$layout ) {
+
+                    // If field group not in layouts, skip
+                    if ( $layout['name'] !== $field_group_name ) {
+                        continue;
+                    }
+
+                    // If no collection, skip
+                    if ( !$collections = acf_maybe_get( $field_group, 'layout_collections' ) ) {
+                        continue;
+                    }
+
+                    // Prepend layout label with collection
+                    $layout['label'] = reset( $collections ) . ': ' . $layout['label'];
+                }
+
+            }
+
             return $field;
         }
 

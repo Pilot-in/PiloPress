@@ -69,17 +69,17 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     // Insert @font-face lines
                     $tailwind_style = substr_replace( $tailwind_style, $custom_fonts, $base_include_pos, 0 );
                 }
-                
+
             }
 
             // Update & Compile button
             $compile = acf_maybe_get_POST( 'update_compile' );
             if ( $compile ) {
-                
+
                 $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
-                
+
                 self::compile_tailwind( $tailwind_style, $tailwind_config['tailwind_config'] );
-                
+
             }
         }
 
@@ -294,8 +294,11 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return mixed
          */
         public function configure_wp_image_sizes( $field ) {
-            $field['min'] = count( $field['value'] );
-            $field['max'] = count( $field['value'] );
+            // Set min and max for wp_image_sizes
+            if ( $value = acf_maybe_get( $field, 'value' ) ) {
+                $field['min'] = count( $value );
+                $field['max'] = count( $value );
+            }
 
             return $field;
         }
