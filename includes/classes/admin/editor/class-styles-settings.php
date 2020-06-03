@@ -6,12 +6,40 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             // WP hooks
             add_action( 'init', array( $this, 'custom_image_sizes' ) );
             add_filter( 'image_size_names_choose', array( $this, 'custom_image_sizes_names' ) );
+            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_pip_style' ) );
+            add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_pip_style' ) );
 
             // ACF hooks
             add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
             add_filter( 'acf/load_value/name=pip_wp_image_sizes', array( $this, 'pre_populate_wp_image_sizes' ), 10, 3 );
             add_filter( 'acf/prepare_field/name=pip_wp_image_sizes', array( $this, 'configure_wp_image_sizes' ) );
             add_action( 'acf/options_page/submitbox_major_actions', array( $this, 'add_compile_styles_button' ) );
+        }
+
+        /**
+         * Enqueue Pilo'Press style
+         */
+        public function enqueue_pip_style() {
+            // Allow disabling feature
+            if ( apply_filters( 'pip/enqueue/remove', false ) ) {
+                return;
+            }
+
+            // Enqueue style
+            pip_enqueue();
+        }
+
+        /**
+         * Enqueue Pilo'Press admin style
+         */
+        public function admin_enqueue_pip_style() {
+            // Allow disabling feature
+            if ( apply_filters( 'pip/enqueue/admin/remove', false ) ) {
+                return;
+            }
+
+            // Enqueue admin style
+            pip_enqueue_admin();
         }
 
         /**

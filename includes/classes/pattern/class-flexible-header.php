@@ -218,6 +218,16 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
  *
  * @return false|string|void
  */
+function the_pip_header() {
+    // Display content
+    echo get_pip_header();
+}
+
+/**
+ * Get flexible header content
+ *
+ * @return false|string|void
+ */
 function get_pip_header() {
-    echo get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::$pattern_post_id );
+    return get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::$pattern_post_id );
 }

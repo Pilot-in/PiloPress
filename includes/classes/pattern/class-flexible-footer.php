@@ -216,6 +216,16 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
  *
  * @return false|string|void
  */
+function the_pip_footer() {
+    // Display content
+    echo get_pip_footer();
+}
+
+/**
+ * Get flexible footer content
+ *
+ * @return false|string|void
+ */
 function get_pip_footer() {
-    echo get_flexible( PIP_Flexible_Footer::get_flexible_footer_field_name(), PIP_Pattern::$pattern_post_id );
+    return get_flexible( PIP_Flexible_Footer::get_flexible_footer_field_name(), PIP_Pattern::$pattern_post_id );
 }

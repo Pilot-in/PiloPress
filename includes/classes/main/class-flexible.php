@@ -507,5 +507,25 @@ function the_pip_content( $post_id = false ) {
  * @return false|string|void
  */
 function get_pip_content( $post_id = false ) {
-    return get_flexible( PIP_Flexible::get_flexible_field_name(), get_formatted_post_id( $post_id ) );
+    $header = $footer = $html = '';
+
+    // Maybe get pip header
+    if ( !apply_filters( 'pip/header/remove', false ) ) {
+        $header = get_pip_header();
+    }
+
+    // Get content
+    $content = get_flexible( PIP_Flexible::get_flexible_field_name(), get_formatted_post_id( $post_id ) );
+
+    // Maybe get pip footer
+    if ( !apply_filters( 'pip/footer/remove', false ) ) {
+        $footer = get_pip_footer();
+    }
+
+    // Concat
+    $html .= $header ? $header : '';
+    $html .= $content ? $content : '';
+    $html .= $footer ? $footer : '';
+
+    return $html;
 }
