@@ -1,11 +1,15 @@
 <?php
 
-if ( !class_exists( 'PIP_Json_Sync' ) ) {
-    class PIP_Json_Sync {
+if ( !class_exists( 'PIP_Layouts_Sync' ) ) {
+    class PIP_Layouts_Sync {
         public function __construct() {
             // ACF hooks
             add_filter( 'acf/settings/save_json', array( $this, 'change_save_path' ), 9999 );
             add_filter( 'acf/settings/load_json', array( $this, 'add_layouts_paths' ), 9999 );
+
+            // ACFE hooks
+            add_filter( 'acf/settings/acfe/php_save', array( $this, 'change_save_path' ) );
+            add_filter( 'acf/settings/acfe/php_load', array( $this, 'add_layouts_paths' ) );
         }
 
         /**
@@ -51,6 +55,8 @@ if ( !class_exists( 'PIP_Json_Sync' ) ) {
          * @return array
          */
         public function add_layouts_paths( $paths ) {
+            $paths = is_array( $paths ) ? $paths : array();
+
             // Get layouts dirs
             $layouts_dirs = glob( PIP_THEME_LAYOUTS_PATH . '*', GLOB_ONLYDIR );
             $paths        = array_merge( $paths, $layouts_dirs );
@@ -60,5 +66,5 @@ if ( !class_exists( 'PIP_Json_Sync' ) ) {
     }
 
     // Instantiate class
-    new PIP_Json_Sync();
+    new PIP_Layouts_Sync();
 }

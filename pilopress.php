@@ -110,8 +110,8 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Activation actions
             add_action( 'wp_loaded', array( $this, 'activation' ), 20 );
 
-            // Sync JSON
-            pip_include( 'includes/classes/admin/class-json-sync.php' );
+            // Sync JSON/PHP
+            pip_include( 'includes/classes/admin/class-layouts-sync.php' );
 
             // Tools
             add_action( 'acf/include_admin_tools', array( $this, 'tools' ), 9 );
