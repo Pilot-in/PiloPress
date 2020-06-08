@@ -14,6 +14,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             // ACF hooks
             add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
             add_filter( 'acf/load_fields', array( $this, 'load_fields_dark_mode' ) );
+            add_filter( 'acf/load_field/type=wysiwyg', array( $this, 'load_field_dark_mode' ) );
         }
 
         /**
@@ -370,6 +371,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 return $fields;
             }
 
+            // Get keys
+            $field_keys = wp_list_pluck( $fields, '__key' );
+
             // Browse all fields
             foreach ( $fields as $key => $field ) {
 
@@ -381,6 +385,11 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 // Get filters data
                 $new = $this->get_dark_mode_field( $field );
 
+                // If dark mode field already added, return
+                if ( in_array( $new['key'], $field_keys ) ) {
+                    continue;
+                }
+
                 // Add dark mode field
                 acf_add_local_field( $new, true );
                 $acf_get_field = acf_get_field( $new['key'] );
@@ -390,6 +399,29 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             }
 
             return $fields;
+        }
+
+        /**
+         * Add dark mode field
+         *
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function load_field_dark_mode( $field ) {
+            // If is layout, return
+            if ( PIP_Layouts::is_layout( $field['parent'] ) ) {
+                return $field;
+            }
+
+            // Get filters data
+            $new = $this->get_dark_mode_field( $field );
+
+            // Add dark mode field
+            acf_add_local_field( $new );
+            acf_get_field( $new['key'] );
+
+            return $field;
         }
     }
 
