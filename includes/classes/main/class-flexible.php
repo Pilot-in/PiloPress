@@ -511,7 +511,7 @@ function get_pip_content( $post_id = false ) {
 
     // Maybe get pip header
     if ( !apply_filters( 'pip/header/remove', false ) ) {
-        $header = get_pip_header();
+        $header = get_pip_header( false );
     }
 
     // Get content
@@ -519,7 +519,7 @@ function get_pip_content( $post_id = false ) {
 
     // Maybe get pip footer
     if ( !apply_filters( 'pip/footer/remove', false ) ) {
-        $footer = get_pip_footer();
+        $footer = get_pip_footer( false );
     }
 
     // Concat

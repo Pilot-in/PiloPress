@@ -14,10 +14,10 @@ You can deactivate auto-add and use the following functions in your template fil
 
 ```php
 // Header Pattern
-the_pip_header();
+get_pip_header();
 
 // Footer Pattern
-the_pip_footer();
+get_pip_footer();
 ```
 
 See [Hooks](/PiloPress/docs/hooks) for more details.

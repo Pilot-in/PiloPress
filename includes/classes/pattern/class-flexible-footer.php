@@ -212,20 +212,16 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
 }
 
 /**
- * Return flexible footer content
- *
- * @return false|string|void
- */
-function the_pip_footer() {
-    // Display content
-    echo get_pip_footer();
-}
-
-/**
  * Get flexible footer content
  *
+ * @param bool $echo
+ *
  * @return false|string|void
  */
-function get_pip_footer() {
-    return get_flexible( PIP_Flexible_Footer::get_flexible_footer_field_name(), PIP_Pattern::$pattern_post_id );
+function get_pip_footer( $echo = false ) {
+    if ( $echo ) {
+        echo get_flexible( PIP_Flexible_Footer::get_flexible_footer_field_name(), PIP_Pattern::$pattern_post_id );
+    } else {
+        return get_flexible( PIP_Flexible_Footer::get_flexible_footer_field_name(), PIP_Pattern::$pattern_post_id );
+    }
 }
