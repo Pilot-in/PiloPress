@@ -218,7 +218,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
  *
  * @return false|string|void
  */
-function get_pip_footer( $echo = false ) {
+function get_pip_footer( $echo = true ) {
     if ( $echo ) {
         echo get_flexible( PIP_Flexible_Footer::get_flexible_footer_field_name(), PIP_Pattern::$pattern_post_id );
     } else {

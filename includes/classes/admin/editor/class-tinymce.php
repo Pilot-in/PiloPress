@@ -372,7 +372,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             }
 
             // Get keys
-            $field_keys = wp_list_pluck( $fields, '__key' );
+            $field_keys = wp_list_pluck( $fields, 'key' );
 
             // Browse all fields
             foreach ( $fields as $key => $field ) {
@@ -386,8 +386,12 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 $new = $this->get_dark_mode_field( $field );
 
                 // If dark mode field already added, return
-                if ( in_array( $new['key'], $field_keys ) ) {
-                    continue;
+                if ( is_array( $field_keys ) ) {
+                    foreach ( $field_keys as $field_key ) {
+                        if ( strstr( $field_key, $new['key'] ) ) {
+                            break;
+                        }
+                    }
                 }
 
                 // Add dark mode field
