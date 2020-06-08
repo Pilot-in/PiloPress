@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.4.1
 Requires PHP: 5.6
-Stable tag: 0.3.1
+Stable tag: 0.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,6 +115,15 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.3.2 - 08/06/2020 =
+* Added: Dark mode for TinyMCE Editors
+* Added: PHP Sync for layouts
+* Added: Collection taxonomy for layouts, displayed before layout title. Example: "Collection: Layout title"
+* Improved: `get_pip_header()` and `get_pip_footer()` are include in `the_pip_content()`
+* Improved: Styles from Pilo'Press automatically enqueued
+* Improved: Add layouts categories and collection in JSON and PHP files
+* Improved: Hide category and collection columns if no term exist in layouts admin page
 
 = 0.3.1 - 29/05/2020 =
 * Improved: Translations
