@@ -75,3 +75,25 @@ function get_formatted_post_id( $post_id = false ) {
 
     return $post_id;
 }
+
+/**
+ * Pilot'In version of acf_maybe_get
+ * (that also handles object type)
+ *
+ * @param array|object $data
+ * @param integer|string $key
+ * @param [type] $default
+ * @return void
+ */
+function pip_maybe_get( $data, $key = 0, $default = null ) {
+
+    if ( is_object( $data ) ) {
+        $data = (object) $data;
+        return isset( $data->$key ) ? $data->$key : $default;
+
+    } elseif ( is_array( $data ) ) {
+        $data = (array) $data;
+        return isset( $data[ $key ] ) ? $data[ $key ] : $default;
+    }
+
+}
