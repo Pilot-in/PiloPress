@@ -171,10 +171,10 @@
                 // Switch background color
                 if ('rgb(35, 40, 45)' === editor.getBody().style.backgroundColor) {
                     new_color       = '#FFFFFF';
-                    dark_mode_value = 'false';
+                    dark_mode_value = '';
                 } else {
                     new_color       = '#23282d';
-                    dark_mode_value = 'true';
+                    dark_mode_value = '1';
                 }
 
                 toggle_dark_mode(editor, dark_mode_value);
@@ -210,18 +210,22 @@
      * @param editor
      */
     var maybe_activate_dark_mode = function (editor) {
+
         var acf_field  = get_acf_field_from_editor(editor);
-        var field_name = acf_field.data('name');
+        var key = acf_field.data('key');
 
-        if (field_name) {
+        if (key) {
 
-            var input_field = acf_field.next('.acf-field.acf-field-' + field_name.replace('_', '-') + '-dark-mode').find('input');
+            var input_field = acf_field.next('.acf-field.acf-' + key.replace(/_/g, '-') + '-dark-mode').find('input');
 
-            if (input_field.val() === 'true') {
+            if (input_field.val() === '1') {
+
                 // Set dark mode
                 editor.getBody().style.backgroundColor = '#23282d';
+
             }
         }
+
     };
 
     /**
@@ -230,13 +234,19 @@
      * @param dark_mode_value
      */
     var toggle_dark_mode = function (editor, dark_mode_value) {
+
+        console.log(dark_mode_value);
+
         var acf_field  = get_acf_field_from_editor(editor);
-        var field_name = acf_field.data('name');
+        var key = acf_field.data('key');
 
         // Toggle dark mode value
-        if (field_name) {
-            acf_field.next('.acf-field.acf-field-' + field_name.replace('_', '-') + '-dark-mode').find('input').val(dark_mode_value);
+        if (key) {
+
+            acf_field.next('.acf-field.acf-' + key.replace(/_/g, '-') + '-dark-mode').find('input').val(dark_mode_value);
+
         }
+
     };
 
     /**
