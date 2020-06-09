@@ -338,9 +338,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             // Change values
             $new['type']      = 'acfe_hidden';
             $new['label']     = 'Dark mode';
-            $new['key']       = $field['key'] . '_dark_mode';
+            $new['key']       = 'field_' . $field['name'] . '_dark_mode';
             $new['name']      = $field['name'] . '_dark_mode';
-            $new['_name']     = $field['_name'] . '_dark_mode';
+            $new['_name']     = $field['name'] . '_dark_mode';
             $new['append']    = '';
             $new['prepend']   = '';
             $new['minlength'] = '';
@@ -372,21 +372,37 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             if ( acfe_is_admin_screen() ) {
                 return $fields;
             }
-	
-			$offset = 0;
-	
-			foreach ( $fields as $i => $field ) {
-		
-				if ( $field['type'] !== 'wysiwyg' )
-					continue;
-		
-				$offset++;
-		
-				$acf_get_field = acf_get_field( $field['key'] . '_dark_mode' );
-		
-				array_splice( $fields, $i + $offset, 0, array( $acf_get_field ) );
-		
-			}
+
+            // Get keys
+            $field_keys = wp_list_pluck( $fields, 'key' );
+
+            // Browse all fields
+            foreach ( $fields as $key => $field ) {
+
+                // If not a wysiwyg field, skip
+                if ( $field['type'] !== 'wysiwyg' ) {
+                    continue;
+                }
+
+                // Get filters data
+                $new = $this->get_dark_mode_field( $field );
+
+                // If dark mode field already added, return
+                if ( is_array( $field_keys ) ) {
+                    foreach ( $field_keys as $field_key ) {
+                        if ( strstr( $field_key, $new['key'] ) ) {
+                            break;
+                        }
+                    }
+                }
+
+                // Add dark mode field
+                acf_add_local_field( $new, true );
+                $acf_get_field = acf_get_field( $new['key'] );
+
+                // Insert dark mode field after wysiwyg field
+                array_splice( $fields, $key + 1, 0, array( $acf_get_field ) );
+            }
 
             return $fields;
         }
