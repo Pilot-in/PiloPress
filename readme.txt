@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.4.1
 Requires PHP: 5.6
-Stable tag: 0.3.2
+Stable tag: 0.3.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,16 +33,13 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 7. In the `index.php` file, add the following code:
 
 `
-<?php
+    <?php
 
-// Header
-get_header();
+    get_header();
 
-// Pilo'Press: Content
-the_pip_content();
+        the_pip_content();
 
-// Footer
-get_footer();
+    get_footer();
 `
 
 == Tailwind CSS ==
@@ -54,8 +51,6 @@ You can manually enqueue those files in your theme for the front-end & the back-
 It is possible to manually retrieve the Tailwind PostCSS & JS fields of the administration if you want to build TailwindCSS locally. To do so, you can use the following code:
 
 `
-<?php
-
 $tailwind_css = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
 $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
 `
@@ -115,6 +110,12 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.3.2.2 - 09/06/2020 =
+* Fixed: Fix WYSIWYG dark mode values and detection
+
+= 0.3.2.1 - 08/06/2020 =
+* Fixed: Fix WYSIWYG dark mode being required in specific case
 
 = 0.3.2 - 08/06/2020 =
 * Added: Dark mode for TinyMCE Editors

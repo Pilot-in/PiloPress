@@ -60,8 +60,6 @@ You can manually enqueue those files in your theme for the front-end & the back-
 It is possible to manually retrieve the Tailwind PostCSS & JS fields of the administration if you want to build TailwindCSS locally. To do so, you can use the following code:
 
 ```php
-<?php
-
 $tailwind_css    = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
 $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
 ```
@@ -87,8 +85,6 @@ For more details about customization, see [Github Page](https://pilot-in.github.
 
 To display the content of your post, you have to use the following function:
 ```php
-<?php
-
 // Pilo'Press content (doesn't need 'echo')
 the_pip_content();
 
@@ -105,6 +101,12 @@ See [GitHub Page](https://pilot-in.github.io/PiloPress/docs/components/) for com
 Available hooks are list and describe in [GitHub Page](https://pilot-in.github.io/PiloPress/docs/hooks/)
 
 ## Changelog
+
+### 0.3.2.2 - 09/06/2020
+* Fixed: Fix WYSIWYG dark mode values and detection
+
+### 0.3.2.1 - 08/06/2020
+* Fixed: Fix WYSIWYG dark mode being required in specific case
 
 ### 0.3.2 - 08/06/2020
 * Added: Dark mode for TinyMCE Editors
