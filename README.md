@@ -102,6 +102,12 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
+### 0.3.2.4 - 10/06/2020
+* Improved: Collections name in layouts label
+* Improved: Builder name is now displayed in the Builder Modal
+* Fixed: Flexible Content PHP notice
+* Fixed: Builder Mirror being displayed on pages
+
 ### 0.3.2.3 - 10/06/2020
 * Added: `pip_maybe_get()` helper function
 * Fixed: Fix WYSIWYG dark mode

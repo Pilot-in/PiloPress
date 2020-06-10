@@ -187,7 +187,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             ) );
             acf_hidden_input( array(
                 'name'  => 'acf_field_group[active]',
-                'value' => 1,
+                'value' => 0,
             ) );
             acf_hidden_input( array(
                 'name'  => 'acf_field_group[position]',
