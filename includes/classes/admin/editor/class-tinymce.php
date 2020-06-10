@@ -375,6 +375,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
             // Get keys
             $field_keys = wp_list_pluck( $fields, 'key' );
+            
+            $offset = 0;
 
             // Browse all fields
             foreach ( $fields as $key => $field ) {
@@ -395,13 +397,15 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                         }
                     }
                 }
+                
+                $offset++;
 
                 // Add dark mode field
                 acf_add_local_field( $new, true );
                 $acf_get_field = acf_get_field( $new['key'] );
 
                 // Insert dark mode field after wysiwyg field
-                array_splice( $fields, $key + 1, 0, array( $acf_get_field ) );
+                array_splice( $fields, $key + $offset, 0, array( $acf_get_field ) );
             }
 
             return $fields;
