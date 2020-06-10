@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.4.1
 Requires PHP: 5.6
-Stable tag: 0.3.2.2
+Stable tag: 0.3.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,10 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.3.2.3 - 10/06/2020 =
+* Added: `pip_maybe_get()` helper function
+* Fixed: Fix WYSIWYG dark mode
 
 = 0.3.2.2 - 09/06/2020 =
 * Fixed: Fix WYSIWYG dark mode values and detection
