@@ -148,7 +148,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 					
 					if( $collections ){
 						
-						$title = reset( $collections ) . ': ' . $title;
+						$title = '<span class="pip_collection">' . reset( $collections ) . '</span>' . $title;
 						
 					}
 					
