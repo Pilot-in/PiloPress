@@ -294,16 +294,26 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             // Get layouts for configuration field
             $choices      = array();
+            
+            acf_enable_local();
+            
             $field_groups = acf_get_field_groups();
+            
+            acf_disable_local();
+            
             if ( $field_groups ) {
+                
                 foreach ( $field_groups as $field_grp ) {
+                    
                     $choices[ $field_grp['key'] ] = $field_grp['title'];
+                    
                 }
+                
             }
 
             // Add configuration ?
             acf_render_field_wrap( array(
-                'label'         => __( 'Add configuration?', 'pilopress' ),
+                'label'         => __( 'Configuration modal', 'pilopress' ),
                 'instructions'  => '',
                 'key'           => 'field_add_configuration',
                 'type'          => 'true_false',
@@ -316,8 +326,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             // Configuration
             acf_render_field_wrap( array(
-                'label'             => __( 'Configuration', 'pilopress' ),
-                'instructions'      => __( 'Configuration clone', 'pilopress' ),
+                'label'             => __( 'Configuration field group', 'pilopress' ),
+                'instructions'      => '',
                 'type'              => 'select',
                 'name'              => '_pip_configuration',
                 'prefix'            => 'acf_field_group',
@@ -341,8 +351,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             // Modal size
             acf_render_field_wrap( array(
-                'label'             => __( 'Modal size', 'pilopress' ),
-                'instructions'      => __( 'Configuration modal size', 'pilopress' ),
+                'label'             => __( 'Configuration modal size', 'pilopress' ),
+                'instructions'      => '',
                 'name'              => '_pip_modal_size',
                 'type'              => 'select',
                 'class'             => '',

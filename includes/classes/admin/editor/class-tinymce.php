@@ -337,10 +337,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
             // Change values
             $new['type']      = 'acfe_hidden';
-            $new['label']     = 'Dark mode';
-            $new['key']       = 'field_' . $field['name'] . '_dark_mode';
+            $new['label']     = '';
+            $new['key']       = $field['key'] . '_dark_mode';
             $new['name']      = $field['name'] . '_dark_mode';
-            $new['_name']     = $field['name'] . '_dark_mode';
+            $new['_name']     = $field['_name'] . '_dark_mode';
             $new['append']    = '';
             $new['prepend']   = '';
             $new['minlength'] = '';

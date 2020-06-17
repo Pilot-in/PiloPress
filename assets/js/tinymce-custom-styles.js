@@ -213,10 +213,11 @@
 
         var acf_field  = get_acf_field_from_editor(editor);
         var field_name = acf_field.data('name');
+        var field_name_dark_mode = field_name + '_dark_mode';
 
         if ( field_name ) {
 
-            var input_field = acf_field.next('.acf-field.acf-field-' + field_name.replace(/_/g, '-') + '-dark-mode').find('input');
+            var input_field = acf_field.next( '.acf-field[data-name="' + field_name_dark_mode + '"]' ).find( 'input' );
 
             if (input_field.val() === '1') {
 
@@ -237,11 +238,12 @@
 
         var acf_field  = get_acf_field_from_editor(editor);
         var field_name = acf_field.data('name');
+        var field_name_dark_mode = field_name + '_dark_mode';
 
         // Toggle dark mode value
         if ( field_name ) {
 
-            acf_field.next('.acf-field.acf-field-' + field_name.replace(/_/g, '-') + '-dark-mode').find('input').val(dark_mode_value);
+            acf_field.next( '.acf-field[data-name="' + field_name_dark_mode + '"]' ).find( 'input' ).val( dark_mode_value );
 
         }
 
