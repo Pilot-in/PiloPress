@@ -102,6 +102,12 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
+### 0.3.2.5 - 17/06/2020
+* Improved: Collections name tag
+* Improved: Layouts Configuration Modal setting now also display Local Field Groups
+* Fixed: WYSIWYG Dark Mode not working in some specific cases
+* Fixed: Readme URL
+
 ### 0.3.2.4 - 10/06/2020
 * Improved: Collections name in layouts label
 * Improved: Builder name is now displayed in the Builder Modal
