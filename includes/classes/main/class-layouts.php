@@ -269,7 +269,6 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             // Layout
             $current_theme      = wp_get_theme();
-            $layout_name        = sanitize_title( $field_group['title'] );
             $layout_slug        = acf_maybe_get( $field_group, '_pip_layout_slug' ) ? sanitize_title( $field_group['_pip_layout_slug'] ) : 'layout';
             $layout_path_prefix = $current_theme->get_template() . '/pilopress/layouts/<span>' . $layout_slug . '</span>/';
 
@@ -296,7 +295,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'name'          => '_pip_render_layout',
                     'prefix'        => 'acf_field_group',
                     'placeholder'   => 'template.php',
-                    'default_value' => $layout_name . '.php',
+                    'default_value' => $layout_slug . '.php',
                     'prepend'       => $layout_path_prefix,
                     'required'      => 1,
                     'value'         => isset( $field_group['_pip_render_layout'] ) ? $field_group['_pip_render_layout'] : '',
@@ -312,7 +311,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'name'          => '_pip_render_style',
                     'prefix'        => 'acf_field_group',
                     'placeholder'   => 'style.css',
-                    'default_value' => $layout_name . '.css',
+                    'default_value' => $layout_slug . '.css',
                     'prepend'       => $layout_path_prefix,
                     'value'         => isset( $field_group['_pip_render_style'] ) ? $field_group['_pip_render_style'] : '',
                 )
@@ -327,7 +326,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'name'          => '_pip_render_script',
                     'prefix'        => 'acf_field_group',
                     'placeholder'   => 'script.js',
-                    'default_value' => $layout_name . '.js',
+                    'default_value' => $layout_slug . '.js',
                     'prepend'       => $layout_path_prefix,
                     'value'         => isset( $field_group['_pip_render_script'] ) ? $field_group['_pip_render_script'] : '',
                 )

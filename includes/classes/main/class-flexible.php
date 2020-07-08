@@ -136,6 +136,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             $layouts      = array();
             $group_keys   = array();
             $field_groups = acf_get_field_groups();
+            $counter      = array_count_values_assoc( $field_groups, 'title' );
 
             if ( $field_groups ) {
                 foreach ( $field_groups as $field_group ) {
@@ -145,7 +146,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     }
 
                     $title          = $field_group['title'];
-                    $name           = sanitize_title( $field_group['title'] );
                     $layout_slug    = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug', '' ) );
                     $layout_uniq_id = 'layout_' . $layout_slug;
 
@@ -171,16 +171,15 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         )
                     );
 
-                    if ( $collections ) {
-
-                        $title = '<span class="pip_collection">' . reset( $collections ) . '</span>' . $title;
-
+                    // Add collection badge if two layout have the same name
+                    if ( $collections && $counter[ $title ] > 1 ) {
+                        $title = '<div class="pip_collection">' . reset( $collections ) . '</div>' . $title;
                     }
 
                     // Settings
                     $layout_category  = $categories ? $categories : array();
-                    $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $name . '.php' );
-                    $render_script    = $file_url . acf_maybe_get( $field_group, '_pip_render_script', $name . '.js' );
+                    $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $layout_slug . '.php' );
+                    $render_script    = $file_url . acf_maybe_get( $field_group, '_pip_render_script', $layout_slug . '.js' );
                     $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail', '870' );
                     $configuration    = acf_maybe_get( $field_group, '_pip_configuration', array() );
                     $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size', array() );
@@ -204,14 +203,14 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     // Store layout
                     $layouts[ $layout_uniq_id ] = array(
                         'key'                           => $layout_uniq_id,
-                        'name'                          => $name,
+                        'name'                          => $layout_slug,
                         'label'                         => $title,
                         'display'                       => $display,
                         'sub_fields'                    => array(
                             array(
                                 'key'               => 'field_clone_' . $layout_slug,
                                 'label'             => $title,
-                                'name'              => $name,
+                                'name'              => $layout_slug,
                                 'type'              => 'clone',
                                 'instructions'      => '',
                                 'required'          => 0,
@@ -359,7 +358,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 }
 
                 // Sanitize name
-                $field_group_name = sanitize_title( $field_group['title'] );
+                $field_group_name = sanitize_title( $field_group['_pip_layout_slug'] );
 
                 // Browse all layouts
                 foreach ( $layouts as $key => $layout ) {

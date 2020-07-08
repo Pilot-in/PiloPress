@@ -260,7 +260,7 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
 
 /* Collection tag */
 .pip_collection {
-    background-color: #007cba;
+    background-color: #0073AA;
     width: fit-content;
     margin: 0 auto 10px auto;
     padding: 2px 8px;
@@ -271,9 +271,8 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
 
 .acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a:hover .pip_collection {
     background-color: white;
-    color: #007cba;
+    color: #0073AA;
 }
-
 
 /* TinyMCE */
 .wpview[data-wpview-type="acf"],

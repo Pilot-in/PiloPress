@@ -107,11 +107,13 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 // Do it again until no layout is find
             } while ( $unique_layout_slug );
 
-            // Store new slug
-            $slug = $alt_post_name;
+            // Replace file names with new slug
+            $field_group['_pip_render_layout'] = str_replace( $slug, $alt_post_name, $field_group['_pip_render_layout'] );
+            $field_group['_pip_render_style']  = str_replace( $slug, $alt_post_name, $field_group['_pip_render_style'] );
+            $field_group['_pip_render_script'] = str_replace( $slug, $alt_post_name, $field_group['_pip_render_script'] );
 
             // Update field group with new slug
-            $field_group['_pip_layout_slug'] = $slug;
+            $field_group['_pip_layout_slug'] = $alt_post_name;
             acf_update_field_group( $field_group );
 
             return $field_group;

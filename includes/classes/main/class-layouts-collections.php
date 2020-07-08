@@ -255,8 +255,6 @@ if ( !class_exists( 'PIP_Layouts_Collections' ) ) {
 
             // Browse all terms
             foreach ( $terms as $term ) {
-                global $wp_query;
-
                 // Get all posts with term
                 $groups = get_posts(
                     array(
@@ -281,7 +279,7 @@ if ( !class_exists( 'PIP_Layouts_Collections' ) ) {
 
                 // If on current layout collection, add current class
                 $class = '';
-                if ( isset( $wp_query->query_vars[ self::$taxonomy_name ] ) && $wp_query->query_vars[ self::$taxonomy_name ] === $term->slug ) {
+                if ( get_query_var( self::$taxonomy_name ) === $term->slug ) {
                     $class = ' class="current"';
                 }
 

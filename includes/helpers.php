@@ -99,3 +99,34 @@ function pip_maybe_get( $data, $key = 0, $default = null ) {
     }
 
 }
+
+/**
+ * Multi-dimension version of array_count_values
+ *
+ * @param $array
+ * @param $index
+ *
+ * @return array
+ */
+function array_count_values_assoc( $array, $index ) {
+    $result = array();
+
+    foreach ( $array as $key => $value ) {
+
+        // Check if value is already in result array
+        if ( array_key_exists( $value[ $index ], $result ) ) {
+
+            // Increment counter
+            $result[ $value[ $index ] ] ++;
+
+        } else {
+
+            // New entry
+            $result[ $value[ $index ] ] = 1;
+
+        }
+
+    }
+
+    return $result;
+}
