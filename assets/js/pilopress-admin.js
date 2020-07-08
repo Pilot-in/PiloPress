@@ -2,7 +2,7 @@
     function ( $ ) {
         'use strict'
 
-        // The global acf object
+        // The global pip object
         var pip = {}
 
         // Set as a browser global
@@ -14,14 +14,45 @@
                 /**
                  * Layout admin page
                  */
-
                 var $title          = $( '#title' )
                 var $prepend        = $( '.acf-input-prepend span' )
                 var $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' )
                 var $layoutTemplate = $( '#acf_field_group-_pip_render_layout' )
                 var $renderCSS      = $( '#acf_field_group-_pip_render_style' )
                 var $renderScript   = $( '#acf_field_group-_pip_render_script' )
-                var layoutSwitch    = false
+                var templateSwitch  = false
+                var cssSwitch       = false
+                var scriptSwitch    = false
+
+                /**
+                 * When something is typed in "template" field
+                 */
+                $layoutTemplate.on(
+                    'input',
+                    function () {
+                        templateSwitch = true
+                    }
+                )
+
+                /**
+                 * When something is typed in "CSS" field
+                 */
+                $renderCSS.on(
+                    'input',
+                    function () {
+                        cssSwitch = true
+                    }
+                )
+
+                /**
+                 * When something is typed in "script" field
+                 */
+                $renderScript.on(
+                    'input',
+                    function () {
+                        scriptSwitch = true
+                    }
+                )
 
                 /**
                  * When something is typed in "title" field
@@ -33,9 +64,9 @@
                         var $this = $( this )
 
                         // If new layout
-                        if ( $( '#auto_draft' ).val() === '1' && !layoutSwitch ) {
+                        if ( $( '#auto_draft' ).val() === '1' ) {
                             // Change values with sanitized slug
-                            change_values( $this, true )
+                            change_values( $this )
                         }
                     }
                 )
@@ -49,8 +80,6 @@
                         // Get layout slug
                         var $this = $( this )
 
-                        layoutSwitch = true
-
                         // Change values with sanitized slug
                         change_values( $this )
                     }
@@ -60,16 +89,12 @@
                  * Change input & span values
                  *
                  * @param $this
-                 *
-                 * @param draft
                  */
-                function change_values( $this, draft = false ) {
+                function change_values( $this ) {
                     $layoutSlug.val( pip.sanitize_title( $this.val() ) )
                     $prepend.html( pip.sanitize_title( $this.val().replace( /-$/, '' ) ) )
 
-                    if ( draft ) {
-                        updateRenderSettings( $this.val() )
-                    }
+                    updateRenderSettings( $this.val() )
 
                     if ( !$this.val() ) {
                         $prepend.html( 'layout' )
@@ -82,21 +107,29 @@
                  * @param val
                  */
                 function updateRenderSettings( val ) {
-                    $layoutTemplate.val(
-                        (
-                            pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'template'
-                        ) + '.php'
-                    )
-                    $renderCSS.val(
-                        (
-                            pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'style'
-                        ) + '.css'
-                    )
-                    $renderScript.val(
-                        (
-                            pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'scrip'
-                        ) + '.js'
-                    )
+                    if ( !templateSwitch ) {
+                        $layoutTemplate.val(
+                            (
+                                pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'template'
+                            ) + '.php'
+                        )
+                    }
+
+                    if ( !cssSwitch ) {
+                        $renderCSS.val(
+                            (
+                                pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'style'
+                            ) + '.css'
+                        )
+                    }
+
+                    if ( !scriptSwitch ) {
+                        $renderScript.val(
+                            (
+                                pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'scrip'
+                            ) + '.js'
+                        )
+                    }
                 }
 
                 /**
