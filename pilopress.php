@@ -72,6 +72,10 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Init
             include_once PIP_PATH . 'init.php';
 
+            // Activation actions
+            register_activation_hook( __FILE__, array( $this, 'activation' ) );
+
+            // Init hook
             add_action( 'init', array( $this, 'load_translations' ) );
 
             // Meta boxes order
@@ -132,9 +136,6 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Includes
             add_action( 'acf/init', array( $this, 'includes' ) );
-
-            // Activation actions
-            add_action( 'wp_loaded', array( $this, 'activation' ), 20 );
 
             // Sync JSON/PHP
             pip_include( 'includes/classes/admin/class-layouts-sync.php' );
@@ -201,6 +202,10 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Activation actions
          */
         public static function activation() {
+            // Create Pilo'Press folders
+            self::create_pip_folder();
+
+            // If class does not exist, return
             if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 return;
             }
@@ -208,6 +213,17 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Generate flexible mirror field group
             $class = new PIP_Flexible_Mirror();
             $class->generate_flexible_mirror();
+        }
+
+        /**
+         * Create Pilo'Press folders on activation
+         */
+        private static function create_pip_folder() {
+            // Create "layouts" folder in theme
+            wp_mkdir_p( get_template_directory() . '/pilopress/layouts' );
+
+            // Create "assets" folder in theme
+            wp_mkdir_p( get_template_directory() . '/pilopress/assets' );
         }
 
         /**
