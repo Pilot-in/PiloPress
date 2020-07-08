@@ -1,10 +1,24 @@
 <?php
 
 if ( !class_exists( 'PIP_Flexible_Header' ) ) {
+    /**
+     * Class PIP_Flexible_Header
+     */
     class PIP_Flexible_Header {
 
+        /**
+         * Header field name
+         *
+         * @var string
+         */
         private static $flexible_header_field_name = 'pip_flexible_header';
-        private static $flexible_header_group_key  = 'group_pip_flexible_header';
+
+        /**
+         * Header group key
+         *
+         * @var string
+         */
+        private static $flexible_header_group_key = 'group_pip_flexible_header';
 
         public function __construct() {
             // WP hooks
@@ -157,7 +171,6 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
                 if ( !PIP_Flexible::get_field_group_visibility( $field_group, $args ) ) {
                     continue;
                 }
-
 
                 // Sanitize name
                 $field_group_name = sanitize_title( $field_group['title'] );

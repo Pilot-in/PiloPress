@@ -1,8 +1,17 @@
 <?php
 
 if ( !class_exists( 'PIP_Layouts_Collections' ) ) {
+
+    /**
+     * Class PIP_Layouts_Collections
+     */
     class PIP_Layouts_Collections {
 
+        /**
+         * Taxonomy slug
+         *
+         * @var string
+         */
         public static $taxonomy_name = 'acf-layouts-collection';
 
         public function __construct() {
@@ -37,7 +46,8 @@ if ( !class_exists( 'PIP_Layouts_Collections' ) ) {
          */
         public function init() {
             // Register layouts collection
-            register_taxonomy( self::$taxonomy_name,
+            register_taxonomy(
+                self::$taxonomy_name,
                 array( 'acf-field-group' ),
                 array(
                     'hierarchical'          => true,
@@ -165,10 +175,12 @@ if ( !class_exists( 'PIP_Layouts_Collections' ) ) {
             $new_columns = array();
 
             // Get terms
-            $terms = get_terms( array(
-                'taxonomy'   => self::$taxonomy_name,
-                'hide_empty' => false,
-            ) );
+            $terms = get_terms(
+                array(
+                    'taxonomy'   => self::$taxonomy_name,
+                    'hide_empty' => false,
+                )
+            );
 
             // If no terms, return
             if ( !$terms ) {
@@ -246,15 +258,17 @@ if ( !class_exists( 'PIP_Layouts_Collections' ) ) {
                 global $wp_query;
 
                 // Get all posts with term
-                $groups = get_posts( array(
-                    'post_type'        => 'acf-field-group',
-                    'posts_per_page'   => - 1,
-                    'suppress_filters' => false,
-                    'post_status'      => array( 'publish', 'acf-disabled' ),
-                    'taxonomy'         => self::$taxonomy_name,
-                    'term'             => $term->slug,
-                    'fields'           => 'ids',
-                ) );
+                $groups = get_posts(
+                    array(
+                        'post_type'        => 'acf-field-group',
+                        'posts_per_page'   => - 1,
+                        'suppress_filters' => false,
+                        'post_status'      => array( 'publish', 'acf-disabled' ),
+                        'taxonomy'         => self::$taxonomy_name,
+                        'term'             => $term->slug,
+                        'fields'           => 'ids',
+                    )
+                );
 
                 // Count
                 $count = count( $groups );
@@ -337,7 +351,8 @@ if ( !class_exists( 'PIP_Layouts_Collections' ) ) {
          */
         public function import_layout_collections( $field_group ) {
             // If no collections, return
-            if ( !$collections = acf_maybe_get( $field_group, 'layout_collections' ) ) {
+            $collections = acf_maybe_get( $field_group, 'layout_collections' );
+            if ( !$collections ) {
                 return;
             }
 
@@ -352,9 +367,13 @@ if ( !class_exists( 'PIP_Layouts_Collections' ) ) {
                     // Term doesn't exists
 
                     // Add new term
-                    $new_term = wp_insert_term( $term_name, self::$taxonomy_name, array(
-                        'slug' => $term_slug,
-                    ) );
+                    $new_term = wp_insert_term(
+                        $term_name,
+                        self::$taxonomy_name,
+                        array(
+                            'slug' => $term_slug,
+                        )
+                    );
 
                     // If well inserted, store ID
                     if ( !is_wp_error( $new_term ) ) {

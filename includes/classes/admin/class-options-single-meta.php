@@ -13,6 +13,10 @@ if ( !acf_get_setting( 'pip/options/single_meta' ) ) {
 acf_register_store( 'pip/options/meta' )->prop( 'multisite', true );
 
 if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
+
+    /**
+     * Class PIP_Options_Single_Meta
+     */
     class PIP_Options_Single_Meta {
 
         public function __construct() {

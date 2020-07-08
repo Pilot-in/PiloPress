@@ -24,7 +24,7 @@ function str_starts( $haystack, $needle ) {
  */
 function str_ends( $haystack, $needle ) {
     $length = strlen( $needle );
-    if ( $length == 0 ) {
+    if ( $length === 0 ) {
         return true;
     }
 
@@ -38,7 +38,6 @@ function str_ends( $haystack, $needle ) {
  *
  * @return bool|int|mixed|string|void
  * @example return term_6 for term ID
- *
  */
 function get_formatted_post_id( $post_id = false ) {
     // If ID is specified, return
@@ -80,19 +79,22 @@ function get_formatted_post_id( $post_id = false ) {
  * Pilot'In version of acf_maybe_get
  * (that also handles object type)
  *
- * @param array|object $data
- * @param integer|string $key
- * @param [type] $default
- * @return void
+ * @param      $data
+ * @param int  $key
+ * @param null $default
+ *
+ * @return mixed|null
  */
 function pip_maybe_get( $data, $key = 0, $default = null ) {
 
     if ( is_object( $data ) ) {
         $data = (object) $data;
+
         return isset( $data->$key ) ? $data->$key : $default;
 
     } elseif ( is_array( $data ) ) {
         $data = (array) $data;
+
         return isset( $data[ $key ] ) ? $data[ $key ] : $default;
     }
 

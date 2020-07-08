@@ -5,6 +5,10 @@ if ( !defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
+
+    /**
+     * Class PIP_Styles_Import_Tool
+     */
     class PIP_Styles_Import_Tool extends ACF_Admin_Tool {
 
         /**
@@ -23,13 +27,15 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             <div class="acf-fields">
                 <?php
 
-                acf_render_field_wrap( array(
-                    'label'    => __( 'Select File', 'acf' ),
-                    'type'     => 'file',
-                    'name'     => 'acf_import_styles_configuration',
-                    'value'    => false,
-                    'uploader' => 'basic',
-                ) );
+                acf_render_field_wrap(
+                    array(
+                        'label'    => __( 'Select File', 'acf' ),
+                        'type'     => 'file',
+                        'name'     => 'acf_import_styles_configuration',
+                        'value'    => false,
+                        'uploader' => 'basic',
+                    )
+                );
 
                 ?>
             </div>
@@ -83,7 +89,8 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             $total = count( $json );
 
             // Add notice
-            acf_add_admin_notice( sprintf( _n( 'Imported 1 style settings.', 'Imported %s styles settings.', $total, 'pilopress' ), $total ), 'success' );
+            // translators: Number of style settings imported
+            acf_add_admin_notice( sprintf( _n( 'Imported %s style settings.', 'Imported %s styles settings.', $total, 'pilopress' ), $total ), 'success' );
         }
     }
 

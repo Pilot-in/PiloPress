@@ -1,10 +1,24 @@
 <?php
 
 if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
+    /**
+     * Class PIP_Flexible_Footer
+     */
     class PIP_Flexible_Footer {
 
+        /**
+         * Footer field name
+         *
+         * @var string
+         */
         private static $flexible_footer_field_name = 'pip_flexible_footer';
-        private static $flexible_footer_group_key  = 'group_pip_flexible_footer';
+
+        /**
+         * Footer group key
+         *
+         * @var string
+         */
+        private static $flexible_footer_group_key = 'group_pip_flexible_footer';
 
         public function __construct() {
             // WP hooks
@@ -158,7 +172,6 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
                     continue;
                 }
 
-
                 // Sanitize name
                 $field_group_name = sanitize_title( $field_group['title'] );
 
@@ -199,6 +212,8 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
         }
 
         /**
+         * Getter: $flexible_footer_group_key
+         *
          * @return string
          */
         public static function get_flexible_footer_group_key() {

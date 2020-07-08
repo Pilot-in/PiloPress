@@ -1,6 +1,10 @@
 <?php
 
 if ( !class_exists( 'PIP_Styles_Settings' ) ) {
+
+    /**
+     * Class PIP_Styles_Settings
+     */
     class PIP_Styles_Settings {
         public function __construct() {
             // WP hooks
@@ -119,7 +123,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          */
         public static function compile_tailwind( $tailwind_style, $tailwind_config ) {
             // Get Tailwind API
-            require( PIP_PATH . '/assets/libs/tailwindapi.php' );
+            require_once PIP_PATH . '/assets/libs/tailwindapi.php';
             $tailwind = new TailwindAPI();
 
             // Reset font family
@@ -164,7 +168,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return string
          */
         private static function css_custom_fonts() {
-            $css_custom = $tinymce_fonts = '';
+            $css_custom    = '';
+            $tinymce_fonts = '';
 
             // Get fonts
             if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
@@ -194,12 +199,14 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                             $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
 
                             // Get post
-                            $posts   = new WP_Query( array(
-                                'name'           => $file['file']['name'],
-                                'post_type'      => 'attachment',
-                                'posts_per_page' => 1,
-                                'fields'         => 'ids',
-                            ) );
+                            $posts   = new WP_Query(
+                                array(
+                                    'name'           => $file['file']['name'],
+                                    'post_type'      => 'attachment',
+                                    'posts_per_page' => 1,
+                                    'fields'         => 'ids',
+                                )
+                            );
                             $posts   = $posts->get_posts();
                             $post_id = reset( $posts );
 
@@ -269,7 +276,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return mixed
          */
         public function pre_populate_wp_image_sizes( $value, $post_id, $field ) {
-            $image_sizes = $fields = $new_values = array();
+            $image_sizes = array();
+            $fields      = array();
+            $new_values  = array();
 
             // Get only WP image sizes
             $all_image_sizes        = PIP_TinyMCE::get_all_image_sizes();
@@ -322,8 +331,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return mixed
          */
         public function configure_wp_image_sizes( $field ) {
+            $value = acf_maybe_get( $field, 'value' );
             // Set min and max for wp_image_sizes
-            if ( $value = acf_maybe_get( $field, 'value' ) ) {
+            if ( $value ) {
                 $field['min'] = count( $value );
                 $field['max'] = count( $value );
             }

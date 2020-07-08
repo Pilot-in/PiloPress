@@ -17,16 +17,32 @@
 defined( 'ABSPATH' ) || exit;
 
 if ( !class_exists( 'PiloPress' ) ) {
+
+    /**
+     * Class PiloPress
+     */
     class PiloPress {
 
-        // Plugin version
-        var $version = '0.3.2.5';
+        /**
+         * Plugin version
+         *
+         * @var string
+         */
+        public static $version = '0.3.2.5';
 
-        // ACF
-        var $acf = false;
+        /**
+         * ACF
+         *
+         * @var bool
+         */
+        public $acf = false;
 
-        // ACFE
-        var $acfe = false;
+        /**
+         * ACFE
+         *
+         * @var bool
+         */
+        public $acfe = false;
 
         /**
          * Pilo'Press constructor.
@@ -54,7 +70,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             $this->define( 'PIP_THEME_STYLE_ADMIN_FILENAME', 'styles-admin' );
 
             // Init
-            include_once( PIP_PATH . 'init.php' );
+            include_once PIP_PATH . 'init.php';
 
             // Init hook
             add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
@@ -68,6 +84,7 @@ if ( !class_exists( 'PiloPress' ) ) {
 
         /**
          * Re-order meta-boxes
+         *
          * @param $order
          *
          * @return array
@@ -75,7 +92,8 @@ if ( !class_exists( 'PiloPress' ) ) {
         public function metabox_order( $order ) {
             if ( !$order ) {
                 $order = array(
-                    'normal' => implode( ',',
+                    'normal' => implode(
+                        ',',
                         array(
 
                             // Layouts

@@ -21,7 +21,7 @@ function pip_path() {
 function pip_include( $filename = '' ) {
     $file_path = pip_path() . ltrim( $filename, '/' );
     if ( file_exists( $file_path ) ) {
-        include_once( $file_path );
+        include_once $file_path;
     }
 }
 
@@ -59,7 +59,8 @@ function pip_enqueue() {
         wp_enqueue_style(
             'style-pilopress',
             PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_FILENAME . '.min.css',
-            false
+            false,
+            PiloPress::$version
         );
     }
 }
@@ -74,7 +75,8 @@ function pip_enqueue_admin() {
         wp_enqueue_style(
             'style-pilopress-admin',
             PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
-            false
+            false,
+            PiloPress::$version
         );
     }
 }
@@ -98,7 +100,7 @@ function pip_plugin_row( $plugin_file, $plugin_data, $status ) {
             box-shadow: none;
         }
 
-        <?php if(isset($plugin_data['update']) && !empty($plugin_data['update'])){ ?>
+        <?php if ( isset( $plugin_data['update'] ) && !empty( $plugin_data['update'] ) ) : ?>
 
         .plugins tr.pilopress-plugin-tr td {
             box-shadow: none !important;
@@ -108,7 +110,7 @@ function pip_plugin_row( $plugin_file, $plugin_data, $status ) {
             margin-bottom: 0;
         }
 
-        <?php } ?>
+        <?php endif; ?>
     </style>
 
     <tr class="plugin-update-tr active pilopress-plugin-tr">

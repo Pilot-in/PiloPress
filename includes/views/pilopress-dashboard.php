@@ -1,5 +1,7 @@
 <?php
 /**
+ * Variables available in this template
+ *
  * @var $success_icon
  * @var $error_icon
  * @var $configurations
@@ -15,10 +17,11 @@
 
 <div class="wrap">
     <div class="wp-heading-inline">
-        <img class="pilopress-logo"
-             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iI2EwYTVhYSI+PHBhdGggZD0iTTEwIC4yQzQuNi4yLjMgNC42LjMgMTBzNC40IDkuOCA5LjcgOS44YzIuNiAwIDUuMS0xIDYuOS0yLjggMS44LTEuOCAyLjgtNC4zIDIuOC02LjkgMC01LjUtNC4zLTkuOS05LjctOS45em02LjQgMTYuM2MtMS43IDEuNy00IDIuNi02LjQgMi42LTUgMC05LTQuMS05LTkuMVM1IC45IDEwIC45IDE5IDUgMTkgMTBjMCAyLjUtLjkgNC43LTIuNiA2LjV6Ii8+PHBhdGggZD0iTTEwIDUuM2MtMi41IDAtNC42IDIuMS00LjYgNC43di41Yy4yIDEuOCAxLjQgMy4zIDMgMy45LjUuMiAxIC4zIDEuNS4zLjQgMCAuOS0uMSAxLjMtLjIuMSAwIC4xIDAgLjItLjEuMy0uMS41LS4yLjgtLjMgMCAwIC4xIDAgLjEtLjEgMCAwIC4xIDAgLjEtLjFoLjFzLjEgMCAuMS0uMWMwIDAgLjEgMCAuMS0uMS4yLS4yLjUtLjQuNy0uNmwuMy0uM2MuNi0uOCAxLTEuOSAxLTIuOSAwLTIuNS0yLjEtNC42LTQuNy00LjZ6bTMuMSA3LjNjMC0uMSAwLS4xIDAgMC0uNi0uNC0uNy0uOS0uNy0xLjR2LS40LS4xLS4zYzAtLjctLjItMS41LTEuNS0xLjYtLjUgMC0xLjMuMS0yLjMuNC0uMi0uMS0uNCAwLS42LjEtLjYuMi0xLjIuNC0yIC43IDAtMi4yIDEuOC00IDMuOS00IDEuNSAwIDIuOC44IDMuNSAyLjEuNC42LjYgMS4yLjYgMS45IDAgLjktLjMgMS44LS45IDIuNnoiLz48L3N2Zz4="
-             alt="logo">
-        <h1><?php _e( "Pilo'Press: Dashboard", 'pilopress' ) ?></h1>
+        <img
+            class="pilopress-logo"
+            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iI2EwYTVhYSI+PHBhdGggZD0iTTEwIC4yQzQuNi4yLjMgNC42LjMgMTBzNC40IDkuOCA5LjcgOS44YzIuNiAwIDUuMS0xIDYuOS0yLjggMS44LTEuOCAyLjgtNC4zIDIuOC02LjkgMC01LjUtNC4zLTkuOS05LjctOS45em02LjQgMTYuM2MtMS43IDEuNy00IDIuNi02LjQgMi42LTUgMC05LTQuMS05LTkuMVM1IC45IDEwIC45IDE5IDUgMTkgMTBjMCAyLjUtLjkgNC43LTIuNiA2LjV6Ii8+PHBhdGggZD0iTTEwIDUuM2MtMi41IDAtNC42IDIuMS00LjYgNC43di41Yy4yIDEuOCAxLjQgMy4zIDMgMy45LjUuMiAxIC4zIDEuNS4zLjQgMCAuOS0uMSAxLjMtLjIuMSAwIC4xIDAgLjItLjEuMy0uMS41LS4yLjgtLjMgMCAwIC4xIDAgLjEtLjEgMCAwIC4xIDAgLjEtLjFoLjFzLjEgMCAuMS0uMWMwIDAgLjEgMCAuMS0uMS4yLS4yLjUtLjQuNy0uNmwuMy0uM2MuNi0uOCAxLTEuOSAxLTIuOSAwLTIuNS0yLjEtNC42LTQuNy00LjZ6bTMuMSA3LjNjMC0uMSAwLS4xIDAgMC0uNi0uNC0uNy0uOS0uNy0xLjR2LS40LS4xLS4zYzAtLjctLjItMS41LTEuNS0xLjYtLjUgMC0xLjMuMS0yLjMuNC0uMi0uMS0uNCAwLS42LjEtLjYuMi0xLjIuNC0yIC43IDAtMi4yIDEuOC00IDMuOS00IDEuNSAwIDIuOC44IDMuNSAyLjEuNC42LjYgMS4yLjYgMS45IDAgLjktLjMgMS44LS45IDIuNnoiLz48L3N2Zz4="
+            alt="logo">
+        <h1><?php _e( "Pilo'Press: Dashboard", 'pilopress' ); ?></h1>
     </div>
 
     <?php // Widgets area ?>
@@ -32,15 +35,15 @@
                     <?php // Configuration ?>
                     <div id="pilopress_configuration" class="postbox">
                         <div class="inside">
-                            <h4><strong><?php _e( 'Configuration status', 'pilopress' ) ?></strong></h4>
+                            <h4><strong><?php _e( 'Configuration status', 'pilopress' ); ?></strong></h4>
                             <div class="main config-status">
                                 <ul>
                                     <?php foreach ( $configurations as $configuration ) : ?>
                                         <li>
-                                            <?php echo $configuration['status'] ? $success_icon : $error_icon ?>
-                                            <?php echo $configuration['label'] ?>
-                                            <?php if ( isset( $configuration['status_label'] ) ): ?>
-                                                <?php echo $configuration['status_label'] ?>
+                                            <?php echo $configuration['status'] ? $success_icon : $error_icon; ?>
+                                            <?php echo $configuration['label']; ?>
+                                            <?php if ( isset( $configuration['status_label'] ) ) : ?>
+                                                <?php echo $configuration['status_label']; ?>
                                             <?php endif; ?>
                                         </li>
                                     <?php endforeach ?>
@@ -52,7 +55,7 @@
                     <?php // Documentation links ?>
                     <div id="pilopress_quick_links" class="postbox">
                         <div class="inside">
-                            <h3><strong><?php _e( 'Documentations', 'pilopress' ) ?></strong></h3>
+                            <h3><strong><?php _e( 'Documentations', 'pilopress' ); ?></strong></h3>
                             <div class="main">
                                 <ul>
                                     <li>
@@ -87,7 +90,7 @@
                     <?php // Pilot'in ?>
                     <div id="pilopress_pilotin" class="postbox">
                         <div class="inside">
-                            <?php echo __( 'Made with &#x2764; by', 'pilopress' ) ?>
+                            <?php echo __( 'Made with &#x2764; by', 'pilopress' ); ?>
                             <a href="https://www.pilot-in.com" target="_blank">Pilot’in</a>
                         </div>
                     </div>
@@ -103,11 +106,11 @@
                     <div id="pilopress_layouts_actions" class="postbox">
                         <div class="inside">
                             <h4>
-                                <strong><?php _e( 'Layouts', 'pilopress' ) ?></strong>
-                                <span id="pilopress_layouts_count"><?php echo $total_layouts_count ?></span>
+                                <strong><?php _e( 'Layouts', 'pilopress' ); ?></strong>
+                                <span id="pilopress_layouts_count"><?php echo $total_layouts_count; ?></span>
                             </h4>
                             <a href="<?php echo $add_new_layout ?>" class="button button-secondary">
-                                <?php _e( 'Add new layout', 'pilopress' ) ?>
+                                <?php _e( 'Add new layout', 'pilopress' ); ?>
                             </a>
                         </div>
                     </div>
@@ -118,26 +121,26 @@
                             <thead>
                             <tr>
                                 <th class="pilopress_counter">#</th>
-                                <th><strong><?php _e( 'Layout name', 'pilopress' ) ?></strong></th>
-                                <th><strong><?php _e( 'Locations', 'pilopress' ) ?></strong></th>
+                                <th><strong><?php _e( 'Layout name', 'pilopress' ); ?></strong></th>
+                                <th><strong><?php _e( 'Locations', 'pilopress' ); ?></strong></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php if ( $layouts ): ?>
+                            <?php if ( $layouts ) : ?>
                                 <?php foreach ( $layouts as $key => $layout ) : ?>
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
-                                        <td class="pilopress_counter"><?php echo $key + 1 ?></td>
+                                        <td class="pilopress_counter"><?php echo $key + 1; ?></td>
                                         <td>
-                                            <a href="<?php echo $layout['edit_link'] ?>">
-                                                <?php echo $layout['title'] ?>
+                                            <a href="<?php echo $layout['edit_link']; ?>">
+                                                <?php echo $layout['title']; ?>
                                             </a>
                                         </td>
-                                        <td><?php echo $layout['location'] ?></td>
+                                        <td><?php echo $layout['location']; ?></td>
                                     </tr>
                                     <?php $last_key = $key; ?>
                                 <?php endforeach ?>
                             <?php endif; ?>
-                            <?php if ( $see_more_layouts ): ?>
+                            <?php if ( $see_more_layouts ) : ?>
                                 <tr class="<?php echo ( $last_key + 1 ) % 2 ? 'alternate' : ''; ?>">
                                     <td></td>
                                     <td>...</td>
@@ -145,13 +148,13 @@
                                 </tr>
                             <?php endif; ?>
                             </tbody>
-                            <?php if ( $see_more_layouts ): ?>
+                            <?php if ( $see_more_layouts ) : ?>
                                 <tfoot>
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <a href="<?php echo $all_layouts ?>" class="button button-secondary">
-                                            <?php _e( 'See all layouts', 'pilopress' ) ?>
+                                        <a href="<?php echo $all_layouts; ?>" class="button button-secondary">
+                                            <?php _e( 'See all layouts', 'pilopress' ); ?>
                                         </a>
                                     </td>
                                     <td></td>
@@ -172,11 +175,11 @@
                     <div id="pilopress_components_actions" class="postbox">
                         <div class="inside">
                             <h4>
-                                <strong><?php _e( 'Components', 'pilopress' ) ?></strong>
-                                <span id="pilopress_components_count"><?php echo count( $components ) ?></span>
+                                <strong><?php _e( 'Components', 'pilopress' ); ?></strong>
+                                <span id="pilopress_components_count"><?php echo count( $components ); ?></span>
                             </h4>
-                            <a href="<?php echo $add_new_component ?>" class="button button-secondary">
-                                <?php _e( 'Add new component', 'pilopress' ) ?>
+                            <a href="<?php echo $add_new_component; ?>" class="button button-secondary">
+                                <?php _e( 'Add new component', 'pilopress' ); ?>
                             </a>
                         </div>
                     </div>
@@ -187,17 +190,17 @@
                             <thead>
                             <tr>
                                 <th class="pilopress_counter">#</th>
-                                <th><strong><?php _e( 'Component name', 'pilopress' ) ?></strong></th>
+                                <th><strong><?php _e( 'Component name', 'pilopress' ); ?></strong></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php if ( $components ): ?>
+                            <?php if ( $components ) : ?>
                                 <?php foreach ( $components as $key => $component ) : ?>
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
-                                        <td class="pilopress_counter"><?php echo $key + 1 ?></td>
+                                        <td class="pilopress_counter"><?php echo $key + 1; ?></td>
                                         <td>
-                                            <a href="<?php echo get_edit_post_link( $component->ID ) ?>">
-                                                <?php echo $component->post_title ?>
+                                            <a href="<?php echo get_edit_post_link( $component->ID ); ?>">
+                                                <?php echo $component->post_title; ?>
                                             </a>
                                         </td>
                                     </tr>

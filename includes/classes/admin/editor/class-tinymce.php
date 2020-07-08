@@ -1,6 +1,10 @@
 <?php
 
 if ( !class_exists( 'PIP_TinyMCE' ) ) {
+
+    /**
+     * Class PIP_TinyMCE
+     */
     class PIP_TinyMCE {
         public function __construct() {
             // WP hooks
@@ -21,13 +25,15 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Enqueue custom TinyMCE script and add variables to it
          */
         public function localize_data() {
-            acf_localize_data( array(
-                'custom_fonts'   => self::get_custom_fonts(),
-                'custom_styles'  => self::get_custom_styles(),
-                'custom_colors'  => self::get_custom_colors(),
-                'custom_buttons' => self::get_custom_buttons(),
-                'image_sizes'    => self::get_all_image_sizes(),
-            ) );
+            acf_localize_data(
+                array(
+                    'custom_fonts'   => self::get_custom_fonts(),
+                    'custom_styles'  => self::get_custom_styles(),
+                    'custom_colors'  => self::get_custom_colors(),
+                    'custom_buttons' => self::get_custom_buttons(),
+                    'image_sizes'    => self::get_all_image_sizes(),
+                )
+            );
         }
 
         /**
@@ -48,10 +54,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     $classes = get_sub_field( 'classes_to_apply' );
 
                     // Add custom font
-                    $fonts[ sanitize_title( $label ) ] = [
+                    $fonts[ sanitize_title( $label ) ] = array(
                         'name'    => $label,
                         'classes' => $classes,
-                    ];
+                    );
                 }
             }
 
@@ -75,10 +81,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     $classes = get_sub_field( 'classes_to_apply' );
 
                     // Add custom style
-                    $custom_styles[ sanitize_title( $label ) ] = [
+                    $custom_styles[ sanitize_title( $label ) ] = array(
                         'name'    => $label,
                         'classes' => $classes,
-                    ];
+                    );
                 }
             }
 
@@ -102,10 +108,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     $classes = get_sub_field( 'classes_to_apply' );
 
                     // Add custom style
-                    $colors[ sanitize_title( $label ) ] = [
+                    $colors[ sanitize_title( $label ) ] = array(
                         'name'    => $label,
                         'classes' => $classes,
-                    ];
+                    );
                 }
             }
 
@@ -129,10 +135,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     $classes = get_sub_field( 'classes_to_apply' );
 
                     // Add custom button
-                    $buttons[ sanitize_title( $label ) ] = [
+                    $buttons[ sanitize_title( $label ) ] = array(
                         'name'    => $label,
                         'classes' => $classes,
-                    ];
+                    );
                 }
             }
 
@@ -190,7 +196,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     }
 
                     // Add google font
-                    wp_enqueue_style( 'google-font-' . sanitize_title( $name ), $url );
+                    wp_enqueue_style( 'google-font-' . sanitize_title( $name ), $url, false, PiloPress::$version );
                 }
             }
         }
@@ -375,7 +381,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
             // Get keys
             $field_keys = wp_list_pluck( $fields, 'key' );
-            
+
             $offset = 0;
 
             // Browse all fields
@@ -397,8 +403,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                         }
                     }
                 }
-                
-                $offset++;
+
+                $offset ++;
 
                 // Add dark mode field
                 acf_add_local_field( $new, true );

@@ -1,9 +1,24 @@
 <?php
 
 if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
+
+    /**
+     * Class PIP_Flexible_Mirror
+     */
     class PIP_Flexible_Mirror {
 
+        /**
+         * Flexible mirror
+         *
+         * @var object
+         */
         private static $flexible_mirror_group;
+
+        /**
+         * Flexible mirror group key
+         *
+         * @var string
+         */
         private static $flexible_mirror_group_key = 'group_pip_flexible_mirror';
 
         public function __construct() {
@@ -177,30 +192,42 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             }
 
             // Add hidden fields
-            acf_hidden_input( array(
-                'name'  => 'acf_field_group[key]',
-                'value' => PIP_Flexible_Mirror::get_flexible_mirror_group_key(),
-            ) );
-            acf_hidden_input( array(
-                'name'  => 'acf_field_group[style]',
-                'value' => 'seamless',
-            ) );
-            acf_hidden_input( array(
-                'name'  => 'acf_field_group[active]',
-                'value' => 0,
-            ) );
-            acf_hidden_input( array(
-                'name'  => 'acf_field_group[position]',
-                'value' => 'normal',
-            ) );
-            acf_hidden_input( array(
-                'name'  => 'acf_field_group[label_placement]',
-                'value' => 'left',
-            ) );
-            acf_hidden_input( array(
-                'name'  => 'acf_field_group[menu_order]',
-                'value' => 0,
-            ) );
+            acf_hidden_input(
+                array(
+                    'name'  => 'acf_field_group[key]',
+                    'value' => self::get_flexible_mirror_group_key(),
+                )
+            );
+            acf_hidden_input(
+                array(
+                    'name'  => 'acf_field_group[style]',
+                    'value' => 'seamless',
+                )
+            );
+            acf_hidden_input(
+                array(
+                    'name'  => 'acf_field_group[active]',
+                    'value' => 0,
+                )
+            );
+            acf_hidden_input(
+                array(
+                    'name'  => 'acf_field_group[position]',
+                    'value' => 'normal',
+                )
+            );
+            acf_hidden_input(
+                array(
+                    'name'  => 'acf_field_group[label_placement]',
+                    'value' => 'left',
+                )
+            );
+            acf_hidden_input(
+                array(
+                    'name'  => 'acf_field_group[menu_order]',
+                    'value' => 0,
+                )
+            );
         }
 
         /**
@@ -215,7 +242,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             $terms      = get_the_terms( $field_group_id, 'acf-layouts-category' );
             if ( $terms ) {
                 foreach ( $terms as $term ) {
-                    $url        = add_query_arg(
+                    $url = add_query_arg(
                         array(
                             'layouts'              => 1,
                             'acf-layouts-category' => $term->slug,
@@ -223,6 +250,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                         ),
                         admin_url( 'edit.php' )
                     );
+
                     $terms_html .= '<a href="' . $url . '">' . $term->name . '</a>';
                 }
             }

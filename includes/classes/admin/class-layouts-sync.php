@@ -1,6 +1,10 @@
 <?php
 
 if ( !class_exists( 'PIP_Layouts_Sync' ) ) {
+
+    /**
+     * Class PIP_Layouts_Sync
+     */
     class PIP_Layouts_Sync {
         public function __construct() {
             // ACF hooks

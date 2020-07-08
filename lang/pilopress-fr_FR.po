@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pilo'Press\n"
 "POT-Creation-Date: 2020-05-28 12:45+0200\n"
-"PO-Revision-Date: 2020-05-28 12:47+0200\n"
+"PO-Revision-Date: 2020-07-08 10:25+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -98,7 +98,7 @@ msgstr "Styles"
 
 #: includes/classes/admin/editor/class-button-field.php:13
 msgid "Button styles"
-msgstr "Ajouter un style de bouton"
+msgstr "Styles de bouton"
 
 #: includes/classes/admin/editor/class-button-field.php:67
 #: includes/classes/admin/editor/class-button-field.php:113
