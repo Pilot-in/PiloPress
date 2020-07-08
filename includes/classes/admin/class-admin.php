@@ -405,7 +405,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         public function menu_submenu_file( $submenu_file ) {
             global $current_screen;
 
-            // If layouts categories, return
+            // If layouts categories or collections, return
             if (
                 $current_screen->taxonomy === PIP_Layouts_Categories::$taxonomy_name
                 || $current_screen->taxonomy === PIP_Layouts_Collections::$taxonomy_name ) {

@@ -200,8 +200,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             } elseif ( !$is_layout ) {
 
-                // Hide layouts categories meta box
+                // Hide layouts categories and collections meta box
                 remove_meta_box( 'acf-layouts-categorydiv', 'acf-field-group', 'side' );
+                remove_meta_box( 'acf-layouts-collectiondiv', 'acf-field-group', 'side' );
             }
         }
 
