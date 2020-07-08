@@ -14,7 +14,7 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
         public function __construct() {
             $this->name     = 'pip_font_color';
             $this->label    = __( 'Font color', 'pilopress' );
-            $this->category = 'choice';
+            $this->category = __( "Pilo'Press", 'pilopress' );
             $this->defaults = array(
                 'field_type'    => 'select',
                 'choices'       => array(),

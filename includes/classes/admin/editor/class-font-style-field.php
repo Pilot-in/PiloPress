@@ -14,7 +14,7 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
         public function __construct() {
             $this->name     = 'pip_font_style';
             $this->label    = __( 'Font style', 'pilopress' );
-            $this->category = 'choice';
+            $this->category = __( "Pilo'Press", 'pilopress' );
             $this->defaults = array(
                 'field_type'    => 'select',
                 'choices'       => array(),
