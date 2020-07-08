@@ -72,14 +72,22 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Init
             include_once PIP_PATH . 'init.php';
 
-            // Init hook
+            add_action( 'init', array( $this, 'load_translations' ) );
+
+            // Meta boxes order
             add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
 
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
+        }
 
+        /**
+         * Init hook
+         * Load translations
+         */
+        public function load_translations() {
             // Load text domain file
-            pip_load_textdomain( 'pilopress' );
+            pip_load_textdomain();
         }
 
         /**
