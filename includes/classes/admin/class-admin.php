@@ -427,7 +427,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // Define submenu for Styles menu
-            if ( acf_maybe_get_GET( 'page' ) === 'pip-styles' || str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
+            if ( acf_maybe_get_GET( 'page' ) === 'pip-styles' || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
                 $submenu_file = 'pip-styles-tailwind';
             }
 
@@ -456,7 +456,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 ( $current_screen->id === 'edit-acf-field-group' && acf_maybe_get_GET( 'layouts' ) === '1' )
                 || $is_layout
                 || acf_maybe_get_GET( 'layout' ) === '1'
-                || str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) :
+                || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) :
                 ?>
                 <script type="text/javascript">
                     (

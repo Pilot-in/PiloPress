@@ -8,7 +8,7 @@
  *
  * @return bool
  */
-function str_starts( $haystack, $needle ) {
+function pip_str_starts( $haystack, $needle ) {
     $length = strlen( $needle );
 
     return ( substr( $haystack, 0, $length ) === $needle );
@@ -22,7 +22,7 @@ function str_starts( $haystack, $needle ) {
  *
  * @return bool
  */
-function str_ends( $haystack, $needle ) {
+function pip_str_ends( $haystack, $needle ) {
     $length = strlen( $needle );
     if ( $length === 0 ) {
         return true;
@@ -39,7 +39,7 @@ function str_ends( $haystack, $needle ) {
  * @return bool|int|mixed|string|void
  * @example return term_6 for term ID
  */
-function get_formatted_post_id( $post_id = false ) {
+function pip_get_formatted_post_id( $post_id = false ) {
     // If ID is specified, return
     if ( $post_id ) {
         return $post_id;
@@ -69,14 +69,13 @@ function get_formatted_post_id( $post_id = false ) {
         if ( acf_get_options_page( get_post_type() . '-archive' ) ) {
             $post_id = get_post_type() . '_archive';
         }
-
     }
 
     return $post_id;
 }
 
 /**
- * Pilot'In version of acf_maybe_get
+ * Pilo'Press version of acf_maybe_get
  * (that also handles object type)
  *
  * @param      $data
@@ -98,6 +97,7 @@ function pip_maybe_get( $data, $key = 0, $default = null ) {
         return isset( $data[ $key ] ) ? $data[ $key ] : $default;
     }
 
+    return $default;
 }
 
 /**
@@ -108,7 +108,7 @@ function pip_maybe_get( $data, $key = 0, $default = null ) {
  *
  * @return array
  */
-function array_count_values_assoc( $array, $index ) {
+function pip_array_count_values_assoc( $array, $index ) {
     $result = array();
 
     foreach ( $array as $key => $value ) {
@@ -125,7 +125,6 @@ function array_count_values_assoc( $array, $index ) {
             $result[ $value[ $index ] ] = 1;
 
         }
-
     }
 
     return $result;

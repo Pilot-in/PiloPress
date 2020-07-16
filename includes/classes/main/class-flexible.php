@@ -136,7 +136,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             $layouts      = array();
             $group_keys   = array();
             $field_groups = acf_get_field_groups();
-            $counter      = array_count_values_assoc( $field_groups, 'title' );
+            $counter      = pip_array_count_values_assoc( $field_groups, 'title' );
 
             if ( $field_groups ) {
                 foreach ( $field_groups as $field_group ) {
@@ -145,19 +145,13 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         continue;
                     }
 
+                    // Layout data
                     $title          = $field_group['title'];
                     $layout_slug    = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug', '' ) );
                     $layout_uniq_id = 'layout_' . $layout_slug;
 
-                    // Check ACFE version for retro-compatibility
-                    $acfe_version = version_compare( ACFE_VERSION, '0.8.6.7' );
-
                     // Paths
                     $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
-                    $file_url  = $acfe_version >= 0 ? 'pilopress/layouts/' . $layout_slug . '/' : PIP_THEME_LAYOUTS_URL . $layout_slug . '/';
-
-                    // Render prefix
-                    $render_prefix = $acfe_version >= 0 ? $file_url : $file_path;
 
                     // Categories
                     $categories = get_terms(
@@ -177,21 +171,24 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         )
                     );
 
-                    // Add collection badge if two layout have the same name
-                    if ( $collections && $counter[ $title ] > 1 ) {
+                    // Allow user to by-pass condition
+                    $always_show_collection = apply_filters( 'pip/layouts/always_show_collection', false );
+
+                    // Add collection badge if two layouts have the same name
+                    if ( $collections && ( $counter[ $title ] > 1 || $always_show_collection ) ) {
                         $title = '<div class="pip_collection">' . reset( $collections ) . '</div>' . $title;
                     }
 
                     // Settings
                     $layout_category  = $categories ? $categories : array();
-                    $render_layout    = $render_prefix . acf_maybe_get( $field_group, '_pip_render_layout', $layout_slug . '.php' );
-                    $render_script    = $file_url . acf_maybe_get( $field_group, '_pip_render_script', $layout_slug . '.js' );
-                    $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail', '870' );
+                    $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $layout_slug . '.php' );
+                    $render_script    = $file_path . acf_maybe_get( $field_group, '_pip_render_script', $layout_slug . '.js' );
+                    $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail' );
                     $configuration    = acf_maybe_get( $field_group, '_pip_configuration', array() );
                     $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size', array() );
 
                     // Check if JS file exists before enqueue
-                    if ( !file_exists( str_replace( $file_url, $file_path, $render_script ) ) ) {
+                    if ( !file_exists( $render_script ) ) {
                         $render_script = null;
                     }
 
@@ -358,13 +355,18 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             foreach ( $field_groups as $field_group ) {
 
+                // If not layout, skip
+                if ( !PIP_Layouts::is_layout( $field_group ) ) {
+                    continue;
+                }
+
                 // If current screen not included in field group location, skip
                 if ( !self::get_field_group_visibility( $field_group, $args ) ) {
                     continue;
                 }
 
                 // Sanitize name
-                $field_group_name = sanitize_title( $field_group['_pip_layout_slug'] );
+                $field_group_name = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug' ) );
 
                 // Browse all layouts
                 foreach ( $layouts as $key => $layout ) {
@@ -379,7 +381,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                     break;
                 }
-
             }
 
             // If no layouts, return false to hide field group
@@ -505,7 +506,7 @@ function get_pip_content( $post_id = false ) {
     }
 
     // Get content
-    $content = get_flexible( PIP_Flexible::get_flexible_field_name(), get_formatted_post_id( $post_id ) );
+    $content = get_flexible( PIP_Flexible::get_flexible_field_name(), pip_get_formatted_post_id( $post_id ) );
 
     // Maybe get pip footer
     if ( !apply_filters( 'pip/footer/remove', false ) ) {

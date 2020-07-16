@@ -53,7 +53,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          */
         public function add_compile_styles_button( $page ) {
             // If not on Styles admin page, return
-            if ( !str_starts( $page['post_id'], 'pip_styles_' ) ) {
+            if ( !pip_str_starts( $page['post_id'], 'pip_styles_' ) ) {
                 return;
             }
 
@@ -72,7 +72,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          */
         public function save_styles_settings( $post_id ) {
             // If not on Styles admin page, return
-            if ( !str_starts( $post_id, 'pip_styles_' ) ) {
+            if ( !pip_str_starts( $post_id, 'pip_styles_' ) ) {
                 return;
             }
 
@@ -126,11 +126,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             require_once PIP_PATH . '/assets/libs/tailwindapi.php';
             $tailwind = new TailwindAPI();
 
-            // Reset font family
-            $css_content = "body{ @apply font-sans }\n";
-
             // Get style css content
-            $css_content .= $tailwind_style;
+            $css_content = $tailwind_style;
 
             // Get layouts CSS
             $css_content .= PIP_Layouts::get_layouts_css();

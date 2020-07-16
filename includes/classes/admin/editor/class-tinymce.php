@@ -14,6 +14,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             add_action( 'admin_enqueue_scripts', array( $this, 'localize_data' ) );
             add_filter( 'mce_external_plugins', array( $this, 'editor_button_script' ) );
             add_filter( 'mce_css', array( $this, 'editor_style' ) );
+            add_filter( 'tiny_mce_before_init', array( $this, 'remove_tiny_mce_style' ) );
 
             // ACF hooks
             add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
@@ -433,6 +434,22 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             acf_add_local_field( $new );
 
             return $field;
+        }
+
+        /**
+         * Remove hard coded TinyMCE style
+         *
+         * @param $init
+         *
+         * @return mixed
+         */
+        public function remove_tiny_mce_style( $init ) {
+            $init['init_instance_callback'] = ''
+                                              . 'function(){'
+                                              . '    jQuery(".acf-field-wysiwyg > .acf-input iframe").contents().find("link[href*=\'content.min.css\']").remove();'
+                                              . '}';
+
+            return $init;
         }
     }
 
