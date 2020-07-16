@@ -65,18 +65,16 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
          * Make layout slug unique
          *
          * @param $field_group
-         *
-         * @return mixed
          */
         public function update_layout_setting( $field_group ) {
             // If not a layout, return
             if ( !PIP_Layouts::is_layout( $field_group ) ) {
-                return $field_group;
+                return;
             }
 
             // If ACF sync, skip
             if ( acf_maybe_get_GET( 'acfsync' ) ) {
-                return $field_group;
+                return;
             }
 
             // Get layout slug
@@ -87,7 +85,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
             // If not a duplicated layout slug, return
             if ( !$original ) {
-                return $field_group;
+                return;
             }
 
             // Initialize suffix
@@ -115,8 +113,6 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             // Update field group with new slug
             $field_group['_pip_layout_slug'] = $alt_post_name;
             acf_update_field_group( $field_group );
-
-            return $field_group;
         }
 
         /**

@@ -20,7 +20,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             add_action( 'register_post_type_args', array( $this, 'modify_acf_post_type' ), 10, 2 );
 
             // Create files and folder or rename folder
-//            add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 10, 3 );
+            add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 20, 3 );
         }
 
         /**
@@ -209,9 +209,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         /**
          * Manage layout folder and files on save
          *
-         * @param int     $post_id
-         * @param WP_Post $post
-         * @param bool    $update
+         * @param $post_id
+         * @param $post
+         * @param $update
          */
         public function save_field_group( $post_id, $post, $update ) {
             // If is a revision, not a field group or not a layout, return
@@ -224,24 +224,21 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 return;
             }
 
-            // Get old and new title
+            // Get layout slug
             $field_group = acf_get_field_group( $post_id );
-            $old_title   = sanitize_title( $field_group['_pip_layout_slug'] );
-            $data        = unserialize( $post->post_content );
-            $new_title   = $data['_pip_layout_slug'];
+            $layout_slug = sanitize_title( $field_group['_pip_layout_slug'] );
+            if ( $post->post_content ) {
+                return;
+            }
 
             // Do layout folder already exists ?
-            $folder_exists = file_exists( PIP_THEME_LAYOUTS_PATH . $old_title );
-
-            if ( $old_title === $new_title && !$folder_exists ) {
-
-                // If old and new title are the same, create new layout folder
-                $this->create_layout_dir( $old_title, $field_group );
-            } elseif ( $old_title !== $new_title && $folder_exists ) {
-
-                // If old and new title aren't the same, change layout folder name
-                $this->modify_layout_dir( $old_title, $new_title );
+            $folder_exists = file_exists( PIP_THEME_LAYOUTS_PATH . $layout_slug );
+            if ( $folder_exists ) {
+                return;
             }
+
+            // Create layout dans files
+            $this->create_layout_dir( $layout_slug, $field_group );
         }
 
         /**
@@ -576,47 +573,12 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // Create folder
             wp_mkdir_p( PIP_THEME_LAYOUTS_PATH . $layout_title );
 
-            // Options to check/modify
-            $render = array(
-                array(
-                    'render'    => '_pip_render_layout',
-                    'extension' => '.php',
-                    'default'   => $layout_title,
-                ),
-                array(
-                    'render'    => '_pip_render_style',
-                    'extension' => '.css',
-                    'default'   => $layout_title,
-                ),
-                array(
-                    'render'    => '_pip_render_script',
-                    'extension' => '.js',
-                    'default'   => $layout_title,
-                ),
-            );
-
-            // Create files
-            foreach ( $render as $item ) {
-                if ( !acf_maybe_get( $field_group, $item['render'] ) ) {
-
-                    // Get default file name
-                    $field_group[ $item['render'] ] = $item['default'] . $item['extension'];
-                }
-                touch( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $field_group[ $item['render'] ] );
-            }
+            // Create file
+            $file_name = acf_maybe_get( $field_group, '_pip_render_layout', $layout_title . '.php' );
+            touch( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $file_name );
 
             // Update field group
             acf_update_field_group( $field_group );
-        }
-
-        /**
-         * Modify layout folder title
-         *
-         * @param $old_title
-         * @param $new_title
-         */
-        private function modify_layout_dir( $old_title, $new_title ) {
-            rename( PIP_THEME_LAYOUTS_PATH . $old_title, PIP_THEME_LAYOUTS_PATH . $new_title );
         }
 
         /**
