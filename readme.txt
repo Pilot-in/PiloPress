@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.4.1
 Requires PHP: 5.6
-Stable tag: 0.3.2.5
+Stable tag: 0.3.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,17 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.3.2.6 - 16/07/2020 =
+* Added: Create `pilopress/assets` and `pilopress/layouts` folders on plugin activation
+* Improved: ACFE 0.8.6.7 Compatibility
+* Improved: Group Pilo'Press field types under "Pilo'Press" category
+* Improved: Use layout slug to autocomplete file names
+* Improved: Use layout slug for location check, allow multiple layouts to have the same name
+* Improved: Show collection badge only on layouts with the same name instead of on all layouts
+* Fixed: Filters in layout modal when collections are used
+* Fixed: Remove Collection meta box on field group pages
+* Fixed: Translations
 
 = 0.3.2.5 - 17/06/2020 =
 * Improved: Collections name tag
