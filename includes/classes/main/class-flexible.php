@@ -149,9 +149,15 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     $layout_slug    = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug', '' ) );
                     $layout_uniq_id = 'layout_' . $layout_slug;
 
+                    // Check ACFE version for retro-compatibility
+                    $acfe_version = version_compare( ACFE_VERSION, '0.8.6.7' );
+
                     // Paths
                     $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
-                    $file_url  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/';
+                    $file_url  = $acfe_version >= 0 ? 'pilopress/layouts/' . $layout_slug . '/' : PIP_THEME_LAYOUTS_URL . $layout_slug . '/';
+
+                    // Render prefix
+                    $render_prefix = $acfe_version >= 0 ? $file_url : $file_path;
 
                     // Categories
                     $categories = get_terms(
@@ -178,7 +184,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                     // Settings
                     $layout_category  = $categories ? $categories : array();
-                    $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $layout_slug . '.php' );
+                    $render_layout    = $render_prefix . acf_maybe_get( $field_group, '_pip_render_layout', $layout_slug . '.php' );
                     $render_script    = $file_url . acf_maybe_get( $field_group, '_pip_render_script', $layout_slug . '.js' );
                     $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail', '870' );
                     $configuration    = acf_maybe_get( $field_group, '_pip_configuration', array() );
