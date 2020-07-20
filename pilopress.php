@@ -75,6 +75,9 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Activation actions
             register_activation_hook( __FILE__, array( $this, 'activation' ) );
 
+            // Enqueue layouts configuration files
+            add_action( 'init', array( 'PIP_Layouts', 'enqueue_configuration_files' ), 5 );
+
             // Init hook
             add_action( 'init', array( $this, 'load_translations' ) );
 

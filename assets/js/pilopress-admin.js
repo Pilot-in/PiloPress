@@ -20,9 +20,11 @@
                 var $layoutTemplate = $( '#acf_field_group-_pip_render_layout' )
                 var $renderCSS      = $( '#acf_field_group-_pip_render_style' )
                 var $renderScript   = $( '#acf_field_group-_pip_render_script' )
+                var $configFile     = $( '#acf_field_group-_pip_config_file' )
                 var templateSwitch  = false
                 var cssSwitch       = false
                 var scriptSwitch    = false
+                var configSwitch    = false
 
                 /**
                  * When something is typed in "template" field
@@ -51,6 +53,16 @@
                     'input',
                     function () {
                         scriptSwitch = true
+                    }
+                )
+
+                /**
+                 * When something is typed in "configuration" field
+                 */
+                $configFile.on(
+                    'input',
+                    function () {
+                        configSwitch = true
                     }
                 )
 
@@ -126,8 +138,16 @@
                     if ( !scriptSwitch ) {
                         $renderScript.val(
                             (
-                                pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'scrip'
+                                pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'script'
                             ) + '.js'
+                        )
+                    }
+
+                    if ( !configSwitch ) {
+                        $configFile.val(
+                            (
+                                pip.sanitize_title( val ) ? 'configuration-' + pip.sanitize_title( val ) : 'configuration'
+                            ) + '.php'
                         )
                     }
                 }

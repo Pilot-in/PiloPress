@@ -329,6 +329,45 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 )
             );
 
+            // Add configuration file ?
+            acf_render_field_wrap(
+                array(
+                    'label'         => __( 'Configuration file', 'pilopress' ),
+                    'instructions'  => '',
+                    'key'           => 'field_add_config_file',
+                    'type'          => 'true_false',
+                    'name'          => '_pip_add_config_file',
+                    'prefix'        => 'acf_field_group',
+                    'value'         => ( isset( $field_group['field_add_config_file'] ) ? $field_group['field_add_config_file'] : '' ),
+                    'default_value' => '',
+                    'ui'            => 1,
+                )
+            );
+
+            // Configuration file
+            acf_render_field_wrap(
+                array(
+                    'label'             => __( 'Configuration file', 'pilopress' ),
+                    'instructions'      => __( 'PHP file name', 'pilopress' ),
+                    'type'              => 'text',
+                    'name'              => '_pip_config_file',
+                    'prefix'            => 'acf_field_group',
+                    'placeholder'       => 'configuration.php',
+                    'default_value'     => $layout_slug . '.php',
+                    'prepend'           => $layout_path_prefix,
+                    'value'             => isset( $field_group['_pip_config_file'] ) ? $field_group['_pip_config_file'] : '',
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field'    => 'field_add_config_file',
+                                'operator' => '==',
+                                'value'    => '1',
+                            ),
+                        ),
+                    ),
+                )
+            );
+
             // Get layouts for configuration field
             $choices = array();
 
@@ -663,6 +702,50 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             return $layouts;
         }
+
+        /**
+         * Enqueue layouts configuration files
+         */
+        public function enqueue_configuration_files() {
+            // Get field groups
+            acf_enable_local();
+            $field_groups = acf_get_field_groups();
+            acf_disable_local();
+
+            // If no field group, return
+            if ( !$field_groups ) {
+                return;
+            }
+
+            // Browse all field groups
+            foreach ( $field_groups as $field_grp ) {
+
+                // If not a layout, skip
+                if ( !self::is_layout( $field_grp ) ) {
+                    continue;
+                }
+
+                // If no configuration file added, skip
+                if ( acf_maybe_get( $field_grp, 'field_add_config_file' ) ) {
+                    continue;
+                }
+
+                // Get layout slug and file name
+                $layout_slug      = acf_maybe_get( $field_grp, '_pip_layout_slug' );
+                $config_file_name = acf_maybe_get( $field_grp, '_pip_config_file' );
+                $file_path        = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $config_file_name;
+
+                // If no file name or file doesn't exists, skip
+                if ( !$config_file_name || !file_exists( $file_path ) ) {
+                    continue;
+                }
+
+                // Include PHP file
+                include_once $file_path;
+            }
+
+        }
+
     }
 
     // Instantiate class
