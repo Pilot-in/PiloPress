@@ -177,6 +177,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             remove_meta_box( 'acf-field-group-acfe-side', 'acf-field-group', 'side' );
             remove_meta_box( 'acf-field-group-acfe', 'acf-field-group', 'normal' );
             remove_meta_box( 'acfe-wp-custom-fields', 'acf-field-group', 'normal' );
+            remove_meta_box( 'acf-layouts-collectiondiv', 'acf-field-group', 'side' );
 
         }
 
