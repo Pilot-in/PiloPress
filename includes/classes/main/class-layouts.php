@@ -621,6 +621,49 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         }
 
         /**
+         * Enqueue layouts configuration files
+         */
+        public function enqueue_configuration_files() {
+            // Get field groups
+            acf_enable_local();
+            $field_groups = acf_get_field_groups();
+            acf_disable_local();
+
+            // If no field group, return
+            if ( !$field_groups ) {
+                return;
+            }
+
+            // Browse all field groups
+            foreach ( $field_groups as $field_grp ) {
+
+                // If not a layout, skip
+                if ( !self::is_layout( $field_grp ) ) {
+                    continue;
+                }
+
+                // If no configuration file added, skip
+                if ( acf_maybe_get( $field_grp, 'field_add_config_file' ) ) {
+                    continue;
+                }
+
+                // Get layout slug and file name
+                $layout_slug      = acf_maybe_get( $field_grp, '_pip_layout_slug' );
+                $config_file_name = acf_maybe_get( $field_grp, '_pip_config_file' );
+                $file_path        = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $config_file_name;
+
+                // If no file name or file doesn't exists, skip
+                if ( !$config_file_name || !file_exists( $file_path ) ) {
+                    continue;
+                }
+
+                // Include PHP file
+                include_once $file_path;
+            }
+
+        }
+
+        /**
          * Get all layouts CSS files content
          *
          * @return string
@@ -701,49 +744,6 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             return $layouts;
-        }
-
-        /**
-         * Enqueue layouts configuration files
-         */
-        public function enqueue_configuration_files() {
-            // Get field groups
-            acf_enable_local();
-            $field_groups = acf_get_field_groups();
-            acf_disable_local();
-
-            // If no field group, return
-            if ( !$field_groups ) {
-                return;
-            }
-
-            // Browse all field groups
-            foreach ( $field_groups as $field_grp ) {
-
-                // If not a layout, skip
-                if ( !self::is_layout( $field_grp ) ) {
-                    continue;
-                }
-
-                // If no configuration file added, skip
-                if ( acf_maybe_get( $field_grp, 'field_add_config_file' ) ) {
-                    continue;
-                }
-
-                // Get layout slug and file name
-                $layout_slug      = acf_maybe_get( $field_grp, '_pip_layout_slug' );
-                $config_file_name = acf_maybe_get( $field_grp, '_pip_config_file' );
-                $file_path        = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $config_file_name;
-
-                // If no file name or file doesn't exists, skip
-                if ( !$config_file_name || !file_exists( $file_path ) ) {
-                    continue;
-                }
-
-                // Include PHP file
-                include_once $file_path;
-            }
-
         }
 
     }
