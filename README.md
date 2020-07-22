@@ -102,6 +102,15 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
+### 0.3.2.7 - 22/07/2020
+* Added: `pip/layouts/always_show_collection` filter
+* Added: Layout configuration file option
+* Added: Allow png, jpeg, jpg file inside layout folder to be used as thumbnail. The file needs to be named as the layout slug.
+* Added: Create layout folder and PHP file on layout creation
+* Improved: Rename helpers functions
+* Improved: Reset TinyMCE styles in a cleaner way
+* Improved: Register conditions for Pilo'Press field types
+
 ### 0.3.2.6 - 16/07/2020
 * Added: Create `pilopress/assets` and `pilopress/layouts` folders on plugin activation
 * Improved: ACFE 0.8.6.7 Compatibility

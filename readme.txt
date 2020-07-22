@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.4.1
 Requires PHP: 5.6
-Stable tag: 0.3.2.6
+Stable tag: 0.3.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,15 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.3.2.7 - 22/07/2020 =
+* Added: `pip/layouts/always_show_collection` filter
+* Added: Layout configuration file option
+* Added: Allow png, jpeg, jpg file inside layout folder to be used as thumbnail. The file needs to be named as the layout slug.
+* Added: Create layout folder and PHP file on layout creation
+* Improved: Rename helpers functions
+* Improved: Reset TinyMCE styles in a cleaner way
+* Improved: Register conditions for Pilo'Press field types
 
 = 0.3.2.6 - 16/07/2020 =
 * Added: Create `pilopress/assets` and `pilopress/layouts` folders on plugin activation
