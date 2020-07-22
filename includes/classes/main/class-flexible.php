@@ -148,6 +148,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                     // Layout data
                     $title          = $field_group['title'];
+                    $name           = sanitize_title( $field_group['title'] );
                     $layout_slug    = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug', '' ) );
                     $layout_uniq_id = 'layout_' . $layout_slug;
 
@@ -207,14 +208,14 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     // Store layout
                     $layouts[ $layout_uniq_id ] = array(
                         'key'                           => $layout_uniq_id,
-                        'name'                          => $layout_slug,
+                        'name'                          => $name,
                         'label'                         => $title,
                         'display'                       => $display,
                         'sub_fields'                    => array(
                             array(
                                 'key'               => 'field_clone_' . $layout_slug,
                                 'label'             => $title,
-                                'name'              => $layout_slug,
+                                'name'              => $name,
                                 'type'              => 'clone',
                                 'instructions'      => '',
                                 'required'          => 0,
@@ -367,13 +368,14 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 }
 
                 // Sanitize name
-                $field_group_name = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug' ) );
+                $field_group_name  = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug' ) );
+                $field_group_title = sanitize_title( acf_maybe_get( $field_group, 'title' ) );
 
                 // Browse all layouts
                 foreach ( $layouts as $key => $layout ) {
 
                     // If field group not in layouts, skip
-                    if ( $layout['name'] !== $field_group_name ) {
+                    if ( $layout['name'] !== $field_group_name && $layout['name'] !== $field_group_title ) {
                         continue;
                     }
 
@@ -450,8 +452,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     $classes = reset( $classes );
                     $classes = explode( ' ', $classes );
 
-                    // If already has thumbnail, skip
-                    if ( !in_array( 'acfe-flexible-layout-thumbnail-not-found', $classes ) ) {
+                    // If already has thumbnail or is collection badge, skip
+                    if ( !in_array( 'acfe-flexible-layout-thumbnail-not-found', $classes ) || in_array( 'pip_collection', $classes ) ) {
                         continue;
                     }
 
@@ -463,6 +465,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                     // Get file URL
                     $div       = null;
+                    $style     = null;
                     $extension = null;
                     switch ( $file_path ) {
                         case file_exists( $file_path . '.png' ):
@@ -478,13 +481,17 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                     // Generate CSS
                     if ( $extension ) {
-                        $div['style'] = 'background-image:url(' . $file_url . $extension . ');';
+                        $style = 'background-image:url(' . $file_url . $extension . ');';
                     }
 
                     // Add thumbnail
-                    if ( acf_maybe_get( $div, 'style' ) ) {
+                    if ( $style ) {
                         $layout_label    = str_replace( 'acfe-flexible-layout-thumbnail-not-found', '', $layout_label );
-                        $layout_label    = str_replace( '<div ', '<div ' . acf_esc_attrs( $div ) . ' ', $layout_label );
+                        $layout_label    = str_replace(
+                            '<div class="acfe-flexible-layout-thumbnail ',
+                            '<div style="' . $style . '"  class="acfe-flexible-layout-thumbnail ',
+                            $layout_label
+                        );
                         $layout['label'] = $layout_label;
                     }
                 }

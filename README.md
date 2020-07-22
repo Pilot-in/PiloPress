@@ -102,6 +102,9 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
+### 0.3.2.8 - 22/07/2020
+* Fixed: Collection badge style with automatic thumbnail
+
 ### 0.3.2.7 - 22/07/2020
 * Added: `pip/layouts/always_show_collection` filter
 * Added: Layout configuration file option

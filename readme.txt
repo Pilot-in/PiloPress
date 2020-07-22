@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.4.1
 Requires PHP: 5.6
-Stable tag: 0.3.2.7
+Stable tag: 0.3.2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,9 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.3.2.8 - 22/07/2020 =
+* Fixed: Collection badge style with automatic thumbnail
 
 = 0.3.2.7 - 22/07/2020 =
 * Added: `pip/layouts/always_show_collection` filter
