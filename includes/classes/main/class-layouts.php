@@ -623,11 +623,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         /**
          * Enqueue layouts configuration files
          */
-        public function enqueue_configuration_files() {
+        public static function enqueue_configuration_files() {
             // Get field groups
-            acf_enable_local();
             $field_groups = acf_get_field_groups();
-            acf_disable_local();
 
             // If no field group, return
             if ( !$field_groups ) {
@@ -643,7 +641,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 }
 
                 // If no configuration file added, skip
-                if ( acf_maybe_get( $field_grp, 'field_add_config_file' ) ) {
+                if ( !acf_maybe_get( $field_grp, 'field_add_config_file' ) ) {
                     continue;
                 }
 
