@@ -35,11 +35,11 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
 
             $this->pages = array(
-                'tailwind'    => array(
-                    'page_title'     => __( 'Tailwind', 'pilopress' ),
+                'configuration' => array(
+                    'page_title'     => __( 'Configuration', 'pilopress' ),
                     'menu_title'     => __( 'Styles', 'pilopress' ),
-                    'menu_slug'      => 'pip-styles-tailwind',
-                    'post_id'        => 'pip_styles_tailwind',
+                    'menu_slug'      => 'pip-styles-configuration',
+                    'post_id'        => 'pip_styles_configuration',
                     'capability'     => $capability,
                     'parent_slug'    => 'pilopress',
                     'update_button'  => __( 'Update', 'acf' ),
@@ -49,13 +49,13 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
-                'fonts'       => array(
+                'fonts'         => array(
                     'page_title'     => __( 'Fonts', 'pilopress' ),
                     'menu_title'     => __( 'Fonts', 'pilopress' ),
                     'menu_slug'      => 'pip-styles-fonts',
                     'post_id'        => 'pip_styles_fonts',
                     'capability'     => $capability,
-                    'parent_slug'    => 'pip-styles-tailwind',
+                    'parent_slug'    => 'pip-styles-configuration',
                     'update_button'  => __( 'Update', 'acf' ),
                     'update_message' => __( 'Options Updated', 'acf' ),
                     'autoload'       => 1,
@@ -63,13 +63,13 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
-                'image-sizes' => array(
+                'image-sizes'   => array(
                     'page_title'     => __( 'Images', 'pilopress' ),
                     'menu_title'     => __( 'Images', 'pilopress' ),
                     'menu_slug'      => 'pip-styles-image-sizes',
                     'post_id'        => 'pip_styles_image_sizes',
                     'capability'     => $capability,
-                    'parent_slug'    => 'pip-styles-tailwind',
+                    'parent_slug'    => 'pip-styles-configuration',
                     'update_button'  => __( 'Update', 'acf' ),
                     'update_message' => __( 'Options Updated', 'acf' ),
                     'autoload'       => 1,
@@ -77,13 +77,27 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
-                'tinymce'     => array(
-                    'page_title'     => __( 'TinyMCE', 'pilopress' ),
-                    'menu_title'     => __( 'TinyMCE', 'pilopress' ),
-                    'menu_slug'      => 'pip-styles-tinymce',
-                    'post_id'        => 'pip_styles_tinymce',
+                'modules'       => array(
+                    'page_title'     => __( 'Modules', 'pilopress' ),
+                    'menu_title'     => __( 'Modules', 'pilopress' ),
+                    'menu_slug'      => 'pip-styles-modules',
+                    'post_id'        => 'pip_styles_modules',
                     'capability'     => $capability,
-                    'parent_slug'    => 'pip-styles-tailwind',
+                    'parent_slug'    => 'pip-styles-configuration',
+                    'update_button'  => __( 'Update', 'acf' ),
+                    'update_message' => __( 'Options Updated', 'acf' ),
+                    'autoload'       => 1,
+                    'redirect'       => 0,
+                    'icon_url'       => '',
+                    'position'       => 82,
+                ),
+                'tailwind'      => array(
+                    'page_title'     => __( 'TailwindCSS', 'pilopress' ),
+                    'menu_title'     => __( 'TailwindCSS', 'pilopress' ),
+                    'menu_slug'      => 'pip-styles-tailwind',
+                    'post_id'        => 'pip_styles_tailwind',
+                    'capability'     => $capability,
+                    'parent_slug'    => 'pip-styles-configuration',
                     'update_button'  => __( 'Update', 'acf' ),
                     'update_message' => __( 'Options Updated', 'acf' ),
                     'autoload'       => 1,

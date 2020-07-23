@@ -12,7 +12,7 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
     class PIP_Font_Style_Field extends acf_field {
 
         public function __construct() {
-            $this->name     = 'pip_font_style';
+            $this->name     = 'pip_typography';
             $this->label    = __( 'Font style', 'pilopress' );
             $this->category = __( "Pilo'Press", 'pilopress' );
             $this->defaults = array(

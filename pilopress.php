@@ -190,7 +190,8 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/admin/options-pages/styles-option-tailwind.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
-            pip_include( 'includes/classes/admin/options-pages/styles-option-tinymce.php' );
+            pip_include( 'includes/classes/admin/options-pages/styles-option-configuration.php' );
+            pip_include( 'includes/classes/admin/options-pages/styles-option-modules.php' );
         }
 
         /**

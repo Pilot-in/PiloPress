@@ -364,7 +364,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     'title'  => __( 'Styles', 'pilopress' ),
                     'href'   => add_query_arg(
                         array(
-                            'page' => 'pip-styles-tailwind',
+                            'page' => 'pip-styles-configuration',
                         ),
                         admin_url( 'admin.php' )
                     ),
@@ -429,7 +429,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Define submenu for Styles menu
             if ( acf_maybe_get_GET( 'page' ) === 'pip-styles' || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
-                $submenu_file = 'pip-styles-tailwind';
+                $submenu_file = 'pip-styles-configuration';
             }
 
             // Define submenu for Pattern menu

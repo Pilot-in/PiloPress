@@ -46,8 +46,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $fonts = array();
 
             // Get custom fonts
-            if ( have_rows( 'pip_font_family', 'pip_styles_tinymce' ) ) {
-                while ( have_rows( 'pip_font_family', 'pip_styles_tinymce' ) ) {
+            if ( have_rows( 'pip_font_family', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_font_family', 'pip_styles_configuration' ) ) {
                     the_row();
 
                     // Get font name
@@ -74,8 +74,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $custom_styles = array();
 
             // Get custom styles
-            if ( have_rows( 'pip_font_style', 'pip_styles_tinymce' ) ) {
-                while ( have_rows( 'pip_font_style', 'pip_styles_tinymce' ) ) {
+            if ( have_rows( 'pip_typography', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_typography', 'pip_styles_configuration' ) ) {
                     the_row();
 
                     $label   = get_sub_field( 'label' );
@@ -101,8 +101,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $colors = array();
 
             // Get custom styles
-            if ( have_rows( 'pip_font_color', 'pip_styles_tinymce' ) ) {
-                while ( have_rows( 'pip_font_color', 'pip_styles_tinymce' ) ) {
+            if ( have_rows( 'pip_font_color', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_font_color', 'pip_styles_configuration' ) ) {
                     the_row();
 
                     $label   = get_sub_field( 'label' );
@@ -128,8 +128,8 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $buttons = array();
 
             // Get custom buttons
-            if ( have_rows( 'pip_button', 'pip_styles_tinymce' ) ) {
-                while ( have_rows( 'pip_button', 'pip_styles_tinymce' ) ) {
+            if ( have_rows( 'pip_button', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_button', 'pip_styles_configuration' ) ) {
                     the_row();
 
                     $label   = get_sub_field( 'label' );

@@ -13,11 +13,21 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_pip_style' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_pip_style' ) );
 
-            // ACF hooks
+            // Save styles action
             add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
+
+            // Add compile button
+            add_action( 'acf/options_page/submitbox_major_actions', array( $this, 'add_compile_styles_button' ) );
+
+            // WP Image sizes
             add_filter( 'acf/load_value/name=pip_wp_image_sizes', array( $this, 'pre_populate_wp_image_sizes' ), 10, 3 );
             add_filter( 'acf/prepare_field/name=pip_wp_image_sizes', array( $this, 'configure_wp_image_sizes' ) );
-            add_action( 'acf/options_page/submitbox_major_actions', array( $this, 'add_compile_styles_button' ) );
+
+            // Typography
+            add_filter( 'acf/load_value/name=pip_typography', array( $this, 'pre_populate_typography' ), 10, 3 );
+
+            // Breakpoints
+            add_filter( 'acf/load_value/name=pip_screens', array( $this, 'pre_populate_screens' ), 10, 3 );
         }
 
         /**
@@ -84,29 +94,30 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                 return;
             }
 
-            // Save CSS
-            $tailwind_style = '';
-            $tailwind_css   = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
-            if ( $tailwind_css ) {
-                // Get style
-                $tailwind_style = $tailwind_css['tailwind_style'];
-
-                // Get include position and get custom fonts
-                $base_include_pos = strpos( $tailwind_style, '@tailwind components;' );
-                $custom_fonts     = self::css_custom_fonts() . "\n";
-
-                // If include position is positive and there is custom fonts
-                if ( $base_include_pos !== false && $custom_fonts ) {
-
-                    // Insert @font-face lines
-                    $tailwind_style = substr_replace( $tailwind_style, $custom_fonts, $base_include_pos, 0 );
-                }
-
-            }
-
             // Update & Compile button
             $compile = acf_maybe_get_POST( 'update_compile' );
             if ( $compile ) {
+
+                // Save CSS
+                $tailwind_style = '';
+                $tailwind_css   = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
+                if ( $tailwind_css ) {
+
+                    // Get style
+                    $tailwind_style = $tailwind_css['tailwind_style'];
+
+                    // Get include position and get custom fonts
+                    $base_include_pos = strpos( $tailwind_style, '@tailwind components;' );
+                    $custom_fonts     = self::css_custom_fonts() . "\n";
+
+                    // If include position is positive and there is custom fonts
+                    if ( $base_include_pos !== false && $custom_fonts ) {
+
+                        // Insert @font-face lines
+                        $tailwind_style = substr_replace( $tailwind_style, $custom_fonts, $base_include_pos, 0 );
+                    }
+
+                }
 
                 $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
 
@@ -375,6 +386,76 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
 
             return $size_names;
         }
+
+        /**
+         * Pre-populate repeater with h1 to h6 tags
+         *
+         * @param $value
+         * @param $post_id
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function pre_populate_typography( $value, $post_id, $field ) {
+            // If value has been modified, return
+            if ( $value ) {
+                return $value;
+            }
+
+            // Add default values
+            $new_values = array();
+            for ( $i = 1; $i <= 6; $i ++ ) {
+                $new_values[] = array(
+                    'field_typography_label'            => 'Title ' . $i,
+                    'field_typography_class_name'       => 'h' . $i,
+                    'field_typography_classes_to_apply' => '',
+                );
+            }
+
+            // Return default values
+            return $new_values;
+        }
+
+        /**
+         * Pre-populate repeater with default screens
+         *
+         * @param $value
+         * @param $post_id
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function pre_populate_screens( $value, $post_id, $field ) {
+            // If value has been modified, return
+            if ( $value ) {
+                return $value;
+            }
+
+            // Return default values
+            return array(
+                array(
+                    'field_screen_name'  => 'xs',
+                    'field_screen_value' => '375px',
+                ),
+                array(
+                    'field_screen_name'  => 'sm',
+                    'field_screen_value' => '640px',
+                ),
+                array(
+                    'field_screen_name'  => 'md',
+                    'field_screen_value' => '768px',
+                ),
+                array(
+                    'field_screen_name'  => 'lg',
+                    'field_screen_value' => '1024px',
+                ),
+                array(
+                    'field_screen_name'  => 'xl',
+                    'field_screen_value' => '1280px',
+                ),
+            );
+        }
+
     }
 
     // Instantiate class
