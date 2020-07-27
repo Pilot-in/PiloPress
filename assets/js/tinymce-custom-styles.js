@@ -29,7 +29,7 @@
                         textStyle: key,
                         format: {
                             inline: 'span',
-                            classes: color.classes,
+                            classes: 'text-' + color.class_name,
                             wrapper: true,
                             deep: true,
                             split: true,
@@ -55,7 +55,7 @@
                         textStyle: 'font-family:' + font.name,
                         format: {
                             inline: 'span',
-                            classes: font.classes,
+                            classes: 'font-' + font.class_name,
                             wrapper: true,
                             deep: true,
                             split: true,
@@ -81,7 +81,7 @@
                         textStyle: key,
                         format: {
                             block: 'span',
-                            classes: style.classes,
+                            classes: style.class_name,
                             wrapper: true,
                             deep: true,
                             split: true,

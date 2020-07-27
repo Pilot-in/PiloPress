@@ -28,7 +28,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          *
          * @var string
          */
-        public static $version = '0.3.2.8';
+        public $version = '0.3.2.8';
 
         /**
          * ACF
@@ -56,6 +56,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          */
         public function initialize() {
             // Constants
+            $this->define( 'PIP_VERSION', $this->version );
             $this->define( 'PIP_FILE', __FILE__ );
             $this->define( 'PIP_PATH', plugin_dir_path( __FILE__ ) );
             $this->define( 'PIP_URL', plugin_dir_url( __FILE__ ) );
@@ -151,14 +152,12 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Include files
          */
         public function includes() {
-            // Helpers
-            pip_include( 'includes/helpers.php' );
-
             // Components
             pip_include( 'includes/classes/components/class-components.php' );
             pip_include( 'includes/classes/components/class-component-field-type.php' );
 
             // Main
+            pip_include( 'includes/classes/main/class-main.php' );
             pip_include( 'includes/classes/main/class-layouts-collections.php' );
             pip_include( 'includes/classes/main/class-layouts-categories.php' );
             pip_include( 'includes/classes/main/class-flexible.php' );
@@ -177,21 +176,27 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/admin/class-options-single-meta.php' );
 
             // Admin - Editor
-            pip_include( 'includes/classes/admin/editor/class-tinymce.php' );
             pip_include( 'includes/classes/admin/editor/class-shortcodes.php' );
-            pip_include( 'includes/classes/admin/editor/class-styles-settings.php' );
             pip_include( 'includes/classes/admin/editor/class-font-style-field.php' );
             pip_include( 'includes/classes/admin/editor/class-font-family-field.php' );
             pip_include( 'includes/classes/admin/editor/class-font-color-field.php' );
             pip_include( 'includes/classes/admin/editor/class-button-field.php' );
 
             // Admin - Options pages
+            pip_include( 'includes/classes/admin/options-pages/class-options-pages.php' );
             pip_include( 'includes/classes/admin/options-pages/class-admin-options-page.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-tailwind.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-fonts.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-image-sizes.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-configuration.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-modules.php' );
+
+            // Modules
+            pip_include( 'includes/classes/admin/modules/class-tinymce.php' );
+            pip_include( 'includes/classes/admin/modules/class-tailwind.php' );
+
+            // Helpers
+            pip_include( 'includes/helpers.php' );
         }
 
         /**

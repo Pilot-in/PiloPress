@@ -7,6 +7,12 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
      */
     class PIP_TinyMCE {
         public function __construct() {
+            // Check if module is enable
+            $modules = get_field( 'pip_modules', 'pip_styles_modules' );
+            if ( !acf_maybe_get( $modules, 'tinymce' ) ) {
+                return;
+            }
+
             // WP hooks
             add_action( 'wp_enqueue_scripts', array( $this, 'custom_fonts_stylesheets' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'custom_fonts_stylesheets' ) );
@@ -29,7 +35,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             acf_localize_data(
                 array(
                     'custom_fonts'   => self::get_custom_fonts(),
-                    'custom_styles'  => self::get_custom_styles(),
+                    'custom_styles'  => self::get_custom_typography(),
                     'custom_colors'  => self::get_custom_colors(),
                     'custom_buttons' => self::get_custom_buttons(),
                     'image_sizes'    => self::get_all_image_sizes(),
@@ -38,7 +44,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
         }
 
         /**
-         * Get custom fonts families
+         * Get custom fonts
          *
          * @return array
          */
@@ -46,19 +52,49 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $fonts = array();
 
             // Get custom fonts
-            if ( have_rows( 'pip_font_family', 'pip_styles_configuration' ) ) {
-                while ( have_rows( 'pip_font_family', 'pip_styles_configuration' ) ) {
+            if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
+                while ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
                     the_row();
 
-                    // Get font name
-                    $label   = get_sub_field( 'label' );
-                    $classes = get_sub_field( 'classes_to_apply' );
+                    switch ( get_row_layout() ) {
 
-                    // Add custom font
-                    $fonts[ sanitize_title( $label ) ] = array(
-                        'name'    => $label,
-                        'classes' => $classes,
-                    );
+                        case 'google_font':
+                            // Get font name
+                            $label      = get_sub_field( 'name' );
+                            $url        = get_sub_field( 'url' );
+                            $enqueue    = get_sub_field( 'enqueue' );
+                            $class_name = get_sub_field( 'class_name' );
+                            $class_name = $class_name ? $class_name : sanitize_title( $label );
+
+                            // Add custom font
+                            $fonts[ sanitize_title( $label ) ] = array(
+                                'name'       => $label,
+                                'class_name' => $class_name,
+                                'url'        => $url,
+                                'enqueue'    => $enqueue,
+                            );
+                            break;
+
+                        case 'custom_font':
+                            // Get font name
+                            $label      = get_sub_field( 'name' );
+                            $files      = get_sub_field( 'files' );
+                            $weight     = get_sub_field( 'weight' );
+                            $style      = get_sub_field( 'style' );
+                            $class_name = get_sub_field( 'class_name' );
+                            $class_name = $class_name ? $class_name : sanitize_title( $label );
+
+                            // Add custom font
+                            $fonts[ sanitize_title( $label ) ] = array(
+                                'name'       => $label,
+                                'class_name' => $class_name,
+                                'files'      => $files,
+                                'weight'     => $weight,
+                                'style'      => $style,
+                            );
+                            break;
+
+                    }
                 }
             }
 
@@ -66,11 +102,11 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
         }
 
         /**
-         * Get custom font styles
+         * Get custom typography
          *
          * @return array
          */
-        public static function get_custom_styles() {
+        public static function get_custom_typography() {
             $custom_styles = array();
 
             // Get custom styles
@@ -78,13 +114,15 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 while ( have_rows( 'pip_typography', 'pip_styles_configuration' ) ) {
                     the_row();
 
-                    $label   = get_sub_field( 'label' );
-                    $classes = get_sub_field( 'classes_to_apply' );
+                    $label            = get_sub_field( 'label' );
+                    $class_name       = get_sub_field( 'class_name' );
+                    $classes_to_apply = get_sub_field( 'classes_to_apply' );
 
                     // Add custom style
                     $custom_styles[ sanitize_title( $label ) ] = array(
-                        'name'    => $label,
-                        'classes' => $classes,
+                        'name'             => $label,
+                        'class_name'       => $class_name,
+                        'classes_to_apply' => $classes_to_apply,
                     );
                 }
             }
@@ -93,26 +131,70 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
         }
 
         /**
-         * Get custom font colors
+         * Get custom colors
          *
          * @return array
          */
         public static function get_custom_colors() {
             $colors = array();
 
-            // Get custom styles
-            if ( have_rows( 'pip_font_color', 'pip_styles_configuration' ) ) {
-                while ( have_rows( 'pip_font_color', 'pip_styles_configuration' ) ) {
+            // Get simple colors
+            if ( have_rows( 'pip_simple_colors', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_simple_colors', 'pip_styles_configuration' ) ) {
                     the_row();
 
-                    $label   = get_sub_field( 'label' );
-                    $classes = get_sub_field( 'classes_to_apply' );
+                    $add_to_editor = get_sub_field( 'add_to_editor' );
+
+                    // If not add to editor, skip
+                    if ( !$add_to_editor ) {
+                        continue;
+                    }
+
+                    $label            = get_sub_field( 'label' );
+                    $name             = get_sub_field( 'name' );
+                    $classes_to_apply = get_sub_field( 'classes_to_apply' );
 
                     // Add custom style
                     $colors[ sanitize_title( $label ) ] = array(
-                        'name'    => $label,
-                        'classes' => $classes,
+                        'name'             => $label,
+                        'class_name'       => $name,
+                        'classes_to_apply' => $classes_to_apply,
                     );
+                }
+            }
+
+            // Get colors with shades
+            if ( have_rows( 'pip_colors_shades', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_colors_shades', 'pip_styles_configuration' ) ) {
+                    the_row();
+
+                    $color_name = get_sub_field( 'color_name' );
+
+                    // Get shades
+                    if ( have_rows( 'shades' ) ) {
+                        while ( have_rows( 'shades' ) ) {
+                            the_row();
+
+                            $add_to_editor = get_sub_field( 'add_to_editor' );
+
+                            // If not add to editor, skip
+                            if ( !$add_to_editor ) {
+                                continue;
+                            }
+
+                            $label            = get_sub_field( 'label' );
+                            $name             = get_sub_field( 'shade_name' );
+                            $classes_to_apply = get_sub_field( 'classes_to_apply' );
+
+                            // Add custom style
+                            $colors[ sanitize_title( $label ) ] = array(
+                                'name'             => $label,
+                                'class_name'       => $color_name . '-' . $name,
+                                'classes_to_apply' => $classes_to_apply,
+                            );
+
+                        }
+                    }
                 }
             }
 
@@ -120,7 +202,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
         }
 
         /**
-         * Get custom font buttons
+         * Get custom buttons
          *
          * @return array
          */
@@ -132,13 +214,15 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 while ( have_rows( 'pip_button', 'pip_styles_configuration' ) ) {
                     the_row();
 
-                    $label   = get_sub_field( 'label' );
-                    $classes = get_sub_field( 'classes_to_apply' );
+                    $label            = get_sub_field( 'label' );
+                    $class_name       = get_sub_field( 'class_name' );
+                    $classes_to_apply = get_sub_field( 'classes_to_apply' );
 
                     // Add custom button
                     $buttons[ sanitize_title( $label ) ] = array(
-                        'name'    => $label,
-                        'classes' => $classes,
+                        'name'             => $label,
+                        'class_name'       => $class_name,
+                        'classes_to_apply' => $classes_to_apply,
                     );
                 }
             }
@@ -197,7 +281,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     }
 
                     // Add google font
-                    wp_enqueue_style( 'google-font-' . sanitize_title( $name ), $url, false, PiloPress::$version );
+                    wp_enqueue_style( 'google-font-' . sanitize_title( $name ), $url, false, PIP_VERSION );
                 }
             }
         }
@@ -455,4 +539,40 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
     // Instantiate class
     new PIP_TinyMCE();
+}
+
+/**
+ * Get Pilo'Press fonts
+ *
+ * @return array
+ */
+function pip_get_fonts() {
+    return PIP_TinyMCE::get_custom_fonts();
+}
+
+/**
+ * Get Pilo'Press colors
+ *
+ * @return array
+ */
+function pip_get_colors() {
+    return PIP_TinyMCE::get_custom_colors();
+}
+
+/**
+ * Get Pilo'Press buttons
+ *
+ * @return array
+ */
+function pip_get_buttons() {
+    return PIP_TinyMCE::get_custom_buttons();
+}
+
+/**
+ * Get Pilo'Press typography
+ *
+ * @return array
+ */
+function pip_get_typography() {
+    return PIP_TinyMCE::get_custom_typography();
 }

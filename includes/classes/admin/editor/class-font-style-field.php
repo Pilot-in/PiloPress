@@ -34,7 +34,7 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
          */
         private static function get_choices() {
             $choices       = array();
-            $custom_styles = PIP_TinyMCE::get_custom_styles();
+            $custom_styles = PIP_TinyMCE::get_custom_typography();
             if ( $custom_styles ) {
                 foreach ( $custom_styles as $key => $custom_style ) {
                     $choices[ $key ] = $custom_style['name'];
@@ -259,7 +259,7 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
          */
         public function format_value( $value, $post_id, $field ) {
             // Get all font styles
-            $choices = PIP_TinyMCE::get_custom_styles();
+            $choices = PIP_TinyMCE::get_custom_typography();
 
             $return = null;
             if ( is_array( $value ) ) {

@@ -25,13 +25,13 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function enqueue_scripts() {
             // Styles
-            wp_enqueue_style( 'pilopress-admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), PiloPress::$version );
+            wp_enqueue_style( 'pilopress-admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), PIP_VERSION );
             self::maybe_enqueue_layout_admin_style();
 
             // Scripts
-            wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), PiloPress::$version, true );
+            wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), PIP_VERSION, true );
             wp_localize_script( 'pilopress-admin-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
-            wp_enqueue_script( 'pilopress-fields', PIP_URL . 'assets/js/pilopress-fields.js', array( 'jquery' ), PiloPress::$version, true );
+            wp_enqueue_script( 'pilopress-fields', PIP_URL . 'assets/js/pilopress-fields.js', array( 'jquery' ), PIP_VERSION, true );
         }
 
         /**
@@ -49,7 +49,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 return;
             }
 
-            wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), PiloPress::$version );
+            wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), PIP_VERSION );
         }
 
         /**
