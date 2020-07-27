@@ -11,7 +11,7 @@
             return $.map(
                 buttons,
                 function ( button, key ) {
-                    return { text: button.name, value: button.classes }
+                    return { text: button.name, value: button.class_name }
                 }
             )
         }
