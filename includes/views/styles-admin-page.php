@@ -39,7 +39,15 @@
                 <div id="postbox-container-2" class="postbox-container">
 
                     <div class="nav-tab-wrapper">
-                        <?php foreach ( $pages as $page ) : ?>
+                        <?php foreach ( $pages as $key => $page ) : ?>
+                            <?php
+
+                            // If TailwindCSS module is not enable, skip
+                            $modules = pip_get_modules();
+                            if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind' ) {
+                                continue;
+                            }
+                            ?>
                             <a
                                 href="<?php echo add_query_arg( array( 'page' => $page['menu_slug'] ), admin_url( 'admin.php' ) ); ?>"
                                 class="nav-tab <?php echo $current_page === $page['menu_slug'] ? 'nav-tab-active' : ''; ?>">

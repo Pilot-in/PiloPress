@@ -8,7 +8,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
     class PIP_Tailwind {
         public function __construct() {
             // Check if module is enable
-            $modules = get_field( 'pip_modules', 'pip_styles_modules' );
+            $modules = pip_get_modules();
             if ( !acf_maybe_get( $modules, 'tailwind' ) ) {
                 return;
             }
@@ -55,33 +55,349 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
             // Update & Compile button
             $compile = acf_maybe_get_POST( 'update_compile' );
-            if ( $compile ) {
+            if ( !$compile ) {
+                return;
+            }
 
-                // Save CSS
-                $tailwind_style = '';
-                $tailwind_css   = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
-                if ( $tailwind_css ) {
+            // Get CSS
+            $tailwind_style = self::get_tailwind_css();
 
-                    // Get style
-                    $tailwind_style = $tailwind_css['tailwind_style'];
+            // Get layouts CSS
+            $tailwind_style .= PIP_Layouts::get_layouts_css();
 
-                    // Get include position and get custom fonts
-                    $base_include_pos = strpos( $tailwind_style, '@tailwind components;' );
-                    $custom_fonts     = self::css_custom_fonts() . "\n";
+            // Get config
+            $tailwind_config = self::get_tailwind_config();
 
-                    // If include position is positive and there is custom fonts
-                    if ( $base_include_pos !== false && $custom_fonts ) {
+            // Compile styles
+            self::compile_tailwind( $tailwind_style, $tailwind_config );
+        }
 
-                        // Insert @font-face lines
-                        $tailwind_style = substr_replace( $tailwind_style, $custom_fonts, $base_include_pos, 0 );
-                    }
+        /**
+         * Get CSS for TailwindCSS build
+         *
+         * @return string
+         */
+        private static function get_tailwind_css() {
+            $tailwind_css        = '';
+            $tailwind_base       = get_field( 'pip_tailwind_style_base', 'pip_styles_tailwind' );
+            $tailwind_components = get_field( 'pip_tailwind_style_components', 'pip_styles_tailwind' );
+            $tailwind_utilities  = get_field( 'pip_tailwind_style_utilities', 'pip_styles_tailwind' );
 
+            // Maybe add base import
+            if ( $tailwind_base ) {
+                $add_base_import = acf_maybe_get( $tailwind_base, 'add_base_import' );
+                if ( $add_base_import ) {
+                    // Base import
+                    $tailwind_css .= '@tailwind base;' . "\n";
+
+                    // After base CSS
+                    $tailwind_css .= acf_maybe_get( $tailwind_base, 'tailwind_style_after_base' ) . "\n";
                 }
+            }
 
-                $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+            // Add custom fonts import
+            $tailwind_css .= self::css_custom_fonts() . "\n";
 
-                self::compile_tailwind( $tailwind_style, $tailwind_config['tailwind_config'] );
+            // Maybe add components import
+            if ( $tailwind_components ) {
+                $add_components_import = acf_maybe_get( $tailwind_components, 'add_components_import' );
+                if ( $add_components_import ) {
+                    // Components import
+                    $tailwind_css .= '@tailwind components;' . "\n";
 
+                    // After components CSS
+                    $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
+
+                    // Body classes
+                    $tailwind_css .= self::get_body_css() . "\n";
+
+                    // Typography
+                    $tailwind_css .= self::get_typography_css() . "\n";
+
+                    // Buttons
+                    $tailwind_css .= self::get_buttons_css() . "\n";
+                }
+            }
+
+            // Maybe add utilities import
+            if ( $tailwind_utilities ) {
+                $add_utilities_import = acf_maybe_get( $tailwind_utilities, 'add_utilities_import' );
+                if ( $add_utilities_import ) {
+                    // Utilities import
+                    $tailwind_css .= '@tailwind utilities;' . "\n";
+
+                    // After utilities CSS
+                    $tailwind_css .= acf_maybe_get( $tailwind_utilities, 'tailwind_style_after_utilities' ) . "\n";
+                }
+            }
+
+            return $tailwind_css;
+        }
+
+        /**
+         * Get CSS for body
+         *
+         * @return string
+         */
+        private static function get_body_css() {
+            $body_css     = '';
+            $body_classes = get_field( 'pip_body_classes', 'pip_styles_configuration' );
+
+            // If not body classes, return
+            if ( !$body_classes ) {
+                return $body_css;
+            }
+
+            // Build body css
+            $classes_to_apply = acf_maybe_get( $body_classes, 'body_classes' );
+            if ( $classes_to_apply ) {
+                $body_css .= "body {\n";
+                $body_css .= '@apply ' . $classes_to_apply . ";\n";
+                $body_css .= "}\n";
+            }
+
+            return $body_css;
+        }
+
+        /**
+         * Get CSS for typography
+         *
+         * @return string
+         */
+        private static function get_typography_css() {
+            $typo_css = '';
+
+            // Browse typography
+            if ( have_rows( 'pip_typography', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_typography', 'pip_styles_configuration' ) ) {
+                    the_row();
+
+                    $class_name       = get_sub_field( 'class_name' );
+                    $classes_to_apply = get_sub_field( 'classes_to_apply' );
+
+                    // Add class
+                    if ( $classes_to_apply ) {
+                        $typo_css .= '.' . $class_name . " {\n";
+                        $typo_css .= '@apply ' . $classes_to_apply . ";\n";
+                        $typo_css .= "}\n";
+                    }
+                }
+            }
+
+            return $typo_css;
+        }
+
+        /**
+         * Get CSS for buttons
+         *
+         * @return string
+         */
+        private static function get_buttons_css() {
+            $buttons_css = '';
+
+            // Browse buttons
+            if ( have_rows( 'pip_button', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_button', 'pip_styles_configuration' ) ) {
+                    the_row();
+
+                    $class_name       = get_sub_field( 'class_name' );
+                    $classes_to_apply = get_sub_field( 'classes_to_apply' );
+
+                    // Add class
+                    if ( $classes_to_apply ) {
+                        $buttons_css .= '.' . $class_name . " {\n";
+                        $buttons_css .= '@apply ' . $classes_to_apply . ";\n";
+                        $buttons_css .= "}\n";
+                    }
+                }
+            }
+
+            return $buttons_css;
+        }
+
+        /**
+         * Get Configuration for TailwindCSS build
+         *
+         * @return false|mixed|string|null
+         */
+        private static function get_tailwind_config() {
+            $config          = array();
+            $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+            $override_config = acf_maybe_get( $tailwind_config, 'override_config' );
+
+            if ( $override_config ) {
+
+                // If override configuration, return field content
+                return acf_maybe_get( $tailwind_config, 'tailwind_config' );
+
+            } else {
+
+                // Screens
+                self::set_screens( $config );
+
+                // Container
+                self::set_container_options( $config );
+
+                // Colors
+                self::set_colors( $config );
+
+                // Fonts
+                self::set_fonts( $config );
+
+                // Format configuration
+                $config = 'module.exports = ' . json_encode( $config, JSON_PRETTY_PRINT ) . ';';
+                $config = str_replace( '"', "'", $config );
+
+                // Update configuration field
+                update_field( 'pip_tailwind_config', array( 'tailwind_config' => $config ), 'pip_styles_tailwind' );
+
+                return $config;
+            }
+        }
+
+        /**
+         * Set screens
+         *
+         * @param $config
+         */
+        private static function set_screens( &$config ) {
+            $screens = array();
+
+            if ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
+                    the_row();
+
+                    $name  = get_sub_field( 'name' );
+                    $value = get_sub_field( 'value' );
+
+                    // Add screen value
+                    $screens[ $name ] = $value;
+                }
+            }
+
+            // If screens, add to config
+            if ( $screens ) {
+                $config['theme']['screens'] = $screens;
+            }
+        }
+
+        /**
+         * Set container options
+         *
+         * @param $config
+         */
+        private static function set_container_options( &$config ) {
+            $options           = array();
+            $container_options = get_field( 'pip_container', 'pip_styles_configuration' );
+            if ( !$container_options ) {
+                return;
+            }
+
+            // Center container
+            $center_container = acf_maybe_get( $container_options, 'center_container' );
+            if ( $center_container ) {
+                $options['center'] = true;
+            }
+
+            // Add horizontal padding to container
+            $add_padding = acf_maybe_get( $container_options, 'add_horizontal_padding' );
+            $padding     = acf_maybe_get( $container_options, 'padding_value' );
+            if ( $add_padding && $padding ) {
+                $options['padding'] = $padding;
+            }
+
+            // If options, add to config
+            if ( $options ) {
+                $config['theme']['container'] = $options;
+            }
+        }
+
+        /**
+         * Set colors
+         *
+         * @param $config
+         */
+        private static function set_colors( &$config ) {
+            $colors = array();
+
+            // Get simple colors
+            if ( have_rows( 'pip_simple_colors', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_simple_colors', 'pip_styles_configuration' ) ) {
+                    the_row();
+
+                    $name  = get_sub_field( 'name' );
+                    $value = get_sub_field( 'value' );
+
+                    // Add custom style
+                    $colors[ $name ] = $value;
+                }
+            }
+
+            // Get colors with shades
+            if ( have_rows( 'pip_colors_shades', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_colors_shades', 'pip_styles_configuration' ) ) {
+                    the_row();
+
+                    $color_name = get_sub_field( 'color_name' );
+
+                    // Get shades
+                    if ( have_rows( 'shades' ) ) {
+                        while ( have_rows( 'shades' ) ) {
+                            the_row();
+
+                            $name  = get_sub_field( 'shade_name' );
+                            $value = get_sub_field( 'value' );
+
+                            // Add custom style
+                            $colors[ $color_name ][ $name ] = $value;
+
+                        }
+                    }
+                }
+            }
+
+            // Get override colors option
+            $override       = false;
+            $override_group = get_field( 'pip_override_colors', 'pip_styles_tailwind' );
+            if ( $override_group ) {
+                $override = acf_maybe_get( $override_group, 'override_colors' );
+            }
+
+            // If colors, add to config
+            if ( $colors ) {
+                if ( $override ) {
+                    $config['theme']['colors'] = $colors;
+                } else {
+                    $config['theme']['extend']['colors'] = $colors;
+                }
+            }
+        }
+
+        /**
+         * Set fonts
+         *
+         * @param $config
+         */
+        private static function set_fonts( &$config ) {
+            $options = array();
+            $fonts   = pip_get_fonts();
+            if ( !$fonts ) {
+                return;
+            }
+
+            // Browse fonts
+            foreach ( $fonts as $font ) {
+
+                $name       = acf_maybe_get( $font, 'name' );
+                $class_name = acf_maybe_get( $font, 'class_name' );
+
+                // Add font
+                $options[ $class_name ] = $name;
+            }
+
+            // If options, add to config
+            if ( $options ) {
+                $config['theme']['fontFamily'] = $options;
             }
         }
 
@@ -96,16 +412,10 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             require_once PIP_PATH . '/assets/libs/tailwindapi.php';
             $tailwind = new TailwindAPI();
 
-            // Get style css content
-            $css_content = $tailwind_style;
-
-            // Get layouts CSS
-            $css_content .= PIP_Layouts::get_layouts_css();
-
             // Build front style
             $tailwind->build(
                 array(
-                    'css'          => $css_content,
+                    'css'          => $tailwind_style,
                     'config'       => $tailwind_config,
                     'autoprefixer' => true,
                     'minify'       => true,
@@ -113,13 +423,10 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 )
             );
 
-            // Reset WP styles
-            $admin_css = "#poststuff .-preview h2{ all:unset; }\n";
-
             // Build admin style
             $tailwind->build(
                 array(
-                    'css'          => $admin_css . $css_content,
+                    'css'          => $tailwind_style,
                     'config'       => $tailwind_config,
                     'autoprefixer' => true,
                     'minify'       => true,

@@ -244,7 +244,7 @@ acf_add_local_field_group(
                 ),
             ),
 
-            // Configuration Tab
+            // Configuration
             array(
                 'key'               => 'field_tab_configuration_tailwind',
                 'label'             => 'Configuration',
@@ -262,8 +262,6 @@ acf_add_local_field_group(
                 'placement'         => 'top',
                 'endpoint'          => 0,
             ),
-
-            // Configuration
             array(
                 'key'                 => 'field_pip_tailwind_config',
                 'label'               => '',
@@ -336,7 +334,7 @@ acf_add_local_field_group(
                 ),
             ),
 
-            // Colors Tab
+            // Colors
             array(
                 'key'               => 'field_tailwind_color',
                 'label'             => __( 'Colors', 'pilopress' ),

@@ -254,3 +254,12 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
     // Instantiate
     new PIP_Options_Pages();
 }
+
+/**
+ * Get Pilo'Press modules
+ *
+ * @return mixed
+ */
+function pip_get_modules() {
+    return get_field( 'pip_modules', 'pip_styles_modules' );
+}

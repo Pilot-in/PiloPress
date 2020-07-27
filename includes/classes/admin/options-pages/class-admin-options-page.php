@@ -116,7 +116,12 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * Add submenus
          */
         public function admin_menu() {
-            foreach ( $this->pages as $page ) {
+            foreach ( $this->pages as $key => $page ) {
+                $modules = pip_get_modules();
+                if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind' ) {
+                    continue;
+                }
+
                 // Register submenu page
                 $slug = add_submenu_page( $page['parent_slug'], $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], array( $this, 'html' ) );
 

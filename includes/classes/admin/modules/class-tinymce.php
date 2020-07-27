@@ -8,7 +8,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
     class PIP_TinyMCE {
         public function __construct() {
             // Check if module is enable
-            $modules = get_field( 'pip_modules', 'pip_styles_modules' );
+            $modules = pip_get_modules();
             if ( !acf_maybe_get( $modules, 'tinymce' ) ) {
                 return;
             }
@@ -152,11 +152,13 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
                     $label            = get_sub_field( 'label' );
                     $name             = get_sub_field( 'name' );
+                    $value            = get_sub_field( 'value' );
                     $classes_to_apply = get_sub_field( 'classes_to_apply' );
 
                     // Add custom style
                     $colors[ sanitize_title( $label ) ] = array(
                         'name'             => $label,
+                        'value'            => $value,
                         'class_name'       => $name,
                         'classes_to_apply' => $classes_to_apply,
                     );
@@ -184,11 +186,13 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
                             $label            = get_sub_field( 'label' );
                             $name             = get_sub_field( 'shade_name' );
+                            $value            = get_sub_field( 'value' );
                             $classes_to_apply = get_sub_field( 'classes_to_apply' );
 
                             // Add custom style
                             $colors[ sanitize_title( $label ) ] = array(
                                 'name'             => $label,
+                                'value'            => $value,
                                 'class_name'       => $color_name . '-' . $name,
                                 'classes_to_apply' => $classes_to_apply,
                             );

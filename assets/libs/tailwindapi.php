@@ -49,7 +49,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
             $return = wp_remote_post( 'https://www.tailwindapi.com/api/v1/build', $post_args );
 
             // Output
-            if ( !empty( $args['output'] ) && !isset( $return['error'] ) ) {
+            if ( !empty( $args['output'] ) && (int) $return['response']['code'] === 200 ) {
                 file_put_contents( $args['output'], $return['body'] );
 
                 return true;
