@@ -32,7 +32,7 @@ $error = acf_maybe_get_GET( 'error_compile' );
         ?>
 
         <?php if ( $error ): ?>
-            <div class="notice notice-error">
+            <div class="notice notice-error is-dismissible">
                 <p><?php _e( 'An error occurred while compiling.', 'pilopress' ) ?></p>
             </div>
         <?php endif; ?>
