@@ -88,7 +88,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 $add_base_import = acf_maybe_get( $tailwind_base, 'add_base_import' );
                 if ( $add_base_import ) {
                     // Base import
-                    $tailwind_css .= '@tailwind base;' . "\n";
+                    $tailwind_css .= '@import "tailwindcss/base";' . "\n";
 
                     // After base CSS
                     $tailwind_css .= acf_maybe_get( $tailwind_base, 'tailwind_style_after_base' ) . "\n";
@@ -103,7 +103,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 $add_components_import = acf_maybe_get( $tailwind_components, 'add_components_import' );
                 if ( $add_components_import ) {
                     // Components import
-                    $tailwind_css .= '@tailwind components;' . "\n";
+                    $tailwind_css .= '@import "tailwindcss/components";' . "\n";
 
                     // After components CSS
                     $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
@@ -124,7 +124,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 $add_utilities_import = acf_maybe_get( $tailwind_utilities, 'add_utilities_import' );
                 if ( $add_utilities_import ) {
                     // Utilities import
-                    $tailwind_css .= '@tailwind utilities;' . "\n";
+                    $tailwind_css .= '@import "tailwindcss/utilities";' . "\n";
 
                     // After utilities CSS
                     $tailwind_css .= acf_maybe_get( $tailwind_utilities, 'tailwind_style_after_utilities' ) . "\n";
