@@ -48,6 +48,12 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
             $return = wp_remote_post( 'https://www.tailwindapi.com/api/v1/build', $post_args );
 
+            // Error
+            if ( $return['response']['code'] !== 200 ) {
+                wp_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
+                exit();
+            }
+
             // Output
             if ( !empty( $args['output'] ) && (int) $return['response']['code'] === 200 ) {
                 file_put_contents( $args['output'], $return['body'] );

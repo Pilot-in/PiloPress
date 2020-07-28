@@ -8,6 +8,8 @@
  * @var string $current_page
  * @var string $admin_url
  */
+
+$error = acf_maybe_get_GET( 'error_compile' );
 ?>
 
 <div class="wrap acf-settings-wrap">
@@ -28,6 +30,12 @@
         wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
         wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
         ?>
+
+        <?php if ( $error ): ?>
+            <div class="notice notice-error">
+                <p><?php _e( 'An error occurred while compiling.', 'pilopress' ) ?></p>
+            </div>
+        <?php endif; ?>
 
         <div id="poststuff">
             <div id="post-body" class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
