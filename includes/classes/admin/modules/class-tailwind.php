@@ -202,12 +202,25 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
                     $class_name       = get_sub_field( 'class_name' );
                     $classes_to_apply = get_sub_field( 'classes_to_apply' );
+                    $states           = get_sub_field( 'states' );
 
                     // Add class
                     if ( $classes_to_apply ) {
                         $buttons_css .= '.' . $class_name . " {\n";
                         $buttons_css .= '@apply ' . $classes_to_apply . ";\n";
                         $buttons_css .= "}\n";
+                    }
+
+                    // Add states
+                    if ( $states ) {
+                        foreach ( $states as $state ) {
+                            $type    = acf_maybe_get( $state, 'type' );
+                            $classes = acf_maybe_get( $state, 'classes_to_apply' );
+
+                            $buttons_css .= '.' . $class_name . ':' . $type . " {\n";
+                            $buttons_css .= '@apply ' . $classes . ";\n";
+                            $buttons_css .= "}\n";
+                        }
                     }
                 }
             }
