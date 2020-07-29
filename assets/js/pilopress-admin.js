@@ -162,6 +162,12 @@
             }
         )
 
+        $( document ).ajaxComplete(
+            function () {
+                $( '.acfe-layout-title .acfe-layout-title-text .pip_collection' ).remove()
+            }
+        )
+
         /**
          * Sanitize value like WP function "sanitize_title"
          *

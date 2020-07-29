@@ -35,7 +35,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // ACF hooks
             $flexible_field_name = self::get_flexible_field_name();
 
-            add_filter( 'acf/prepare_field/type=flexible_content', array( $this, 'prepare_field_type' ), 20 );
+            add_filter( "acfe/flexible/thumbnail/name={$flexible_field_name}", array( $this, 'add_custom_thumbnail' ), 10, 3 );
             add_filter( "acf/prepare_field/name={$flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
         }
 
@@ -401,104 +401,56 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         /**
          * Add custom thumbnail
          *
+         * @param $thumbnail
          * @param $field
+         *
+         * @param $layout
          *
          * @return bool
          */
-        public function prepare_field_type( $field ) {
+        public function add_custom_thumbnail( $thumbnail, $field, $layout ) {
             $layouts = acf_maybe_get( $field, 'layouts' );
 
             // If no layouts, return
             if ( !$layouts ) {
-                return false;
+                return $thumbnail;
             }
 
-            // If not main flexible, return
-            if ( acf_maybe_get( $field, 'parent' ) !== $this->flexible_group_key ) {
-                return $field;
+            $layouts_groups_keys = self::get_layouts_and_group_keys();
+            $field_group_key     = $layouts_groups_keys['group_keys'][ $layout['key'] ];
+            $field_group         = acf_get_field_group( $field_group_key );
+
+
+            // Get file path thanks to layout slug
+            $layout_slug = acf_maybe_get( $field_group, '_pip_layout_slug' );
+            if ( !$layout_slug ) {
+                return $thumbnail;
             }
 
-            // Get all fields groups (hidden included)
-            $field_groups = acf_get_field_groups();
+            // Get file path and URL
+            $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
+            $file_url  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug;
 
-            // Browse all field groups
-            foreach ( $field_groups as $field_group ) {
-
-                // If not layout, skip
-                if ( !PIP_Layouts::is_layout( $field_group ) ) {
-                    continue;
-                }
-
-                // Sanitize name
-                $field_group_name = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug' ) );
-
-                foreach ( $field['layouts'] as &$layout ) {
-
-                    // If field group not in layouts, skip
-                    if ( $layout['name'] !== $field_group_name ) {
-                        continue;
-                    }
-
-                    // If no thumbnails, skip
-                    if ( !$field['acfe_flexible_layouts_thumbnails'] ) {
-                        continue;
-                    }
-
-                    // Get classes
-                    $classes      = null;
-                    $layout_label = acf_maybe_get( $layout, 'label' );
-                    preg_match( '/(?=class="(.*?)")/', $layout_label, $classes );
-                    $classes = array_filter( $classes );
-                    $classes = reset( $classes );
-                    $classes = explode( ' ', $classes );
-
-                    // If already has thumbnail or is collection badge, skip
-                    if ( !in_array( 'acfe-flexible-layout-thumbnail-not-found', $classes ) || in_array( 'pip_collection', $classes ) ) {
-                        continue;
-                    }
-
-                    // Get file path thanks to layout slug
-                    $layout_slug = acf_maybe_get( $field_group, '_pip_layout_slug' );
-                    $file_path   = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
-                    $file_url    = PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug;
-
-
-                    // Get file URL
-                    $div       = null;
-                    $style     = null;
-                    $extension = null;
-                    switch ( $file_path ) {
-                        case file_exists( $file_path . '.png' ):
-                            $extension = '.png';
-                            break;
-                        case file_exists( $file_path . '.jpeg' ):
-                            $extension = '.jpeg';
-                            break;
-                        case file_exists( $file_path . '.jpg' ):
-                            $extension = '.jpg';
-                            break;
-                    }
-
-                    // Generate CSS
-                    if ( $extension ) {
-                        $style = 'background-image:url(' . $file_url . $extension . ');';
-                    }
-
-                    // Add thumbnail
-                    if ( $style ) {
-                        $layout_label    = str_replace( 'acfe-flexible-layout-thumbnail-not-found', '', $layout_label );
-                        $layout_label    = str_replace(
-                            '<div class="acfe-flexible-layout-thumbnail ',
-                            '<div style="' . $style . '"  class="acfe-flexible-layout-thumbnail ',
-                            $layout_label
-                        );
-                        $layout['label'] = $layout_label;
-                    }
-                }
-
+            // Get file extension
+            $div        = null;
+            $data_image = null;
+            $extension  = null;
+            switch ( $file_path ) {
+                case file_exists( $file_path . '.png' ):
+                    $extension = '.png';
+                    break;
+                case file_exists( $file_path . '.jpeg' ):
+                    $extension = '.jpeg';
+                    break;
+                case file_exists( $file_path . '.jpg' ):
+                    $extension = '.jpg';
+                    break;
+            }
+            if ( $file_url && $extension ) {
+                $thumbnail = $file_url . $extension;
             }
 
-            return $field;
+            return $thumbnail;
         }
 
         /**
