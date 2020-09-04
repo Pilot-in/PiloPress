@@ -92,7 +92,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         'acfe_flexible_modal'               => array(
                             'acfe_flexible_modal_enabled'    => '1',
                             'acfe_flexible_modal_title'      => $mirror['title'],
-                            'acfe_flexible_modal_col'        => '6',
+                            'acfe_flexible_modal_col'        => '4',
                             'acfe_flexible_modal_categories' => '1',
                         ),
                         'acfe_flexible_layouts_state'       => '',

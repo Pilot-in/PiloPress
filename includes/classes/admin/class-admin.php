@@ -241,9 +241,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
                 if ( $total_layouts_count > 15 ) {
 
-                    for ( $i = 0; $i < 15; $i ++ ) {
+                    $i = 0;
+                    foreach ( $layouts_keys as $layouts_key ) {
+                        if ( $i > 15 ) {
+                            break;
+                        }
+
                         // Get field group
-                        $field_group = acf_get_field_group( $layouts_keys[ $i ] );
+                        $field_group = acf_get_field_group( $layouts_key );
 
                         // Get locations html
                         $locations = ''; // PILO_TODO: get ACFE helper (next version)
@@ -256,6 +261,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                         );
 
                         $see_more_layouts = true;
+                        $i ++;
                     }
 
                 } else {
