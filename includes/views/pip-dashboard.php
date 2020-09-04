@@ -9,11 +9,12 @@
  * @var $components
  * @var $add_new_layout
  * @var $add_new_component
- * @var $see_more_layouts
  * @var $all_layouts
  * @var $total_layouts_count
  * @var $menu_items
  */
+
+$see_more_layouts       = count( $layouts ) > 15 ? true : false;
 $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
 ?>
 
@@ -72,7 +73,7 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                                     </li>
                                     <li>
                                         <i aria-hidden="true" class="dashicons dashicons-external"></i>
-                                        <a href="https://wordpress.org/plugins/acf-extended/" target="_blank">
+                                        <a href="https://www.acf-extended.com/features" target="_blank">
                                             Advanced Custom Fields: Extended
                                         </a>
                                     </li>
@@ -107,7 +108,7 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                         <div class="inside">
                             <h4>
                                 <strong><?php _e( 'Layouts', 'pilopress' ); ?></strong>
-                                <span id="pilopress_layouts_count"><?php echo $total_layouts_count; ?></span>
+                                <span id="pilopress_layouts_count"><?php echo count( $layouts ); ?></span>
                             </h4>
                             <a href="<?php echo $add_new_layout ?>" class="button button-secondary">
                                 <?php _e( 'Add new layout', 'pilopress' ); ?>
@@ -116,6 +117,7 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                     </div>
 
                     <?php // Layouts table ?>
+                    <?php $last_key = 0; ?>
                     <div id="pilopress_layouts" class="postbox pilopress-layouts-table">
                         <table class="widefat">
                             <thead>
@@ -128,11 +130,18 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                             <tbody>
                             <?php if ( $layouts ) : ?>
                                 <?php foreach ( $layouts as $key => $layout ) : ?>
+                                    <?php
+                                    // Show maximum 15 layouts in list
+                                    if ( $key >= 15 ) {
+                                        break;
+                                    }
+                                    ?>
+
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
                                         <td class="pilopress_counter"><?php echo $key + 1; ?></td>
                                         <td>
-                                            <a href="<?php echo $layout['edit_link']; ?>">
-                                                <?php echo $layout['title']; ?>
+                                            <a href="<?php echo get_edit_post_link( $layout['field_group']['ID'] ) ?>">
+                                                <?php echo $layout['field_group']['title'] ?>
                                             </a>
                                         </td>
                                         <td><?php $acf_admin_field_groups->render_admin_table_column_locations( $layout['field_group'] ) ?></td>

@@ -17,7 +17,7 @@
         $page_id = acf_maybe_get_GET( 'page' );
 
         // Layouts category slug
-        $layouts_cat = PIP_Layouts_Categories::$taxonomy;
+        $layouts_cat = PIP_Layouts_Categories::$taxonomy_name;
 
         // Add "is-active" class
         if ( acf_get_current_url() === $menu_item['link']

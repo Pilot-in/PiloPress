@@ -34,10 +34,12 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             if ( acf_maybe_get_GET( 'layouts' ) == '1'
                  || PIP_Layouts::is_layout( get_post( acf_maybe_get_GET( 'post' ) ) )
                  || acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID']
-                 || acf_maybe_get_GET( 'taxonomy' ) === PIP_Layouts_Categories::$taxonomy
+                 || acf_maybe_get_GET( 'taxonomy' ) === PIP_Layouts_Categories::$taxonomy_name
+                 || acf_maybe_get_GET( 'taxonomy' ) === PIP_Layouts_Collections::$taxonomy_name
                  || acf_maybe_get_GET( 'post_type' ) === PIP_Components::$post_type
                  || PIP_Components::is_component( acf_maybe_get_GET( 'post' ) )
                  || acf_maybe_get_GET( 'page' ) == PIP_Pattern::$menu_slug
+                 || strstr( acf_maybe_get_GET( 'page' ), 'pip_addon')
                  || PIP_Admin_Options_Page::is_style_page( acf_maybe_get_GET( 'page' ) ) ) {
                 $is_pip_admin = true;
             }
@@ -271,48 +273,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $layouts      = array();
             $layouts_keys = PIP_Layouts::get_layout_group_keys();
             if ( is_array( $layouts_keys ) ) {
-                $total_layouts_count = count( $layouts_keys );
+                foreach ( $layouts_keys as $layout_key ) {
 
-                if ( $total_layouts_count > 15 ) {
-
-                    for ( $i = 0; $i < 15; $i ++ ) {
-                        // Get field group
-                        $field_group = acf_get_field_group( $layouts_keys[ $i ] );
-
-                        // Get locations html
-                        $locations = ''; // PILO_TODO: get ACFE helper (next version)
-
-                        // Structured array for template file
-                        $layouts[] = array(
-                            'title'     => $field_group['title'],
-                            'location'  => $locations,
-                            'edit_link' => get_edit_post_link( $field_group['ID'] ),
-                        );
-
-                        $see_more_layouts = true;
-                    }
-
-                } else {
-
-                    foreach ( $layouts_keys as $layout_key ) {
-                        // Get field group
-                        $field_group = acf_get_field_group( $layout_key );
-
-                        // Get locations html
-                        $locations = ''; // PILO_TODO: get ACFE helper (next version)
-
-                        // Structured array for template file
-                        $layouts[] = array(
-                            'title'     => $field_group['title'],
-                            'location'  => $locations,
-                            'edit_link' => get_edit_post_link( $field_group['ID'] ),
-                        );
-                    }
-
-                    $see_more_layouts = false;
+                    // Structured array for template file
+                    $layouts[] = array(
+                        'field_group' => acf_get_field_group( $layout_key ),
+                    );
 
                 }
-
             }
 
             // New field group link
@@ -358,7 +326,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public static function display_pip_navbar() {
             // Hide ACF top navbar
-            add_filter( 'acf/admin/navigation', '__return_false' );
+            add_filter( 'acf/admin/toolbar', '__return_false' );
 
             // Get menu items
             global $submenu;
