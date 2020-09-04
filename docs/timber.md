@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Timber compatibility
-nav_order: 12
+nav_order: 13
 ---
 
 # Timber compatibility
@@ -16,16 +16,10 @@ You can enqueue Pilo'Press styles as described in [Theme installation](/PiloPres
 
 You have to add `'pilopress/layouts'` in the `Timber::$dirname` array in `functions.php` file.
 
-Finally, to display Pilo'Press content, you will have to add following code in your templates (**without space between `{` chars**):
+Finally, to display Pilo'Press content, you will have to add following code in your templates (**without space between `{` and `}` chars**):
 ~~~~twig
-// To display Header Pattern, in your base.twig or in header block
-{ { function('get_pip_header') } }
-
 // In your template files, like front-page.twig
 { { function('the_pip_content') } }
-
-// To display Footer Pattern, in your footer.twig or in footer block
-{ { function('get_pip_footer') } }
 ~~~~
 
 Regarding layouts files, you can use the PHP/Twig files duo perfectly.  
@@ -52,7 +46,7 @@ Timber::render( 'title.twig', $context );
 ```
 
 
-- The Twig file will look like that (**without space between `{` chars**):  
+- The Twig file will look like that (**without space between `{` and `}` chars**):  
 
 
 ~~~~twig

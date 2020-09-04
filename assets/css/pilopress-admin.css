@@ -105,7 +105,8 @@
     margin: 0;
 }
 
-td.acf-layouts-category a {
+td.acf-layouts-category a,
+td.acf-layouts-collection a {
     word-wrap: break-word;
     padding: 2px 5px;
     margin: 0 1px;
@@ -128,7 +129,8 @@ td.acf-layouts-category a {
     width: 70px;
 }
 
-.column-acf-layouts-category {
+.column-acf-layouts-category,
+.column-acf-layouts-collection {
     width: 125px;
 }
 
@@ -246,6 +248,24 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
 .toplevel_page_pilopress #pilopress_layouts_actions .inside h4,
 .toplevel_page_pilopress #pilopress_components_actions .inside h4 {
     margin-bottom: 0;
+}
+
+/* Pilo'Press: Layouts */
+
+/* Collection tag */
+.pip_collection {
+    background-color: #0073AA;
+    width: fit-content;
+    margin: 0 auto 10px auto;
+    padding: 2px 8px;
+    border-radius: 50px;
+    font-size: 14px;
+    color: white;
+}
+
+.acfe-modal.-open .acfe-modal-content .acfe-flex-container ul li a:hover .pip_collection {
+    background-color: white;
+    color: #0073AA;
 }
 
 /* TinyMCE */

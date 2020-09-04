@@ -1,5 +1,7 @@
 <?php
 /**
+ * Variables available in this template
+ *
  * @var $success_icon
  * @var $error_icon
  * @var $configurations
@@ -7,6 +9,9 @@
  * @var $components
  * @var $add_new_layout
  * @var $add_new_component
+ * @var $see_more_layouts
+ * @var $all_layouts
+ * @var $total_layouts_count
  * @var $menu_items
  */
 $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
@@ -30,15 +35,15 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                     <?php // Configuration ?>
                     <div id="pilopress_configuration" class="postbox">
                         <div class="inside">
-                            <h4><strong><?php _e( 'Configuration status', 'pilopress' ) ?></strong></h4>
+                            <h4><strong><?php _e( 'Configuration status', 'pilopress' ); ?></strong></h4>
                             <div class="main config-status">
                                 <ul>
                                     <?php foreach ( $configurations as $configuration ) : ?>
                                         <li>
-                                            <?php echo $configuration['status'] ? $success_icon : $error_icon ?>
-                                            <?php echo $configuration['label'] ?>
-                                            <?php if ( isset( $configuration['status_label'] ) ): ?>
-                                                <?php echo $configuration['status_label'] ?>
+                                            <?php echo $configuration['status'] ? $success_icon : $error_icon; ?>
+                                            <?php echo $configuration['label']; ?>
+                                            <?php if ( isset( $configuration['status_label'] ) ) : ?>
+                                                <?php echo $configuration['status_label']; ?>
                                             <?php endif; ?>
                                         </li>
                                     <?php endforeach ?>
@@ -50,13 +55,13 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                     <?php // Documentation links ?>
                     <div id="pilopress_quick_links" class="postbox">
                         <div class="inside">
-                            <h3><strong><?php _e( 'Documentations', 'pilopress' ) ?></strong></h3>
+                            <h3><strong><?php _e( 'Documentations', 'pilopress' ); ?></strong></h3>
                             <div class="main">
                                 <ul>
                                     <li>
                                         <i aria-hidden="true" class="dashicons dashicons-external"></i>
-                                        <a href="https://github.com/Pilot-in/PiloPress" target="_blank">
-                                            GitHub Pilo'Press
+                                        <a href="https://pilot-in.github.io/PiloPress/" target="_blank">
+                                            GitHub Page Pilo'Press
                                         </a>
                                     </li>
                                     <li>
@@ -85,7 +90,7 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                     <?php // Pilot'in ?>
                     <div id="pilopress_pilotin" class="postbox">
                         <div class="inside">
-                            <?php echo __( 'Made with &#x2764; by', 'pilopress' ) ?>
+                            <?php echo __( 'Made with &#x2764; by', 'pilopress' ); ?>
                             <a href="https://www.pilot-in.com" target="_blank">Pilot’in</a>
                         </div>
                     </div>
@@ -101,11 +106,11 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                     <div id="pilopress_layouts_actions" class="postbox">
                         <div class="inside">
                             <h4>
-                                <strong><?php _e( 'Layouts', 'pilopress' ) ?></strong>
-                                <span id="pilopress_layouts_count"><?php echo count( $layouts ) ?></span>
+                                <strong><?php _e( 'Layouts', 'pilopress' ); ?></strong>
+                                <span id="pilopress_layouts_count"><?php echo $total_layouts_count; ?></span>
                             </h4>
                             <a href="<?php echo $add_new_layout ?>" class="button button-secondary">
-                                <?php _e( 'Add new layout', 'pilopress' ) ?>
+                                <?php _e( 'Add new layout', 'pilopress' ); ?>
                             </a>
                         </div>
                     </div>
@@ -116,25 +121,46 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                             <thead>
                             <tr>
                                 <th class="pilopress_counter">#</th>
-                                <th><strong><?php _e( 'Layout name', 'pilopress' ) ?></strong></th>
-                                <th><strong><?php _e( 'Location', 'pilopress' ) ?></strong></th>
+                                <th><strong><?php _e( 'Layout name', 'pilopress' ); ?></strong></th>
+                                <th><strong><?php _e( 'Locations', 'pilopress' ); ?></strong></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php if ( $layouts ): ?>
+                            <?php if ( $layouts ) : ?>
                                 <?php foreach ( $layouts as $key => $layout ) : ?>
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
-                                        <td class="pilopress_counter"><?php echo $key + 1 ?></td>
+                                        <td class="pilopress_counter"><?php echo $key + 1; ?></td>
                                         <td>
-                                            <a href="<?php echo get_edit_post_link( $layout['field_group']['ID'] ) ?>">
-                                                <?php echo $layout['field_group']['title'] ?>
+                                            <a href="<?php echo $layout['edit_link']; ?>">
+                                                <?php echo $layout['title']; ?>
                                             </a>
                                         </td>
                                         <td><?php $acf_admin_field_groups->render_admin_table_column_locations( $layout['field_group'] ) ?></td>
                                     </tr>
+                                    <?php $last_key = $key; ?>
                                 <?php endforeach ?>
                             <?php endif; ?>
+                            <?php if ( $see_more_layouts ) : ?>
+                                <tr class="<?php echo ( $last_key + 1 ) % 2 ? 'alternate' : ''; ?>">
+                                    <td></td>
+                                    <td>...</td>
+                                    <td></td>
+                                </tr>
+                            <?php endif; ?>
                             </tbody>
+                            <?php if ( $see_more_layouts ) : ?>
+                                <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="<?php echo $all_layouts; ?>" class="button button-secondary">
+                                            <?php _e( 'See all layouts', 'pilopress' ); ?>
+                                        </a>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                </tfoot>
+                            <?php endif; ?>
                         </table>
                     </div>
 
@@ -149,11 +175,11 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                     <div id="pilopress_components_actions" class="postbox">
                         <div class="inside">
                             <h4>
-                                <strong><?php _e( 'Components', 'pilopress' ) ?></strong>
-                                <span id="pilopress_components_count"><?php echo count( $components ) ?></span>
+                                <strong><?php _e( 'Components', 'pilopress' ); ?></strong>
+                                <span id="pilopress_components_count"><?php echo count( $components ); ?></span>
                             </h4>
-                            <a href="<?php echo $add_new_component ?>" class="button button-secondary">
-                                <?php _e( 'Add new component', 'pilopress' ) ?>
+                            <a href="<?php echo $add_new_component; ?>" class="button button-secondary">
+                                <?php _e( 'Add new component', 'pilopress' ); ?>
                             </a>
                         </div>
                     </div>
@@ -164,17 +190,17 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                             <thead>
                             <tr>
                                 <th class="pilopress_counter">#</th>
-                                <th><strong><?php _e( 'Component name', 'pilopress' ) ?></strong></th>
+                                <th><strong><?php _e( 'Component name', 'pilopress' ); ?></strong></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php if ( $components ): ?>
+                            <?php if ( $components ) : ?>
                                 <?php foreach ( $components as $key => $component ) : ?>
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
-                                        <td class="pilopress_counter"><?php echo $key + 1 ?></td>
+                                        <td class="pilopress_counter"><?php echo $key + 1; ?></td>
                                         <td>
-                                            <a href="<?php echo get_edit_post_link( $component->ID ) ?>">
-                                                <?php echo $component->post_title ?>
+                                            <a href="<?php echo get_edit_post_link( $component->ID ); ?>">
+                                                <?php echo $component->post_title; ?>
                                             </a>
                                         </td>
                                     </tr>

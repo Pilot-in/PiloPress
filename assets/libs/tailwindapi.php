@@ -37,26 +37,20 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
             $data = json_encode( $args );
 
-            $curl = curl_init( 'https://www.tailwindapi.com/api/v1/build' );
-
-            curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
-            curl_setopt( $curl, CURLINFO_HEADER_OUT, true );
-            curl_setopt( $curl, CURLOPT_POST, true );
-            curl_setopt( $curl, CURLOPT_POSTFIELDS, $data );
-
-            curl_setopt( $curl, CURLOPT_HTTPHEADER, array(
-                    'Content-Type: application/json',
-                    'Content-Length: ' . strlen( $data ),
-                )
+            $post_args = array(
+                'body'    => $data,
+                'timeout' => 60,
+                'headers' => array(
+                    'Content-Type'   => 'application/json',
+                    'Content-Length' => strlen( $data ),
+                ),
             );
 
-            $return = curl_exec( $curl );
-
-            curl_close( $curl );
+            $return = wp_remote_post( 'https://www.tailwindapi.com/api/v1/build', $post_args );
 
             // Output
-            if ( !empty( $args['output'] ) ) {
-                file_put_contents( $args['output'], $return );
+            if ( !empty( $args['output'] ) && !isset( $return['error'] ) ) {
+                file_put_contents( $args['output'], $return['body'] );
 
                 return true;
             }
@@ -65,7 +59,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
         }
 
         /**
-         * @param $content
+         * @param        $content
          * @param string $extension
          *
          * @return false|string
@@ -94,7 +88,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
         /**
          * Parse arguments
          *
-         * @param $args
+         * @param        $args
          * @param string $defaults
          *
          * @return array

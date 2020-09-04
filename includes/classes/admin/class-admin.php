@@ -1,6 +1,10 @@
 <?php
 
 if ( !class_exists( 'PIP_Admin' ) ) {
+
+    /**
+     * Class PIP_Admin
+     */
     class PIP_Admin {
         public function __construct() {
             // WP hooks
@@ -55,12 +59,13 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function enqueue_scripts() {
             // Styles
-            wp_enqueue_style( 'pilopress-admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), null );
+            wp_enqueue_style( 'pilopress-admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), PiloPress::$version );
             self::maybe_enqueue_layout_admin_style();
 
             // Scripts
-            wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), null );
+            wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), PiloPress::$version, true );
             wp_localize_script( 'pilopress-admin-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
+            wp_enqueue_script( 'pilopress-fields', PIP_URL . 'assets/js/pilopress-fields.js', array( 'jquery' ), PiloPress::$version, true );
         }
 
         /**
@@ -78,7 +83,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 return;
             }
 
-            wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), null );
+            wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), PiloPress::$version );
         }
 
         /**
@@ -94,19 +99,25 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
                 // Layouts view
-                $query->set( 'pip_post_content', array(
-                    'compare' => 'LIKE',
-                    'value'   => 's:14:"_pip_is_layout";i:1',
-                ) );
+                $query->set(
+                    'pip_post_content',
+                    array(
+                        'compare' => 'LIKE',
+                        'value'   => 's:14:"_pip_is_layout";i:1',
+                    )
+                );
 
             } elseif ( acf_maybe_get_GET( 'layouts' ) === null && acf_maybe_get_GET( 'post_status' ) != 'trash' ) {
                 // Classic view
 
                 // Remove layouts
-                $query->set( 'pip_post_content', array(
-                    'compare' => 'NOT LIKE',
-                    'value'   => 's:14:"_pip_is_layout";i:1',
-                ) );
+                $query->set(
+                    'pip_post_content',
+                    array(
+                        'compare' => 'NOT LIKE',
+                        'value'   => 's:14:"_pip_is_layout";i:1',
+                    )
+                );
 
                 // Remove flexible
                 $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
@@ -126,7 +137,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             global $wpdb;
 
             // If no custom var, return
-            if ( !$pip_post_content = $wp_query->get( 'pip_post_content' ) ) {
+            $pip_post_content = $wp_query->get( 'pip_post_content' );
+            if ( !$pip_post_content ) {
                 return $where;
             }
 
@@ -192,6 +204,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 'edit-tags.php?taxonomy=acf-layouts-category'
             );
 
+            // Layouts collections sub menu
+            add_submenu_page(
+                'pilopress',
+                __( 'Collections', 'pilopress' ),
+                __( 'Collections', 'pilopress' ),
+                $capability,
+                'edit-tags.php?taxonomy=acf-layouts-collection'
+            );
+
             // Components sub menu
             add_submenu_page(
                 'pilopress',
@@ -214,25 +235,28 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             global $wp_styles;
             $admin_style_enqueued = false;
             foreach ( $wp_styles->queue as $style ) {
-                if ( $wp_styles->registered[ $style ]->src === PIP_THEME_ASSETS_URL . 'tailwind-admin.min.css' ) {
+                if ( $wp_styles->registered[ $style ]->src === PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css' ) {
                     $admin_style_enqueued = true;
                 }
             }
 
+            // Get theme folder
+            $theme_folder = str_replace( get_home_url(), '', get_stylesheet_directory_uri() );
+
             // Configurations
             $configurations = array(
                 array(
-                    'label'        => '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/</code>',
+                    'label'        => '<code>' . $theme_folder . '/pilopress/</code>',
                     'status'       => file_exists( PIP_THEME_PILOPRESS_PATH ),
                     'status_label' => file_exists( PIP_THEME_PILOPRESS_PATH ) ? __( ' folder found', 'pilopress' ) : __( ' folder not found', 'pilopress' ),
                 ),
                 array(
-                    'label'        => '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/assets/</code>',
+                    'label'        => '<code>' . $theme_folder . '/pilopress/assets/</code>',
                     'status'       => file_exists( PIP_THEME_ASSETS_PATH ),
                     'status_label' => file_exists( PIP_THEME_ASSETS_PATH ) ? __( ' folder found', 'pilopress' ) : __( ' folder not found', 'pilopress' ),
                 ),
                 array(
-                    'label'        => '<code>' . str_replace( get_home_url(), '', get_stylesheet_directory_uri() ) . '/pilopress/layouts/</code>',
+                    'label'        => '<code>' . $theme_folder . '/pilopress/layouts/</code>',
                     'status'       => file_exists( PIP_THEME_LAYOUTS_PATH ),
                     'status_label' => file_exists( PIP_THEME_LAYOUTS_PATH ) ? __( ' folder found', 'pilopress' ) : __( ' folder not found', 'pilopress' ),
                 ),
@@ -247,14 +271,48 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $layouts      = array();
             $layouts_keys = PIP_Layouts::get_layout_group_keys();
             if ( is_array( $layouts_keys ) ) {
-                foreach ( $layouts_keys as $layout_key ) {
+                $total_layouts_count = count( $layouts_keys );
 
-                    // Structured array for template file
-                    $layouts[] = array(
-                        'field_group' => acf_get_field_group( $layout_key ),
-                    );
+                if ( $total_layouts_count > 15 ) {
+
+                    for ( $i = 0; $i < 15; $i ++ ) {
+                        // Get field group
+                        $field_group = acf_get_field_group( $layouts_keys[ $i ] );
+
+                        // Get locations html
+                        $locations = ''; // PILO_TODO: get ACFE helper (next version)
+
+                        // Structured array for template file
+                        $layouts[] = array(
+                            'title'     => $field_group['title'],
+                            'location'  => $locations,
+                            'edit_link' => get_edit_post_link( $field_group['ID'] ),
+                        );
+
+                        $see_more_layouts = true;
+                    }
+
+                } else {
+
+                    foreach ( $layouts_keys as $layout_key ) {
+                        // Get field group
+                        $field_group = acf_get_field_group( $layout_key );
+
+                        // Get locations html
+                        $locations = ''; // PILO_TODO: get ACFE helper (next version)
+
+                        // Structured array for template file
+                        $layouts[] = array(
+                            'title'     => $field_group['title'],
+                            'location'  => $locations,
+                            'edit_link' => get_edit_post_link( $field_group['ID'] ),
+                        );
+                    }
+
+                    $see_more_layouts = false;
 
                 }
+
             }
 
             // New field group link
@@ -266,16 +324,30 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 admin_url( 'post-new.php' )
             );
 
+            // All layouts link
+            $all_layouts = add_query_arg(
+                array(
+                    'post_type' => 'acf-field-group',
+                    'layouts'   => 1,
+                ),
+                admin_url( 'edit.php' )
+            );
+
             // Components
-            $components = get_posts( array(
-                'post_type'      => PIP_Components::$post_type,
-                'posts_per_page' => - 1,
-            ) );
+            $components = get_posts(
+                array(
+                    'post_type'      => PIP_Components::$post_type,
+                    'posts_per_page' => - 1,
+                )
+            );
 
             // New field group link
-            $add_new_component = add_query_arg( array(
-                'post_type' => PIP_Components::$post_type,
-            ), admin_url( 'post-new.php' ) );
+            $add_new_component = add_query_arg(
+                array(
+                    'post_type' => PIP_Components::$post_type,
+                ),
+                admin_url( 'post-new.php' )
+            );
 
             // Template file
             include_once( PIP_PATH . 'includes/views/pip-dashboard.php' );
@@ -315,27 +387,44 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // Pilo'Press menu
-            $wp_admin_bar->add_node( array(
-                'id'    => 'pilopress',
-                'title' => "<span class='pip-icon'></span> Pilo'Press",
-                'href'  => add_query_arg( array( 'page' => 'pilopress' ), admin_url( 'admin.php' ) ),
-            ) );
+            $wp_admin_bar->add_node(
+                array(
+                    'id'    => 'pilopress',
+                    'title' => "<span class='pip-icon'></span> Pilo'Press",
+                    'href'  => add_query_arg( array( 'page' => 'pilopress' ), admin_url( 'admin.php' ) ),
+                )
+            );
 
             // Layouts
-            $wp_admin_bar->add_node( array(
-                'parent' => 'pilopress',
-                'id'     => 'layouts',
-                'title'  => __( 'Layouts', 'pilopress' ),
-                'href'   => add_query_arg( array( 'layouts' => 1, 'post_type' => 'acf-field-group' ), admin_url( 'edit.php' ) ),
-            ) );
+            $wp_admin_bar->add_node(
+                array(
+                    'parent' => 'pilopress',
+                    'id'     => 'layouts',
+                    'title'  => __( 'Layouts', 'pilopress' ),
+                    'href'   => add_query_arg(
+                        array(
+                            'layouts'   => 1,
+                            'post_type' => 'acf-field-group',
+                        ),
+                        admin_url( 'edit.php' )
+                    ),
+                )
+            );
 
             // Styles
-            $wp_admin_bar->add_node( array(
-                'parent' => 'pilopress',
-                'id'     => 'styles',
-                'title'  => __( 'Styles', 'pilopress' ),
-                'href'   => add_query_arg( array( 'page' => 'pip-styles-tailwind' ), admin_url( 'admin.php' ) ),
-            ) );
+            $wp_admin_bar->add_node(
+                array(
+                    'parent' => 'pilopress',
+                    'id'     => 'styles',
+                    'title'  => __( 'Styles', 'pilopress' ),
+                    'href'   => add_query_arg(
+                        array(
+                            'page' => 'pip-styles-tailwind',
+                        ),
+                        admin_url( 'admin.php' )
+                    ),
+                )
+            );
         }
 
         /**
@@ -372,8 +461,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         public function menu_submenu_file( $submenu_file ) {
             global $current_screen;
 
-            // If layouts categories, return
-            if ( $current_screen->taxonomy === 'acf-layouts-category' ) {
+            // If layouts categories or collections, return
+            if (
+                $current_screen->taxonomy === PIP_Layouts_Categories::$taxonomy_name
+                || $current_screen->taxonomy === PIP_Layouts_Collections::$taxonomy_name ) {
                 return $submenu_file;
             }
 
@@ -387,12 +478,12 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Define submenu for Layouts menu
             $is_layout = PIP_Layouts::is_layout( acf_maybe_get_GET( 'post' ) );
-            if ( acf_maybe_get_GET( 'layouts' ) == 1 || $is_layout || acf_maybe_get_GET( 'layout' ) == 1 ) {
+            if ( acf_maybe_get_GET( 'layouts' ) === '1' || $is_layout || acf_maybe_get_GET( 'layout' ) === '1' ) {
                 $submenu_file = 'edit.php?layouts=1&post_type=acf-field-group';
             }
 
             // Define submenu for Styles menu
-            if ( acf_maybe_get_GET( 'page' ) == 'pip-styles' || str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
+            if ( acf_maybe_get_GET( 'page' ) === 'pip-styles' || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
                 $submenu_file = 'pip-styles-tailwind';
             }
 
@@ -417,19 +508,22 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Define parent menu for Layouts menu
             $is_layout = PIP_Layouts::is_layout( acf_maybe_get_GET( 'post' ) );
-            if ( ( $current_screen->id === 'edit-acf-field-group' && acf_maybe_get_GET( 'layouts' ) == 1 )
-                 || $is_layout
-                 || acf_maybe_get_GET( 'layout' ) == 1
-                 || str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) :
+            if (
+                ( $current_screen->id === 'edit-acf-field-group' && acf_maybe_get_GET( 'layouts' ) === '1' )
+                || $is_layout
+                || acf_maybe_get_GET( 'layout' ) === '1'
+                || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) :
                 ?>
                 <script type="text/javascript">
-                    (function ($) {
-                        $('#toplevel_page_edit-post_type-acf-field-group').removeClass('wp-has-current-submenu').addClass('wp-not-current-submenu');
-                        $('#toplevel_page_edit-post_type-acf-field-group > .wp-has-current-submenu').removeClass('wp-has-current-submenu').addClass('wp-not-current-submenu');
+                    (
+                        function ( $ ) {
+                            $( '#toplevel_page_edit-post_type-acf-field-group' ).removeClass( 'wp-has-current-submenu' ).addClass( 'wp-not-current-submenu' )
+                            $( '#toplevel_page_edit-post_type-acf-field-group > .wp-has-current-submenu' ).removeClass( 'wp-has-current-submenu' ).addClass( 'wp-not-current-submenu' )
 
-                        $('#toplevel_page_pilopress').addClass('wp-has-current-submenu').removeClass('wp-not-current-submenu');
-                        $('#toplevel_page_pilopress > .wp-not-current-submenu').addClass('wp-has-current-submenu').removeClass('wp-not-current-submenu');
-                    })(jQuery);
+                            $( '#toplevel_page_pilopress' ).addClass( 'wp-has-current-submenu' ).removeClass( 'wp-not-current-submenu' )
+                            $( '#toplevel_page_pilopress > .wp-not-current-submenu' ).addClass( 'wp-has-current-submenu' ).removeClass( 'wp-not-current-submenu' )
+                        }
+                    )( jQuery )
                 </script>
             <?php
             endif;
@@ -445,7 +539,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function change_admin_url( $url, $path ) {
             // Modify "Add new" link on layouts page
-            if ( $path === 'post-new.php?post_type=acf-field-group' && acf_maybe_get_GET( 'layouts' ) == 1 ) {
+            if ( $path === 'post-new.php?post_type=acf-field-group' && acf_maybe_get_GET( 'layouts' ) === '1' ) {
                 // Add argument
                 $url = $url . '&layout=1';
             }

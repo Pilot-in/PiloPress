@@ -1,10 +1,24 @@
 <?php
 
 if ( !class_exists( 'PIP_Flexible_Header' ) ) {
+    /**
+     * Class PIP_Flexible_Header
+     */
     class PIP_Flexible_Header {
 
+        /**
+         * Header field name
+         *
+         * @var string
+         */
         private static $flexible_header_field_name = 'pip_flexible_header';
-        private static $flexible_header_group_key  = 'group_pip_flexible_header';
+
+        /**
+         * Header group key
+         *
+         * @var string
+         */
+        private static $flexible_header_group_key = 'group_pip_flexible_header';
 
         public function __construct() {
             // WP hooks
@@ -158,7 +172,6 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
                     continue;
                 }
 
-
                 // Sanitize name
                 $field_group_name = sanitize_title( $field_group['title'] );
 
@@ -214,10 +227,16 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
 }
 
 /**
- * Return flexible header content
+ * Get flexible header content
+ *
+ * @param bool $echo
  *
  * @return false|string|void
  */
-function get_pip_header() {
-    echo get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::$pattern_post_id );
+function get_pip_header( $echo = true ) {
+    if ( $echo ) {
+        echo get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::$pattern_post_id );
+    } else {
+        return get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::$pattern_post_id );
+    }
 }

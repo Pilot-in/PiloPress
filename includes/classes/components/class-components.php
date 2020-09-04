@@ -1,8 +1,17 @@
 <?php
 
 if ( !class_exists( 'PIP_Components' ) ) {
+
+    /**
+     * Class PIP_Components
+     */
     class PIP_Components {
 
+        /**
+         * Post type slug
+         *
+         * @var string
+         */
         public static $post_type = 'pip-components';
 
         public function __construct() {
@@ -16,15 +25,16 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
             // ACF hooks - Component location rule
             add_filter( 'acf/location/rule_types', array( $this, 'location_types' ) );
-            add_filter( 'acf/location/rule_values/' . PIP_Components::$post_type, array( $this, 'location_values' ) );
-            add_filter( 'acf/location/rule_match/' . PIP_Components::$post_type, array( $this, 'location_match' ), 10, 3 );
+            add_filter( 'acf/location/rule_values/' . self::$post_type, array( $this, 'location_values' ) );
+            add_filter( 'acf/location/rule_match/' . self::$post_type, array( $this, 'location_match' ), 10, 3 );
         }
 
         /**
          * Register components post type
          */
         public function register_components() {
-            register_post_type( self::$post_type,
+            register_post_type(
+                self::$post_type,
                 array(
                     'label'               => __( 'Components', 'pilopress' ),
                     'labels'              => array(
@@ -84,7 +94,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
          */
         public function remove_component_from_post_types( $choices ) {
             // Remove component
-            unset( $choices[ PIP_Components::$post_type ] );
+            unset( $choices[ self::$post_type ] );
 
             return $choices;
         }
@@ -98,7 +108,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
          */
         public function remove_component_from_posts( $choices ) {
             // Get post type labels
-            $post_type = get_post_type_labels( get_post_type_object( PIP_Components::$post_type ) );
+            $post_type = get_post_type_labels( get_post_type_object( self::$post_type ) );
 
             // Remove components
             unset( $choices[ $post_type->singular_name ] );
@@ -115,8 +125,12 @@ if ( !class_exists( 'PIP_Components' ) ) {
          * @return mixed
          */
         public function remove_component_from_acf_post_types( $post_types, $args ) {
-            $key = array_search( PIP_Components::$post_type, $post_types );
-            unset( $post_types[ $key ] );
+            $key = array_search( self::$post_type, $post_types, true );
+
+            // If component key found, unset it
+            if ( $key ) {
+                unset( $post_types[ $key ] );
+            }
 
             return $post_types;
         }
@@ -130,10 +144,10 @@ if ( !class_exists( 'PIP_Components' ) ) {
          */
         public function location_types( $choices ) {
             // Get post type labels
-            $post_type = get_post_type_labels( get_post_type_object( PIP_Components::$post_type ) );
+            $post_type = get_post_type_labels( get_post_type_object( self::$post_type ) );
 
             // Add component option
-            $choices["Pilo'Press"][ PIP_Components::$post_type ] = $post_type->singular_name;
+            $choices["Pilo'Press"][ self::$post_type ] = $post_type->singular_name;
 
             return $choices;
         }
@@ -147,10 +161,12 @@ if ( !class_exists( 'PIP_Components' ) ) {
          */
         public function location_values( $choices ) {
             // Get posts grouped by
-            $posts = get_posts( array(
-                'post_type'      => PIP_Components::$post_type,
-                'posts_per_page' => - 1,
-            ) );
+            $posts = get_posts(
+                array(
+                    'post_type'      => self::$post_type,
+                    'posts_per_page' => - 1,
+                )
+            );
 
             // Add "all" option
             $choices = array(
@@ -192,11 +208,11 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
             } else {
                 // Compare all other values.
-                $match = ( $post_id == $rule['value'] );
+                $match = ( $post_id === $rule['value'] );
             }
 
             // Allow for "!=" operator.
-            if ( $rule['operator'] == '!=' ) {
+            if ( $rule['operator'] === '!=' ) {
                 $match = !$match;
             }
 
@@ -258,7 +274,7 @@ if ( !function_exists( 'have_component' ) ) {
         $previous_id = $instance->post_id;
 
         // Initiate loop
-        if ( $pip_component_i == 0 ) {
+        if ( $pip_component_i === 0 ) {
 
             // Setup loop
             $values = get_sub_field( $selector, false );
@@ -279,11 +295,13 @@ if ( !function_exists( 'have_component' ) ) {
             }
 
             // Create fake field
-            acf_add_local_field( array(
-                'key'        => $field_key,
-                'type'       => 'group',
-                'sub_fields' => $sub_fields,
-            ) );
+            acf_add_local_field(
+                array(
+                    'key'        => $field_key,
+                    'type'       => 'group',
+                    'sub_fields' => $sub_fields,
+                )
+            );
 
             // Wrap values
             $values = array(

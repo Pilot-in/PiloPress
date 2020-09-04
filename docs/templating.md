@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Templating
-nav_order: 7
+nav_order: 8
 ---
 
 # Templating
@@ -18,3 +18,5 @@ or
 // Pilo'Press content (needs 'echo')
 echo get_pip_content();
 ```
+
+**NB:** Site template sections "header" and "footer" are displayed inside `pip_content` functions.

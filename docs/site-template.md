@@ -1,14 +1,17 @@
 ---
 layout: default
 title: Site template
-nav_order: 8
+nav_order: 9
 ---
 
 # Site template
 
 You can customize your header and your footer sections using layouts in `Pilo'Press > Site Template` menu.
 First of all, you have to assign a layout to Header and/or Footer Site Template locations.  
-To display those sections, you have to use the following functions in your template files:
+Those sections are display by default inside `pip_content` functions.
+
+You can deactivate auto-add and use the following functions in your template files:
+
 ```php
 // Header Pattern
 get_pip_header();
@@ -17,4 +20,4 @@ get_pip_header();
 get_pip_footer();
 ```
 
-See [Theme installation](/PiloPress/docs/theme-installation) for example.
+See [Hooks](/PiloPress/docs/hooks) for more details.

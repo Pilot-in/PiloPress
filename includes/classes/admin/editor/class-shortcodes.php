@@ -1,6 +1,10 @@
 <?php
 
 if ( !class_exists( 'PIP_Shortcodes' ) ) {
+
+    /**
+     * Class PIP_Shortcodes
+     */
     class PIP_Shortcodes {
         public function __construct() {
             // WP hooks
@@ -28,15 +32,19 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          */
         public function pip_button( $attrs ) {
             // Parse attributes
-            $attrs = shortcode_atts( array(
-                'text'      => false,
-                'type'      => false,
-                'alignment' => false,
-                'target'    => false,
-                'xclass'    => false,
-                'link'      => '',
-                'nodiv'     => false,
-            ), $attrs, 'pip_button' );
+            $attrs = shortcode_atts(
+                array(
+                    'text'      => false,
+                    'type'      => false,
+                    'alignment' => false,
+                    'target'    => false,
+                    'xclass'    => false,
+                    'link'      => '',
+                    'nodiv'     => false,
+                ),
+                $attrs,
+                'pip_button'
+            );
 
             // Build class
             $class = '';
@@ -44,22 +52,26 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             $class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
             if ( !$attrs['nodiv'] ) {
-                $html = do_shortcode( sprintf(
-                    '<div class="%s"><a href="%s" class="%s"%s>%s</a></div>',
-                    esc_attr( $attrs['alignment'] ),
-                    esc_url( $attrs['link'] ),
-                    esc_attr( trim( $class ) ),
-                    ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
-                    ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : ''
-                ) );
+                $html = do_shortcode(
+                    sprintf(
+                        '<div class="%s"><a href="%s" class="%s"%s>%s</a></div>',
+                        esc_attr( $attrs['alignment'] ),
+                        esc_url( $attrs['link'] ),
+                        esc_attr( trim( $class ) ),
+                        ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
+                        ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : ''
+                    )
+                );
             } else {
-                $html = do_shortcode( sprintf(
-                    '<a href="%s" class="%s"%s>%s</a>',
-                    esc_url( $attrs['link'] ),
-                    esc_attr( trim( $class ) ),
-                    ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
-                    ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : ''
-                ) );
+                $html = do_shortcode(
+                    sprintf(
+                        '<a href="%s" class="%s"%s>%s</a>',
+                        esc_url( $attrs['link'] ),
+                        esc_attr( trim( $class ) ),
+                        ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
+                        ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : ''
+                    )
+                );
             }
 
             // Render shortcode
@@ -76,10 +88,14 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          */
         public function pip_button_group( $attrs, $content = null ) {
             // Parse attributes
-            $attrs = shortcode_atts( array(
-                'number'    => false,
-                'alignment' => false,
-            ), $attrs, 'pip_button_group' );
+            $attrs = shortcode_atts(
+                array(
+                    'number'    => false,
+                    'alignment' => false,
+                ),
+                $attrs,
+                'pip_button_group'
+            );
 
             $class = acf_maybe_get( $attrs, 'alignment', '' );
 
@@ -135,9 +151,13 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          */
         public function pip_thumbnail( $attrs ) {
             // Parse attributes
-            $attrs = shortcode_atts( array(
-                'size' => 'full',
-            ), $attrs, 'pip_thumbnail' );
+            $attrs = shortcode_atts(
+                array(
+                    'size' => 'full',
+                ),
+                $attrs,
+                'pip_thumbnail'
+            );
 
             // Get post thumbnail URL
             $image_size         = $attrs['size'];
@@ -161,9 +181,13 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          */
         public function pip_spacer( $attrs ) {
             // Parse attributes
-            $attrs = shortcode_atts( array(
-                'spacer' => 1,
-            ), $attrs, 'pip_spacer' );
+            $attrs = shortcode_atts(
+                array(
+                    'spacer' => 1,
+                ),
+                $attrs,
+                'pip_spacer'
+            );
 
             return '<div class="' . $attrs['spacer'] . '"></div>';
         }

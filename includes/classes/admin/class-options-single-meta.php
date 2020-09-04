@@ -13,6 +13,10 @@ if ( !acf_get_setting( 'pip/options/single_meta' ) ) {
 acf_register_store( 'pip/options/meta' )->prop( 'multisite', true );
 
 if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
+
+    /**
+     * Class PIP_Options_Single_Meta
+     */
     class PIP_Options_Single_Meta {
 
         public function __construct() {
@@ -36,7 +40,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
          */
         public function update_value( $value, $post_id, $field ) {
             // If not style options, return
-            if ( !str_starts( $post_id, 'pip_styles' ) ) {
+            if ( !pip_str_starts( $post_id, 'pip_styles' ) ) {
                 return $value;
             }
 
@@ -97,7 +101,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
          */
         public function save_post( $post_id = 0 ) {
             // If not style options, return
-            if ( !str_starts( $post_id, 'pip_styles' ) ) {
+            if ( !pip_str_starts( $post_id, 'pip_styles' ) ) {
                 return;
             }
 
@@ -129,7 +133,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
          */
         public function load_value( $value, $post_id, $field ) {
             // If not style options, return
-            if ( !str_starts( $post_id, 'pip_styles' ) ) {
+            if ( !pip_str_starts( $post_id, 'pip_styles' ) ) {
                 return $value;
             }
 
@@ -186,7 +190,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
          */
         public function load_reference( $value, $post_id, $name, $hidden ) {
             // If not style options, return
-            if ( !str_starts( $post_id, 'pip_styles' ) ) {
+            if ( !pip_str_starts( $post_id, 'pip_styles' ) ) {
                 return $value;
             }
 

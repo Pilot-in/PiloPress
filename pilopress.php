@@ -2,15 +2,14 @@
 /**
  * Plugin Name:         Pilo'Press
  * Plugin URI:          https://www.pilot-in.com
- * Description:         Awesome WordPress Framework
- * Version:             0.1
- * Author:              Pilot'In
+ * Description:         The most advanced WordPress Page Builder using Advanced Custom Field & TailwindCSS
+ * Version:             0.3.2.8
+ * Author:              Pilot'in
  * Author URI:          https://www.pilot-in.com
  * License:             GPLv2 or later
  * License URI:         http://www.gnu.org/licenses/gpl-2.0.html
  * Requires PHP:        5.6 or higher
  * Requires at least:   4.9 or higher
- * WC tested up to:     5.3.2
  * Text Domain:         pilopress
  * Domain Path:         /lang
  */
@@ -18,16 +17,32 @@
 defined( 'ABSPATH' ) || exit;
 
 if ( !class_exists( 'PiloPress' ) ) {
+
+    /**
+     * Class PiloPress
+     */
     class PiloPress {
 
-        // Plugin version
-        var $version = '0.1';
+        /**
+         * Plugin version
+         *
+         * @var string
+         */
+        public static $version = '0.3.2.8';
 
-        // ACF
-        var $acf = false;
+        /**
+         * ACF
+         *
+         * @var bool
+         */
+        public $acf = false;
 
-        // ACFE
-        var $acfe = false;
+        /**
+         * ACFE
+         *
+         * @var bool
+         */
+        public $acfe = false;
 
         /**
          * Pilo'Press constructor.
@@ -55,20 +70,36 @@ if ( !class_exists( 'PiloPress' ) ) {
             $this->define( 'PIP_THEME_STYLE_ADMIN_FILENAME', 'styles-admin' );
 
             // Init
-            include_once( PIP_PATH . 'init.php' );
+            include_once PIP_PATH . 'init.php';
+
+            // Activation actions
+            register_activation_hook( __FILE__, array( $this, 'activation' ) );
+
+            // Enqueue layouts configuration files
+            add_action( 'init', array( 'PIP_Layouts', 'enqueue_configuration_files' ), 5 );
 
             // Init hook
+            add_action( 'init', array( $this, 'load_translations' ) );
+
+            // Meta boxes order
             add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
 
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
+        }
 
-            // Load textdomain file.
-            pip_load_textdomain( 'pilopress' );
+        /**
+         * Init hook
+         * Load translations
+         */
+        public function load_translations() {
+            // Load text domain file
+            pip_load_textdomain();
         }
 
         /**
          * Re-order meta-boxes
+         *
          * @param $order
          *
          * @return array
@@ -76,7 +107,9 @@ if ( !class_exists( 'PiloPress' ) ) {
         public function metabox_order( $order ) {
             if ( !$order ) {
                 $order = array(
-                    'normal' => implode( ',', array(
+                    'normal' => implode(
+                        ',',
+                        array(
 
                             // Layouts
                             'acf-field-group-fields',
@@ -107,11 +140,8 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Includes
             add_action( 'acf/init', array( $this, 'includes' ) );
 
-            // Activation actions
-            add_action( 'wp_loaded', array( $this, 'activation' ), 20 );
-
-            // Sync JSON
-            pip_include( 'includes/classes/admin/class-json-sync.php' );
+            // Sync JSON/PHP
+            pip_include( 'includes/classes/admin/class-layouts-sync.php' );
 
             // Tools
             add_action( 'acf/include_admin_tools', array( $this, 'tools' ), 9 );
@@ -121,14 +151,15 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Include files
          */
         public function includes() {
+            // Helpers
+            pip_include( 'includes/helpers.php' );
+
             // Components
             pip_include( 'includes/classes/components/class-components.php' );
             pip_include( 'includes/classes/components/class-component-field-type.php' );
 
-            // Helpers
-            pip_include( 'includes/classes/class-helpers.php' );
-
             // Main
+            pip_include( 'includes/classes/main/class-layouts-collections.php' );
             pip_include( 'includes/classes/main/class-layouts-categories.php' );
             pip_include( 'includes/classes/main/class-flexible.php' );
             pip_include( 'includes/classes/main/class-flexible-mirror.php' );
@@ -149,6 +180,10 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/admin/editor/class-tinymce.php' );
             pip_include( 'includes/classes/admin/editor/class-shortcodes.php' );
             pip_include( 'includes/classes/admin/editor/class-styles-settings.php' );
+            pip_include( 'includes/classes/admin/editor/class-font-style-field.php' );
+            pip_include( 'includes/classes/admin/editor/class-font-family-field.php' );
+            pip_include( 'includes/classes/admin/editor/class-font-color-field.php' );
+            pip_include( 'includes/classes/admin/editor/class-button-field.php' );
 
             // Admin - Options pages
             pip_include( 'includes/classes/admin/options-pages/class-admin-options-page.php' );
@@ -170,6 +205,10 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Activation actions
          */
         public static function activation() {
+            // Create Pilo'Press folders
+            self::create_pip_folder();
+
+            // If class does not exist, return
             if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 return;
             }
@@ -177,6 +216,17 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Generate flexible mirror field group
             $class = new PIP_Flexible_Mirror();
             $class->generate_flexible_mirror();
+        }
+
+        /**
+         * Create Pilo'Press folders on activation
+         */
+        private static function create_pip_folder() {
+            // Create "layouts" folder in theme
+            wp_mkdir_p( get_template_directory() . '/pilopress/layouts' );
+
+            // Create "assets" folder in theme
+            wp_mkdir_p( get_template_directory() . '/pilopress/assets' );
         }
 
         /**

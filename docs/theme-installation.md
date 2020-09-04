@@ -12,41 +12,12 @@ nav_order: 2
 
 
 ```php
-// WordPress Header
+// Header
 get_header(); 
 
-// Pilo'Press: Header
-get_pip_header();
+// Pilo'Press: Content
+the_pip_content();
 
-if( have_posts() ):
-    while( have_posts() ): the_post();
-        
-        // Pilo'Press: Content
-        the_pip_content();
-        
-    endwhile;
-endif;
-
-// Pilo'Press: Footer
-get_pip_footer();
-
-// WordPress: Footer
+// Footer
 get_footer();
-```
-
-- In the `functions.php` file, add the following code:
-
-
-```php
-// Pilo'Press: Front-end
-add_action( 'wp_enqueue_scripts', 'enqueue_pilopress_styles' );
-function enqueue_pilopress_styles() {
-    pip_enqueue();
-}
- 
-// Pilo'Press: Back-end
-add_action( 'admin_enqueue_scripts', 'admin_enqueue_pilopress_styles' );
-function admin_enqueue_pilopress_styles() {
-    pip_enqueue_admin();
-}
 ```

@@ -1,13 +1,30 @@
 <?php
 
 /**
+ * Duplicate class
+ *
  * @see acf_admin_options_page
  */
 
 if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
+
+    /**
+     * Class PIP_Admin_Options_Page
+     */
     class PIP_Admin_Options_Page {
 
+        /**
+         * Page
+         *
+         * @var array
+         */
         public        $page;
+
+        /**
+         * Pages
+         *
+         * @var array[]
+         */
         public static $pages;
 
         /**
@@ -131,7 +148,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     acf_save_post( $this->page['post_id'] );
 
                     // Redirect
-                    wp_redirect( add_query_arg( array( 'message' => '1' ) ) );
+                    wp_safe_redirect( add_query_arg( array( 'message' => '1' ) ) );
                     exit;
                 }
             }
@@ -142,7 +159,13 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             add_action( 'acf/input/admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
             add_action( 'acf/input/admin_head', array( $this, 'admin_head' ) );
 
-            add_screen_option( 'layout_columns', array( 'max' => 2, 'default' => 2 ) );
+            add_screen_option(
+                'layout_columns',
+                array(
+                    'max'     => 2,
+                    'default' => 2,
+                )
+            );
         }
 
         /**
@@ -162,11 +185,13 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             $this->page = self::$pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
 
             // Get associated field groups
-            $field_groups = acf_get_field_groups( array(
-                'options_page' => $menu_slug,
-            ) );
+            $field_groups = acf_get_field_groups(
+                array(
+                    'options_page' => $menu_slug,
+                )
+            );
 
-            if ( acf_maybe_get_GET( 'message' ) == '1' ) {
+            if ( acf_maybe_get_GET( 'message' ) === '1' ) {
                 // Add notice
                 acf_add_admin_notice( __( 'Options Updated', 'acf' ), 'success' );
             }
@@ -177,6 +202,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             if ( empty( $field_groups ) ) {
 
                 // No field group, display warning message
+                // translators: Fields group URL
                 acf_add_admin_notice( sprintf( __( 'No Custom Field Groups found for this options page. <a href="%s">Create a Custom Field Group</a>', 'acf' ), admin_url( 'post-new.php?post_type=acf-field-group' ) ), 'warning' );
 
             } else {
@@ -187,9 +213,9 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     $priority = 'high';
                     $args     = array( 'field_group' => $field_group );
 
-                    if ( $context == 'acf_after_title' ) {
+                    if ( $context === 'acf_after_title' ) {
                         $context = 'normal';
-                    } elseif ( $context == 'side' ) {
+                    } elseif ( $context === 'side' ) {
                         $priority = 'core';
                     }
 
@@ -259,8 +285,8 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             ?>
             <script type="text/javascript">
-                if (typeof acf !== 'undefined') {
-                    acf.newPostbox(<?php echo json_encode( $field_group_object ); ?>);
+                if ( typeof acf !== 'undefined' ) {
+                    acf.newPostbox(<?php echo wp_json_encode( $field_group_object ); ?>)
                 }
             </script>
             <?php
@@ -282,7 +308,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             $admin_url    = admin_url( 'admin.php' );
 
             // Display custom option page
-            include_once( PIP_PATH . 'includes/views/styles-admin-page.php' );
+            include_once PIP_PATH . 'includes/views/styles-admin-page.php';
         }
 
         /**
@@ -295,7 +321,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * @return string
          */
         public function styles_options_page_source( $source, $post_id, $field_group ) {
-            if ( str_starts( $post_id, 'group_styles_' ) || str_starts( $post_id, 'group_pip_' ) ) {
+            if ( pip_str_starts( $post_id, 'group_styles_' ) || pip_str_starts( $post_id, 'group_pip_' ) ) {
                 $source = "Pilo'Press";
             }
 

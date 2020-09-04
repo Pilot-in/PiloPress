@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Add new layout
-nav_order: 5
+nav_order: 6
 ---
 
 # Add new layout

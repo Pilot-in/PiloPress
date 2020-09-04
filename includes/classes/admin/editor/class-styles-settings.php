@@ -1,11 +1,17 @@
 <?php
 
 if ( !class_exists( 'PIP_Styles_Settings' ) ) {
+
+    /**
+     * Class PIP_Styles_Settings
+     */
     class PIP_Styles_Settings {
         public function __construct() {
             // WP hooks
             add_action( 'init', array( $this, 'custom_image_sizes' ) );
             add_filter( 'image_size_names_choose', array( $this, 'custom_image_sizes_names' ) );
+            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_pip_style' ) );
+            add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_pip_style' ) );
 
             // ACF hooks
             add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
@@ -15,13 +21,39 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         }
 
         /**
+         * Enqueue Pilo'Press style
+         */
+        public function enqueue_pip_style() {
+            // Allow disabling feature
+            if ( apply_filters( 'pip/enqueue/remove', false ) ) {
+                return;
+            }
+
+            // Enqueue style
+            pip_enqueue();
+        }
+
+        /**
+         * Enqueue Pilo'Press admin style
+         */
+        public function admin_enqueue_pip_style() {
+            // Allow disabling feature
+            if ( apply_filters( 'pip/enqueue/admin/remove', false ) ) {
+                return;
+            }
+
+            // Enqueue admin style
+            pip_enqueue_admin();
+        }
+
+        /**
          * Add Update & Compile button
          *
          * @param $page
          */
         public function add_compile_styles_button( $page ) {
             // If not on Styles admin page, return
-            if ( !str_starts( $page['post_id'], 'pip_styles_' ) ) {
+            if ( !pip_str_starts( $page['post_id'], 'pip_styles_' ) ) {
                 return;
             }
 
@@ -40,7 +72,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          */
         public function save_styles_settings( $post_id ) {
             // If not on Styles admin page, return
-            if ( !str_starts( $post_id, 'pip_styles_' ) ) {
+            if ( !pip_str_starts( $post_id, 'pip_styles_' ) ) {
                 return;
             }
 
@@ -53,7 +85,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             }
 
             // Save CSS
-            $tailwind_css = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
+            $tailwind_style = '';
+            $tailwind_css   = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
             if ( $tailwind_css ) {
                 // Get style
                 $tailwind_style = $tailwind_css['tailwind_style'];
@@ -69,37 +102,32 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                     $tailwind_style = substr_replace( $tailwind_style, $custom_fonts, $base_include_pos, 0 );
                 }
 
-                file_put_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.css', $tailwind_style );
-            }
-
-            // Save config
-            $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
-            if ( $tailwind_config ) {
-                file_put_contents( PIP_THEME_ASSETS_PATH . 'tailwind.config.js', $tailwind_config['tailwind_config'] );
             }
 
             // Update & Compile button
             $compile = acf_maybe_get_POST( 'update_compile' );
             if ( $compile ) {
-                self::compile_tailwind();
+
+                $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+
+                self::compile_tailwind( $tailwind_style, $tailwind_config['tailwind_config'] );
+
             }
         }
 
         /**
          * Compile Tailwind styles
+         *
+         * @param $tailwind_style
+         * @param $tailwind_config
          */
-        public static function compile_tailwind() {
+        public static function compile_tailwind( $tailwind_style, $tailwind_config ) {
             // Get Tailwind API
-            require( PIP_PATH . '/assets/libs/tailwindapi.php' );
+            require_once PIP_PATH . '/assets/libs/tailwindapi.php';
             $tailwind = new TailwindAPI();
 
-            // Reset font family
-            $css_content = "body{ @apply font-sans }\n";
-
             // Get style css content
-            if ( file_exists( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.css' ) ) {
-                $css_content .= file_get_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.css' );
-            }
+            $css_content = $tailwind_style;
 
             // Get layouts CSS
             $css_content .= PIP_Layouts::get_layouts_css();
@@ -108,7 +136,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $tailwind->build(
                 array(
                     'css'          => $css_content,
-                    'config'       => PIP_THEME_ASSETS_PATH . 'tailwind.config.js',
+                    'config'       => $tailwind_config,
                     'autoprefixer' => true,
                     'minify'       => true,
                     'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
@@ -119,18 +147,16 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $admin_css = "#poststuff .-preview h2{ all:unset; }\n";
 
             // Build admin style
-            $admin_css .= $tailwind->build(
+            $tailwind->build(
                 array(
-                    'css'          => $css_content,
-                    'config'       => PIP_THEME_ASSETS_PATH . 'tailwind.config.js',
+                    'css'          => $admin_css . $css_content,
+                    'config'       => $tailwind_config,
                     'autoprefixer' => true,
                     'minify'       => true,
                     'prefixer'     => '.-preview',
+                    'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
                 )
             );
-
-            // Put generated CSS in admin style file
-            file_put_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css', $admin_css );
         }
 
         /**
@@ -139,7 +165,8 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return string
          */
         private static function css_custom_fonts() {
-            $css_custom = $tinymce_fonts = '';
+            $css_custom    = '';
+            $tinymce_fonts = '';
 
             // Get fonts
             if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
@@ -169,12 +196,14 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
                             $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
 
                             // Get post
-                            $posts   = new WP_Query( array(
-                                'name'           => $file['file']['name'],
-                                'post_type'      => 'attachment',
-                                'posts_per_page' => 1,
-                                'fields'         => 'ids',
-                            ) );
+                            $posts   = new WP_Query(
+                                array(
+                                    'name'           => $file['file']['name'],
+                                    'post_type'      => 'attachment',
+                                    'posts_per_page' => 1,
+                                    'fields'         => 'ids',
+                                )
+                            );
                             $posts   = $posts->get_posts();
                             $post_id = reset( $posts );
 
@@ -244,7 +273,9 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return mixed
          */
         public function pre_populate_wp_image_sizes( $value, $post_id, $field ) {
-            $image_sizes = $fields = $new_values = array();
+            $image_sizes = array();
+            $fields      = array();
+            $new_values  = array();
 
             // Get only WP image sizes
             $all_image_sizes        = PIP_TinyMCE::get_all_image_sizes();
@@ -297,8 +328,12 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
          * @return mixed
          */
         public function configure_wp_image_sizes( $field ) {
-            $field['min'] = count( $field['value'] );
-            $field['max'] = count( $field['value'] );
+            $value = acf_maybe_get( $field, 'value' );
+            // Set min and max for wp_image_sizes
+            if ( $value ) {
+                $field['min'] = count( $value );
+                $field['max'] = count( $value );
+            }
 
             return $field;
         }
@@ -329,7 +364,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
         public function custom_image_sizes_names( $size_names ) {
             // Get custom sizes
             $custom_sizes = get_field( 'pip_image_sizes', 'pip_styles_image_sizes' );
-            if ( !$custom_sizes ) {
+            if ( !is_array( $custom_sizes ) ) {
                 return $size_names;
             }
 

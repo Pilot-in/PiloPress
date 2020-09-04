@@ -1,6 +1,10 @@
 <?php
 
 if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
+
+    /**
+     * Class PIP_Admin_Layouts
+     */
     class PIP_Admin_Layouts {
         public function __construct() {
             // WP hooks
@@ -24,12 +28,12 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             add_filter( 'views_edit-acf-field-group', array( $this, 'edit_views' ), 999 );
 
             // Layouts listing page
-            if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
+            if ( acf_maybe_get_GET( 'layouts' ) === '1' ) {
                 add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'field_group_columns' ), 20 );
             }
 
             // Sync page
-            if ( acf_maybe_get_GET( 'post_status' ) == 'sync' ) {
+            if ( acf_maybe_get_GET( 'post_status' ) === 'sync' ) {
                 add_filter( 'acf/load_field_groups', array( $this, 'filter_sync_field_groups' ) );
             }
 
@@ -61,13 +65,16 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
          * Make layout slug unique
          *
          * @param $field_group
-         *
-         * @return mixed
          */
         public function update_layout_setting( $field_group ) {
             // If not a layout, return
             if ( !PIP_Layouts::is_layout( $field_group ) ) {
-                return $field_group;
+                return;
+            }
+
+            // If ACF sync, skip
+            if ( acf_maybe_get_GET( 'acfsync' ) ) {
+                return;
             }
 
             // Get layout slug
@@ -78,7 +85,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
             // If not a duplicated layout slug, return
             if ( !$original ) {
-                return $field_group;
+                return;
             }
 
             // Initialize suffix
@@ -98,14 +105,14 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 // Do it again until no layout is find
             } while ( $unique_layout_slug );
 
-            // Store new slug
-            $slug = $alt_post_name;
+            // Replace file names with new slug
+            $field_group['_pip_render_layout'] = str_replace( $slug, $alt_post_name, $field_group['_pip_render_layout'] );
+            $field_group['_pip_render_style']  = str_replace( $slug, $alt_post_name, $field_group['_pip_render_style'] );
+            $field_group['_pip_render_script'] = str_replace( $slug, $alt_post_name, $field_group['_pip_render_script'] );
 
             // Update field group with new slug
-            $field_group['_pip_layout_slug'] = $slug;
+            $field_group['_pip_layout_slug'] = $alt_post_name;
             acf_update_field_group( $field_group );
-
-            return $field_group;
         }
 
         /**
@@ -129,14 +136,20 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
          * @return bool
          */
         public function edit_views( $views ) {
-            if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
+            if ( acf_maybe_get_GET( 'layouts' ) === '1' ) {
 
                 // If layouts page, remove links and update counters
                 self::update_layouts_counters( $views );
                 self::update_sync_counters( $views );
 
                 // Remove category terms counters
-                $terms = get_terms( array( 'taxonomy' => 'acf-field-group-category', 'hide_empty' => false, 'fields' => 'id=>slug', ) );
+                $terms = get_terms(
+                    array(
+                        'taxonomy'   => 'acf-field-group-category',
+                        'hide_empty' => false,
+                        'fields'     => 'id=>slug',
+                    )
+                );
                 if ( $terms ) {
                     foreach ( $terms as $term ) {
                         unset( $views[ 'category-' . $term ] );
@@ -173,7 +186,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 return $field_groups;
             }
 
-            if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
+            if ( acf_maybe_get_GET( 'layouts' ) === '1' ) {
 
                 // Layouts page
                 foreach ( $field_groups as $key => $field_group ) {
@@ -207,7 +220,9 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             );
 
             foreach ( $post_statuses as $post_status ) {
-                $class = $count = $title = null;
+                $class = null;
+                $count = null;
+                $title = null;
 
                 // Get all field groups ids
                 $args = array(
@@ -228,11 +243,13 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 $query = new WP_Query( $args );
 
                 // Admin URL
-                $url = add_query_arg( array(
-                    'layouts'   => 1,
-                    'post_type' => 'acf-field-group',
-                ), admin_url( 'edit.php' ) );
-
+                $url = add_query_arg(
+                    array(
+                        'layouts'   => 1,
+                        'post_type' => 'acf-field-group',
+                    ),
+                    admin_url( 'edit.php' )
+                );
 
                 // Set parameters
                 switch ( $post_status ) {
@@ -273,7 +290,9 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             );
 
             foreach ( $post_statuses as $post_status ) {
-                $class = $count = $title = null;
+                $class = null;
+                $count = null;
+                $title = null;
 
                 // Get all field groups ids
                 $args = array(
@@ -293,9 +312,12 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 $query = new WP_Query( $args );
 
                 // Admin URL
-                $url = add_query_arg( array(
-                    'post_type' => 'acf-field-group',
-                ), admin_url( 'edit.php' ) );
+                $url = add_query_arg(
+                    array(
+                        'post_type' => 'acf-field-group',
+                    ),
+                    admin_url( 'edit.php' )
+                );
 
                 // Set parameters
                 switch ( $post_status ) {
@@ -378,10 +400,13 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 // If there's field group to sync
 
                 // Admin URL
-                $url = add_query_arg( array(
-                    'post_type'   => 'acf-field-group',
-                    'post_status' => 'sync',
-                ), admin_url( 'edit.php' ) );
+                $url = add_query_arg(
+                    array(
+                        'post_type'   => 'acf-field-group',
+                        'post_status' => 'sync',
+                    ),
+                    admin_url( 'edit.php' )
+                );
                 if ( $is_layout ) {
                     $url = add_query_arg( array( 'layouts' => 1 ), $url );
                 }
@@ -419,11 +444,14 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
             // Redirect
             if ( $redirect ) {
-                $url = add_query_arg( array(
-                    'post_type' => 'acf-field-group',
-                    'layouts'   => 1,
-                    'sync_ok'   => acf_maybe_get_GET( 'acfsynccomplete' ),
-                ), admin_url( 'edit.php' ) );
+                $url = add_query_arg(
+                    array(
+                        'post_type' => 'acf-field-group',
+                        'layouts'   => 1,
+                        'sync_ok'   => acf_maybe_get_GET( 'acfsynccomplete' ),
+                    ),
+                    admin_url( 'edit.php' )
+                );
 
                 wp_safe_redirect( $url );
                 exit();
@@ -442,7 +470,8 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 $total             = count( $sync_field_groups );
 
                 // Generate text.
-                $text = sprintf( _n( 'Layout synchronised.', '%s layouts synchronised.', $total, 'acf' ), $total );
+                // translators: Number of layouts synchronised
+                $text = sprintf( _n( '%s layout synchronised.', '%s layouts synchronised.', $total, 'acf' ), $total );
 
                 // Add links to text.
                 $links = array();

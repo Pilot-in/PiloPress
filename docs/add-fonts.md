@@ -19,16 +19,21 @@ URL:             https://fonts.googleapis.com/css2?family=Roboto&display=swap
 Auto-enqueue:    true
 ```
 **NB:** The `Auto-enqueue` option will automatically add the `<link>` tag in your HTML if set to `true`.  
+
+<figure class="video_container">
+  <iframe src="https://www.loom.com/embed/edc528d329b543d0a4fe7062df7f43d2"
+  frameborder="0" allowfullscreen="true" width="400" height="250"></iframe>
+</figure>
 * * *
 
 **Example: Custom font**
 
-Let's say we want to add a font named _Homework_.  
+Let's say we want to add a font named _Awesome Font_.  
 _Be careful with your font formats, because of [browser compatibility](https://www.w3schools.com/css/css3_fonts.asp)._  
 
 We have to fill the fields as following:  
 ```text
-Name:      Homework
+Name:      Awesome Font
 Files:     <Your files>
 Weight:    normal         // Depends on your font
 Style:     normal         // Depends on your font
@@ -46,8 +51,8 @@ Something like that:
     font-family: "Roboto", sans-serif;
 }
 
-.font-homework {
-    font-family: "Homework", sans-serif;
+.font-awesome-font {
+    font-family: "Awesome Font", sans-serif;
 }
 ```
 After re-building styles, we will be able to use those classes everywhere.
@@ -61,10 +66,13 @@ module.exports = {
         extend: {
             fontFamily: {
                 roboto: ['Roboto', 'sans-serif'],
-                homework: ['Homework', 'sans-serif'],
+                'awesome-font': ['Awesome Font', 'sans-serif'],
             },
         },
     },
 };
 ```
 Tailwind CSS will generate the following classes: `font-roboto` and `font-homework`.
+
+**CAUTION:** If your font name has a dash or something similar, you **have to** wrap it with quotes as in code example above.  
+If you don't, compilation will fail.

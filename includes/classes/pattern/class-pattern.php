@@ -1,10 +1,25 @@
 <?php
 
 if ( !class_exists( 'PIP_Pattern' ) ) {
+
+    /**
+     * Class PIP_Pattern
+     */
     class PIP_Pattern {
 
+        /**
+         * Option page
+         *
+         * @var array
+         */
         public static $pattern_option_page;
         public static $menu_slug = 'pip-pattern';
+
+        /**
+         * Post ID
+         *
+         * @var string
+         */
         public static $pattern_post_id = 'pip_pattern';
 
         public function __construct() {
@@ -76,7 +91,8 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
         public function location_values( $choices ) {
             // Add options
             $choices = array(
-                'all'                                                 => __( 'All', 'acf' ),
+                'all' => __( 'All', 'acf' ),
+
                 PIP_Flexible_Header::get_flexible_header_field_name() => __( 'Header', 'pilopress' ),
                 PIP_Flexible_Footer::get_flexible_footer_field_name() => __( 'Footer', 'pilopress' ),
             );
@@ -111,7 +127,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
             }
 
             // Allow for "!=" operator.
-            if ( $rule['operator'] == '!=' ) {
+            if ( $rule['operator'] === '!=' ) {
                 $match = !$match;
             }
 

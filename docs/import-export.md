@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Styles settings Import/Export
-nav_order: 10
+nav_order: 11
 ---
 
 # Styles settings Import/Export

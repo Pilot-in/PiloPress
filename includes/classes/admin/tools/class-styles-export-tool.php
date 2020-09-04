@@ -5,12 +5,24 @@ if ( !defined( 'ABSPATH' ) ) {
 } // Exit if accessed directly
 
 if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
+
+    /**
+     * Class PIP_Styles_Export_Tool
+     */
     class PIP_Styles_Export_Tool extends ACF_Admin_Tool {
 
-        /** @var string View context */
+        /**
+         * View context
+         *
+         * @var string
+         */
         var $view = '';
 
-        /** @var array Export data */
+        /**
+         * Export data
+         *
+         * @var string
+         */
         var $json = '';
 
         /**
@@ -62,15 +74,17 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
                 if ( !empty( $choices ) ) {
 
                     // Render
-                    acf_render_field_wrap( array(
-                        'label'   => __( 'Select styles settings', 'pilopress' ),
-                        'type'    => 'checkbox',
-                        'name'    => 'keys',
-                        'prefix'  => false,
-                        'value'   => $selected,
-                        'toggle'  => true,
-                        'choices' => $choices,
-                    ) );
+                    acf_render_field_wrap(
+                        array(
+                            'label'   => __( 'Select styles settings', 'pilopress' ),
+                            'type'    => 'checkbox',
+                            'name'    => 'keys',
+                            'prefix'  => false,
+                            'value'   => $selected,
+                            'toggle'  => true,
+                            'choices' => $choices,
+                        )
+                    );
 
                 } else {
 
@@ -127,10 +141,10 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
             }
 
             // File headers
-            $file_name = 'acf-styles-export-' . date( 'Y-m-d' ) . '.json';
-            header( "Content-Description: File Transfer" );
+            $file_name = 'acf-styles-export-' . gmdate( 'Y-m-d' ) . '.json';
+            header( 'Content-Description: File Transfer' );
             header( "Content-Disposition: attachment; filename={$file_name}" );
-            header( "Content-Type: application/json; charset=utf-8" );
+            header( 'Content-Type: application/json; charset=utf-8' );
 
             // Return
             echo acf_json_encode( $data );
@@ -188,12 +202,14 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          */
         public function get_selected_keys() {
             // Check $_POST
-            if ( $keys = acf_maybe_get_POST( 'keys' ) ) {
+            $keys = acf_maybe_get_POST( 'keys' );
+            if ( $keys ) {
                 return (array) $keys;
             }
 
             // Check $_GET
-            if ( $keys = acf_maybe_get_GET( 'keys' ) ) {
+            $keys = acf_maybe_get_GET( 'keys' );
+            if ( $keys ) {
                 $keys = str_replace( ' ', '+', $keys );
 
                 return explode( '+', $keys );
@@ -221,7 +237,8 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
 
             // Add notice
             $count = count( $selected );
-            $text  = sprintf( _n( 'Exported 1 style settings.', 'Exported %s styles settings.', $count, 'pilopress' ), $count );
+            // translators: Number of style settings exported
+            $text = sprintf( _n( 'Exported %s style settings.', 'Exported %s styles settings.', $count, 'pilopress' ), $count );
             acf_add_admin_notice( $text, 'success' );
         }
 
