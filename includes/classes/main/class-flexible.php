@@ -63,21 +63,20 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 'title'                 => __( 'Builder', 'pilopress' ),
                 'fields'                => array(
                     array(
-                        'key'                           => 'field_' . self::get_flexible_field_name(),
-                        'label'                         => '',
-                        'name'                          => self::get_flexible_field_name(),
-                        'type'                          => 'flexible_content',
-                        'instructions'                  => '',
-                        'required'                      => 0,
-                        'conditional_logic'             => 0,
-                        'wrapper'                       => array(
+                        'key'                               => 'field_' . self::get_flexible_field_name(),
+                        'label'                             => '',
+                        'name'                              => self::get_flexible_field_name(),
+                        'type'                              => 'flexible_content',
+                        'instructions'                      => '',
+                        'required'                          => 0,
+                        'conditional_logic'                 => 0,
+                        'wrapper'                           => array(
                             'width' => '',
                             'class' => '',
                             'id'    => '',
                         ),
-                        'acfe_permissions'              => '',
-                        'acfe_flexible_stylised_button' => 1,
-
+                        'acfe_permissions'                  => '',
+                        'acfe_flexible_stylised_button'     => 1,
                         'acfe_flexible_layouts_thumbnails'  => 1,
                         'acfe_flexible_layouts_settings'    => 1,
                         'acfe_flexible_layouts_ajax'        => 1,
@@ -91,7 +90,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         'acfe_flexible_modal_edition'       => 0,
                         'acfe_flexible_modal'               => array(
                             'acfe_flexible_modal_enabled'    => '1',
-                            'acfe_flexible_modal_title'      => $mirror['title'],
+                            'acfe_flexible_modal_title'      => acf_maybe_get( $mirror, 'title' ),
                             'acfe_flexible_modal_col'        => '6',
                             'acfe_flexible_modal_categories' => '1',
                         ),
