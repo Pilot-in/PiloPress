@@ -29,8 +29,7 @@
                 /**
                  * When something is typed in "template" field
                  */
-                $layoutTemplate.on(
-                    'input',
+                $layoutTemplate.keyup(
                     function () {
                         templateSwitch = true
                     }
@@ -39,8 +38,7 @@
                 /**
                  * When something is typed in "CSS" field
                  */
-                $renderCSS.on(
-                    'input',
+                $renderCSS.keyup(
                     function () {
                         cssSwitch = true
                     }
@@ -49,8 +47,7 @@
                 /**
                  * When something is typed in "script" field
                  */
-                $renderScript.on(
-                    'input',
+                $renderScript.keyup(
                     function () {
                         scriptSwitch = true
                     }
@@ -59,8 +56,7 @@
                 /**
                  * When something is typed in "configuration" field
                  */
-                $configFile.on(
-                    'input',
+                $configFile.keyup(
                     function () {
                         configSwitch = true
                     }
@@ -69,8 +65,7 @@
                 /**
                  * When something is typed in "title" field
                  */
-                $title.on(
-                    'input',
+                $title.keyup(
                     function () {
                         // Get title
                         var $this = $( this )
@@ -86,8 +81,7 @@
                 /**
                  * When something is typed in "layout slug" field
                  */
-                $layoutSlug.on(
-                    'input',
+                $layoutSlug.keyup(
                     function () {
                         // Get layout slug
                         var $this = $( this )

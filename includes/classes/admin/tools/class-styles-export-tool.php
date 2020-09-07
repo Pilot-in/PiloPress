@@ -48,13 +48,10 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * HTML for archive page
          */
         public function html_archive() {
-            // Get styles options
-            $styles_options = new PIP_Admin_Options_Page();
-
             // Get choices
             $choices = array();
-            if ( $styles_options->pages ) {
-                foreach ( $styles_options->pages as $key => $style_option ) {
+            if ( PIP_Admin_Options_Page::$pages ) {
+                foreach ( PIP_Admin_Options_Page::$pages as $key => $style_option ) {
                     // Store choice
                     $choices[ $style_option['post_id'] ] = esc_html( $style_option['page_title'] );
                 }

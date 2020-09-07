@@ -373,9 +373,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'name'              => '_pip_config_file',
                     'prefix'            => 'acf_field_group',
                     'placeholder'       => 'configuration.php',
-                    'default_value'     => $layout_slug . '.php',
                     'prepend'           => $layout_path_prefix,
-                    'value'             => isset( $field_group['_pip_config_file'] ) ? $field_group['_pip_config_file'] : '',
+                    'value'             => isset( $field_group['_pip_config_file'] ) ? $field_group['_pip_config_file'] : 'configuration-' . $layout_slug . '.php',
                     'conditional_logic' => array(
                         array(
                             array(
