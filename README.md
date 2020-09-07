@@ -102,6 +102,12 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
+### 0.3.2.9 - 07/09/2020
+* Fixed: Remove thumbnail and collection badge from layout title
+* Fixed: Image inside layout folder used as thumbnail
+* Improved: Add top nav menu as ACF did
+* Improved: Add see more for components listing in Pilo'Press dashboard
+
 ### 0.3.2.8 - 22/07/2020
 * Fixed: Collection badge style with automatic thumbnail
 
@@ -143,9 +149,8 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ### 0.3.2.2 - 09/06/2020
 * Fixed: Fix WYSIWYG dark mode values and detection
-
 ### 0.3.2.1 - 08/06/2020
-* Fixed: Fix WYSIWYG dark mode being required in specific case
+ Fixed: Fix WYSIWYG dark mode being required in specific case
 
 ### 0.3.2 - 08/06/2020
 * Added: Dark mode for TinyMCE Editors
