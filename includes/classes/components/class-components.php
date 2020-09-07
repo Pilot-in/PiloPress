@@ -252,6 +252,9 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
 if ( !function_exists( 'have_component' ) ) {
 
+    // Component globals
+    global $pip_component_i, $component_loop_setup, $component_values;
+
     // Initiate component globals
     $pip_component_i      = 0;
     $component_loop_setup = false;
@@ -267,6 +270,7 @@ if ( !function_exists( 'have_component' ) ) {
      */
     function have_component( $selector, $post_id = false ) {
 
+        // Component globals
         global $pip_component_i, $component_loop_setup, $component_values;
 
         // Store preview post ID
