@@ -317,6 +317,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 admin_url( 'post-new.php' )
             );
 
+            // All components link
+            $all_components = add_query_arg(
+                array(
+                    'post_type' => PIP_Components::$post_type,
+                ),
+                admin_url( 'edit.php' )
+            );
+
             // Template file
             include_once( PIP_PATH . 'includes/views/pip-dashboard.php' );
         }

@@ -10,11 +10,13 @@
  * @var $add_new_layout
  * @var $add_new_component
  * @var $all_layouts
+ * @var $all_components
  * @var $total_layouts_count
  * @var $menu_items
  */
 
-$see_more_layouts       = count( $layouts ) > 15 ? true : false;
+$see_more_layouts       = count( $layouts ) > 15;
+$see_more_components    = count( $components ) > 15;
 $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
 ?>
 
@@ -205,6 +207,12 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                             <tbody>
                             <?php if ( $components ) : ?>
                                 <?php foreach ( $components as $key => $component ) : ?>
+                                    <?php
+                                    // Show maximum 15 layouts in list
+                                    if ( $key >= 15 ) {
+                                        break;
+                                    }
+                                    ?>
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
                                         <td class="pilopress_counter"><?php echo $key + 1; ?></td>
                                         <td>
@@ -213,7 +221,27 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                                             </a>
                                         </td>
                                     </tr>
+                                    <?php $last_key = $key; ?>
                                 <?php endforeach ?>
+                            <?php endif; ?>
+                            <?php if ( $see_more_components ) : ?>
+                                <tr class="<?php echo ( $last_key + 1 ) % 2 ? 'alternate' : ''; ?>">
+                                    <td></td>
+                                    <td>...</td>
+                                </tr>
+                            <?php endif; ?>
+                            </tbody>
+                            <?php if ( $see_more_components ) : ?>
+                                <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="<?php echo $all_components; ?>" class="button button-secondary">
+                                            <?php _e( 'See all components', 'pilopress' ); ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tfoot>
                             <?php endif; ?>
                             </tbody>
                         </table>
