@@ -27,6 +27,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
             // ACF hooks
             $flexible_footer_field_name = self::get_flexible_footer_field_name();
             add_filter( "acf/prepare_field/name={$flexible_footer_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
+            add_filter( "acfe/flexible/thumbnail/name={$flexible_footer_field_name}", array( 'PIP_Flexible', 'add_custom_thumbnail' ), 10, 3 );
         }
 
         /**
@@ -89,7 +90,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
                         array(
                             'param'    => 'options_page',
                             'operator' => '==',
-                            'value'    => PIP_Pattern::get_pattern_option_page()['menu_slug'],
+                            'value'    => PIP_Pattern::$menu_slug,
                         ),
                     ),
                 ),

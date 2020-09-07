@@ -408,7 +408,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          *
          * @return bool
          */
-        public function add_custom_thumbnail( $thumbnail, $field, $layout ) {
+        public static function add_custom_thumbnail( $thumbnail, $field, $layout ) {
             $layouts = acf_maybe_get( $field, 'layouts' );
 
             // If no layouts, return
@@ -419,7 +419,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             $layouts_groups_keys = self::get_layouts_and_group_keys();
             $field_group_key     = $layouts_groups_keys['group_keys'][ $layout['key'] ];
             $field_group         = acf_get_field_group( $field_group_key );
-
 
             // Get file path thanks to layout slug
             $layout_slug = acf_maybe_get( $field_group, '_pip_layout_slug' );

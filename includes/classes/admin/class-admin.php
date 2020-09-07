@@ -464,8 +464,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // Define submenu for Pattern menu
-            if ( acf_maybe_get_GET( 'page' ) === PIP_Pattern::get_pattern_option_page()['menu_slug'] ) {
-                $submenu_file = PIP_Pattern::get_pattern_option_page()['menu_slug'];
+            if ( acf_maybe_get_GET( 'page' ) === PIP_Pattern::$menu_slug ) {
+                $submenu_file = PIP_Pattern::$menu_slug;
             }
 
             // Define submenu for Component menu
