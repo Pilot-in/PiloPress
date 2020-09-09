@@ -34,7 +34,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             // ACF hooks
             $flexible_field_name = self::get_flexible_field_name();
-
             add_filter( "acfe/flexible/thumbnail/name={$flexible_field_name}", array( $this, 'add_custom_thumbnail' ), 10, 3 );
             add_filter( "acf/prepare_field/name={$flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
         }
@@ -55,54 +54,68 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             $default_locations = self::flexible_locations();
             $locations         = apply_filters( 'pip/builder/locations', $default_locations );
 
+            // Mirror flexible
             $mirror = acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() );
+
+            // Builder params
+            $builder_params = apply_filters(
+                'pip/builder/parameters',
+                array(
+                    'acfe_permissions'                  => '',
+                    'acfe_flexible_stylised_button'     => 1,
+                    'acfe_flexible_layouts_thumbnails'  => 1,
+                    'acfe_flexible_layouts_settings'    => 1,
+                    'acfe_flexible_layouts_ajax'        => 1,
+                    'acfe_flexible_layouts_templates'   => 1,
+                    'acfe_flexible_layouts_placeholder' => 0,
+                    'acfe_flexible_disable_ajax_title'  => 1,
+                    'acfe_flexible_close_button'        => 1,
+                    'acfe_flexible_title_edition'       => 1,
+                    'acfe_flexible_clone'               => 1,
+                    'acfe_flexible_copy_paste'          => 1,
+                    'acfe_flexible_modal_edition'       => 0,
+                    'acfe_flexible_layouts_state'       => '',
+                    'acfe_flexible_hide_empty_message'  => 1,
+                    'acfe_flexible_empty_message'       => '',
+                    'acfe_flexible_layouts_previews'    => 1,
+                    'acfe_flexible_modal'               => array(
+                        'acfe_flexible_modal_enabled'    => '1',
+                        'acfe_flexible_modal_title'      => acf_maybe_get( $mirror, 'title' ),
+                        'acfe_flexible_modal_col'        => '6',
+                        'acfe_flexible_modal_categories' => '1',
+                    ),
+                )
+            );
+
+            // Fields params
+            $fields = array(
+                'key'               => 'field_' . self::get_flexible_field_name(),
+                'label'             => '',
+                'name'              => self::get_flexible_field_name(),
+                'type'              => 'flexible_content',
+                'instructions'      => '',
+                'required'          => 0,
+                'conditional_logic' => 0,
+                'wrapper'           => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'layouts'           => $layouts,
+                'button_label'      => __( 'Add Row', 'pilopress' ),
+                'min'               => '',
+                'max'               => '',
+            );
+
+            // Merge filters
+            $fields = array_merge( $fields, $builder_params );
 
             // Main flexible content field group
             $args = array(
                 'key'                   => $this->flexible_group_key,
                 'title'                 => __( 'Builder', 'pilopress' ),
                 'fields'                => array(
-                    array(
-                        'key'                               => 'field_' . self::get_flexible_field_name(),
-                        'label'                             => '',
-                        'name'                              => self::get_flexible_field_name(),
-                        'type'                              => 'flexible_content',
-                        'instructions'                      => '',
-                        'required'                          => 0,
-                        'conditional_logic'                 => 0,
-                        'wrapper'                           => array(
-                            'width' => '',
-                            'class' => '',
-                            'id'    => '',
-                        ),
-                        'acfe_permissions'                  => '',
-                        'acfe_flexible_stylised_button'     => 1,
-                        'acfe_flexible_layouts_thumbnails'  => 1,
-                        'acfe_flexible_layouts_settings'    => 1,
-                        'acfe_flexible_layouts_ajax'        => 1,
-                        'acfe_flexible_layouts_templates'   => 1,
-                        'acfe_flexible_layouts_placeholder' => 0,
-                        'acfe_flexible_disable_ajax_title'  => 1,
-                        'acfe_flexible_close_button'        => 1,
-                        'acfe_flexible_title_edition'       => 1,
-                        'acfe_flexible_clone'               => 1,
-                        'acfe_flexible_copy_paste'          => 1,
-                        'acfe_flexible_modal_edition'       => 0,
-                        'acfe_flexible_modal'               => array(
-                            'acfe_flexible_modal_enabled'    => '1',
-                            'acfe_flexible_modal_title'      => acf_maybe_get( $mirror, 'title' ),
-                            'acfe_flexible_modal_col'        => '6',
-                            'acfe_flexible_modal_categories' => '1',
-                        ),
-                        'acfe_flexible_layouts_state'       => '',
-                        'acfe_flexible_hide_empty_message'  => 1,
-                        'acfe_flexible_empty_message'       => '',
-                        'acfe_flexible_layouts_previews'    => 1,
-                        'layouts'                           => $layouts,
-                        'button_label'                      => __( 'Add Row', 'pilopress' ),
-                        'min'                               => '',
-                        'max'                               => '',
-                    ),
+                    $fields,
                 ),
                 'location'              => $locations,
                 'menu_order'            => 0,
