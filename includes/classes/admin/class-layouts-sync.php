@@ -43,6 +43,11 @@ if ( !class_exists( 'PIP_Layouts_Sync' ) ) {
                 return $path;
             }
 
+            // If no slug, return
+            if ( !acf_maybe_get( $field_group, '_pip_layout_slug' ) ) {
+                return $path;
+            }
+
             // If layout folder doesn't exists, return
             if ( !file_exists( PIP_THEME_LAYOUTS_PATH . $field_group['_pip_layout_slug'] ) ) {
                 return false;
