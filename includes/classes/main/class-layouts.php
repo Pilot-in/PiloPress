@@ -551,11 +551,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             if ( is_array( $post ) ) {
-
                 // If is array, it's a field group
                 $field_group = $post;
             } else {
-
                 // If is ID, get field group
                 $field_group = acf_get_field_group( $post );
             }

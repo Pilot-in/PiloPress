@@ -34,7 +34,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
             // Sync page
             if ( acf_maybe_get_GET( 'post_status' ) === 'sync' ) {
-                add_filter( 'acf/load_field_groups', array( $this, 'filter_sync_field_groups' ) );
+                add_filter( 'acf/load_field_groups', array( $this, 'filter_sync_field_groups' ), 20 );
             }
 
             // After sync
