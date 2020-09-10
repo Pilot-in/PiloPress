@@ -199,7 +199,7 @@ acf_add_local_field_group(
                         'label'             => __( 'Label', 'pilopress' ),
                         'name'              => 'label',
                         'type'              => 'text',
-                        'instructions'      => '',
+                        'instructions'      => __( 'Visible in editor dropdown', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
@@ -219,7 +219,7 @@ acf_add_local_field_group(
                         'label'             => __( 'Name', 'pilopress' ),
                         'name'              => 'name',
                         'type'              => 'acfe_slug',
-                        'instructions'      => '',
+                        'instructions'      => __( 'Slug of the color', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
@@ -259,7 +259,7 @@ acf_add_local_field_group(
                         'label'             => __( 'Add to editor ?', 'pilopress' ),
                         'name'              => 'add_to_editor',
                         'type'              => 'true_false',
-                        'instructions'      => '',
+                        'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
@@ -280,7 +280,7 @@ acf_add_local_field_group(
             // Colors with shades
             array(
                 'key'                           => 'field_pip_colors_shades',
-                'label'                         => 'Colors with shades',
+                'label'                         => __( 'Colors with shades', 'pilopress' ),
                 'name'                          => 'pip_colors_shades',
                 'type'                          => 'repeater',
                 'instructions'                  => '',
@@ -304,7 +304,7 @@ acf_add_local_field_group(
                         'label'             => __( 'Color name', 'pilopress' ),
                         'name'              => 'color_name',
                         'type'              => 'acfe_slug',
-                        'instructions'      => '',
+                        'instructions'      => __( '<code>gray</code> in <code>text-gray-500</code>', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
@@ -345,7 +345,7 @@ acf_add_local_field_group(
                                 'label'             => __( 'Label', 'pilopress' ),
                                 'name'              => 'label',
                                 'type'              => 'text',
-                                'instructions'      => '',
+                                'instructions'      => __( 'Visible in editor dropdown', 'pilopress' ),
                                 'required'          => 0,
                                 'conditional_logic' => 0,
                                 'wrapper'           => array(
@@ -365,7 +365,7 @@ acf_add_local_field_group(
                                 'label'             => __( 'Shade name', 'pilopress' ),
                                 'name'              => 'shade_name',
                                 'type'              => 'text',
-                                'instructions'      => '',
+                                'instructions'      => __( '<code>500</code> in <code>text-gray-500</code>', 'pilopress' ),
                                 'required'          => 0,
                                 'conditional_logic' => 0,
                                 'wrapper'           => array(
@@ -405,7 +405,7 @@ acf_add_local_field_group(
                                 'label'             => __( 'Add to editor ?', 'pilopress' ),
                                 'name'              => 'add_to_editor',
                                 'type'              => 'true_false',
-                                'instructions'      => '',
+                                'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),
                                 'required'          => 0,
                                 'conditional_logic' => 0,
                                 'wrapper'           => array(

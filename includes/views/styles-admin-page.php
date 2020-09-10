@@ -27,6 +27,50 @@ $error = acf_maybe_get_GET( 'error_compile' );
             )
         );
 
+        // Get modules
+        $modules = pip_get_modules();
+
+        // Check if Tailwind configuration is overridden
+        $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+        $override_config = acf_maybe_get( $tailwind_config, 'override_config' );
+
+        if ( $override_config && ( $current_page === 'pip-styles-configuration' || $current_page === 'pip-styles-fonts' ) ) : ?>
+            <div class="notice notice-info is-dismissible">
+                <p>
+                    <b><?php _e( 'TailwindCSS configuration is overridden.', 'pilopress' ) ?></b>
+                </p>
+                <p>
+                    <?php _e( '<code>Colors</code>, <code>Breakpoints</code> and <code>Container</code> tabs are useless.', 'pilopress' ) ?>
+                    <?php _e( "Font families won't be added automatically.", 'pilopress' ) ?>
+                </p>
+            </div>
+        <?php
+        endif;
+
+        // If Tailwind module is deactivate
+        if ( !acf_maybe_get( $modules, 'tailwind' ) ) : ?>
+            <div class="notice notice-info is-dismissible">
+                <p>
+                    <b><?php _e( 'TailwindCSS module is disabled.', 'pilopress' ) ?></b>
+                    <br>
+                    <?php _e( "Stylesheets won't be generated automatically.", 'pilopress' ) ?>
+                </p>
+            </div>
+        <?php
+        endif;
+
+        // If TinyMCE module is deactivate
+        if ( !acf_maybe_get( $modules, 'tinymce' ) ) : ?>
+            <div class="notice notice-info is-dismissible">
+                <p>
+                    <b><?php _e( 'TinyMCE module is disabled.', 'pilopress' ) ?></b>
+                    <br>
+                    <?php _e( "Typography, colors, buttons and fonts won't be available in editor.", 'pilopress' ) ?>
+                </p>
+            </div>
+        <?php
+        endif;
+
         wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
         wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
         ?>
@@ -51,7 +95,6 @@ $error = acf_maybe_get_GET( 'error_compile' );
                             <?php
 
                             // If TailwindCSS module is not enable, skip
-                            $modules = pip_get_modules();
                             if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind' ) {
                                 continue;
                             }

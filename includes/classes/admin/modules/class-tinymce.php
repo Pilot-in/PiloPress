@@ -64,7 +64,12 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                             $url        = get_sub_field( 'url' );
                             $enqueue    = get_sub_field( 'enqueue' );
                             $class_name = get_sub_field( 'class_name' );
-                            $class_name = $class_name ? $class_name : sanitize_title( $label );
+
+                            // Update class name
+                            if ( !$class_name ) {
+                                $class_name = sanitize_title( $label );
+                                update_sub_field( 'class_name', $class_name, 'pip_styles_fonts' );
+                            }
 
                             // Add custom font
                             $fonts[ sanitize_title( $label ) ] = array(
@@ -82,7 +87,12 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                             $weight     = get_sub_field( 'weight' );
                             $style      = get_sub_field( 'style' );
                             $class_name = get_sub_field( 'class_name' );
-                            $class_name = $class_name ? $class_name : sanitize_title( $label );
+
+                            // Update class name
+                            if ( !$class_name ) {
+                                $class_name = sanitize_title( $label );
+                                update_sub_field( 'class_name', $class_name, 'pip_styles_fonts' );
+                            }
 
                             // Add custom font
                             $fonts[ sanitize_title( $label ) ] = array(

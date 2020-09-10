@@ -42,7 +42,7 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
             $new_values = array();
             for ( $i = 1; $i <= 6; $i ++ ) {
                 $new_values[] = array(
-                    'field_typography_label'            => 'Title ' . $i,
+                    'field_typography_label'            => __( 'Title', 'pilopress' ) . ' ' . $i,
                     'field_typography_class_name'       => 'h' . $i,
                     'field_typography_classes_to_apply' => '',
                 );
@@ -69,10 +69,6 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
 
             // Return default values
             return array(
-                array(
-                    'field_screen_name'  => 'xs',
-                    'field_screen_value' => '375px',
-                ),
                 array(
                     'field_screen_name'  => 'sm',
                     'field_screen_value' => '640px',

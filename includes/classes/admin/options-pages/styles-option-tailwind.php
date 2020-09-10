@@ -375,7 +375,7 @@ acf_add_local_field_group(
                         'label'             => __( 'Override colors', 'pilopress' ),
                         'name'              => 'override_colors',
                         'type'              => 'true_false',
-                        'instructions'      => __( 'Override default TailwindCSS colors.<br> The compiled CSS file will be lighter but don\'t forget to add TailwindCSS colors you want ot use.', 'pilopress' ),
+                        'instructions'      => __( 'Override default TailwindCSS colors.<br> The compiled CSS file will be lighter but don\'t forget to add TailwindCSS colors you want to use.', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
