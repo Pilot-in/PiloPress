@@ -31,7 +31,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
 
             // If no flexible mirror, return
-            if ( !$flexible_mirror ){
+            if ( !$flexible_mirror ) {
                 return false;
             }
 
@@ -44,7 +44,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                  || acf_maybe_get_GET( 'post_type' ) === PIP_Components::$post_type
                  || PIP_Components::is_component( acf_maybe_get_GET( 'post' ) )
                  || acf_maybe_get_GET( 'page' ) == PIP_Pattern::$menu_slug
-                 || strstr( acf_maybe_get_GET( 'page' ), 'pip_addon')
+                 || strstr( acf_maybe_get_GET( 'page' ), 'pip_addon' )
                  || PIP_Admin_Options_Page::is_style_page( acf_maybe_get_GET( 'page' ) ) ) {
                 $is_pip_admin = true;
             }
@@ -80,13 +80,13 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         private static function maybe_enqueue_layout_admin_style() {
             // If not acf field group page, return
-            if ( get_current_screen()->id !== 'acf-field-group' ) {
+            if ( get_current_screen()->id !== 'acf-field-group' && get_current_screen()->id !== 'edit-acf-field-group' ) {
                 return;
             }
 
-            // If not layout page, return
+            // If not layout(s) page, return
             $post_id = acf_maybe_get_GET( 'post' );
-            if ( !PIP_Layouts::is_layout( $post_id ) && acf_maybe_get_GET( 'layout' ) !== '1' ) {
+            if ( !PIP_Layouts::is_layout( $post_id ) && acf_maybe_get_GET( 'layouts' ) !== '1' ) {
                 return;
             }
 
@@ -497,7 +497,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 ?>
                 <script type="text/javascript">
                     (
-                        function ( $ ) {
+                        function ($) {
                             $( '#toplevel_page_edit-post_type-acf-field-group' ).removeClass( 'wp-has-current-submenu' ).addClass( 'wp-not-current-submenu' )
                             $( '#toplevel_page_edit-post_type-acf-field-group > .wp-has-current-submenu' ).removeClass( 'wp-has-current-submenu' ).addClass( 'wp-not-current-submenu' )
 

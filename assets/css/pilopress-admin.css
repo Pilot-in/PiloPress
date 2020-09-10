@@ -337,20 +337,3 @@ body.admin_page_pip-styles-tinymce #publishing-action .spinner {
 .pip-admin-navigation .pip-tab:hover {
     color: #00a0d2;
 }
-
-/* Reset ACFE Style for disabled field groups */
-#the-list .status-acf-disabled .column-title a {
-    color: #0073aa !important;
-}
-
-#the-list .status-acf-disabled .column-title a:hover {
-    color: #006799 !important;
-}
-
-#the-list .status-acf-disabled .column-title .row-actions span.trash a {
-    color: #a00 !important;
-}
-
-#the-list .status-acf-disabled .column-title .row-actions span.trash a:hover {
-    color: #dc3232 !important;
-}
