@@ -80,12 +80,12 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'acfe_flexible_layouts_previews'    => 1,
                     'acfe_flexible_modal'               => array(
                         'acfe_flexible_modal_enabled'    => '1',
-                        'acfe_flexible_modal_title'      => acf_maybe_get( $mirror, 'title' ),
                         'acfe_flexible_modal_col'        => '6',
                         'acfe_flexible_modal_categories' => '1',
                     ),
                 )
             );
+            $builder_params['acfe_flexible_modal']['acfe_flexible_modal_title'] = acf_maybe_get( $mirror, 'title' );
 
             // Fields params
             $fields = array(
