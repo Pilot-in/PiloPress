@@ -60,7 +60,7 @@ function pip_enqueue() {
             'style-pilopress',
             PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_FILENAME . '.min.css',
             false,
-            PIP_VERSION
+            PiloPress::$version
         );
     }
 }
@@ -76,7 +76,7 @@ function pip_enqueue_admin() {
             'style-pilopress-admin',
             PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
             false,
-            PIP_VERSION
+            PiloPress::$version
         );
     }
 }

@@ -285,7 +285,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     }
 
                     // Add google font
-                    wp_enqueue_style( 'google-font-' . sanitize_title( $name ), $url, false, PIP_VERSION );
+                    wp_enqueue_style( 'google-font-' . sanitize_title( $name ), $url, false, PiloPress::$version );
                 }
             }
         }
