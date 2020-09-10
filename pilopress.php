@@ -3,7 +3,7 @@
  * Plugin Name:         Pilo'Press
  * Plugin URI:          https://www.pilot-in.com
  * Description:         The most advanced WordPress Page Builder using Advanced Custom Field & TailwindCSS
- * Version:             0.3.2.8
+ * Version:             0.3.2.10
  * Author:              Pilot'in
  * Author URI:          https://www.pilot-in.com
  * License:             GPLv2 or later
@@ -28,7 +28,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          *
          * @var string
          */
-        public $version = '0.3.2.8';
+        public static $version = '0.3.2.10';
 
         /**
          * ACF
@@ -56,7 +56,6 @@ if ( !class_exists( 'PiloPress' ) ) {
          */
         public function initialize() {
             // Constants
-            $this->define( 'PIP_VERSION', $this->version );
             $this->define( 'PIP_FILE', __FILE__ );
             $this->define( 'PIP_PATH', plugin_dir_path( __FILE__ ) );
             $this->define( 'PIP_URL', plugin_dir_url( __FILE__ ) );

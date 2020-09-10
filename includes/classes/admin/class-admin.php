@@ -18,6 +18,47 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_action( 'adminmenu', array( $this, 'admin_menu_parent' ) );
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
+            add_action( 'in_admin_header', array( $this, 'add_pip_navbar' ) );
+        }
+
+        /**
+         * Check if it is a Pilo'Press admin page
+         *
+         * @return bool
+         */
+        private function is_pip_admin_page() {
+            $is_pip_admin    = false;
+            $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
+
+            // If no flexible mirror, return
+            if ( !$flexible_mirror ) {
+                return false;
+            }
+
+            // If Pilo'Press admin page, set variable to true
+            if ( acf_maybe_get_GET( 'layouts' ) == '1'
+                 || PIP_Layouts::is_layout( get_post( acf_maybe_get_GET( 'post' ) ) )
+                 || acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID']
+                 || acf_maybe_get_GET( 'taxonomy' ) === PIP_Layouts_Categories::$taxonomy_name
+                 || acf_maybe_get_GET( 'taxonomy' ) === PIP_Layouts_Collections::$taxonomy_name
+                 || acf_maybe_get_GET( 'post_type' ) === PIP_Components::$post_type
+                 || PIP_Components::is_component( acf_maybe_get_GET( 'post' ) )
+                 || acf_maybe_get_GET( 'page' ) == PIP_Pattern::$menu_slug
+                 || strstr( acf_maybe_get_GET( 'page' ), 'pip_addon' )
+                 || PIP_Admin_Options_Page::is_style_page( acf_maybe_get_GET( 'page' ) ) ) {
+                $is_pip_admin = true;
+            }
+
+            return $is_pip_admin;
+        }
+
+        /**
+         * Add Pilo'Press top navbar
+         */
+        public function add_pip_navbar() {
+            if ( $this->is_pip_admin_page() ) {
+                self::display_pip_navbar();
+            }
         }
 
         /**
@@ -25,13 +66,13 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function enqueue_scripts() {
             // Styles
-            wp_enqueue_style( 'pilopress-admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), PIP_VERSION );
+            wp_enqueue_style( 'pilopress-admin-style', PIP_URL . 'assets/css/pilopress-admin.css', array(), PiloPress::$version );
             self::maybe_enqueue_layout_admin_style();
 
             // Scripts
-            wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), PIP_VERSION, true );
+            wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), PiloPress::$version, true );
             wp_localize_script( 'pilopress-admin-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
-            wp_enqueue_script( 'pilopress-fields', PIP_URL . 'assets/js/pilopress-fields.js', array( 'jquery' ), PIP_VERSION, true );
+            wp_enqueue_script( 'pilopress-fields', PIP_URL . 'assets/js/pilopress-fields.js', array( 'jquery' ), PiloPress::$version, true );
         }
 
         /**
@@ -39,17 +80,17 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         private static function maybe_enqueue_layout_admin_style() {
             // If not acf field group page, return
-            if ( get_current_screen()->id !== 'acf-field-group' ) {
+            if ( get_current_screen()->id !== 'acf-field-group' && get_current_screen()->id !== 'edit-acf-field-group' ) {
                 return;
             }
 
-            // If not layout page, return
+            // If not layout(s) page, return
             $post_id = acf_maybe_get_GET( 'post' );
-            if ( !PIP_Layouts::is_layout( $post_id ) && acf_maybe_get_GET( 'layout' ) !== '1' ) {
+            if ( !PIP_Layouts::is_layout( $post_id ) && acf_maybe_get_GET( 'layouts' ) !== '1' ) {
                 return;
             }
 
-            wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), PIP_VERSION );
+            wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), PiloPress::$version );
         }
 
         /**
@@ -138,7 +179,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 __( "Pilo'Press", 'pilopress' ),
                 $capability,
                 'pilopress',
-                array( $this, 'pilopress_admin_page' ),
+                array( $this, 'pilopress_dashboard' ),
                 'data:image/svg+xml;base64,' . $pip_logo_base64_svg,
                 82 // After 'ACF' menu
             );
@@ -190,9 +231,9 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         }
 
         /**
-         * Pilo'Press admin page
+         * Pilo'Press dashboard
          */
-        public function pilopress_admin_page() {
+        public function pilopress_dashboard() {
             // Icons HTML
             $success_icon = '<span class="dashicons dashicons-yes"></span>';
             $error_icon   = '<span class="dashicons dashicons-no-alt"></span>';
@@ -237,54 +278,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $layouts      = array();
             $layouts_keys = PIP_Layouts::get_layout_group_keys();
             if ( is_array( $layouts_keys ) ) {
-                $total_layouts_count = count( $layouts_keys );
+                foreach ( $layouts_keys as $layout_key ) {
 
-                if ( $total_layouts_count > 15 ) {
-
-                    $i = 0;
-                    foreach ( $layouts_keys as $layouts_key ) {
-                        if ( $i > 15 ) {
-                            break;
-                        }
-
-                        // Get field group
-                        $field_group = acf_get_field_group( $layouts_key );
-
-                        // Get locations html
-                        $locations = ''; // PILO_TODO: get ACFE helper (next version)
-
-                        // Structured array for template file
-                        $layouts[] = array(
-                            'title'     => $field_group['title'],
-                            'location'  => $locations,
-                            'edit_link' => get_edit_post_link( $field_group['ID'] ),
-                        );
-
-                        $see_more_layouts = true;
-                        $i ++;
-                    }
-
-                } else {
-
-                    foreach ( $layouts_keys as $layout_key ) {
-                        // Get field group
-                        $field_group = acf_get_field_group( $layout_key );
-
-                        // Get locations html
-                        $locations = ''; // PILO_TODO: get ACFE helper (next version)
-
-                        // Structured array for template file
-                        $layouts[] = array(
-                            'title'     => $field_group['title'],
-                            'location'  => $locations,
-                            'edit_link' => get_edit_post_link( $field_group['ID'] ),
-                        );
-                    }
-
-                    $see_more_layouts = false;
+                    // Structured array for template file
+                    $layouts[] = array(
+                        'field_group' => acf_get_field_group( $layout_key ),
+                    );
 
                 }
-
             }
 
             // New field group link
@@ -321,8 +322,37 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 admin_url( 'post-new.php' )
             );
 
+            // All components link
+            $all_components = add_query_arg(
+                array(
+                    'post_type' => PIP_Components::$post_type,
+                ),
+                admin_url( 'edit.php' )
+            );
+
             // Template file
-            include_once PIP_PATH . 'includes/views/pilopress-dashboard.php';
+            include_once( PIP_PATH . 'includes/views/pip-dashboard.php' );
+        }
+
+        /**
+         * Display Pilo'Press navbar
+         */
+        public static function display_pip_navbar() {
+            // Hide ACF top navbar
+            add_filter( 'acf/admin/toolbar', '__return_false' );
+
+            // Get menu items
+            global $submenu;
+            $pilopress_menu = $submenu['pilopress'];
+            foreach ( $pilopress_menu as $menu_item ) {
+                $menu_items[] = array(
+                    'title' => $menu_item[0],
+                    'link'  => strstr( $menu_item[2], '.php?' ) ? admin_url() . $menu_item[2] : menu_page_url( $menu_item[2], false ),
+                );
+            }
+
+            // Add Pilo'Press navbar
+            include_once( PIP_PATH . 'includes/views/pip-navbar.php' );
         }
 
         /**
@@ -439,8 +469,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // Define submenu for Pattern menu
-            if ( acf_maybe_get_GET( 'page' ) === PIP_Pattern::get_pattern_option_page()['menu_slug'] ) {
-                $submenu_file = PIP_Pattern::get_pattern_option_page()['menu_slug'];
+            if ( acf_maybe_get_GET( 'page' ) === PIP_Pattern::$menu_slug ) {
+                $submenu_file = PIP_Pattern::$menu_slug;
             }
 
             // Define submenu for Component menu
@@ -467,7 +497,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 ?>
                 <script type="text/javascript">
                     (
-                        function ( $ ) {
+                        function ($) {
                             $( '#toplevel_page_edit-post_type-acf-field-group' ).removeClass( 'wp-has-current-submenu' ).addClass( 'wp-not-current-submenu' )
                             $( '#toplevel_page_edit-post_type-acf-field-group > .wp-has-current-submenu' ).removeClass( 'wp-has-current-submenu' ).addClass( 'wp-not-current-submenu' )
 

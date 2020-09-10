@@ -45,7 +45,7 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
                             array(
                                 'param'    => 'options_page',
                                 'operator' => '==',
-                                'value'    => PIP_Pattern::get_pattern_option_page()['menu_slug'],
+                                'value'    => PIP_Pattern::$menu_slug,
                             ),
                         ),
                     ),

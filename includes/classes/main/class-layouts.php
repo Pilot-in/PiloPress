@@ -18,6 +18,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_action( 'register_post_type_args', array( $this, 'modify_acf_post_type' ), 10, 2 );
+            add_filter( 'display_post_states', array( $this, 'hide_layouts_post_states' ), 20 );
 
             // Create files and folder or rename folder
             add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 20, 3 );
@@ -35,6 +36,25 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             add_action( 'acf/field_group/admin_head', array( $this, 'layout_meta_boxes' ) );
             add_action( 'acf/input/admin_head', array( $this, 'layout_settings' ), 20 );
             add_action( 'acf/update_field_group', array( $this, 'set_field_group_to_inactive' ) );
+        }
+
+        /**
+         * Hide "Disabled" state
+         *
+         * @param $states
+         *
+         * @return mixed
+         */
+        public function hide_layouts_post_states( $states ) {
+            // If not Layouts page, return
+            if ( acf_maybe_get_GET( 'layouts' ) != '1' ) {
+                return $states;
+            }
+
+            // Unset disabled state
+            unset( $states['acf-disabled'] );
+
+            return $states;
         }
 
         /**
@@ -353,9 +373,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'name'              => '_pip_config_file',
                     'prefix'            => 'acf_field_group',
                     'placeholder'       => 'configuration.php',
-                    'default_value'     => $layout_slug . '.php',
                     'prepend'           => $layout_path_prefix,
-                    'value'             => isset( $field_group['_pip_config_file'] ) ? $field_group['_pip_config_file'] : '',
+                    'value'             => isset( $field_group['_pip_config_file'] ) ? $field_group['_pip_config_file'] : 'configuration-' . $layout_slug . '.php',
                     'conditional_logic' => array(
                         array(
                             array(
@@ -532,11 +551,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             if ( is_array( $post ) ) {
-
                 // If is array, it's a field group
                 $field_group = $post;
             } else {
-
                 // If is ID, get field group
                 $field_group = acf_get_field_group( $post );
             }

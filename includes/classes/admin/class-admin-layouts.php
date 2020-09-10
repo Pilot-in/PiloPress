@@ -34,7 +34,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
             // Sync page
             if ( acf_maybe_get_GET( 'post_status' ) === 'sync' ) {
-                add_filter( 'acf/load_field_groups', array( $this, 'filter_sync_field_groups' ) );
+                add_filter( 'acf/load_field_groups', array( $this, 'filter_sync_field_groups' ), 20 );
             }
 
             // After sync
@@ -365,6 +365,9 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 return;
             }
 
+            // Hide ACF counter
+            unset( $views['sync'] );
+
             // Get field group
             $sync = array();
             foreach ( $field_groups as $field_group ) {
@@ -396,8 +399,8 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 }
             }
 
+            // If there's field group to sync, add custom counter
             if ( count( $sync ) > 0 ) {
-                // If there's field group to sync
 
                 // Admin URL
                 $url = add_query_arg(
@@ -415,12 +418,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 $class = ( acf_maybe_get_GET( 'post_status' ) === 'sync' ) ? 'current' : '';
 
                 // Update counter
-                $views['json'] = '<a href="' . $url . '" class="' . $class . '">' . __( 'Sync available', 'acf' ) . ' <span class="count">(' . count( $sync ) . ')</span></a>';
-            } else {
-                // If there isn't field group to sync
-
-                // Hide JSON
-                unset( $views['json'] );
+                $views['sync'] = '<a href="' . $url . '" class="' . $class . '">' . __( 'Sync available', 'acf' ) . ' <span class="count">(' . count( $sync ) . ')</span></a>';
             }
         }
 

@@ -1,7 +1,25 @@
+/* Hide params on single layout page */
 div[data-name='active'],
 div[data-name='style'],
 div[data-name='position'],
 div[data-name='menu_order'],
 div[data-name='hide_on_screen'] {
     display: none;
+}
+
+/* Reset ACFE Style for disabled field groups */
+#the-list .status-acf-disabled .column-title a {
+    color: #0073aa !important;
+}
+
+#the-list .status-acf-disabled .column-title a:hover {
+    color: #006799 !important;
+}
+
+#the-list .status-acf-disabled .column-title .row-actions span.trash a {
+    color: #a00 !important;
+}
+
+#the-list .status-acf-disabled .column-title .row-actions span.trash a:hover {
+    color: #dc3232 !important;
 }

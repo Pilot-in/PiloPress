@@ -218,6 +218,31 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
             return $match;
         }
+
+        /**
+         * Check if post is a component
+         *
+         * @param $post
+         *
+         * @return bool
+         */
+        public static function is_component( $post ) {
+            $is_component = false;
+
+            // Get post
+            $post = get_post( $post );
+            if ( !$post ) {
+                return $is_component;
+            }
+
+            // Get post type
+            $post_type = get_post_type( $post );
+            if ( $post_type && $post_type === self::$post_type ) {
+                $is_component = true;
+            }
+
+            return $is_component;
+        }
     }
 
     // Instantiate class
@@ -226,6 +251,9 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
 
 if ( !function_exists( 'have_component' ) ) {
+
+    // Component globals
+    global $pip_component_i, $component_loop_setup, $component_values;
 
     // Initiate component globals
     $pip_component_i      = 0;
@@ -242,6 +270,7 @@ if ( !function_exists( 'have_component' ) ) {
      */
     function have_component( $selector, $post_id = false ) {
 
+        // Component globals
         global $pip_component_i, $component_loop_setup, $component_values;
 
         // Store preview post ID

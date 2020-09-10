@@ -9,19 +9,22 @@
  * @var $components
  * @var $add_new_layout
  * @var $add_new_component
- * @var $see_more_layouts
  * @var $all_layouts
+ * @var $all_components
  * @var $total_layouts_count
+ * @var $menu_items
  */
+
+$see_more_layouts       = count( $layouts ) > 15;
+$see_more_components    = count( $components ) > 15;
+$acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
 ?>
+
+<?php PIP_Admin::display_pip_navbar(); ?>
 
 <div class="wrap">
     <div class="wp-heading-inline">
-        <img
-            class="pilopress-logo"
-            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iI2EwYTVhYSI+PHBhdGggZD0iTTEwIC4yQzQuNi4yLjMgNC42LjMgMTBzNC40IDkuOCA5LjcgOS44YzIuNiAwIDUuMS0xIDYuOS0yLjggMS44LTEuOCAyLjgtNC4zIDIuOC02LjkgMC01LjUtNC4zLTkuOS05LjctOS45em02LjQgMTYuM2MtMS43IDEuNy00IDIuNi02LjQgMi42LTUgMC05LTQuMS05LTkuMVM1IC45IDEwIC45IDE5IDUgMTkgMTBjMCAyLjUtLjkgNC43LTIuNiA2LjV6Ii8+PHBhdGggZD0iTTEwIDUuM2MtMi41IDAtNC42IDIuMS00LjYgNC43di41Yy4yIDEuOCAxLjQgMy4zIDMgMy45LjUuMiAxIC4zIDEuNS4zLjQgMCAuOS0uMSAxLjMtLjIuMSAwIC4xIDAgLjItLjEuMy0uMS41LS4yLjgtLjMgMCAwIC4xIDAgLjEtLjEgMCAwIC4xIDAgLjEtLjFoLjFzLjEgMCAuMS0uMWMwIDAgLjEgMCAuMS0uMS4yLS4yLjUtLjQuNy0uNmwuMy0uM2MuNi0uOCAxLTEuOSAxLTIuOSAwLTIuNS0yLjEtNC42LTQuNy00LjZ6bTMuMSA3LjNjMC0uMSAwLS4xIDAgMC0uNi0uNC0uNy0uOS0uNy0xLjR2LS40LS4xLS4zYzAtLjctLjItMS41LTEuNS0xLjYtLjUgMC0xLjMuMS0yLjMuNC0uMi0uMS0uNCAwLS42LjEtLjYuMi0xLjIuNC0yIC43IDAtMi4yIDEuOC00IDMuOS00IDEuNSAwIDIuOC44IDMuNSAyLjEuNC42LjYgMS4yLjYgMS45IDAgLjktLjMgMS44LS45IDIuNnoiLz48L3N2Zz4="
-            alt="logo">
-        <h1><?php _e( "Pilo'Press: Dashboard", 'pilopress' ); ?></h1>
+        <h1><?php _e( "Dashboard", 'pilopress' ) ?></h1>
     </div>
 
     <?php // Widgets area ?>
@@ -72,7 +75,7 @@
                                     </li>
                                     <li>
                                         <i aria-hidden="true" class="dashicons dashicons-external"></i>
-                                        <a href="https://wordpress.org/plugins/acf-extended/" target="_blank">
+                                        <a href="https://www.acf-extended.com/features" target="_blank">
                                             Advanced Custom Fields: Extended
                                         </a>
                                     </li>
@@ -107,7 +110,7 @@
                         <div class="inside">
                             <h4>
                                 <strong><?php _e( 'Layouts', 'pilopress' ); ?></strong>
-                                <span id="pilopress_layouts_count"><?php echo $total_layouts_count; ?></span>
+                                <span id="pilopress_layouts_count"><?php echo count( $layouts ); ?></span>
                             </h4>
                             <a href="<?php echo $add_new_layout ?>" class="button button-secondary">
                                 <?php _e( 'Add new layout', 'pilopress' ); ?>
@@ -116,6 +119,7 @@
                     </div>
 
                     <?php // Layouts table ?>
+                    <?php $last_key = 0; ?>
                     <div id="pilopress_layouts" class="postbox pilopress-layouts-table">
                         <table class="widefat">
                             <thead>
@@ -128,14 +132,21 @@
                             <tbody>
                             <?php if ( $layouts ) : ?>
                                 <?php foreach ( $layouts as $key => $layout ) : ?>
+                                    <?php
+                                    // Show maximum 15 layouts in list
+                                    if ( $key >= 15 ) {
+                                        break;
+                                    }
+                                    ?>
+
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
                                         <td class="pilopress_counter"><?php echo $key + 1; ?></td>
                                         <td>
-                                            <a href="<?php echo $layout['edit_link']; ?>">
-                                                <?php echo $layout['title']; ?>
+                                            <a href="<?php echo get_edit_post_link( $layout['field_group']['ID'] ) ?>">
+                                                <?php echo $layout['field_group']['title'] ?>
                                             </a>
                                         </td>
-                                        <td><?php echo $layout['location']; ?></td>
+                                        <td><?php $acf_admin_field_groups->render_admin_table_column_locations( $layout['field_group'] ) ?></td>
                                     </tr>
                                     <?php $last_key = $key; ?>
                                 <?php endforeach ?>
@@ -196,6 +207,12 @@
                             <tbody>
                             <?php if ( $components ) : ?>
                                 <?php foreach ( $components as $key => $component ) : ?>
+                                    <?php
+                                    // Show maximum 15 layouts in list
+                                    if ( $key >= 15 ) {
+                                        break;
+                                    }
+                                    ?>
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
                                         <td class="pilopress_counter"><?php echo $key + 1; ?></td>
                                         <td>
@@ -204,7 +221,27 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    <?php $last_key = $key; ?>
                                 <?php endforeach ?>
+                            <?php endif; ?>
+                            <?php if ( $see_more_components ) : ?>
+                                <tr class="<?php echo ( $last_key + 1 ) % 2 ? 'alternate' : ''; ?>">
+                                    <td></td>
+                                    <td>...</td>
+                                </tr>
+                            <?php endif; ?>
+                            </tbody>
+                            <?php if ( $see_more_components ) : ?>
+                                <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="<?php echo $all_components; ?>" class="button button-secondary">
+                                            <?php _e( 'See all components', 'pilopress' ); ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tfoot>
                             <?php endif; ?>
                             </tbody>
                         </table>

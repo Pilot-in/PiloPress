@@ -13,6 +13,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          * @var array
          */
         public static $pattern_option_page;
+        public static $menu_slug = 'pip-pattern';
 
         /**
          * Post ID
@@ -47,7 +48,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
                 array(
                     'page_title'  => __( 'Site Template', 'pilopress' ),
                     'menu_title'  => __( 'Site Template', 'pilopress' ),
-                    'menu_slug'   => 'pip-pattern',
+                    'menu_slug'   => self::$menu_slug,
                     'capability'  => $capability,
                     'parent_slug' => 'pilopress',
                     'post_id'     => self::$pattern_post_id,
@@ -61,7 +62,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
 
         public function remove_pattern_from_post_types( $choices ) {
             // Remove Pattern
-            unset( $choices['pip-pattern'] );
+            unset( $choices[ self::$menu_slug ] );
 
             return $choices;
         }
@@ -75,7 +76,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          */
         public function location_types( $choices ) {
             // Add component option
-            $choices["Pilo'Press"]['pip-pattern'] = __( 'Site Template', 'pilopress' );
+            $choices["Pilo'Press"][ self::$menu_slug ] = __( 'Site Template', 'pilopress' );
 
             return $choices;
         }
@@ -112,7 +113,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
             $match = false;
 
             // If not on Pattern page, return
-            if ( !acf_maybe_get( $screen, 'pip-pattern' ) ) {
+            if ( !acf_maybe_get( $screen, self::$menu_slug ) ) {
                 return $match;
             }
 
@@ -121,7 +122,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
                 // Allow "all" to match any value.
                 $match = true;
 
-            } elseif ( $rule['value'] === $screen['pip-pattern'] ) {
+            } elseif ( $rule['value'] === $screen[ self::$menu_slug ] ) {
                 $match = true;
             }
 
