@@ -30,6 +30,11 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $is_pip_admin    = false;
             $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
 
+            // If no flexible mirror, return
+            if ( !$flexible_mirror ){
+                return false;
+            }
+
             // If Pilo'Press admin page, set variable to true
             if ( acf_maybe_get_GET( 'layouts' ) == '1'
                  || PIP_Layouts::is_layout( get_post( acf_maybe_get_GET( 'post' ) ) )
