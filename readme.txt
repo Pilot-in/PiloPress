@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.5.1
 Requires PHP: 5.6
-Stable tag: 0.3.2.9
+Stable tag: 0.3.2.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,17 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.3.2.10 - 10/09/2020 =
+* Fixed: Configuration file placeholder misleading
+* Fixed: Component loop
+* Fixed: PHP 7.4.9 warnings
+* Fixed: Error if no layout slug
+* Fixed: Top admin bar on plugin activation
+* Fixed: Field groups colors in "Layouts" listing
+* Fixed: Field groups in sync listing
+* Improved: Add auto layout thumbnails for Site Template
+* Added: Filter `pip/builder/parameters`
 
 = 0.3.2.9 - 07/09/2020 =
 * Fixed: Remove thumbnail and collection badge from layout title

@@ -102,6 +102,17 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
+### 0.3.2.10 - 10/09/2020
+* Fixed: Configuration file placeholder misleading
+* Fixed: Component loop
+* Fixed: PHP 7.4.9 warnings
+* Fixed: Error if no layout slug
+* Fixed: Top admin bar on plugin activation
+* Fixed: Field groups colors in "Layouts" listing
+* Fixed: Field groups in sync listing
+* Improved: Add auto layout thumbnails for Site Template
+* Added: Filter `pip/builder/parameters`
+
 ### 0.3.2.9 - 07/09/2020
 * Fixed: Remove thumbnail and collection badge from layout title
 * Fixed: Image inside layout folder used as thumbnail
