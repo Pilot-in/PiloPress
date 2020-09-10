@@ -27,7 +27,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
             add_action( 'init', array( $this, 'register_option_page' ) );
 
             // ACF hooks - Pattern location rule
-//            add_filter( 'acf/location/rule_values/options_page', array( $this, 'remove_pattern_from_post_types' ) );
+            add_filter( 'acf/location/rule_values/options_page', array( $this, 'remove_pattern_from_post_types' ) );
             add_filter( 'acf/location/rule_types', array( $this, 'location_types' ) );
             add_filter( 'acf/location/rule_values/pip-pattern', array( $this, 'location_values' ) );
             add_filter( 'acf/location/match_rule/type=pip-pattern', array( $this, 'location_match' ), 10, 3 );
