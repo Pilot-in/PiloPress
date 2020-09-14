@@ -18,7 +18,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          *
          * @var array
          */
-        public        $page;
+        public $page;
 
         /**
          * Pages
@@ -35,7 +35,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
 
             self::$pages = array(
-                'configuration' => array(
+                'configuration'   => array(
                     'page_title'     => __( 'Configuration', 'pilopress' ),
                     'menu_title'     => __( 'Styles', 'pilopress' ),
                     'menu_slug'      => 'pip-styles-configuration',
@@ -49,7 +49,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
-                'fonts'         => array(
+                'fonts'           => array(
                     'page_title'     => __( 'Fonts', 'pilopress' ),
                     'menu_title'     => __( 'Fonts', 'pilopress' ),
                     'menu_slug'      => 'pip-styles-fonts',
@@ -63,7 +63,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
-                'image-sizes'   => array(
+                'image-sizes'     => array(
                     'page_title'     => __( 'Images', 'pilopress' ),
                     'menu_title'     => __( 'Images', 'pilopress' ),
                     'menu_slug'      => 'pip-styles-image-sizes',
@@ -77,7 +77,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
-                'modules'       => array(
+                'modules'         => array(
                     'page_title'     => __( 'Modules', 'pilopress' ),
                     'menu_title'     => __( 'Modules', 'pilopress' ),
                     'menu_slug'      => 'pip-styles-modules',
@@ -91,7 +91,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
-                'tailwind'      => array(
+                'tailwind-module' => array(
                     'page_title'     => __( 'TailwindCSS', 'pilopress' ),
                     'menu_title'     => __( 'TailwindCSS', 'pilopress' ),
                     'menu_slug'      => 'pip-styles-tailwind-module',
@@ -122,6 +122,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
         public static function is_style_page( $page_id ) {
             $is_style_page = false;
 
+            if ( !self::$pages ) {
+                return $is_style_page;
+            }
+
             foreach ( self::$pages as $page ) {
                 if ( $page['menu_slug'] === $page_id ) {
                     $is_style_page = true;
@@ -135,9 +139,13 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * Add submenus
          */
         public function admin_menu() {
+            if ( !self::$pages ) {
+                return;
+            }
+
             foreach ( self::$pages as $key => $page ) {
                 $modules = pip_get_modules();
-                if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind' ) {
+                if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
                     continue;
                 }
                 // Register submenu page
@@ -252,7 +260,8 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * @param $args
          */
         public function postbox_submitdiv( $post, $args ) {
-            do_action( 'acf/options_page/submitbox_before_major_actions', $this->page ); ?>
+            do_action( 'acf/options_page/submitbox_before_major_actions', $this->page );
+            ?>
 
             <div id="major-publishing-actions">
 
@@ -362,6 +371,11 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             // If not options pages, return
             if ( $rule['param'] !== 'options_page' ) {
+                return $values;
+            }
+
+            // If pages not defined, return
+            if ( !self::$pages ) {
                 return $values;
             }
 

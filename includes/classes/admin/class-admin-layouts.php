@@ -433,9 +433,11 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             if ( $field_groups ) {
                 $field_groups = explode( ',', $field_groups );
 
-                foreach ( $field_groups as $field_group ) {
-                    if ( PIP_Layouts::is_layout( $field_group ) ) {
-                        $redirect = true;
+                if ( $field_groups ) {
+                    foreach ( $field_groups as $field_group ) {
+                        if ( PIP_Layouts::is_layout( $field_group ) ) {
+                            $redirect = true;
+                        }
                     }
                 }
             }
@@ -473,8 +475,10 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
                 // Add links to text.
                 $links = array();
-                foreach ( $sync_field_groups as $id ) {
-                    $links[] = '<a href="' . get_edit_post_link( $id ) . '">' . get_the_title( $id ) . '</a>';
+                if ( $sync_field_groups ) {
+                    foreach ( $sync_field_groups as $id ) {
+                        $links[] = '<a href="' . get_edit_post_link( $id ) . '">' . get_the_title( $id ) . '</a>';
+                    }
                 }
                 $text .= ' ' . implode( ', ', $links );
 

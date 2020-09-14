@@ -143,17 +143,17 @@ td.acf-layouts-collection a {
 
 /* Tabs */
 body.pilopress_page_pip-styles-configuration .inside,
-body.admin_page_pip-styles-tailwind .inside {
+body.admin_page_pip-styles-tailwind-module .inside {
     background: none;
 }
 
 body.pilopress_page_pip-styles-configuration .inside .acf-tab-wrap,
-body.admin_page_pip-styles-tailwind .inside .acf-tab-wrap {
+body.admin_page_pip-styles-tailwind-module .inside .acf-tab-wrap {
     background: none;
 }
 
 body.pilopress_page_pip-styles-configuration .inside .acf-tab-wrap ul.acf-tab-group,
-body.admin_page_pip-styles-tailwind .inside .acf-tab-wrap ul.acf-tab-group {
+body.admin_page_pip-styles-tailwind-module .inside .acf-tab-wrap ul.acf-tab-group {
     border: 0;
     padding-left: 0;
     margin-top: 10px;
@@ -161,12 +161,12 @@ body.admin_page_pip-styles-tailwind .inside .acf-tab-wrap ul.acf-tab-group {
 }
 
 body.pilopress_page_pip-styles-configuration .inside .acf-tab-wrap ul.acf-tab-group li,
-body.admin_page_pip-styles-tailwind .inside .acf-tab-wrap ul.acf-tab-group li {
+body.admin_page_pip-styles-tailwind-module .inside .acf-tab-wrap ul.acf-tab-group li {
     margin-right: 20px;
 }
 
 body.pilopress_page_pip-styles-configuration .inside .acf-tab-wrap ul.acf-tab-group li a,
-body.admin_page_pip-styles-tailwind .inside .acf-tab-wrap ul.acf-tab-group li a {
+body.admin_page_pip-styles-tailwind-module .inside .acf-tab-wrap ul.acf-tab-group li a {
     color: #999 !important;
     border: 0;
     padding: 0;
@@ -177,12 +177,12 @@ body.admin_page_pip-styles-tailwind .inside .acf-tab-wrap ul.acf-tab-group li a 
 }
 
 body.pilopress_page_pip-styles-configuration .inside .acf-tab-wrap ul.acf-tab-group li.active > a,
-body.admin_page_pip-styles-tailwind .inside .acf-tab-wrap ul.acf-tab-group li.active > a {
+body.admin_page_pip-styles-tailwind-module .inside .acf-tab-wrap ul.acf-tab-group li.active > a {
     color: #23282d !important;
 }
 
 /* Actions buttons */
-body.admin_page_pip-styles-tailwind #major-publishing-actions,
+body.admin_page_pip-styles-tailwind-module #major-publishing-actions,
 body.admin_page_pip-styles-fonts #major-publishing-actions,
 body.admin_page_pip-styles-image-sizes #major-publishing-actions,
 body.admin_page_pip-styles-modules #major-publishing-actions,
@@ -190,7 +190,7 @@ body.pilopress_page_pip-styles-configuration #major-publishing-actions {
     text-align: right;
 }
 
-body.admin_page_pip-styles-tailwind #publishing-action,
+body.admin_page_pip-styles-tailwind-module #publishing-action,
 body.admin_page_pip-styles-fonts #publishing-action,
 body.admin_page_pip-styles-image-sizes #publishing-action,
 body.admin_page_pip-styles-modules #publishing-action,
@@ -206,7 +206,7 @@ body.pilopress_page_pip-styles-configuration #publishing-action .spinner,
 body.admin_page_pip-styles-fonts #publishing-action .spinner,
 body.admin_page_pip-styles-image-sizes #publishing-action .spinner,
 body.admin_page_pip-styles-modules #publishing-action .spinner,
-body.admin_page_pip-styles-tailwind #publishing-action .spinner {
+body.admin_page_pip-styles-tailwind-module #publishing-action .spinner {
     display: none;
 }
 

@@ -255,12 +255,14 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             // Get image sizes
             $default_image_sizes = get_intermediate_image_sizes();
 
-            foreach ( $default_image_sizes as $size ) {
-                $image_sizes[ $size ] = array(
-                    'width'  => intval( get_option( "{$size}_size_w" ) ),
-                    'height' => intval( get_option( "{$size}_size_h" ) ),
-                    'crop'   => intval( get_option( "{$size}_crop" ) ),
-                );
+            if ( $default_image_sizes ) {
+                foreach ( $default_image_sizes as $size ) {
+                    $image_sizes[ $size ] = array(
+                        'width'  => intval( get_option( "{$size}_size_w" ) ),
+                        'height' => intval( get_option( "{$size}_size_h" ) ),
+                        'crop'   => intval( get_option( "{$size}_crop" ) ),
+                    );
+                }
             }
 
             if ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) ) {

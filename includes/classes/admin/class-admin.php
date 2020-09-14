@@ -241,9 +241,11 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Check if "tailwind-admin.min.css" enqueued
             global $wp_styles;
             $admin_style_enqueued = false;
-            foreach ( $wp_styles->queue as $style ) {
-                if ( $wp_styles->registered[ $style ]->src === PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css' ) {
-                    $admin_style_enqueued = true;
+            if ( pip_maybe_get( $wp_styles, 'queue' ) ) {
+                foreach ( $wp_styles->queue as $style ) {
+                    if ( $wp_styles->registered[ $style ]->src === PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css' ) {
+                        $admin_style_enqueued = true;
+                    }
                 }
             }
 
@@ -343,12 +345,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Get menu items
             global $submenu;
-            $pilopress_menu = $submenu['pilopress'];
-            foreach ( $pilopress_menu as $menu_item ) {
-                $menu_items[] = array(
-                    'title' => $menu_item[0],
-                    'link'  => strstr( $menu_item[2], '.php?' ) ? admin_url() . $menu_item[2] : menu_page_url( $menu_item[2], false ),
-                );
+            $pilopress_menu = acf_maybe_get( $submenu, 'pilopress' );
+            if ( $pilopress_menu ) {
+                foreach ( $pilopress_menu as $menu_item ) {
+                    $menu_items[] = array(
+                        'title' => $menu_item[0],
+                        'link'  => strstr( $menu_item[2], '.php?' ) ? admin_url() . $menu_item[2] : menu_page_url( $menu_item[2], false ),
+                    );
+                }
             }
 
             // Add Pilo'Press navbar

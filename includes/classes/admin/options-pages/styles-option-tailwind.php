@@ -2,7 +2,7 @@
 
 acf_add_local_field_group(
     array(
-        'key'                   => 'group_styles_tailwind',
+        'key'                   => 'group_styles_tailwind_module',
         'title'                 => 'TailwindCSS',
         'fields'                => array(
 

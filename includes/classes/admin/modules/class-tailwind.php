@@ -25,7 +25,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          */
         public function add_compile_styles_button( $page ) {
             // If not on Styles admin page, return
-            if ( !pip_str_starts( $page['post_id'], 'pip_styles_' ) ) {
+            if ( !pip_str_starts( acf_maybe_get( $page, 'post_id' ), 'pip_styles_' ) ) {
                 return;
             }
 

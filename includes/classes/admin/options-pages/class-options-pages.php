@@ -227,6 +227,11 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
                     continue;
                 }
 
+                // If no value, return
+                if ( !$posted_value ) {
+                    continue;
+                }
+
                 // Browse each repeater values
                 foreach ( $posted_value as $image_key => $image_size ) {
 
