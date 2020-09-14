@@ -6,14 +6,32 @@ if ( !defined( 'ABSPATH' ) ) {
 
 if ( !class_exists( 'PIP_Settings' ) ) {
 
+    /**
+     * Class PIP_Settings
+     */
     class PIP_Settings {
 
+        /**
+         * Pilo'Press settings
+         *
+         * @var array
+         */
         public $settings = array();
 
+        /**
+         * Upgrades scripts
+         *
+         * @var string[]
+         */
         public $upgrades = array(
-            '0_4' => '0.4',
+            '0_4_0' => '0.4.0',
         );
 
+        /**
+         * Pilo'Press settings model
+         *
+         * @var array
+         */
         public $model = array(
 
             // Version
@@ -52,7 +70,7 @@ if ( !class_exists( 'PIP_Settings' ) ) {
             $current_version = $this->model['version'];
 
             // No upgrades needed
-            if ( acf_version_compare( $current_version, '>=', PIP_VERSION ) ) {
+            if ( acf_version_compare( $current_version, '>=', PiloPress::$version ) ) {
                 return;
             }
 
@@ -79,7 +97,7 @@ if ( !class_exists( 'PIP_Settings' ) ) {
 
             // Update version
             $new_model            = $this->model;
-            $new_model['version'] = PIP_VERSION;
+            $new_model['version'] = PiloPress::$version;
 
             // Update option
             update_option( 'pilopress', $new_model, true );

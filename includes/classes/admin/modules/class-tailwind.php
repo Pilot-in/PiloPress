@@ -59,17 +59,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 return;
             }
 
-            // Get CSS
-            $tailwind_style = self::get_tailwind_css();
-
-            // Get layouts CSS
-            $tailwind_style .= PIP_Layouts::get_layouts_css();
-
-            // Get config
-            $tailwind_config = self::get_tailwind_config();
-
             // Compile styles
-            self::compile_tailwind( $tailwind_style, $tailwind_config );
+            self::compile_tailwind();
         }
 
         /**
@@ -79,9 +70,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          */
         private static function get_tailwind_css() {
             $tailwind_css        = '';
-            $tailwind_base       = get_field( 'pip_tailwind_style_base', 'pip_styles_tailwind' );
-            $tailwind_components = get_field( 'pip_tailwind_style_components', 'pip_styles_tailwind' );
-            $tailwind_utilities  = get_field( 'pip_tailwind_style_utilities', 'pip_styles_tailwind' );
+            $tailwind_base       = get_field( 'pip_tailwind_style_base', 'pip_styles_tailwind_module' );
+            $tailwind_components = get_field( 'pip_tailwind_style_components', 'pip_styles_tailwind_module' );
+            $tailwind_utilities  = get_field( 'pip_tailwind_style_utilities', 'pip_styles_tailwind_module' );
 
             // Maybe add base import
             if ( $tailwind_base ) {
@@ -217,9 +208,11 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                             $type    = acf_maybe_get( $state, 'type' );
                             $classes = acf_maybe_get( $state, 'classes_to_apply' );
 
-                            $buttons_css .= '.' . $class_name . ':' . $type . " {\n";
-                            $buttons_css .= '@apply ' . $classes . ";\n";
-                            $buttons_css .= "}\n";
+                            if ( $classes ) {
+                                $buttons_css .= '.' . $class_name . ':' . $type . " {\n";
+                                $buttons_css .= '@apply ' . $classes . ";\n";
+                                $buttons_css .= "}\n";
+                            }
                         }
                     }
                 }
@@ -235,7 +228,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          */
         private static function get_tailwind_config() {
             $config          = array();
-            $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+            $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_module' );
             $override_config = acf_maybe_get( $tailwind_config, 'override_config' );
 
             if ( $override_config ) {
@@ -262,7 +255,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 $config = str_replace( '"', "'", $config );
 
                 // Update configuration field
-                update_field( 'pip_tailwind_config', array( 'tailwind_config' => $config ), 'pip_styles_tailwind' );
+                update_field( 'pip_tailwind_config', array( 'tailwind_config' => $config ), 'pip_styles_tailwind_module' );
 
                 return $config;
             }
@@ -371,7 +364,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
             // Get override colors option
             $override       = false;
-            $override_group = get_field( 'pip_override_colors', 'pip_styles_tailwind' );
+            $override_group = get_field( 'pip_override_colors', 'pip_styles_tailwind_module' );
             if ( $override_group ) {
                 $override = acf_maybe_get( $override_group, 'override_colors' );
             }
@@ -416,11 +409,17 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
         /**
          * Compile Tailwind styles
-         *
-         * @param $tailwind_style
-         * @param $tailwind_config
          */
-        public static function compile_tailwind( $tailwind_style, $tailwind_config ) {
+        public static function compile_tailwind() {
+            // Get CSS
+            $tailwind_style = self::get_tailwind_css();
+
+            // Get layouts CSS
+            $tailwind_style .= PIP_Layouts::get_layouts_css();
+
+            // Get config
+            $tailwind_config = self::get_tailwind_config();
+
             // Get Tailwind API
             require_once PIP_PATH . '/assets/libs/tailwindapi.php';
             $tailwind = new TailwindAPI();

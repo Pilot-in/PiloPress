@@ -31,7 +31,7 @@ $error = acf_maybe_get_GET( 'error_compile' );
         $modules = pip_get_modules();
 
         // Check if Tailwind configuration is overridden
-        $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+        $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_module' );
         $override_config = acf_maybe_get( $tailwind_config, 'override_config' );
 
         if ( $override_config && ( $current_page === 'pip-styles-configuration' || $current_page === 'pip-styles-fonts' ) ) : ?>

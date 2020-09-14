@@ -94,8 +94,8 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'tailwind'      => array(
                     'page_title'     => __( 'TailwindCSS', 'pilopress' ),
                     'menu_title'     => __( 'TailwindCSS', 'pilopress' ),
-                    'menu_slug'      => 'pip-styles-tailwind',
-                    'post_id'        => 'pip_styles_tailwind',
+                    'menu_slug'      => 'pip-styles-tailwind-module',
+                    'post_id'        => 'pip_styles_tailwind_module',
                     'capability'     => $capability,
                     'parent_slug'    => 'pip-styles-configuration',
                     'update_button'  => __( 'Update', 'acf' ),

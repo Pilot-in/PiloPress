@@ -56,6 +56,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          */
         public function initialize() {
             // Constants
+            $this->define( 'PIP_VERSION', self::$version );
             $this->define( 'PIP_FILE', __FILE__ );
             $this->define( 'PIP_PATH', plugin_dir_path( __FILE__ ) );
             $this->define( 'PIP_URL', plugin_dir_url( __FILE__ ) );
@@ -193,6 +194,10 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Modules
             pip_include( 'includes/classes/admin/modules/class-tinymce.php' );
             pip_include( 'includes/classes/admin/modules/class-tailwind.php' );
+
+            // Core
+            pip_include( 'includes/classes/core/class-settings.php' );
+            pip_include( 'includes/classes/core/class-upgrades.php' );
 
             // Helpers
             pip_include( 'includes/helpers.php' );
