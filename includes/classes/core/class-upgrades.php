@@ -128,9 +128,6 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             }
             update_field( 'pip_button', $buttons, 'pip_styles_configuration' );
 
-            // Compile styles
-            // PIP_Tailwind::compile_tailwind();
-
             // Remove upgrade from to do list
             unset( $upgrades['0_4_0'] );
             $option['upgrades'] = $upgrades;
