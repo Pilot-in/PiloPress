@@ -29,6 +29,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         private static $user_view = 'edit';
 
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'init' ) );
 
@@ -36,6 +37,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             $flexible_field_name = self::get_flexible_field_name();
             add_filter( "acfe/flexible/thumbnail/name={$flexible_field_name}", array( $this, 'add_custom_thumbnail' ), 10, 3 );
             add_filter( "acf/prepare_field/name={$flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
+
         }
 
         /**
@@ -43,19 +45,21 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          * Add layouts to main flexible
          */
         public function init() {
+
             // Get layouts and group keys
-            $data       = self::get_layouts_and_group_keys();
+            $data = self::get_layouts_and_group_keys();
+
+            // Mirror
+            $mirror = acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() );
+            PIP_Flexible_Mirror::set_flexible_mirror_group( $mirror );
+
+            // Layouts
             $layouts    = $data['layouts'];
             $group_keys = $data['group_keys'];
-
             PIP_Layouts::set_layout_group_keys( $group_keys );
-            PIP_Flexible_Mirror::set_flexible_mirror_group( acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() ) );
 
-            $default_locations = self::flexible_locations();
-            $locations         = apply_filters( 'pip/builder/locations', $default_locations );
-
-            // Mirror flexible
-            $mirror = acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() );
+            // Locations
+            $locations = apply_filters( 'pip/builder/locations', self::flexible_locations() );
 
             // Builder params
             $builder_params = apply_filters(
@@ -85,6 +89,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     ),
                 )
             );
+
             $builder_params['acfe_flexible_modal']['acfe_flexible_modal_title'] = acf_maybe_get( $mirror, 'title' );
 
             // Fields params
@@ -138,6 +143,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             // Register field group
             acf_add_local_field_group( $args );
+
         }
 
         /**

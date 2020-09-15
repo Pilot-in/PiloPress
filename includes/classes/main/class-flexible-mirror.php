@@ -22,20 +22,24 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
         private static $flexible_mirror_group_key = 'group_pip_flexible_mirror';
 
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'modify_acf_post_type' ) );
+            add_action( 'init', array( $this, 'generate_flexible_mirror' ), 11);
+
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_filter( 'pre_delete_post', array( $this, 'delete_post' ), 10, 2 );
             add_filter( 'pre_trash_post', array( $this, 'delete_post' ), 10, 2 );
+
         }
 
         /**
          * Fire actions on acf field groups page
          */
         public function current_screen() {
+
             // ACF field groups archive
             if ( acf_is_screen( 'edit-acf-field-group' ) ) {
-                add_action( 'load-edit.php', array( $this, 'generate_flexible_mirror' ) );
                 add_filter( 'page_row_actions', array( $this, 'row_actions' ), 10, 2 );
             }
 
@@ -44,12 +48,14 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 add_action( 'acf/input/admin_head', array( $this, 'meta_boxes' ) );
                 add_action( 'acf/form_data', array( $this, 'add_flexible_mirror_hidden_data' ) );
             }
+
         }
 
         /**
          * Change title on flexible edition page
          */
         public function modify_acf_post_type() {
+
             // If AJAX or not admin, return
             if ( wp_doing_ajax() || !is_admin() ) {
                 return;
@@ -74,6 +80,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * Generate flexible mirror
          */
         public function generate_flexible_mirror() {
+
             // If mirror flexible already exists, return
             if ( self::get_flexible_mirror_group() ) {
                 return;
@@ -118,6 +125,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
             // Import flexible in local
             acf_import_field_group( $flexible_mirror );
+
         }
 
         /**
@@ -129,6 +137,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * @return mixed
          */
         public function row_actions( $actions, $post ) {
+
             // If not mirror flexible, return
             if ( $post->post_name !== self::get_flexible_mirror_group_key() ) {
                 return $actions;
@@ -138,6 +147,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             unset( $actions['trash'] );
 
             return $actions;
+
         }
 
         /**
