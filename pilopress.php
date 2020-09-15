@@ -76,9 +76,6 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Activation actions
             register_activation_hook( __FILE__, array( $this, 'activation' ) );
 
-            // Enqueue layouts configuration files
-            add_action( 'init', array( 'PIP_Layouts', 'enqueue_configuration_files' ), 5 );
-
             // Init hook
             add_action( 'init', array( $this, 'load_translations' ) );
 
@@ -196,8 +193,8 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/admin/modules/class-tailwind.php' );
 
             // Core
-            pip_include( 'includes/classes/core/class-settings.php' );
             pip_include( 'includes/classes/core/class-upgrades.php' );
+            pip_include( 'includes/classes/core/class-settings.php' );
 
             // Helpers
             pip_include( 'includes/helpers.php' );

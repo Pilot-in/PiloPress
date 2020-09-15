@@ -96,7 +96,7 @@ $error = acf_maybe_get_GET( 'error_compile' );
                             <?php
 
                             // If TailwindCSS module is not enable, skip
-                            if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind' ) {
+                            if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
                                 continue;
                             }
                             ?>

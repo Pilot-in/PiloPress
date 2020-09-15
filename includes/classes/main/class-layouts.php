@@ -16,6 +16,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
         public function __construct() {
             // WP hooks
+            add_action( 'init', array( $this, 'enqueue_configuration_files' ), 5 );
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_action( 'register_post_type_args', array( $this, 'modify_acf_post_type' ), 10, 2 );
             add_filter( 'display_post_states', array( $this, 'hide_layouts_post_states' ), 20 );
