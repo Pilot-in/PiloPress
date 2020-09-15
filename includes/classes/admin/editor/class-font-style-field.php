@@ -266,12 +266,12 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
                 foreach ( $value as $item ) {
                     // Get selected option
                     $font_style      = acf_maybe_get( $choices, $item );
-                    $return[ $item ] = $font_style ? $font_style['classes'] : $item;
+                    $return[ $item ] = $font_style ? $font_style['class_name'] : $item;
                 }
             } else {
                 // Get selected option
                 $font_style = acf_maybe_get( $choices, $value );
-                $return     = $font_style ? $font_style['classes'] : $value;
+                $return     = $font_style ? $font_style['class_name'] : $value;
             }
 
             return $return;

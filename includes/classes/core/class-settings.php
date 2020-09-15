@@ -63,7 +63,7 @@ if ( !class_exists( 'PIP_Settings' ) ) {
             update_option( 'pilopress', $this->model, true );
 
             // Do upgrades
-            new PIP_upgrades();
+            new PIP_Upgrades();
         }
 
         private function version() {

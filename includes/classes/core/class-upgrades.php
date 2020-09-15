@@ -117,6 +117,14 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
 
             // Typography
             $typo = get_field( 'pip_font_style', 'pip_styles_tinymce' );
+            if ( is_array( $typo ) ) {
+                foreach ( $typo as $key => $item ) {
+                    $item['class_name']       = $item['classes_to_apply'];
+                    $item['classes_to_apply'] = '';
+
+                    $typo[ $key ] = $item;
+                }
+            }
             update_field( 'pip_typography', $typo, 'pip_styles_configuration' );
 
             // Buttons
@@ -130,6 +138,22 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
                 }
             }
             update_field( 'pip_button', $buttons, 'pip_styles_configuration' );
+
+            // Colors
+            $colors = get_field( 'pip_font_color', 'pip_styles_tinymce' );
+            if ( $colors ) {
+                foreach ( $colors as $key => $color ) {
+                    $color = array(
+                        'label'         => $color['label'],
+                        'name'          => str_replace( 'text-', '', $color['classes_to_apply'] ),
+                        'value'         => '',
+                        'add_to_editor' => true,
+                    );
+
+                    $colors[ $key ] = $color;
+                }
+            }
+            update_field( 'pip_simple_colors', $colors, 'pip_styles_configuration' );
 
             // Remove upgrade from to do list
             unset( $upgrades['0_4_0'] );

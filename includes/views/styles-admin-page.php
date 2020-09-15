@@ -37,11 +37,12 @@ $error = acf_maybe_get_GET( 'error_compile' );
         if ( $override_config && ( $current_page === 'pip-styles-configuration' || $current_page === 'pip-styles-fonts' ) ) : ?>
             <div class="notice notice-info is-dismissible">
                 <p>
-                    <b><?php _e( 'TailwindCSS configuration is overridden.', 'pilopress' ) ?></b>
+                    <b><?php _e( 'TailwindCSS configuration is overridden.', 'pilopress' ); ?></b>
                 </p>
                 <p>
-                    <?php _e( '<code>Colors</code>, <code>Breakpoints</code> and <code>Container</code> tabs are useless.', 'pilopress' ) ?>
-                    <?php _e( "Font families won't be added automatically.", 'pilopress' ) ?>
+                    <?php _e( '<code>Breakpoints</code> and <code>Container</code> tabs are useless.', 'pilopress' ); ?>
+                    <?php _e( '<code>Colors</code> tab is useful for TinyMCE module only.', 'pilopress' ); ?>
+                    <?php _e( "Font families won't be added automatically.", 'pilopress' ); ?>
                 </p>
             </div>
         <?php
@@ -51,9 +52,9 @@ $error = acf_maybe_get_GET( 'error_compile' );
         if ( !acf_maybe_get( $modules, 'tailwind' ) ) : ?>
             <div class="notice notice-info is-dismissible">
                 <p>
-                    <b><?php _e( 'TailwindCSS module is disabled.', 'pilopress' ) ?></b>
+                    <b><?php _e( 'TailwindCSS module is disabled.', 'pilopress' ); ?></b>
                     <br>
-                    <?php _e( "Stylesheets won't be generated automatically.", 'pilopress' ) ?>
+                    <?php _e( "Stylesheets won't be generated automatically.", 'pilopress' ); ?>
                 </p>
             </div>
         <?php
@@ -63,9 +64,9 @@ $error = acf_maybe_get_GET( 'error_compile' );
         if ( !acf_maybe_get( $modules, 'tinymce' ) ) : ?>
             <div class="notice notice-info is-dismissible">
                 <p>
-                    <b><?php _e( 'TinyMCE module is disabled.', 'pilopress' ) ?></b>
+                    <b><?php _e( 'TinyMCE module is disabled.', 'pilopress' ); ?></b>
                     <br>
-                    <?php _e( "Typography, colors, buttons and fonts won't be available in editor.", 'pilopress' ) ?>
+                    <?php _e( "Typography, colors, buttons and fonts won't be available in editor.", 'pilopress' ); ?>
                 </p>
             </div>
         <?php
@@ -75,9 +76,9 @@ $error = acf_maybe_get_GET( 'error_compile' );
         wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
         ?>
 
-        <?php if ( $error ): ?>
+        <?php if ( $error ) : ?>
             <div class="notice notice-error is-dismissible">
-                <p><?php _e( 'An error occurred while compiling.', 'pilopress' ) ?></p>
+                <p><?php _e( 'An error occurred while compiling.', 'pilopress' ); ?></p>
             </div>
         <?php endif; ?>
 
@@ -91,7 +92,7 @@ $error = acf_maybe_get_GET( 'error_compile' );
                 <div id="postbox-container-2" class="postbox-container">
 
                     <div class="nav-tab-wrapper">
-                        <?php foreach ( $pages as $key => $page ) : ?>
+                        <?php foreach ( $pages as $key => $menu_page ) : ?>
                             <?php
 
                             // If TailwindCSS module is not enable, skip
@@ -100,9 +101,9 @@ $error = acf_maybe_get_GET( 'error_compile' );
                             }
                             ?>
                             <a
-                                href="<?php echo add_query_arg( array( 'page' => $page['menu_slug'] ), admin_url( 'admin.php' ) ); ?>"
-                                class="nav-tab <?php echo $current_page === $page['menu_slug'] ? 'nav-tab-active' : ''; ?>">
-                                <?php echo $page['page_title']; ?>
+                                href="<?php echo add_query_arg( array( 'page' => $menu_page['menu_slug'] ), admin_url( 'admin.php' ) ); ?>"
+                                class="nav-tab <?php echo $current_page === $menu_page['menu_slug'] ? 'nav-tab-active' : ''; ?>">
+                                <?php echo $menu_page['page_title']; ?>
                             </a>
                         <?php endforeach; ?>
                     </div>

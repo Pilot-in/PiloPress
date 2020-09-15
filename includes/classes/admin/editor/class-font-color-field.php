@@ -259,19 +259,19 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
          */
         public function format_value( $value, $post_id, $field ) {
             // Get all font colors
-            $choices = PIP_TinyMCE::get_custom_colors();
+            $choices = pip_get_colors();
 
             $return = null;
             if ( is_array( $value ) ) {
                 foreach ( $value as $item ) {
                     // Get selected option
                     $font_color      = acf_maybe_get( $choices, $item );
-                    $return[ $item ] = $font_color ? $font_color['classes'] : $item;
+                    $return[ $item ] = $font_color ? $font_color['class_name'] : $item;
                 }
             } else {
                 // Get selected option
                 $font_color = acf_maybe_get( $choices, $value );
-                $return     = $font_color ? $font_color['classes'] : $value;
+                $return     = $font_color ? $font_color['class_name'] : $value;
             }
 
             return $return;
