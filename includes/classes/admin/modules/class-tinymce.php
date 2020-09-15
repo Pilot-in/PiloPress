@@ -60,10 +60,11 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
                         case 'google_font':
                             // Get font name
-                            $label      = get_sub_field( 'name' );
-                            $url        = get_sub_field( 'url' );
-                            $enqueue    = get_sub_field( 'enqueue' );
-                            $class_name = get_sub_field( 'class_name' );
+                            $label         = get_sub_field( 'name' );
+                            $url           = get_sub_field( 'url' );
+                            $enqueue       = get_sub_field( 'enqueue' );
+                            $class_name    = get_sub_field( 'class_name' );
+                            $add_to_editor = get_sub_field( 'add_to_editor' );
 
                             // Update class name
                             if ( !$class_name ) {
@@ -73,20 +74,22 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
                             // Add custom font
                             $fonts[ sanitize_title( $label ) ] = array(
-                                'name'       => $label,
-                                'class_name' => $class_name,
-                                'url'        => $url,
-                                'enqueue'    => $enqueue,
+                                'name'          => $label,
+                                'class_name'    => $class_name,
+                                'url'           => $url,
+                                'enqueue'       => $enqueue,
+                                'add_to_editor' => $add_to_editor,
                             );
                             break;
 
                         case 'custom_font':
                             // Get font name
-                            $label      = get_sub_field( 'name' );
-                            $files      = get_sub_field( 'files' );
-                            $weight     = get_sub_field( 'weight' );
-                            $style      = get_sub_field( 'style' );
-                            $class_name = get_sub_field( 'class_name' );
+                            $label         = get_sub_field( 'name' );
+                            $files         = get_sub_field( 'files' );
+                            $weight        = get_sub_field( 'weight' );
+                            $style         = get_sub_field( 'style' );
+                            $class_name    = get_sub_field( 'class_name' );
+                            $add_to_editor = get_sub_field( 'add_to_editor' );
 
                             // Update class name
                             if ( !$class_name ) {
@@ -96,11 +99,12 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
                             // Add custom font
                             $fonts[ sanitize_title( $label ) ] = array(
-                                'name'       => $label,
-                                'class_name' => $class_name,
-                                'files'      => $files,
-                                'weight'     => $weight,
-                                'style'      => $style,
+                                'name'          => $label,
+                                'class_name'    => $class_name,
+                                'files'         => $files,
+                                'weight'        => $weight,
+                                'style'         => $style,
+                                'add_to_editor' => $add_to_editor,
                             );
                             break;
 
@@ -127,12 +131,14 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     $label            = get_sub_field( 'label' );
                     $class_name       = get_sub_field( 'class_name' );
                     $classes_to_apply = get_sub_field( 'classes_to_apply' );
+                    $add_to_editor    = get_sub_field( 'add_to_editor' );
 
                     // Add custom style
                     $custom_styles[ sanitize_title( $label ) ] = array(
                         'name'             => $label,
                         'class_name'       => $class_name,
                         'classes_to_apply' => $classes_to_apply,
+                        'add_to_editor'    => $add_to_editor,
                     );
                 }
             }
@@ -153,17 +159,11 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 while ( have_rows( 'pip_simple_colors', 'pip_styles_configuration' ) ) {
                     the_row();
 
-                    $add_to_editor = get_sub_field( 'add_to_editor' );
-
-                    // If not add to editor, skip
-                    if ( !$add_to_editor ) {
-                        continue;
-                    }
-
                     $label            = get_sub_field( 'label' );
                     $name             = get_sub_field( 'name' );
                     $value            = get_sub_field( 'value' );
                     $classes_to_apply = get_sub_field( 'classes_to_apply' );
+                    $add_to_editor    = get_sub_field( 'add_to_editor' );
 
                     // Add custom style
                     $colors[ sanitize_title( $label ) ] = array(
@@ -171,6 +171,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                         'value'            => $value,
                         'class_name'       => $name,
                         'classes_to_apply' => $classes_to_apply,
+                        'add_to_editor'    => $add_to_editor,
                     );
                 }
             }
@@ -187,17 +188,11 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                         while ( have_rows( 'shades' ) ) {
                             the_row();
 
-                            $add_to_editor = get_sub_field( 'add_to_editor' );
-
-                            // If not add to editor, skip
-                            if ( !$add_to_editor ) {
-                                continue;
-                            }
-
                             $label            = get_sub_field( 'label' );
                             $name             = get_sub_field( 'shade_name' );
                             $value            = get_sub_field( 'value' );
                             $classes_to_apply = get_sub_field( 'classes_to_apply' );
+                            $add_to_editor    = get_sub_field( 'add_to_editor' );
 
                             // Add custom style
                             $colors[ sanitize_title( $label ) ] = array(
@@ -205,6 +200,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                                 'value'            => $value,
                                 'class_name'       => $color_name . '-' . $name,
                                 'classes_to_apply' => $classes_to_apply,
+                                'add_to_editor'    => $add_to_editor,
                             );
 
                         }
@@ -231,12 +227,14 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     $label            = get_sub_field( 'label' );
                     $class_name       = get_sub_field( 'class_name' );
                     $classes_to_apply = get_sub_field( 'classes_to_apply' );
+                    $add_to_editor    = get_sub_field( 'add_to_editor' );
 
                     // Add custom button
                     $buttons[ sanitize_title( $label ) ] = array(
                         'name'             => $label,
                         'class_name'       => $class_name,
                         'classes_to_apply' => $classes_to_apply,
+                        'add_to_editor'    => $add_to_editor,
                     );
                 }
             }

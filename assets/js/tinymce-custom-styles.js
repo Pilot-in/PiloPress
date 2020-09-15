@@ -1,5 +1,5 @@
 (
-    function ( $ ) {
+    function ($) {
 
         // Check if "acf" is available
         if ( typeof acf === 'undefined' ) {
@@ -21,7 +21,12 @@
         var get_custom_colors = function () {
             return $.map(
                 colors,
-                function ( color, key ) {
+                function (color, key) {
+
+                    // Skip if not add to editor
+                    if ( color.add_to_editor === false ) {
+                        return
+                    }
 
                     // Get text color and background
                     var textStyle = 'color:' + color.value + ';'
@@ -47,14 +52,14 @@
             )
         }
 
-        function getContrast( hexcolor ) {
+        function getContrast(hexcolor) {
             hexcolor = hexcolor.charAt( 0 ) === '#' ? hexcolor.substring( 1, 7 ) : hexcolor
 
             var r   = parseInt( hexcolor.substr( 0, 2 ), 16 )
             var g   = parseInt( hexcolor.substr( 2, 2 ), 16 )
             var b   = parseInt( hexcolor.substr( 4, 2 ), 16 )
-            var yiq = ( ( r * 299 ) + ( g * 587 ) + ( b * 114 ) ) / 1000
-            return ( yiq >= 128 ) ? '#23282d' : 'white'
+            var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
+            return (yiq >= 128) ? '#23282d' : 'white'
         }
 
         /**
@@ -65,7 +70,13 @@
         var get_custom_fonts = function () {
             return $.map(
                 fonts,
-                function ( font, key ) {
+                function (font, key) {
+
+                    // Skip if not add to editor
+                    if ( font.add_to_editor === false ) {
+                        return
+                    }
+
                     return {
                         name: 'pip-font-' + key,
                         value: 'pip-font-' + key,
@@ -91,7 +102,13 @@
         var get_custom_styles = function () {
             return $.map(
                 styles,
-                function ( style, key ) {
+                function (style, key) {
+
+                    // Skip if not add to editor
+                    if ( style.add_to_editor === false ) {
+                        return
+                    }
+
                     return {
                         name: 'pip-style-' + key,
                         value: 'pip-style-' + key,
@@ -114,7 +131,7 @@
          */
         acf.addFilter(
             'wysiwyg_tinymce_settings',
-            function ( init ) {
+            function (init) {
 
                 init.elementpath             = false
                 init.block_formats           = '<p>=p;<h1>=h1;<h2>=h2;<h3>=h3;<h4>=h4;<h5>=h5;<h6>=h6;<address>=address;<pre>=pre'
@@ -128,7 +145,7 @@
         // Wait for TinyMCE to be ready
         $( document ).on(
             'tinymce-editor-setup',
-            function ( event, editor ) {
+            function (event, editor) {
 
                 // Register custom commands
                 Commands.register( editor )
@@ -146,7 +163,7 @@
                             values: get_custom_colors(),
                             fixedWidth: true,
                             onPostRender: custom_list_box_change_handler( editor, get_custom_colors() ),
-                            onselect: function ( event ) {
+                            onselect: function (event) {
                                 if ( event.control.settings.value ) {
                                     event.control.settings.type = 'colors'
                                     editor.execCommand( 'add_custom_style', false, event.control.settings )
@@ -169,7 +186,7 @@
                             values: get_custom_fonts(),
                             fixedWidth: true,
                             onPostRender: custom_list_box_change_handler( editor, get_custom_fonts() ),
-                            onselect: function ( event ) {
+                            onselect: function (event) {
                                 if ( event.control.settings.value ) {
                                     event.control.settings.type = 'fonts'
                                     editor.execCommand( 'add_custom_style', false, event.control.settings )
@@ -192,7 +209,7 @@
                             values: get_custom_styles(),
                             fixedWidth: true,
                             onPostRender: custom_list_box_change_handler( editor, get_custom_styles() ),
-                            onselect: function ( event ) {
+                            onselect: function (event) {
                                 if ( event.control.settings.value ) {
                                     event.control.settings.type = 'styles'
                                     editor.execCommand( 'add_custom_style', false, event.control.settings )
@@ -241,19 +258,19 @@
                         maybe_activate_dark_mode( editor )
 
                         get_custom_colors().map(
-                            function ( item ) {
+                            function (item) {
                                 editor.formatter.register( item.name, item.format )
                             }
                         )
 
                         get_custom_fonts().map(
-                            function ( item ) {
+                            function (item) {
                                 editor.formatter.register( item.name, item.format )
                             }
                         )
 
                         get_custom_styles().map(
-                            function ( item ) {
+                            function (item) {
                                 editor.formatter.register( item.name, item.format )
                             }
                         )
@@ -268,7 +285,7 @@
          *
          * @param editor
          */
-        var maybe_activate_dark_mode = function ( editor ) {
+        var maybe_activate_dark_mode = function (editor) {
 
             var acf_field            = get_acf_field_from_editor( editor )
             var field_name           = acf_field.data( 'name' )
@@ -295,7 +312,7 @@
          *
          * @param dark_mode_value
          */
-        var toggle_dark_mode = function ( editor, dark_mode_value ) {
+        var toggle_dark_mode = function (editor, dark_mode_value) {
 
             var acf_field            = get_acf_field_from_editor( editor )
             var field_name           = acf_field.data( 'name' )
@@ -317,7 +334,7 @@
          *
          * @returns {jQuery}
          */
-        var get_acf_field_from_editor = function ( editor ) {
+        var get_acf_field_from_editor = function (editor) {
             // Get field name
             var textarea = editor.getElement()
 
@@ -329,10 +346,10 @@
          *
          * @param editor
          */
-        var register = function ( editor ) {
+        var register = function (editor) {
             editor.addCommand(
                 'add_custom_style',
-                function ( command, item ) {
+                function (command, item) {
 
                     // Get style to remove
                     var to_remove = Array()
@@ -347,7 +364,7 @@
                     // Remove old style
                     $.each(
                         to_remove,
-                        function ( key, style_item ) {
+                        function (key, style_item) {
                             if ( style_item.name !== item.name ) {
                                 editor.formatter.remove( style_item.name )
                             }
@@ -370,20 +387,20 @@
          *
          * @returns {function(...[*]=)}
          */
-        var custom_list_box_change_handler = function ( editor, items ) {
+        var custom_list_box_change_handler = function (editor, items) {
             return function () {
                 var self = this
                 self.value( null )
 
                 editor.on(
                     'nodeChange',
-                    function ( e ) {
+                    function (e) {
 
                         // Get value
                         var current_value = null, current_style = null
                         $.map(
                             items,
-                            function ( item ) {
+                            function (item) {
                                 if ( editor.formatter.match( item.name ) ) {
                                     current_value = item.value
                                     current_style = item.textStyle
@@ -400,7 +417,7 @@
             }
         }
 
-        var hexToRgb = function ( hex ) {
+        var hexToRgb = function (hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec( hex )
             return result ? {
                 r: parseInt( result[1], 16 ),
