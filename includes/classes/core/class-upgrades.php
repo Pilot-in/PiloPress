@@ -42,6 +42,7 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             }
 
             pip_include( 'includes/classes/admin/options-pages/old/styles-option-tailwind.php' );
+            pip_include( 'includes/classes/admin/options-pages/old/styles-option-tinymce.php' );
 
             acf_log( "[Pilo'Press] Upgrade 0.4.0" );
 
@@ -121,9 +122,11 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             // Buttons
             $buttons = get_field( 'pip_button', 'pip_styles_tinymce' );
             if ( is_array( $buttons ) ) {
-                foreach ( $buttons as &$button ) {
+                foreach ( $buttons as $key => $button ) {
                     $button['class_name']       = $button['classes_to_apply'];
                     $button['classes_to_apply'] = '';
+
+                    $buttons[ $key ] = $button;
                 }
             }
             update_field( 'pip_button', $buttons, 'pip_styles_configuration' );
