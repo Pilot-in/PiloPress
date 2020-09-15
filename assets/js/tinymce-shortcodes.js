@@ -11,6 +11,12 @@
             return $.map(
                 buttons,
                 function ( button, key ) {
+
+                    // Skip if not add to editor
+                    if ( button.add_to_editor === false ) {
+                        return
+                    }
+
                     return { text: button.name, value: button.class_name }
                 }
             )
