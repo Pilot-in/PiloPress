@@ -21,16 +21,16 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          */
         private static $flexible_mirror_group_key = 'group_pip_flexible_mirror';
 
+        /**
+         * PIP_Flexible_Mirror constructor.
+         */
         public function __construct() {
-
             // WP hooks
             add_action( 'init', array( $this, 'modify_acf_post_type' ) );
-            add_action( 'init', array( $this, 'generate_flexible_mirror' ), 11);
-
+            add_action( 'init', array( $this, 'generate_flexible_mirror' ), 11 );
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_filter( 'pre_delete_post', array( $this, 'delete_post' ), 10, 2 );
             add_filter( 'pre_trash_post', array( $this, 'delete_post' ), 10, 2 );
-
         }
 
         /**
@@ -80,7 +80,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * Generate flexible mirror
          */
         public function generate_flexible_mirror() {
-
             // If mirror flexible already exists, return
             if ( self::get_flexible_mirror_group() ) {
                 return;
@@ -125,7 +124,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
             // Import flexible in local
             acf_import_field_group( $flexible_mirror );
-
         }
 
         /**
@@ -137,7 +135,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * @return mixed
          */
         public function row_actions( $actions, $post ) {
-
             // If not mirror flexible, return
             if ( $post->post_name !== self::get_flexible_mirror_group_key() ) {
                 return $actions;
@@ -147,7 +144,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             unset( $actions['trash'] );
 
             return $actions;
-
         }
 
         /**
@@ -188,7 +184,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             remove_meta_box( 'acf-field-group-acfe', 'acf-field-group', 'normal' );
             remove_meta_box( 'acfe-wp-custom-fields', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-layouts-collectiondiv', 'acf-field-group', 'side' );
-
         }
 
         /**
