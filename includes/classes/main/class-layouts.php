@@ -29,14 +29,17 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * Fire actions on layouts pages
          */
         public function current_screen() {
+
             // If not ACF field group single, return
             if ( !acf_is_screen( 'acf-field-group' ) ) {
                 return;
             }
 
-            add_action( 'acf/field_group/admin_head', array( $this, 'layout_meta_boxes' ) );
-            add_action( 'acf/input/admin_head', array( $this, 'layout_settings' ), 20 );
-            add_action( 'acf/update_field_group', array( $this, 'set_field_group_to_inactive' ) );
+            add_filter('acf/validate_field_group',      array( $this, 'layout_locations'), 20 );
+            add_action( 'acf/field_group/admin_head',   array( $this, 'layout_meta_boxes' ) );
+            add_action( 'acf/input/admin_head',         array( $this, 'layout_settings' ), 20 );
+            add_action( 'acf/update_field_group',       array( $this, 'set_field_group_to_inactive' ) );
+
         }
 
         /**
@@ -160,6 +163,24 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             return $args;
+        }
+
+        /**
+         * Layouts Default Locations
+         */
+        function layout_locations($field_group){
+
+            // Only in new layouts
+            if(acf_maybe_get($field_group, 'location'))
+                return $field_group;
+
+            // Get Flexible Mirror
+            $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
+
+            $field_group['location'] = $flexible_mirror['location'];
+
+            return $field_group;
+
         }
 
         /**

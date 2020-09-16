@@ -86,11 +86,12 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // If not layout(s) page, return
             $post_id = acf_maybe_get_GET( 'post' );
-            if ( !PIP_Layouts::is_layout( $post_id ) && acf_maybe_get_GET( 'layouts' ) !== '1' ) {
-                return;
+            if ( PIP_Layouts::is_layout( $post_id ) || acf_maybe_get_GET( 'layouts' ) !== '1' || acf_maybe_get_GET( 'layout' ) !== '1' ) {
+
+                wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), PiloPress::$version );
+
             }
 
-            wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), PiloPress::$version );
         }
 
         /**

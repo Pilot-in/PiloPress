@@ -77,7 +77,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'acfe_flexible_title_edition'       => 1,
                     'acfe_flexible_clone'               => 1,
                     'acfe_flexible_copy_paste'          => 1,
-                    'acfe_flexible_modal_edition'       => 0,
+                    'acfe_flexible_modal_edition'       => 1,
                     'acfe_flexible_layouts_state'       => '',
                     'acfe_flexible_hide_empty_message'  => 1,
                     'acfe_flexible_empty_message'       => '',
