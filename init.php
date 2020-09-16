@@ -53,66 +53,48 @@ function pip_load_textdomain( $domain = 'pilopress' ) {
  * Enqueue Pilo'Press style
  */
 function pip_enqueue() {
-
     // Theme style
     $style_path = PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css';
-    $style_url = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_FILENAME . '.min.css';
+    $style_url  = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_FILENAME . '.min.css';
 
     // Plugin style
     $default_path = PIP_PATH . 'assets/css/' . PIP_THEME_STYLE_FILENAME . '.min.css';
-    $default_url = PIP_URL . 'assets/css/' . PIP_THEME_STYLE_FILENAME . '.min.css';
+    $default_url  = PIP_URL . 'assets/css/' . PIP_THEME_STYLE_FILENAME . '.min.css';
 
     $css = false;
-
     if ( file_exists( $style_path ) ) {
-
         $css = $style_url;
-
-    } elseif( file_exists( $default_path ) ) {
-
+    } elseif ( file_exists( $default_path ) ) {
         $css = $default_url;
-
     }
 
     if ( $css ) {
-
         wp_enqueue_style( 'style-pilopress', $css, false, PiloPress::$version );
-
     }
-
 }
 
 /**
  * Enqueue Pilo'Press admin style
  */
 function pip_enqueue_admin() {
-
     // Theme style
     $style_path = PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
-    $style_url = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
+    $style_url  = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
 
-    // plugin style
+    // Plugin style
     $default_path = PIP_PATH . 'assets/css/' . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
-    $default_url = PIP_URL . 'assets/css/' . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
+    $default_url  = PIP_URL . 'assets/css/' . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
 
     $css = false;
-
     if ( file_exists( $style_path ) ) {
-
         $css = $style_url;
-
-    } elseif( file_exists( $default_path ) ) {
-
+    } elseif ( file_exists( $default_path ) ) {
         $css = $default_url;
-
     }
 
     if ( $css ) {
-
         wp_enqueue_style( 'style-pilopress-admin', $css, false, PiloPress::$version );
-
     }
-
 }
 
 /**
