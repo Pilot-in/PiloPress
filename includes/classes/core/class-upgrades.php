@@ -119,8 +119,14 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             $typo = get_field( 'pip_font_style', 'pip_styles_tinymce' );
             if ( is_array( $typo ) ) {
                 foreach ( $typo as $key => $item ) {
-                    $item['class_name']       = $item['classes_to_apply'];
-                    $item['classes_to_apply'] = '';
+                    $old_classes = $item['classes_to_apply'];
+
+                    if ( !strstr( $old_classes, ' ' ) ) {
+                        $item['class_name']       = $item['classes_to_apply'];
+                        $item['classes_to_apply'] = '';
+                    } else {
+                        $item['class_name'] = sanitize_title( $item['label'] );
+                    }
 
                     $typo[ $key ] = $item;
                 }
@@ -130,11 +136,53 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             // Buttons
             $buttons = get_field( 'pip_button', 'pip_styles_tinymce' );
             if ( is_array( $buttons ) ) {
-                foreach ( $buttons as $key => $button ) {
-                    $button['class_name']       = $button['classes_to_apply'];
-                    $button['classes_to_apply'] = '';
+                foreach ( $buttons as $key => $item ) {
+                    $old_classes = $item['classes_to_apply'];
 
-                    $buttons[ $key ] = $button;
+                    if ( strstr( $old_classes, ' ' ) ) {
+                        $old_classes = explode( ' ', $old_classes );
+
+                        // Parse states
+                        $states = array();
+                        foreach ( $old_classes as $old_class_key => $old_class ) {
+
+                            switch ( $old_class ) {
+
+                                case pip_str_starts( $old_class, 'hover:' ):
+                                    $states[ $old_class_key ] = array(
+                                        'type'             => 'hover',
+                                        'classes_to_apply' => str_replace( 'hover:', '', $old_class ),
+                                    );
+                                    unset( $old_classes[ $old_class_key ] );
+                                    break;
+
+                                case pip_str_starts( $old_class, 'focus:' ):
+                                    $states[ $old_class_key ] = array(
+                                        'type'             => 'focus',
+                                        'classes_to_apply' => str_replace( 'focus:', '', $old_class ),
+                                    );
+                                    unset( $old_classes[ $old_class_key ] );
+                                    break;
+
+                                case pip_str_starts( $old_class, 'active:' ):
+                                    $states[ $old_class_key ] = array(
+                                        'type'             => 'active',
+                                        'classes_to_apply' => str_replace( 'active:', '', $old_class ),
+                                    );
+                                    unset( $old_classes[ $old_class_key ] );
+                                    break;
+                            }
+                        }
+
+                        $item['class_name']       = sanitize_title( $item['label'] );
+                        $item['classes_to_apply'] = implode( ' ', $old_classes );
+                        $item['states']           = $states;
+                    } else {
+                        $item['class_name']       = $item['classes_to_apply'];
+                        $item['classes_to_apply'] = '';
+                    }
+
+                    $buttons[ $key ] = $item;
                 }
             }
             update_field( 'pip_button', $buttons, 'pip_styles_configuration' );
