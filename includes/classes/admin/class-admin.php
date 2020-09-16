@@ -241,12 +241,19 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Check if "tailwind-admin.min.css" enqueued
             global $wp_styles;
             $admin_style_enqueued = false;
+
             if ( pip_maybe_get( $wp_styles, 'queue' ) ) {
+
                 foreach ( $wp_styles->queue as $style ) {
-                    if ( $wp_styles->registered[ $style ]->src === PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css' ) {
-                        $admin_style_enqueued = true;
-                    }
+
+                    if ( $wp_styles->registered[ $style ]->handle !== 'style-pilopress-admin' )
+                        continue;
+
+                    $admin_style_enqueued = true;
+                    break;
+
                 }
+
             }
 
             // Get theme folder
