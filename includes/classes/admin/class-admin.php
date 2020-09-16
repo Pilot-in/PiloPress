@@ -115,7 +115,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     )
                 );
 
-            } elseif ( acf_maybe_get_GET( 'layouts' ) === null && acf_maybe_get_GET( 'post_status' ) != 'trash' ) {
+            } elseif ( acf_maybe_get_GET( 'layouts' ) === null && acf_maybe_get_GET( 'post_status' ) !== 'trash' ) {
                 // Classic view
 
                 // Remove layouts
@@ -239,22 +239,20 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $success_icon = '<span class="dashicons dashicons-yes"></span>';
             $error_icon   = '<span class="dashicons dashicons-no-alt"></span>';
 
-            // Check if "tailwind-admin.min.css" enqueued
+            // Check if "style-admin.min.css" enqueued
             global $wp_styles;
             $admin_style_enqueued = false;
-
             if ( pip_maybe_get( $wp_styles, 'queue' ) ) {
-
                 foreach ( $wp_styles->queue as $style ) {
 
-                    if ( $wp_styles->registered[ $style ]->handle !== 'style-pilopress-admin' )
+                    // If not Pilo'Press admin style, skip
+                    if ( $wp_styles->registered[ $style ]->handle !== 'style-pilopress-admin' ) {
                         continue;
+                    }
 
                     $admin_style_enqueued = true;
                     break;
-
                 }
-
             }
 
             // Get theme folder
