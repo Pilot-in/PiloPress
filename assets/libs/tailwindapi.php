@@ -50,6 +50,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
             // Error
             if ( $return['response']['code'] !== 200 ) {
+                set_transient("pip_tailwind_api_compile_error", $return['body'], 45);
                 wp_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
                 exit();
             }

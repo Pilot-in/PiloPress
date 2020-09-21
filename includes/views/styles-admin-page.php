@@ -8,8 +8,6 @@
  * @var string $current_page
  * @var string $admin_url
  */
-
-$error = acf_maybe_get_GET( 'error_compile' );
 ?>
 
 <div class="wrap acf-settings-wrap">
@@ -76,10 +74,24 @@ $error = acf_maybe_get_GET( 'error_compile' );
         wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
         ?>
 
-        <?php if ( $error ) : ?>
+        <?php if ( acf_maybe_get_GET( 'error_compile' ) && ( $error = get_transient( "pip_tailwind_api_compile_error" ) ) ) : ?>
+
+            <?php
+            $error_array = json_decode($error, false);
+            $error_message = false;
+
+            if( isset( $error_array[0] ) )
+                $error_message = $error_array[0];
+            ?>
             <div class="notice notice-error is-dismissible">
                 <p><?php _e( 'An error occurred while compiling.', 'pilopress' ); ?></p>
+
+                <?php if($error_message): ?>
+                    <pre style="margin-bottom:10px;"><?php echo $error_message; ?></pre>
+                <?php endif; ?>
+
             </div>
+            <?php delete_transient("pip_tailwind_api_compile_error"); ?>
         <?php endif; ?>
 
         <div id="poststuff">
