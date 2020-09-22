@@ -1,10 +1,10 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly
 
-if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
+if ( ! class_exists( 'PIP_Styles_Import_Tool' ) ) {
 
     /**
      * Class PIP_Styles_Import_Tool
@@ -15,6 +15,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
          * Initialize
          */
         public function initialize() {
+
             $this->name  = 'pilopress_tool_styles_import';
             $this->title = __( 'Import styles settings', 'pilopress' );
         }
@@ -23,19 +24,18 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
          * Generate HTML
          */
         public function html() {
+
             ?>
             <div class="acf-fields">
                 <?php
 
-                acf_render_field_wrap(
-                    array(
+                acf_render_field_wrap( array(
                         'label'    => __( 'Select File', 'acf' ),
                         'type'     => 'file',
                         'name'     => 'acf_import_styles_configuration',
                         'value'    => false,
                         'uploader' => 'basic',
-                    )
-                );
+                    ) );
 
                 ?>
             </div>
@@ -51,6 +51,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
          * @return ACF_Admin_Notice
          */
         public function submit() {
+
             // Check file size
             if ( empty( $_FILES['acf_import_styles_configuration']['size'] ) ) {
                 return acf_add_admin_notice( __( 'No file selected', 'pilopress' ), 'warning' );
@@ -74,7 +75,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             $json = json_decode( $json, true );
 
             // Check if empty
-            if ( !$json || !is_array( $json ) ) {
+            if ( ! $json || ! is_array( $json ) ) {
                 return acf_add_admin_notice( __( 'Import file empty', 'acf' ), 'warning' );
             }
 
@@ -92,6 +93,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             // translators: Number of style settings imported
             acf_add_admin_notice( sprintf( _n( 'Imported %s style settings.', 'Imported %s styles settings.', $total, 'pilopress' ), $total ), 'success' );
         }
+
     }
 
     // Initialize

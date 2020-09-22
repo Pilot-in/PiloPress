@@ -4,10 +4,11 @@
  *
  * @var string $page_title
  * @var string $post_id
- * @var array  $pages
+ * @var array $pages
  * @var string $current_page
  * @var string $admin_url
  */
+
 ?>
 
 <div class="wrap acf-settings-wrap">
@@ -18,12 +19,10 @@
 
         <?php
         // render post data
-        acf_form_data(
-            array(
+        acf_form_data( array(
                 'screen'  => 'options',
                 'post_id' => $post_id,
-            )
-        );
+            ) );
 
         // Get modules
         $modules = pip_get_modules();
@@ -47,7 +46,7 @@
         endif;
 
         // If Tailwind module is deactivate
-        if ( !acf_maybe_get( $modules, 'tailwind' ) ) : ?>
+        if ( ! acf_maybe_get( $modules, 'tailwind' ) ) : ?>
             <div class="notice notice-info is-dismissible">
                 <p>
                     <b><?php _e( 'TailwindCSS module is disabled.', 'pilopress' ); ?></b>
@@ -59,7 +58,7 @@
         endif;
 
         // If TinyMCE module is deactivate
-        if ( !acf_maybe_get( $modules, 'tinymce' ) ) : ?>
+        if ( ! acf_maybe_get( $modules, 'tinymce' ) ) : ?>
             <div class="notice notice-info is-dismissible">
                 <p>
                     <b><?php _e( 'TinyMCE module is disabled.', 'pilopress' ); ?></b>
@@ -77,25 +76,27 @@
         <?php if ( acf_maybe_get_GET( 'error_compile' ) && ( $error = get_transient( "pip_tailwind_api_compile_error" ) ) ) : ?>
 
             <?php
-            $error_array = json_decode($error, false);
+            $error_array   = json_decode( $error, false );
             $error_message = false;
 
-            if( isset( $error_array[0] ) )
+            if ( isset( $error_array[0] ) ) {
                 $error_message = $error_array[0];
+            }
             ?>
             <div class="notice notice-error is-dismissible">
                 <p><?php _e( 'An error occurred while compiling.', 'pilopress' ); ?></p>
 
-                <?php if($error_message): ?>
+                <?php if ( $error_message ): ?>
                     <pre style="margin-bottom:10px;"><?php echo $error_message; ?></pre>
                 <?php endif; ?>
 
             </div>
-            <?php delete_transient("pip_tailwind_api_compile_error"); ?>
+            <?php delete_transient( "pip_tailwind_api_compile_error" ); ?>
         <?php endif; ?>
 
         <div id="poststuff">
-            <div id="post-body" class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
+            <div id="post-body"
+                 class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
 
                 <div id="postbox-container-1" class="postbox-container">
                     <?php do_meta_boxes( 'acf_options_page', 'side', null ); ?>
@@ -108,7 +109,7 @@
                             <?php
 
                             // If TailwindCSS module is not enable, skip
-                            if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
+                            if ( ! acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
                                 continue;
                             }
                             ?>

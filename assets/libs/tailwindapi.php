@@ -1,6 +1,7 @@
 <?php
 
-if ( !class_exists( 'TailwindAPI' ) ) {
+if ( ! class_exists( 'TailwindAPI' ) ) {
+
     class TailwindAPI {
 
         /**
@@ -11,6 +12,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
          * @return bool|string
          */
         public function build( $args = array() ) {
+
             $args = $this->parse_args( $args, array(
                 'css'          => '',
                 'config'       => '',
@@ -20,12 +22,12 @@ if ( !class_exists( 'TailwindAPI' ) ) {
             ) );
 
             // CSS
-            if ( !empty( $args['css'] ) ) {
+            if ( ! empty( $args['css'] ) ) {
                 $args['css'] = $this->file_or_content( $args['css'], 'css' );
             }
 
             // Config
-            if ( !empty( $args['config'] ) ) {
+            if ( ! empty( $args['config'] ) ) {
                 $args['config'] = $this->file_or_content( $args['config'], 'js' );
             }
 
@@ -50,13 +52,13 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
             // Error
             if ( $return['response']['code'] !== 200 ) {
-                set_transient("pip_tailwind_api_compile_error", $return['body'], 45);
+                set_transient( "pip_tailwind_api_compile_error", $return['body'], 45 );
                 wp_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
                 exit();
             }
 
             // Output
-            if ( !empty( $args['output'] ) && (int) $return['response']['code'] === 200 ) {
+            if ( ! empty( $args['output'] ) && (int) $return['response']['code'] === 200 ) {
                 file_put_contents( $args['output'], $return['body'] );
 
                 return true;
@@ -71,7 +73,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
          *
          * @return false|string
          */
-        private function file_or_content( $content, $extension = 'css' ) {
+        public function file_or_content( $content, $extension = 'css' ) {
 
             $return           = '';
             $extension_length = strlen( $extension ) + 1;
@@ -100,7 +102,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
          *
          * @return array
          */
-        private function parse_args( $args, $defaults = '' ) {
+        public function parse_args( $args, $defaults = '' ) {
 
             if ( is_array( $args ) ) {
                 $parsed_args =& $args;
@@ -116,4 +118,5 @@ if ( !class_exists( 'TailwindAPI' ) ) {
         }
 
     }
+
 }

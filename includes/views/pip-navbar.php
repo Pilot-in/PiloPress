@@ -2,6 +2,11 @@
 /**
  * @var $menu_items
  */
+
+$pip_layouts_categories  = acf_get_instance( 'PIP_Layouts_Categories' );
+$pip_layouts             = acf_get_instance( 'PIP_Layouts' );
+$pip_components          = acf_get_instance( 'PIP_Components' );
+$pip_admin_options_pages = acf_get_instance( 'PIP_Admin_Options_Page' );
 ?>
 <div class="pip-admin-navigation">
     <h2><img class="pip-tab-icon"
@@ -17,14 +22,10 @@
         $page_id = acf_maybe_get_GET( 'page' );
 
         // Layouts category slug
-        $layouts_cat = PIP_Layouts_Categories::$taxonomy_name;
+        $layouts_cat = $pip_layouts_categories->taxonomy_name;
 
         // Add "is-active" class
-        if ( acf_get_current_url() === $menu_item['link']
-             || ( strstr( $menu_item['link'], 'layouts=1' ) && PIP_Layouts::is_layout( $post_id ) )
-             || ( strstr( $menu_item['link'], 'taxonomy=' . $layouts_cat ) && acf_maybe_get_GET( 'taxonomy' ) === $layouts_cat )
-             || ( strstr( $menu_item['link'], 'post_type=' . PIP_Components::$post_type ) && PIP_Components::is_component( $post_id ) )
-             || ( strstr( $menu_item['link'], 'page=pip-styles-' ) && PIP_Admin_Options_Page::is_style_page( $page_id ) ) ) {
+        if ( acf_get_current_url() === $menu_item['link'] || ( strstr( $menu_item['link'], 'layouts=1' ) && $pip_layouts->is_layout( $post_id ) ) || ( strstr( $menu_item['link'], 'taxonomy=' . $layouts_cat ) && acf_maybe_get_GET( 'taxonomy' ) === $layouts_cat ) || ( strstr( $menu_item['link'], 'post_type=' . $pip_components->post_type ) && $pip_components->is_component( $post_id ) ) || ( strstr( $menu_item['link'], 'page=pip-styles-' ) && $pip_admin_options_pages->is_style_page( $page_id ) ) ) {
             $item_class .= ' is-active';
         }
 

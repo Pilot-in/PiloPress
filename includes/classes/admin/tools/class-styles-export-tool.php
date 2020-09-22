@@ -1,10 +1,10 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly
 
-if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
+if ( ! class_exists( 'PIP_Styles_Export_Tool' ) ) {
 
     /**
      * Class PIP_Styles_Export_Tool
@@ -29,6 +29,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          *  Initialize
          */
         public function initialize() {
+
             $this->name  = 'pilopress_tool_styles_export';
             $this->title = __( 'Export styles settings', 'pilopress' );
         }
@@ -37,8 +38,9 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * Generate HTML
          */
         public function html() {
+
             // Export JSON
-            if ( !$this->is_active() ) {
+            if ( ! $this->is_active() ) {
                 $this->html_archive();
             }
 
@@ -48,10 +50,13 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * HTML for archive page
          */
         public function html_archive() {
+
+            $pip_admin_options_page = acf_get_instance( 'PIP_Admin_Options_Page' );
+
             // Get choices
             $choices = array();
-            if ( PIP_Admin_Options_Page::$pages ) {
-                foreach ( PIP_Admin_Options_Page::$pages as $key => $style_option ) {
+            if ( $pip_admin_options_page->pages ) {
+                foreach ( $pip_admin_options_page->pages as $key => $style_option ) {
                     // Store choice
                     $choices[ $style_option['post_id'] ] = esc_html( $style_option['page_title'] );
                 }
@@ -68,11 +73,10 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
             <div class="acf-fields">
                 <?php
 
-                if ( !empty( $choices ) ) {
+                if ( ! empty( $choices ) ) {
 
                     // Render
-                    acf_render_field_wrap(
-                        array(
+                    acf_render_field_wrap( array(
                             'label'   => __( 'Select styles settings', 'pilopress' ),
                             'type'    => 'checkbox',
                             'name'    => 'keys',
@@ -80,8 +84,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
                             'value'   => $selected,
                             'toggle'  => true,
                             'choices' => $choices,
-                        )
-                    );
+                        ) );
 
                 } else {
 
@@ -105,6 +108,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * Submit action
          */
         public function submit() {
+
             // Get action
             $action = acf_maybe_get_POST( 'action' );
 
@@ -121,6 +125,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * @return ACF_Admin_Notice
          */
         public function submit_download() {
+
             // Get selected keys
             $keys = $this->get_selected_keys();
 
@@ -133,7 +138,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
             $data = $this->get_data_for_export( $keys );
 
             // If no data, show error message
-            if ( !$data ) {
+            if ( ! $data ) {
                 return acf_add_admin_notice( __( 'An error appended. Please try again later.', 'pilopress' ), 'error' );
             }
 
@@ -156,6 +161,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * @return array
          */
         public function get_data_for_export( $post_ids ) {
+
             $data = array();
 
             // Browse selected options
@@ -171,7 +177,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
                 acf_disable_filter( 'local' );
 
                 // If no subfields, continue
-                if ( !$sub_fields ) {
+                if ( ! $sub_fields ) {
                     continue;
                 }
 
@@ -198,6 +204,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * @return array|bool
          */
         public function get_selected_keys() {
+
             // Check $_POST
             $keys = acf_maybe_get_POST( 'keys' );
             if ( $keys ) {
@@ -219,8 +226,9 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          * Load action
          */
         public function load() {
+
             // If not active, return
-            if ( !$this->is_active() ) {
+            if ( ! $this->is_active() ) {
                 return;
             }
 
@@ -228,7 +236,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
             $selected = $this->get_selected_keys();
 
             // If no keys, return
-            if ( !$selected ) {
+            if ( ! $selected ) {
                 return;
             }
 

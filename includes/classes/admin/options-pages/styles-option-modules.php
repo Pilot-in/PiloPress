@@ -1,8 +1,7 @@
 <?php
 
 // Register "Module" field group
-acf_add_local_field_group(
-    array(
+acf_add_local_field_group( array(
         'key'                   => 'group_styles_modules',
         'title'                 => __( 'Modules', 'pilopress' ),
         'fields'                => array(
@@ -96,5 +95,4 @@ acf_add_local_field_group(
         'acfe_categories'       => array(
             'options' => 'Options',
         ),
-    )
-);
+    ) );

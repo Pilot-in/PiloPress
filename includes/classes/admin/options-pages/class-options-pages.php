@@ -1,16 +1,18 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( !class_exists( 'PIP_Options_Pages' ) ) {
+if ( ! class_exists( 'PIP_Options_Pages' ) ) {
 
     /**
      * Class PIP_Options_Pages
      */
     class PIP_Options_Pages {
+
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'custom_image_sizes' ) );
             add_filter( 'image_size_names_choose', array( $this, 'custom_image_sizes_names' ) );
@@ -18,7 +20,10 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
             // ACF hooks
             add_filter( 'acf/load_value/name=pip_typography', array( $this, 'pre_populate_typography' ), 10, 3 );
             add_filter( 'acf/load_value/name=pip_screens', array( $this, 'pre_populate_screens' ), 10, 3 );
-            add_filter( 'acf/load_value/name=pip_wp_image_sizes', array( $this, 'pre_populate_wp_image_sizes' ), 10, 3 );
+            add_filter( 'acf/load_value/name=pip_wp_image_sizes', array(
+                $this,
+                'pre_populate_wp_image_sizes'
+            ), 10, 3 );
             add_filter( 'acf/prepare_field/name=pip_wp_image_sizes', array( $this, 'configure_wp_image_sizes' ) );
             add_action( 'acf/save_post', array( $this, 'save_wp_image_sizes' ), 20, 1 );
         }
@@ -33,6 +38,7 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
          * @return mixed
          */
         public function pre_populate_typography( $value, $post_id, $field ) {
+
             // If value has been modified, return
             if ( $value ) {
                 return $value;
@@ -62,6 +68,7 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
          * @return mixed
          */
         public function pre_populate_screens( $value, $post_id, $field ) {
+
             // If value has been modified, return
             if ( $value ) {
                 return $value;
@@ -98,12 +105,15 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
          * @return mixed
          */
         public function pre_populate_wp_image_sizes( $value, $post_id, $field ) {
+
+            $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
+
             $image_sizes = array();
             $fields      = array();
             $new_values  = array();
 
             // Get only WP image sizes
-            $all_image_sizes        = PIP_TinyMCE::get_all_image_sizes();
+            $all_image_sizes        = $pip_tinymce->get_all_image_sizes();
             $additional_image_sizes = wp_get_additional_image_sizes();
             if ( $additional_image_sizes ) {
                 foreach ( $additional_image_sizes as $key => $additional_image_size ) {
@@ -113,7 +123,7 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
 
             // Format image sizes array
             $i = 0;
-            if ( !empty( $all_image_sizes ) ) {
+            if ( ! empty( $all_image_sizes ) ) {
                 foreach ( $all_image_sizes as $key => $image_size ) {
                     $image_sizes[ $i ]['name']   = $key;
                     $image_sizes[ $i ]['width']  = $image_size['width'];
@@ -153,6 +163,7 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
          * @return mixed
          */
         public function configure_wp_image_sizes( $field ) {
+
             $value = acf_maybe_get( $field, 'value' );
             // Set min and max for wp_image_sizes
             if ( $value ) {
@@ -167,9 +178,10 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
          * Register custom image sizes
          */
         public function custom_image_sizes() {
+
             // Get custom sizes
             $custom_sizes = get_field( 'pip_image_sizes', 'pip_styles_image_sizes' );
-            if ( !is_array( $custom_sizes ) ) {
+            if ( ! is_array( $custom_sizes ) ) {
                 return;
             }
 
@@ -187,9 +199,10 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
          * @return mixed
          */
         public function custom_image_sizes_names( $size_names ) {
+
             // Get custom sizes
             $custom_sizes = get_field( 'pip_image_sizes', 'pip_styles_image_sizes' );
-            if ( !is_array( $custom_sizes ) ) {
+            if ( ! is_array( $custom_sizes ) ) {
                 return $size_names;
             }
 
@@ -207,14 +220,15 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
          * @param $post_id
          */
         public function save_wp_image_sizes( $post_id ) {
+
             // If not on Styles admin page, return
-            if ( !pip_str_starts( $post_id, 'pip_styles_' ) ) {
+            if ( ! pip_str_starts( $post_id, 'pip_styles_' ) ) {
                 return;
             }
 
             // Get posted values
             $posted_values = acf_maybe_get_POST( 'acf' );
-            if ( !$posted_values ) {
+            if ( ! $posted_values ) {
                 return;
             }
 
@@ -228,7 +242,7 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
                 }
 
                 // If no value, return
-                if ( !$posted_value ) {
+                if ( ! $posted_value ) {
                     continue;
                 }
 
@@ -252,8 +266,8 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
 
     }
 
-    // Instantiate
-    new PIP_Options_Pages();
+    acf_new_instance( 'PIP_Options_Pages' );
+
 }
 
 /**
@@ -262,5 +276,6 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
  * @return mixed
  */
 function pip_get_modules() {
+
     return get_field( 'pip_modules', 'pip_styles_modules' );
 }

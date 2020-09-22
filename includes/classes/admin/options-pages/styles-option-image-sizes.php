@@ -1,8 +1,7 @@
 <?php
 
 // Register "Image sizes" field group
-acf_add_local_field_group(
-    array(
+acf_add_local_field_group( array(
         'key'                   => 'group_styles_image_sizes',
         'title'                 => __( 'Images', 'pilopress' ),
         'fields'                => array(
@@ -247,5 +246,4 @@ acf_add_local_field_group(
         'acfe_categories'       => array(
             'options' => 'Options',
         ),
-    )
-);
+    ) );

@@ -1,6 +1,6 @@
 <?php
 
-if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
+if ( ! class_exists( 'PIP_Flexible_Mirror' ) ) {
 
     /**
      * Class PIP_Flexible_Mirror
@@ -12,19 +12,20 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          *
          * @var object
          */
-        private static $flexible_mirror_group;
+        var $flexible_mirror_group;
 
         /**
          * Flexible mirror group key
          *
          * @var string
          */
-        private static $flexible_mirror_group_key = 'group_pip_flexible_mirror';
+        var $flexible_mirror_group_key = 'group_pip_flexible_mirror';
 
         /**
          * PIP_Flexible_Mirror constructor.
          */
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'modify_acf_post_type' ) );
             add_action( 'init', array( $this, 'generate_flexible_mirror' ), 11 );
@@ -57,7 +58,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
         public function modify_acf_post_type() {
 
             // If AJAX or not admin, return
-            if ( wp_doing_ajax() || !is_admin() ) {
+            if ( wp_doing_ajax() || ! is_admin() ) {
                 return;
             }
 
@@ -65,7 +66,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             $post = get_post( acf_maybe_get_GET( 'post' ) );
 
             // Mirror flexible
-            if ( $post && $post->post_name === self::get_flexible_mirror_group_key() ) {
+            if ( $post && $post->post_name === $this->get_flexible_mirror_group_key() ) {
                 $acf_field_group = get_post_type_object( 'acf-field-group' );
 
                 // Change title on flexible edition page
@@ -80,14 +81,15 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * Generate flexible mirror
          */
         public function generate_flexible_mirror() {
+
             // If mirror flexible already exists, return
-            if ( self::get_flexible_mirror_group() ) {
+            if ( $this->get_flexible_mirror_group() ) {
                 return;
             }
 
             // Mirror flexible field group
             $flexible_mirror = array(
-                'key'                   => self::get_flexible_mirror_group_key(),
+                'key'                   => $this->get_flexible_mirror_group_key(),
                 'title'                 => __( 'Builder', 'pilopress' ),
                 'fields'                => array(),
                 'location'              => array(
@@ -135,8 +137,9 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * @return mixed
          */
         public function row_actions( $actions, $post ) {
+
             // If not mirror flexible, return
-            if ( $post->post_name !== self::get_flexible_mirror_group_key() ) {
+            if ( $post->post_name !== $this->get_flexible_mirror_group_key() ) {
                 return $actions;
             }
 
@@ -155,8 +158,9 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * @return bool
          */
         public function delete_post( $trash, $post ) {
+
             // If not mirror flexible group field, return
-            $flexible_mirror_group_key = self::get_flexible_mirror_group_key();
+            $flexible_mirror_group_key = $this->get_flexible_mirror_group_key();
             if ( $post->post_name !== $flexible_mirror_group_key && $post->post_name !== $flexible_mirror_group_key . '__trashed' ) {
                 return $trash;
             }
@@ -169,10 +173,11 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * Customize meta boxes on mirror flexible content page
          */
         public function meta_boxes() {
+
             global $field_group;
 
             // If not mirror flexible group field, return
-            if ( $field_group['key'] !== self::get_flexible_mirror_group_key() ) {
+            if ( $field_group['key'] !== $this->get_flexible_mirror_group_key() ) {
                 return;
             }
 
@@ -190,50 +195,39 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          * Add hidden data on flexible mirror admin
          */
         public function add_flexible_mirror_hidden_data() {
+
             global $field_group;
 
             // If not mirror flexible group field, return
-            if ( $field_group['key'] !== self::get_flexible_mirror_group_key() ) {
+            if ( $field_group['key'] !== $this->get_flexible_mirror_group_key() ) {
                 return;
             }
 
             // Add hidden fields
-            acf_hidden_input(
-                array(
+            acf_hidden_input( array(
                     'name'  => 'acf_field_group[key]',
-                    'value' => self::get_flexible_mirror_group_key(),
-                )
-            );
-            acf_hidden_input(
-                array(
+                    'value' => $this->get_flexible_mirror_group_key(),
+                ) );
+            acf_hidden_input( array(
                     'name'  => 'acf_field_group[style]',
                     'value' => 'seamless',
-                )
-            );
-            acf_hidden_input(
-                array(
+                ) );
+            acf_hidden_input( array(
                     'name'  => 'acf_field_group[active]',
                     'value' => 0,
-                )
-            );
-            acf_hidden_input(
-                array(
+                ) );
+            acf_hidden_input( array(
                     'name'  => 'acf_field_group[position]',
                     'value' => 'normal',
-                )
-            );
-            acf_hidden_input(
-                array(
+                ) );
+            acf_hidden_input( array(
                     'name'  => 'acf_field_group[label_placement]',
                     'value' => 'left',
-                )
-            );
-            acf_hidden_input(
-                array(
+                ) );
+            acf_hidden_input( array(
                     'name'  => 'acf_field_group[menu_order]',
                     'value' => 0,
-                )
-            );
+                ) );
         }
 
         /**
@@ -243,19 +237,17 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          *
          * @return string
          */
-        private static function get_terms_html( $field_group_id ) {
+        public function get_terms_html( $field_group_id ) {
+
             $terms_html = '';
             $terms      = get_the_terms( $field_group_id, 'acf-layouts-category' );
             if ( $terms ) {
                 foreach ( $terms as $term ) {
-                    $url = add_query_arg(
-                        array(
-                            'layouts'              => 1,
-                            'acf-layouts-category' => $term->slug,
-                            'post_type'            => 'acf-field-group',
-                        ),
-                        admin_url( 'edit.php' )
-                    );
+                    $url = add_query_arg( array(
+                        'layouts'              => 1,
+                        'acf-layouts-category' => $term->slug,
+                        'post_type'            => 'acf-field-group',
+                    ), admin_url( 'edit.php' ) );
 
                     $terms_html .= '<a href="' . $url . '">' . $term->name . '</a>';
                 }
@@ -269,8 +261,9 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          *
          * @return string
          */
-        public static function get_flexible_mirror_group_key() {
-            return self::$flexible_mirror_group_key;
+        public function get_flexible_mirror_group_key() {
+
+            return $this->flexible_mirror_group_key;
         }
 
         /**
@@ -278,8 +271,9 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          *
          * @return mixed
          */
-        public static function get_flexible_mirror_group() {
-            return self::$flexible_mirror_group;
+        public function get_flexible_mirror_group() {
+
+            return $this->flexible_mirror_group;
         }
 
         /**
@@ -287,12 +281,13 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          *
          * @param mixed $flexible_mirror_group
          */
-        public static function set_flexible_mirror_group( $flexible_mirror_group ) {
-            self::$flexible_mirror_group = $flexible_mirror_group;
+        public function set_flexible_mirror_group( $flexible_mirror_group ) {
+
+            $this->flexible_mirror_group = $flexible_mirror_group;
         }
 
     }
 
     // Instantiate class
-    new PIP_Flexible_Mirror();
+    acf_new_instance( 'PIP_Flexible_Mirror' );
 }

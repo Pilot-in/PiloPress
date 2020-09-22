@@ -9,6 +9,7 @@
  * @return bool
  */
 function pip_str_starts( $haystack, $needle ) {
+
     $length = strlen( $needle );
 
     return ( substr( $haystack, 0, $length ) === $needle );
@@ -23,6 +24,7 @@ function pip_str_starts( $haystack, $needle ) {
  * @return bool
  */
 function pip_str_ends( $haystack, $needle ) {
+
     $length = strlen( $needle );
     if ( $length === 0 ) {
         return true;
@@ -40,6 +42,7 @@ function pip_str_ends( $haystack, $needle ) {
  * @example return term_6 for term ID
  */
 function pip_get_formatted_post_id( $post_id = false ) {
+
     // If ID is specified, return
     if ( $post_id ) {
         return $post_id;
@@ -79,7 +82,7 @@ function pip_get_formatted_post_id( $post_id = false ) {
  * (that also handles object type)
  *
  * @param      $data
- * @param int  $key
+ * @param int $key
  * @param null $default
  *
  * @return mixed|null
@@ -109,6 +112,7 @@ function pip_maybe_get( $data, $key = 0, $default = null ) {
  * @return array
  */
 function pip_array_count_values_assoc( $array, $index ) {
+
     $result = array();
 
     foreach ( $array as $key => $value ) {

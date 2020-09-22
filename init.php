@@ -1,6 +1,6 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
@@ -10,6 +10,7 @@ if ( !defined( 'ABSPATH' ) ) {
  * @return mixed
  */
 function pip_path() {
+
     return PIP_PATH;
 }
 
@@ -19,6 +20,7 @@ function pip_path() {
  * @param string $filename
  */
 function pip_include( $filename = '' ) {
+
     $file_path = pip_path() . ltrim( $filename, '/' );
     if ( file_exists( $file_path ) ) {
         include_once $file_path;
@@ -33,7 +35,8 @@ function pip_include( $filename = '' ) {
  * @return bool
  */
 function pip_load_textdomain( $domain = 'pilopress' ) {
-    if ( !function_exists( 'acf_get_locale' ) ) {
+
+    if ( ! function_exists( 'acf_get_locale' ) ) {
         return false;
     }
 
@@ -53,6 +56,7 @@ function pip_load_textdomain( $domain = 'pilopress' ) {
  * Enqueue Pilo'Press style
  */
 function pip_enqueue() {
+
     // Theme style
     $style_path = PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css';
     $style_url  = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_FILENAME . '.min.css';
@@ -69,7 +73,7 @@ function pip_enqueue() {
     }
 
     if ( $css ) {
-        wp_enqueue_style( 'style-pilopress', $css, false, PiloPress::$version );
+        wp_enqueue_style( 'style-pilopress', $css, false, pilopress()->version );
     }
 }
 
@@ -77,6 +81,7 @@ function pip_enqueue() {
  * Enqueue Pilo'Press admin style
  */
 function pip_enqueue_admin() {
+
     // Theme style
     $style_path = PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
     $style_url  = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
@@ -93,7 +98,7 @@ function pip_enqueue_admin() {
     }
 
     if ( $css ) {
-        wp_enqueue_style( 'style-pilopress-admin', $css, false, PiloPress::$version );
+        wp_enqueue_style( 'style-pilopress-admin', $css, false, pilopress()->version );
     }
 }
 

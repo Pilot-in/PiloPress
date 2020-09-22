@@ -1,10 +1,10 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
+if ( ! class_exists( 'PIP_Component_Field_Type' ) ) {
 
     /**
      * Class PIP_Component_Field_Type
@@ -16,9 +16,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          *
          * @var mixed
          */
-        private $initial_value;
+        var $initial_value;
 
         public function __construct() {
+
             $this->name     = 'pip_component';
             $this->label    = __( 'Component', 'pilopress' );
             $this->category = 'relational';
@@ -47,7 +48,8 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          *
          * @return array
          */
-        public static function get_choices( $field = false ) {
+        public function get_choices( $field = false ) {
+
             $choices = array();
 
             // If field, get allowed options
@@ -56,9 +58,11 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                 $post_in = $field['pip_components'];
             }
 
+            $pip_components = acf_get_instance( 'PIP_Components' );
+
             // Get all components
             $args  = array(
-                'post_type'      => PIP_Components::$post_type,
+                'post_type'      => $pip_components->post_type,
                 'posts_per_page' => - 1,
                 'post__in'       => $post_in,
             );
@@ -85,6 +89,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          * @return array|int|string
          */
         public function load_value( $value, $post_id, $field ) {
+
             // Store value for format value
             if ( is_numeric( $value ) ) {
                 $this->initial_value = $value;
@@ -92,7 +97,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
 
             // Get component sub fields
             $sub_fields = get_field_objects( $this->initial_value, false );
-            if ( !$sub_fields ) {
+            if ( ! $sub_fields ) {
                 return $value;
             }
 
@@ -113,7 +118,8 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          * @return mixed
          */
         public function prepare_field( $field ) {
-            $field['choices'] = self::get_choices( $field );
+
+            $field['choices'] = $this->get_choices( $field );
             $field['type']    = $field['field_type'];
             $field['value']   = $this->initial_value ? $this->initial_value : '';
 
@@ -130,6 +136,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          * @return array|bool
          */
         public function format_value( $value, $post_id, $field ) {
+
             return get_fields( $this->initial_value, true );
         }
 
@@ -139,30 +146,26 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          * @param $field
          */
         public function render_field_settings( $field ) {
+
             if ( isset( $field['default_value'] ) ) {
                 $field['default_value'] = acf_encode_choices( $field['default_value'], false );
             }
 
             // Allow components
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Allow components', 'pilopress' ),
                     'instructions' => '',
                     'type'         => 'select',
                     'name'         => 'pip_components',
-                    'choices'      => self::get_choices(),
+                    'choices'      => $this->get_choices(),
                     'multiple'     => 1,
                     'ui'           => 1,
                     'allow_null'   => 1,
                     'placeholder'  => __( 'All components', 'pilopress' ),
-                )
-            );
+                ) );
 
             // Field type
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Appearance', 'acf' ),
                     'instructions' => __( 'Select the appearance of this field', 'acf' ),
                     'type'         => 'select',
@@ -173,24 +176,18 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                         'radio'    => __( 'Radio Buttons', 'acf' ),
                         'select'   => _x( 'Select', 'noun', 'acf' ),
                     ),
-                )
-            );
+                ) );
 
             // Default value
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Default Value', 'acf' ),
                     'instructions' => __( 'Enter each default value on a new line', 'acf' ),
                     'name'         => 'default_value',
                     'type'         => 'textarea',
-                )
-            );
+                ) );
 
             // Select + Radio: allow null
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Allow Null?', 'acf' ),
                     'instructions' => '',
                     'name'         => 'allow_null',
@@ -212,13 +209,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Placeholder
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'             => __( 'Placeholder Text', 'acf' ),
                     'instructions'      => __( 'Appears within the input', 'acf' ),
                     'type'              => 'text',
@@ -252,13 +246,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
 
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Select: multiple
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Select multiple values?', 'acf' ),
                     'instructions' => '',
                     'name'         => 'multiple',
@@ -273,13 +264,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Select: UI
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Stylised UI', 'acf' ),
                     'instructions' => '',
                     'name'         => 'ui',
@@ -294,13 +282,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Radio: other choice
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Other', 'acf' ),
                     'instructions' => '',
                     'name'         => 'other_choice',
@@ -316,13 +301,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Radio: save other choice
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Save Other', 'acf' ),
                     'instructions' => '',
                     'name'         => 'save_other_choice',
@@ -343,13 +325,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Checkbox: layout
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Layout', 'acf' ),
                     'instructions' => '',
                     'type'         => 'radio',
@@ -375,13 +354,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Checkbox: toggle
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Toggle', 'acf' ),
                     'instructions' => __( 'Prepend an extra checkbox to toggle all choices', 'acf' ),
                     'name'         => 'toggle',
@@ -396,13 +372,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Checkbox: other choice
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Allow Custom', 'acf' ),
                     'instructions' => '',
                     'name'         => 'allow_custom',
@@ -418,13 +391,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Checkbox: save other choice
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Save Custom', 'acf' ),
                     'instructions' => '',
                     'name'         => 'save_custom',
@@ -445,8 +415,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
         }
 
     }

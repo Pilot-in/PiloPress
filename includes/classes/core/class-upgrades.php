@@ -1,10 +1,10 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( !class_exists( 'PIP_Upgrades' ) ) {
+if ( ! class_exists( 'PIP_Upgrades' ) ) {
 
     /**
      * Class PIP_Upgrades
@@ -15,6 +15,7 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
          * PIP_Upgrades constructor.
          */
         public function __construct() {
+
             $option   = get_option( 'pilopress', array() );
             $upgrades = acf_maybe_get( $option, 'upgrades' );
 
@@ -33,11 +34,12 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
          * Styles admin refactor
          */
         public function upgrade_0_4_0() {
+
             $option   = get_option( 'pilopress', array() );
             $upgrades = acf_maybe_get( $option, 'upgrades' );
 
             // If not in upgrades to do, return
-            if ( !array_key_exists( '0_4_0', $upgrades ) ) {
+            if ( ! array_key_exists( '0_4_0', $upgrades ) ) {
                 return;
             }
 
@@ -47,24 +49,16 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             acf_log( "[Pilo'Press] Upgrade 0.4.0" );
 
             // Enable modules
-            update_field(
-                'pip_modules',
-                array(
+            update_field( 'pip_modules', array(
                     'tailwind' => true,
                     'tinymce'  => true,
-                ),
-                'pip_styles_modules'
-            );
+                ), 'pip_styles_modules' );
 
             // Enable Tailwind config override
-            update_field(
-                'pip_tailwind_config',
-                array(
+            update_field( 'pip_tailwind_config', array(
                     'override_config' => true,
                     'tailwind_config' => get_field( 'pip_tailwind_config_tailwind_config', 'pip_styles_tailwind' ),
-                ),
-                'pip_styles_tailwind_module'
-            );
+                ), 'pip_styles_tailwind_module' );
 
             // Get old CSS field
             $tailwind_css = get_field( 'pip_tailwind_style_tailwind_style', 'pip_styles_tailwind' );
@@ -85,34 +79,22 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
                 $new_css['utilities']  = acf_maybe_get( $split_css, 1 );
 
                 // Update base fields
-                update_field(
-                    'pip_tailwind_style_base',
-                    array(
+                update_field( 'pip_tailwind_style_base', array(
                         'add_base_import'           => true,
                         'tailwind_style_after_base' => $new_css['base'],
-                    ),
-                    'pip_styles_tailwind_module'
-                );
+                    ), 'pip_styles_tailwind_module' );
 
                 // Update components fields
-                update_field(
-                    'pip_tailwind_style_components',
-                    array(
+                update_field( 'pip_tailwind_style_components', array(
                         'add_components_import'           => true,
                         'tailwind_style_after_components' => $new_css['components'],
-                    ),
-                    'pip_styles_tailwind_module'
-                );
+                    ), 'pip_styles_tailwind_module' );
 
                 // Update utilities fields
-                update_field(
-                    'pip_tailwind_style_utilities',
-                    array(
+                update_field( 'pip_tailwind_style_utilities', array(
                         'add_utilities_import'           => true,
                         'tailwind_style_after_utilities' => $new_css['utilities'],
-                    ),
-                    'pip_styles_tailwind_module'
-                );
+                    ), 'pip_styles_tailwind_module' );
             }
 
             // Typography
@@ -121,7 +103,7 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
                 foreach ( $typo as $key => $item ) {
                     $old_classes = $item['classes_to_apply'];
 
-                    if ( !strstr( $old_classes, ' ' ) ) {
+                    if ( ! strstr( $old_classes, ' ' ) ) {
                         $item['class_name']       = $item['classes_to_apply'];
                         $item['classes_to_apply'] = '';
                     } else {
@@ -206,7 +188,7 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             // Remove upgrade from to do list
             unset( $upgrades['0_4_0'] );
             $option['upgrades'] = $upgrades;
-            $option['version']  = PiloPress::$version;
+            $option['version']  = pilopress()->version;
             update_option( 'pilopress', $option );
 
             acf_log( "[Pilo'Press] Upgrade 0.4.0: Done" );
@@ -214,6 +196,6 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
 
     }
 
-    // Instantiate
-    new PIP_Upgrades();
+    acf_new_instance( 'PIP_Upgrades' );
+
 }

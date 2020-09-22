@@ -1,8 +1,7 @@
 <?php
 
 // Register "Tailwind CSS" field group
-acf_add_local_field_group(
-    array(
+acf_add_local_field_group( array(
         'key'                   => 'group_styles_tailwind',
         'title'                 => 'Tailwind',
         'fields'                => array(
@@ -122,5 +121,4 @@ acf_add_local_field_group(
         'acfe_categories'       => array(
             'options' => 'Options',
         ),
-    )
-);
+    ) );

@@ -1,8 +1,6 @@
 <?php
 
-
-acf_add_local_field_group(
-    array(
+acf_add_local_field_group( array(
         'key'                   => 'group_styles_tinymce',
         'title'                 => __( 'TinyMCE', 'pilopress' ),
         'fields'                => array(
@@ -350,5 +348,4 @@ acf_add_local_field_group(
         'acfe_form'             => 0,
         'acfe_meta'             => '',
         'acfe_note'             => '',
-    )
-);
+    ) );

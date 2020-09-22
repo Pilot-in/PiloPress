@@ -18,9 +18,11 @@
 $see_more_layouts       = count( $layouts ) > 15;
 $see_more_components    = count( $components ) > 15;
 $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
+$pip_admin              = acf_get_instance( 'PIP_Admin' );
+
 ?>
 
-<?php PIP_Admin::display_pip_navbar(); ?>
+<?php $pip_admin->display_pip_navbar(); ?>
 
 <div class="wrap">
     <div class="wp-heading-inline">
@@ -243,7 +245,6 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                                 </tr>
                                 </tfoot>
                             <?php endif; ?>
-                            </tbody>
                         </table>
                     </div>
 

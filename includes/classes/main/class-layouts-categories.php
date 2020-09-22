@@ -1,6 +1,6 @@
 <?php
 
-if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
+if ( ! class_exists( 'PIP_Layouts_Categories' ) ) {
 
     /**
      * Class PIP_Layouts_Categories
@@ -12,9 +12,10 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          *
          * @var string
          */
-        public static $taxonomy_name = 'acf-layouts-category';
+        var $taxonomy_name = 'acf-layouts-category';
 
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'init' ) );
             add_filter( 'parent_file', array( $this, 'menu_parent_file' ) );
@@ -30,14 +31,18 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * Current screen
          */
         public function current_screen() {
+
             // If not in admin acf field group listing, in layouts, return
-            if ( !is_admin() || !acf_is_screen( 'edit-acf-field-group' ) || acf_maybe_get_GET( 'layouts' ) !== '1' ) {
+            if ( ! is_admin() || ! acf_is_screen( 'edit-acf-field-group' ) || acf_maybe_get_GET( 'layouts' ) !== '1' ) {
                 return;
             }
 
             // Add custom column
             add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'layouts_category_column' ), 11 );
-            add_action( 'manage_acf-field-group_posts_custom_column', array( $this, 'layouts_category_column_html' ), 10, 2 );
+            add_action( 'manage_acf-field-group_posts_custom_column', array(
+                $this,
+                'layouts_category_column_html'
+            ), 10, 2 );
             add_filter( 'views_edit-acf-field-group', array( $this, 'layouts_category_counters' ), 9 );
         }
 
@@ -45,11 +50,9 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * Register taxonomy, remove useless admin columns
          */
         public function init() {
+
             // Register layouts category
-            register_taxonomy(
-                self::$taxonomy_name,
-                array( 'acf-field-group' ),
-                array(
+            register_taxonomy( $this->taxonomy_name, array( 'acf-field-group' ), array(
                     'hierarchical'          => true,
                     'public'                => false,
                     'show_ui'               => true,
@@ -72,8 +75,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
                         'menu_name'         => __( 'Category', 'pilopress' ),
                     ),
                     'update_count_callback' => array( $this, 'update_layouts_category_count' ),
-                )
-            );
+                ) );
 
             // Remove ACF Field groups categories
             if ( acf_maybe_get_GET( 'layouts' ) === '1' ) {
@@ -89,6 +91,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * @param $taxonomy
          */
         public function update_layouts_category_count( $terms, $taxonomy ) {
+
             global $wpdb;
 
             // Get post types
@@ -129,10 +132,11 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * @return string
          */
         public function menu_parent_file( $parent_file ) {
+
             global $current_screen, $pagenow;
 
             // If not acf-layouts-category page, return
-            if ( $current_screen->taxonomy !== self::$taxonomy_name && ( $pagenow !== 'edit-tags.php' || $pagenow !== 'term.php' ) ) {
+            if ( $current_screen->taxonomy !== $this->taxonomy_name && ( $pagenow !== 'edit-tags.php' || $pagenow !== 'term.php' ) ) {
                 return $parent_file;
             }
 
@@ -150,6 +154,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * @return mixed
          */
         public function remove_layout_category( $taxonomies ) {
+
             // If no taxonomies, return
             if ( empty( $taxonomies ) ) {
                 return $taxonomies;
@@ -159,7 +164,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             foreach ( $taxonomies as $k => $taxonomy ) {
 
                 // If not acf-layouts-category, continue
-                if ( $taxonomy !== self::$taxonomy_name ) {
+                if ( $taxonomy !== $this->taxonomy_name ) {
                     continue;
                 }
 
@@ -178,25 +183,24 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * @return array
          */
         public function layouts_category_column( $columns ) {
+
             $new_columns = array();
 
             // Get terms
-            $terms = get_terms(
-                array(
-                    'taxonomy'   => self::$taxonomy_name,
+            $terms = get_terms( array(
+                    'taxonomy'   => $this->taxonomy_name,
                     'hide_empty' => false,
-                )
-            );
+                ) );
 
             // If no terms, return
-            if ( !$terms ) {
+            if ( ! $terms ) {
                 return $columns;
             }
 
             // Add new column
             foreach ( $columns as $key => $value ) {
                 if ( $key === 'title' ) {
-                    $new_columns[ self::$taxonomy_name ] = __( 'Categories' );
+                    $new_columns[ $this->taxonomy_name ] = __( 'Categories' );
                 }
                 $new_columns[ $key ] = $value;
             }
@@ -212,14 +216,15 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * @param $post_id
          */
         public function layouts_category_column_html( $column, $post_id ) {
+
             // If not layouts category, return
-            if ( $column !== self::$taxonomy_name ) {
+            if ( $column !== $this->taxonomy_name ) {
                 return;
             }
 
-            $terms = get_the_terms( $post_id, self::$taxonomy_name );
+            $terms = get_the_terms( $post_id, $this->taxonomy_name );
             // If no terms, return
-            if ( !$terms ) {
+            if ( ! $terms ) {
                 echo '—';
 
                 return;
@@ -228,14 +233,11 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             // Get categories
             $categories = array();
             foreach ( $terms as $term ) {
-                $url          = add_query_arg(
-                    array(
-                        'layouts'            => 1,
-                        self::$taxonomy_name => $term->slug,
-                        'post_type'          => 'acf-field-group',
-                    ),
-                    admin_url( 'edit.php' )
-                );
+                $url          = add_query_arg( array(
+                    'layouts'            => 1,
+                    $this->taxonomy_name => $term->slug,
+                    'post_type'          => 'acf-field-group',
+                ), admin_url( 'edit.php' ) );
                 $categories[] = '<a href="' . $url . '">' . $term->name . '</a>';
             }
 
@@ -251,28 +253,27 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * @return mixed
          */
         public function layouts_category_counters( $views ) {
+
             // Get all layouts categories
-            $terms = get_terms( self::$taxonomy_name, array( 'hide_empty' => false ) );
+            $terms = get_terms( $this->taxonomy_name, array( 'hide_empty' => false ) );
 
             // If no terms, return
-            if ( !$terms ) {
+            if ( ! $terms ) {
                 return $views;
             }
 
             // Browse all terms
             foreach ( $terms as $term ) {
                 // Get all posts with term
-                $groups = get_posts(
-                    array(
+                $groups = get_posts( array(
                         'post_type'        => 'acf-field-group',
                         'posts_per_page'   => - 1,
                         'suppress_filters' => false,
                         'post_status'      => array( 'publish', 'acf-disabled' ),
-                        'taxonomy'         => self::$taxonomy_name,
+                        'taxonomy'         => $this->taxonomy_name,
                         'term'             => $term->slug,
                         'fields'           => 'ids',
-                    )
-                );
+                    ) );
 
                 // Count
                 $count = count( $groups );
@@ -285,19 +286,16 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
 
                 // If on current layout category, add current class
                 $class = '';
-                if ( get_query_var( self::$taxonomy_name ) === $term->slug ) {
+                if ( get_query_var( $this->taxonomy_name ) === $term->slug ) {
                     $class = ' class="current"';
                 }
 
                 // Build URL
-                $url = add_query_arg(
-                    array(
-                        'layouts'            => 1,
-                        self::$taxonomy_name => $term->slug,
-                        'post_type'          => 'acf-field-group',
-                    ),
-                    admin_url( 'edit.php' )
-                );
+                $url = add_query_arg( array(
+                    'layouts'            => 1,
+                    $this->taxonomy_name => $term->slug,
+                    'post_type'          => 'acf-field-group',
+                ), admin_url( 'edit.php' ) );
 
                 // Add counter
                 $views[ 'category-layout-' . $term->slug ] = '<a href="' . $url . '"' . $class . '>' . $term->name . $html . '</a>';
@@ -315,6 +313,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * @return mixed
          */
         public function export_layouts_categories( $field_group ) {
+
             // Get field group
             $_field_group = acf_get_field_group( $field_group['key'] );
 
@@ -324,12 +323,12 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             }
 
             // If no ID, return
-            if ( !acf_maybe_get( $_field_group, 'ID' ) ) {
+            if ( ! acf_maybe_get( $_field_group, 'ID' ) ) {
                 return $field_group;
             }
 
             // Get layout categories
-            $categories = get_the_terms( $_field_group['ID'], self::$taxonomy_name );
+            $categories = get_the_terms( $_field_group['ID'], $this->taxonomy_name );
 
             // If no categories, return
             if ( empty( $categories ) || is_wp_error( $categories ) ) {
@@ -354,9 +353,10 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          * @param $field_group
          */
         public function import_layout_categories( $field_group ) {
+
             // If no categories, return
             $categories = acf_maybe_get( $field_group, 'layout_categories' );
-            if ( !$categories ) {
+            if ( ! $categories ) {
                 return;
             }
 
@@ -365,22 +365,18 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
 
                 // Get term
                 $new_term_id = false;
-                $get_term    = get_term_by( 'slug', $term_slug, self::$taxonomy_name );
+                $get_term    = get_term_by( 'slug', $term_slug, $this->taxonomy_name );
 
                 if ( empty( $get_term ) ) {
                     // Term doesn't exists
 
                     // Add new term
-                    $new_term = wp_insert_term(
-                        $term_name,
-                        self::$taxonomy_name,
-                        array(
+                    $new_term = wp_insert_term( $term_name, $this->taxonomy_name, array(
                             'slug' => $term_slug,
-                        )
-                    );
+                        ) );
 
                     // If well inserted, store ID
-                    if ( !is_wp_error( $new_term ) ) {
+                    if ( ! is_wp_error( $new_term ) ) {
                         $new_term_id = $new_term['term_id'];
                     }
 
@@ -394,14 +390,14 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
 
                 // Assign term
                 if ( $new_term_id ) {
-                    wp_set_post_terms( $field_group['ID'], array( $new_term_id ), self::$taxonomy_name, true );
+                    wp_set_post_terms( $field_group['ID'], array( $new_term_id ), $this->taxonomy_name, true );
                 }
 
             }
 
         }
+
     }
 
-    // Instantiate class
-    new PIP_Layouts_Categories();
+    acf_new_instance( 'PIP_Layouts_Categories' );
 }

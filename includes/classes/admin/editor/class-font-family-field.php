@@ -1,10 +1,10 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
+if ( ! class_exists( 'PIP_Font_Family_Field' ) ) {
 
     /**
      * Class PIP_Font_Family_Field
@@ -12,6 +12,7 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
     class PIP_Font_Family_Field extends acf_field {
 
         public function __construct() {
+
             $this->name     = 'pip_font_family';
             $this->label    = __( 'Font family', 'pilopress' );
             $this->category = __( "Pilo'Press", 'pilopress' );
@@ -32,9 +33,12 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          *
          * @return array
          */
-        private static function get_choices() {
+        public function get_choices() {
+
+            $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
+
             $choices       = array();
-            $custom_styles = PIP_TinyMCE::get_custom_fonts();
+            $custom_styles = $pip_tinymce->get_custom_fonts();
             if ( $custom_styles ) {
                 foreach ( $custom_styles as $key => $custom_style ) {
                     $choices[ $key ] = $custom_style['name'];
@@ -52,7 +56,8 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @return mixed
          */
         public function prepare_field( $field ) {
-            $field['choices'] = self::get_choices();
+
+            $field['choices'] = $this->get_choices();
             $field['type']    = $field['field_type'];
 
             return $field;
@@ -64,6 +69,7 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @param $field
          */
         public function render_field( $field ) {
+
             $value   = acf_get_array( $field['value'] );
             $choices = acf_get_array( $field['choices'] );
 
@@ -95,10 +101,9 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @param $field
          */
         public function render_field_settings( $field ) {
+
             // Field type
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Appearance', 'acf' ),
                     'instructions' => __( 'Select the appearance of this field', 'acf' ),
                     'type'         => 'select',
@@ -109,13 +114,10 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
                         'radio'    => __( 'Radio Buttons', 'acf' ),
                         'select'   => _x( 'Select', 'noun', 'acf' ),
                     ),
-                )
-            );
+                ) );
 
             // Placeholder
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'             => __( 'Placeholder Text', 'acf' ),
                     'instructions'      => __( 'Appears within the input', 'acf' ),
                     'type'              => 'text',
@@ -149,13 +151,10 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
 
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Select: multiple
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Select multiple values?', 'acf' ),
                     'instructions' => '',
                     'name'         => 'multiple',
@@ -170,13 +169,10 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Select: UI
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Stylised UI', 'acf' ),
                     'instructions' => '',
                     'name'         => 'ui',
@@ -191,13 +187,10 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Checkbox: layout
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Layout', 'acf' ),
                     'instructions' => '',
                     'type'         => 'radio',
@@ -223,13 +216,10 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Checkbox: toggle
-            acf_render_field_setting(
-                $field,
-                array(
+            acf_render_field_setting( $field, array(
                     'label'        => __( 'Toggle', 'acf' ),
                     'instructions' => __( 'Prepend an extra checkbox to toggle all choices', 'acf' ),
                     'name'         => 'toggle',
@@ -244,8 +234,7 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
         }
 
         /**
@@ -258,8 +247,11 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @return mixed
          */
         public function format_value( $value, $post_id, $field ) {
+
+            $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
+
             // Get all font families
-            $choices = PIP_TinyMCE::get_custom_fonts();
+            $choices = $pip_tinymce->get_custom_fonts();
 
             $return = null;
             if ( is_array( $value ) ) {
@@ -276,8 +268,9 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
 
             return $return;
         }
+
     }
 
-    // Instantiate
-    new PIP_Font_Family_Field();
+    acf_new_instance( 'PIP_Font_Family_Field' );
+
 }

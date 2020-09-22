@@ -1,15 +1,17 @@
 <?php
 
-if ( !class_exists( 'PIP_Tailwind' ) ) {
+if ( ! class_exists( 'PIP_Tailwind' ) ) {
 
     /**
      * Class PIP_Tailwind
      */
     class PIP_Tailwind {
+
         public function __construct() {
+
             // Check if module is enable
             $modules = pip_get_modules();
-            if ( !acf_maybe_get( $modules, 'tailwind' ) ) {
+            if ( ! acf_maybe_get( $modules, 'tailwind' ) ) {
                 return;
             }
 
@@ -24,8 +26,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          * @param $page
          */
         public function add_compile_styles_button( $page ) {
+
             // If not on Styles admin page, return
-            if ( !pip_str_starts( acf_maybe_get( $page, 'post_id' ), 'pip_styles_' ) ) {
+            if ( ! pip_str_starts( acf_maybe_get( $page, 'post_id' ), 'pip_styles_' ) ) {
                 return;
             }
 
@@ -43,24 +46,25 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          * @param $post_id
          */
         public function save_styles_settings( $post_id ) {
+
             // If not on Styles admin page, return
-            if ( !pip_str_starts( $post_id, 'pip_styles_' ) ) {
+            if ( ! pip_str_starts( $post_id, 'pip_styles_' ) ) {
                 return;
             }
 
             // If assets folder doesn't exists, return
-            if ( !file_exists( PIP_THEME_ASSETS_PATH ) ) {
+            if ( ! file_exists( PIP_THEME_ASSETS_PATH ) ) {
                 return;
             }
 
             // Update & Compile button
             $compile = acf_maybe_get_POST( 'update_compile' );
-            if ( !$compile ) {
+            if ( ! $compile ) {
                 return;
             }
 
             // Compile styles
-            self::compile_tailwind();
+            $this->compile_tailwind();
         }
 
         /**
@@ -68,7 +72,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @return string
          */
-        private static function get_tailwind_css() {
+        public function get_tailwind_css() {
+
             $tailwind_css        = '';
             $tailwind_base       = get_field( 'pip_tailwind_style_base', 'pip_styles_tailwind_module' );
             $tailwind_components = get_field( 'pip_tailwind_style_components', 'pip_styles_tailwind_module' );
@@ -87,7 +92,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             }
 
             // Add custom fonts import
-            $tailwind_css .= self::css_custom_fonts() . "\n";
+            $tailwind_css .= $this->css_custom_fonts() . "\n";
 
             // Maybe add components import
             if ( $tailwind_components ) {
@@ -100,13 +105,13 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
 
                     // Body classes
-                    $tailwind_css .= self::get_body_css() . "\n";
+                    $tailwind_css .= $this->get_body_css() . "\n";
 
                     // Typography
-                    $tailwind_css .= self::get_typography_css() . "\n";
+                    $tailwind_css .= $this->get_typography_css() . "\n";
 
                     // Buttons
-                    $tailwind_css .= self::get_buttons_css() . "\n";
+                    $tailwind_css .= $this->get_buttons_css() . "\n";
                 }
             }
 
@@ -130,12 +135,13 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @return string
          */
-        private static function get_body_css() {
+        public function get_body_css() {
+
             $body_css     = '';
             $body_classes = get_field( 'pip_body_classes', 'pip_styles_configuration' );
 
             // If not body classes, return
-            if ( !$body_classes ) {
+            if ( ! $body_classes ) {
                 return $body_css;
             }
 
@@ -155,7 +161,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @return string
          */
-        private static function get_typography_css() {
+        public function get_typography_css() {
+
             $typo_css = '';
 
             // Browse typography
@@ -183,7 +190,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @return string
          */
-        private static function get_buttons_css() {
+        public function get_buttons_css() {
+
             $buttons_css = '';
 
             // Browse buttons
@@ -226,7 +234,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @return false|mixed|string|null
          */
-        private static function get_tailwind_config() {
+        public function get_tailwind_config() {
+
             $config          = array();
             $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_module' );
             $override_config = acf_maybe_get( $tailwind_config, 'override_config' );
@@ -239,16 +248,16 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             } else {
 
                 // Screens
-                self::set_screens( $config );
+                $this->set_screens( $config );
 
                 // Container
-                self::set_container_options( $config );
+                $this->set_container_options( $config );
 
                 // Colors
-                self::set_colors( $config );
+                $this->set_colors( $config );
 
                 // Fonts
-                self::set_fonts( $config );
+                $this->set_fonts( $config );
 
                 // Format configuration
                 $config = 'module.exports = ' . json_encode( $config, JSON_PRETTY_PRINT ) . ';';
@@ -266,7 +275,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @param $config
          */
-        private static function set_screens( &$config ) {
+        public function set_screens( &$config ) {
+
             $screens = array();
 
             if ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
@@ -292,10 +302,11 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @param $config
          */
-        private static function set_container_options( &$config ) {
+        public function set_container_options( &$config ) {
+
             $options           = array();
             $container_options = get_field( 'pip_container', 'pip_styles_configuration' );
-            if ( !$container_options ) {
+            if ( ! $container_options ) {
                 return;
             }
 
@@ -323,7 +334,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @param $config
          */
-        private static function set_colors( &$config ) {
+        public function set_colors( &$config ) {
+
             $colors = array();
 
             // Get simple colors
@@ -384,10 +396,11 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @param $config
          */
-        private static function set_fonts( &$config ) {
+        public function set_fonts( &$config ) {
+
             $options = array();
             $fonts   = pip_get_fonts();
-            if ( !$fonts ) {
+            if ( ! $fonts ) {
                 return;
             }
 
@@ -410,42 +423,41 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
         /**
          * Compile Tailwind styles
          */
-        public static function compile_tailwind() {
+        public function compile_tailwind() {
+
+            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
+
             // Get CSS
-            $tailwind_style = self::get_tailwind_css();
+            $tailwind_style = $this->get_tailwind_css();
 
             // Get layouts CSS
-            $tailwind_style .= PIP_Layouts::get_layouts_css();
+            $tailwind_style .= $pip_layouts->get_layouts_css();
 
             // Get config
-            $tailwind_config = self::get_tailwind_config();
+            $tailwind_config = $this->get_tailwind_config();
 
             // Get Tailwind API
             require_once PIP_PATH . '/assets/libs/tailwindapi.php';
             $tailwind = new TailwindAPI();
 
             // Build front style
-            $tailwind->build(
-                array(
+            $tailwind->build( array(
                     'css'          => $tailwind_style,
                     'config'       => $tailwind_config,
                     'autoprefixer' => true,
                     'minify'       => true,
                     'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
-                )
-            );
+                ) );
 
             // Build admin style
-            $tailwind->build(
-                array(
+            $tailwind->build( array(
                     'css'          => $tailwind_style,
                     'config'       => $tailwind_config,
                     'autoprefixer' => true,
                     'minify'       => true,
                     'prefixer'     => '.-preview',
                     'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
-                )
-            );
+                ) );
         }
 
         /**
@@ -453,7 +465,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          *
          * @return string
          */
-        private static function css_custom_fonts() {
+        public function css_custom_fonts() {
+
             $css_custom    = '';
             $tinymce_fonts = '';
 
@@ -485,14 +498,12 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                             $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
 
                             // Get post
-                            $posts   = new WP_Query(
-                                array(
+                            $posts   = new WP_Query( array(
                                     'name'           => $file['file']['name'],
                                     'post_type'      => 'attachment',
                                     'posts_per_page' => 1,
                                     'fields'         => 'ids',
-                                )
-                            );
+                                ) );
                             $posts   = $posts->get_posts();
                             $post_id = reset( $posts );
 
@@ -518,6 +529,6 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
     }
 
-    // Instantiate class
-    new PIP_Tailwind();
+    acf_new_instance( 'PIP_Tailwind' );
+
 }

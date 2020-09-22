@@ -1,12 +1,14 @@
 <?php
 
-if ( !class_exists( 'PIP_Pattern_Message' ) ) {
+if ( ! class_exists( 'PIP_Pattern_Message' ) ) {
 
     /**
      * Class PIP_Pattern_Message
      */
     class PIP_Pattern_Message {
+
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'add_local_field_group' ) );
 
@@ -18,9 +20,11 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
          * Add local field group
          */
         public function add_local_field_group() {
+
+            $pip_pattern = acf_get_instance( 'PIP_Pattern' );
+
             // Message flexible content field group
-            acf_add_local_field_group(
-                array(
+            acf_add_local_field_group( array(
                     'key'                   => 'group_pip_flexible_pattern_message',
                     'title'                 => __( 'Message', 'pilopress' ),
                     'fields'                => array(
@@ -45,7 +49,7 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
                             array(
                                 'param'    => 'options_page',
                                 'operator' => '==',
-                                'value'    => PIP_Pattern::$menu_slug,
+                                'value'    => $pip_pattern->menu_slug,
                             ),
                         ),
                     ),
@@ -63,8 +67,7 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
                     'acfe_form'             => 0,
                     'acfe_meta'             => '',
                     'acfe_note'             => '',
-                )
-            );
+                ) );
         }
 
         /**
@@ -72,29 +75,26 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
          */
         public function pattern_message() {
 
-            $header_layouts = PIP_Layouts::get_layouts_by_location(
-                array(
-                    'pip-pattern' => PIP_Flexible_Header::get_flexible_header_field_name(),
-                )
-            );
+            $pip_flexible_header = acf_get_instance( 'PIP_Flexible_Header' );
+            $pip_flexible_footer = acf_get_instance( 'PIP_Flexible_Footer' );
+            $pip_layouts         = acf_get_instance( 'PIP_Layouts' );
 
-            $footer_layouts = PIP_Layouts::get_layouts_by_location(
-                array(
-                    'pip-pattern' => PIP_Flexible_Footer::get_flexible_footer_field_name(),
-                )
-            );
+            $header_layouts = $pip_layouts->get_layouts_by_location( array(
+                    'pip-pattern' => $pip_flexible_header->get_flexible_header_field_name(),
+                ) );
+
+            $footer_layouts = $pip_layouts->get_layouts_by_location( array(
+                    'pip-pattern' => $pip_flexible_footer->get_flexible_footer_field_name(),
+                ) );
 
             // No layout for header and footer
-            if ( !$header_layouts && !$footer_layouts ) {
+            if ( ! $header_layouts && ! $footer_layouts ) {
 
                 // Display message
-                $url = add_query_arg(
-                    array(
-                        'layouts'   => 1,
-                        'post_type' => 'acf-field-group',
-                    ),
-                    admin_url( 'edit.php' )
-                );
+                $url = add_query_arg( array(
+                    'layouts'   => 1,
+                    'post_type' => 'acf-field-group',
+                ), admin_url( 'edit.php' ) );
                 ?>
 
                 <div class="inside acf-fields -top">
@@ -124,8 +124,9 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
             <?php
 
         }
+
     }
 
-    // Instantiate class
-    new PIP_Pattern_Message();
+    acf_new_instance( 'PIP_Pattern_Message' );
+
 }

@@ -1,6 +1,6 @@
 <?php
 
-if ( !class_exists( 'PIP_Flexible' ) ) {
+if ( ! class_exists( 'PIP_Flexible' ) ) {
 
     /**
      * Class PIP_Flexible
@@ -12,32 +12,36 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          *
          * @var string
          */
-        private static $flexible_field_name = 'pip_flexible';
+        var $flexible_field_name = 'pip_flexible';
 
         /**
          * Flexible group key
          *
          * @var string
          */
-        private $flexible_group_key = 'group_pip_flexible_main';
+        var $flexible_group_key = 'group_pip_flexible_main';
 
         /**
          * User view
          *
          * @var string
          */
-        private static $user_view = 'edit';
+        var $user_view = 'edit';
 
         /**
          * PIP_Flexible constructor.
          */
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'init' ) );
 
             // ACF hooks
-            $flexible_field_name = self::get_flexible_field_name();
-            add_filter( "acfe/flexible/thumbnail/name={$flexible_field_name}", array( $this, 'add_custom_thumbnail' ), 10, 3 );
+            $flexible_field_name = $this->get_flexible_field_name();
+            add_filter( "acfe/flexible/thumbnail/name={$flexible_field_name}", array(
+                $this,
+                'add_custom_thumbnail'
+            ), 10, 3 );
             add_filter( "acf/prepare_field/name={$flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
         }
 
@@ -46,25 +50,27 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          * Add layouts to main flexible
          */
         public function init() {
+
             // Get layouts and group keys
-            $data = self::get_layouts_and_group_keys();
+            $data = $this->get_layouts_and_group_keys();
+
+            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
+            $pip_layouts         = acf_get_instance( 'PIP_Layouts' );
 
             // Mirror
-            $mirror = acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() );
-            PIP_Flexible_Mirror::set_flexible_mirror_group( $mirror );
+            $mirror = acf_get_field_group( $pip_flexible_mirror->get_flexible_mirror_group_key() );
+            $pip_flexible_mirror->set_flexible_mirror_group( $mirror );
 
             // Layouts
             $layouts    = $data['layouts'];
             $group_keys = $data['group_keys'];
-            PIP_Layouts::set_layout_group_keys( $group_keys );
+            $pip_layouts->set_layout_group_keys( $group_keys );
 
             // Locations
-            $locations = apply_filters( 'pip/builder/locations', self::flexible_locations() );
+            $locations = apply_filters( 'pip/builder/locations', $this->flexible_locations() );
 
             // Builder params
-            $builder_params = apply_filters(
-                'pip/builder/parameters',
-                array(
+            $builder_params = apply_filters( 'pip/builder/parameters', array(
                     'acfe_permissions'                  => '',
                     'acfe_flexible_stylised_button'     => 1,
                     'acfe_flexible_layouts_thumbnails'  => 1,
@@ -87,16 +93,15 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         'acfe_flexible_modal_col'        => '6',
                         'acfe_flexible_modal_categories' => '1',
                     ),
-                )
-            );
+                ) );
 
             $builder_params['acfe_flexible_modal']['acfe_flexible_modal_title'] = acf_maybe_get( $mirror, 'title' );
 
             // Fields params
             $fields = array(
-                'key'               => 'field_' . self::get_flexible_field_name(),
+                'key'               => 'field_' . $this->get_flexible_field_name(),
                 'label'             => '',
-                'name'              => self::get_flexible_field_name(),
+                'name'              => $this->get_flexible_field_name(),
                 'type'              => 'flexible_content',
                 'instructions'      => '',
                 'required'          => 0,
@@ -150,23 +155,26 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          *
          * @return array
          */
-        public static function get_layouts_and_group_keys() {
+        public function get_layouts_and_group_keys() {
+
             $layouts      = array();
             $group_keys   = array();
             $field_groups = acf_get_field_groups();
             $counter      = pip_array_count_values_assoc( $field_groups, 'title' );
 
             // If not field groups, return
-            if ( !$field_groups ) {
+            if ( ! $field_groups ) {
                 return array(
                     'layouts'    => null,
                     'group_keys' => null,
                 );
             }
 
+            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
+
             foreach ( $field_groups as $field_group ) {
                 // If not layout, skip
-                if ( !PIP_Layouts::is_layout( $field_group ) ) {
+                if ( ! $pip_layouts->is_layout( $field_group ) ) {
                     continue;
                 }
 
@@ -180,22 +188,18 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
 
                 // Categories
-                $categories = get_terms(
-                    array(
+                $categories = get_terms( array(
                         'taxonomy'   => 'acf-layouts-category',
                         'object_ids' => $field_group['ID'],
                         'fields'     => 'names',
-                    )
-                );
+                    ) );
 
                 // Collections
-                $collections = get_terms(
-                    array(
+                $collections = get_terms( array(
                         'taxonomy'   => 'acf-layouts-collection',
                         'object_ids' => $field_group['ID'],
                         'fields'     => 'names',
-                    )
-                );
+                    ) );
 
                 // Allow user to by-pass condition
                 $always_show_collection = apply_filters( 'pip/layouts/always_show_collection', false );
@@ -214,7 +218,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size', array() );
 
                 // Check if JS file exists before enqueue
-                if ( !file_exists( $render_script ) ) {
+                if ( ! file_exists( $render_script ) ) {
                     $render_script = null;
                 }
 
@@ -289,8 +293,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          * @return mixed
          */
         public function prepare_flexible_field( $field ) {
+
             // If no layouts, return
-            if ( !acf_maybe_get( $field, 'layouts' ) ) {
+            if ( ! acf_maybe_get( $field, 'layouts' ) ) {
                 return false;
             }
 
@@ -324,7 +329,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 case 'user':
                     $args = array(
                         'user_id'   => $id,
-                        'user_form' => self::$user_view,
+                        'user_form' => $this->user_view,
                     );
                     break;
                 case 'attachment':
@@ -334,7 +339,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     );
                     break;
                 case 'taxonomy':
-                    if ( !empty( $id ) ) {
+                    if ( ! empty( $id ) ) {
                         $term     = get_term( $id );
                         $taxonomy = $term->taxonomy;
                     } else {
@@ -377,15 +382,17 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Array for valid layouts
             $keep = array();
 
+            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
+
             foreach ( $field_groups as $field_group ) {
 
                 // If not layout, skip
-                if ( !PIP_Layouts::is_layout( $field_group ) ) {
+                if ( ! $pip_layouts->is_layout( $field_group ) ) {
                     continue;
                 }
 
                 // If current screen not included in field group location, skip
-                if ( !self::get_field_group_visibility( $field_group, $args ) ) {
+                if ( ! $this->get_field_group_visibility( $field_group, $args ) ) {
                     continue;
                 }
 
@@ -430,21 +437,22 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          *
          * @return bool
          */
-        public static function add_custom_thumbnail( $thumbnail, $field, $layout ) {
+        public function add_custom_thumbnail( $thumbnail, $field, $layout ) {
+
             $layouts = acf_maybe_get( $field, 'layouts' );
 
             // If no layouts, return
-            if ( !$layouts ) {
+            if ( ! $layouts ) {
                 return $thumbnail;
             }
 
-            $layouts_groups_keys = self::get_layouts_and_group_keys();
+            $layouts_groups_keys = $this->get_layouts_and_group_keys();
             $field_group_key     = $layouts_groups_keys['group_keys'][ $layout['key'] ];
             $field_group         = acf_get_field_group( $field_group_key );
 
             // Get file path thanks to layout slug
             $layout_slug = acf_maybe_get( $field_group, '_pip_layout_slug' );
-            if ( !$layout_slug ) {
+            if ( ! $layout_slug ) {
                 return $thumbnail;
             }
 
@@ -484,7 +492,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          *
          * @return bool
          */
-        public static function get_field_group_visibility( $field_group, $args = array() ) {
+        public function get_field_group_visibility( $field_group, $args = array() ) {
+
             // Check if location rules exist
             if ( isset( $field_group['location'] ) ) {
 
@@ -502,7 +511,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     // Loop over rules and determine if all rules match.
                     $match_group = true;
                     foreach ( $group as $rule ) {
-                        if ( !acf_match_location_rule( $rule, $screen, $field_group ) ) {
+                        if ( ! acf_match_location_rule( $rule, $screen, $field_group ) ) {
                             $match_group = false;
                             break;
                         }
@@ -526,11 +535,14 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          * @return mixed
          */
         public function flexible_locations( $locations = array() ) {
+
+            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
+
             // Get field group
-            $mirror = acf_get_field_group( PIP_Flexible_Mirror::get_flexible_mirror_group_key() );
+            $mirror = acf_get_field_group( $pip_flexible_mirror->get_flexible_mirror_group_key() );
 
             // If field group doesn't exist, return
-            if ( !$mirror ) {
+            if ( ! $mirror ) {
                 return $locations;
             }
 
@@ -545,14 +557,15 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          *
          * @return string
          */
-        public static function get_flexible_field_name() {
-            return self::$flexible_field_name;
+        public function get_flexible_field_name() {
+
+            return $this->flexible_field_name;
         }
 
     }
 
     // Instantiate class
-    new PIP_Flexible();
+    acf_new_instance( 'PIP_Flexible' );
 }
 
 /**
@@ -563,6 +576,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
  * @return false|string|void
  */
 function the_pip_content( $post_id = false ) {
+
     // Display content
     echo get_pip_content( $post_id );
 }
@@ -575,20 +589,23 @@ function the_pip_content( $post_id = false ) {
  * @return false|string|void
  */
 function get_pip_content( $post_id = false ) {
+
     $header = '';
     $footer = '';
     $html   = '';
 
     // Maybe get pip header
-    if ( !apply_filters( 'pip/header/remove', false ) ) {
+    if ( ! apply_filters( 'pip/header/remove', false ) ) {
         $header = get_pip_header( false );
     }
 
+    $pip_flexible = acf_get_instance( 'PIP_Flexible' );
+
     // Get content
-    $content = get_flexible( PIP_Flexible::get_flexible_field_name(), pip_get_formatted_post_id( $post_id ) );
+    $content = get_flexible( $pip_flexible->get_flexible_field_name(), pip_get_formatted_post_id( $post_id ) );
 
     // Maybe get pip footer
-    if ( !apply_filters( 'pip/footer/remove', false ) ) {
+    if ( ! apply_filters( 'pip/footer/remove', false ) ) {
         $footer = get_pip_footer( false );
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-if ( !class_exists( 'PIP_Components' ) ) {
+if ( ! class_exists( 'PIP_Components' ) ) {
 
     /**
      * Class PIP_Components
@@ -12,9 +12,10 @@ if ( !class_exists( 'PIP_Components' ) ) {
          *
          * @var string
          */
-        public static $post_type = 'pip-components';
+        var $post_type = 'pip-components';
 
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'register_components' ) );
 
@@ -25,17 +26,16 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
             // ACF hooks - Component location rule
             add_filter( 'acf/location/rule_types', array( $this, 'location_types' ) );
-            add_filter( 'acf/location/rule_values/' . self::$post_type, array( $this, 'location_values' ) );
-            add_filter( 'acf/location/rule_match/' . self::$post_type, array( $this, 'location_match' ), 10, 3 );
+            add_filter( 'acf/location/rule_values/' . $this->post_type, array( $this, 'location_values' ) );
+            add_filter( 'acf/location/rule_match/' . $this->post_type, array( $this, 'location_match' ), 10, 3 );
         }
 
         /**
          * Register components post type
          */
         public function register_components() {
-            register_post_type(
-                self::$post_type,
-                array(
+
+            register_post_type( $this->post_type, array(
                     'label'               => __( 'Components', 'pilopress' ),
                     'labels'              => array(
                         'name'                     => __( 'Components', 'pilopress' ),
@@ -81,8 +81,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
                     'menu_position'       => 83,
                     'menu_icon'           => 'dashicons-layout',
                     'supports'            => array( 'title', 'revisions' ),
-                )
-            );
+                ) );
         }
 
         /**
@@ -93,8 +92,9 @@ if ( !class_exists( 'PIP_Components' ) ) {
          * @return mixed
          */
         public function remove_component_from_post_types( $choices ) {
+
             // Remove component
-            unset( $choices[ self::$post_type ] );
+            unset( $choices[ $this->post_type ] );
 
             return $choices;
         }
@@ -107,8 +107,9 @@ if ( !class_exists( 'PIP_Components' ) ) {
          * @return mixed
          */
         public function remove_component_from_posts( $choices ) {
+
             // Get post type labels
-            $post_type = get_post_type_labels( get_post_type_object( self::$post_type ) );
+            $post_type = get_post_type_labels( get_post_type_object( $this->post_type ) );
 
             // Remove components
             unset( $choices[ $post_type->singular_name ] );
@@ -125,7 +126,8 @@ if ( !class_exists( 'PIP_Components' ) ) {
          * @return mixed
          */
         public function remove_component_from_acf_post_types( $post_types, $args ) {
-            $key = array_search( self::$post_type, $post_types, true );
+
+            $key = array_search( $this->post_type, $post_types, true );
 
             // If component key found, unset it
             if ( $key ) {
@@ -143,11 +145,12 @@ if ( !class_exists( 'PIP_Components' ) ) {
          * @return mixed
          */
         public function location_types( $choices ) {
+
             // Get post type labels
-            $post_type = get_post_type_labels( get_post_type_object( self::$post_type ) );
+            $post_type = get_post_type_labels( get_post_type_object( $this->post_type ) );
 
             // Add component option
-            $choices["Pilo'Press"][ self::$post_type ] = $post_type->singular_name;
+            $choices["Pilo'Press"][ $this->post_type ] = $post_type->singular_name;
 
             return $choices;
         }
@@ -160,13 +163,12 @@ if ( !class_exists( 'PIP_Components' ) ) {
          * @return array
          */
         public function location_values( $choices ) {
+
             // Get posts grouped by
-            $posts = get_posts(
-                array(
-                    'post_type'      => self::$post_type,
+            $posts = get_posts( array(
+                    'post_type'      => $this->post_type,
                     'posts_per_page' => - 1,
-                )
-            );
+                ) );
 
             // Add "all" option
             $choices = array(
@@ -174,7 +176,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
             );
 
             // Build choices array
-            if ( !empty( $posts ) ) {
+            if ( ! empty( $posts ) ) {
                 // Add posts
                 foreach ( $posts as $post ) {
                     $choices[ $post->ID ] = $post->post_title;
@@ -194,11 +196,12 @@ if ( !class_exists( 'PIP_Components' ) ) {
          * @return bool
          */
         public function location_match( $result, $rule, $screen ) {
+
             // Get post ID
             $post_id = acf_maybe_get( $screen, 'post_id' );
 
             // If no post, return
-            if ( !$post_id ) {
+            if ( ! $post_id ) {
                 return false;
             }
 
@@ -213,7 +216,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
             // Allow for "!=" operator.
             if ( $rule['operator'] === '!=' ) {
-                $match = !$match;
+                $match = ! $match;
             }
 
             return $match;
@@ -226,31 +229,32 @@ if ( !class_exists( 'PIP_Components' ) ) {
          *
          * @return bool
          */
-        public static function is_component( $post ) {
+        public function is_component( $post ) {
+
             $is_component = false;
 
             // Get post
             $post = get_post( $post );
-            if ( !$post ) {
+            if ( ! $post ) {
                 return $is_component;
             }
 
             // Get post type
             $post_type = get_post_type( $post );
-            if ( $post_type && $post_type === self::$post_type ) {
+            if ( $post_type && $post_type === $this->post_type ) {
                 $is_component = true;
             }
 
             return $is_component;
         }
+
     }
 
     // Instantiate class
-    new PIP_Components();
+    acf_new_instance( 'PIP_Components' );
 }
 
-
-if ( !function_exists( 'have_component' ) ) {
+if ( ! function_exists( 'have_component' ) ) {
 
     // Component globals
     global $pip_component_i, $component_loop_setup, $component_values;
@@ -299,13 +303,11 @@ if ( !function_exists( 'have_component' ) ) {
             }
 
             // Create fake field
-            acf_add_local_field(
-                array(
+            acf_add_local_field( array(
                     'key'        => $field_key,
                     'type'       => 'group',
                     'sub_fields' => $sub_fields,
-                )
-            );
+                ) );
 
             // Wrap values
             $values = array(
@@ -313,7 +315,7 @@ if ( !function_exists( 'have_component' ) ) {
             );
 
             // If not already setup, setup meta
-            if ( !$component_loop_setup ) {
+            if ( ! $component_loop_setup ) {
                 acf_setup_meta( $values, 'pip_component', true );
                 $component_loop_setup = true;
             }
@@ -335,7 +337,7 @@ if ( !function_exists( 'have_component' ) ) {
     }
 }
 
-if ( !function_exists( 'the_component' ) ) {
+if ( ! function_exists( 'the_component' ) ) {
 
     /**
      * Increment component loop

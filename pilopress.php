@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if ( !class_exists( 'PiloPress' ) ) {
+if ( ! class_exists( 'PiloPress' ) ) {
 
     /**
      * Class PiloPress
@@ -28,7 +28,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          *
          * @var string
          */
-        public static $version = '0.3.2.10';
+        var $version = '0.3.2.10';
 
         /**
          * ACF
@@ -55,8 +55,9 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Initialize plugin
          */
         public function initialize() {
+
             // Constants
-            $this->define( 'PIP_VERSION', self::$version );
+            $this->define( 'PIP_VERSION', $this->version );
             $this->define( 'PIP_FILE', __FILE__ );
             $this->define( 'PIP_PATH', plugin_dir_path( __FILE__ ) );
             $this->define( 'PIP_URL', plugin_dir_url( __FILE__ ) );
@@ -91,6 +92,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Load translations
          */
         public function load_translations() {
+
             // Load text domain file
             pip_load_textdomain();
         }
@@ -103,11 +105,10 @@ if ( !class_exists( 'PiloPress' ) ) {
          * @return array
          */
         public function metabox_order( $order ) {
-            if ( !$order ) {
+
+            if ( ! $order ) {
                 $order = array(
-                    'normal' => implode(
-                        ',',
-                        array(
+                    'normal' => implode( ',', array(
 
                             // Layouts
                             'acf-field-group-fields',
@@ -118,8 +119,7 @@ if ( !class_exists( 'PiloPress' ) ) {
                             'pip-flexible-layouts',
                             'acf-field-group-locations',
 
-                        )
-                    ),
+                        ) ),
                 );
             }
 
@@ -130,8 +130,9 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Load classes
          */
         public function load() {
+
             // Check if ACF Pro and ACFE are activated
-            if ( !$this->has_acf() || !$this->has_acfe() ) {
+            if ( ! $this->has_acf() || ! $this->has_acfe() ) {
                 return;
             }
 
@@ -149,6 +150,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Include files
          */
         public function includes() {
+
             // Components
             pip_include( 'includes/classes/components/class-components.php' );
             pip_include( 'includes/classes/components/class-component-field-type.php' );
@@ -204,6 +206,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          * Include tools
          */
         public function tools() {
+
             pip_include( 'includes/classes/admin/tools/class-styles-export-tool.php' );
             pip_include( 'includes/classes/admin/tools/class-styles-import-tool.php' );
         }
@@ -211,12 +214,13 @@ if ( !class_exists( 'PiloPress' ) ) {
         /**
          * Activation actions
          */
-        public static function activation() {
+        public function activation() {
+
             // Create Pilo'Press folders
-            self::create_pip_folder();
+            $this->create_pip_folder();
 
             // If class does not exist, return
-            if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
+            if ( ! class_exists( 'PIP_Flexible_Mirror' ) ) {
                 return;
             }
 
@@ -228,7 +232,8 @@ if ( !class_exists( 'PiloPress' ) ) {
         /**
          * Create Pilo'Press folders on activation
          */
-        private static function create_pip_folder() {
+        public function create_pip_folder() {
+
             // Create "layouts" folder in theme
             wp_mkdir_p( get_template_directory() . '/pilopress/layouts' );
 
@@ -242,8 +247,9 @@ if ( !class_exists( 'PiloPress' ) ) {
          * @param      $name
          * @param bool $value
          */
-        private function define( $name, $value = true ) {
-            if ( !defined( $name ) ) {
+        public function define( $name, $value = true ) {
+
+            if ( ! defined( $name ) ) {
                 define( $name, $value );
             }
         }
@@ -254,6 +260,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          * @return bool
          */
         public function has_acf() {
+
             // If ACF already available, return
             if ( $this->acf ) {
                 return true;
@@ -271,6 +278,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          * @return bool
          */
         public function has_acfe() {
+
             // If ACFE already available, return
             if ( $this->acfe ) {
                 return true;
@@ -281,6 +289,7 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             return $this->acfe;
         }
+
     }
 }
 
@@ -290,9 +299,10 @@ if ( !class_exists( 'PiloPress' ) ) {
  * @return PiloPress
  */
 function pilopress() {
+
     global $pilopress;
 
-    if ( !isset( $pilopress ) ) {
+    if ( ! isset( $pilopress ) ) {
         $pilopress = new PiloPress();
         $pilopress->initialize();
     }

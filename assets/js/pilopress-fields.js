@@ -1,5 +1,5 @@
 (
-    function ( $ ) {
+    function ($) {
 
         // Pilo'Press field types
         var field_types = [
@@ -12,16 +12,16 @@
         // Register condition for field types
         $.map(
             field_types,
-            function ( field_type ) {
-                acf.registerConditionForFieldType( 'hasValue', field_type )
-                acf.registerConditionForFieldType( 'hasNoValue', field_type )
-                acf.registerConditionForFieldType( 'Contains', field_type )
-                acf.registerConditionForFieldType( 'SelectEqualTo', field_type )
-                acf.registerConditionForFieldType( 'SelectNotEqualTo', field_type )
-                acf.registerConditionForFieldType( 'SelectionGreaterThan', field_type )
-                acf.registerConditionForFieldType( 'SelectionLessThan', field_type )
+            function (field_type) {
+                acf.registerConditionForFieldType('hasValue', field_type)
+                acf.registerConditionForFieldType('hasNoValue', field_type)
+                acf.registerConditionForFieldType('Contains', field_type)
+                acf.registerConditionForFieldType('SelectEqualTo', field_type)
+                acf.registerConditionForFieldType('SelectNotEqualTo', field_type)
+                acf.registerConditionForFieldType('SelectionGreaterThan', field_type)
+                acf.registerConditionForFieldType('SelectionLessThan', field_type)
             }
         )
 
     }
-)( jQuery )
+)(jQuery)

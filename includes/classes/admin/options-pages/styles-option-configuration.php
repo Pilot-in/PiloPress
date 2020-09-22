@@ -1,8 +1,7 @@
 <?php
 
 // Register "Configuration" field group
-acf_add_local_field_group(
-    array(
+acf_add_local_field_group( array(
         'key'                   => 'group_styles_configuration',
         'title'                 => __( 'Configuration', 'pilopress' ),
         'fields'                => array(
@@ -853,5 +852,4 @@ acf_add_local_field_group(
         'acfe_categories'       => array(
             'options' => 'Options',
         ),
-    )
-);
+    ) );

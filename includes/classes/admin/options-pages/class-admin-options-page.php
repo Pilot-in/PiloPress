@@ -6,7 +6,7 @@
  * @see acf_admin_options_page
  */
 
-if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
+if ( ! class_exists( 'PIP_Admin_Options_Page' ) ) {
 
     /**
      * Class PIP_Admin_Options_Page
@@ -25,16 +25,17 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          *
          * @var array[]
          */
-        public static $pages;
+        var $pages;
 
         /**
          * PIP_Admin_Options_Page constructor.
          */
         public function __construct() {
+
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
 
-            self::$pages = array(
+            $this->pages = array(
                 'configuration'   => array(
                     'page_title'     => __( 'Configuration', 'pilopress' ),
                     'menu_title'     => __( 'Styles', 'pilopress' ),
@@ -119,14 +120,15 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          *
          * @return bool
          */
-        public static function is_style_page( $page_id ) {
+        public function is_style_page( $page_id ) {
+
             $is_style_page = false;
 
-            if ( !self::$pages ) {
+            if ( ! $this->pages ) {
                 return $is_style_page;
             }
 
-            foreach ( self::$pages as $page ) {
+            foreach ( $this->pages as $page ) {
                 if ( $page['menu_slug'] === $page_id ) {
                     $is_style_page = true;
                 }
@@ -139,17 +141,21 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * Add submenus
          */
         public function admin_menu() {
-            if ( !self::$pages ) {
+
+            if ( ! $this->pages ) {
                 return;
             }
 
-            foreach ( self::$pages as $key => $page ) {
+            foreach ( $this->pages as $key => $page ) {
                 $modules = pip_get_modules();
-                if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
+                if ( ! acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
                     continue;
                 }
                 // Register submenu page
-                $slug = add_submenu_page( $page['parent_slug'], $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], array( $this, 'html' ) );
+                $slug = add_submenu_page( $page['parent_slug'], $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], array(
+                    $this,
+                    'html'
+                ) );
 
                 add_action( "load-{$slug}", array( $this, 'admin_load' ) );
             }
@@ -159,10 +165,11 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * Update options
          */
         public function admin_load() {
+
             global $plugin_page;
 
             // Get current page
-            $this->page            = self::$pages[ str_replace( 'pip-styles-', '', $plugin_page ) ];
+            $this->page            = $this->pages[ str_replace( 'pip-styles-', '', $plugin_page ) ];
             $this->page['post_id'] = acf_get_valid_post_id( $this->page['post_id'] );
 
             // Validate
@@ -185,19 +192,17 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             add_action( 'acf/input/admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
             add_action( 'acf/input/admin_head', array( $this, 'admin_head' ) );
 
-            add_screen_option(
-                'layout_columns',
-                array(
+            add_screen_option( 'layout_columns', array(
                     'max'     => 2,
                     'default' => 2,
-                )
-            );
+                ) );
         }
 
         /**
          * Enqueue script
          */
         public function admin_enqueue_scripts() {
+
             wp_enqueue_script( 'post' );
         }
 
@@ -208,14 +213,12 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             // Get current page
             $menu_slug  = acf_maybe_get_GET( 'page' );
-            $this->page = self::$pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
+            $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
 
             // Get associated field groups
-            $field_groups = acf_get_field_groups(
-                array(
+            $field_groups = acf_get_field_groups( array(
                     'options_page' => $menu_slug,
-                )
-            );
+                ) );
 
             if ( acf_maybe_get_GET( 'message' ) === '1' ) {
                 // Add notice
@@ -223,7 +226,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             }
 
             // Add "Publish" meta box
-            add_meta_box( 'submitdiv', __( 'Publish', 'acf' ), array( $this, 'postbox_submitdiv' ), 'acf_options_page', 'side', 'high' );
+            add_meta_box( 'submitdiv', __( 'Publish', 'acf' ), array(
+                $this,
+                'postbox_submitdiv'
+            ), 'acf_options_page', 'side', 'high' );
 
             if ( empty( $field_groups ) ) {
 
@@ -248,7 +254,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     $priority = apply_filters( 'acf/input/meta_box_priority', $priority, $field_group );
 
                     // Add field group meta box
-                    add_meta_box( $id, $title, array( $this, 'postbox_acf' ), 'acf_options_page', $context, $priority, $args );
+                    add_meta_box( $id, $title, array(
+                        $this,
+                        'postbox_acf'
+                    ), 'acf_options_page', $context, $priority, $args );
                 }
             }
         }
@@ -260,6 +269,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * @param $args
          */
         public function postbox_submitdiv( $post, $args ) {
+
             do_action( 'acf/options_page/submitbox_before_major_actions', $this->page );
             ?>
 
@@ -267,7 +277,8 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
                 <div id="publishing-action">
                     <span class="spinner"></span>
-                    <input type="submit" accesskey="p" value="<?php echo $this->page['update_button']; ?>" class="button button-primary button-large" id="publish" name="publish">
+                    <input type="submit" accesskey="p" value="<?php echo $this->page['update_button']; ?>"
+                           class="button button-primary button-large" id="publish" name="publish">
                 </div>
 
                 <?php do_action( 'acf/options_page/submitbox_major_actions', $this->page ); ?>
@@ -285,6 +296,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * @param $args
          */
         public function postbox_acf( $post, $args ) {
+
             $id          = $args['id'];
             $field_group = $args['args']['field_group'];
 
@@ -312,7 +324,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             ?>
             <script type="text/javascript">
-                if ( typeof acf !== 'undefined' ) {
+                if (typeof acf !== 'undefined') {
                     acf.newPostbox(<?php echo wp_json_encode( $field_group_object ); ?>)
                 }
             </script>
@@ -323,14 +335,15 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * Output template
          */
         public function html() {
+
             // Get current page
             $menu_slug  = acf_maybe_get_GET( 'page' );
-            $this->page = self::$pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
+            $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
 
             // Define variables for template
             $page_title   = $this->page['page_title'];
             $post_id      = $this->page['post_id'];
-            $pages        = self::$pages;
+            $pages        = $this->pages;
             $current_page = $menu_slug;
             $admin_url    = admin_url( 'admin.php' );
 
@@ -348,6 +361,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * @return string
          */
         public function styles_options_page_source( $source, $post_id, $field_group ) {
+
             if ( pip_str_starts( $post_id, 'group_styles_' ) || pip_str_starts( $post_id, 'group_pip_' ) ) {
                 $source = "Pilo'Press";
             }
@@ -364,8 +378,9 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          * @return mixed
          */
         public function rule_values( $values, $rule ) {
+
             // If not admin or not AJAX, return
-            if ( !is_admin() && !wp_doing_ajax() ) {
+            if ( ! is_admin() && ! wp_doing_ajax() ) {
                 return $values;
             }
 
@@ -375,12 +390,12 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             }
 
             // If pages not defined, return
-            if ( !self::$pages ) {
+            if ( ! $this->pages ) {
                 return $values;
             }
 
             // Add custom pages
-            foreach ( self::$pages as $page ) {
+            foreach ( $this->pages as $page ) {
                 $values[ $page['menu_slug'] ] = $page['page_title'];
             }
 
@@ -389,8 +404,9 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             return $values;
         }
+
     }
 
-    // Instantiate class
-    new PIP_Admin_Options_Page();
+    acf_new_instance( 'PIP_Admin_Options_Page' );
+
 }

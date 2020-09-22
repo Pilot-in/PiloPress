@@ -1,6 +1,6 @@
 <?php
 
-if ( !class_exists( 'PIP_Layouts' ) ) {
+if ( ! class_exists( 'PIP_Layouts' ) ) {
 
     /**
      * Class PIP_Layouts
@@ -12,9 +12,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          *
          * @var array
          */
-        private static $layout_group_keys = array();
+        var $layout_group_keys = array();
 
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'enqueue_configuration_files' ), 5 );
             add_action( 'current_screen', array( $this, 'current_screen' ) );
@@ -31,14 +32,14 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         public function current_screen() {
 
             // If not ACF field group single, return
-            if ( !acf_is_screen( 'acf-field-group' ) ) {
+            if ( ! acf_is_screen( 'acf-field-group' ) ) {
                 return;
             }
 
-            add_filter('acf/validate_field_group',      array( $this, 'layout_locations'), 20 );
-            add_action( 'acf/field_group/admin_head',   array( $this, 'layout_meta_boxes' ) );
-            add_action( 'acf/input/admin_head',         array( $this, 'layout_settings' ), 20 );
-            add_action( 'acf/update_field_group',       array( $this, 'set_field_group_to_inactive' ) );
+            add_filter( 'acf/validate_field_group', array( $this, 'layout_locations' ), 20 );
+            add_action( 'acf/field_group/admin_head', array( $this, 'layout_meta_boxes' ) );
+            add_action( 'acf/input/admin_head', array( $this, 'layout_settings' ), 20 );
+            add_action( 'acf/update_field_group', array( $this, 'set_field_group_to_inactive' ) );
 
         }
 
@@ -50,6 +51,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @return mixed
          */
         public function hide_layouts_post_states( $states ) {
+
             // If not Layouts page, return
             if ( acf_maybe_get_GET( 'layouts' ) != '1' ) {
                 return $states;
@@ -66,12 +68,13 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          *
          * @return array
          */
-        public static function clean_group_keys() {
+        public function clean_group_keys() {
+
             $clean_array = array();
 
             // Get Layout group keys
-            $layout_group_keys = self::get_layout_group_keys();
-            if ( !$layout_group_keys ) {
+            $layout_group_keys = $this->get_layout_group_keys();
+            if ( ! $layout_group_keys ) {
                 return $clean_array;
             }
 
@@ -89,7 +92,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
                     // If no field group, remove from group keys
                     unset( $layout_group_keys[ $layout_group_key ] );
-                    self::set_layout_group_keys( $layout_group_keys );
+                    $this->set_layout_group_keys( $layout_group_keys );
 
                 }
             }
@@ -105,9 +108,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @return array|bool|void
          */
         public function set_field_group_to_inactive( $field_group ) {
+
             // Is current post a layout ?
-            $is_layout = self::is_layout( $field_group );
-            if ( !$is_layout ) {
+            $is_layout = $this->is_layout( $field_group );
+            if ( ! $is_layout ) {
                 return;
             }
 
@@ -122,12 +126,13 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * Force layout to be inactive
          */
         public function layout_settings() {
+
             // Get current field group
             global $field_group;
 
             // Is current field group a layout ?
-            $is_layout = self::is_layout( $field_group );
-            if ( !$is_layout ) {
+            $is_layout = $this->is_layout( $field_group );
+            if ( ! $is_layout ) {
                 return;
             }
 
@@ -144,8 +149,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @return mixed
          */
         public function modify_acf_post_type( $args, $post_type ) {
+
             // If AJAX, not admin or not acf-field-group, return
-            if ( wp_doing_ajax() || !is_admin() || $post_type !== 'acf-field-group' ) {
+            if ( wp_doing_ajax() || ! is_admin() || $post_type !== 'acf-field-group' ) {
                 return $args;
             }
 
@@ -153,7 +159,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             $post = get_post( acf_maybe_get_GET( 'post' ) );
 
             // Layouts
-            $is_layout = self::is_layout( $post );
+            $is_layout = $this->is_layout( $post );
             if ( acf_maybe_get_GET( 'layouts' ) === '1' || $is_layout || acf_maybe_get_GET( 'layout' ) === '1' ) {
 
                 // Change title on layouts pages
@@ -168,14 +174,17 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         /**
          * Layouts Default Locations
          */
-        function layout_locations($field_group){
+        function layout_locations( $field_group ) {
 
             // Only in new layouts
-            if(acf_maybe_get($field_group, 'location'))
+            if ( acf_maybe_get( $field_group, 'location' ) ) {
                 return $field_group;
+            }
+
+            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
 
             // Get Flexible Mirror
-            $flexible_mirror = PIP_Flexible_Mirror::get_flexible_mirror_group();
+            $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
 
             $field_group['location'] = $flexible_mirror['location'];
 
@@ -187,11 +196,14 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * Pilo'Press meta boxes
          */
         public function layout_meta_boxes() {
+
             // Get current field group
             global $field_group;
 
+            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
+
             // If mirror flexible page, remove categories boxes and return
-            if ( $field_group['key'] === PIP_Flexible_Mirror::get_flexible_mirror_group_key() ) {
+            if ( $field_group['key'] === $pip_flexible_mirror->get_flexible_mirror_group_key() ) {
 
                 // Remove categories meta boxes
                 remove_meta_box( 'acf-field-group-categorydiv', 'acf-field-group', 'side' );
@@ -201,46 +213,30 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             // Is current field group a layout ?
-            $is_layout = self::is_layout( $field_group );
+            $is_layout = $this->is_layout( $field_group );
 
             if ( $is_layout ) {
 
                 // Meta box: Layout settings
-                add_meta_box(
-                    'pip_layout_settings',
-                    __( "Pilo'Press: Layout settings", 'pilopress' ),
-                    array(
+                add_meta_box( 'pip_layout_settings', __( "Pilo'Press: Layout settings", 'pilopress' ), array(
                         $this,
                         'render_meta_box_main',
-                    ),
-                    'acf-field-group',
-                    'normal',
-                    'high',
-                    array(
+                    ), 'acf-field-group', 'normal', 'high', array(
                         'field_group' => $field_group,
-                    )
-                );
+                    ) );
 
                 // Meta box: Thumbnail
-                add_meta_box(
-                    'pip_layout_thumbnail',
-                    __( "Pilo'Press: Layout thumbnail", 'pilopress' ),
-                    array(
+                add_meta_box( 'pip_layout_thumbnail', __( "Pilo'Press: Layout thumbnail", 'pilopress' ), array(
                         $this,
                         'render_meta_box_thumbnail',
-                    ),
-                    'acf-field-group',
-                    'side',
-                    'default',
-                    array(
+                    ), 'acf-field-group', 'side', 'default', array(
                         'field_group' => $field_group,
-                    )
-                );
+                    ) );
 
                 // Hide field groups categories meta box
                 remove_meta_box( 'acf-field-group-categorydiv', 'acf-field-group', 'side' );
 
-            } elseif ( !$is_layout ) {
+            } elseif ( ! $is_layout ) {
 
                 // Hide layouts categories and collections meta box
                 remove_meta_box( 'acf-layouts-categorydiv', 'acf-field-group', 'side' );
@@ -256,13 +252,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @param $update
          */
         public function save_field_group( $post_id, $post, $update ) {
+
             // If is a revision, not a field group or not a layout, return
-            if (
-                wp_is_post_revision( $post_id )
-                || $post->post_status == 'draft'
-                || $post->post_status == 'auto-draft'
-                || $post->post_type !== 'acf-field-group'
-                || !self::is_layout( $post_id ) ) {
+            if ( wp_is_post_revision( $post_id ) || $post->post_status == 'draft' || $post->post_status == 'auto-draft' || $post->post_type !== 'acf-field-group' || ! $this->is_layout( $post_id ) ) {
                 return;
             }
 
@@ -290,12 +282,12 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @param $meta_box
          */
         public function render_meta_box_main( $post, $meta_box ) {
+
             // Get field group
             $field_group = $meta_box['args']['field_group'];
 
             // Layout settings
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'        => '',
                     'name'         => '_pip_is_layout',
                     'prefix'       => 'acf_field_group',
@@ -303,8 +295,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'instructions' => '',
                     'value'        => 1,
                     'required'     => false,
-                )
-            );
+                ) );
 
             // Layout
             $current_theme      = wp_get_theme();
@@ -312,8 +303,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             $layout_path_prefix = $current_theme->get_template() . '/pilopress/layouts/<span>' . $layout_slug . '</span>/';
 
             // Layout slug
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'        => __( 'Layout slug', 'pilopress' ),
                     'instructions' => __( 'Layout slug and layout folder name', 'pilopress' ),
                     'type'         => 'acfe_slug',
@@ -322,12 +312,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'placeholder'  => 'layout',
                     'required'     => 1,
                     'value'        => isset( $field_group['_pip_layout_slug'] ) ? $field_group['_pip_layout_slug'] : $layout_slug,
-                )
-            );
+                ) );
 
             // Layout template
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'         => __( 'Layout', 'pilopress' ),
                     'instructions'  => __( 'Layout file name', 'pilopress' ),
                     'type'          => 'text',
@@ -338,12 +326,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'prepend'       => $layout_path_prefix,
                     'required'      => 1,
                     'value'         => isset( $field_group['_pip_render_layout'] ) ? $field_group['_pip_render_layout'] : '',
-                )
-            );
+                ) );
 
             // Style - CSS
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'         => __( 'Style CSS', 'pilopress' ),
                     'instructions'  => __( 'CSS file name', 'pilopress' ),
                     'type'          => 'text',
@@ -353,12 +339,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'default_value' => $layout_slug . '.css',
                     'prepend'       => $layout_path_prefix,
                     'value'         => isset( $field_group['_pip_render_style'] ) ? $field_group['_pip_render_style'] : '',
-                )
-            );
+                ) );
 
             // Script
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'         => __( 'Script', 'pilopress' ),
                     'instructions'  => __( 'JS file name', 'pilopress' ),
                     'type'          => 'text',
@@ -368,12 +352,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'default_value' => $layout_slug . '.js',
                     'prepend'       => $layout_path_prefix,
                     'value'         => isset( $field_group['_pip_render_script'] ) ? $field_group['_pip_render_script'] : '',
-                )
-            );
+                ) );
 
             // Add configuration file ?
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'         => __( 'Configuration file', 'pilopress' ),
                     'instructions'  => '',
                     'key'           => 'field_add_config_file',
@@ -383,12 +365,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'value'         => ( isset( $field_group['field_add_config_file'] ) ? $field_group['field_add_config_file'] : '' ),
                     'default_value' => '',
                     'ui'            => 1,
-                )
-            );
+                ) );
 
             // Configuration file
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'             => __( 'Configuration file', 'pilopress' ),
                     'instructions'      => __( 'PHP file name', 'pilopress' ),
                     'type'              => 'text',
@@ -406,8 +386,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Get layouts for configuration field
             $choices = array();
@@ -429,8 +408,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             // Add configuration ?
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'         => __( 'Configuration modal', 'pilopress' ),
                     'instructions'  => '',
                     'key'           => 'field_add_configuration',
@@ -440,12 +418,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'value'         => ( isset( $field_group['field_add_configuration'] ) ? $field_group['field_add_configuration'] : '' ),
                     'default_value' => '',
                     'ui'            => 1,
-                )
-            );
+                ) );
 
             // Configuration
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'             => __( 'Configuration field group', 'pilopress' ),
                     'instructions'      => '',
                     'type'              => 'select',
@@ -467,12 +443,10 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Modal size
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'             => __( 'Configuration modal size', 'pilopress' ),
                     'instructions'      => '',
                     'name'              => '_pip_modal_size',
@@ -501,17 +475,16 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                             ),
                         ),
                     ),
-                )
-            );
+                ) );
 
             // Script for admin style
             ?>
             <script type="text/javascript">
-                if ( typeof acf !== 'undefined' ) {
-                    acf.postbox.render( {
+                if (typeof acf !== 'undefined') {
+                    acf.postbox.render({
                         'id': 'pip_layout_settings',
                         'label': 'left'
-                    } )
+                    })
                 }
             </script>
             <?php
@@ -524,12 +497,12 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @param $meta_box
          */
         public function render_meta_box_thumbnail( $post, $meta_box ) {
+
             // Get field group
             $field_group = $meta_box['args']['field_group'];
 
             // Thumbnail
-            acf_render_field_wrap(
-                array(
+            acf_render_field_wrap( array(
                     'label'         => __( 'Thumbnail', 'pilopress' ),
                     'instructions'  => __( 'Layout preview', 'pilopress' ),
                     'name'          => '_pip_thumbnail',
@@ -540,17 +513,16 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'return_format' => 'array',
                     'preview_size'  => 'thumbnail',
                     'library'       => 'all',
-                )
-            );
+                ) );
 
             // Script for admin style
             ?>
             <script type="text/javascript">
-                if ( typeof acf !== 'undefined' ) {
-                    acf.postbox.render( {
+                if (typeof acf !== 'undefined') {
+                    acf.postbox.render({
                         'id': 'pip_layout_thumbnail',
                         'label': 'top'
-                    } )
+                    })
                 }
             </script>
             <?php
@@ -563,12 +535,13 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          *
          * @return bool|mixed|null
          */
-        public static function is_layout( $post ) {
+        public function is_layout( $post ) {
+
             $is_layout   = false;
             $field_group = null;
 
             // If no post ID, return false
-            if ( !$post ) {
+            if ( ! $post ) {
                 return $is_layout;
             }
 
@@ -581,7 +554,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             // If no field group, return false
-            if ( !$field_group ) {
+            if ( ! $field_group ) {
                 return $is_layout;
             }
 
@@ -604,7 +577,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          *
          * @return array|null
          */
-        public static function get_layout_by_slug( $slug, $excluded_id = false ) {
+        public function get_layout_by_slug( $slug, $excluded_id = false ) {
+
             $field_group = null;
 
             // Get slug length
@@ -647,7 +621,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          * @param $layout_title
          * @param $field_group
          */
-        private function create_layout_dir( $layout_title, $field_group ) {
+        public function create_layout_dir( $layout_title, $field_group ) {
+
             // Create folder
             wp_mkdir_p( PIP_THEME_LAYOUTS_PATH . $layout_title );
 
@@ -662,12 +637,13 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         /**
          * Enqueue layouts configuration files
          */
-        public static function enqueue_configuration_files() {
+        public function enqueue_configuration_files() {
+
             // Get field groups
             $field_groups = acf_get_field_groups();
 
             // If no field group, return
-            if ( !$field_groups ) {
+            if ( ! $field_groups ) {
                 return;
             }
 
@@ -675,12 +651,12 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             foreach ( $field_groups as $field_grp ) {
 
                 // If not a layout, skip
-                if ( !self::is_layout( $field_grp ) ) {
+                if ( ! $this->is_layout( $field_grp ) ) {
                     continue;
                 }
 
                 // If no configuration file added, skip
-                if ( !acf_maybe_get( $field_grp, 'field_add_config_file' ) ) {
+                if ( ! acf_maybe_get( $field_grp, 'field_add_config_file' ) ) {
                     continue;
                 }
 
@@ -690,7 +666,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 $file_path        = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $config_file_name;
 
                 // If no file name or file doesn't exists, skip
-                if ( !$config_file_name || !file_exists( $file_path ) ) {
+                if ( ! $config_file_name || ! file_exists( $file_path ) ) {
                     continue;
                 }
 
@@ -705,14 +681,15 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          *
          * @return string
          */
-        public static function get_layouts_css() {
+        public function get_layouts_css() {
+
             $css_content = '';
 
             // Get layouts CSS files
             $layouts_css_files = glob( PIP_THEME_LAYOUTS_PATH . '*/*.css' );
 
             // If no CSS files, return
-            if ( !$layouts_css_files ) {
+            if ( ! $layouts_css_files ) {
                 return $css_content;
             }
 
@@ -732,11 +709,12 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          *
          * @return void
          */
-        public static function set_layout_group_keys( $layout_group_keys ) {
-            if ( self::$layout_group_keys ) {
-                self::$layout_group_keys = array_merge( self::$layout_group_keys, $layout_group_keys );
+        public function set_layout_group_keys( $layout_group_keys ) {
+
+            if ( $this->layout_group_keys ) {
+                $this->layout_group_keys = array_merge( $this->layout_group_keys, $layout_group_keys );
             } else {
-                self::$layout_group_keys = $layout_group_keys;
+                $this->layout_group_keys = $layout_group_keys;
             }
         }
 
@@ -745,8 +723,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          *
          * @return array
          */
-        public static function get_layout_group_keys() {
-            return self::$layout_group_keys;
+        public function get_layout_group_keys() {
+
+            return $this->layout_group_keys;
         }
 
         /**
@@ -756,24 +735,27 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          *
          * @return array
          */
-        public static function get_layouts_by_location( array $args ) {
+        public function get_layouts_by_location( array $args ) {
+
             $layouts = array();
 
             // Get layout keys
-            $layout_keys = self::get_layout_group_keys();
-            if ( !$layout_keys ) {
+            $layout_keys = $this->get_layout_group_keys();
+            if ( ! $layout_keys ) {
                 return $layouts;
             }
+
+            $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
             // Browse all layouts
             foreach ( $layout_keys as $layout_key ) {
                 $layout = acf_get_field_group( $layout_key );
-                if ( !isset( $layout['location'] ) ) {
+                if ( ! isset( $layout['location'] ) ) {
                     continue;
                 }
 
                 // Layout not assign to location
-                if ( !PIP_Flexible::get_field_group_visibility( $layout, $args ) ) {
+                if ( ! $pip_flexible->get_field_group_visibility( $layout, $args ) ) {
                     continue;
                 }
 
@@ -785,6 +767,5 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
     }
 
-    // Instantiate class
-    new PIP_Layouts();
+    acf_new_instance( 'PIP_Layouts' );
 }

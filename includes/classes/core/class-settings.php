@@ -1,10 +1,10 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( !class_exists( 'PIP_Settings' ) ) {
+if ( ! class_exists( 'PIP_Settings' ) ) {
 
     /**
      * Class PIP_Settings
@@ -42,9 +42,10 @@ if ( !class_exists( 'PIP_Settings' ) ) {
         );
 
         public function __construct() {
+
             $option = get_option( 'pilopress', array() );
 
-            if ( !empty( $option ) ) {
+            if ( ! empty( $option ) ) {
 
                 $this->version();
 
@@ -55,22 +56,24 @@ if ( !class_exists( 'PIP_Settings' ) ) {
             }
         }
 
-        private function reset() {
+        public function reset() {
+
             // Add upgrades to do
             $this->model['upgrades'] = $this->upgrades;
 
             // Update option
             update_option( 'pilopress', $this->model, true );
 
-            // Do upgrades
-            new PIP_Upgrades();
+            acf_new_instance( 'PIP_Upgrades' );
+
         }
 
-        private function version() {
+        public function version() {
+
             $current_version = $this->model['version'];
 
             // No upgrades needed
-            if ( acf_version_compare( $current_version, '>=', PiloPress::$version ) ) {
+            if ( acf_version_compare( $current_version, '>=', pilopress()->version ) ) {
                 return;
             }
 
@@ -97,19 +100,19 @@ if ( !class_exists( 'PIP_Settings' ) ) {
 
             // Update version
             $new_model            = $this->model;
-            $new_model['version'] = PiloPress::$version;
+            $new_model['version'] = pilopress()->version;
 
             // Update option
             update_option( 'pilopress', $new_model, true );
 
             if ( $do_upgrades ) {
-                new PIP_upgrades();
+                acf_new_instance( 'PIP_upgrades' );
             }
 
         }
 
     }
 
-    // Instantiate
-    new PIP_Settings();
+    acf_new_instance( 'PIP_Settings' );
+
 }
