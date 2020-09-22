@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'PIP_Options_Pages' ) ) {
+if ( !class_exists( 'PIP_Options_Pages' ) ) {
 
     /**
      * Class PIP_Options_Pages
@@ -123,7 +123,7 @@ if ( ! class_exists( 'PIP_Options_Pages' ) ) {
 
             // Format image sizes array
             $i = 0;
-            if ( ! empty( $all_image_sizes ) ) {
+            if ( !empty( $all_image_sizes ) ) {
                 foreach ( $all_image_sizes as $key => $image_size ) {
                     $image_sizes[ $i ]['name']   = $key;
                     $image_sizes[ $i ]['width']  = $image_size['width'];
@@ -181,7 +181,7 @@ if ( ! class_exists( 'PIP_Options_Pages' ) ) {
 
             // Get custom sizes
             $custom_sizes = get_field( 'pip_image_sizes', 'pip_styles_image_sizes' );
-            if ( ! is_array( $custom_sizes ) ) {
+            if ( !is_array( $custom_sizes ) ) {
                 return;
             }
 
@@ -202,7 +202,7 @@ if ( ! class_exists( 'PIP_Options_Pages' ) ) {
 
             // Get custom sizes
             $custom_sizes = get_field( 'pip_image_sizes', 'pip_styles_image_sizes' );
-            if ( ! is_array( $custom_sizes ) ) {
+            if ( !is_array( $custom_sizes ) ) {
                 return $size_names;
             }
 
@@ -222,13 +222,13 @@ if ( ! class_exists( 'PIP_Options_Pages' ) ) {
         public function save_wp_image_sizes( $post_id ) {
 
             // If not on Styles admin page, return
-            if ( ! pip_str_starts( $post_id, 'pip_styles_' ) ) {
+            if ( !pip_str_starts( $post_id, 'pip_styles_' ) ) {
                 return;
             }
 
             // Get posted values
             $posted_values = acf_maybe_get_POST( 'acf' );
-            if ( ! $posted_values ) {
+            if ( !$posted_values ) {
                 return;
             }
 
@@ -242,7 +242,7 @@ if ( ! class_exists( 'PIP_Options_Pages' ) ) {
                 }
 
                 // If no value, return
-                if ( ! $posted_value ) {
+                if ( !$posted_value ) {
                     continue;
                 }
 

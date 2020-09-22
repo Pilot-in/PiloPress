@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Flexible_Footer' ) ) {
+if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
     /**
      * Class PIP_Flexible_Footer
      */
@@ -184,7 +184,7 @@ if ( ! class_exists( 'PIP_Flexible_Footer' ) ) {
 
             foreach ( $field_groups as $field_group ) {
                 // If current screen not included in field group location, skip
-                if ( ! $pip_flexible->get_field_group_visibility( $field_group, $args ) ) {
+                if ( !$pip_flexible->get_field_group_visibility( $field_group, $args ) ) {
                     continue;
                 }
 

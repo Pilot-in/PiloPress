@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly
 
-if ( ! class_exists( 'PIP_Styles_Import_Tool' ) ) {
+if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
 
     /**
      * Class PIP_Styles_Import_Tool
@@ -30,12 +30,12 @@ if ( ! class_exists( 'PIP_Styles_Import_Tool' ) ) {
                 <?php
 
                 acf_render_field_wrap( array(
-                        'label'    => __( 'Select File', 'acf' ),
-                        'type'     => 'file',
-                        'name'     => 'acf_import_styles_configuration',
-                        'value'    => false,
-                        'uploader' => 'basic',
-                    ) );
+                    'label'    => __( 'Select File', 'acf' ),
+                    'type'     => 'file',
+                    'name'     => 'acf_import_styles_configuration',
+                    'value'    => false,
+                    'uploader' => 'basic',
+                ) );
 
                 ?>
             </div>
@@ -75,7 +75,7 @@ if ( ! class_exists( 'PIP_Styles_Import_Tool' ) ) {
             $json = json_decode( $json, true );
 
             // Check if empty
-            if ( ! $json || ! is_array( $json ) ) {
+            if ( !$json || !is_array( $json ) ) {
                 return acf_add_admin_notice( __( 'Import file empty', 'acf' ), 'warning' );
             }
 

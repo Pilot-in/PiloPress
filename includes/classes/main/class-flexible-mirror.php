@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Flexible_Mirror' ) ) {
+if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
     /**
      * Class PIP_Flexible_Mirror
@@ -58,7 +58,7 @@ if ( ! class_exists( 'PIP_Flexible_Mirror' ) ) {
         public function modify_acf_post_type() {
 
             // If AJAX or not admin, return
-            if ( wp_doing_ajax() || ! is_admin() ) {
+            if ( wp_doing_ajax() || !is_admin() ) {
                 return;
             }
 
@@ -205,29 +205,29 @@ if ( ! class_exists( 'PIP_Flexible_Mirror' ) ) {
 
             // Add hidden fields
             acf_hidden_input( array(
-                    'name'  => 'acf_field_group[key]',
-                    'value' => $this->get_flexible_mirror_group_key(),
-                ) );
+                'name'  => 'acf_field_group[key]',
+                'value' => $this->get_flexible_mirror_group_key(),
+            ) );
             acf_hidden_input( array(
-                    'name'  => 'acf_field_group[style]',
-                    'value' => 'seamless',
-                ) );
+                'name'  => 'acf_field_group[style]',
+                'value' => 'seamless',
+            ) );
             acf_hidden_input( array(
-                    'name'  => 'acf_field_group[active]',
-                    'value' => 0,
-                ) );
+                'name'  => 'acf_field_group[active]',
+                'value' => 0,
+            ) );
             acf_hidden_input( array(
-                    'name'  => 'acf_field_group[position]',
-                    'value' => 'normal',
-                ) );
+                'name'  => 'acf_field_group[position]',
+                'value' => 'normal',
+            ) );
             acf_hidden_input( array(
-                    'name'  => 'acf_field_group[label_placement]',
-                    'value' => 'left',
-                ) );
+                'name'  => 'acf_field_group[label_placement]',
+                'value' => 'left',
+            ) );
             acf_hidden_input( array(
-                    'name'  => 'acf_field_group[menu_order]',
-                    'value' => 0,
-                ) );
+                'name'  => 'acf_field_group[menu_order]',
+                'value' => 0,
+            ) );
         }
 
         /**

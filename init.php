@@ -1,6 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
@@ -36,7 +36,7 @@ function pip_include( $filename = '' ) {
  */
 function pip_load_textdomain( $domain = 'pilopress' ) {
 
-    if ( ! function_exists( 'acf_get_locale' ) ) {
+    if ( !function_exists( 'acf_get_locale' ) ) {
         return false;
     }
 

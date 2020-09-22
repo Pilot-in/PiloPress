@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Components' ) ) {
+if ( !class_exists( 'PIP_Components' ) ) {
 
     /**
      * Class PIP_Components
@@ -36,52 +36,52 @@ if ( ! class_exists( 'PIP_Components' ) ) {
         public function register_components() {
 
             register_post_type( $this->post_type, array(
-                    'label'               => __( 'Components', 'pilopress' ),
-                    'labels'              => array(
-                        'name'                     => __( 'Components', 'pilopress' ),
-                        'singular_name'            => __( 'Component', 'pilopress' ),
-                        'add_new'                  => __( 'Add new', 'pilopress' ),
-                        'add_new_item'             => __( 'Add new component', 'pilopress' ),
-                        'edit_item'                => __( 'Edit component', 'pilopress' ),
-                        'new_item'                 => __( 'New component', 'pilopress' ),
-                        'view_item'                => __( 'View component', 'pilopress' ),
-                        'view_items'               => __( 'View components', 'pilopress' ),
-                        'search_items'             => __( 'Search components', 'pilopress' ),
-                        'not_found'                => __( 'No components found.', 'pilopress' ),
-                        'not_found_in_trash'       => __( 'No components found in Trash.', 'pilopress' ),
-                        'parent_item_colon'        => __( 'Parent page:', 'pilopress' ),
-                        'all_items'                => __( 'All components', 'pilopress' ),
-                        'archives'                 => __( 'Component archives', 'pilopress' ),
-                        'attributes'               => __( 'Component attributes', 'pilopress' ),
-                        'insert_into_item'         => __( 'Insert into component', 'pilopress' ),
-                        'uploaded_to_this_item'    => __( 'Uploaded to this component', 'pilopress' ),
-                        'featured_image'           => __( 'Featured image', 'pilopress' ),
-                        'set_featured_image'       => __( 'Set featured image', 'pilopress' ),
-                        'remove_featured_image'    => __( 'Remove featured image', 'pilopress' ),
-                        'use_featured_image'       => __( 'Use as featured image', 'pilopress' ),
-                        'filter_items_list'        => __( 'Filter components list', 'pilopress' ),
-                        'items_list_navigation'    => __( 'Components list navigation', 'pilopress' ),
-                        'items_list'               => __( 'Components list', 'pilopress' ),
-                        'item_published'           => __( 'Component published.', 'pilopress' ),
-                        'item_published_privately' => __( 'Component published privately.', 'pilopress' ),
-                        'item_reverted_to_draft'   => __( 'Component reverted to draft.', 'pilopress' ),
-                        'item_scheduled'           => __( 'Component scheduled.', 'pilopress' ),
-                        'item_updated'             => __( 'Component updated.', 'pilopress' ),
-                    ),
-                    'description'         => __( "Your Pilo'Press components", 'pilopress' ),
-                    'public'              => false,
-                    'has_archive'         => false,
-                    'show_ui'             => true,
-                    'show_in_menu'        => false,
-                    'exclude_from_search' => true,
-                    'publicly_queryable'  => false,
-                    'show_in_nav_menus'   => false,
-                    'show_in_rest'        => false,
-                    'rewrite'             => false,
-                    'menu_position'       => 83,
-                    'menu_icon'           => 'dashicons-layout',
-                    'supports'            => array( 'title', 'revisions' ),
-                ) );
+                'label'               => __( 'Components', 'pilopress' ),
+                'labels'              => array(
+                    'name'                     => __( 'Components', 'pilopress' ),
+                    'singular_name'            => __( 'Component', 'pilopress' ),
+                    'add_new'                  => __( 'Add new', 'pilopress' ),
+                    'add_new_item'             => __( 'Add new component', 'pilopress' ),
+                    'edit_item'                => __( 'Edit component', 'pilopress' ),
+                    'new_item'                 => __( 'New component', 'pilopress' ),
+                    'view_item'                => __( 'View component', 'pilopress' ),
+                    'view_items'               => __( 'View components', 'pilopress' ),
+                    'search_items'             => __( 'Search components', 'pilopress' ),
+                    'not_found'                => __( 'No components found.', 'pilopress' ),
+                    'not_found_in_trash'       => __( 'No components found in Trash.', 'pilopress' ),
+                    'parent_item_colon'        => __( 'Parent page:', 'pilopress' ),
+                    'all_items'                => __( 'All components', 'pilopress' ),
+                    'archives'                 => __( 'Component archives', 'pilopress' ),
+                    'attributes'               => __( 'Component attributes', 'pilopress' ),
+                    'insert_into_item'         => __( 'Insert into component', 'pilopress' ),
+                    'uploaded_to_this_item'    => __( 'Uploaded to this component', 'pilopress' ),
+                    'featured_image'           => __( 'Featured image', 'pilopress' ),
+                    'set_featured_image'       => __( 'Set featured image', 'pilopress' ),
+                    'remove_featured_image'    => __( 'Remove featured image', 'pilopress' ),
+                    'use_featured_image'       => __( 'Use as featured image', 'pilopress' ),
+                    'filter_items_list'        => __( 'Filter components list', 'pilopress' ),
+                    'items_list_navigation'    => __( 'Components list navigation', 'pilopress' ),
+                    'items_list'               => __( 'Components list', 'pilopress' ),
+                    'item_published'           => __( 'Component published.', 'pilopress' ),
+                    'item_published_privately' => __( 'Component published privately.', 'pilopress' ),
+                    'item_reverted_to_draft'   => __( 'Component reverted to draft.', 'pilopress' ),
+                    'item_scheduled'           => __( 'Component scheduled.', 'pilopress' ),
+                    'item_updated'             => __( 'Component updated.', 'pilopress' ),
+                ),
+                'description'         => __( "Your Pilo'Press components", 'pilopress' ),
+                'public'              => false,
+                'has_archive'         => false,
+                'show_ui'             => true,
+                'show_in_menu'        => false,
+                'exclude_from_search' => true,
+                'publicly_queryable'  => false,
+                'show_in_nav_menus'   => false,
+                'show_in_rest'        => false,
+                'rewrite'             => false,
+                'menu_position'       => 83,
+                'menu_icon'           => 'dashicons-layout',
+                'supports'            => array( 'title', 'revisions' ),
+            ) );
         }
 
         /**
@@ -166,9 +166,9 @@ if ( ! class_exists( 'PIP_Components' ) ) {
 
             // Get posts grouped by
             $posts = get_posts( array(
-                    'post_type'      => $this->post_type,
-                    'posts_per_page' => - 1,
-                ) );
+                'post_type'      => $this->post_type,
+                'posts_per_page' => - 1,
+            ) );
 
             // Add "all" option
             $choices = array(
@@ -176,7 +176,7 @@ if ( ! class_exists( 'PIP_Components' ) ) {
             );
 
             // Build choices array
-            if ( ! empty( $posts ) ) {
+            if ( !empty( $posts ) ) {
                 // Add posts
                 foreach ( $posts as $post ) {
                     $choices[ $post->ID ] = $post->post_title;
@@ -201,7 +201,7 @@ if ( ! class_exists( 'PIP_Components' ) ) {
             $post_id = acf_maybe_get( $screen, 'post_id' );
 
             // If no post, return
-            if ( ! $post_id ) {
+            if ( !$post_id ) {
                 return false;
             }
 
@@ -216,7 +216,7 @@ if ( ! class_exists( 'PIP_Components' ) ) {
 
             // Allow for "!=" operator.
             if ( $rule['operator'] === '!=' ) {
-                $match = ! $match;
+                $match = !$match;
             }
 
             return $match;
@@ -235,7 +235,7 @@ if ( ! class_exists( 'PIP_Components' ) ) {
 
             // Get post
             $post = get_post( $post );
-            if ( ! $post ) {
+            if ( !$post ) {
                 return $is_component;
             }
 
@@ -254,7 +254,7 @@ if ( ! class_exists( 'PIP_Components' ) ) {
     acf_new_instance( 'PIP_Components' );
 }
 
-if ( ! function_exists( 'have_component' ) ) {
+if ( !function_exists( 'have_component' ) ) {
 
     // Component globals
     global $pip_component_i, $component_loop_setup, $component_values;
@@ -304,10 +304,10 @@ if ( ! function_exists( 'have_component' ) ) {
 
             // Create fake field
             acf_add_local_field( array(
-                    'key'        => $field_key,
-                    'type'       => 'group',
-                    'sub_fields' => $sub_fields,
-                ) );
+                'key'        => $field_key,
+                'type'       => 'group',
+                'sub_fields' => $sub_fields,
+            ) );
 
             // Wrap values
             $values = array(
@@ -315,7 +315,7 @@ if ( ! function_exists( 'have_component' ) ) {
             );
 
             // If not already setup, setup meta
-            if ( ! $component_loop_setup ) {
+            if ( !$component_loop_setup ) {
                 acf_setup_meta( $values, 'pip_component', true );
                 $component_loop_setup = true;
             }
@@ -337,7 +337,7 @@ if ( ! function_exists( 'have_component' ) ) {
     }
 }
 
-if ( ! function_exists( 'the_component' ) ) {
+if ( !function_exists( 'the_component' ) ) {
 
     /**
      * Increment component loop

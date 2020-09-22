@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
+if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
     /**
      * Class PIP_Admin_Layouts
@@ -23,7 +23,7 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
         public function admin_layouts_page() {
 
             // If not in admin acf field group listing, return
-            if ( ! is_admin() || ! acf_is_screen( 'edit-acf-field-group' ) ) {
+            if ( !is_admin() || !acf_is_screen( 'edit-acf-field-group' ) ) {
                 return;
             }
 
@@ -75,7 +75,7 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
             $pip_layouts = acf_get_instance( 'PIP_Layouts' );
 
             // If not a layout, return
-            if ( ! $pip_layouts->is_layout( $field_group ) ) {
+            if ( !$pip_layouts->is_layout( $field_group ) ) {
                 return;
             }
 
@@ -91,7 +91,7 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
             $original = $pip_layouts->get_layout_by_slug( $slug, $field_group['ID'] );
 
             // If not a duplicated layout slug, return
-            if ( ! $original ) {
+            if ( !$original ) {
                 return;
             }
 
@@ -131,7 +131,7 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
 
             $pip_layouts = acf_get_instance( 'PIP_Layouts' );
 
-            if ( ! $pip_layouts->is_layout( $post_id ) ) {
+            if ( !$pip_layouts->is_layout( $post_id ) ) {
                 return;
             }
 
@@ -155,10 +155,10 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
 
                 // Remove category terms counters
                 $terms = get_terms( array(
-                        'taxonomy'   => 'acf-field-group-category',
-                        'hide_empty' => false,
-                        'fields'     => 'id=>slug',
-                    ) );
+                    'taxonomy'   => 'acf-field-group-category',
+                    'hide_empty' => false,
+                    'fields'     => 'id=>slug',
+                ) );
                 if ( $terms ) {
                     foreach ( $terms as $term ) {
                         unset( $views[ 'category-' . $term ] );
@@ -202,12 +202,12 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
 
                 // Layouts page
                 foreach ( $field_groups as $key => $field_group ) {
-                    if ( ! $pip_layouts->is_layout( $field_group ) ) {
+                    if ( !$pip_layouts->is_layout( $field_group ) ) {
                         unset( $field_groups[ $key ] );
                     }
                 }
 
-            } elseif ( ! acf_maybe_get_GET( 'layouts' ) ) {
+            } elseif ( !acf_maybe_get_GET( 'layouts' ) ) {
 
                 // ACF Field groups
                 foreach ( $field_groups as $key => $field_group ) {
@@ -264,7 +264,7 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
                 // Set parameters
                 switch ( $post_status ) {
                     case 'all':
-                        $class = ( ! acf_maybe_get_GET( 'post_status' ) ) ? 'current' : '';
+                        $class = ( !acf_maybe_get_GET( 'post_status' ) ) ? 'current' : '';
                         $title = 'All';
                         $count = $query->found_posts;
                         break;
@@ -330,7 +330,7 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
                 // Set parameters
                 switch ( $post_status ) {
                     case 'all':
-                        $class = ( ! acf_maybe_get_GET( 'post_status' ) ) ? 'current' : '';
+                        $class = ( !acf_maybe_get_GET( 'post_status' ) ) ? 'current' : '';
                         $title = 'All';
                         $count = $query->found_posts;
                         break;
@@ -393,7 +393,7 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
                     // Continue if private or not JSON
                     continue;
 
-                } elseif ( ! $field_group['ID'] || ( $modified && $modified > get_post_modified_time( 'U', true, $field_group['ID'], true ) ) ) {
+                } elseif ( !$field_group['ID'] || ( $modified && $modified > get_post_modified_time( 'U', true, $field_group['ID'], true ) ) ) {
                     // If not in DB or JSON newer than post
 
                     if ( $is_layout && $pip_layouts->is_layout( $field_group ) ) {
@@ -401,7 +401,7 @@ if ( ! class_exists( 'PIP_Admin_Layouts' ) ) {
                         // Store layout
                         $sync[ $field_group['key'] ] = $field_group['title'];
 
-                    } elseif ( ! $is_layout && ! $pip_layouts->is_layout( $field_group ) ) {
+                    } elseif ( !$is_layout && !$pip_layouts->is_layout( $field_group ) ) {
 
                         // Store non layout
                         $sync[ $field_group['key'] ] = $field_group['title'];

@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Shortcodes' ) ) {
+if ( !class_exists( 'PIP_Shortcodes' ) ) {
 
     /**
      * Class PIP_Shortcodes
@@ -51,7 +51,7 @@ if ( ! class_exists( 'PIP_Shortcodes' ) ) {
             $class .= ( $attrs['type'] ) ? $attrs['type'] : '';
             $class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
-            if ( ! $attrs['nodiv'] ) {
+            if ( !$attrs['nodiv'] ) {
                 $html = do_shortcode( sprintf( '<div class="%s"><a href="%s" class="%s"%s>%s</a></div>', esc_attr( $attrs['alignment'] ), esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
             } else {
                 $html = do_shortcode( sprintf( '<a href="%s" class="%s"%s>%s</a>', esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
@@ -91,7 +91,7 @@ if ( ! class_exists( 'PIP_Shortcodes' ) ) {
         public function pip_breadcrumb() {
 
             // If no Yoast, return
-            if ( ! function_exists( 'yoast_breadcrumb' ) ) {
+            if ( !function_exists( 'yoast_breadcrumb' ) ) {
                 return null;
             }
 
@@ -139,7 +139,7 @@ if ( ! class_exists( 'PIP_Shortcodes' ) ) {
             $post_thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), $image_size );
 
             // If no URL, display default message
-            if ( ! $post_thumbnail_url ) {
+            if ( !$post_thumbnail_url ) {
                 return __( 'Post thumbnail here', 'pilopress' );
             }
 

@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'PIP_Settings' ) ) {
+if ( !class_exists( 'PIP_Settings' ) ) {
 
     /**
      * Class PIP_Settings
@@ -45,7 +45,7 @@ if ( ! class_exists( 'PIP_Settings' ) ) {
 
             $option = get_option( 'pilopress', array() );
 
-            if ( ! empty( $option ) ) {
+            if ( !empty( $option ) ) {
 
                 $this->version();
 

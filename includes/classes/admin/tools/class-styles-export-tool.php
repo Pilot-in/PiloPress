@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 } // Exit if accessed directly
 
-if ( ! class_exists( 'PIP_Styles_Export_Tool' ) ) {
+if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
 
     /**
      * Class PIP_Styles_Export_Tool
@@ -40,7 +40,7 @@ if ( ! class_exists( 'PIP_Styles_Export_Tool' ) ) {
         public function html() {
 
             // Export JSON
-            if ( ! $this->is_active() ) {
+            if ( !$this->is_active() ) {
                 $this->html_archive();
             }
 
@@ -73,18 +73,18 @@ if ( ! class_exists( 'PIP_Styles_Export_Tool' ) ) {
             <div class="acf-fields">
                 <?php
 
-                if ( ! empty( $choices ) ) {
+                if ( !empty( $choices ) ) {
 
                     // Render
                     acf_render_field_wrap( array(
-                            'label'   => __( 'Select styles settings', 'pilopress' ),
-                            'type'    => 'checkbox',
-                            'name'    => 'keys',
-                            'prefix'  => false,
-                            'value'   => $selected,
-                            'toggle'  => true,
-                            'choices' => $choices,
-                        ) );
+                        'label'   => __( 'Select styles settings', 'pilopress' ),
+                        'type'    => 'checkbox',
+                        'name'    => 'keys',
+                        'prefix'  => false,
+                        'value'   => $selected,
+                        'toggle'  => true,
+                        'choices' => $choices,
+                    ) );
 
                 } else {
 
@@ -138,7 +138,7 @@ if ( ! class_exists( 'PIP_Styles_Export_Tool' ) ) {
             $data = $this->get_data_for_export( $keys );
 
             // If no data, show error message
-            if ( ! $data ) {
+            if ( !$data ) {
                 return acf_add_admin_notice( __( 'An error appended. Please try again later.', 'pilopress' ), 'error' );
             }
 
@@ -177,7 +177,7 @@ if ( ! class_exists( 'PIP_Styles_Export_Tool' ) ) {
                 acf_disable_filter( 'local' );
 
                 // If no subfields, continue
-                if ( ! $sub_fields ) {
+                if ( !$sub_fields ) {
                     continue;
                 }
 
@@ -228,7 +228,7 @@ if ( ! class_exists( 'PIP_Styles_Export_Tool' ) ) {
         public function load() {
 
             // If not active, return
-            if ( ! $this->is_active() ) {
+            if ( !$this->is_active() ) {
                 return;
             }
 
@@ -236,7 +236,7 @@ if ( ! class_exists( 'PIP_Styles_Export_Tool' ) ) {
             $selected = $this->get_selected_keys();
 
             // If no keys, return
-            if ( ! $selected ) {
+            if ( !$selected ) {
                 return;
             }
 

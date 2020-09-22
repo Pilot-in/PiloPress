@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if ( ! class_exists( 'PiloPress' ) ) {
+if ( !class_exists( 'PiloPress' ) ) {
 
     /**
      * Class PiloPress
@@ -106,20 +106,20 @@ if ( ! class_exists( 'PiloPress' ) ) {
          */
         public function metabox_order( $order ) {
 
-            if ( ! $order ) {
+            if ( !$order ) {
                 $order = array(
                     'normal' => implode( ',', array(
 
-                            // Layouts
-                            'acf-field-group-fields',
-                            'pip_layout_settings',
-                            'acf-field-group-options',
+                        // Layouts
+                        'acf-field-group-fields',
+                        'pip_layout_settings',
+                        'acf-field-group-options',
 
-                            // Flexible Mirror
-                            'pip-flexible-layouts',
-                            'acf-field-group-locations',
+                        // Flexible Mirror
+                        'pip-flexible-layouts',
+                        'acf-field-group-locations',
 
-                        ) ),
+                    ) ),
                 );
             }
 
@@ -132,7 +132,7 @@ if ( ! class_exists( 'PiloPress' ) ) {
         public function load() {
 
             // Check if ACF Pro and ACFE are activated
-            if ( ! $this->has_acf() || ! $this->has_acfe() ) {
+            if ( !$this->has_acf() || !$this->has_acfe() ) {
                 return;
             }
 
@@ -220,7 +220,7 @@ if ( ! class_exists( 'PiloPress' ) ) {
             $this->create_pip_folder();
 
             // If class does not exist, return
-            if ( ! class_exists( 'PIP_Flexible_Mirror' ) ) {
+            if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 return;
             }
 
@@ -249,7 +249,7 @@ if ( ! class_exists( 'PiloPress' ) ) {
          */
         public function define( $name, $value = true ) {
 
-            if ( ! defined( $name ) ) {
+            if ( !defined( $name ) ) {
                 define( $name, $value );
             }
         }
@@ -302,7 +302,7 @@ function pilopress() {
 
     global $pilopress;
 
-    if ( ! isset( $pilopress ) ) {
+    if ( !isset( $pilopress ) ) {
         $pilopress = new PiloPress();
         $pilopress->initialize();
     }

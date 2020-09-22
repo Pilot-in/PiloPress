@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Flexible' ) ) {
+if ( !class_exists( 'PIP_Flexible' ) ) {
 
     /**
      * Class PIP_Flexible
@@ -71,29 +71,29 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
 
             // Builder params
             $builder_params = apply_filters( 'pip/builder/parameters', array(
-                    'acfe_permissions'                  => '',
-                    'acfe_flexible_stylised_button'     => 1,
-                    'acfe_flexible_layouts_thumbnails'  => 1,
-                    'acfe_flexible_layouts_settings'    => 1,
-                    'acfe_flexible_layouts_ajax'        => 1,
-                    'acfe_flexible_layouts_templates'   => 1,
-                    'acfe_flexible_layouts_placeholder' => 0,
-                    'acfe_flexible_disable_ajax_title'  => 1,
-                    'acfe_flexible_close_button'        => 1,
-                    'acfe_flexible_title_edition'       => 1,
-                    'acfe_flexible_clone'               => 1,
-                    'acfe_flexible_copy_paste'          => 1,
-                    'acfe_flexible_modal_edition'       => 1,
-                    'acfe_flexible_layouts_state'       => '',
-                    'acfe_flexible_hide_empty_message'  => 1,
-                    'acfe_flexible_empty_message'       => '',
-                    'acfe_flexible_layouts_previews'    => 1,
-                    'acfe_flexible_modal'               => array(
-                        'acfe_flexible_modal_enabled'    => '1',
-                        'acfe_flexible_modal_col'        => '6',
-                        'acfe_flexible_modal_categories' => '1',
-                    ),
-                ) );
+                'acfe_permissions'                  => '',
+                'acfe_flexible_stylised_button'     => 1,
+                'acfe_flexible_layouts_thumbnails'  => 1,
+                'acfe_flexible_layouts_settings'    => 1,
+                'acfe_flexible_layouts_ajax'        => 1,
+                'acfe_flexible_layouts_templates'   => 1,
+                'acfe_flexible_layouts_placeholder' => 0,
+                'acfe_flexible_disable_ajax_title'  => 1,
+                'acfe_flexible_close_button'        => 1,
+                'acfe_flexible_title_edition'       => 1,
+                'acfe_flexible_clone'               => 1,
+                'acfe_flexible_copy_paste'          => 1,
+                'acfe_flexible_modal_edition'       => 1,
+                'acfe_flexible_layouts_state'       => '',
+                'acfe_flexible_hide_empty_message'  => 1,
+                'acfe_flexible_empty_message'       => '',
+                'acfe_flexible_layouts_previews'    => 1,
+                'acfe_flexible_modal'               => array(
+                    'acfe_flexible_modal_enabled'    => '1',
+                    'acfe_flexible_modal_col'        => '6',
+                    'acfe_flexible_modal_categories' => '1',
+                ),
+            ) );
 
             $builder_params['acfe_flexible_modal']['acfe_flexible_modal_title'] = acf_maybe_get( $mirror, 'title' );
 
@@ -163,7 +163,7 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
             $counter      = pip_array_count_values_assoc( $field_groups, 'title' );
 
             // If not field groups, return
-            if ( ! $field_groups ) {
+            if ( !$field_groups ) {
                 return array(
                     'layouts'    => null,
                     'group_keys' => null,
@@ -174,7 +174,7 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
 
             foreach ( $field_groups as $field_group ) {
                 // If not layout, skip
-                if ( ! $pip_layouts->is_layout( $field_group ) ) {
+                if ( !$pip_layouts->is_layout( $field_group ) ) {
                     continue;
                 }
 
@@ -189,17 +189,17 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
 
                 // Categories
                 $categories = get_terms( array(
-                        'taxonomy'   => 'acf-layouts-category',
-                        'object_ids' => $field_group['ID'],
-                        'fields'     => 'names',
-                    ) );
+                    'taxonomy'   => 'acf-layouts-category',
+                    'object_ids' => $field_group['ID'],
+                    'fields'     => 'names',
+                ) );
 
                 // Collections
                 $collections = get_terms( array(
-                        'taxonomy'   => 'acf-layouts-collection',
-                        'object_ids' => $field_group['ID'],
-                        'fields'     => 'names',
-                    ) );
+                    'taxonomy'   => 'acf-layouts-collection',
+                    'object_ids' => $field_group['ID'],
+                    'fields'     => 'names',
+                ) );
 
                 // Allow user to by-pass condition
                 $always_show_collection = apply_filters( 'pip/layouts/always_show_collection', false );
@@ -218,7 +218,7 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
                 $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size', array() );
 
                 // Check if JS file exists before enqueue
-                if ( ! file_exists( $render_script ) ) {
+                if ( !file_exists( $render_script ) ) {
                     $render_script = null;
                 }
 
@@ -295,7 +295,7 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
         public function prepare_flexible_field( $field ) {
 
             // If no layouts, return
-            if ( ! acf_maybe_get( $field, 'layouts' ) ) {
+            if ( !acf_maybe_get( $field, 'layouts' ) ) {
                 return false;
             }
 
@@ -339,7 +339,7 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
                     );
                     break;
                 case 'taxonomy':
-                    if ( ! empty( $id ) ) {
+                    if ( !empty( $id ) ) {
                         $term     = get_term( $id );
                         $taxonomy = $term->taxonomy;
                     } else {
@@ -387,12 +387,12 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
             foreach ( $field_groups as $field_group ) {
 
                 // If not layout, skip
-                if ( ! $pip_layouts->is_layout( $field_group ) ) {
+                if ( !$pip_layouts->is_layout( $field_group ) ) {
                     continue;
                 }
 
                 // If current screen not included in field group location, skip
-                if ( ! $this->get_field_group_visibility( $field_group, $args ) ) {
+                if ( !$this->get_field_group_visibility( $field_group, $args ) ) {
                     continue;
                 }
 
@@ -442,7 +442,7 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
             $layouts = acf_maybe_get( $field, 'layouts' );
 
             // If no layouts, return
-            if ( ! $layouts ) {
+            if ( !$layouts ) {
                 return $thumbnail;
             }
 
@@ -452,7 +452,7 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
 
             // Get file path thanks to layout slug
             $layout_slug = acf_maybe_get( $field_group, '_pip_layout_slug' );
-            if ( ! $layout_slug ) {
+            if ( !$layout_slug ) {
                 return $thumbnail;
             }
 
@@ -511,7 +511,7 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
                     // Loop over rules and determine if all rules match.
                     $match_group = true;
                     foreach ( $group as $rule ) {
-                        if ( ! acf_match_location_rule( $rule, $screen, $field_group ) ) {
+                        if ( !acf_match_location_rule( $rule, $screen, $field_group ) ) {
                             $match_group = false;
                             break;
                         }
@@ -542,7 +542,7 @@ if ( ! class_exists( 'PIP_Flexible' ) ) {
             $mirror = acf_get_field_group( $pip_flexible_mirror->get_flexible_mirror_group_key() );
 
             // If field group doesn't exist, return
-            if ( ! $mirror ) {
+            if ( !$mirror ) {
                 return $locations;
             }
 
@@ -595,7 +595,7 @@ function get_pip_content( $post_id = false ) {
     $html   = '';
 
     // Maybe get pip header
-    if ( ! apply_filters( 'pip/header/remove', false ) ) {
+    if ( !apply_filters( 'pip/header/remove', false ) ) {
         $header = get_pip_header( false );
     }
 
@@ -605,7 +605,7 @@ function get_pip_content( $post_id = false ) {
     $content = get_flexible( $pip_flexible->get_flexible_field_name(), pip_get_formatted_post_id( $post_id ) );
 
     // Maybe get pip footer
-    if ( ! apply_filters( 'pip/footer/remove', false ) ) {
+    if ( !apply_filters( 'pip/footer/remove', false ) ) {
         $footer = get_pip_footer( false );
     }
 

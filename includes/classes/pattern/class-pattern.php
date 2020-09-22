@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Pattern' ) ) {
+if ( !class_exists( 'PIP_Pattern' ) ) {
 
     /**
      * Class PIP_Pattern
@@ -41,20 +41,20 @@ if ( ! class_exists( 'PIP_Pattern' ) ) {
 
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
-            if ( ! current_user_can( $capability ) ) {
+            if ( !current_user_can( $capability ) ) {
                 return;
             }
 
             // Add option page
             $option_page = acf_add_options_page( array(
-                    'page_title'  => __( 'Site Template', 'pilopress' ),
-                    'menu_title'  => __( 'Site Template', 'pilopress' ),
-                    'menu_slug'   => $this->menu_slug,
-                    'capability'  => $capability,
-                    'parent_slug' => 'pilopress',
-                    'post_id'     => $this->pattern_post_id,
-                    'autoload'    => true,
-                ) );
+                'page_title'  => __( 'Site Template', 'pilopress' ),
+                'menu_title'  => __( 'Site Template', 'pilopress' ),
+                'menu_slug'   => $this->menu_slug,
+                'capability'  => $capability,
+                'parent_slug' => 'pilopress',
+                'post_id'     => $this->pattern_post_id,
+                'autoload'    => true,
+            ) );
 
             // Set pattern option page
             $this->set_pattern_option_page( $option_page );
@@ -120,7 +120,7 @@ if ( ! class_exists( 'PIP_Pattern' ) ) {
             $match = false;
 
             // If not on Pattern page, return
-            if ( ! acf_maybe_get( $screen, $this->menu_slug ) ) {
+            if ( !acf_maybe_get( $screen, $this->menu_slug ) ) {
                 return $match;
             }
 
@@ -135,7 +135,7 @@ if ( ! class_exists( 'PIP_Pattern' ) ) {
 
             // Allow for "!=" operator.
             if ( $rule['operator'] === '!=' ) {
-                $match = ! $match;
+                $match = !$match;
             }
 
             return $match;

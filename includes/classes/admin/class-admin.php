@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Admin' ) ) {
+if ( !class_exists( 'PIP_Admin' ) ) {
 
     /**
      * Class PIP_Admin
@@ -43,7 +43,7 @@ if ( ! class_exists( 'PIP_Admin' ) ) {
             $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
 
             // If no flexible mirror, return
-            if ( ! $flexible_mirror ) {
+            if ( !$flexible_mirror ) {
                 return false;
             }
 
@@ -108,7 +108,7 @@ if ( ! class_exists( 'PIP_Admin' ) ) {
         public function admin_pre_get_posts( $query ) {
 
             // In admin, on ACF field groups archive
-            if ( ! is_admin() || ! acf_is_screen( 'edit-acf-field-group' ) ) {
+            if ( !is_admin() || !acf_is_screen( 'edit-acf-field-group' ) ) {
                 return;
             }
 
@@ -117,18 +117,18 @@ if ( ! class_exists( 'PIP_Admin' ) ) {
             if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
                 // Layouts view
                 $query->set( 'pip_post_content', array(
-                        'compare' => 'LIKE',
-                        'value'   => 's:14:"_pip_is_layout";i:1',
-                    ) );
+                    'compare' => 'LIKE',
+                    'value'   => 's:14:"_pip_is_layout";i:1',
+                ) );
 
             } elseif ( acf_maybe_get_GET( 'layouts' ) === null && acf_maybe_get_GET( 'post_status' ) !== 'trash' ) {
                 // Classic view
 
                 // Remove layouts
                 $query->set( 'pip_post_content', array(
-                        'compare' => 'NOT LIKE',
-                        'value'   => 's:14:"_pip_is_layout";i:1',
-                    ) );
+                    'compare' => 'NOT LIKE',
+                    'value'   => 's:14:"_pip_is_layout";i:1',
+                ) );
 
                 // Remove flexible
                 $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
@@ -150,7 +150,7 @@ if ( ! class_exists( 'PIP_Admin' ) ) {
 
             // If no custom var, return
             $pip_post_content = $wp_query->get( 'pip_post_content' );
-            if ( ! $pip_post_content ) {
+            if ( !$pip_post_content ) {
                 return $where;
             }
 
@@ -178,15 +178,15 @@ if ( ! class_exists( 'PIP_Admin' ) ) {
 
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
-            if ( ! current_user_can( $capability ) ) {
+            if ( !current_user_can( $capability ) ) {
                 return;
             }
 
             // Main menu page
             add_menu_page( __( "Pilo'Press", 'pilopress' ), __( "Pilo'Press", 'pilopress' ), $capability, 'pilopress', array(
-                    $this,
-                    'pilopress_dashboard'
-                ), 'data:image/svg+xml;base64,' . $pip_logo_base64_svg, 82 // After 'ACF' menu
+                $this,
+                'pilopress_dashboard'
+            ), 'data:image/svg+xml;base64,' . $pip_logo_base64_svg, 82 // After 'ACF' menu
             );
 
             // Flexible sub menu
@@ -288,9 +288,9 @@ if ( ! class_exists( 'PIP_Admin' ) ) {
 
             // Components
             $components = get_posts( array(
-                    'post_type'      => $pip_components->post_type,
-                    'posts_per_page' => - 1,
-                ) );
+                'post_type'      => $pip_components->post_type,
+                'posts_per_page' => - 1,
+            ) );
 
             // New field group link
             $add_new_component = add_query_arg( array(
@@ -339,37 +339,37 @@ if ( ! class_exists( 'PIP_Admin' ) ) {
 
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
-            if ( ! current_user_can( $capability ) ) {
+            if ( !current_user_can( $capability ) ) {
                 return;
             }
 
             // Pilo'Press menu
             $wp_admin_bar->add_node( array(
-                    'id'    => 'pilopress',
-                    'title' => "<span class='pip-icon'></span> Pilo'Press",
-                    'href'  => add_query_arg( array( 'page' => 'pilopress' ), admin_url( 'admin.php' ) ),
-                ) );
+                'id'    => 'pilopress',
+                'title' => "<span class='pip-icon'></span> Pilo'Press",
+                'href'  => add_query_arg( array( 'page' => 'pilopress' ), admin_url( 'admin.php' ) ),
+            ) );
 
             // Layouts
             $wp_admin_bar->add_node( array(
-                    'parent' => 'pilopress',
-                    'id'     => 'layouts',
-                    'title'  => __( 'Layouts', 'pilopress' ),
-                    'href'   => add_query_arg( array(
-                        'layouts'   => 1,
-                        'post_type' => 'acf-field-group',
-                    ), admin_url( 'edit.php' ) ),
-                ) );
+                'parent' => 'pilopress',
+                'id'     => 'layouts',
+                'title'  => __( 'Layouts', 'pilopress' ),
+                'href'   => add_query_arg( array(
+                    'layouts'   => 1,
+                    'post_type' => 'acf-field-group',
+                ), admin_url( 'edit.php' ) ),
+            ) );
 
             // Styles
             $wp_admin_bar->add_node( array(
-                    'parent' => 'pilopress',
-                    'id'     => 'styles',
-                    'title'  => __( 'Styles', 'pilopress' ),
-                    'href'   => add_query_arg( array(
-                        'page' => 'pip-styles-configuration',
-                    ), admin_url( 'admin.php' ) ),
-                ) );
+                'parent' => 'pilopress',
+                'id'     => 'styles',
+                'title'  => __( 'Styles', 'pilopress' ),
+                'href'   => add_query_arg( array(
+                    'page' => 'pip-styles-configuration',
+                ), admin_url( 'admin.php' ) ),
+            ) );
         }
 
         /**
@@ -427,7 +427,7 @@ if ( ! class_exists( 'PIP_Admin' ) ) {
             $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
 
             // Define submenu for Flexible menu
-            if ( acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID'] && ! acf_maybe_get_GET( 'page' ) ) {
+            if ( acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID'] && !acf_maybe_get_GET( 'page' ) ) {
                 $submenu_file = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
             }
 

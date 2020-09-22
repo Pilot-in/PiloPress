@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'PIP_Upgrades' ) ) {
+if ( !class_exists( 'PIP_Upgrades' ) ) {
 
     /**
      * Class PIP_Upgrades
@@ -39,7 +39,7 @@ if ( ! class_exists( 'PIP_Upgrades' ) ) {
             $upgrades = acf_maybe_get( $option, 'upgrades' );
 
             // If not in upgrades to do, return
-            if ( ! array_key_exists( '0_4_0', $upgrades ) ) {
+            if ( !array_key_exists( '0_4_0', $upgrades ) ) {
                 return;
             }
 
@@ -50,15 +50,15 @@ if ( ! class_exists( 'PIP_Upgrades' ) ) {
 
             // Enable modules
             update_field( 'pip_modules', array(
-                    'tailwind' => true,
-                    'tinymce'  => true,
-                ), 'pip_styles_modules' );
+                'tailwind' => true,
+                'tinymce'  => true,
+            ), 'pip_styles_modules' );
 
             // Enable Tailwind config override
             update_field( 'pip_tailwind_config', array(
-                    'override_config' => true,
-                    'tailwind_config' => get_field( 'pip_tailwind_config_tailwind_config', 'pip_styles_tailwind' ),
-                ), 'pip_styles_tailwind_module' );
+                'override_config' => true,
+                'tailwind_config' => get_field( 'pip_tailwind_config_tailwind_config', 'pip_styles_tailwind' ),
+            ), 'pip_styles_tailwind_module' );
 
             // Get old CSS field
             $tailwind_css = get_field( 'pip_tailwind_style_tailwind_style', 'pip_styles_tailwind' );
@@ -80,21 +80,21 @@ if ( ! class_exists( 'PIP_Upgrades' ) ) {
 
                 // Update base fields
                 update_field( 'pip_tailwind_style_base', array(
-                        'add_base_import'           => true,
-                        'tailwind_style_after_base' => $new_css['base'],
-                    ), 'pip_styles_tailwind_module' );
+                    'add_base_import'           => true,
+                    'tailwind_style_after_base' => $new_css['base'],
+                ), 'pip_styles_tailwind_module' );
 
                 // Update components fields
                 update_field( 'pip_tailwind_style_components', array(
-                        'add_components_import'           => true,
-                        'tailwind_style_after_components' => $new_css['components'],
-                    ), 'pip_styles_tailwind_module' );
+                    'add_components_import'           => true,
+                    'tailwind_style_after_components' => $new_css['components'],
+                ), 'pip_styles_tailwind_module' );
 
                 // Update utilities fields
                 update_field( 'pip_tailwind_style_utilities', array(
-                        'add_utilities_import'           => true,
-                        'tailwind_style_after_utilities' => $new_css['utilities'],
-                    ), 'pip_styles_tailwind_module' );
+                    'add_utilities_import'           => true,
+                    'tailwind_style_after_utilities' => $new_css['utilities'],
+                ), 'pip_styles_tailwind_module' );
             }
 
             // Typography
@@ -103,7 +103,7 @@ if ( ! class_exists( 'PIP_Upgrades' ) ) {
                 foreach ( $typo as $key => $item ) {
                     $old_classes = $item['classes_to_apply'];
 
-                    if ( ! strstr( $old_classes, ' ' ) ) {
+                    if ( !strstr( $old_classes, ' ' ) ) {
                         $item['class_name']       = $item['classes_to_apply'];
                         $item['classes_to_apply'] = '';
                     } else {

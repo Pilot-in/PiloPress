@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_TinyMCE' ) ) {
+if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
     /**
      * Class PIP_TinyMCE
@@ -11,7 +11,7 @@ if ( ! class_exists( 'PIP_TinyMCE' ) ) {
 
             // Check if module is enable
             $modules = pip_get_modules();
-            if ( ! acf_maybe_get( $modules, 'tinymce' ) ) {
+            if ( !acf_maybe_get( $modules, 'tinymce' ) ) {
                 return;
             }
 
@@ -36,12 +36,12 @@ if ( ! class_exists( 'PIP_TinyMCE' ) ) {
         public function localize_data() {
 
             acf_localize_data( array(
-                    'custom_fonts'   => $this->get_custom_fonts(),
-                    'custom_styles'  => $this->get_custom_typography(),
-                    'custom_colors'  => $this->get_custom_colors(),
-                    'custom_buttons' => $this->get_custom_buttons(),
-                    'image_sizes'    => $this->get_all_image_sizes(),
-                ) );
+                'custom_fonts'   => $this->get_custom_fonts(),
+                'custom_styles'  => $this->get_custom_typography(),
+                'custom_colors'  => $this->get_custom_colors(),
+                'custom_buttons' => $this->get_custom_buttons(),
+                'image_sizes'    => $this->get_all_image_sizes(),
+            ) );
         }
 
         /**
@@ -69,7 +69,7 @@ if ( ! class_exists( 'PIP_TinyMCE' ) ) {
                             $add_to_editor = get_sub_field( 'add_to_editor' );
 
                             // Update class name
-                            if ( ! $class_name ) {
+                            if ( !$class_name ) {
                                 $class_name = sanitize_title( $label );
                                 update_sub_field( 'class_name', $class_name, 'pip_styles_fonts' );
                             }
@@ -94,7 +94,7 @@ if ( ! class_exists( 'PIP_TinyMCE' ) ) {
                             $add_to_editor = get_sub_field( 'add_to_editor' );
 
                             // Update class name
-                            if ( ! $class_name ) {
+                            if ( !$class_name ) {
                                 $class_name = sanitize_title( $label );
                                 update_sub_field( 'class_name', $class_name, 'pip_styles_fonts' );
                             }
@@ -297,7 +297,7 @@ if ( ! class_exists( 'PIP_TinyMCE' ) ) {
                     $url     = get_sub_field( 'url' );
 
                     // Auto enqueue to false
-                    if ( ! $enqueue ) {
+                    if ( !$enqueue ) {
                         continue;
                     }
 
@@ -327,7 +327,7 @@ if ( ! class_exists( 'PIP_TinyMCE' ) ) {
                     $url     = get_sub_field( 'url' );
 
                     // Auto enqueue to false
-                    if ( ! $enqueue ) {
+                    if ( !$enqueue ) {
                         continue;
                     }
 

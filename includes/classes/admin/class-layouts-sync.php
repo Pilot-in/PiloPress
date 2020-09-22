@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Layouts_Sync' ) ) {
+if ( !class_exists( 'PIP_Layouts_Sync' ) ) {
 
     /**
      * Class PIP_Layouts_Sync
@@ -29,7 +29,7 @@ if ( ! class_exists( 'PIP_Layouts_Sync' ) ) {
 
             $post_id = acf_maybe_get_POST( 'post_ID' );
             $post    = get_post( $post_id );
-            if ( ! $post ) {
+            if ( !$post ) {
                 return $path;
             }
 
@@ -37,24 +37,24 @@ if ( ! class_exists( 'PIP_Layouts_Sync' ) ) {
             $field_group = acf_get_field_group( $post->post_name );
 
             // If no group, return
-            if ( ! $field_group ) {
+            if ( !$field_group ) {
                 return $path;
             }
 
             $pip_layouts = acf_get_instance( 'PIP_Layouts' );
 
             // If not a layout, return
-            if ( ! $pip_layouts->is_layout( $field_group ) ) {
+            if ( !$pip_layouts->is_layout( $field_group ) ) {
                 return $path;
             }
 
             // If no slug, return
-            if ( ! acf_maybe_get( $field_group, '_pip_layout_slug' ) ) {
+            if ( !acf_maybe_get( $field_group, '_pip_layout_slug' ) ) {
                 return $path;
             }
 
             // If layout folder doesn't exists, return
-            if ( ! file_exists( PIP_THEME_LAYOUTS_PATH . $field_group['_pip_layout_slug'] ) ) {
+            if ( !file_exists( PIP_THEME_LAYOUTS_PATH . $field_group['_pip_layout_slug'] ) ) {
                 return false;
             }
 

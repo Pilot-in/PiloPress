@@ -6,7 +6,7 @@
  * @see acf_admin_options_page
  */
 
-if ( ! class_exists( 'PIP_Admin_Options_Page' ) ) {
+if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
     /**
      * Class PIP_Admin_Options_Page
@@ -124,7 +124,7 @@ if ( ! class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             $is_style_page = false;
 
-            if ( ! $this->pages ) {
+            if ( !$this->pages ) {
                 return $is_style_page;
             }
 
@@ -142,13 +142,13 @@ if ( ! class_exists( 'PIP_Admin_Options_Page' ) ) {
          */
         public function admin_menu() {
 
-            if ( ! $this->pages ) {
+            if ( !$this->pages ) {
                 return;
             }
 
             foreach ( $this->pages as $key => $page ) {
                 $modules = pip_get_modules();
-                if ( ! acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
+                if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
                     continue;
                 }
                 // Register submenu page
@@ -193,9 +193,9 @@ if ( ! class_exists( 'PIP_Admin_Options_Page' ) ) {
             add_action( 'acf/input/admin_head', array( $this, 'admin_head' ) );
 
             add_screen_option( 'layout_columns', array(
-                    'max'     => 2,
-                    'default' => 2,
-                ) );
+                'max'     => 2,
+                'default' => 2,
+            ) );
         }
 
         /**
@@ -217,8 +217,8 @@ if ( ! class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             // Get associated field groups
             $field_groups = acf_get_field_groups( array(
-                    'options_page' => $menu_slug,
-                ) );
+                'options_page' => $menu_slug,
+            ) );
 
             if ( acf_maybe_get_GET( 'message' ) === '1' ) {
                 // Add notice
@@ -380,7 +380,7 @@ if ( ! class_exists( 'PIP_Admin_Options_Page' ) ) {
         public function rule_values( $values, $rule ) {
 
             // If not admin or not AJAX, return
-            if ( ! is_admin() && ! wp_doing_ajax() ) {
+            if ( !is_admin() && !wp_doing_ajax() ) {
                 return $values;
             }
 
@@ -390,7 +390,7 @@ if ( ! class_exists( 'PIP_Admin_Options_Page' ) ) {
             }
 
             // If pages not defined, return
-            if ( ! $this->pages ) {
+            if ( !$this->pages ) {
                 return $values;
             }
 

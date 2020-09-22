@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'TailwindAPI' ) ) {
+if ( !class_exists( 'TailwindAPI' ) ) {
 
     class TailwindAPI {
 
@@ -22,12 +22,12 @@ if ( ! class_exists( 'TailwindAPI' ) ) {
             ) );
 
             // CSS
-            if ( ! empty( $args['css'] ) ) {
+            if ( !empty( $args['css'] ) ) {
                 $args['css'] = $this->file_or_content( $args['css'], 'css' );
             }
 
             // Config
-            if ( ! empty( $args['config'] ) ) {
+            if ( !empty( $args['config'] ) ) {
                 $args['config'] = $this->file_or_content( $args['config'], 'js' );
             }
 
@@ -58,7 +58,7 @@ if ( ! class_exists( 'TailwindAPI' ) ) {
             }
 
             // Output
-            if ( ! empty( $args['output'] ) && (int) $return['response']['code'] === 200 ) {
+            if ( !empty( $args['output'] ) && (int) $return['response']['code'] === 200 ) {
                 file_put_contents( $args['output'], $return['body'] );
 
                 return true;

@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'PIP_Font_Color_Field' ) ) {
+if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
 
     /**
      * Class PIP_Font_Color_Field

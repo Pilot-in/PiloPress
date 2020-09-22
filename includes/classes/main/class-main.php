@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'PIP_Main' ) ) {
+if ( !class_exists( 'PIP_Main' ) ) {
 
     /**
      * Class PIP_Main

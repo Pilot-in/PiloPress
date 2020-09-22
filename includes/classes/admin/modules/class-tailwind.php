@@ -1,6 +1,6 @@
 <?php
 
-if ( ! class_exists( 'PIP_Tailwind' ) ) {
+if ( !class_exists( 'PIP_Tailwind' ) ) {
 
     /**
      * Class PIP_Tailwind
@@ -11,7 +11,7 @@ if ( ! class_exists( 'PIP_Tailwind' ) ) {
 
             // Check if module is enable
             $modules = pip_get_modules();
-            if ( ! acf_maybe_get( $modules, 'tailwind' ) ) {
+            if ( !acf_maybe_get( $modules, 'tailwind' ) ) {
                 return;
             }
 
@@ -28,7 +28,7 @@ if ( ! class_exists( 'PIP_Tailwind' ) ) {
         public function add_compile_styles_button( $page ) {
 
             // If not on Styles admin page, return
-            if ( ! pip_str_starts( acf_maybe_get( $page, 'post_id' ), 'pip_styles_' ) ) {
+            if ( !pip_str_starts( acf_maybe_get( $page, 'post_id' ), 'pip_styles_' ) ) {
                 return;
             }
 
@@ -48,18 +48,18 @@ if ( ! class_exists( 'PIP_Tailwind' ) ) {
         public function save_styles_settings( $post_id ) {
 
             // If not on Styles admin page, return
-            if ( ! pip_str_starts( $post_id, 'pip_styles_' ) ) {
+            if ( !pip_str_starts( $post_id, 'pip_styles_' ) ) {
                 return;
             }
 
             // If assets folder doesn't exists, return
-            if ( ! file_exists( PIP_THEME_ASSETS_PATH ) ) {
+            if ( !file_exists( PIP_THEME_ASSETS_PATH ) ) {
                 return;
             }
 
             // Update & Compile button
             $compile = acf_maybe_get_POST( 'update_compile' );
-            if ( ! $compile ) {
+            if ( !$compile ) {
                 return;
             }
 
@@ -141,7 +141,7 @@ if ( ! class_exists( 'PIP_Tailwind' ) ) {
             $body_classes = get_field( 'pip_body_classes', 'pip_styles_configuration' );
 
             // If not body classes, return
-            if ( ! $body_classes ) {
+            if ( !$body_classes ) {
                 return $body_css;
             }
 
@@ -306,7 +306,7 @@ if ( ! class_exists( 'PIP_Tailwind' ) ) {
 
             $options           = array();
             $container_options = get_field( 'pip_container', 'pip_styles_configuration' );
-            if ( ! $container_options ) {
+            if ( !$container_options ) {
                 return;
             }
 
@@ -400,7 +400,7 @@ if ( ! class_exists( 'PIP_Tailwind' ) ) {
 
             $options = array();
             $fonts   = pip_get_fonts();
-            if ( ! $fonts ) {
+            if ( !$fonts ) {
                 return;
             }
 
@@ -442,22 +442,22 @@ if ( ! class_exists( 'PIP_Tailwind' ) ) {
 
             // Build front style
             $tailwind->build( array(
-                    'css'          => $tailwind_style,
-                    'config'       => $tailwind_config,
-                    'autoprefixer' => true,
-                    'minify'       => true,
-                    'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
-                ) );
+                'css'          => $tailwind_style,
+                'config'       => $tailwind_config,
+                'autoprefixer' => true,
+                'minify'       => true,
+                'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
+            ) );
 
             // Build admin style
             $tailwind->build( array(
-                    'css'          => $tailwind_style,
-                    'config'       => $tailwind_config,
-                    'autoprefixer' => true,
-                    'minify'       => true,
-                    'prefixer'     => '.-preview',
-                    'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
-                ) );
+                'css'          => $tailwind_style,
+                'config'       => $tailwind_config,
+                'autoprefixer' => true,
+                'minify'       => true,
+                'prefixer'     => '.-preview',
+                'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
+            ) );
         }
 
         /**
@@ -499,11 +499,11 @@ if ( ! class_exists( 'PIP_Tailwind' ) ) {
 
                             // Get post
                             $posts   = new WP_Query( array(
-                                    'name'           => $file['file']['name'],
-                                    'post_type'      => 'attachment',
-                                    'posts_per_page' => 1,
-                                    'fields'         => 'ids',
-                                ) );
+                                'name'           => $file['file']['name'],
+                                'post_type'      => 'attachment',
+                                'posts_per_page' => 1,
+                                'fields'         => 'ids',
+                            ) );
                             $posts   = $posts->get_posts();
                             $post_id = reset( $posts );
 

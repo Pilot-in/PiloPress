@@ -20,9 +20,9 @@
         <?php
         // render post data
         acf_form_data( array(
-                'screen'  => 'options',
-                'post_id' => $post_id,
-            ) );
+            'screen'  => 'options',
+            'post_id' => $post_id,
+        ) );
 
         // Get modules
         $modules = pip_get_modules();
@@ -46,7 +46,7 @@
         endif;
 
         // If Tailwind module is deactivate
-        if ( ! acf_maybe_get( $modules, 'tailwind' ) ) : ?>
+        if ( !acf_maybe_get( $modules, 'tailwind' ) ) : ?>
             <div class="notice notice-info is-dismissible">
                 <p>
                     <b><?php _e( 'TailwindCSS module is disabled.', 'pilopress' ); ?></b>
@@ -58,7 +58,7 @@
         endif;
 
         // If TinyMCE module is deactivate
-        if ( ! acf_maybe_get( $modules, 'tinymce' ) ) : ?>
+        if ( !acf_maybe_get( $modules, 'tinymce' ) ) : ?>
             <div class="notice notice-info is-dismissible">
                 <p>
                     <b><?php _e( 'TinyMCE module is disabled.', 'pilopress' ); ?></b>
@@ -109,7 +109,7 @@
                             <?php
 
                             // If TailwindCSS module is not enable, skip
-                            if ( ! acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
+                            if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
                                 continue;
                             }
                             ?>
