@@ -38,13 +38,6 @@ if ( !class_exists( 'PiloPress' ) ) {
         public $acf = false;
 
         /**
-         * ACFE
-         *
-         * @var bool
-         */
-        public $acfe = false;
-
-        /**
          * Pilo'Press constructor.
          */
         public function __construct() {
@@ -74,56 +67,8 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Init
             include_once PIP_PATH . 'init.php';
 
-            // Activation actions
-            register_activation_hook( __FILE__, array( $this, 'activation' ) );
-
-            // Init hook
-            add_action( 'init', array( $this, 'load_translations' ) );
-
-            // Meta boxes order
-            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
-
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
-        }
-
-        /**
-         * Init hook
-         * Load translations
-         */
-        public function load_translations() {
-
-            // Load text domain file
-            pip_load_textdomain();
-        }
-
-        /**
-         * Re-order meta-boxes
-         *
-         * @param $order
-         *
-         * @return array
-         */
-        public function metabox_order( $order ) {
-
-            if ( !$order ) {
-                $order = array(
-                    'normal' => implode( ',', array(
-
-                        // Layouts
-                        'acf-field-group-fields',
-                        'pip_layout_settings',
-                        'acf-field-group-options',
-
-                        // Flexible Mirror
-                        'pip-flexible-layouts',
-                        'acf-field-group-locations',
-
-                    ) ),
-                );
-            }
-
-            return $order;
         }
 
         /**
@@ -132,18 +77,18 @@ if ( !class_exists( 'PiloPress' ) ) {
         public function load() {
 
             // Check if ACF Pro and ACFE are activated
-            if ( !$this->has_acf() || !$this->has_acfe() ) {
+            if ( !$this->has_acf() ) {
                 return;
             }
-
-            // Includes
-            add_action( 'acf/init', array( $this, 'includes' ) );
 
             // Sync JSON/PHP
             pip_include( 'includes/classes/admin/class-layouts-sync.php' );
 
+            // Includes
+            add_action( 'acf/init',                 array( $this, 'includes' ) );
+
             // Tools
-            add_action( 'acf/include_admin_tools', array( $this, 'tools' ), 9 );
+            add_action( 'acf/include_admin_tools',  array( $this, 'tools' ), 9 );
         }
 
         /**
@@ -212,36 +157,6 @@ if ( !class_exists( 'PiloPress' ) ) {
         }
 
         /**
-         * Activation actions
-         */
-        public function activation() {
-
-            // Create Pilo'Press folders
-            $this->create_pip_folder();
-
-            // If class does not exist, return
-            if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
-                return;
-            }
-
-            // Generate flexible mirror field group
-            $class = new PIP_Flexible_Mirror();
-            $class->generate_flexible_mirror();
-        }
-
-        /**
-         * Create Pilo'Press folders on activation
-         */
-        public function create_pip_folder() {
-
-            // Create "layouts" folder in theme
-            wp_mkdir_p( get_template_directory() . '/pilopress/layouts' );
-
-            // Create "assets" folder in theme
-            wp_mkdir_p( get_template_directory() . '/pilopress/assets' );
-        }
-
-        /**
          * Define constants
          *
          * @param      $name
@@ -252,6 +167,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             if ( !defined( $name ) ) {
                 define( $name, $value );
             }
+
         }
 
         /**
@@ -267,27 +183,10 @@ if ( !class_exists( 'PiloPress' ) ) {
             }
 
             // Check if ACF Pro is activated
-            $this->acf = class_exists( 'ACF' ) && defined( 'ACF_PRO' ) && defined( 'ACF_VERSION' ) && version_compare( ACF_VERSION, '5.7.13', '>=' );
+            $this->acf = class_exists( 'ACF' ) && defined( 'ACF_PRO' ) && defined( 'ACF_VERSION' ) && version_compare( ACF_VERSION, '5.8', '>=' ) && class_exists( 'ACFE' );
 
             return $this->acf;
-        }
 
-        /**
-         * Check if ACFE is activated
-         *
-         * @return bool
-         */
-        public function has_acfe() {
-
-            // If ACFE already available, return
-            if ( $this->acfe ) {
-                return true;
-            }
-
-            // Check if ACFE activated
-            $this->acfe = class_exists( 'ACFE' );
-
-            return $this->acfe;
         }
 
     }
@@ -308,6 +207,7 @@ function pilopress() {
     }
 
     return $pilopress;
+
 }
 
 // Instantiate

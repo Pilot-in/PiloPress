@@ -24,6 +24,9 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             // Create files and folder or rename folder
             add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 20, 3 );
+
+            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
+
         }
 
         /**
@@ -763,6 +766,38 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             return $layouts;
+        }
+
+        /**
+         * Re-order meta-boxes
+         *
+         * @param $order
+         *
+         * @return array
+         */
+        public function metabox_order( $order ) {
+
+            if ( !$order ) {
+
+                $order = array(
+                    'normal' => implode( ',', array(
+
+                        // Layouts
+                        'acf-field-group-fields',
+                        'pip_layout_settings',
+                        'acf-field-group-options',
+
+                        // Flexible Mirror
+                        'pip-flexible-layouts',
+                        'acf-field-group-locations',
+
+                    ) ),
+                );
+
+            }
+
+            return $order;
+
         }
 
     }

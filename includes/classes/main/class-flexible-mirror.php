@@ -28,7 +28,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
             // WP hooks
             add_action( 'init', array( $this, 'modify_acf_post_type' ) );
-            add_action( 'init', array( $this, 'generate_flexible_mirror' ), 11 );
             add_action( 'current_screen', array( $this, 'current_screen' ) );
             add_filter( 'pre_delete_post', array( $this, 'delete_post' ), 10, 2 );
             add_filter( 'pre_trash_post', array( $this, 'delete_post' ), 10, 2 );

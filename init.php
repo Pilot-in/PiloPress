@@ -4,14 +4,89 @@ if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
-/**
- * Get Pilo'Press path
- *
- * @return mixed
- */
-function pip_path() {
+if ( !class_exists( 'PIP_Init' ) ) {
 
-    return PIP_PATH;
+    /**
+     * Class PIP_Init
+     */
+    class PIP_Init {
+
+        public function __construct() {
+
+            // Hooks
+            add_action( 'init',                                             array( $this, 'load_translations' ) );
+            add_action( 'after_plugin_row_' . PIP_BASENAME,                 array( $this, 'plugin_row'), 5, 3 );
+
+        }
+
+        /**
+         * Init hook
+         * Load translations
+         */
+        public function load_translations() {
+
+            $domain = 'pilopress';
+
+            $locale  = apply_filters( 'plugin_locale', get_locale(), $domain );
+            $mo_file = $domain . '-' . $locale . '.mo';
+
+            // Try to load from the languages directory first.
+            if ( load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $mo_file ) ) {
+                return true;
+            }
+
+            // Load from plugin lang folder.
+            return load_textdomain( $domain, PIP_PATH . 'lang/' . $mo_file );
+
+        }
+
+        /**
+         * Check if ACF Pro and ACFE are activated
+         */
+        function plugin_row( $plugin_file, $plugin_data, $status ) {
+
+            // If ACF Pro and ACFE activated, return
+            if ( pilopress()->has_acf() ) {
+                return;
+            }
+
+            ?>
+
+            <style>
+                .plugins tr[data-plugin='<?php echo PIP_BASENAME; ?>'] th,
+                .plugins tr[data-plugin='<?php echo PIP_BASENAME; ?>'] td {
+                    box-shadow: none;
+                }
+
+                <?php if ( isset( $plugin_data['update'] ) && !empty( $plugin_data['update'] ) ) : ?>
+
+                .plugins tr.pilopress-plugin-tr td {
+                    box-shadow: none !important;
+                }
+
+                .plugins tr.pilopress-plugin-tr .update-message {
+                    margin-bottom: 0;
+                }
+
+                <?php endif; ?>
+            </style>
+
+            <tr class="plugin-update-tr active pilopress-plugin-tr">
+                <td colspan="3" class="plugin-update colspanchange">
+                    <div class="update-message notice inline notice-error notice-alt">
+                        <p><?php _e( 'Pilo\'Press requires Advanced Custom Fields PRO (minimum: 5.8) and ACF Extended.', 'pilopress' ); ?></p>
+                    </div>
+                </td>
+            </tr>
+
+            <?php
+
+        }
+
+    }
+
+    new PIP_Init();
+
 }
 
 /**
@@ -21,35 +96,12 @@ function pip_path() {
  */
 function pip_include( $filename = '' ) {
 
-    $file_path = pip_path() . ltrim( $filename, '/' );
+    $file_path = PIP_PATH . ltrim( $filename, '/' );
+
     if ( file_exists( $file_path ) ) {
         include_once $file_path;
     }
-}
 
-/**
- * Load translation
- *
- * @param string $domain
- *
- * @return bool
- */
-function pip_load_textdomain( $domain = 'pilopress' ) {
-
-    if ( !function_exists( 'acf_get_locale' ) ) {
-        return false;
-    }
-
-    $locale  = apply_filters( 'plugin_locale', acf_get_locale(), $domain );
-    $mo_file = $domain . '-' . $locale . '.mo';
-
-    // Try to load from the languages directory first.
-    if ( load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $mo_file ) ) {
-        return true;
-    }
-
-    // Load from plugin lang folder.
-    return load_textdomain( $domain, pip_path() . 'lang/' . $mo_file );
 }
 
 /**
@@ -75,6 +127,7 @@ function pip_enqueue() {
     if ( $css ) {
         wp_enqueue_style( 'style-pilopress', $css, false, pilopress()->version );
     }
+
 }
 
 /**
@@ -100,48 +153,5 @@ function pip_enqueue_admin() {
     if ( $css ) {
         wp_enqueue_style( 'style-pilopress-admin', $css, false, pilopress()->version );
     }
-}
-
-/**
- * Check if ACF Pro and ACFE are activated
- */
-add_action( 'after_plugin_row_' . PIP_BASENAME, 'pip_plugin_row', 5, 3 );
-function pip_plugin_row( $plugin_file, $plugin_data, $status ) {
-
-    // If ACF Pro and ACFE activated, return
-    if ( pilopress()->has_acf() && pilopress()->has_acfe() ) {
-        return;
-    }
-
-    ?>
-
-    <style>
-        .plugins tr[data-plugin='<?php echo PIP_BASENAME; ?>'] th,
-        .plugins tr[data-plugin='<?php echo PIP_BASENAME; ?>'] td {
-            box-shadow: none;
-        }
-
-        <?php if ( isset( $plugin_data['update'] ) && !empty( $plugin_data['update'] ) ) : ?>
-
-        .plugins tr.pilopress-plugin-tr td {
-            box-shadow: none !important;
-        }
-
-        .plugins tr.pilopress-plugin-tr .update-message {
-            margin-bottom: 0;
-        }
-
-        <?php endif; ?>
-    </style>
-
-    <tr class="plugin-update-tr active pilopress-plugin-tr">
-        <td colspan="3" class="plugin-update colspanchange">
-            <div class="update-message notice inline notice-error notice-alt">
-                <p><?php _e( 'Pilo\'Press requires Advanced Custom Fields PRO (minimum: 5.7.13) and ACF Extended.', 'pilopress' ); ?></p>
-            </div>
-        </td>
-    </tr>
-
-    <?php
 
 }
