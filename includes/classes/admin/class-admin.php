@@ -32,7 +32,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             $is_pip_admin = false;
 
-            $pip_flexible_mirror     = acf_get_instance( 'PIP_Flexible_Mirror' );
             $pip_layouts             = acf_get_instance( 'PIP_Layouts' );
             $pip_components          = acf_get_instance( 'PIP_Components' );
             $pip_pattern             = acf_get_instance( 'PIP_Pattern' );
@@ -40,15 +39,26 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $PIP_Layouts_Categories  = acf_get_instance( 'PIP_Layouts_Categories' );
             $PIP_Layouts_Collections = acf_get_instance( 'PIP_Layouts_Collections' );
 
-            $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
+            $flexible_mirror_id = pip_get_flexible_mirror_group_id();
 
             // If no flexible mirror, return
-            if ( !$flexible_mirror ) {
+            if ( !$flexible_mirror_id ) {
                 return false;
             }
 
             // If Pilo'Press admin page, set variable to true
-            if ( acf_maybe_get_GET( 'layouts' ) == '1' || $pip_layouts->is_layout( get_post( acf_maybe_get_GET( 'post' ) ) ) || acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID'] || acf_maybe_get_GET( 'taxonomy' ) === $PIP_Layouts_Categories->taxonomy_name || acf_maybe_get_GET( 'taxonomy' ) === $PIP_Layouts_Collections->taxonomy_name || acf_maybe_get_GET( 'post_type' ) === $pip_components->post_type || $pip_components->is_component( acf_maybe_get_GET( 'post' ) ) || acf_maybe_get_GET( 'page' ) == $pip_pattern->menu_slug || strstr( acf_maybe_get_GET( 'page' ), 'pip_addon' ) || $PIP_Admin_Options_Page->is_style_page( acf_maybe_get_GET( 'page' ) ) ) {
+            if (
+                acf_maybe_get_GET( 'layouts' ) == '1' ||
+                $pip_layouts->is_layout( get_post( acf_maybe_get_GET( 'post' ) ) ) ||
+                (int) acf_maybe_get_GET( 'post' ) === $flexible_mirror_id ||
+                acf_maybe_get_GET( 'taxonomy' ) === $PIP_Layouts_Categories->taxonomy_name ||
+                acf_maybe_get_GET( 'taxonomy' ) === $PIP_Layouts_Collections->taxonomy_name ||
+                acf_maybe_get_GET( 'post_type' ) === $pip_components->post_type ||
+                $pip_components->is_component( acf_maybe_get_GET( 'post' ) ) ||
+                acf_maybe_get_GET( 'page' ) == $pip_pattern->menu_slug ||
+                strstr( acf_maybe_get_GET( 'page' ), 'pip_addon' ) ||
+                $PIP_Admin_Options_Page->is_style_page( acf_maybe_get_GET( 'page' ) )
+            ) {
                 $is_pip_admin = true;
             }
 
@@ -112,8 +122,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 return;
             }
 
-            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
-
             if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
                 // Layouts view
                 $query->set( 'pip_post_content', array(
@@ -131,8 +139,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 ) );
 
                 // Remove flexible
-                $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
-                $query->set( 'post__not_in', array( $flexible_mirror['ID'] ) );
+                $query->set( 'post__not_in', array( pip_get_flexible_mirror_group_id() ) );
             }
         }
 
@@ -167,14 +174,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function add_admin_menu() {
 
-            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
             $pip_components      = acf_get_instance( 'PIP_Components' );
 
             // Pilot'in logo
             $pip_logo_base64_svg = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iI2EwYTVhYSI+PHBhdGggZD0iTTEwIC4yQzQuNi4yLjMgNC42LjMgMTBzNC40IDkuOCA5LjcgOS44YzIuNiAwIDUuMS0xIDYuOS0yLjggMS44LTEuOCAyLjgtNC4zIDIuOC02LjkgMC01LjUtNC4zLTkuOS05LjctOS45em02LjQgMTYuM2MtMS43IDEuNy00IDIuNi02LjQgMi42LTUgMC05LTQuMS05LTkuMVM1IC45IDEwIC45IDE5IDUgMTkgMTBjMCAyLjUtLjkgNC43LTIuNiA2LjV6Ii8+PHBhdGggZD0iTTEwIDUuM2MtMi41IDAtNC42IDIuMS00LjYgNC43di41Yy4yIDEuOCAxLjQgMy4zIDMgMy45LjUuMiAxIC4zIDEuNS4zLjQgMCAuOS0uMSAxLjMtLjIuMSAwIC4xIDAgLjItLjEuMy0uMS41LS4yLjgtLjMgMCAwIC4xIDAgLjEtLjEgMCAwIC4xIDAgLjEtLjFoLjFzLjEgMCAuMS0uMWMwIDAgLjEgMCAuMS0uMS4yLS4yLjUtLjQuNy0uNmwuMy0uM2MuNi0uOCAxLTEuOSAxLTIuOSAwLTIuNS0yLjEtNC42LTQuNy00LjZ6bTMuMSA3LjNjMC0uMSAwLS4xIDAgMC0uNi0uNC0uNy0uOS0uNy0xLjR2LS40LS4xLS4zYzAtLjctLjItMS41LTEuNS0xLjYtLjUgMC0xLjMuMS0yLjMuNC0uMi0uMS0uNCAwLS42LjEtLjYuMi0xLjIuNC0yIC43IDAtMi4yIDEuOC00IDMuOS00IDEuNSAwIDIuOC44IDMuNSAyLjEuNC42LjYgMS4yLjYgMS45IDAgLjktLjMgMS44LS45IDIuNnoiLz48L3N2Zz4=';
-
-            // Get flexible mirror
-            $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
 
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
@@ -190,7 +193,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             );
 
             // Flexible sub menu
-            add_submenu_page( 'pilopress', __( 'Builder', 'pilopress' ), __( 'Builder', 'pilopress' ), $capability, 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit' );
+            add_submenu_page( 'pilopress', __( 'Builder', 'pilopress' ), __( 'Builder', 'pilopress' ), $capability, 'post.php?post=' . pip_get_flexible_mirror_group_id() . '&action=edit' );
 
             // Layouts sub menu
             add_submenu_page( 'pilopress', __( 'Layouts', 'pilopress' ), __( 'Layouts', 'pilopress' ), $capability, 'edit.php?layouts=1&post_type=acf-field-group' );
@@ -381,14 +384,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function menu_parent_file( $parent_file ) {
 
-            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
             $pip_components      = acf_get_instance( 'PIP_Components' );
 
-            // Get flexible mirror
-            $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
-
             // Define parent menu for Flexible menu
-            if ( acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID'] ) {
+            if ( (int) acf_maybe_get_GET( 'post' ) === pip_get_flexible_mirror_group_id() ) {
                 $parent_file = 'pilopress';
             }
 
@@ -411,7 +410,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             global $current_screen;
 
-            $pip_flexible_mirror     = acf_get_instance( 'PIP_Flexible_Mirror' );
             $pip_components          = acf_get_instance( 'PIP_Components' );
             $pip_layouts             = acf_get_instance( 'PIP_Layouts' );
             $pip_pattern             = acf_get_instance( 'PIP_Pattern' );
@@ -423,12 +421,9 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 return $submenu_file;
             }
 
-            // Get flexible mirror
-            $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
-
             // Define submenu for Flexible menu
-            if ( acf_maybe_get_GET( 'post' ) == $flexible_mirror['ID'] && !acf_maybe_get_GET( 'page' ) ) {
-                $submenu_file = 'post.php?post=' . $flexible_mirror['ID'] . '&action=edit';
+            if ( (int) acf_maybe_get_GET( 'post' ) === pip_get_flexible_mirror_group_id() && !acf_maybe_get_GET( 'page' ) ) {
+                $submenu_file = 'post.php?post=' . pip_get_flexible_mirror_group_id() . '&action=edit';
             }
 
             // Define submenu for Layouts menu

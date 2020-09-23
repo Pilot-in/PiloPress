@@ -45,16 +45,18 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
 
             acf_log( "[Pilo'Press] Install" );
 
-            // Create Pilo'Press folders
             // Create "layouts" folder in theme
             wp_mkdir_p( get_stylesheet_directory() . '/pilopress/layouts' );
 
             // Create "assets" folder in theme
             wp_mkdir_p( get_stylesheet_directory() . '/pilopress/assets' );
 
-            // Generate flexible mirror field group
-            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
-            $pip_flexible_mirror->generate_flexible_mirror();
+            // Import Flexible Mirror Field Group
+            add_action('init', function(){
+
+                pip_import_flexible_mirror_group();
+
+            });
 
             // Remove upgrade from to do list
             unset( $upgrades['install'] );

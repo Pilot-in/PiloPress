@@ -262,6 +262,15 @@ body.admin_page_pip-styles-tailwind-module #publishing-action .spinner {
     margin-bottom: 0;
 }
 
+/* Pilo'Press: Builder */
+.pip-builder #misc-publishing-actions{
+    display:none;
+}
+
+.pip-builder #major-publishing-actions{
+    border-top:0;
+}
+
 /* Pilo'Press: Layouts */
 
 /* Collection tag */

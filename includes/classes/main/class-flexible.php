@@ -54,12 +54,10 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Get layouts and group keys
             $data = $this->get_layouts_and_group_keys();
 
-            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
             $pip_layouts         = acf_get_instance( 'PIP_Layouts' );
 
             // Mirror
-            $mirror = acf_get_field_group( $pip_flexible_mirror->get_flexible_mirror_group_key() );
-            $pip_flexible_mirror->set_flexible_mirror_group( $mirror );
+            $mirror = pip_get_flexible_mirror_group();
 
             // Layouts
             $layouts    = $data['layouts'];
@@ -89,13 +87,12 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 'acfe_flexible_empty_message'       => '',
                 'acfe_flexible_layouts_previews'    => 1,
                 'acfe_flexible_modal'               => array(
-                    'acfe_flexible_modal_enabled'    => '1',
-                    'acfe_flexible_modal_col'        => '6',
-                    'acfe_flexible_modal_categories' => '1',
+                    'acfe_flexible_modal_title'         => acf_maybe_get( $mirror, 'title' ),
+                    'acfe_flexible_modal_enabled'       => '1',
+                    'acfe_flexible_modal_col'           => '6',
+                    'acfe_flexible_modal_categories'    => '1',
                 ),
             ) );
-
-            $builder_params['acfe_flexible_modal']['acfe_flexible_modal_title'] = acf_maybe_get( $mirror, 'title' );
 
             // Fields params
             $fields = array(
@@ -536,10 +533,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          */
         public function flexible_locations( $locations = array() ) {
 
-            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
-
-            // Get field group
-            $mirror = acf_get_field_group( $pip_flexible_mirror->get_flexible_mirror_group_key() );
+            // Mirror
+            $mirror = pip_get_flexible_mirror_group();
 
             // If field group doesn't exist, return
             if ( !$mirror ) {

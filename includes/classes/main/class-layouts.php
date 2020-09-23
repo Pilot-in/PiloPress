@@ -184,10 +184,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 return $field_group;
             }
 
-            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
-
             // Get Flexible Mirror
-            $flexible_mirror = $pip_flexible_mirror->get_flexible_mirror_group();
+            $flexible_mirror = pip_get_flexible_mirror_group();
 
             $field_group['location'] = $flexible_mirror['location'];
 
@@ -203,10 +201,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // Get current field group
             global $field_group;
 
-            $pip_flexible_mirror = acf_get_instance( 'PIP_Flexible_Mirror' );
-
             // If mirror flexible page, remove categories boxes and return
-            if ( $field_group['key'] === $pip_flexible_mirror->get_flexible_mirror_group_key() ) {
+            if ( $field_group['key'] === pip_get_flexible_mirror_group_key() ) {
 
                 // Remove categories meta boxes
                 remove_meta_box( 'acf-field-group-categorydiv', 'acf-field-group', 'side' );

@@ -14,7 +14,7 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
         public function __construct() {
 
             // WP hooks
-            add_action( 'init', array( $this, 'custom_image_sizes' ) );
+            add_action( 'acf/init', array( $this, 'custom_image_sizes' ) );
             add_filter( 'image_size_names_choose', array( $this, 'custom_image_sizes_names' ) );
 
             // ACF hooks
