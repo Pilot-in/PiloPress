@@ -8,41 +8,181 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
     class PIP_Layouts {
 
         /**
-         * Layouts group keys
-         *
-         * @var array
+         * Vars
          */
         var $layout_group_keys = array();
 
+        /*
+         * Construct
+         */
         public function __construct() {
 
             // WP hooks
             add_action( 'init', array( $this, 'enqueue_configuration_files' ), 5 );
+
+            // Current Screen
             add_action( 'current_screen', array( $this, 'current_screen' ) );
-            add_action( 'register_post_type_args', array( $this, 'modify_acf_post_type' ), 10, 2 );
-            add_filter( 'display_post_states', array( $this, 'hide_layouts_post_states' ), 20 );
 
-            // Create files and folder or rename folder
-            add_action( 'wp_insert_post', array( $this, 'save_field_group' ), 20, 3 );
+            // Insert
+            //add_action( 'wp_insert_post', array( $this, 'insert_post' ), 20, 3 );
 
-            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
+            //add_filter( 'acf/validate_field_group', array( $this, 'save_validate_field_group' ), 20 );
 
         }
 
         /**
-         * Fire actions on layouts pages
+         * Current Screen
          */
         public function current_screen() {
 
-            // If not ACF field group single, return
-            if ( !acf_is_screen( 'acf-field-group' ) ) {
+            if ( !$this->is_layout_screen() ) {
                 return;
             }
 
-            add_filter( 'acf/validate_field_group', array( $this, 'layout_locations' ), 20 );
-            add_action( 'acf/field_group/admin_head', array( $this, 'layout_meta_boxes' ) );
-            add_action( 'acf/input/admin_head', array( $this, 'layout_settings' ), 20 );
-            add_action( 'acf/update_field_group', array( $this, 'set_field_group_to_inactive' ) );
+            // Post Type
+            $this->labels();
+
+            // Single
+            add_action( 'load-post.php', array( $this, 'load_single' ) );
+            add_action( 'load-post-new.php', array( $this, 'load_single' ) );
+
+            // List
+            add_action( 'load-edit.php', array( $this, 'load_list' ) );
+
+        }
+
+        /*
+         * Single
+         */
+        function load_single() {
+
+            add_filter( 'acf/validate_field_group', array( $this, 'validate_field_group' ), 20 );
+            add_action( 'acf/field_group/admin_head', array( $this, 'metaboxes' ) );
+            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
+
+            add_action( 'auto-draft_to_publish', array( $this, 'save_post' ));
+
+        }
+
+        /*
+         * List
+         */
+        function load_list() {
+
+            // Remove ACF Disabled Visual State
+            add_filter( 'display_post_states', array( $this, 'post_states' ), 20 );
+
+            // Remove ACF Extended: Field Group Category Column
+            remove_filter( 'manage_edit-acf-field-group_columns', 'acfe_field_group_category_column', 11 );
+            remove_action( 'manage_acf-field-group_posts_custom_column', 'acfe_field_group_category_column_html', 10 );
+
+        }
+
+        /**
+         * Layouts Labels
+         */
+        public function labels() {
+
+            $post_type = get_post_type_object( 'acf-field-group' );
+
+            // Change title on flexible edition page
+            $post_type->labels->name         = __( 'Layouts', 'pilopress' );
+            $post_type->labels->edit_item    = __( 'Edit Layout', 'pilopress' );
+            $post_type->labels->add_new_item = __( 'Add New Layout', 'pilopress' );
+
+        }
+
+        /**
+         * Layouts Locations
+         */
+        function validate_field_group( $field_group ) {
+
+            // New Layout
+            if ( !acf_maybe_get( $field_group, 'location' ) ) {
+
+                // Get Flexible Mirror
+                $flexible_mirror = pip_get_flexible_mirror_group();
+
+                $field_group['location'] = $flexible_mirror['location'];
+
+            }
+
+            // Force disable
+            $field_group['active'] = false;
+
+            return $field_group;
+
+        }
+
+        /**
+         * Layouts Locations
+         */
+        function save_validate_field_group( $field_group ) {
+
+            $field_group['title'] = $field_group['title'] . ' - TEST';
+
+            return $field_group;
+
+        }
+
+        /**
+         * Layouts Meta Boxes
+         */
+        public function metaboxes() {
+
+            // Get current field group
+            global $field_group;
+
+            // Meta box: Layout settings
+            add_meta_box( 'pip_layout_settings', __( "Layout settings", 'pilopress' ), array(
+                $this,
+                'render_meta_box_main',
+            ), 'acf-field-group', 'normal', 'high', array(
+                'field_group' => $field_group,
+            ) );
+
+            // Meta box: Thumbnail
+            add_meta_box( 'pip_layout_thumbnail', __( "Layout thumbnail", 'pilopress' ), array(
+                $this,
+                'render_meta_box_thumbnail',
+            ), 'acf-field-group', 'side', 'default', array(
+                'field_group' => $field_group,
+            ) );
+
+            // Remove ACF Extended: Field Group Category Metabox
+            remove_meta_box( 'acf-field-group-categorydiv', 'acf-field-group', 'side' );
+
+        }
+
+        /**
+         * Re-order meta-boxes
+         *
+         * @param $order
+         *
+         * @return array
+         */
+        public function metabox_order( $order ) {
+
+            if ( !$order ) {
+
+                $order = array(
+                    'normal' => implode( ',', array(
+
+                        // Layouts
+                        'acf-field-group-fields',
+                        'pip_layout_settings',
+                        'acf-field-group-options',
+
+                        // Flexible Mirror
+                        'pip-flexible-layouts',
+                        'acf-field-group-locations',
+
+                    ) ),
+                );
+
+            }
+
+            return $order;
 
         }
 
@@ -53,225 +193,16 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          *
          * @return mixed
          */
-        public function hide_layouts_post_states( $states ) {
-
-            // If not Layouts page, return
-            if ( acf_maybe_get_GET( 'layouts' ) != '1' ) {
-                return $states;
-            }
+        public function post_states( $states ) {
 
             // Unset disabled state
-            unset( $states['acf-disabled'] );
+            if(isset($states['acf-disabled'])){
+
+                unset( $states['acf-disabled'] );
+
+            }
 
             return $states;
-        }
-
-        /**
-         * Remove old layout group keys
-         *
-         * @return array
-         */
-        public function clean_group_keys() {
-
-            $clean_array = array();
-
-            // Get Layout group keys
-            $layout_group_keys = $this->get_layout_group_keys();
-            if ( !$layout_group_keys ) {
-                return $clean_array;
-            }
-
-            // Browse all group keys
-            foreach ( $layout_group_keys as $layout_group_key ) {
-                // Get field group
-                $field_group = acf_get_field_group( $layout_group_key );
-
-                if ( $field_group ) {
-
-                    // If field group, stock it
-                    $clean_array[] = $layout_group_key;
-
-                } else {
-
-                    // If no field group, remove from group keys
-                    unset( $layout_group_keys[ $layout_group_key ] );
-                    $this->set_layout_group_keys( $layout_group_keys );
-
-                }
-            }
-
-            return $clean_array;
-        }
-
-        /**
-         * Force layout to be inactive
-         *
-         * @param $field_group
-         *
-         * @return array|bool|void
-         */
-        public function set_field_group_to_inactive( $field_group ) {
-
-            // Is current post a layout ?
-            $is_layout = $this->is_layout( $field_group );
-            if ( !$is_layout ) {
-                return;
-            }
-
-            // Set active to false
-            if ( $field_group['active'] ) {
-                $field_group['active'] = 0;
-                acf_update_field_group( $field_group );
-            }
-        }
-
-        /**
-         * Force layout to be inactive
-         */
-        public function layout_settings() {
-
-            // Get current field group
-            global $field_group;
-
-            // Is current field group a layout ?
-            $is_layout = $this->is_layout( $field_group );
-            if ( !$is_layout ) {
-                return;
-            }
-
-            // Set active to false
-            $field_group['active'] = 0;
-        }
-
-        /**
-         * Change title on layouts pages
-         *
-         * @param $args
-         * @param $post_type
-         *
-         * @return mixed
-         */
-        public function modify_acf_post_type( $args, $post_type ) {
-
-            // If AJAX, not admin or not acf-field-group, return
-            if ( wp_doing_ajax() || !is_admin() || $post_type !== 'acf-field-group' ) {
-                return $args;
-            }
-
-            // Get current post
-            $post = get_post( acf_maybe_get_GET( 'post' ) );
-
-            // Layouts
-            $is_layout = $this->is_layout( $post );
-            if ( acf_maybe_get_GET( 'layouts' ) === '1' || $is_layout || acf_maybe_get_GET( 'layout' ) === '1' ) {
-
-                // Change title on layouts pages
-                $args['labels']['name']         = __( 'Layouts', 'pilopress' );
-                $args['labels']['edit_item']    = __( 'Edit Layout', 'pilopress' );
-                $args['labels']['add_new_item'] = __( 'Add New Layout', 'pilopress' );
-            }
-
-            return $args;
-        }
-
-        /**
-         * Layouts Default Locations
-         */
-        function layout_locations( $field_group ) {
-
-            // Only in new layouts
-            if ( acf_maybe_get( $field_group, 'location' ) ) {
-                return $field_group;
-            }
-
-            // Get Flexible Mirror
-            $flexible_mirror = pip_get_flexible_mirror_group();
-
-            $field_group['location'] = $flexible_mirror['location'];
-
-            return $field_group;
-
-        }
-
-        /**
-         * Pilo'Press meta boxes
-         */
-        public function layout_meta_boxes() {
-
-            // Get current field group
-            global $field_group;
-
-            // If mirror flexible page, remove categories boxes and return
-            if ( $field_group['key'] === pip_get_flexible_mirror_group_key() ) {
-
-                // Remove categories meta boxes
-                remove_meta_box( 'acf-field-group-categorydiv', 'acf-field-group', 'side' );
-                remove_meta_box( 'acf-layouts-categorydiv', 'acf-field-group', 'side' );
-
-                return;
-            }
-
-            // Is current field group a layout ?
-            $is_layout = $this->is_layout( $field_group );
-
-            if ( $is_layout ) {
-
-                // Meta box: Layout settings
-                add_meta_box( 'pip_layout_settings', __( "Pilo'Press: Layout settings", 'pilopress' ), array(
-                    $this,
-                    'render_meta_box_main',
-                ), 'acf-field-group', 'normal', 'high', array(
-                    'field_group' => $field_group,
-                ) );
-
-                // Meta box: Thumbnail
-                add_meta_box( 'pip_layout_thumbnail', __( "Pilo'Press: Layout thumbnail", 'pilopress' ), array(
-                    $this,
-                    'render_meta_box_thumbnail',
-                ), 'acf-field-group', 'side', 'default', array(
-                    'field_group' => $field_group,
-                ) );
-
-                // Hide field groups categories meta box
-                remove_meta_box( 'acf-field-group-categorydiv', 'acf-field-group', 'side' );
-
-            } elseif ( !$is_layout ) {
-
-                // Hide layouts categories and collections meta box
-                remove_meta_box( 'acf-layouts-categorydiv', 'acf-field-group', 'side' );
-                remove_meta_box( 'acf-layouts-collectiondiv', 'acf-field-group', 'side' );
-            }
-        }
-
-        /**
-         * Manage layout folder and files on save
-         *
-         * @param $post_id
-         * @param $post
-         * @param $update
-         */
-        public function save_field_group( $post_id, $post, $update ) {
-
-            // If is a revision, not a field group or not a layout, return
-            if ( wp_is_post_revision( $post_id ) || $post->post_status == 'draft' || $post->post_status == 'auto-draft' || $post->post_type !== 'acf-field-group' || !$this->is_layout( $post_id ) ) {
-                return;
-            }
-
-            // Get layout slug
-            $field_group = acf_get_field_group( $post_id );
-            $layout_slug = sanitize_title( $field_group['_pip_layout_slug'] );
-            if ( $post->post_content ) {
-                return;
-            }
-
-            // Do layout folder already exists ?
-            $folder_exists = file_exists( PIP_THEME_LAYOUTS_PATH . $layout_slug );
-            if ( $folder_exists ) {
-                return;
-            }
-
-            // Create layout dans files
-            $this->create_layout_dir( $layout_slug, $field_group );
         }
 
         /**
@@ -527,6 +458,83 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             <?php
         }
 
+        function save_post($post){
+
+            $post_id = $post->ID;
+            $field_group = acf_get_field_group( $post_id );
+            $layout_slug = sanitize_title( $field_group['_pip_layout_slug'] );
+
+            // Do layout folder already exists ?
+            $folder_exists = file_exists( PIP_THEME_LAYOUTS_PATH . $layout_slug );
+            if ( $folder_exists ) {
+                return;
+            }
+
+            // Create layout dans files
+            $this->create_layout_dir( $layout_slug, $field_group );
+
+        }
+
+        /**
+         * Manage layout folder and files on save
+         *
+         * @param $post_id
+         * @param $post
+         * @param $update
+         */
+        public function insert_post( $post_id, $post, $update ) {
+
+            // If is a revision, not a field group or not a layout, return
+            if ( wp_is_post_revision( $post_id ) || $post->post_status == 'draft' || $post->post_status == 'auto-draft' || $post->post_type !== 'acf-field-group' || !$this->is_layout( $post_id ) ) {
+                return;
+            }
+
+            // Get layout slug
+            $field_group = acf_get_field_group( $post_id );
+            $layout_slug = sanitize_title( $field_group['_pip_layout_slug'] );
+            if ( $post->post_content ) {
+                return;
+            }
+
+            // Do layout folder already exists ?
+            $folder_exists = file_exists( PIP_THEME_LAYOUTS_PATH . $layout_slug );
+            if ( $folder_exists ) {
+                return;
+            }
+
+            // Create layout dans files
+            $this->create_layout_dir( $layout_slug, $field_group );
+
+        }
+
+        public function is_layout_screen() {
+
+            global $typenow;
+
+            if ( $typenow !== 'acf-field-group' ) {
+
+                return false;
+
+            }
+
+            if ( acf_is_screen( 'edit-acf-field-group' ) && acf_maybe_get_GET( 'layouts' ) === '1' ) {
+
+                return true;
+
+            } elseif ( acf_is_screen( 'acf-field-group' ) ) {
+
+                if ( acf_maybe_get_GET( 'layout' ) === '1' || $this->is_layout( acf_maybe_get_GET( 'post' ) ) || isset($_REQUEST['acf_field_group']['_pip_is_layout']) ) {
+
+                    return true;
+
+                }
+
+            }
+
+            return false;
+
+        }
+
         /**
          * Check if post/field group is a layout
          *
@@ -630,7 +638,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             touch( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $file_name );
 
             // Update field group
-            acf_update_field_group( $field_group );
+            //acf_update_field_group( $field_group );
         }
 
         /**
@@ -764,39 +772,22 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             return $layouts;
         }
 
-        /**
-         * Re-order meta-boxes
-         *
-         * @param $order
-         *
-         * @return array
-         */
-        public function metabox_order( $order ) {
 
-            if ( !$order ) {
-
-                $order = array(
-                    'normal' => implode( ',', array(
-
-                        // Layouts
-                        'acf-field-group-fields',
-                        'pip_layout_settings',
-                        'acf-field-group-options',
-
-                        // Flexible Mirror
-                        'pip-flexible-layouts',
-                        'acf-field-group-locations',
-
-                    ) ),
-                );
-
-            }
-
-            return $order;
-
-        }
 
     }
 
     acf_new_instance( 'PIP_Layouts' );
+
+}
+
+function pip_is_layout_screen(){
+
+    return acf_get_instance('PIP_Layouts')->is_layout_screen();
+
+}
+
+function pip_is_layout($post){
+
+    return acf_get_instance('PIP_Layouts')->is_layout($post);
+
 }

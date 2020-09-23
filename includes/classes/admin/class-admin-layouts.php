@@ -14,7 +14,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             add_action( 'untrashed_post', array( $this, 'untrash_field_group' ), 1 );
 
             // ACF hooks
-            add_action( 'acf/update_field_group', array( $this, 'update_layout_setting' ), 10, 1 );
+            //add_action( 'acf/update_field_group', array( $this, 'update_layout_setting' ), 10, 1 );
         }
 
         /**
@@ -119,7 +119,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
 
             // Update field group with new slug
             $field_group['_pip_layout_slug'] = $alt_post_name;
-            acf_update_field_group( $field_group );
+            //acf_update_field_group( $field_group );
         }
 
         /**

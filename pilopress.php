@@ -104,6 +104,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/main/class-main.php' );
             pip_include( 'includes/classes/main/class-layouts-collections.php' );
             pip_include( 'includes/classes/main/class-layouts-categories.php' );
+            pip_include( 'includes/classes/main/class-field-groups.php' );
             pip_include( 'includes/classes/main/class-flexible.php' );
             pip_include( 'includes/classes/main/class-flexible-mirror.php' );
             pip_include( 'includes/classes/main/class-layouts.php' );

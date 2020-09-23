@@ -77,11 +77,6 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
                 'update_count_callback' => array( $this, 'update_layouts_category_count' ),
             ) );
 
-            // Remove ACF Field groups categories
-            if ( acf_maybe_get_GET( 'layouts' ) === '1' ) {
-                remove_filter( 'manage_edit-acf-field-group_columns', 'acfe_field_group_category_column', 11 );
-                remove_action( 'manage_acf-field-group_posts_custom_column', 'acfe_field_group_category_column_html', 10 );
-            }
         }
 
         /**

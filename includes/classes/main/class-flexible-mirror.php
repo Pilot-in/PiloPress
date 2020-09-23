@@ -34,16 +34,17 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 return;
             }
 
-            add_action( 'load-post.php', array( $this, 'load' ) );
-            add_action( 'load-post.php', array( $this, 'labels' ) );
+            add_action( 'load-post.php', array( $this, 'load_single' ) );
 
         }
 
-        function load() {
+        function load_single() {
 
-            add_filter( 'admin_body_class',     array( $this, 'admin_body_class' ) );
+            $this->labels();
+
+            add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
             add_action( 'acf/input/admin_head', array( $this, 'meta_boxes' ) );
-            add_action( 'acf/form_data',        array( $this, 'hidden_fields' ) );
+            add_action( 'acf/form_data', array( $this, 'hidden_fields' ) );
 
         }
 
@@ -78,14 +79,18 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          */
         public function meta_boxes() {
 
-            // Remove meta boxes
+            // Remove meta boxes normal
             remove_meta_box( 'acf-field-group-options', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-field-group-fields', 'acf-field-group', 'normal' );
             remove_meta_box( 'slugdiv', 'acf-field-group', 'normal' );
-            remove_meta_box( 'acf-field-group-acfe-side', 'acf-field-group', 'side' );
             remove_meta_box( 'acf-field-group-acfe', 'acf-field-group', 'normal' );
             remove_meta_box( 'acfe-wp-custom-fields', 'acf-field-group', 'normal' );
+
+            // Remove meta boxes side
             remove_meta_box( 'acf-layouts-collectiondiv', 'acf-field-group', 'side' );
+            remove_meta_box( 'acf-field-group-acfe-side', 'acf-field-group', 'side' );
+            remove_meta_box( 'acf-field-group-categorydiv', 'acf-field-group', 'side' );
+            remove_meta_box( 'acf-layouts-categorydiv', 'acf-field-group', 'side' );
 
         }
 
