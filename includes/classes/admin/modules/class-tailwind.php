@@ -425,13 +425,11 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          */
         public function compile_tailwind() {
 
-            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
-
             // Get CSS
             $tailwind_style = $this->get_tailwind_css();
 
             // Get layouts CSS
-            $tailwind_style .= $pip_layouts->get_layouts_css();
+            $tailwind_style .= pip_get_layouts_css();
 
             // Get config
             $tailwind_config = $this->get_tailwind_config();

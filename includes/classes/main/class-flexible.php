@@ -192,7 +192,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 ) );
 
                 // Collections
-                $collections = get_terms( array(
+                $collections = (array) get_terms( array(
                     'taxonomy'   => 'acf-layouts-collection',
                     'object_ids' => $field_group['ID'],
                     'fields'     => 'names',
@@ -202,7 +202,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 $always_show_collection = apply_filters( 'pip/layouts/always_show_collection', false );
 
                 // Add collection badge if two layouts have the same name
-                if ( $collections && ( $counter[ $title ] > 1 || $always_show_collection ) ) {
+                if ( !is_wp_error($collections) && !empty($collections) && !isset($collections['errors']) && ( $counter[ $title ] > 1 || $always_show_collection ) ) {
+
                     $title = '<div class="pip_collection">' . reset( $collections ) . '</div>' . $title;
                 }
 

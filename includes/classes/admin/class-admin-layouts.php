@@ -72,10 +72,8 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
          */
         public function update_layout_setting( $field_group ) {
 
-            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
-
             // If not a layout, return
-            if ( !$pip_layouts->is_layout( $field_group ) ) {
+            if ( !pip_is_layout( $field_group ) ) {
                 return;
             }
 
@@ -88,7 +86,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
             $slug = $field_group['_pip_layout_slug'];
 
             // Get layout with current slug
-            $original = $pip_layouts->get_layout_by_slug( $slug, $field_group['ID'] );
+            $original = pip_get_layout_by_slug( $slug, $field_group['ID'] );
 
             // If not a duplicated layout slug, return
             if ( !$original ) {
@@ -104,7 +102,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
                 $alt_post_name = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
 
                 // Check if layout exists with new slug
-                $unique_layout_slug = $pip_layouts->get_layout_by_slug( $alt_post_name );
+                $unique_layout_slug = pip_get_layout_by_slug( $alt_post_name );
 
                 // Increment suffix
                 $suffix ++;
@@ -129,9 +127,7 @@ if ( !class_exists( 'PIP_Admin_Layouts' ) ) {
          */
         public function untrash_field_group( $post_id ) {
 
-            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
-
-            if ( !$pip_layouts->is_layout( $post_id ) ) {
+            if ( !pip_is_layout( $post_id ) ) {
                 return;
             }
 

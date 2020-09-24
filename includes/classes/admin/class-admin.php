@@ -222,7 +222,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $error_icon   = '<span class="dashicons dashicons-no-alt"></span>';
 
             $pip_components = acf_get_instance( 'PIP_Components' );
-            $pip_layouts    = acf_get_instance( 'PIP_Layouts' );
 
             // Check if "style-admin.min.css" enqueued
             global $wp_styles;
@@ -268,17 +267,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             );
 
             // Layouts list
-            $layouts      = array();
-            $layouts_keys = $pip_layouts->get_layout_group_keys();
-            if ( is_array( $layouts_keys ) ) {
-                foreach ( $layouts_keys as $layout_key ) {
+            $layouts = array();
 
-                    // Structured array for template file
-                    $layouts[] = array(
-                        'field_group' => acf_get_field_group( $layout_key ),
-                    );
+            foreach ( pip_get_layouts() as $layout ) {
 
-                }
+                // Structured array for template file
+                $layouts[] = array(
+                    'field_group' => $layout,
+                );
+
             }
 
             // New field group link

@@ -23,3 +23,14 @@ div[data-name='hide_on_screen'] {
 #the-list .status-acf-disabled .column-title .row-actions span.trash a:hover {
     color: #dc3232 !important;
 }
+
+/*
+ * Field Group: Tabs hack to initialize
+ */
+.acf-fields .acf-field-tab{
+    display:block !important;
+    height:0;
+    overflow:hidden;
+    padding: 0 !important;
+    border: 0 !important;
+}
