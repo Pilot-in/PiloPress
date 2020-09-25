@@ -32,7 +32,28 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
 
         function load_list(){
 
-            add_filter( 'views_edit-acf-field-group', array( $this, 'edit_views' ), 999 );
+            $acf_field_groups = acf_get_instance('ACF_Admin_Field_Groups');
+
+            foreach($acf_field_groups->sync as $key => $field_group){
+
+                if(!pip_is_layout($field_group))
+                    continue;
+
+                unset($acf_field_groups->sync[$key]);
+
+            }
+
+            add_filter( 'views_edit-acf-field-group', array( $this, 'views' ), 999 );
+
+            // After sync
+            if ( acf_maybe_get_GET( 'acfsynccomplete' ) ) {
+                $this->maybe_redirect_to_layouts();
+            }
+
+            // After sync and redirection
+            if ( acf_maybe_get_GET( 'sync_ok' ) ) {
+                $this->show_notice_message();
+            }
 
         }
 
@@ -42,20 +63,14 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
 
         }
 
-        function edit_views(){
-
-            // Update counters for field groups page
-            //$this->update_field_groups_counters( $views );
-            //pip_layouts_update_sync_counters( $views, false );
-
-        }
-
         /**
-         * Update counters for ACF Field Groups page
+         * Views
          *
          * @param $views
+         *
+         * @return bool
          */
-        public function update_field_groups_counters( &$views ) {
+        public function views( $views ) {
 
             $post_statuses = array(
                 'all',
@@ -120,6 +135,74 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
                 }
             }
 
+            return $views;
+
+        }
+
+        /**
+         * Redirect to layouts admin page
+         */
+        public function maybe_redirect_to_layouts() {
+
+            $redirect = false;
+
+            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
+
+            // If layouts, redirect to true
+            $field_groups = acf_maybe_get_GET( 'acfsynccomplete' );
+            if ( $field_groups ) {
+                $field_groups = explode( ',', $field_groups );
+
+                if ( $field_groups ) {
+                    foreach ( $field_groups as $field_group ) {
+                        if ( $pip_layouts->is_layout( $field_group ) ) {
+                            $redirect = true;
+                        }
+                    }
+                }
+            }
+
+            // Redirect
+            if ( $redirect ) {
+                $url = add_query_arg( array(
+                    'post_type' => 'acf-field-group',
+                    'layouts'   => 1,
+                    'sync_ok'   => acf_maybe_get_GET( 'acfsynccomplete' ),
+                ), admin_url( 'edit.php' ) );
+
+                wp_safe_redirect( $url );
+                exit();
+            }
+        }
+
+        /**
+         * Show notice message after sync
+         */
+        public function show_notice_message() {
+
+            $sync_field_groups = acf_maybe_get_GET( 'sync_ok' );
+            if ( $sync_field_groups ) {
+
+                // explode
+                $sync_field_groups = explode( ',', $sync_field_groups );
+                $total             = count( $sync_field_groups );
+
+                // Generate text.
+                // translators: Number of layouts synchronised
+                $text = sprintf( _n( '%s layout synchronised.', '%s layouts synchronised.', $total, 'acf' ), $total );
+
+                // Add links to text.
+                $links = array();
+                if ( $sync_field_groups ) {
+                    foreach ( $sync_field_groups as $id ) {
+                        $links[] = '<a href="' . get_edit_post_link( $id ) . '">' . get_the_title( $id ) . '</a>';
+                    }
+                }
+                $text .= ' ' . implode( ', ', $links );
+
+                // Add notice
+                acf_add_admin_notice( $text, 'success' );
+            }
         }
 
         function metaboxes(){

@@ -36,9 +36,20 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
          */
         function load_list() {
 
+            $acf_field_groups = acf_get_instance('ACF_Admin_Field_Groups');
+
+            foreach($acf_field_groups->sync as $key => $field_group){
+
+                if(pip_is_layout($field_group))
+                    continue;
+
+                unset($acf_field_groups->sync[$key]);
+
+            }
+
             // Remove ACF Disabled Visual State
             add_filter( 'display_post_states', array( $this, 'post_states' ), 20 );
-            add_filter( 'views_edit-acf-field-group', array( $this, 'edit_views' ), 999 );
+            add_filter( 'views_edit-acf-field-group', array( $this, 'views' ), 999 );
 
             // Remove ACF Extended: Field Group Category Column
             remove_filter( 'manage_edit-acf-field-group_columns', 'acfe_field_group_category_column', 11 );
@@ -67,48 +78,41 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
         }
 
         /**
-         * Remove links on layouts page
+         * Views
          *
          * @param $views
          *
          * @return bool
          */
-        public function edit_views( $views ) {
+        public function views( $views ) {
 
-            // If layouts page, remove links and update counters
-            //$this->update_layouts_counters( $views );
-            //$this->update_sync_counters( $views );
+            // Field Groups Categories
+            foreach($views as $key => $val){
 
-            // Remove category terms counters
-            $terms = get_terms( array(
-                'taxonomy'   => 'acf-field-group-category',
-                'hide_empty' => false,
-                'fields'     => 'id=>slug',
-            ) );
+                if(strpos($key, 'category-') !== 0)
+                    continue;
 
-            if ( $terms ) {
-                foreach ( $terms as $term ) {
-                    unset( $views[ 'category-' . $term ] );
-                }
+                unset($views[$key]);
+
             }
 
-            // Remove useless counters
+            // Others views
             unset( $views['publish'] );
             unset( $views['acfe-third-party'] );
             unset( $views['acf-disabled'] );
             unset( $views['acfe-local'] );
 
-            return $views;
+            // Update Sync
+            if(isset($views['sync'])){
 
-        }
+                preg_match('/href="([^\"]*)"/', $views['sync'], $url);
 
-        /**
-         * Update counters for layouts page
-         *
-         * @param $views
-         */
-        public function update_layouts_counters( &$views ) {
+                $views['sync'] = str_replace($url[1], esc_url($url[1] . '&layouts=1'), $views['sync']);
 
+
+            }
+
+            // Update Post Statuses
             $post_statuses = array(
                 'all',
                 'trash',
@@ -122,7 +126,7 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
                 // Get all field groups ids
                 $args = array(
                     'post_type'        => 'acf-field-group',
-                    'posts_per_page'   => - 1,
+                    'posts_per_page'   => 1,
                     'fields'           => 'ids',
                     'suppress_filters' => 0,
                     'pip_post_content' => array(
@@ -135,12 +139,13 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
                 if ( $post_status !== 'all' ) {
                     $args['post_status'] = $post_status;
                 }
+
                 $query = new WP_Query( $args );
 
                 // Admin URL
                 $url = add_query_arg( array(
-                    'layouts'   => 1,
                     'post_type' => 'acf-field-group',
+                    'layouts'   => 1,
                 ), admin_url( 'edit.php' ) );
 
                 // Set parameters
@@ -168,89 +173,12 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
 
             }
 
-        }
-
-        /**
-         * Update counters for sync available
-         *
-         * @param      $views
-         * @param bool $is_layout
-         */
-        public function update_sync_counters( &$views, $is_layout = true ) {
-
-            // Get field groups
-            $field_groups = acf_get_field_groups();
-
-            // If no field group, return
-            if ( empty( $field_groups ) ) {
-                return;
-            }
-
-            // Hide ACF counter
-            unset( $views['sync'] );
-
-            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
-
-            // Get field group
-            $sync = array();
-            foreach ( $field_groups as $field_group ) {
-
-                // Get type
-                $local    = acf_maybe_get( $field_group, 'local', false );
-                $modified = acf_maybe_get( $field_group, 'modified', 0 );
-                $private  = acf_maybe_get( $field_group, 'private', false );
-
-                if ( $private || $local !== 'json' ) {
-
-                    // Continue if private or not JSON
-                    continue;
-
-                } elseif ( !$field_group['ID'] || ( $modified && $modified > get_post_modified_time( 'U', true, $field_group['ID'], true ) ) ) {
-                    // If not in DB or JSON newer than post
-
-                    if ( $is_layout && $pip_layouts->is_layout( $field_group ) ) {
-
-                        // Store layout
-                        $sync[ $field_group['key'] ] = $field_group['title'];
-
-                    } elseif ( !$is_layout && !$pip_layouts->is_layout( $field_group ) ) {
-
-                        // Store non layout
-                        $sync[ $field_group['key'] ] = $field_group['title'];
-
-                    }
-                }
-            }
-
-            // If there's field group to sync, add custom counter
-            if ( count( $sync ) > 0 ) {
-
-                // Admin URL
-                $url = add_query_arg( array(
-                    'post_type'   => 'acf-field-group',
-                    'post_status' => 'sync',
-                ), admin_url( 'edit.php' ) );
-                if ( $is_layout ) {
-                    $url = add_query_arg( array( 'layouts' => 1 ), $url );
-                }
-
-                // Maybe add current class
-                $class = ( acf_maybe_get_GET( 'post_status' ) === 'sync' ) ? 'current' : '';
-
-                // Update counter
-                $views['sync'] = '<a href="' . $url . '" class="' . $class . '">' . __( 'Sync available', 'acf' ) . ' <span class="count">(' . count( $sync ) . ')</span></a>';
-            }
+            return $views;
 
         }
 
     }
 
     acf_new_instance( 'PIP_Layouts_List' );
-
-}
-
-function pip_layouts_update_sync_counters(&$views, $is_layout = true){
-
-    return acf_get_instance('PIP_Layouts_List')->update_sync_counters($views, $is_layout);
 
 }

@@ -123,7 +123,6 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Admin
             pip_include( 'includes/classes/admin/class-admin.php' );
-            pip_include( 'includes/classes/admin/class-admin-layouts.php' );
             pip_include( 'includes/classes/admin/class-options-single-meta.php' );
 
             // Admin - Editor

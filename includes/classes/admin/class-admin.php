@@ -200,7 +200,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_submenu_page( 'pilopress', __( 'Builder', 'pilopress' ), __( 'Builder', 'pilopress' ), $capability, 'post.php?post=' . pip_get_flexible_mirror_group_id() . '&action=edit' );
 
             // Layouts
-            add_submenu_page( 'pilopress', __( 'Layouts', 'pilopress' ), __( 'Layouts', 'pilopress' ), $capability, 'edit.php?layouts=1&post_type=acf-field-group' );
+            add_submenu_page( 'pilopress', __( 'Layouts', 'pilopress' ), __( 'Layouts', 'pilopress' ), $capability, 'edit.php?post_type=acf-field-group&layouts=1' );
 
             // Categories
             add_submenu_page( 'pilopress', __( 'Categories', 'pilopress' ), __( 'Categories', 'pilopress' ), $capability, 'edit-tags.php?taxonomy=acf-layouts-category' );
@@ -430,7 +430,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Define submenu for Layouts menu
             $is_layout = $pip_layouts->is_layout( acf_maybe_get_GET( 'post' ) );
             if ( acf_maybe_get_GET( 'layouts' ) === '1' || $is_layout || acf_maybe_get_GET( 'layout' ) === '1' ) {
-                $submenu_file = 'edit.php?layouts=1&post_type=acf-field-group';
+                $submenu_file = 'edit.php?post_type=acf-field-group&layouts=1';
             }
 
             // Define submenu for Styles menu
