@@ -15,7 +15,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 9999 );
             add_filter( 'parent_file', array( $this, 'menu_parent_file' ) );
             add_filter( 'submenu_file', array( $this, 'menu_submenu_file' ) );
-            add_action( 'pre_get_posts', array( $this, 'admin_pre_get_posts' ) );
             add_filter( 'posts_where', array( $this, 'query_pip_post_content' ), 10, 2 );
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
@@ -107,39 +106,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 wp_enqueue_style( 'pilopress-layout-admin-style', PIP_URL . 'assets/css/pilopress-layout-admin.css', array(), pilopress()->version );
             }
 
-        }
-
-        /**
-         * Filter ACF archive page in admin
-         *
-         * @param WP_Query $query
-         */
-        public function admin_pre_get_posts( $query ) {
-
-            // In admin, on ACF field groups archive
-            if ( !is_admin() || !acf_is_screen( 'edit-acf-field-group' ) ) {
-                return;
-            }
-
-            if ( acf_maybe_get_GET( 'layouts' ) == 1 ) {
-                // Layouts view
-                $query->set( 'pip_post_content', array(
-                    'compare' => 'LIKE',
-                    'value'   => 's:14:"_pip_is_layout";i:1',
-                ) );
-
-            } elseif ( acf_maybe_get_GET( 'layouts' ) === null && acf_maybe_get_GET( 'post_status' ) !== 'trash' ) {
-                // Classic view
-
-                // Remove layouts
-                $query->set( 'pip_post_content', array(
-                    'compare' => 'NOT LIKE',
-                    'value'   => 's:14:"_pip_is_layout";i:1',
-                ) );
-
-                // Remove flexible
-                $query->set( 'post__not_in', array( pip_get_flexible_mirror_group_id() ) );
-            }
         }
 
         /**

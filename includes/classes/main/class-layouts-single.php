@@ -46,6 +46,7 @@ if( !class_exists( 'PIP_Layouts_Single' ) ) {
             add_action( 'acf/field_group/admin_head', array( $this, 'metaboxes' ) );
             add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
             add_action( 'auto-draft_to_publish', array( $this, 'draft_to_publish' ) );
+            add_action( 'untrashed_post', array( $this, 'untrash' ), 1 );
 
         }
 
@@ -530,6 +531,17 @@ if( !class_exists( 'PIP_Layouts_Single' ) ) {
             $file_name = acf_maybe_get( $field_group, '_pip_render_layout', $layout_title . '.php' );
 
             touch( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $file_name );
+
+        }
+
+        /**
+         * Remove ACF action when un-trash layout field group
+         *
+         * @param $post_id
+         */
+        public function untrash( $post_id ) {
+
+            //remove_action( 'acf/untrash_field_group', array( acf()->json, 'update_field_group' ) );
 
         }
 

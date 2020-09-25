@@ -195,6 +195,8 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
                 $this->flexible_mirror_group = acf_get_field_group( $this->flexible_mirror_group_key );
 
+                $this->flexible_mirror_group_id = acf_maybe_get( $this->flexible_mirror_group, 'ID', false );
+
             }
 
             return $this->flexible_mirror_group;
@@ -210,9 +212,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
 
             if ( !$this->flexible_mirror_group_id ) {
 
-                $group = $this->get_group();
-
-                $this->flexible_mirror_group_id = acf_maybe_get( $group, 'ID', false );
+                $this->get_group();
 
             }
 

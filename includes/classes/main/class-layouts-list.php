@@ -47,13 +47,29 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
 
             }
 
-            // Remove ACF Disabled Visual State
+            // Hooks
+            add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
             add_filter( 'display_post_states', array( $this, 'post_states' ), 20 );
             add_filter( 'views_edit-acf-field-group', array( $this, 'views' ), 999 );
 
             // Remove ACF Extended: Field Group Category Column
             remove_filter( 'manage_edit-acf-field-group_columns', 'acfe_field_group_category_column', 11 );
             remove_action( 'manage_acf-field-group_posts_custom_column', 'acfe_field_group_category_column_html', 10 );
+
+        }
+
+        /**
+         * Pre Get posts
+         *
+         * @param WP_Query $query
+         */
+        public function pre_get_posts( $query ) {
+
+            // Layouts view
+            $query->set( 'pip_post_content', array(
+                'compare' => 'LIKE',
+                'value'   => 's:14:"_pip_is_layout";i:1',
+            ) );
 
         }
 
@@ -163,7 +179,7 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
                         break;
                 }
 
-                if ( $count > 0 ) {
+                if ( $count > 0 || $post_status === 'all' ) {
                     // Update counter
                     $views[ $post_status ] = '<a href="' . $url . '" class="' . $class . '">' . $title . ' <span class="count">(' . $count . ')</span></a>';
                 } else {
