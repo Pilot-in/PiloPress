@@ -191,6 +191,12 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'fields'     => 'names',
                 ) );
 
+                if(is_wp_error($categories) || empty($categories)){
+
+                    $categories = array();
+
+                }
+
                 // Collections
                 $collections = (array) get_terms( array(
                     'taxonomy'   => 'acf-layouts-collection',
