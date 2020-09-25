@@ -17,7 +17,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_filter( 'submenu_file', array( $this, 'menu_submenu_file' ) );
             add_action( 'pre_get_posts', array( $this, 'admin_pre_get_posts' ) );
             add_filter( 'posts_where', array( $this, 'query_pip_post_content' ), 10, 2 );
-            add_action( 'adminmenu', array( $this, 'admin_menu_parent' ) );
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
             add_action( 'in_admin_header', array( $this, 'add_pip_navbar' ) );
@@ -385,6 +384,16 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function menu_parent_file( $parent_file ) {
 
+            // Highlight Pilo'Press in Layouts + Styles
+            if(pip_is_layout_screen() || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' )){
+
+                global $pagenow, $plugin_page;
+
+                $pagenow = 'pilopress';
+                $plugin_page = 'pilopress';
+
+            }
+
             $pip_components      = acf_get_instance( 'PIP_Components' );
 
             // Define parent menu for Flexible menu
@@ -449,34 +458,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             return $submenu_file;
-        }
-
-        /**
-         * Define parent menu for Layout menu
-         */
-        public function admin_menu_parent() {
-
-            global $current_screen;
-
-            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
-
-            // Define parent menu for Layouts menu
-            $is_layout = $pip_layouts->is_layout( acf_maybe_get_GET( 'post' ) );
-            if ( ( $current_screen->id === 'edit-acf-field-group' && acf_maybe_get_GET( 'layouts' ) === '1' ) || $is_layout || acf_maybe_get_GET( 'layout' ) === '1' || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) :
-                ?>
-                <script type="text/javascript">
-                    (
-                        function ($) {
-                            $('#toplevel_page_edit-post_type-acf-field-group').removeClass('wp-has-current-submenu').addClass('wp-not-current-submenu')
-                            $('#toplevel_page_edit-post_type-acf-field-group > .wp-has-current-submenu').removeClass('wp-has-current-submenu').addClass('wp-not-current-submenu')
-
-                            $('#toplevel_page_pilopress').addClass('wp-has-current-submenu').removeClass('wp-not-current-submenu')
-                            $('#toplevel_page_pilopress > .wp-not-current-submenu').addClass('wp-has-current-submenu').removeClass('wp-not-current-submenu')
-                        }
-                    )(jQuery)
-                </script>
-            <?php
-            endif;
         }
 
         /**
