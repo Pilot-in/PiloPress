@@ -141,40 +141,83 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             $pip_components      = acf_get_instance( 'PIP_Components' );
 
-            // Pilot'in logo
-            $pip_logo_base64_svg = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iI2ZmZiI+PHBhdGggZD0iTTEwIC4yQzQuNi4yLjMgNC42LjMgMTBzNC40IDkuOCA5LjcgOS44YzIuNiAwIDUuMS0xIDYuOS0yLjggMS44LTEuOCAyLjgtNC4zIDIuOC02LjkgMC01LjUtNC4zLTkuOS05LjctOS45em02LjQgMTYuM2MtMS43IDEuNy00IDIuNi02LjQgMi42LTUgMC05LTQuMS05LTkuMVM1IC45IDEwIC45IDE5IDUgMTkgMTBjMCAyLjUtLjkgNC43LTIuNiA2LjV6Ii8+PHBhdGggZD0iTTEwIDUuM2MtMi41IDAtNC42IDIuMS00LjYgNC43di41Yy4yIDEuOCAxLjQgMy4zIDMgMy45LjUuMiAxIC4zIDEuNS4zLjQgMCAuOS0uMSAxLjMtLjIuMSAwIC4xIDAgLjItLjEuMy0uMS41LS4yLjgtLjMgMCAwIC4xIDAgLjEtLjEgMCAwIC4xIDAgLjEtLjFoLjFzLjEgMCAuMS0uMWMwIDAgLjEgMCAuMS0uMS4yLS4yLjUtLjQuNy0uNmwuMy0uM2MuNi0uOCAxLTEuOSAxLTIuOSAwLTIuNS0yLjEtNC42LTQuNy00LjZ6bTMuMSA3LjNjMC0uMSAwLS4xIDAgMC0uNi0uNC0uNy0uOS0uNy0xLjR2LS40LS4xLS4zYzAtLjctLjItMS41LTEuNS0xLjYtLjUgMC0xLjMuMS0yLjMuNC0uMi0uMS0uNCAwLS42LjEtLjYuMi0xLjIuNC0yIC43IDAtMi4yIDEuOC00IDMuOS00IDEuNSAwIDIuOC44IDMuNSAyLjEuNC42LjYgMS4yLjYgMS45IDAgLjktLjMgMS44LS45IDIuNnoiLz48L3N2Zz4=';
-
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
+
             if ( !current_user_can( $capability ) ) {
                 return;
             }
 
-            // Main menu page
-            add_menu_page( __( "Pilo'Press", 'pilopress' ), __( "Pilo'Press", 'pilopress' ), $capability, 'pilopress', array(
-                $this,
-                'pilopress_dashboard'
-            ), $pip_logo_base64_svg, 82 // After 'ACF' menu
+            // Top Menu
+            $menu = array(
+                'title' => __( "Pilo'Press", 'pilopress' ),
+                'slug'  => 'pilopress',
+                'cap'   => $capability,
+                'cb'    => array($this, 'pilopress_dashboard'),
+                'icon'  => 'data:image/svg+xml;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=', // (1x1 pixel https://png-pixel.com)
+                'pos'   => 82,
             );
 
-            // Dashboard
-            add_submenu_page( 'pilopress', __( 'Dashboard', 'pilopress' ), __( 'Dashboard', 'pilopress' ), $capability,
-                'pilopress' );
+            add_menu_page( $menu['title'], $menu['title'], $menu['cap'], $menu['slug'], $menu['cb'], $menu['icon'], $menu['pos']);
 
-            // Builder
-            add_submenu_page( 'pilopress', __( 'Builder', 'pilopress' ), __( 'Builder', 'pilopress' ), $capability, 'post.php?post=' . pip_get_flexible_mirror_group_id() . '&action=edit' );
+            // Submenu
+            $submenus = array(
 
-            // Layouts
-            add_submenu_page( 'pilopress', __( 'Layouts', 'pilopress' ), __( 'Layouts', 'pilopress' ), $capability, 'edit.php?post_type=acf-field-group&layouts=1' );
+                // Dashboard
+                array(
+                    'parent'    => 'pilopress',
+                    'title'     => __( 'Dashboard', 'pilopress' ),
+                    'slug'      => 'pilopress',
+                    'cap'       => $capability,
+                ),
 
-            // Categories
-            add_submenu_page( 'pilopress', __( 'Categories', 'pilopress' ), __( 'Categories', 'pilopress' ), $capability, 'edit-tags.php?taxonomy=acf-layouts-category' );
+                // Builder
+                array(
+                    'parent'    => 'pilopress',
+                    'title'     => __( 'Builder', 'pilopress' ),
+                    'slug'      => 'post.php?post=' . pip_get_flexible_mirror_group_id() . '&action=edit',
+                    'cap'       => $capability,
+                ),
 
-            // Collections
-            add_submenu_page( 'pilopress', __( 'Collections', 'pilopress' ), __( 'Collections', 'pilopress' ), $capability, 'edit-tags.php?taxonomy=acf-layouts-collection' );
+                // Layouts
+                array(
+                    'parent'    => 'pilopress',
+                    'title'     => __( 'Layouts', 'pilopress' ),
+                    'slug'      => 'edit.php?post_type=acf-field-group&layouts=1',
+                    'cap'       => $capability,
+                ),
 
-            // Components
-            add_submenu_page( 'pilopress', __( 'Components', 'pilopress' ), __( 'Components', 'pilopress' ), $capability, 'edit.php?post_type=' . $pip_components->post_type );
+                // Categories
+                array(
+                    'parent'    => 'pilopress',
+                    'title'     => __( 'Categories', 'pilopress' ),
+                    'slug'      => 'edit-tags.php?taxonomy=acf-layouts-category',
+                    'cap'       => $capability,
+                ),
+
+                // Collections
+                array(
+                    'parent'    => 'pilopress',
+                    'title'     => __( 'Collections', 'pilopress' ),
+                    'slug'      => 'edit-tags.php?taxonomy=acf-layouts-collection',
+                    'cap'       => $capability,
+                ),
+
+                // Components
+                array(
+                    'parent'    => 'pilopress',
+                    'title'     => __( 'Components', 'pilopress' ),
+                    'slug'      => 'edit.php?post_type=' . $pip_components->post_type,
+                    'cap'       => $capability,
+                ),
+            );
+
+            foreach($submenus as $submenu){
+
+                add_submenu_page( $submenu['parent'], $submenu['title'], $submenu['title'], $submenu['cap'], $submenu['slug'] );
+
+            }
+
         }
 
         /**

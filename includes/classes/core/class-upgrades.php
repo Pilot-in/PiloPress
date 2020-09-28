@@ -31,44 +31,6 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
         }
 
         /**
-         * Initial install
-         */
-        public function upgrade_install() {
-
-            $option   = get_option( 'pilopress', array() );
-            $upgrades = acf_maybe_get( $option, 'upgrades' );
-
-            // If not in upgrades to do, return
-            if ( !array_key_exists( 'install', $upgrades ) ) {
-                return;
-            }
-
-            acf_log( "[Pilo'Press] Install" );
-
-            // Create "layouts" folder in theme
-            wp_mkdir_p( get_stylesheet_directory() . '/pilopress/layouts' );
-
-            // Create "assets" folder in theme
-            wp_mkdir_p( get_stylesheet_directory() . '/pilopress/assets' );
-
-            // Import Flexible Mirror Field Group
-            add_action('init', function(){
-
-                pip_import_flexible_mirror_group();
-
-            });
-
-            // Remove upgrade from to do list
-            unset( $upgrades['install'] );
-            $option['upgrades'] = $upgrades;
-            $option['version']  = pilopress()->version;
-            update_option( 'pilopress', $option );
-
-            acf_log( "[Pilo'Press] Install: Done" );
-
-        }
-
-        /**
          * Styles admin refactor
          */
         public function upgrade_0_4_0() {

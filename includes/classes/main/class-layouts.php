@@ -8,11 +8,6 @@ if( !class_exists( 'PIP_Layouts' ) ) {
     class PIP_Layouts {
 
         /**
-         * Vars
-         */
-        var $layout_group_keys = array();
-
-        /*
          * Construct
          */
         public function __construct() {
@@ -40,7 +35,7 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
         }
 
-        /*
+        /**
          * Is Layout Screen
          */
         public function is_layout_screen() {
@@ -102,7 +97,7 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
         }
 
-        /*
+        /**
          * Get Layouts
          */
         function get_layouts( $filter = false ) {
@@ -139,7 +134,7 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
         }
 
-        /*
+        /**
          * Get Layout
          */
         function get_layout( $post ) {
@@ -201,32 +196,6 @@ if( !class_exists( 'PIP_Layouts' ) ) {
         }
 
         /**
-         * Setter: $layout_group_keys
-         *
-         * @param $layout_group_keys
-         *
-         * @return void
-         */
-        public function set_layout_group_keys( $layout_group_keys ) {
-
-            if( $this->layout_group_keys ) {
-                $this->layout_group_keys = array_merge( $this->layout_group_keys, $layout_group_keys );
-            } else {
-                $this->layout_group_keys = $layout_group_keys;
-            }
-        }
-
-        /**
-         * Getter: $layout_group_keys
-         *
-         * @return array
-         */
-        public function get_layout_group_keys() {
-
-            return $this->layout_group_keys;
-        }
-
-        /**
          * Get layouts by location
          *
          * @param array $args
@@ -236,14 +205,13 @@ if( !class_exists( 'PIP_Layouts' ) ) {
         public function get_layouts_by_location( array $args ) {
 
             $layouts = array();
+            $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
             // Get layout keys
-            $layout_keys = $this->get_layout_group_keys();
+            $layout_keys = $pip_flexible->layout_group_keys;
             if( !$layout_keys ) {
                 return $layouts;
             }
-
-            $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
             // Browse all layouts
             foreach ( $layout_keys as $layout_key ) {

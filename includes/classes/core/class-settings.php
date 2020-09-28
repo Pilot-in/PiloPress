@@ -24,7 +24,6 @@ if ( !class_exists( 'PIP_Settings' ) ) {
          * @var string[]
          */
         public $upgrades = array(
-            'install'   => '0.1',
             '0_4_0'     => '0.4.0',
         );
 

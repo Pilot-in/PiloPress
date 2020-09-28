@@ -133,16 +133,59 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
         }
 
         /**
-         * Generate flexible mirror
+         * Getter: $flexible_mirror_group
+         *
+         * @return mixed
          */
-        public function import_group() {
+        public function get_group() {
 
-            // If mirror flexible already exists, return
-            if ( $this->get_group() ) {
-                return;
+            if ( !$this->flexible_mirror_group ) {
+
+                $field_group = acf_get_field_group( $this->flexible_mirror_group_key );
+
+                if(!$field_group){
+
+                    $field_group = $this->install();
+
+                }
+
+                $this->flexible_mirror_group = $field_group;
+                $this->flexible_mirror_group_id = acf_maybe_get( $field_group, 'ID', false );
+
             }
 
-            // Mirror flexible field group
+            return $this->flexible_mirror_group;
+
+        }
+
+        /**
+         * Getter: $flexible_mirror_group
+         *
+         * @return mixed
+         */
+        public function get_group_id() {
+
+            if ( !$this->flexible_mirror_group_id ) {
+
+                $this->get_group();
+
+            }
+
+            return $this->flexible_mirror_group_id;
+
+        }
+
+        function install(){
+
+            acf_log( "[Pilo'Press] Install" );
+
+            // Create "layouts" folder in theme
+            wp_mkdir_p( get_stylesheet_directory() . '/pilopress/layouts' );
+
+            // Create "assets" folder in theme
+            wp_mkdir_p( get_stylesheet_directory() . '/pilopress/assets' );
+
+            // Import Flexible Mirror Field Group
             $flexible_mirror = array(
                 'key'                   => $this->flexible_mirror_group_key,
                 'title'                 => __( 'Builder', 'pilopress' ),
@@ -180,43 +223,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
             );
 
             // Import flexible in local
-            acf_import_field_group( $flexible_mirror );
-
-        }
-
-        /**
-         * Getter: $flexible_mirror_group
-         *
-         * @return mixed
-         */
-        public function get_group() {
-
-            if ( !$this->flexible_mirror_group ) {
-
-                $this->flexible_mirror_group = acf_get_field_group( $this->flexible_mirror_group_key );
-
-                $this->flexible_mirror_group_id = acf_maybe_get( $this->flexible_mirror_group, 'ID', false );
-
-            }
-
-            return $this->flexible_mirror_group;
-
-        }
-
-        /**
-         * Getter: $flexible_mirror_group
-         *
-         * @return mixed
-         */
-        public function get_group_id() {
-
-            if ( !$this->flexible_mirror_group_id ) {
-
-                $this->get_group();
-
-            }
-
-            return $this->flexible_mirror_group_id;
+            return acf_import_field_group( $flexible_mirror );
 
         }
 
@@ -242,11 +249,5 @@ function pip_get_flexible_mirror_group_key() {
 function pip_get_flexible_mirror_group_id() {
 
     return acf_get_instance( 'PIP_Flexible_Mirror' )->get_group_id();
-
-}
-
-function pip_import_flexible_mirror_group() {
-
-    return acf_get_instance( 'PIP_Flexible_Mirror' )->import_group();
 
 }

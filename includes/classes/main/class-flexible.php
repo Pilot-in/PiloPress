@@ -29,6 +29,11 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         var $user_view = 'edit';
 
         /**
+         * @var array Layout Group Keys
+         */
+        var $layout_group_keys = array();
+
+        /**
          * PIP_Flexible constructor.
          */
         public function __construct() {
@@ -37,12 +42,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             add_action( 'init', array( $this, 'init' ) );
 
             // ACF hooks
-            $flexible_field_name = $this->get_flexible_field_name();
-            add_filter( "acfe/flexible/thumbnail/name={$flexible_field_name}", array(
-                $this,
-                'add_custom_thumbnail'
-            ), 10, 3 );
-            add_filter( "acf/prepare_field/name={$flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
+            add_filter( "acfe/flexible/thumbnail/name={$this->flexible_field_name}", array($this, 'add_custom_thumbnail'), 10, 3 );
+            add_filter( "acf/prepare_field/name={$this->flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
+
         }
 
         /**
@@ -54,21 +56,40 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Get layouts and group keys
             $data = $this->get_layouts_and_group_keys();
 
-            $pip_layouts         = acf_get_instance( 'PIP_Layouts' );
-
             // Mirror
             $mirror = pip_get_flexible_mirror_group();
 
             // Layouts
             $layouts    = $data['layouts'];
             $group_keys = $data['group_keys'];
-            $pip_layouts->set_layout_group_keys( $group_keys );
+
+            $this->layout_group_keys = array_merge( $this->layout_group_keys, $group_keys );
 
             // Locations
-            $locations = apply_filters( 'pip/builder/locations', $this->flexible_locations() );
+            $locations = apply_filters( 'pip/builder/locations', acf_maybe_get( $mirror, 'location', array() ) );
 
-            // Builder params
-            $builder_params = apply_filters( 'pip/builder/parameters', array(
+            // Field
+            $field = array(
+                'key'               => 'field_' . $this->flexible_field_name,
+                'label'             => '',
+                'name'              => $this->flexible_field_name,
+                'type'              => 'flexible_content',
+                'instructions'      => '',
+                'required'          => 0,
+                'conditional_logic' => 0,
+                'wrapper'           => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'layouts'           => $layouts,
+                'button_label'      => __( 'Add Row', 'pilopress' ),
+                'min'               => '',
+                'max'               => '',
+            );
+
+            // Field Additional Args
+            $field_args = apply_filters( 'pip/builder/parameters', array(
                 'acfe_permissions'                  => '',
                 'acfe_flexible_stylised_button'     => 1,
                 'acfe_flexible_layouts_thumbnails'  => 1,
@@ -94,36 +115,14 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 ),
             ) );
 
-            // Fields params
-            $fields = array(
-                'key'               => 'field_' . $this->get_flexible_field_name(),
-                'label'             => '',
-                'name'              => $this->get_flexible_field_name(),
-                'type'              => 'flexible_content',
-                'instructions'      => '',
-                'required'          => 0,
-                'conditional_logic' => 0,
-                'wrapper'           => array(
-                    'width' => '',
-                    'class' => '',
-                    'id'    => '',
-                ),
-                'layouts'           => $layouts,
-                'button_label'      => __( 'Add Row', 'pilopress' ),
-                'min'               => '',
-                'max'               => '',
-            );
+            // Final Field
+            $field = array_merge( $field, $field_args );
 
-            // Merge filters
-            $fields = array_merge( $fields, $builder_params );
-
-            // Main flexible content field group
-            $args = array(
+            // Field Group
+            acf_add_local_field_group( array(
                 'key'                   => $this->flexible_group_key,
                 'title'                 => __( 'Builder', 'pilopress' ),
-                'fields'                => array(
-                    $fields,
-                ),
+                'fields'                => array($field),
                 'location'              => $locations,
                 'menu_order'            => 0,
                 'position'              => 'normal',
@@ -141,10 +140,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 'acfe_form'             => 0,
                 'acfe_meta'             => '',
                 'acfe_note'             => '',
-            );
+            ) );
 
-            // Register field group
-            acf_add_local_field_group( $args );
         }
 
         /**
@@ -281,12 +278,14 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                 // Store group keys for meta box on mirror flexible
                 $group_keys[ $layout_uniq_id ] = $field_group['key'];
+
             }
 
             return array(
                 'layouts'    => $layouts,
                 'group_keys' => $group_keys,
             );
+
         }
 
         /**
@@ -531,39 +530,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             return false;
         }
 
-        /**
-         * Get locations of mirror flexible
-         *
-         * @param $locations
-         *
-         * @return mixed
-         */
-        public function flexible_locations( $locations = array() ) {
-
-            // Mirror
-            $mirror = pip_get_flexible_mirror_group();
-
-            // If field group doesn't exist, return
-            if ( !$mirror ) {
-                return $locations;
-            }
-
-            // Replace main flexible's locations with mirror flexible's locations
-            $locations = $mirror['location'];
-
-            return $locations;
-        }
-
-        /**
-         * Getter: $flexible_field_name
-         *
-         * @return string
-         */
-        public function get_flexible_field_name() {
-
-            return $this->flexible_field_name;
-        }
-
     }
 
     // Instantiate class
@@ -604,7 +570,7 @@ function get_pip_content( $post_id = false ) {
     $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
     // Get content
-    $content = get_flexible( $pip_flexible->get_flexible_field_name(), pip_get_formatted_post_id( $post_id ) );
+    $content = get_flexible( $pip_flexible->flexible_field_name, pip_get_formatted_post_id( $post_id ) );
 
     // Maybe get pip footer
     if ( !apply_filters( 'pip/footer/remove', false ) ) {
