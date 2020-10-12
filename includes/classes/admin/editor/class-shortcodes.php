@@ -59,7 +59,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                         esc_url( $attrs['link'] ),
                         esc_attr( trim( $class ) ),
                         ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
-                        ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : ''
+                        ( $attrs['text'] ) ? $attrs['text'] : ''
                     )
                 );
             } else {
@@ -69,7 +69,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                         esc_url( $attrs['link'] ),
                         esc_attr( trim( $class ) ),
                         ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '',
-                        ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : ''
+                        ( $attrs['text'] ) ? $attrs['text'] : ''
                     )
                 );
             }
