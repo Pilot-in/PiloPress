@@ -12,15 +12,21 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          *
          * @var array
          */
-        var $pattern_option_page;
-        var $menu_slug = 'pip-pattern';
+        public $pattern_option_page;
+
+        /**
+         * Menu slug
+         *
+         * @var string
+         */
+        public $menu_slug = 'pip-pattern';
 
         /**
          * Post ID
          *
          * @var string
          */
-        var $pattern_post_id = 'pip_pattern';
+        public $pattern_post_id = 'pip_pattern';
 
         public function __construct() {
 
@@ -46,15 +52,17 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
             }
 
             // Add option page
-            $option_page = acf_add_options_page( array(
-                'page_title'  => __( 'Site Template', 'pilopress' ),
-                'menu_title'  => __( 'Site Template', 'pilopress' ),
-                'menu_slug'   => $this->menu_slug,
-                'capability'  => $capability,
-                'parent_slug' => 'pilopress',
-                'post_id'     => $this->pattern_post_id,
-                'autoload'    => true,
-            ) );
+            $option_page = acf_add_options_page(
+                array(
+                    'page_title'  => __( 'Site Template', 'pilopress' ),
+                    'menu_title'  => __( 'Site Template', 'pilopress' ),
+                    'menu_slug'   => $this->menu_slug,
+                    'capability'  => $capability,
+                    'parent_slug' => 'pilopress',
+                    'post_id'     => $this->pattern_post_id,
+                    'autoload'    => true,
+                )
+            );
 
             // Set pattern option page
             $this->set_pattern_option_page( $option_page );

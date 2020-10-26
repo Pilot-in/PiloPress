@@ -82,7 +82,7 @@ function pip_get_formatted_post_id( $post_id = false ) {
  * (that also handles object type)
  *
  * @param      $data
- * @param int $key
+ * @param int  $key
  * @param null $default
  *
  * @return mixed|null

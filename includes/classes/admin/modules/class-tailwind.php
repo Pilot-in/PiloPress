@@ -260,7 +260,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 $this->set_fonts( $config );
 
                 // Format configuration
-                $config = 'module.exports = ' . json_encode( $config, JSON_PRETTY_PRINT ) . ';';
+                $config = 'module.exports = ' . wp_json_encode( $config, JSON_PRETTY_PRINT ) . ';';
                 $config = str_replace( '"', "'", $config );
 
                 // Update configuration field
@@ -439,23 +439,27 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $tailwind = new TailwindAPI();
 
             // Build front style
-            $tailwind->build( array(
-                'css'          => $tailwind_style,
-                'config'       => $tailwind_config,
-                'autoprefixer' => true,
-                'minify'       => true,
-                'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
-            ) );
+            $tailwind->build(
+                array(
+                    'css'          => $tailwind_style,
+                    'config'       => $tailwind_config,
+                    'autoprefixer' => true,
+                    'minify'       => true,
+                    'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
+                )
+            );
 
             // Build admin style
-            $tailwind->build( array(
-                'css'          => $tailwind_style,
-                'config'       => $tailwind_config,
-                'autoprefixer' => true,
-                'minify'       => true,
-                'prefixer'     => '.-preview',
-                'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
-            ) );
+            $tailwind->build(
+                array(
+                    'css'          => $tailwind_style,
+                    'config'       => $tailwind_config,
+                    'autoprefixer' => true,
+                    'minify'       => true,
+                    'prefixer'     => '.-preview',
+                    'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
+                )
+            );
         }
 
         /**
@@ -496,12 +500,14 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                             $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
 
                             // Get post
-                            $posts   = new WP_Query( array(
-                                'name'           => $file['file']['name'],
-                                'post_type'      => 'attachment',
-                                'posts_per_page' => 1,
-                                'fields'         => 'ids',
-                            ) );
+                            $posts   = new WP_Query(
+                                array(
+                                    'name'           => $file['file']['name'],
+                                    'post_type'      => 'attachment',
+                                    'posts_per_page' => 1,
+                                    'fields'         => 'ids',
+                                )
+                            );
                             $posts   = $posts->get_posts();
                             $post_id = reset( $posts );
 

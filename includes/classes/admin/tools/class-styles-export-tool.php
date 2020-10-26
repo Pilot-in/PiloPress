@@ -16,14 +16,14 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
          *
          * @var string
          */
-        var $view = '';
+        public $view = '';
 
         /**
          * Export data
          *
          * @var string
          */
-        var $json = '';
+        public $json = '';
 
         /**
          *  Initialize
@@ -76,15 +76,17 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
                 if ( !empty( $choices ) ) {
 
                     // Render
-                    acf_render_field_wrap( array(
-                        'label'   => __( 'Select styles settings', 'pilopress' ),
-                        'type'    => 'checkbox',
-                        'name'    => 'keys',
-                        'prefix'  => false,
-                        'value'   => $selected,
-                        'toggle'  => true,
-                        'choices' => $choices,
-                    ) );
+                    acf_render_field_wrap(
+                        array(
+                            'label'   => __( 'Select styles settings', 'pilopress' ),
+                            'type'    => 'checkbox',
+                            'name'    => 'keys',
+                            'prefix'  => false,
+                            'value'   => $selected,
+                            'toggle'  => true,
+                            'choices' => $choices,
+                        )
+                    );
 
                 } else {
 

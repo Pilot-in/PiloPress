@@ -103,138 +103,156 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
         public function render_field_settings( $field ) {
 
             // Field type
-            acf_render_field_setting( $field, array(
-                'label'        => __( 'Appearance', 'acf' ),
-                'instructions' => __( 'Select the appearance of this field', 'acf' ),
-                'type'         => 'select',
-                'name'         => 'field_type',
-                'optgroup'     => true,
-                'choices'      => array(
-                    'checkbox' => __( 'Checkbox', 'acf' ),
-                    'radio'    => __( 'Radio Buttons', 'acf' ),
-                    'select'   => _x( 'Select', 'noun', 'acf' ),
-                ),
-            ) );
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'        => __( 'Appearance', 'acf' ),
+                    'instructions' => __( 'Select the appearance of this field', 'acf' ),
+                    'type'         => 'select',
+                    'name'         => 'field_type',
+                    'optgroup'     => true,
+                    'choices'      => array(
+                        'checkbox' => __( 'Checkbox', 'acf' ),
+                        'radio'    => __( 'Radio Buttons', 'acf' ),
+                        'select'   => _x( 'Select', 'noun', 'acf' ),
+                    ),
+                )
+            );
 
             // Placeholder
-            acf_render_field_setting( $field, array(
-                'label'             => __( 'Placeholder Text', 'acf' ),
-                'instructions'      => __( 'Appears within the input', 'acf' ),
-                'type'              => 'text',
-                'name'              => 'placeholder',
-                'placeholder'       => _x( 'Select', 'verb', 'acf' ),
-                'conditional_logic' => array(
-                    array(
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'             => __( 'Placeholder Text', 'acf' ),
+                    'instructions'      => __( 'Appears within the input', 'acf' ),
+                    'type'              => 'text',
+                    'name'              => 'placeholder',
+                    'placeholder'       => _x( 'Select', 'verb', 'acf' ),
+                    'conditional_logic' => array(
                         array(
-                            'field'    => 'field_type',
-                            'operator' => '==',
-                            'value'    => 'select',
-                        ),
-                        array(
-                            'field'    => 'allow_null',
-                            'operator' => '==',
-                            'value'    => '1',
-                        ),
+                            array(
+                                'field'    => 'field_type',
+                                'operator' => '==',
+                                'value'    => 'select',
+                            ),
+                            array(
+                                'field'    => 'allow_null',
+                                'operator' => '==',
+                                'value'    => '1',
+                            ),
 
-                    ),
-                    array(
-                        array(
-                            'field'    => 'field_type',
-                            'operator' => '==',
-                            'value'    => 'select',
                         ),
                         array(
-                            'field'    => 'ui',
-                            'operator' => '==',
-                            'value'    => '1',
-                        ),
+                            array(
+                                'field'    => 'field_type',
+                                'operator' => '==',
+                                'value'    => 'select',
+                            ),
+                            array(
+                                'field'    => 'ui',
+                                'operator' => '==',
+                                'value'    => '1',
+                            ),
 
+                        ),
                     ),
-                ),
-            ) );
+                )
+            );
 
             // Select: multiple
-            acf_render_field_setting( $field, array(
-                'label'        => __( 'Select multiple values?', 'acf' ),
-                'instructions' => '',
-                'name'         => 'multiple',
-                'type'         => 'true_false',
-                'ui'           => 1,
-                'conditions'   => array(
-                    array(
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'        => __( 'Select multiple values?', 'acf' ),
+                    'instructions' => '',
+                    'name'         => 'multiple',
+                    'type'         => 'true_false',
+                    'ui'           => 1,
+                    'conditions'   => array(
                         array(
-                            'field'    => 'field_type',
-                            'operator' => '==',
-                            'value'    => 'select',
+                            array(
+                                'field'    => 'field_type',
+                                'operator' => '==',
+                                'value'    => 'select',
+                            ),
                         ),
                     ),
-                ),
-            ) );
+                )
+            );
 
             // Select: UI
-            acf_render_field_setting( $field, array(
-                'label'        => __( 'Stylised UI', 'acf' ),
-                'instructions' => '',
-                'name'         => 'ui',
-                'type'         => 'true_false',
-                'ui'           => 1,
-                'conditions'   => array(
-                    array(
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'        => __( 'Stylised UI', 'acf' ),
+                    'instructions' => '',
+                    'name'         => 'ui',
+                    'type'         => 'true_false',
+                    'ui'           => 1,
+                    'conditions'   => array(
                         array(
-                            'field'    => 'field_type',
-                            'operator' => '==',
-                            'value'    => 'select',
+                            array(
+                                'field'    => 'field_type',
+                                'operator' => '==',
+                                'value'    => 'select',
+                            ),
                         ),
                     ),
-                ),
-            ) );
+                )
+            );
 
             // Checkbox: layout
-            acf_render_field_setting( $field, array(
-                'label'        => __( 'Layout', 'acf' ),
-                'instructions' => '',
-                'type'         => 'radio',
-                'name'         => 'layout',
-                'layout'       => 'horizontal',
-                'choices'      => array(
-                    'vertical'   => __( 'Vertical', 'acf' ),
-                    'horizontal' => __( 'Horizontal', 'acf' ),
-                ),
-                'conditions'   => array(
-                    array(
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'        => __( 'Layout', 'acf' ),
+                    'instructions' => '',
+                    'type'         => 'radio',
+                    'name'         => 'layout',
+                    'layout'       => 'horizontal',
+                    'choices'      => array(
+                        'vertical'   => __( 'Vertical', 'acf' ),
+                        'horizontal' => __( 'Horizontal', 'acf' ),
+                    ),
+                    'conditions'   => array(
                         array(
-                            'field'    => 'field_type',
-                            'operator' => '==',
-                            'value'    => 'checkbox',
+                            array(
+                                'field'    => 'field_type',
+                                'operator' => '==',
+                                'value'    => 'checkbox',
+                            ),
+                        ),
+                        array(
+                            array(
+                                'field'    => 'field_type',
+                                'operator' => '==',
+                                'value'    => 'radio',
+                            ),
                         ),
                     ),
-                    array(
-                        array(
-                            'field'    => 'field_type',
-                            'operator' => '==',
-                            'value'    => 'radio',
-                        ),
-                    ),
-                ),
-            ) );
+                )
+            );
 
             // Checkbox: toggle
-            acf_render_field_setting( $field, array(
-                'label'        => __( 'Toggle', 'acf' ),
-                'instructions' => __( 'Prepend an extra checkbox to toggle all choices', 'acf' ),
-                'name'         => 'toggle',
-                'type'         => 'true_false',
-                'ui'           => 1,
-                'conditions'   => array(
-                    array(
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'        => __( 'Toggle', 'acf' ),
+                    'instructions' => __( 'Prepend an extra checkbox to toggle all choices', 'acf' ),
+                    'name'         => 'toggle',
+                    'type'         => 'true_false',
+                    'ui'           => 1,
+                    'conditions'   => array(
                         array(
-                            'field'    => 'field_type',
-                            'operator' => '==',
-                            'value'    => 'checkbox',
+                            array(
+                                'field'    => 'field_type',
+                                'operator' => '==',
+                                'value'    => 'checkbox',
+                            ),
                         ),
                     ),
-                ),
-            ) );
+                )
+            );
         }
 
         /**

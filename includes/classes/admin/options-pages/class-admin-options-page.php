@@ -23,9 +23,9 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
         /**
          * Pages
          *
-         * @var array[]
+         * @var array
          */
-        var $pages;
+        public $pages;
 
         /**
          * PIP_Admin_Options_Page constructor.
@@ -152,10 +152,17 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     continue;
                 }
                 // Register submenu page
-                $slug = add_submenu_page( $page['parent_slug'], $page['page_title'], $page['menu_title'], $page['capability'], $page['menu_slug'], array(
-                    $this,
-                    'html'
-                ) );
+                $slug = add_submenu_page(
+                    $page['parent_slug'],
+                    $page['page_title'],
+                    $page['menu_title'],
+                    $page['capability'],
+                    $page['menu_slug'],
+                    array(
+                        $this,
+                        'html',
+                    )
+                );
 
                 add_action( "load-{$slug}", array( $this, 'admin_load' ) );
             }
@@ -192,10 +199,13 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             add_action( 'acf/input/admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
             add_action( 'acf/input/admin_head', array( $this, 'admin_head' ) );
 
-            add_screen_option( 'layout_columns', array(
-                'max'     => 2,
-                'default' => 2,
-            ) );
+            add_screen_option(
+                'layout_columns',
+                array(
+                    'max'     => 2,
+                    'default' => 2,
+                )
+            );
         }
 
         /**
@@ -216,9 +226,11 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
 
             // Get associated field groups
-            $field_groups = acf_get_field_groups( array(
-                'options_page' => $menu_slug,
-            ) );
+            $field_groups = acf_get_field_groups(
+                array(
+                    'options_page' => $menu_slug,
+                )
+            );
 
             if ( acf_maybe_get_GET( 'message' ) === '1' ) {
                 // Add notice
@@ -226,10 +238,17 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             }
 
             // Add "Publish" meta box
-            add_meta_box( 'submitdiv', __( 'Publish', 'acf' ), array(
-                $this,
-                'postbox_submitdiv'
-            ), 'acf_options_page', 'side', 'high' );
+            add_meta_box(
+                'submitdiv',
+                __( 'Publish', 'acf' ),
+                array(
+                    $this,
+                    'postbox_submitdiv',
+                ),
+                'acf_options_page',
+                'side',
+                'high'
+            );
 
             if ( empty( $field_groups ) ) {
 
@@ -254,10 +273,18 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     $priority = apply_filters( 'acf/input/meta_box_priority', $priority, $field_group );
 
                     // Add field group meta box
-                    add_meta_box( $id, $title, array(
-                        $this,
-                        'postbox_acf'
-                    ), 'acf_options_page', $context, $priority, $args );
+                    add_meta_box(
+                        $id,
+                        $title,
+                        array(
+                            $this,
+                            'postbox_acf',
+                        ),
+                        'acf_options_page',
+                        $context,
+                        $priority,
+                        $args
+                    );
                 }
             }
         }
@@ -324,7 +351,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             ?>
             <script type="text/javascript">
-                if (typeof acf !== 'undefined') {
+                if ( typeof acf !== 'undefined' ) {
                     acf.newPostbox(<?php echo wp_json_encode( $field_group_object ); ?>)
                 }
             </script>

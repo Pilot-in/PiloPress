@@ -20,10 +20,7 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
             // ACF hooks
             add_filter( 'acf/load_value/name=pip_typography', array( $this, 'pre_populate_typography' ), 10, 3 );
             add_filter( 'acf/load_value/name=pip_screens', array( $this, 'pre_populate_screens' ), 10, 3 );
-            add_filter( 'acf/load_value/name=pip_wp_image_sizes', array(
-                $this,
-                'pre_populate_wp_image_sizes'
-            ), 10, 3 );
+            add_filter( 'acf/load_value/name=pip_wp_image_sizes', array( $this, 'pre_populate_wp_image_sizes' ), 10, 3 );
             add_filter( 'acf/prepare_field/name=pip_wp_image_sizes', array( $this, 'configure_wp_image_sizes' ) );
             add_action( 'acf/save_post', array( $this, 'save_wp_image_sizes' ), 20, 1 );
         }

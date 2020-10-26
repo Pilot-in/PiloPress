@@ -28,7 +28,7 @@ if ( !class_exists( 'PiloPress' ) ) {
          *
          * @var string
          */
-        var $version = '0.3.2.10';
+        public $version = '0.3.2.10';
 
         /**
          * ACF
@@ -85,10 +85,10 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/main/class-layouts-sync.php' );
 
             // Includes
-            add_action( 'acf/init',                 array( $this, 'includes' ) );
+            add_action( 'acf/init', array( $this, 'includes' ) );
 
             // Tools
-            add_action( 'acf/include_admin_tools',  array( $this, 'tools' ), 9 );
+            add_action( 'acf/include_admin_tools', array( $this, 'tools' ), 9 );
         }
 
         /**

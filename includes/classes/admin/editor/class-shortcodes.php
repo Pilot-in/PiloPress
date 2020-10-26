@@ -36,18 +36,22 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
         public function pip_button( $attrs ) {
 
             // Parse attributes
-            $attrs = shortcode_atts( array(
-                'text'      => false,
-                'type'      => false,
-                'alignment' => false,
-                'target'    => false,
-                'xclass'    => false,
-                'link'      => '',
-                'nodiv'     => false,
-            ), $attrs, 'pip_button' );
+            $attrs = shortcode_atts(
+                array(
+                    'text'      => false,
+                    'type'      => false,
+                    'alignment' => false,
+                    'target'    => false,
+                    'xclass'    => false,
+                    'link'      => '',
+                    'nodiv'     => false,
+                ),
+                $attrs,
+                'pip_button'
+            );
 
             // Build class
-            $class = '';
+            $class  = '';
             $class .= ( $attrs['type'] ) ? $attrs['type'] : '';
             $class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
@@ -72,10 +76,14 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
         public function pip_button_group( $attrs, $content = null ) {
 
             // Parse attributes
-            $attrs = shortcode_atts( array(
-                'number'    => false,
-                'alignment' => false,
-            ), $attrs, 'pip_button_group' );
+            $attrs = shortcode_atts(
+                array(
+                    'number'    => false,
+                    'alignment' => false,
+                ),
+                $attrs,
+                'pip_button_group'
+            );
 
             $class = acf_maybe_get( $attrs, 'alignment', '' );
 
@@ -130,9 +138,13 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
         public function pip_thumbnail( $attrs ) {
 
             // Parse attributes
-            $attrs = shortcode_atts( array(
-                'size' => 'full',
-            ), $attrs, 'pip_thumbnail' );
+            $attrs = shortcode_atts(
+                array(
+                    'size' => 'full',
+                ),
+                $attrs,
+                'pip_thumbnail'
+            );
 
             // Get post thumbnail URL
             $image_size         = $attrs['size'];
@@ -157,9 +169,13 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
         public function pip_spacer( $attrs ) {
 
             // Parse attributes
-            $attrs = shortcode_atts( array(
-                'spacer' => 1,
-            ), $attrs, 'pip_spacer' );
+            $attrs = shortcode_atts(
+                array(
+                    'spacer' => 1,
+                ),
+                $attrs,
+                'pip_spacer'
+            );
 
             return '<div class="' . $attrs['spacer'] . '"></div>';
         }

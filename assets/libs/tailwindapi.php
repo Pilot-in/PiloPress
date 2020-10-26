@@ -2,6 +2,9 @@
 
 if ( !class_exists( 'TailwindAPI' ) ) {
 
+    /**
+     * Class TailwindAPI
+     */
     class TailwindAPI {
 
         /**
@@ -13,13 +16,16 @@ if ( !class_exists( 'TailwindAPI' ) ) {
          */
         public function build( $args = array() ) {
 
-            $args = $this->parse_args( $args, array(
-                'css'          => '',
-                'config'       => '',
-                'autoprefixer' => true,
-                'minify'       => true,
-                'output'       => false,
-            ) );
+            $args = $this->parse_args(
+                $args,
+                array(
+                    'css'          => '',
+                    'config'       => '',
+                    'autoprefixer' => true,
+                    'minify'       => true,
+                    'output'       => false,
+                )
+            );
 
             // CSS
             if ( !empty( $args['css'] ) ) {
@@ -52,7 +58,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
             // Error
             if ( $return['response']['code'] !== 200 ) {
-                set_transient( "pip_tailwind_api_compile_error", $return['body'], 45 );
+                set_transient( 'pip_tailwind_api_compile_error', $return['body'], 45 );
                 wp_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
                 exit();
             }
@@ -68,6 +74,8 @@ if ( !class_exists( 'TailwindAPI' ) ) {
         }
 
         /**
+         * Return content or put it in file
+         *
          * @param        $content
          * @param string $extension
          *
@@ -85,7 +93,6 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                 if ( file_exists( $content ) ) {
                     $return = file_get_contents( $content );
                 }
-
             } else {
                 $return = $content;
             }

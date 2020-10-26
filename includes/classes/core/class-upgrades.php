@@ -49,16 +49,24 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             acf_log( "[Pilo'Press] Upgrade 0.4.0" );
 
             // Enable modules
-            update_field( 'pip_modules', array(
-                'tailwind' => true,
-                'tinymce'  => true,
-            ), 'pip_styles_modules' );
+            update_field(
+                'pip_modules',
+                array(
+                    'tailwind' => true,
+                    'tinymce'  => true,
+                ),
+                'pip_styles_modules'
+            );
 
             // Enable Tailwind config override
-            update_field( 'pip_tailwind_config', array(
-                'override_config' => true,
-                'tailwind_config' => get_field( 'pip_tailwind_config_tailwind_config', 'pip_styles_tailwind' ),
-            ), 'pip_styles_tailwind_module' );
+            update_field(
+                'pip_tailwind_config',
+                array(
+                    'override_config' => true,
+                    'tailwind_config' => get_field( 'pip_tailwind_config_tailwind_config', 'pip_styles_tailwind' ),
+                ),
+                'pip_styles_tailwind_module'
+            );
 
             // Get old CSS field
             $tailwind_css = get_field( 'pip_tailwind_style_tailwind_style', 'pip_styles_tailwind' );
@@ -79,22 +87,34 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
                 $new_css['utilities']  = acf_maybe_get( $split_css, 1 );
 
                 // Update base fields
-                update_field( 'pip_tailwind_style_base', array(
-                    'add_base_import'           => true,
-                    'tailwind_style_after_base' => $new_css['base'],
-                ), 'pip_styles_tailwind_module' );
+                update_field(
+                    'pip_tailwind_style_base',
+                    array(
+                        'add_base_import'           => true,
+                        'tailwind_style_after_base' => $new_css['base'],
+                    ),
+                    'pip_styles_tailwind_module'
+                );
 
                 // Update components fields
-                update_field( 'pip_tailwind_style_components', array(
-                    'add_components_import'           => true,
-                    'tailwind_style_after_components' => $new_css['components'],
-                ), 'pip_styles_tailwind_module' );
+                update_field(
+                    'pip_tailwind_style_components',
+                    array(
+                        'add_components_import'           => true,
+                        'tailwind_style_after_components' => $new_css['components'],
+                    ),
+                    'pip_styles_tailwind_module'
+                );
 
                 // Update utilities fields
-                update_field( 'pip_tailwind_style_utilities', array(
-                    'add_utilities_import'           => true,
-                    'tailwind_style_after_utilities' => $new_css['utilities'],
-                ), 'pip_styles_tailwind_module' );
+                update_field(
+                    'pip_tailwind_style_utilities',
+                    array(
+                        'add_utilities_import'           => true,
+                        'tailwind_style_after_utilities' => $new_css['utilities'],
+                    ),
+                    'pip_styles_tailwind_module'
+                );
             }
 
             // Typography

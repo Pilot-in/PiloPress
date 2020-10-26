@@ -12,7 +12,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
          *
          * @var string
          */
-        var $taxonomy_name = 'acf-layouts-category';
+        public $taxonomy_name = 'acf-layouts-category';
 
         public function __construct() {
 
@@ -39,10 +39,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
 
             // Add custom column
             add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'layouts_category_column' ), 11 );
-            add_action( 'manage_acf-field-group_posts_custom_column', array(
-                $this,
-                'layouts_category_column_html'
-            ), 10, 2 );
+            add_action( 'manage_acf-field-group_posts_custom_column', array( $this, 'layouts_category_column_html', ), 10, 2 );
             add_filter( 'views_edit-acf-field-group', array( $this, 'layouts_category_counters' ), 9 );
         }
 
@@ -52,30 +49,34 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
         public function init() {
 
             // Register layouts category
-            register_taxonomy( $this->taxonomy_name, array( 'acf-field-group' ), array(
-                'hierarchical'          => true,
-                'public'                => false,
-                'show_ui'               => true,
-                'show_admin_column'     => true,
-                'show_in_menu'          => true,
-                'show_in_nav_menus'     => true,
-                'show_tagcloud'         => false,
-                'rewrite'               => false,
-                'labels'                => array(
-                    'name'              => _x( 'Categories', 'Category', 'pilopress' ),
-                    'singular_name'     => _x( 'Categories', 'Category', 'pilopress' ),
-                    'search_items'      => __( 'Search categories', 'pilopress' ),
-                    'all_items'         => __( 'All categories', 'pilopress' ),
-                    'parent_item'       => __( 'Parent category', 'pilopress' ),
-                    'parent_item_colon' => __( 'Parent category:', 'pilopress' ),
-                    'edit_item'         => __( 'Edit category', 'pilopress' ),
-                    'update_item'       => __( 'Update category', 'pilopress' ),
-                    'add_new_item'      => __( 'Add New category', 'pilopress' ),
-                    'new_item_name'     => __( 'New category name', 'pilopress' ),
-                    'menu_name'         => __( 'Category', 'pilopress' ),
-                ),
-                'update_count_callback' => array( $this, 'update_layouts_category_count' ),
-            ) );
+            register_taxonomy(
+                $this->taxonomy_name,
+                array( 'acf-field-group' ),
+                array(
+                    'hierarchical'          => true,
+                    'public'                => false,
+                    'show_ui'               => true,
+                    'show_admin_column'     => true,
+                    'show_in_menu'          => true,
+                    'show_in_nav_menus'     => true,
+                    'show_tagcloud'         => false,
+                    'rewrite'               => false,
+                    'labels'                => array(
+                        'name'              => _x( 'Categories', 'Category', 'pilopress' ),
+                        'singular_name'     => _x( 'Categories', 'Category', 'pilopress' ),
+                        'search_items'      => __( 'Search categories', 'pilopress' ),
+                        'all_items'         => __( 'All categories', 'pilopress' ),
+                        'parent_item'       => __( 'Parent category', 'pilopress' ),
+                        'parent_item_colon' => __( 'Parent category:', 'pilopress' ),
+                        'edit_item'         => __( 'Edit category', 'pilopress' ),
+                        'update_item'       => __( 'Update category', 'pilopress' ),
+                        'add_new_item'      => __( 'Add New category', 'pilopress' ),
+                        'new_item_name'     => __( 'New category name', 'pilopress' ),
+                        'menu_name'         => __( 'Category', 'pilopress' ),
+                    ),
+                    'update_count_callback' => array( $this, 'update_layouts_category_count' ),
+                )
+            );
 
         }
 
@@ -182,10 +183,12 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             $new_columns = array();
 
             // Get terms
-            $terms = get_terms( array(
-                'taxonomy'   => $this->taxonomy_name,
-                'hide_empty' => false,
-            ) );
+            $terms = get_terms(
+                array(
+                    'taxonomy'   => $this->taxonomy_name,
+                    'hide_empty' => false,
+                )
+            );
 
             // If no terms, return
             if ( !$terms ) {
@@ -228,11 +231,14 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             // Get categories
             $categories = array();
             foreach ( $terms as $term ) {
-                $url          = add_query_arg( array(
-                    'layouts'            => 1,
-                    $this->taxonomy_name => $term->slug,
-                    'post_type'          => 'acf-field-group',
-                ), admin_url( 'edit.php' ) );
+                $url          = add_query_arg(
+                    array(
+                        'layouts'            => 1,
+                        $this->taxonomy_name => $term->slug,
+                        'post_type'          => 'acf-field-group',
+                    ),
+                    admin_url( 'edit.php' )
+                );
                 $categories[] = '<a href="' . $url . '">' . $term->name . '</a>';
             }
 
@@ -260,15 +266,17 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
             // Browse all terms
             foreach ( $terms as $term ) {
                 // Get all posts with term
-                $groups = get_posts( array(
-                    'post_type'        => 'acf-field-group',
-                    'posts_per_page'   => - 1,
-                    'suppress_filters' => false,
-                    'post_status'      => array( 'publish', 'acf-disabled' ),
-                    'taxonomy'         => $this->taxonomy_name,
-                    'term'             => $term->slug,
-                    'fields'           => 'ids',
-                ) );
+                $groups = get_posts(
+                    array(
+                        'post_type'        => 'acf-field-group',
+                        'posts_per_page'   => - 1,
+                        'suppress_filters' => false,
+                        'post_status'      => array( 'publish', 'acf-disabled' ),
+                        'taxonomy'         => $this->taxonomy_name,
+                        'term'             => $term->slug,
+                        'fields'           => 'ids',
+                    )
+                );
 
                 // Count
                 $count = count( $groups );
@@ -286,11 +294,14 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
                 }
 
                 // Build URL
-                $url = add_query_arg( array(
-                    'layouts'            => 1,
-                    $this->taxonomy_name => $term->slug,
-                    'post_type'          => 'acf-field-group',
-                ), admin_url( 'edit.php' ) );
+                $url = add_query_arg(
+                    array(
+                        'layouts'            => 1,
+                        $this->taxonomy_name => $term->slug,
+                        'post_type'          => 'acf-field-group',
+                    ),
+                    admin_url( 'edit.php' )
+                );
 
                 // Add counter
                 $views[ 'category-layout-' . $term->slug ] = '<a href="' . $url . '"' . $class . '>' . $term->name . $html . '</a>';
@@ -366,15 +377,18 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
                     // Term doesn't exists
 
                     // Add new term
-                    $new_term = wp_insert_term( $term_name, $this->taxonomy_name, array(
-                        'slug' => $term_slug,
-                    ) );
+                    $new_term = wp_insert_term(
+                        $term_name,
+                        $this->taxonomy_name,
+                        array(
+                            'slug' => $term_slug,
+                        )
+                    );
 
                     // If well inserted, store ID
                     if ( !is_wp_error( $new_term ) ) {
                         $new_term_id = $new_term['term_id'];
                     }
-
                 } else {
                     // Term already exists
 
@@ -387,7 +401,6 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
                 if ( $new_term_id ) {
                     wp_set_post_terms( $field_group['ID'], array( $new_term_id ), $this->taxonomy_name, true );
                 }
-
             }
 
         }

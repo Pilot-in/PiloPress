@@ -1,6 +1,6 @@
 <?php
 
-if( !class_exists( 'PIP_Layouts' ) ) {
+if ( !class_exists( 'PIP_Layouts' ) ) {
 
     /**
      * Class PIP_Layouts
@@ -22,7 +22,7 @@ if( !class_exists( 'PIP_Layouts' ) ) {
          */
         public function current_screen() {
 
-            if( !$this->is_layout_screen() ) {
+            if ( !$this->is_layout_screen() ) {
                 return;
             }
 
@@ -42,29 +42,26 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
             global $typenow;
 
-            if( $typenow !== 'acf-field-group' ) {
+            if ( $typenow !== 'acf-field-group' ) {
                 return false;
             }
 
             $is_layout_list   = acf_is_screen( 'edit-acf-field-group' ) && acf_maybe_get_GET( 'layouts' ) === '1';
             $is_layout_single = acf_is_screen( 'acf-field-group' );
 
-            if( $is_layout_list ) {
+            if ( $is_layout_list ) {
 
                 return true;
 
-            } elseif( $is_layout_single ) {
+            } elseif ( $is_layout_single ) {
 
                 $is_layout_single_new  = acf_maybe_get_GET( 'layout' ) === '1';
                 $is_layout_single_edit = $this->is_layout( acf_maybe_get_GET( 'post' ) );
                 $is_layout_single_save = isset( $_REQUEST['acf_field_group']['_pip_is_layout'] );
 
-                if( $is_layout_single_new || $is_layout_single_edit || $is_layout_single_save ) {
-
+                if ( $is_layout_single_new || $is_layout_single_edit || $is_layout_single_save ) {
                     return true;
-
                 }
-
             }
 
             return false;
@@ -73,20 +70,24 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
         /**
          * Is Field Group Layout
+         *
+         * @param $post
+         *
+         * @return false|mixed|null
          */
         public function is_layout( $post ) {
 
             $field_group = $post;
 
             // If ID/Key then Get Field Group
-            if( !is_array( $post ) ) {
+            if ( !is_array( $post ) ) {
 
                 $field_group = acf_get_field_group( $post );
 
             }
 
             // Field Group not found
-            if( !$field_group ) {
+            if ( !$field_group ) {
 
                 return false;
 
@@ -99,8 +100,12 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
         /**
          * Get Layouts
+         *
+         * @param bool $filter
+         *
+         * @return array
          */
-        function get_layouts( $filter = false ) {
+        public function get_layouts( $filter = false ) {
 
             $layouts = array();
 
@@ -108,7 +113,7 @@ if( !class_exists( 'PIP_Layouts' ) ) {
             $field_groups = acf_get_field_groups();
 
             // If no field group, return
-            if( !$field_groups ) {
+            if ( !$field_groups ) {
                 return $layouts;
             }
 
@@ -116,7 +121,7 @@ if( !class_exists( 'PIP_Layouts' ) ) {
             foreach ( $field_groups as $field_group ) {
 
                 // If not a layout, skip
-                if( !$this->is_layout( $field_group ) ) {
+                if ( !$this->is_layout( $field_group ) ) {
                     continue;
                 }
 
@@ -124,7 +129,7 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
             }
 
-            if( $filter ) {
+            if ( $filter ) {
 
                 return wp_list_pluck( $layouts, $filter );
 
@@ -136,20 +141,24 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
         /**
          * Get Layout
+         *
+         * @param $post
+         *
+         * @return array|false|mixed|void
          */
-        function get_layout( $post ) {
+        public function get_layout( $post ) {
 
             $field_group = $post;
 
             // If ID/Key then Get Field Group
-            if( !is_array( $post ) ) {
+            if ( !is_array( $post ) ) {
 
                 $field_group = acf_get_field_group( $post );
 
             }
 
             // Field Group not found
-            if( !$field_group || !$this->is_layout( $field_group ) ) {
+            if ( !$field_group || !$this->is_layout( $field_group ) ) {
 
                 return false;
 
@@ -172,7 +181,7 @@ if( !class_exists( 'PIP_Layouts' ) ) {
             $layouts_css_files = glob( PIP_THEME_LAYOUTS_PATH . '*/*.css' );
 
             // If no CSS files, return
-            if( !$layouts_css_files ) {
+            if ( !$layouts_css_files ) {
 
                 return $css;
 
@@ -183,7 +192,7 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
                 $css_file = file_get_contents( $layouts_css_file );
 
-                if(!$css_file){
+                if ( !$css_file ) {
                     continue;
                 }
 
@@ -204,24 +213,24 @@ if( !class_exists( 'PIP_Layouts' ) ) {
          */
         public function get_layouts_by_location( array $args ) {
 
-            $layouts = array();
+            $layouts      = array();
             $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
             // Get layout keys
             $layout_keys = $pip_flexible->layout_group_keys;
-            if( !$layout_keys ) {
+            if ( !$layout_keys ) {
                 return $layouts;
             }
 
             // Browse all layouts
             foreach ( $layout_keys as $layout_key ) {
                 $layout = acf_get_field_group( $layout_key );
-                if( !isset( $layout['location'] ) ) {
+                if ( !isset( $layout['location'] ) ) {
                     continue;
                 }
 
                 // Layout not assign to location
-                if( !$pip_flexible->get_field_group_visibility( $layout, $args ) ) {
+                if ( !$pip_flexible->get_field_group_visibility( $layout, $args ) ) {
                     continue;
                 }
 
@@ -237,32 +246,53 @@ if( !class_exists( 'PIP_Layouts' ) ) {
 
 }
 
+/**
+ * Is layout screen
+ *
+ * @return mixed
+ */
 function pip_is_layout_screen() {
-
     return acf_get_instance( 'PIP_Layouts' )->is_layout_screen();
-
 }
 
+/**
+ * Is a layout
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
 function pip_is_layout( $post ) {
-
     return acf_get_instance( 'PIP_Layouts' )->is_layout( $post );
-
 }
 
+/**
+ * Get layouts
+ *
+ * @param false $filter
+ *
+ * @return mixed
+ */
 function pip_get_layouts( $filter = false ) {
-
     return acf_get_instance( 'PIP_Layouts' )->get_layouts( $filter );
-
 }
 
+/**
+ * Get layout
+ *
+ * @param $post
+ *
+ * @return mixed
+ */
 function pip_get_layout( $post ) {
-
     return acf_get_instance( 'PIP_Layouts' )->get_layout( $post );
-
 }
 
+/**
+ * Get layout CSS
+ *
+ * @return mixed
+ */
 function pip_get_layouts_css() {
-
     return acf_get_instance( 'PIP_Layouts' )->get_layouts_css();
-
 }

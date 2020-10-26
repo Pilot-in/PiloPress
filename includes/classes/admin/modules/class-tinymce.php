@@ -35,13 +35,15 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         public function localize_data() {
 
-            acf_localize_data( array(
-                'custom_fonts'   => $this->get_custom_fonts(),
-                'custom_styles'  => $this->get_custom_typography(),
-                'custom_colors'  => $this->get_custom_colors(),
-                'custom_buttons' => $this->get_custom_buttons(),
-                'image_sizes'    => $this->get_all_image_sizes(),
-            ) );
+            acf_localize_data(
+                array(
+                    'custom_fonts'   => $this->get_custom_fonts(),
+                    'custom_styles'  => $this->get_custom_typography(),
+                    'custom_colors'  => $this->get_custom_colors(),
+                    'custom_buttons' => $this->get_custom_buttons(),
+                    'image_sizes'    => $this->get_all_image_sizes(),
+                )
+            );
         }
 
         /**
@@ -555,7 +557,10 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         public function remove_tiny_mce_style( $init ) {
 
-            $init['init_instance_callback'] = '' . 'function(){' . '    jQuery(".acf-field-wysiwyg > .acf-input iframe").contents().find("link[href*=\'content.min.css\']").remove();' . '}';
+            $init['init_instance_callback'] = ''
+                                              . 'function(){'
+                                              . '    jQuery(".acf-field-wysiwyg > .acf-input iframe").contents().find("link[href*=\'content.min.css\']").remove();'
+                                              . '}';
 
             return $init;
         }

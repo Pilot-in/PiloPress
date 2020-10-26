@@ -160,8 +160,9 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ### 0.3.2.2 - 09/06/2020
 * Fixed: Fix WYSIWYG dark mode values and detection
+
 ### 0.3.2.1 - 08/06/2020
- Fixed: Fix WYSIWYG dark mode being required in specific case
+* Fixed: Fix WYSIWYG dark mode being required in specific case
 
 ### 0.3.2 - 08/06/2020
 * Added: Dark mode for TinyMCE Editors

@@ -1,14 +1,14 @@
 <?php
 
-if( !class_exists( 'PIP_Layouts_List' ) ) {
+if ( !class_exists( 'PIP_Layouts_List' ) ) {
 
     /**
      * Class PIP_Layouts_List
      */
     class PIP_Layouts_List {
 
-        /*
-         * Construct
+        /**
+         * PIP_Layouts_List constructor.
          */
         public function __construct() {
 
@@ -22,7 +22,7 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
          */
         public function current_screen() {
 
-            if( !pip_is_layout_screen() ) {
+            if ( !pip_is_layout_screen() ) {
                 return;
             }
 
@@ -31,19 +31,20 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
 
         }
 
-        /*
+        /**
          * List
          */
-        function load_list() {
+        public function load_list() {
 
-            $acf_field_groups = acf_get_instance('ACF_Admin_Field_Groups');
+            $acf_field_groups = acf_get_instance( 'ACF_Admin_Field_Groups' );
 
-            foreach($acf_field_groups->sync as $key => $field_group){
+            foreach ( $acf_field_groups->sync as $key => $field_group ) {
 
-                if(pip_is_layout($field_group))
+                if ( pip_is_layout( $field_group ) ) {
                     continue;
+                }
 
-                unset($acf_field_groups->sync[$key]);
+                unset( $acf_field_groups->sync[ $key ] );
 
             }
 
@@ -66,10 +67,13 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
         public function pre_get_posts( $query ) {
 
             // Layouts view
-            $query->set( 'pip_post_content', array(
-                'compare' => 'LIKE',
-                'value'   => 's:14:"_pip_is_layout";i:1',
-            ) );
+            $query->set(
+                'pip_post_content',
+                array(
+                    'compare' => 'LIKE',
+                    'value'   => 's:14:"_pip_is_layout";i:1',
+                )
+            );
 
         }
 
@@ -83,7 +87,7 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
         public function post_states( $states ) {
 
             // Unset disabled state
-            if( isset( $states['acf-disabled'] ) ) {
+            if ( isset( $states['acf-disabled'] ) ) {
 
                 unset( $states['acf-disabled'] );
 
@@ -103,12 +107,13 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
         public function views( $views ) {
 
             // Field Groups Categories
-            foreach($views as $key => $val){
+            foreach ( $views as $key => $val ) {
 
-                if(strpos($key, 'category-') !== 0)
+                if ( strpos( $key, 'category-' ) !== 0 ) {
                     continue;
+                }
 
-                unset($views[$key]);
+                unset( $views[ $key ] );
 
             }
 
@@ -119,11 +124,11 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
             unset( $views['acfe-local'] );
 
             // Update Sync
-            if(isset($views['sync'])){
+            if ( isset( $views['sync'] ) ) {
 
-                preg_match('/href="([^\"]*)"/', $views['sync'], $url);
+                preg_match( '/href="([^\"]*)"/', $views['sync'], $url );
 
-                $views['sync'] = str_replace($url[1], esc_url($url[1] . '&layouts=1'), $views['sync']);
+                $views['sync'] = str_replace( $url[1], esc_url( $url[1] . '&layouts=1' ), $views['sync'] );
 
 
             }
@@ -159,10 +164,13 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
                 $query = new WP_Query( $args );
 
                 // Admin URL
-                $url = add_query_arg( array(
-                    'post_type' => 'acf-field-group',
-                    'layouts'   => 1,
-                ), admin_url( 'edit.php' ) );
+                $url = add_query_arg(
+                    array(
+                        'post_type' => 'acf-field-group',
+                        'layouts'   => 1,
+                    ),
+                    admin_url( 'edit.php' )
+                );
 
                 // Set parameters
                 switch ( $post_status ) {
@@ -186,7 +194,6 @@ if( !class_exists( 'PIP_Layouts_List' ) ) {
                     // Remove counter
                     unset( $views[ $post_status ] );
                 }
-
             }
 
             return $views;

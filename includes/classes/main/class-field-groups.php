@@ -1,6 +1,6 @@
 <?php
 
-if( !class_exists( 'PIP_Field_Groups' ) ) {
+if ( !class_exists( 'PIP_Field_Groups' ) ) {
 
     /**
      * Class PIP_Field_Groups
@@ -13,11 +13,11 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
 
         }
 
-        function current_screen() {
+        public function current_screen() {
 
             global $typenow;
 
-            if( $typenow !== 'acf-field-group' || pip_is_layout_screen() ) {
+            if ( $typenow !== 'acf-field-group' || pip_is_layout_screen() ) {
                 return;
             }
 
@@ -30,13 +30,13 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
 
         }
 
-        function load_list() {
+        public function load_list() {
 
             $acf_field_groups = acf_get_instance( 'ACF_Admin_Field_Groups' );
 
             foreach ( $acf_field_groups->sync as $key => $field_group ) {
 
-                if( !pip_is_layout( $field_group ) ) {
+                if ( !pip_is_layout( $field_group ) ) {
                     continue;
                 }
 
@@ -48,18 +48,18 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
             add_filter( 'views_edit-acf-field-group', array( $this, 'views' ), 999 );
 
             // After sync
-            if( acf_maybe_get_GET( 'acfsynccomplete' ) ) {
+            if ( acf_maybe_get_GET( 'acfsynccomplete' ) ) {
                 $this->maybe_redirect_to_layouts();
             }
 
             // After sync and redirection
-            if( acf_maybe_get_GET( 'sync_ok' ) ) {
+            if ( acf_maybe_get_GET( 'sync_ok' ) ) {
                 $this->show_notice_message();
             }
 
         }
 
-        function load_single() {
+        public function load_single() {
 
             add_action( 'acf/field_group/admin_head', array( $this, 'metaboxes' ) );
 
@@ -75,10 +75,13 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
             // acf_maybe_get_GET( 'post_status' ) !== 'trash'
 
             // Remove layouts
-            $query->set( 'pip_post_content', array(
-                'compare' => 'NOT LIKE',
-                'value'   => 's:14:"_pip_is_layout";i:1',
-            ) );
+            $query->set(
+                'pip_post_content',
+                array(
+                    'compare' => 'NOT LIKE',
+                    'value'   => 's:14:"_pip_is_layout";i:1',
+                )
+            );
 
             // Remove flexible
             $query->set( 'post__not_in', array( pip_get_flexible_mirror_group_id() ) );
@@ -118,15 +121,18 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
                 );
 
                 // If post_status not "all", add query arg
-                if( $post_status !== 'all' ) {
+                if ( $post_status !== 'all' ) {
                     $args['post_status'] = $post_status;
                 }
                 $query = new WP_Query( $args );
 
                 // Admin URL
-                $url = add_query_arg( array(
-                    'post_type' => 'acf-field-group',
-                ), admin_url( 'edit.php' ) );
+                $url = add_query_arg(
+                    array(
+                        'post_type' => 'acf-field-group',
+                    ),
+                    admin_url( 'edit.php' )
+                );
 
                 // Set parameters
                 switch ( $post_status ) {
@@ -158,14 +164,13 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
                         break;
                 }
 
-                if( $count > 0 || $post_status === 'all' ) {
+                if ( $count > 0 || $post_status === 'all' ) {
                     // Update counter
                     $views[ $post_status ] = '<a href="' . $url . '" class="' . $class . '">' . $title . ' <span class="count">(' . $count . ')</span></a>';
                 } else {
                     // Remove counter
                     unset( $views[ $post_status ] );
                 }
-
             }
 
             return $views;
@@ -179,24 +184,27 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
 
             // Bail early if no sync completed
             $field_groups = acf_maybe_get_GET( 'acfsynccomplete' );
-            if( !$field_groups ) {
+            if ( !$field_groups ) {
                 return;
             }
 
             $field_groups = explode( ',', $field_groups );
 
-            if( $field_groups ) {
+            if ( $field_groups ) {
                 foreach ( $field_groups as $field_group ) {
 
-                    if( !pip_is_layout( $field_group ) ) {
+                    if ( !pip_is_layout( $field_group ) ) {
                         continue;
                     }
 
-                    $url = add_query_arg( array(
-                        'post_type' => 'acf-field-group',
-                        'layouts'   => 1,
-                        'sync_ok'   => acf_maybe_get_GET( 'acfsynccomplete' ),
-                    ), admin_url( 'edit.php' ) );
+                    $url = add_query_arg(
+                        array(
+                            'post_type' => 'acf-field-group',
+                            'layouts'   => 1,
+                            'sync_ok'   => acf_maybe_get_GET( 'acfsynccomplete' ),
+                        ),
+                        admin_url( 'edit.php' )
+                    );
 
                     wp_safe_redirect( $url );
                     exit();
@@ -212,7 +220,7 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
         public function show_notice_message() {
 
             $sync_field_groups = acf_maybe_get_GET( 'sync_ok' );
-            if( !$sync_field_groups ) {
+            if ( !$sync_field_groups ) {
                 return;
             }
 
@@ -226,7 +234,7 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
 
             // Add links to text.
             $links = array();
-            if( $sync_field_groups ) {
+            if ( $sync_field_groups ) {
                 foreach ( $sync_field_groups as $id ) {
                     $links[] = '<a href="' . get_edit_post_link( $id ) . '">' . get_the_title( $id ) . '</a>';
                 }
@@ -238,9 +246,9 @@ if( !class_exists( 'PIP_Field_Groups' ) ) {
 
         }
 
-        function metaboxes() {
+        public function metaboxes() {
 
-            // Remove Pilo'Press Layotus Categories / Collections Metaboxes
+            // Remove Pilo'Press Layouts Categories / Collections Metaboxes
             remove_meta_box( 'acf-layouts-categorydiv', 'acf-field-group', 'side' );
             remove_meta_box( 'acf-layouts-collectiondiv', 'acf-field-group', 'side' );
 

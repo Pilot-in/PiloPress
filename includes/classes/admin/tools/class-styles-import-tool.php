@@ -29,13 +29,15 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             <div class="acf-fields">
                 <?php
 
-                acf_render_field_wrap( array(
-                    'label'    => __( 'Select File', 'acf' ),
-                    'type'     => 'file',
-                    'name'     => 'acf_import_styles_configuration',
-                    'value'    => false,
-                    'uploader' => 'basic',
-                ) );
+                acf_render_field_wrap(
+                    array(
+                        'label'    => __( 'Select File', 'acf' ),
+                        'type'     => 'file',
+                        'name'     => 'acf_import_styles_configuration',
+                        'value'    => false,
+                        'uploader' => 'basic',
+                    )
+                );
 
                 ?>
             </div>
