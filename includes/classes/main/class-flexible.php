@@ -336,10 +336,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 // Menu item support
                 $nav_menu_id = acf_get_data( 'nav_menu_id' );
                 if ( $nav_menu_id ) {
-                    $screen = 'nav_menu';
+                    $screen  = 'nav_menu';
                     $post_id = acf_get_term_post_id( 'nav_menu', $nav_menu_id );
                 }
-
             }
 
             /**
@@ -392,7 +391,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     break;
                 case 'nav_menu':
                     $args = array(
-                        'screen' => $screen,
+                        'screen'  => $screen,
                         'post_id' => $post_id,
                     );
                     break;
