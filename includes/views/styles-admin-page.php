@@ -27,7 +27,29 @@
 
         wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
         wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+        $compile_error = get_transient( 'pip_tailwind_api_compile_error' );
         ?>
+
+        <?php if ( acf_maybe_get_GET( 'error_compile' ) && ( $compile_error ) ) : ?>
+
+            <?php
+            $error_array   = json_decode( $compile_error, false );
+            $error_message = false;
+
+            if ( isset( $error_array[0] ) ) {
+                $error_message = $error_array[0];
+            }
+            ?>
+            <div class="notice notice-error is-dismissible">
+                <p><?php _e( 'An error occurred while compiling.', 'pilopress' ); ?></p>
+
+                <?php if ( $error_message ) : ?>
+                    <pre style="margin-bottom:10px;"><?php echo $error_message; ?></pre>
+                <?php endif; ?>
+
+            </div>
+            <?php delete_transient( 'pip_tailwind_api_compile_error' ); ?>
+        <?php endif; ?>
 
         <div id="poststuff">
             <div id="post-body" class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
