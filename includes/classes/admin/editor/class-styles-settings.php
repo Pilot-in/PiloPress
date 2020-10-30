@@ -147,15 +147,20 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             $admin_css = "#poststuff .-preview h2{ all:unset; }\n";
 
             // Build admin style
-            $tailwind->build(
+            $return = $tailwind->build(
                 array(
-                    'css'          => $admin_css . $css_content,
+                    'css'          => $css_content,
                     'config'       => $tailwind_config,
                     'autoprefixer' => true,
                     'minify'       => true,
                     'prefixer'     => '.-preview',
-                    'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
                 )
+            );
+
+            // Put compiled styles in file
+            file_put_contents(
+                PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
+                $admin_css . acf_maybe_get( $return, 'body' )
             );
         }
 
