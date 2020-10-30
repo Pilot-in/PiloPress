@@ -330,6 +330,18 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             $screen  = acf_get_form_data( 'screen' );
             $post_id = acf_get_form_data( 'post_id' );
 
+            // Second attempt to get screen
+            if ( !$screen ) {
+
+                // Menu item support
+                $nav_menu_id = acf_get_data( 'nav_menu_id' );
+                if ( $nav_menu_id ) {
+                    $screen = 'nav_menu';
+                    $post_id = acf_get_term_post_id( 'nav_menu', $nav_menu_id );
+                }
+
+            }
+
             /**
              * Extract ACF id from URL id
              *
@@ -376,6 +388,12 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 case 'options':
                     $args = array(
                         'options_page' => str_replace( '_', '-', $post_id ),
+                    );
+                    break;
+                case 'nav_menu':
+                    $args = array(
+                        'screen' => $screen,
+                        'post_id' => $post_id,
                     );
                     break;
             }
