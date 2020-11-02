@@ -1,5 +1,7 @@
 <?php
 /**
+ * Variables available in this template
+ *
  * @var $menu_items
  */
 

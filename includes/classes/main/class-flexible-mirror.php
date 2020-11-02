@@ -123,7 +123,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          */
         public function hidden_fields() {
 
-            // Add hidden fields
+            // Key
             acf_hidden_input(
                 array(
                     'name'  => 'acf_field_group[key]',
@@ -131,6 +131,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 )
             );
 
+            // Style
             acf_hidden_input(
                 array(
                     'name'  => 'acf_field_group[style]',
@@ -138,6 +139,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 )
             );
 
+            // Active
             acf_hidden_input(
                 array(
                     'name'  => 'acf_field_group[active]',
@@ -145,6 +147,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 )
             );
 
+            // Position
             acf_hidden_input(
                 array(
                     'name'  => 'acf_field_group[position]',
@@ -152,6 +155,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 )
             );
 
+            // Label placement
             acf_hidden_input(
                 array(
                     'name'  => 'acf_field_group[label_placement]',
@@ -159,6 +163,7 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
                 )
             );
 
+            // Menu order
             acf_hidden_input(
                 array(
                     'name'  => 'acf_field_group[menu_order]',
@@ -175,23 +180,24 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          */
         public function get_group() {
 
+            // If flexible mirror group not set
             if ( !$this->flexible_mirror_group ) {
 
+                // Get field group
                 $field_group = acf_get_field_group( $this->flexible_mirror_group_key );
 
+                // If no field group, re-call install function
                 if ( !$field_group ) {
-
                     $field_group = $this->install();
-
                 }
 
+                // Set class parameters
                 $this->flexible_mirror_group    = $field_group;
                 $this->flexible_mirror_group_id = acf_maybe_get( $field_group, 'ID', false );
 
             }
 
             return $this->flexible_mirror_group;
-
         }
 
         /**
@@ -201,16 +207,19 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
          */
         public function get_group_id() {
 
+            // If flexible mirror group ID not set
             if ( !$this->flexible_mirror_group_id ) {
-
                 $this->get_group();
-
             }
 
             return $this->flexible_mirror_group_id;
-
         }
 
+        /**
+         * Installation function
+         *
+         * @return array
+         */
         public function install() {
 
             acf_log( "[Pilo'Press] Install" );

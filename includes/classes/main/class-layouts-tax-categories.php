@@ -39,7 +39,7 @@ if ( !class_exists( 'PIP_Layouts_Categories' ) ) {
 
             // Add custom column
             add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'layouts_category_column' ), 11 );
-            add_action( 'manage_acf-field-group_posts_custom_column', array( $this, 'layouts_category_column_html', ), 10, 2 );
+            add_action( 'manage_acf-field-group_posts_custom_column', array( $this, 'layouts_category_column_html' ), 10, 2 );
             add_filter( 'views_edit-acf-field-group', array( $this, 'layouts_category_counters' ), 9 );
         }
 

@@ -19,14 +19,13 @@ $see_more_layouts       = count( $layouts ) > 15;
 $see_more_components    = count( $components ) > 15;
 $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
 $pip_admin              = acf_get_instance( 'PIP_Admin' );
-
 ?>
 
 <?php $pip_admin->display_pip_navbar(); ?>
 
 <div class="wrap">
     <div class="wp-heading-inline">
-        <h1><?php _e( "Dashboard", 'pilopress' ); ?></h1>
+        <h1><?php _e( 'Dashboard', 'pilopress' ); ?></h1>
     </div>
 
     <?php // Widgets area ?>

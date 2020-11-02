@@ -68,6 +68,13 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
             $this->set_pattern_option_page( $option_page );
         }
 
+        /**
+         * Remove pattern from post types
+         *
+         * @param $choices
+         *
+         * @return mixed
+         */
         public function remove_pattern_from_post_types( $choices ) {
 
             // Remove Pattern

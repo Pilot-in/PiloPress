@@ -851,7 +851,7 @@ acf_add_local_field_group(
         'acfe_meta'             => '',
         'acfe_note'             => '',
         'acfe_categories'       => array(
-            'options' => 'Options',
+            'options' => __( 'Options', 'pilopress' ),
         ),
     )
 );

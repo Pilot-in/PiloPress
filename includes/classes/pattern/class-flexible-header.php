@@ -25,11 +25,13 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
             // WP hooks
             add_action( 'init', array( $this, 'init' ) );
 
-            // ACF hooks
             $pip_flexible               = acf_get_instance( 'PIP_Flexible' );
             $flexible_header_field_name = $this->get_flexible_header_field_name();
 
+            // ACF hooks
             add_filter( "acf/prepare_field/name={$flexible_header_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
+
+            // ACFE hook
             add_filter( "acfe/flexible/thumbnail/name={$flexible_header_field_name}", array( $pip_flexible, 'add_custom_thumbnail' ), 10, 3 );
 
         }

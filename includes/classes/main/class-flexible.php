@@ -123,7 +123,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Final Field
             $field = array_merge( $field, $field_args );
 
-            // Field Group
+            // Register main flexible
             acf_add_local_field_group(
                 array(
                     'key'                   => $this->flexible_group_key,
@@ -163,7 +163,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             $field_groups = acf_get_field_groups();
             $counter      = pip_array_count_values_assoc( $field_groups, 'title' );
 
-            // If not field groups, return
+            // If no field groups, return
             if ( !$field_groups ) {
                 return array(
                     'layouts'    => null,
@@ -173,9 +173,11 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             $pip_layouts = acf_get_instance( 'PIP_Layouts' );
 
+            // Browse all field groups
             foreach ( $field_groups as $field_group ) {
-                // If not layout, skip
-                if ( !$pip_layouts->is_layout( $field_group ) ) {
+
+                // If not a layout, skip
+                if ( !pip_is_layout( $field_group ) ) {
                     continue;
                 }
 
@@ -185,7 +187,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 $layout_slug    = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug', '' ) );
                 $layout_uniq_id = 'layout_' . $layout_slug;
 
-                // Paths
+                // Path
                 $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
 
                 // Categories
@@ -197,10 +199,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     )
                 );
 
+                // No category
                 if ( is_wp_error( $categories ) || empty( $categories ) ) {
-
                     $categories = array();
-
                 }
 
                 // Collections
@@ -216,8 +217,12 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 $always_show_collection = apply_filters( 'pip/layouts/always_show_collection', false );
 
                 // Add collection badge if two layouts have the same name
-                if ( !is_wp_error( $collections ) && !empty( $collections ) && !isset( $collections['errors'] ) && ( $counter[ $title ] > 1 || $always_show_collection ) ) {
-
+                if (
+                    !is_wp_error( $collections )
+                    && !empty( $collections )
+                    && !isset( $collections['errors'] )
+                    && ( $counter[ $title ] > 1 || $always_show_collection )
+                ) {
                     $title = '<div class="pip_collection">' . reset( $collections ) . '</div>' . $title;
                 }
 

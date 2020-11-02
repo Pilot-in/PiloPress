@@ -212,10 +212,9 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 ),
             );
 
+            // Add submenus
             foreach ( $submenus as $submenu ) {
-
                 add_submenu_page( $submenu['parent'], $submenu['title'], $submenu['title'], $submenu['cap'], $submenu['slug'] );
-
             }
 
         }
@@ -231,7 +230,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             $pip_components = acf_get_instance( 'PIP_Components' );
 
-            // Check if "style-admin.min.css" enqueued
+            // Check if "style-admin.min.css" is enqueued
             global $wp_styles;
             $admin_style_enqueued = false;
             if ( pip_maybe_get( $wp_styles, 'queue' ) ) {
@@ -462,12 +461,18 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             $pip_layouts_collections = acf_get_instance( 'PIP_Layouts_Collections' );
 
             // If layouts categories or collections, return
-            if ( $current_screen->taxonomy === $pip_layouts_categories->taxonomy_name || $current_screen->taxonomy === $pip_layouts_collections->taxonomy_name ) {
+            if (
+                $current_screen->taxonomy === $pip_layouts_categories->taxonomy_name
+                || $current_screen->taxonomy === $pip_layouts_collections->taxonomy_name
+            ) {
                 return $submenu_file;
             }
 
             // Define submenu for Flexible menu
-            if ( (int) acf_maybe_get_GET( 'post' ) === pip_get_flexible_mirror_group_id() && !acf_maybe_get_GET( 'page' ) ) {
+            if (
+                (int) acf_maybe_get_GET( 'post' ) === pip_get_flexible_mirror_group_id()
+                && !acf_maybe_get_GET( 'page' )
+            ) {
                 $submenu_file = 'post.php?post=' . pip_get_flexible_mirror_group_id() . '&action=edit';
             }
 
@@ -478,7 +483,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // Define submenu for Styles menu
-            if ( acf_maybe_get_GET( 'page' ) === 'pip-styles' || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
+            if (
+                acf_maybe_get_GET( 'page' ) === 'pip-styles'
+                || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' )
+            ) {
                 $submenu_file = 'pip-styles-configuration';
             }
 

@@ -3,13 +3,13 @@
 acf_add_local_field_group(
     array(
         'key'                   => 'group_styles_tailwind_module',
-        'title'                 => 'TailwindCSS',
+        'title'                 => __( 'TailwindCSS', 'pilopress' ),
         'fields'                => array(
 
             // CSS Tab
             array(
                 'key'               => 'field_tab_css_tailwind',
-                'label'             => 'CSS',
+                'label'             => __( 'CSS', 'pilopress' ),
                 'name'              => '',
                 'type'              => 'tab',
                 'instructions'      => '',
@@ -247,7 +247,7 @@ acf_add_local_field_group(
             // Configuration
             array(
                 'key'               => 'field_tab_configuration_tailwind',
-                'label'             => 'Configuration',
+                'label'             => __( 'Configuration', 'pilopress' ),
                 'name'              => '',
                 'type'              => 'tab',
                 'instructions'      => '',
@@ -282,7 +282,7 @@ acf_add_local_field_group(
                 'sub_fields'          => array(
                     array(
                         'key'               => 'field_override_config',
-                        'label'             => 'Override configuration',
+                        'label'             => __( 'Override configuration', 'pilopress' ),
                         'name'              => 'override_config',
                         'type'              => 'true_false',
                         'instructions'      => '',
@@ -418,7 +418,7 @@ acf_add_local_field_group(
         'acfe_meta'             => '',
         'acfe_note'             => '',
         'acfe_categories'       => array(
-            'options' => 'Options',
+            'options' => __( 'Options', 'pilopress' ),
         ),
     )
 );

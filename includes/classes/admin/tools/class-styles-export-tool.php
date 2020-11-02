@@ -145,7 +145,7 @@ if ( !class_exists( 'PIP_Styles_Export_Tool' ) ) {
             }
 
             // File headers
-            $file_name = 'acf-styles-export-' . gmdate( 'Y-m-d' ) . '.json';
+            $file_name = 'pilopress-styles-export-' . gmdate( 'Y-m-d' ) . '.json';
             header( 'Content-Description: File Transfer' );
             header( "Content-Disposition: attachment; filename={$file_name}" );
             header( 'Content-Type: application/json; charset=utf-8' );

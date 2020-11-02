@@ -9,14 +9,19 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
 
         public function __construct() {
 
+            // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
 
         }
 
+        /**
+         * Field groups screen
+         */
         public function current_screen() {
 
             global $typenow;
 
+            // If not field groups or layout(s) screen, return
             if ( $typenow !== 'acf-field-group' || pip_is_layout_screen() ) {
                 return;
             }
@@ -30,18 +35,24 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
 
         }
 
+        /**
+         * Layouts list
+         */
         public function load_list() {
 
+            // Get admin field groups class
             $acf_field_groups = acf_get_instance( 'ACF_Admin_Field_Groups' );
 
+            // Browse all field groups
             foreach ( $acf_field_groups->sync as $key => $field_group ) {
 
+                // If not a layout, skip
                 if ( !pip_is_layout( $field_group ) ) {
                     continue;
                 }
 
+                // Remove from synced field groups
                 unset( $acf_field_groups->sync[ $key ] );
-
             }
 
             add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
@@ -59,14 +70,15 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
 
         }
 
+        /**
+         * Field group screen
+         */
         public function load_single() {
-
             add_action( 'acf/field_group/admin_head', array( $this, 'metaboxes' ) );
-
         }
 
         /**
-         * Pre Get posts
+         * Pre get posts
          *
          * @param WP_Query $query
          */
@@ -85,7 +97,6 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
 
             // Remove flexible
             $query->set( 'post__not_in', array( pip_get_flexible_mirror_group_id() ) );
-
         }
 
         /**
@@ -97,6 +108,7 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
          */
         public function views( $views ) {
 
+            // Statuses
             $post_statuses = array(
                 'all',
                 'publish',
@@ -104,6 +116,7 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
                 'acf-disabled',
             );
 
+            // Browse all statuses
             foreach ( $post_statuses as $post_status ) {
                 $class = null;
                 $count = null;
@@ -138,28 +151,28 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
                 switch ( $post_status ) {
                     case 'all':
                         $class = ( !acf_maybe_get_GET( 'post_status' ) ) ? 'current' : '';
-                        $title = 'All';
+                        $title = __( 'All', 'acf' );
                         $count = $query->found_posts;
                         break;
 
                     case 'publish':
                         $url   = add_query_arg( array( 'post_status' => 'publish' ), $url );
                         $class = ( acf_maybe_get_GET( 'post_status' ) === 'publish' ) ? 'current' : '';
-                        $title = 'Active';
+                        $title = __( 'Active', 'acf' );
                         $count = $query->found_posts;
                         break;
 
                     case 'trash':
                         $url   = add_query_arg( array( 'post_status' => 'trash' ), $url );
                         $class = ( acf_maybe_get_GET( 'post_status' ) === 'trash' ) ? 'current' : '';
-                        $title = 'Trash';
+                        $title = __( 'Trash', 'acf' );
                         $count = $query->found_posts;
                         break;
 
                     case 'acf-disabled':
                         $url   = add_query_arg( array( 'post_status' => 'acf-disabled' ), $url );
                         $class = ( acf_maybe_get_GET( 'post_status' ) === 'acf-disabled' ) ? 'current' : '';
-                        $title = 'Inactive';
+                        $title = __( 'Inactive', 'acf' );
                         $count = $query->found_posts;
                         break;
                 }
@@ -174,7 +187,6 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
             }
 
             return $views;
-
         }
 
         /**
@@ -188,28 +200,36 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
                 return;
             }
 
+            // Get field groups
             $field_groups = explode( ',', $field_groups );
 
-            if ( $field_groups ) {
-                foreach ( $field_groups as $field_group ) {
+            // If no field group, return
+            if ( !$field_groups ) {
+                return;
+            }
 
-                    if ( !pip_is_layout( $field_group ) ) {
-                        continue;
-                    }
+            // Browse all field groups
+            foreach ( $field_groups as $field_group ) {
 
-                    $url = add_query_arg(
-                        array(
-                            'post_type' => 'acf-field-group',
-                            'layouts'   => 1,
-                            'sync_ok'   => acf_maybe_get_GET( 'acfsynccomplete' ),
-                        ),
-                        admin_url( 'edit.php' )
-                    );
-
-                    wp_safe_redirect( $url );
-                    exit();
-
+                // If not layout, skip
+                if ( !pip_is_layout( $field_group ) ) {
+                    continue;
                 }
+
+                // Build URL
+                $url = add_query_arg(
+                    array(
+                        'post_type' => 'acf-field-group',
+                        'layouts'   => 1,
+                        'sync_ok'   => acf_maybe_get_GET( 'acfsynccomplete' ),
+                    ),
+                    admin_url( 'edit.php' )
+                );
+
+                // Redirect
+                wp_safe_redirect( $url );
+                exit();
+
             }
 
         }
@@ -224,15 +244,15 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
                 return;
             }
 
-            // explode
+            // Explode
             $sync_field_groups = explode( ',', $sync_field_groups );
             $total             = count( $sync_field_groups );
 
-            // Generate text.
+            // Generate text
             // translators: Number of layouts synchronised
             $text = sprintf( _n( '%s layout synchronised.', '%s layouts synchronised.', $total, 'acf' ), $total );
 
-            // Add links to text.
+            // Add links to text
             $links = array();
             if ( $sync_field_groups ) {
                 foreach ( $sync_field_groups as $id ) {
@@ -246,6 +266,9 @@ if ( !class_exists( 'PIP_Field_Groups' ) ) {
 
         }
 
+        /**
+         * Remove Pilo'Press meta boxes
+         */
         public function metaboxes() {
 
             // Remove Pilo'Press Layouts Categories / Collections Metaboxes

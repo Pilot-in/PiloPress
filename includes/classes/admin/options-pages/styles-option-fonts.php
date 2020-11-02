@@ -35,7 +35,7 @@ acf_add_local_field_group(
                 'label'                                 => '',
                 'name'                                  => 'pip_fonts',
                 'type'                                  => 'flexible_content',
-                'instructions'                          => __( 'Fonts.', 'pilopress' ),
+                'instructions'                          => __( 'Fonts', 'pilopress' ),
                 'required'                              => 0,
                 'conditional_logic'                     => 0,
                 'wrapper'                               => array(
@@ -208,7 +208,7 @@ acf_add_local_field_group(
                                 'min'                           => 0,
                                 'max'                           => 0,
                                 'layout'                        => 'block',
-                                'button_label'                  => 'Add file',
+                                'button_label'                  => __( 'Add file', 'pilopress' ),
                                 'sub_fields'                    => array(
                                     array(
                                         'key'               => 'field_custom_font_file',
@@ -355,7 +355,7 @@ acf_add_local_field_group(
         'acfe_meta'             => '',
         'acfe_note'             => '',
         'acfe_categories'       => array(
-            'options' => 'Options',
+            'options' => __( 'Options', 'pilopress' ),
         ),
     )
 );

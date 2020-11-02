@@ -23,6 +23,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
          */
         public function current_screen() {
 
+            // If not layout(s) screen, return
             if ( !pip_is_layout_screen() ) {
                 return;
             }
@@ -41,12 +42,15 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
          */
         public function load_single() {
 
-            add_filter( 'acf/validate_field_group', array( $this, 'validate_single' ), 20 );
-            add_action( 'acf/update_field_group', array( $this, 'update_field_group' ) );
-            add_action( 'acf/field_group/admin_head', array( $this, 'metaboxes' ) );
+            // WP hooks
             add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
             add_action( 'auto-draft_to_publish', array( $this, 'draft_to_publish' ) );
             add_action( 'untrashed_post', array( $this, 'untrash' ), 1 );
+
+            // ACF hooks
+            add_filter( 'acf/validate_field_group', array( $this, 'validate_single' ), 20 );
+            add_action( 'acf/update_field_group', array( $this, 'update_field_group' ) );
+            add_action( 'acf/field_group/admin_head', array( $this, 'metaboxes' ) );
 
         }
 
@@ -54,9 +58,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
          * New
          */
         public function load_new() {
-
             add_filter( 'acf/validate_field_group', array( $this, 'validate_new' ), 20 );
-
         }
 
         /**
@@ -75,7 +77,6 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             $field_group['location'] = $flexible_mirror['location'];
 
             return $field_group;
-
         }
 
         /**
@@ -91,7 +92,6 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             $field_group['active'] = false;
 
             return $field_group;
-
         }
 
         /**
@@ -101,10 +101,13 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
          */
         public function update_field_group( $field_group ) {
 
+            // Get slug
             $slug = $field_group['_pip_layout_slug'];
 
+            // Get layouts with same slug
             $other_layouts = $this->get_layouts_with_same_slug( $slug, $field_group );
 
+            // If no duplicated slug, return
             if ( empty( $other_layouts ) ) {
                 return;
             }
@@ -134,7 +137,6 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
             // Update field group with new slug
             acf_update_field_group( $field_group );
-
         }
 
         /**
@@ -183,9 +185,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
             // Bail early if order already set by user
             if ( $order ) {
-
                 return $order;
-
             }
 
             $order = array(
@@ -221,7 +221,6 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             );
 
             return $order;
-
         }
 
         /**
@@ -377,11 +376,8 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             acf_disable_local();
 
             if ( $field_groups ) {
-
                 foreach ( $field_groups as $field_grp ) {
-
                     $choices[ $field_grp['key'] ] = $field_grp['title'];
-
                 }
             }
 
@@ -529,9 +525,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
          * @param $post
          */
         public function draft_to_publish( $post ) {
-
             add_action( 'wp_insert_post', array( $this, 'insert_post' ), 20, 3 );
-
         }
 
         /**
@@ -557,7 +551,6 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
             // Create layout dans files
             $this->generate_directory_files( $field_group );
-
         }
 
         /**
@@ -581,7 +574,6 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             $file_name = acf_maybe_get( $field_group, '_pip_render_layout', $layout_title . '.php' );
 
             touch( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $file_name );
-
         }
 
         /**

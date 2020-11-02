@@ -30,7 +30,6 @@ if ( !class_exists( 'PIP_Main' ) ) {
 
             // Enqueue style
             pip_enqueue();
-
         }
 
         /**
@@ -45,7 +44,6 @@ if ( !class_exists( 'PIP_Main' ) ) {
 
             // Enqueue admin style
             pip_enqueue_admin();
-
         }
 
     }

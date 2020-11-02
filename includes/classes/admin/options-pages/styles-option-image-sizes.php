@@ -13,7 +13,7 @@ acf_add_local_field_group(
                 'label'                         => '',
                 'name'                          => 'pip_wp_image_sizes',
                 'type'                          => 'repeater',
-                'instructions'                  => __( 'WordPress image sizes.', 'pilopress' ),
+                'instructions'                  => __( 'WordPress image sizes', 'pilopress' ),
                 'required'                      => 0,
                 'conditional_logic'             => 0,
                 'wrapper'                       => array(
@@ -245,7 +245,7 @@ acf_add_local_field_group(
         'acfe_meta'             => '',
         'acfe_note'             => '',
         'acfe_categories'       => array(
-            'options' => 'Options',
+            'options' => __( 'Options', 'pilopress' ),
         ),
     )
 );

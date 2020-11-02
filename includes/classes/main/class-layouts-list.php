@@ -22,13 +22,13 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
          */
         public function current_screen() {
 
+            // If not layout(s) screen, return
             if ( !pip_is_layout_screen() ) {
                 return;
             }
 
             // List
             add_action( 'load-edit.php', array( $this, 'load_list' ) );
-
         }
 
         /**
@@ -36,16 +36,19 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
          */
         public function load_list() {
 
+            // Get admin field groups class
             $acf_field_groups = acf_get_instance( 'ACF_Admin_Field_Groups' );
 
+            // Browse all field groups
             foreach ( $acf_field_groups->sync as $key => $field_group ) {
 
+                // If layout, skip
                 if ( pip_is_layout( $field_group ) ) {
                     continue;
                 }
 
+                // Remove field group
                 unset( $acf_field_groups->sync[ $key ] );
-
             }
 
             // Hooks
@@ -88,13 +91,10 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
 
             // Unset disabled state
             if ( isset( $states['acf-disabled'] ) ) {
-
                 unset( $states['acf-disabled'] );
-
             }
 
             return $states;
-
         }
 
         /**
@@ -109,12 +109,13 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
             // Field Groups Categories
             foreach ( $views as $key => $val ) {
 
+                // If not a category, skip
                 if ( strpos( $key, 'category-' ) !== 0 ) {
                     continue;
                 }
 
+                // Remove from views
                 unset( $views[ $key ] );
-
             }
 
             // Others views
@@ -125,12 +126,9 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
 
             // Update Sync
             if ( isset( $views['sync'] ) ) {
-
                 preg_match( '/href="([^\"]*)"/', $views['sync'], $url );
 
                 $views['sync'] = str_replace( $url[1], esc_url( $url[1] . '&layouts=1' ), $views['sync'] );
-
-
             }
 
             // Update Post Statuses
@@ -139,6 +137,7 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
                 'trash',
             );
 
+            // Browse all statuses
             foreach ( $post_statuses as $post_status ) {
                 $class = null;
                 $count = null;
@@ -197,7 +196,6 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
             }
 
             return $views;
-
         }
 
     }

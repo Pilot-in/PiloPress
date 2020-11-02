@@ -536,3 +536,27 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
     acf_new_instance( 'PIP_Tailwind' );
 
 }
+
+/**
+ * Get formatted CSS
+ *
+ * @return mixed
+ */
+function pip_get_tailwind_css() {
+
+    $tailwind = acf_get_instance( 'PIP_Tailwind' );
+
+    return $tailwind->get_tailwind_css();
+}
+
+/**
+ * Get configuration
+ *
+ * @return mixed
+ */
+function pip_get_tailwind_config() {
+
+    $tailwind = acf_get_instance( 'PIP_Tailwind' );
+
+    return $tailwind->get_tailwind_config();
+}

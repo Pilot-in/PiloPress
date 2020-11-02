@@ -32,9 +32,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
          */
         public function __construct() {
 
-            // Capability
+            // Capability for Pilo'Press pages
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
 
+            // Pages
             $this->pages = array(
                 'configuration'   => array(
                     'page_title'     => __( 'Configuration', 'pilopress' ),
@@ -304,8 +305,9 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
                 <div id="publishing-action">
                     <span class="spinner"></span>
-                    <input type="submit" accesskey="p" value="<?php echo $this->page['update_button']; ?>"
-                           class="button button-primary button-large" id="publish" name="publish">
+                    <input
+                        type="submit" accesskey="p" value="<?php echo $this->page['update_button']; ?>"
+                        class="button button-primary button-large" id="publish" name="publish">
                 </div>
 
                 <?php do_action( 'acf/options_page/submitbox_major_actions', $this->page ); ?>
