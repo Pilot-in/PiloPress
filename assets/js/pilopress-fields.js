@@ -1,6 +1,11 @@
 (
     function ( $ ) {
 
+        // Avoid admin error when acf is not present
+        if ( typeof acf === 'undefined' ) {
+            return;
+        }
+
         // Pilo'Press field types
         var field_types = [
             'pip_font_color',
