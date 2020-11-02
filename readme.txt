@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.5.1
 Requires PHP: 5.6
-Stable tag: 0.3.2.10
+Stable tag: 0.3.2.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,12 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.3.2.11 - 02/11/2020 =
+* Fixed: Reset h2 style inside TinyMCE
+* Improved: When TailwindCSS compilation via TailwindAPI crashes, show an error message and don't replace CSS file content
+* Improved: Allow main flexible in nav menu location
+* Improved: Change version of generated CSS files to filemtime( FILE )
 
 = 0.3.2.10 - 10/09/2020 =
 * Fixed: Configuration file placeholder misleading
