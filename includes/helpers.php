@@ -68,9 +68,11 @@ function pip_get_formatted_post_id( $post_id = false ) {
 
     } elseif ( is_post_type_archive() ) {
 
+        $post_type = get_post_type() ? get_post_type() : get_queried_object()->name;
+
         // Custom post types
-        if ( acf_get_options_page( get_post_type() . '-archive' ) ) {
-            $post_id = get_post_type() . '_archive';
+        if ( acf_get_options_page( $post_type . '-archive' ) ) {
+            $post_id = $post_type . '_archive';
         }
     }
 
