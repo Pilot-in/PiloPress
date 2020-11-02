@@ -74,6 +74,8 @@ function pip_get_formatted_post_id( $post_id = false ) {
         }
     }
 
+    $post_id = apply_filters( 'pip/formatted_post_id', $post_id );
+
     return $post_id;
 }
 
