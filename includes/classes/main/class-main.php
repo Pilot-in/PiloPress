@@ -15,7 +15,7 @@ if ( !class_exists( 'PIP_Main' ) ) {
 
             // WP hooks
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_pip_style' ) );
-            add_action( 'acf/admin_enqueue_scripts', array( $this, 'admin_enqueue_pip_style' ) );
+            add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_pip_style' ) );
         }
 
         /**
