@@ -27,10 +27,10 @@ div[data-name='hide_on_screen'] {
 /*
  * Field Group: Tabs hack to initialize
  */
-.acf-fields .acf-field-tab{
-    display:block !important;
-    height:0;
-    overflow:hidden;
+.acf-fields .acf-field-tab {
+    display: block !important;
+    height: 0;
+    overflow: hidden;
     padding: 0 !important;
     border: 0 !important;
 }

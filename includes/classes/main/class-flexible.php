@@ -233,6 +233,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail' );
                 $configuration    = acf_maybe_get( $field_group, '_pip_configuration', array() );
                 $modal_size       = acf_maybe_get( $field_group, '_pip_modal_size', array() );
+                $layout_min       = acf_maybe_get( $field_group, '_pip_layout_min' );
+                $layout_max       = acf_maybe_get( $field_group, '_pip_layout_max' );
 
                 // Check if JS file exists before enqueue
                 if ( !file_exists( $render_script ) ) {
@@ -288,8 +290,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'acfe_flexible_thumbnail'       => $layout_thumbnail,
                     'acfe_flexible_settings'        => $configuration,
                     'acfe_flexible_settings_size'   => $modal_size,
-                    'min'                           => '',
-                    'max'                           => '',
+                    'min'                           => $layout_min,
+                    'max'                           => $layout_max,
                 );
 
                 // Store group keys for meta box on mirror flexible

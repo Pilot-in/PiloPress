@@ -466,6 +466,32 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                 )
             );
 
+            // Layout min
+            acf_render_field_wrap(
+                array(
+                    'label'       => __( 'Min', 'pilopress' ),
+                    'type'        => 'acfe_slug',
+                    'name'        => '_pip_layout_min',
+                    'prefix'      => 'acf_field_group',
+                    'placeholder' => '',
+                    'required'    => 0,
+                    'value'       => isset( $field_group['_pip_layout_min'] ) ? $field_group['_pip_layout_min'] : '',
+                )
+            );
+
+            // Layout max
+            acf_render_field_wrap(
+                array(
+                    'label'       => __( 'Max', 'pilopress' ),
+                    'type'        => 'acfe_slug',
+                    'name'        => '_pip_layout_max',
+                    'prefix'      => 'acf_field_group',
+                    'placeholder' => '',
+                    'required'    => 0,
+                    'value'       => isset( $field_group['_pip_layout_max'] ) ? $field_group['_pip_layout_max'] : '',
+                )
+            );
+
             // Script for admin style
             ?>
             <script type="text/javascript">
@@ -582,9 +608,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
          * @param $post_id
          */
         public function untrash( $post_id ) {
-
             //remove_action( 'acf/untrash_field_group', array( acf()->json, 'update_field_group' ) );
-
         }
 
         /**
@@ -637,11 +661,9 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
                 $other_layouts[] = $layout;
                 break;
-
             }
 
             return $other_layouts;
-
         }
 
     }

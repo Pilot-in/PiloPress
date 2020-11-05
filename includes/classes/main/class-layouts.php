@@ -238,7 +238,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 }
 
 /**
- * Is layout screen
+ * Is layout(s) screen
  *
  * @return mixed
  */
