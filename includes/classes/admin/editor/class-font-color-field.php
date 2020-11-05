@@ -22,6 +22,8 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                 'placeholder'   => '',
                 'return_format' => 'value',
                 'allow_null'    => true,
+                'other_choice'  => 0,
+                'allow_custom'  => 0,
                 'ajax'          => false,
             );
 
@@ -253,6 +255,26 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                     ),
                 )
             );
+
+            // Type of class to return
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'         => __( 'Return type', 'acf' ),
+                    'type'          => 'select',
+                    'name'          => 'return_type',
+                    'optgroup'      => true,
+                    'required'      => 0,
+                    'default_value' => '',
+                    'allow_null'    => 1,
+                    'return_format' => 'value',
+                    'choices'       => array(
+                        'text'       => __( 'Text class', 'pilopress' ),
+                        'background' => __( 'Background class', 'pilopress' ),
+                        'border'     => __( 'Border class', 'pilopress' ),
+                    ),
+                )
+            );
         }
 
         /**
@@ -269,17 +291,54 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
             // Get all font colors
             $choices = pip_get_colors();
 
+            // Get return type
+            $return_type = acf_maybe_get( $field, 'return_type' );
+
             $return = null;
             if ( is_array( $value ) ) {
                 foreach ( $value as $item ) {
                     // Get selected option
-                    $font_color      = acf_maybe_get( $choices, $item );
-                    $return[ $item ] = $font_color ? $font_color['class_name'] : $item;
+                    $font_color = acf_maybe_get( $choices, $item );
+                    $font_color = $font_color ? $font_color['class_name'] : $value;
+                    if ( !$font_color ) {
+                        continue;
+                    }
+
+                    // Build class
+                    switch ( $return_type ) {
+                        case 'text':
+                            $font_color = 'text-' . $font_color;
+                            break;
+                        case 'background':
+                            $font_color = 'bg-' . $font_color;
+                            break;
+                        case 'border':
+                            $font_color = 'border-' . $font_color;
+                            break;
+                    }
+                    $return[ $item ] = $font_color;
                 }
             } else {
                 // Get selected option
                 $font_color = acf_maybe_get( $choices, $value );
-                $return     = $font_color ? $font_color['class_name'] : $value;
+                $font_color = $font_color ? $font_color['class_name'] : $value;
+                if ( !$font_color ) {
+                    return null;
+                }
+
+                // Build class
+                switch ( $return_type ) {
+                    case 'text':
+                        $font_color = 'text-' . $font_color;
+                        break;
+                    case 'background':
+                        $font_color = 'bg-' . $font_color;
+                        break;
+                    case 'border':
+                        $font_color = 'border-' . $font_color;
+                        break;
+                }
+                $return = $font_color;
             }
 
             return $return;
