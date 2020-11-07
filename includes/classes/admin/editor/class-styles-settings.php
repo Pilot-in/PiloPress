@@ -144,7 +144,7 @@ if ( !class_exists( 'PIP_Styles_Settings' ) ) {
             );
 
             // Reset WP styles
-            $admin_css = "#poststuff .-preview h2{ all:unset; }\n";
+            $admin_css = "#poststuff .-preview h2 { all:unset;  display: block; }\n";
 
             // Build admin style
             $return = $tailwind->build(
