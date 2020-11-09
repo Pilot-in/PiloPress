@@ -329,10 +329,12 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             }
 
             // Add horizontal padding to container
-            $add_padding = acf_maybe_get( $container_options, 'add_horizontal_padding' );
-            $padding     = acf_maybe_get( $container_options, 'padding_value' );
-            if ( $add_padding && $padding ) {
-                $options['padding'] = $padding;
+            $add_padding    = acf_maybe_get( $container_options, 'add_horizontal_padding' );
+            $padding_values = acf_maybe_get( $container_options, 'padding_values' );
+            if ( $add_padding && $padding_values ) {
+                foreach ( $padding_values as $padding_value ) {
+                    $options['padding'][ $padding_value['breakpoint'] ] = $padding_value['value'];
+                }
             }
 
             // If options, add to config
