@@ -14,7 +14,7 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
         public function __construct() {
 
             $this->name     = 'pip_font_color';
-            $this->label    = __( 'Font color', 'pilopress' );
+            $this->label    = __( 'Theme colors', 'pilopress' );
             $this->category = __( "Pilo'Press", 'pilopress' );
             $this->defaults = array(
                 'field_type'    => 'select',
@@ -33,9 +33,11 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
         /**
          * Get choices
          *
+         * @param $show_add_to_editor
+         *
          * @return array
          */
-        public function get_choices() {
+        public function get_choices( $show_add_to_editor ) {
 
             $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
 
@@ -43,6 +45,12 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
             $custom_styles = $pip_tinymce->get_custom_colors();
             if ( $custom_styles ) {
                 foreach ( $custom_styles as $key => $custom_style ) {
+
+                    // If only show editor colors checked, skip if color not in editor
+                    if ( $show_add_to_editor && !$custom_style['add_to_editor'] ) {
+                        continue;
+                    }
+
                     $choices[ $key ] = $custom_style['name'];
                 }
             }
@@ -59,7 +67,10 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
          */
         public function prepare_field( $field ) {
 
-            $field['choices'] = $this->get_choices();
+            // Only show items with "Add to editor" option
+            $show_add_to_editor = acf_maybe_get( $field, 'show_add_to_editor' );
+
+            $field['choices'] = $this->get_choices( $show_add_to_editor );
             $field['type']    = $field['field_type'];
 
             return $field;
@@ -273,6 +284,18 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                         'background' => __( 'Background class', 'pilopress' ),
                         'border'     => __( 'Border class', 'pilopress' ),
                     ),
+                )
+            );
+
+            // Add to editor values
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'        => __( 'Only show colors with "Add to editor" option checked?', 'acf' ),
+                    'instructions' => '',
+                    'name'         => 'show_add_to_editor',
+                    'type'         => 'true_false',
+                    'ui'           => 1,
                 )
             );
         }
