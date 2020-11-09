@@ -872,7 +872,6 @@ acf_add_local_field_group(
                         'ui_on_text'        => '',
                         'ui_off_text'       => '',
                     ),
-
                     array(
                         'key'                           => 'field_container_padding_values',
                         'label'                         => __( 'Horizontal padding values', 'pilopress' ),
