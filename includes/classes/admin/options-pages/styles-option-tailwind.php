@@ -334,65 +334,6 @@ acf_add_local_field_group(
                 ),
             ),
 
-            // Colors
-            array(
-                'key'               => 'field_tailwind_color',
-                'label'             => __( 'Colors', 'pilopress' ),
-                'name'              => '',
-                'type'              => 'tab',
-                'instructions'      => '',
-                'required'          => 0,
-                'conditional_logic' => 0,
-                'wrapper'           => array(
-                    'width' => '',
-                    'class' => '',
-                    'id'    => '',
-                ),
-                'acfe_permissions'  => '',
-                'placement'         => 'top',
-                'endpoint'          => 0,
-            ),
-            array(
-                'key'                 => 'field_pip_override_colors',
-                'label'               => '',
-                'name'                => 'pip_override_colors',
-                'type'                => 'group',
-                'instructions'        => '',
-                'required'            => 0,
-                'conditional_logic'   => 0,
-                'wrapper'             => array(
-                    'width' => '',
-                    'class' => '',
-                    'id'    => '',
-                ),
-                'acfe_permissions'    => '',
-                'layout'              => 'row',
-                'acfe_seamless_style' => 0,
-                'acfe_group_modal'    => 0,
-                'sub_fields'          => array(
-                    array(
-                        'key'               => 'field_override_colors',
-                        'label'             => __( 'Override colors', 'pilopress' ),
-                        'name'              => 'override_colors',
-                        'type'              => 'true_false',
-                        'instructions'      => __( 'Override default TailwindCSS colors.<br> The compiled CSS file will be lighter but don\'t forget to add TailwindCSS colors you want to use.', 'pilopress' ),
-                        'required'          => 0,
-                        'conditional_logic' => 0,
-                        'wrapper'           => array(
-                            'width' => '',
-                            'class' => '',
-                            'id'    => '',
-                        ),
-                        'acfe_permissions'  => '',
-                        'message'           => '',
-                        'default_value'     => 1,
-                        'ui'                => 1,
-                        'ui_on_text'        => '',
-                        'ui_off_text'       => '',
-                    ),
-                ),
-            ),
-
         ),
         'location'              => array(
             array(

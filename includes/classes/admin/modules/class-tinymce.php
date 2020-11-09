@@ -34,7 +34,6 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Enqueue custom TinyMCE script and add variables to it
          */
         public function localize_data() {
-
             acf_localize_data(
                 array(
                     'custom_fonts'   => $this->get_custom_fonts(),
@@ -158,7 +157,15 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          */
         public function get_custom_colors() {
 
-            $colors = array();
+            $colors           = array();
+            $redefined_colors = array();
+
+            // Get override colors option
+            $override       = false;
+            $override_group = get_field( 'pip_override_colors', 'pip_styles_configuration' );
+            if ( $override_group ) {
+                $override = acf_maybe_get( $override_group, 'override_colors' );
+            }
 
             // Get simple colors
             if ( have_rows( 'pip_simple_colors', 'pip_styles_configuration' ) ) {
@@ -172,7 +179,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     $add_to_editor    = get_sub_field( 'add_to_editor' );
 
                     // Add custom style
-                    $colors[ sanitize_title( $label ) ] = array(
+                    $colors[ sanitize_title( $name ) ] = array(
                         'name'             => $label,
                         'value'            => $value,
                         'class_name'       => $name,
@@ -187,7 +194,11 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 while ( have_rows( 'pip_colors_shades', 'pip_styles_configuration' ) ) {
                     the_row();
 
+                    // Get color name
                     $color_name = get_sub_field( 'color_name' );
+
+                    // Store color name
+                    $redefined_colors[] = $color_name;
 
                     // Get shades
                     if ( have_rows( 'shades' ) ) {
@@ -201,7 +212,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                             $add_to_editor    = get_sub_field( 'add_to_editor' );
 
                             // Add custom style
-                            $colors[ sanitize_title( $label ) ] = array(
+                            $colors[ sanitize_title( $color_name . '-' . $name ) ] = array(
                                 'name'             => $label,
                                 'value'            => $value,
                                 'class_name'       => $color_name . '-' . $name,
@@ -209,6 +220,44 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                                 'add_to_editor'    => $add_to_editor,
                             );
 
+                        }
+                    }
+                }
+            }
+
+            // Native colors
+            if ( !$override ) {
+                $native_colors_in_editor = get_field( 'pip_native_colors_in_editor', 'pip_styles_configuration' );
+                $native_colors           = pip_get_tailwind_native_colors();
+
+                if ( $native_colors_in_editor ) {
+                    foreach ( $native_colors as $key => $shades ) {
+
+                        // If color has been redefined, skip
+                        if ( in_array( $key, $redefined_colors, true ) ) {
+                            continue;
+                        }
+
+                        // Browse shades
+                        foreach ( $shades as $shade ) {
+
+                            $shade_name  = acf_maybe_get( $shade, 'name' );
+                            $shade_label = acf_maybe_get( $shade, 'label' );
+                            $shade_value = acf_maybe_get( $shade, 'value' );
+
+                            // If current shade is in select native colors
+                            if ( in_array( $key . '-' . $shade_name, $native_colors_in_editor, true ) ) {
+
+                                // Add custom style
+                                $colors[ sanitize_title( $key . '-' . $shade_name ) ] = array(
+                                    'name'             => $shade_label,
+                                    'value'            => $shade_value,
+                                    'class_name'       => $key . '-' . $shade_name,
+                                    'classes_to_apply' => '',
+                                    'add_to_editor'    => true,
+                                );
+
+                            }
                         }
                     }
                 }

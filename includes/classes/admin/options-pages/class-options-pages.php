@@ -20,6 +20,8 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
             // ACF hooks
             add_filter( 'acf/load_value/name=pip_typography', array( $this, 'pre_populate_typography' ), 10, 3 );
             add_filter( 'acf/load_value/name=pip_screens', array( $this, 'pre_populate_screens' ), 10, 3 );
+            add_filter( 'acf/load_field/name=pip_native_colors_in_editor', array( $this, 'pre_populate_native_colors_choices' ) );
+            add_filter( 'acf/load_value/name=pip_native_colors_in_editor', array( $this, 'pre_populate_native_colors_values' ), 10, 3 );
             add_filter( 'acf/load_value/name=pip_wp_image_sizes', array( $this, 'pre_populate_wp_image_sizes' ), 10, 3 );
             add_filter( 'acf/prepare_field/name=pip_wp_image_sizes', array( $this, 'configure_wp_image_sizes' ) );
             add_action( 'acf/save_post', array( $this, 'save_wp_image_sizes' ), 20, 1 );
@@ -90,6 +92,43 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
                     'field_screen_value' => '1280px',
                 ),
             );
+        }
+
+        /**
+         * Pre-populate select with all Tailwind native colors
+         *
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function pre_populate_native_colors_choices( $field ) {
+            // Reset choices
+            $field['choices'] = array();
+
+            // Add native tailwind colors as choices
+            $field['choices'] = pip_get_tailwind_native_colors( true );
+
+            return $field;
+        }
+
+        /**
+         * Select all Tailwind native colors
+         *
+         * @param $value
+         * @param $post_id
+         * @param $field
+         *
+         * @return array|string[]
+         */
+        public function pre_populate_native_colors_values( $value, $post_id, $field ) {
+
+            // If value has been modified, return
+            if ( $value || empty( $value ) ) {
+                return $value;
+            }
+
+            // Select all tailwind native colors
+            return pip_get_tailwind_native_colors( false, true );
         }
 
         /**

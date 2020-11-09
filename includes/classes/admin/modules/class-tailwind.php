@@ -388,7 +388,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
             // Get override colors option
             $override       = false;
-            $override_group = get_field( 'pip_override_colors', 'pip_styles_tailwind_module' );
+            $override_group = get_field( 'pip_override_colors', 'pip_styles_configuration' );
             if ( $override_group ) {
                 $override = acf_maybe_get( $override_group, 'override_colors' );
             }

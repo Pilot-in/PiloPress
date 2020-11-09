@@ -192,6 +192,83 @@ acf_add_local_field_group(
                 'endpoint'          => 0,
             ),
 
+            // Override colors
+            array(
+                'key'                 => 'field_pip_override_colors',
+                'label'               => '',
+                'name'                => 'pip_override_colors',
+                'type'                => 'group',
+                'instructions'        => '',
+                'required'            => 0,
+                'conditional_logic'   => 0,
+                'wrapper'             => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_permissions'    => '',
+                'layout'              => 'row',
+                'acfe_seamless_style' => 0,
+                'acfe_group_modal'    => 0,
+                'sub_fields'          => array(
+                    array(
+                        'key'               => 'field_override_colors',
+                        'label'             => __( 'Override colors', 'pilopress' ),
+                        'name'              => 'override_colors',
+                        'type'              => 'true_false',
+                        'instructions'      => __( 'Override default TailwindCSS colors.<br> The compiled CSS file will be lighter but don\'t forget to add TailwindCSS colors you want to use.', 'pilopress' ),
+                        'required'          => 0,
+                        'conditional_logic' => 0,
+                        'wrapper'           => array(
+                            'width' => '',
+                            'class' => '',
+                            'id'    => '',
+                        ),
+                        'acfe_permissions'  => '',
+                        'message'           => '',
+                        'default_value'     => 1,
+                        'ui'                => 1,
+                        'ui_on_text'        => '',
+                        'ui_off_text'       => '',
+                    ),
+                ),
+            ),
+
+            // Native colors
+            array(
+                'key'                => 'field_pip_native_colors_in_editor',
+                'label'              => __( 'Native colors to add to editor', 'pilopress' ),
+                'name'               => 'pip_native_colors_in_editor',
+                'type'               => 'select',
+                'instructions'       => '',
+                'required'           => 0,
+                'conditional_logic'  => array(
+                    array(
+                        array(
+                            'field'    => 'field_override_colors',
+                            'operator' => '!=',
+                            'value'    => '1',
+                        ),
+                    ),
+                ),
+                'wrapper'            => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_permissions'   => '',
+                'choices'            => array(),
+                'default_value'      => array(),
+                'allow_null'         => 1,
+                'multiple'           => 1,
+                'ui'                 => 1,
+                'ajax'               => 1,
+                'return_format'      => 'value',
+                'allow_custom'       => 0,
+                'placeholder'        => '',
+                'search_placeholder' => '',
+            ),
+
             // Simple colors
             array(
                 'key'                           => 'field_pip_simple_colors',
