@@ -179,7 +179,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     $add_to_editor    = get_sub_field( 'add_to_editor' );
 
                     // Add custom style
-                    $colors[ sanitize_title( $name ) ] = array(
+                    $colors[ sanitize_title( $label ) ] = array(
                         'name'             => $label,
                         'value'            => $value,
                         'class_name'       => $name,
@@ -212,7 +212,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                             $add_to_editor    = get_sub_field( 'add_to_editor' );
 
                             // Add custom style
-                            $colors[ sanitize_title( $color_name . '-' . $name ) ] = array(
+                            $colors[ sanitize_title( $color_name . '-' . $label ) ] = array(
                                 'name'             => $label,
                                 'value'            => $value,
                                 'class_name'       => $color_name . '-' . $name,
