@@ -312,6 +312,11 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
          */
         public function format_value( $value, $post_id, $field ) {
 
+            // Skip if no value
+            if ( !$value ) {
+                return $value;
+            }
+
             // Get all font colors
             $choices = pip_get_colors();
 
