@@ -26,7 +26,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          *
          * @var string
          */
-        public static $pattern_post_id = 'pip_pattern';
+        public $pattern_post_id = 'pip_pattern';
 
         public function __construct() {
 
@@ -59,7 +59,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
                     'menu_slug'   => $this->menu_slug,
                     'capability'  => $capability,
                     'parent_slug' => 'pilopress',
-                    'post_id'     => self::$pattern_post_id,
+                    'post_id'     => $this->pattern_post_id,
                     'autoload'    => true,
                 )
             );
