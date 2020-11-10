@@ -59,14 +59,16 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             );
 
             // Enable Tailwind config override
-            update_field(
-                'pip_tailwind_config',
-                array(
-                    'override_config' => true,
-                    'tailwind_config' => get_field( 'pip_tailwind_config_tailwind_config', 'pip_styles_tailwind' ),
-                ),
-                'pip_styles_tailwind_module'
-            );
+            if ( get_field( 'pip_tailwind_config_tailwind_config', 'pip_styles_tailwind' ) ) {
+                update_field(
+                    'pip_tailwind_config',
+                    array(
+                        'override_config' => true,
+                        'tailwind_config' => get_field( 'pip_tailwind_config_tailwind_config', 'pip_styles_tailwind' ),
+                    ),
+                    'pip_styles_tailwind_module'
+                );
+            }
 
             // Get old CSS field
             $tailwind_css = get_field( 'pip_tailwind_style_tailwind_style', 'pip_styles_tailwind' );

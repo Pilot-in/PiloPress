@@ -13,7 +13,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
         public function __construct() {
 
             // Hooks
-            add_action( 'init', array( $this, 'include_layout_configuration' ) );
+            add_action( 'init', array( $this, 'include_layout_configuration' ), 6 );
             add_action( 'current_screen', array( $this, 'current_screen' ) );
 
         }

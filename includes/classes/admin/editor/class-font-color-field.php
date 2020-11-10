@@ -267,13 +267,13 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                 )
             );
 
-            // Type of class to return
+            // Select: Type of class to return
             acf_render_field_setting(
                 $field,
                 array(
                     'label'         => __( 'Return type', 'acf' ),
                     'type'          => 'select',
-                    'name'          => 'return_type',
+                    'name'          => 'class_output',
                     'optgroup'      => true,
                     'required'      => 0,
                     'default_value' => '',
@@ -291,11 +291,12 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
             acf_render_field_setting(
                 $field,
                 array(
-                    'label'        => __( 'Only show colors with "Add to editor" option checked?', 'acf' ),
-                    'instructions' => '',
-                    'name'         => 'show_add_to_editor',
-                    'type'         => 'true_false',
-                    'ui'           => 1,
+                    'label'         => __( 'Only show colors with "Add to editor" option checked?', 'acf' ),
+                    'instructions'  => '',
+                    'name'          => 'show_add_to_editor',
+                    'type'          => 'true_false',
+                    'ui'            => 1,
+                    'default_value' => 1,
                 )
             );
         }
@@ -315,7 +316,7 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
             $choices = pip_get_colors();
 
             // Get return type
-            $return_type = acf_maybe_get( $field, 'return_type' );
+            $class_output = acf_maybe_get( $field, 'class_output' );
 
             $return = null;
             if ( is_array( $value ) ) {
@@ -328,7 +329,7 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                     }
 
                     // Build class
-                    switch ( $return_type ) {
+                    switch ( $class_output ) {
                         case 'text':
                             $font_color = 'text-' . $font_color;
                             break;
@@ -350,14 +351,17 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                 }
 
                 // Build class
-                switch ( $return_type ) {
+                switch ( $class_output ) {
                     case 'text':
+                        $this->remove_prefix( $font_color );
                         $font_color = 'text-' . $font_color;
                         break;
                     case 'background':
+                        $this->remove_prefix( $font_color );
                         $font_color = 'bg-' . $font_color;
                         break;
                     case 'border':
+                        $this->remove_prefix( $font_color );
                         $font_color = 'border-' . $font_color;
                         break;
                 }
@@ -365,6 +369,17 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
             }
 
             return $return;
+        }
+
+        /**
+         * Remove class prefix
+         *
+         * @param $text
+         */
+        private function remove_prefix( &$text ) {
+            $text = str_replace( 'text-', '', $text );
+            $text = str_replace( 'bg-', '', $text );
+            $text = str_replace( 'border-', '', $text );
         }
 
     }

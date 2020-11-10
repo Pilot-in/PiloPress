@@ -344,7 +344,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 $nav_menu_id = acf_get_data( 'nav_menu_id' );
                 if ( $nav_menu_id ) {
                     $screen  = 'nav_menu';
-                    $post_id = acf_get_term_post_id( 'nav_menu', $nav_menu_id );
+                    $post_id = 'term_' . $nav_menu_id;
                 }
             }
 
