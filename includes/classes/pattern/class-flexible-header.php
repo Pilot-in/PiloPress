@@ -11,7 +11,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
          *
          * @var string
          */
-        public $flexible_header_field_name = 'pip_flexible_header';
+        public static $flexible_header_field_name = 'pip_flexible_header';
 
         /**
          * Header group key
@@ -221,9 +221,9 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
          *
          * @return string
          */
-        public function get_flexible_header_field_name() {
+        public static function get_flexible_header_field_name() {
 
-            return $this->flexible_header_field_name;
+            return self::$flexible_header_field_name;
         }
 
         /**

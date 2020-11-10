@@ -271,7 +271,7 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
             acf_render_field_setting(
                 $field,
                 array(
-                    'label'         => __( 'Return type', 'acf' ),
+                    'label'         => __( 'Return type', 'pilopress' ),
                     'type'          => 'select',
                     'name'          => 'class_output',
                     'optgroup'      => true,
@@ -287,11 +287,11 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                 )
             );
 
-            // Add to editor values
+            // True/False: Add to editor values
             acf_render_field_setting(
                 $field,
                 array(
-                    'label'         => __( 'Only show colors with "Add to editor" option checked?', 'acf' ),
+                    'label'         => __( 'Only show colors with "Add to editor" option checked?', 'pilopress' ),
                     'instructions'  => '',
                     'name'          => 'show_add_to_editor',
                     'type'          => 'true_false',
