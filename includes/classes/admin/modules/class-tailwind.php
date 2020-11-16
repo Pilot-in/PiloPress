@@ -283,6 +283,30 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
         }
 
         /**
+         * Add default styles for TinyMCE
+         *
+         * @return false|string
+         */
+        public function get_default_tinymce_css() {
+            ob_start();
+            ?>
+            .aligncenter {
+            @apply mx-auto;
+            }
+
+            .alignleft {
+            @apply mr-auto;
+            }
+
+            .alignright {
+            @apply ml-auto;
+            }
+            <?php
+
+            return ob_get_clean();
+        }
+
+        /**
          * Set screens
          *
          * @param $config
@@ -447,6 +471,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
             // Get config
             $tailwind_config = $this->get_tailwind_config();
+
+            // Add default TinyMCE CSS
+            $tailwind_style .= $this->get_default_tinymce_css();
 
             // Get Tailwind API
             require_once PIP_PATH . '/assets/libs/tailwindapi.php';
