@@ -51,7 +51,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             );
 
             // Build class
-            $class  = '';
+            $class = '';
             $class .= ( $attrs['type'] ) ? $attrs['type'] : '';
             $class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 

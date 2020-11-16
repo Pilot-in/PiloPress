@@ -85,12 +85,13 @@ function pip_get_formatted_post_id( $post_id = false ) {
  * Pilo'Press version of acf_maybe_get
  * (that also handles object type)
  *
- * @param      $data
- * @param int $key
+ * @see acf_maybe_get()
+ *
+ * @param int  $key
  * @param null $default
+ * @param      $data
  *
  * @return mixed|null
- * @see acf_maybe_get()
  */
 function pip_maybe_get( $data, $key = 0, $default = null ) {
 
@@ -111,11 +112,12 @@ function pip_maybe_get( $data, $key = 0, $default = null ) {
 /**
  * Multi-dimension version of array_count_values
  *
- * @param $array
+ * @see array_count_values()
+ *
  * @param $index
+ * @param $array
  *
  * @return array
- * @see array_count_values()
  */
 function pip_array_count_values_assoc( $array, $index ) {
 
