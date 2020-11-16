@@ -16,7 +16,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          *
          * @var mixed
          */
-        public $initial_value;
+        public $initial_value = array();
 
         public function __construct() {
 
@@ -90,13 +90,16 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          */
         public function load_value( $value, $post_id, $field ) {
 
+            // Get index
+            $initial_value_index = pip_maybe_get( $field, 'key' ) . '_' . pip_maybe_get( $field, 'name' );
+
             // Store value for format value
             if ( is_numeric( $value ) ) {
-                $this->initial_value = $value;
+                $this->initial_value[ $initial_value_index ] = $value;
             }
 
             // Get component sub fields
-            $sub_fields = get_field_objects( $this->initial_value, false );
+            $sub_fields = get_field_objects( $this->initial_value[ $initial_value_index ], false );
             if ( !$sub_fields ) {
                 return $value;
             }
@@ -119,9 +122,22 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          */
         public function prepare_field( $field ) {
 
+            // Get row number
+            $acf_field_prefix = pip_maybe_get( $field, 'prefix' );
+            preg_match( '~row-(.*?)]~', $acf_field_prefix, $row_number );
+            $row_number = $row_number[1];
+
+            // Get flexible class instance
+            $pip_flexible = acf_get_instance( 'PIP_Flexible' );
+
+            // Mapping the index for it to have the same structure as in load_value and format_value
+            $field_key           = acf_maybe_get( $field, 'key' );
+            $field_name          = acf_maybe_get( $field, '_name' );
+            $initial_value_index = $field_key . '_' . $pip_flexible->flexible_field_name . '_' . $row_number . '_' . $field_name;
+
             $field['choices'] = $this->get_choices( $field );
             $field['type']    = $field['field_type'];
-            $field['value']   = $this->initial_value ? $this->initial_value : '';
+            $field['value']   = $this->initial_value[ $initial_value_index ];
 
             return $field;
         }
@@ -137,7 +153,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          */
         public function format_value( $value, $post_id, $field ) {
 
-            return get_fields( $this->initial_value, true );
+            // Get index
+            $initial_value_index = acf_maybe_get( $field, 'key' ) . '_' . acf_maybe_get( $field, 'name' );
+
+            return get_fields( $this->initial_value[ $initial_value_index ], true );
         }
 
         /**

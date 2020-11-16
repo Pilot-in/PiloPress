@@ -296,13 +296,13 @@ if ( !function_exists( 'have_component' ) ) {
             $component_values = $values ? $values : $component_values;
 
             // Fake wrapper field
-            $field_key = 'field_component_wrapper';
+            $field_key = 'field_component_wrapper_' . $selector;
 
             // Get sub fields
             $sub_fields = array();
-            foreach ( $component_values as $k => $v ) {
+            foreach ( $component_values as $key => $value ) {
                 $sub_fields[] = array(
-                    'key'  => $k,
+                    'key'  => $key,
                     'type' => 'text',
                 );
             }
