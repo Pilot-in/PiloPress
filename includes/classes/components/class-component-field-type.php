@@ -99,7 +99,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
             }
 
             // Get component sub fields
-            $sub_fields = get_field_objects( $this->initial_value[ $initial_value_index ], false );
+            $sub_fields = get_field_objects( acf_maybe_get( $this->initial_value, $initial_value_index ), false );
             if ( !$sub_fields ) {
                 return $value;
             }
