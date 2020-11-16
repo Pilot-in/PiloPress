@@ -44,7 +44,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
             // WP hooks
             add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
-            add_action( 'auto-draft_to_publish', array( $this, 'draft_to_publish' ) );
+            add_action( 'save_post', array( $this, 'save_post' ), 10, 3 );
             add_action( 'untrashed_post', array( $this, 'untrash' ), 1 );
 
             // ACF hooks
@@ -546,22 +546,13 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
         }
 
         /**
-         * Draft to Publish
-         *
-         * @param $post
-         */
-        public function draft_to_publish( $post ) {
-            add_action( 'wp_insert_post', array( $this, 'insert_post' ), 20, 3 );
-        }
-
-        /**
-         * Insert Post
+         * Save layout
          *
          * @param $post_id
          * @param $post
          * @param $update
          */
-        public function insert_post( $post_id, $post, $update ) {
+        public function save_post( $post_id, $post, $update ) {
 
             // Fire only once
             if ( !$post->post_content ) {
@@ -575,7 +566,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                 return;
             }
 
-            // Create layout dans files
+            // Create layout files
             $this->generate_directory_files( $field_group );
         }
 
@@ -588,18 +579,30 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
             $layout_title = sanitize_title( $field_group['_pip_layout_slug'] );
 
-            // Bail early if folder already exists
-            if ( file_exists( PIP_THEME_LAYOUTS_PATH . $layout_title ) ) {
-                return;
+            // Create layout folder if doesn't exists
+            if ( !file_exists( PIP_THEME_LAYOUTS_PATH . $layout_title ) ) {
+                wp_mkdir_p( PIP_THEME_LAYOUTS_PATH . $layout_title );
             }
 
-            // Create folder
-            wp_mkdir_p( PIP_THEME_LAYOUTS_PATH . $layout_title );
+            // Add configuration file ?
+            if ( acf_maybe_get( $field_group, 'field_add_config_file' ) ) {
 
-            // Create file
+                // Get file name
+                $config_file_name = acf_maybe_get( $field_group, '_pip_config_file' );
+
+                // If file doesn't already exists, create it
+                if ( !file_exists( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $config_file_name ) ) {
+                    touch( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $config_file_name );
+                }
+            }
+
+            // Get template file name
             $file_name = acf_maybe_get( $field_group, '_pip_render_layout', $layout_title . '.php' );
 
-            touch( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $file_name );
+            // Create template file if doesn't exists
+            if ( !file_exists( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $file_name ) ) {
+                touch( PIP_THEME_LAYOUTS_PATH . $layout_title . '/' . $file_name );
+            }
         }
 
         /**
