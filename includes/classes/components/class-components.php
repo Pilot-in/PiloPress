@@ -26,8 +26,13 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
             // ACF hooks - Component location rule
             add_filter( 'acf/location/rule_types', array( $this, 'location_types' ) );
-            add_filter( 'acf/location/rule_values/' . $this->post_type, array( $this, 'location_values' ) );
             add_filter( 'acf/location/rule_match/' . $this->post_type, array( $this, 'location_match' ), 10, 3 );
+            add_filter( 'acf/location/rule_values/' . $this->post_type, array( $this, 'location_values' ), 10, 2 );
+
+            // ACF hooks - Component like location rule
+            add_filter( 'acf/location/rule_operators/' . $this->post_type . '-like', array( $this, 'like_location_operators' ), 10, 2 );
+            add_filter( 'acf/location/rule_match/' . $this->post_type . '-like', array( $this, 'like_location_match' ), 10, 3 );
+            add_filter( 'acf/location/rule_values/' . $this->post_type . '-like', array( $this, 'like_location_values' ), 10, 2 );
         }
 
         /**
@@ -155,17 +160,21 @@ if ( !class_exists( 'PIP_Components' ) ) {
             // Add component option
             $choices["Pilo'Press"][ $this->post_type ] = $post_type->singular_name;
 
+            // Add component like option
+            $choices["Pilo'Press"][ $this->post_type . '-like' ] = $post_type->singular_name . ' Like';
+
             return $choices;
         }
 
         /**
          * Component rule values
          *
-         * @param $choices
+         * @param $values
+         * @param $rule
          *
          * @return array
          */
-        public function location_values( $choices ) {
+        public function location_values( $values, $rule ) {
 
             // Get posts grouped by
             $posts = get_posts(
@@ -176,7 +185,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
             );
 
             // Add "all" option
-            $choices = array(
+            $values = array(
                 'all' => __( 'All', 'acf' ),
             );
 
@@ -184,11 +193,11 @@ if ( !class_exists( 'PIP_Components' ) ) {
             if ( !empty( $posts ) ) {
                 // Add posts
                 foreach ( $posts as $post ) {
-                    $choices[ $post->ID ] = $post->post_title;
+                    $values[ $post->ID ] = $post->post_title;
                 }
             }
 
-            return $choices;
+            return $values;
         }
 
         /**
@@ -224,7 +233,136 @@ if ( !class_exists( 'PIP_Components' ) ) {
                 $match = !$match;
             }
 
+            // Contains operator
+            if ( $rule['operator'] === 'contains' ) {
+
+                $post_name = get_post_field( 'post_title', $post_id );
+                if ( !$post_name ) {
+                    return false;
+                }
+
+                // Compare
+                return ( stripos( $post_name, $rule['value'] ) !== false );
+            }
+
             return $match;
+        }
+
+        /**
+         * Component rule values
+         *
+         * @param $values
+         * @param $rule
+         *
+         * @return array
+         */
+        public function like_location_values( $values, $rule ) {
+
+            // If not ACF screen and not ACF Ajax for location rules, return
+            if ( !acf_is_screen( 'acf-field-group' ) && !acf_is_ajax( 'acf/field_group/render_location_rule' ) ) {
+                return array(
+                    $rule['value'] => $rule['value'],
+                );
+            }
+
+            ob_start();
+
+            acf_render_field(
+                array(
+                    'type'   => 'text',
+                    'name'   => 'value',
+                    'prefix' => 'acf_field_group[location][' . $rule['group'] . '][' . $rule['id'] . ']',
+                    'value'  => isset( $rule['value'] ) ? $rule['value'] : '',
+                )
+            );
+
+            // Return text field and abort to hide select field
+            return ob_get_clean();
+        }
+
+        /**
+         * Component rule matches
+         *
+         * @param $result
+         * @param $rule
+         * @param $screen
+         *
+         * @return bool
+         */
+        public function like_location_match( $result, $rule, $screen ) {
+
+            // Get post ID
+            $post_id = acf_maybe_get( $screen, 'post_id' );
+
+            // If no post, return
+            if ( !$post_id ) {
+                return false;
+            }
+
+            // If no post title, return
+            $post_title = get_post_field( 'post_title', $post_id );
+            if ( !$post_title ) {
+                return false;
+            }
+
+            // Check if match
+            switch ( $rule['operator'] ) {
+                case 'contains':
+                    $result = ( stripos( $post_title, $rule['value'] ) !== false );
+                    break;
+                case '!contains':
+                    $result = ( stripos( $post_title, $rule['value'] ) === false );
+                    break;
+                case 'starts':
+                    $result = ( stripos( $post_title, $rule['value'] ) === 0 );
+                    break;
+                case '!starts':
+                    $result = ( stripos( $post_title, $rule['value'] ) !== 0 );
+                    break;
+                case 'ends':
+                    $result = ( acfe_ends_with( $post_title, $rule['value'] ) );
+                    break;
+                case '!ends':
+                    $result = ( !acfe_ends_with( $post_title, $rule['value'] ) );
+                    break;
+                case 'regex':
+                    $result = ( preg_match( '/' . $rule['value'] . '/', $post_title ) );
+                    break;
+                case '!regex':
+                    $result = ( !preg_match( '/' . $rule['value'] . '/', $post_title ) );
+                    break;
+            }
+
+            // Compare
+            return $result;
+
+        }
+
+        /**
+         * Component rule operators
+         *
+         * @param $operators
+         * @param $rule
+         *
+         * @return mixed
+         */
+        public function like_location_operators( $operators, $rule ) {
+
+            // Reset operators
+            $operators = array();
+
+            // Add operator
+            $operators['contains']  = __( 'contains', 'acf' );
+            $operators['!contains'] = __( "doesn't contains", 'acf' );
+            $operators['starts']    = __( 'starts with', 'acf' );
+            $operators['!starts']   = __( "doesn't starts with", 'acf' );
+            $operators['ends']      = __( 'ends with', 'acf' );
+            $operators['!ends']     = __( "doesn't ends with", 'acf' );
+            $operators['regex']     = __( 'matches regex', 'acf' );
+            $operators['!regex']    = __( "doesn't matches regex", 'acf' );
+
+
+            return $operators;
         }
 
         /**

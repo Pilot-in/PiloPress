@@ -13,7 +13,7 @@
          *
          * @type {acf.Model}
          */
-        var MoveDefaultSettings = new acf.Model(
+        var move_default_settings = new acf.Model(
             {
 
                 actions: {
@@ -45,7 +45,7 @@
             'prepare',
             function () {
 
-                // Hide Default Field Group ACF Settings
+                // Hide default field group ACF settings
                 var LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' )
 
                 if ( typeof LayoutSettingsPostBox !== 'undefined' && $( '#pip_layout_settings' ).length ) {
@@ -130,61 +130,6 @@
                     }
                 )
 
-                /**
-                 * Change input & span values
-                 *
-                 * @param $this
-                 */
-                function change_values( $this ) {
-                    $layoutSlug.val( pip.sanitize_title( $this.val() ) )
-                    $prepend.html( pip.sanitize_title( $this.val().replace( /-$/, '' ) ) )
-
-                    updateRenderSettings( $this.val() )
-
-                    if ( !$this.val() ) {
-                        $prepend.html( 'layout' )
-                    }
-                }
-
-                /**
-                 * Change render settings values
-                 *
-                 * @param val
-                 */
-                function updateRenderSettings( val ) {
-                    if ( !templateSwitch ) {
-                        $layoutTemplate.val(
-                            (
-                                pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'template'
-                            ) + '.php'
-                        )
-                    }
-
-                    if ( !cssSwitch ) {
-                        $renderCSS.val(
-                            (
-                                pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'style'
-                            ) + '.css'
-                        )
-                    }
-
-                    if ( !scriptSwitch ) {
-                        $renderScript.val(
-                            (
-                                pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'script'
-                            ) + '.js'
-                        )
-                    }
-
-                    if ( !configSwitch ) {
-                        $configFile.val(
-                            (
-                                pip.sanitize_title( val ) ? 'configuration-' + pip.sanitize_title( val ) : 'configuration'
-                            ) + '.php'
-                        )
-                    }
-                }
-
             }
         )
 
@@ -224,6 +169,61 @@
                 .normalize( 'NFD' )                                  // Change accent to unicode value
                 .replace( /[\u0300-\u036f]/g, '' )    // From unicode value to letter
                 .replace( /[^a-zA-Z0-9_\-\s]+/g, '' ) // Remove all non-word chars
+        }
+
+        /**
+         * Change input & span values
+         *
+         * @param $this
+         */
+        function change_values( $this ) {
+            $layoutSlug.val( pip.sanitize_title( $this.val() ) )
+            $prepend.html( pip.sanitize_title( $this.val().replace( /-$/, '' ) ) )
+
+            updateRenderSettings( $this.val() )
+
+            if ( !$this.val() ) {
+                $prepend.html( 'layout' )
+            }
+        }
+
+        /**
+         * Change render settings values
+         *
+         * @param val
+         */
+        function updateRenderSettings( val ) {
+            if ( !templateSwitch ) {
+                $layoutTemplate.val(
+                    (
+                        pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'template'
+                    ) + '.php'
+                )
+            }
+
+            if ( !cssSwitch ) {
+                $renderCSS.val(
+                    (
+                        pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'style'
+                    ) + '.css'
+                )
+            }
+
+            if ( !scriptSwitch ) {
+                $renderScript.val(
+                    (
+                        pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'script'
+                    ) + '.js'
+                )
+            }
+
+            if ( !configSwitch ) {
+                $configFile.val(
+                    (
+                        pip.sanitize_title( val ) ? 'configuration-' + pip.sanitize_title( val ) : 'configuration'
+                    ) + '.php'
+                )
+            }
         }
 
     }
