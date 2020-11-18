@@ -13,125 +13,184 @@
          *
          * @type {acf.Model}
          */
-        var move_default_settings = new acf.Model(
-            {
+        if ( typeof acf !== 'undefined' ) {
+            var move_default_settings = new acf.Model(
+                {
 
-                actions: {
-                    'new_field': 'onNewField'
-                },
+                    actions: {
+                        'new_field': 'onNewField'
+                    },
 
-                onNewField: function ( field ) {
+                    onNewField: function ( field ) {
 
-                    // 'acfe_form', 'label_placement', 'instruction_placement', 'description'
-                    var name = field.get( 'name' )
+                        // 'acfe_form', 'label_placement', 'instruction_placement', 'description'
+                        var name = field.get( 'name' )
 
-                    if ( name === 'acfe_form' || name === 'label_placement' || name === 'instruction_placement' || name === 'description' ) {
+                        if ( name === 'acfe_form' || name === 'label_placement' || name === 'instruction_placement' || name === 'description' ) {
 
-                        var $sibling = $( '[data-name="tab_more"]' ).first()
+                            var $sibling = $( '[data-name="tab_more"]' ).first()
 
-                        // Bail early if no sibling
-                        if ( !$sibling.length ) {
-                            return
+                            // Bail early if no sibling
+                            if ( !$sibling.length ) {
+                                return
+                            }
+
+                            $sibling.after( field.$el )
+
                         }
-
-                        $sibling.after( field.$el )
-
                     }
                 }
-            }
-        )
+            )
 
-        acf.addAction(
-            'prepare',
-            function () {
+            acf.addAction(
+                'prepare',
+                function () {
 
-                // Hide default field group ACF settings
-                var LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' )
+                    if ( $.isFunction( acf.getPostbox ) ) {
+                        // Hide default field group ACF settings
+                        var LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' )
 
-                if ( typeof LayoutSettingsPostBox !== 'undefined' && $( '#pip_layout_settings' ).length ) {
-                    LayoutSettingsPostBox.hide()
-                }
-
-                // Layout admin page
-                var $title          = $( '#title' )
-                var $prepend        = $( '.acf-input-prepend span' )
-                var $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' )
-                var $layoutTemplate = $( '#acf_field_group-_pip_render_layout' )
-                var $renderCSS      = $( '#acf_field_group-_pip_render_style' )
-                var $renderScript   = $( '#acf_field_group-_pip_render_script' )
-                var $configFile     = $( '#acf_field_group-_pip_config_file' )
-                var templateSwitch  = false
-                var cssSwitch       = false
-                var scriptSwitch    = false
-                var configSwitch    = false
-
-                /**
-                 * When something is typed in "template" field
-                 */
-                $layoutTemplate.keyup(
-                    function () {
-                        templateSwitch = true
+                        if ( typeof LayoutSettingsPostBox !== 'undefined' && $( '#pip_layout_settings' ).length ) {
+                            LayoutSettingsPostBox.hide()
+                        }
                     }
-                )
 
-                /**
-                 * When something is typed in "CSS" field
-                 */
-                $renderCSS.keyup(
-                    function () {
-                        cssSwitch = true
-                    }
-                )
+                    // Layout admin page
+                    var $title          = $( '#title' )
+                    var $prepend        = $( '.acf-input-prepend span' )
+                    var $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' )
+                    var $layoutTemplate = $( '#acf_field_group-_pip_render_layout' )
+                    var $renderCSS      = $( '#acf_field_group-_pip_render_style' )
+                    var $renderScript   = $( '#acf_field_group-_pip_render_script' )
+                    var $configFile     = $( '#acf_field_group-_pip_config_file' )
+                    var templateSwitch  = false
+                    var cssSwitch       = false
+                    var scriptSwitch    = false
+                    var configSwitch    = false
 
-                /**
-                 * When something is typed in "script" field
-                 */
-                $renderScript.keyup(
-                    function () {
-                        scriptSwitch = true
-                    }
-                )
+                    /**
+                     * When something is typed in "template" field
+                     */
+                    $layoutTemplate.keyup(
+                        function () {
+                            templateSwitch = true
+                        }
+                    )
 
-                /**
-                 * When something is typed in "configuration" field
-                 */
-                $configFile.keyup(
-                    function () {
-                        configSwitch = true
-                    }
-                )
+                    /**
+                     * When something is typed in "CSS" field
+                     */
+                    $renderCSS.keyup(
+                        function () {
+                            cssSwitch = true
+                        }
+                    )
 
-                /**
-                 * When something is typed in "title" field
-                 */
-                $title.keyup(
-                    function () {
-                        // Get title
-                        var $this = $( this )
+                    /**
+                     * When something is typed in "script" field
+                     */
+                    $renderScript.keyup(
+                        function () {
+                            scriptSwitch = true
+                        }
+                    )
 
-                        // If new layout
-                        if ( $( '#auto_draft' ).val() === '1' ) {
+                    /**
+                     * When something is typed in "configuration" field
+                     */
+                    $configFile.keyup(
+                        function () {
+                            configSwitch = true
+                        }
+                    )
+
+                    /**
+                     * When something is typed in "title" field
+                     */
+                    $title.keyup(
+                        function () {
+                            // Get title
+                            var $this = $( this )
+
+                            // If new layout
+                            if ( $( '#auto_draft' ).val() === '1' ) {
+                                // Change values with sanitized slug
+                                change_values( $this )
+                            }
+                        }
+                    )
+
+                    /**
+                     * When something is typed in "layout slug" field
+                     */
+                    $layoutSlug.keyup(
+                        function () {
+                            // Get layout slug
+                            var $this = $( this )
+
                             // Change values with sanitized slug
                             change_values( $this )
                         }
+                    )
+
+                    /**
+                     * Change input & span values
+                     *
+                     * @param $this
+                     */
+                    function change_values( $this ) {
+                        $layoutSlug.val( pip.sanitize_title( $this.val() ) )
+                        $prepend.html( pip.sanitize_title( $this.val().replace( /-$/, '' ) ) )
+
+                        updateRenderSettings( $this.val() )
+
+                        if ( !$this.val() ) {
+                            $prepend.html( 'layout' )
+                        }
                     }
-                )
 
-                /**
-                 * When something is typed in "layout slug" field
-                 */
-                $layoutSlug.keyup(
-                    function () {
-                        // Get layout slug
-                        var $this = $( this )
+                    /**
+                     * Change render settings values
+                     *
+                     * @param val
+                     */
+                    function updateRenderSettings( val ) {
+                        if ( !templateSwitch ) {
+                            $layoutTemplate.val(
+                                (
+                                    pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'template'
+                                ) + '.php'
+                            )
+                        }
 
-                        // Change values with sanitized slug
-                        change_values( $this )
+                        if ( !cssSwitch ) {
+                            $renderCSS.val(
+                                (
+                                    pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'style'
+                                ) + '.css'
+                            )
+                        }
+
+                        if ( !scriptSwitch ) {
+                            $renderScript.val(
+                                (
+                                    pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'script'
+                                ) + '.js'
+                            )
+                        }
+
+                        if ( !configSwitch ) {
+                            $configFile.val(
+                                (
+                                    pip.sanitize_title( val ) ? 'configuration-' + pip.sanitize_title( val ) : 'configuration'
+                                ) + '.php'
+                            )
+                        }
                     }
-                )
 
-            }
-        )
+                }
+            )
+        }
 
         $( document ).ready(
             function () {
@@ -169,61 +228,6 @@
                 .normalize( 'NFD' )                                  // Change accent to unicode value
                 .replace( /[\u0300-\u036f]/g, '' )    // From unicode value to letter
                 .replace( /[^a-zA-Z0-9_\-\s]+/g, '' ) // Remove all non-word chars
-        }
-
-        /**
-         * Change input & span values
-         *
-         * @param $this
-         */
-        function change_values( $this ) {
-            $layoutSlug.val( pip.sanitize_title( $this.val() ) )
-            $prepend.html( pip.sanitize_title( $this.val().replace( /-$/, '' ) ) )
-
-            updateRenderSettings( $this.val() )
-
-            if ( !$this.val() ) {
-                $prepend.html( 'layout' )
-            }
-        }
-
-        /**
-         * Change render settings values
-         *
-         * @param val
-         */
-        function updateRenderSettings( val ) {
-            if ( !templateSwitch ) {
-                $layoutTemplate.val(
-                    (
-                        pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'template'
-                    ) + '.php'
-                )
-            }
-
-            if ( !cssSwitch ) {
-                $renderCSS.val(
-                    (
-                        pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'style'
-                    ) + '.css'
-                )
-            }
-
-            if ( !scriptSwitch ) {
-                $renderScript.val(
-                    (
-                        pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'script'
-                    ) + '.js'
-                )
-            }
-
-            if ( !configSwitch ) {
-                $configFile.val(
-                    (
-                        pip.sanitize_title( val ) ? 'configuration-' + pip.sanitize_title( val ) : 'configuration'
-                    ) + '.php'
-                )
-            }
         }
 
     }

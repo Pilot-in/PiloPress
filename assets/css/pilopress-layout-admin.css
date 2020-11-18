@@ -7,6 +7,11 @@ div[data-name='hide_on_screen'] {
     display: none;
 }
 
+/* Reset ACF Style to show dropdown filters */
+.acf-admin-field-groups .tablenav.top {
+    display: block !important;
+}
+
 /* Reset ACFE Style for disabled field groups */
 #the-list .status-acf-disabled .column-title a {
     color: #0073aa !important;

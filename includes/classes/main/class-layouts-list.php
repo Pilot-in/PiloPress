@@ -55,6 +55,8 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
             add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
             add_filter( 'display_post_states', array( $this, 'post_states' ), 20 );
             add_filter( 'views_edit-acf-field-group', array( $this, 'views' ), 999 );
+            add_filter( 'disable_months_dropdown', array( $this, 'disable_month_dropdown' ), 10, 2 );
+            add_action( 'restrict_manage_posts', array( $this, 'custom_dropdown' ), 10, 2 );
 
             // Remove ACF Extended: Field Group Category Column
             remove_filter( 'manage_edit-acf-field-group_columns', 'acfe_field_group_category_column', 11 );
@@ -63,11 +65,49 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
         }
 
         /**
-         * Pre Get posts
+         * Pre get posts
          *
          * @param WP_Query $query
          */
-        public function pre_get_posts( $query ) {
+        public function pre_get_posts( WP_Query $query ) {
+
+            // If not admin, not main query and not layouts screen, return
+            if ( !is_admin() || !$query->is_main_query() || is_post_type_archive( 'acf-field-group' ) ) {
+                return;
+            }
+
+            // Get current filters
+            $cat = filter_input( INPUT_GET, 'ct', FILTER_VALIDATE_INT );
+            $col = filter_input( INPUT_GET, 'cl', FILTER_VALIDATE_INT );
+
+            $pip_layouts_categories  = acf_get_instance( 'PIP_Layouts_Categories' );
+            $pip_layouts_collections = acf_get_instance( 'PIP_Layouts_Collections' );
+
+            $tax_query = array();
+            if ( $cat > 0 && $col > 0 ) {
+                $tax_query['relation'] = 'AND';
+            }
+
+            // Category filter
+            if ( $cat > 0 ) {
+                $tax_query[] = array(
+                    'taxonomy' => $pip_layouts_categories->taxonomy_name,
+                    'terms'    => $cat,
+                );
+            }
+
+            // Collection filter
+            if ( $col > 0 ) {
+                $tax_query[] = array(
+                    'taxonomy' => $pip_layouts_collections->taxonomy_name,
+                    'terms'    => $col,
+                );
+            }
+
+            // Add tax query
+            if ( ( $cat > 0 || $col > 0 ) && $tax_query ) {
+                $query->set( 'tax_query', $tax_query );
+            }
 
             // Layouts view
             $query->set(
@@ -102,27 +142,11 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
          *
          * @param $views
          *
-         * @return bool
+         * @return array
          */
         public function views( $views ) {
 
-            // Field Groups Categories
-            foreach ( $views as $key => $val ) {
-
-                // If not a category, skip
-                if ( strpos( $key, 'category-' ) !== 0 ) {
-                    continue;
-                }
-
-                // Remove from views
-                unset( $views[ $key ] );
-            }
-
-            // Others views
-            unset( $views['publish'] );
-            unset( $views['acfe-third-party'] );
-            unset( $views['acf-disabled'] );
-            unset( $views['acfe-local'] );
+            $views = array();
 
             // Update Sync
             if ( isset( $views['sync'] ) ) {
@@ -189,13 +213,91 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
                 if ( $count > 0 || $post_status === 'all' ) {
                     // Update counter
                     $views[ $post_status ] = '<a href="' . $url . '" class="' . $class . '">' . $title . ' <span class="count">(' . $count . ')</span></a>';
-                } else {
-                    // Remove counter
-                    unset( $views[ $post_status ] );
                 }
             }
 
             return $views;
+        }
+
+        /**
+         * Disable month dropdown
+         *
+         * @param $show
+         * @param $post_type
+         *
+         * @return bool
+         */
+        public function disable_month_dropdown( $show, $post_type ) {
+            return true;
+        }
+
+        /**
+         * Add custom dropdown for filters
+         *
+         * @param $post_type
+         * @param $which
+         */
+        public function custom_dropdown( $post_type, $which ) {
+
+            // Get classes
+            $pip_layouts_categories  = acf_get_instance( 'PIP_Layouts_Categories' );
+            $pip_layouts_collections = acf_get_instance( 'PIP_Layouts_Collections' );
+
+            // Layouts taxonomies slug
+            $layouts_cat = $pip_layouts_categories->taxonomy_name;
+            $layouts_col = $pip_layouts_collections->taxonomy_name;
+
+            // Get categories
+            $layouts_categories = get_terms(
+                array(
+                    'taxonomy' => $layouts_cat,
+                )
+            );
+
+            // Get collections
+            $layouts_collections = get_terms(
+                array(
+                    'taxonomy' => $layouts_col,
+                )
+            );
+
+            // Get current filters
+            $cat = filter_input( INPUT_GET, 'ct', FILTER_VALIDATE_INT );
+            $col = filter_input( INPUT_GET, 'cl', FILTER_VALIDATE_INT );
+            ?>
+            <?php // Stay on layouts page ?>
+            <input type="hidden" name="layouts" value="1">
+
+            <label for="filter-by-category" class="screen-reader-text"><?php _e( 'Filter by category' ); ?></label>
+            <select name="ct" id="filter-by-category">
+                <option<?php selected( $cat, 0 ); ?> value="0"><?php _e( 'All categories' ); ?></option>
+                <?php
+                foreach ( $layouts_categories as $layouts_category ) {
+                    printf(
+                        "<option %s value='%s'>%s</option>\n",
+                        selected( $cat, $layouts_category->term_id, false ),
+                        esc_attr( $layouts_category->term_id ),
+                        $layouts_category->name
+                    );
+                }
+                ?>
+            </select>
+
+            <label for="filter-by-collection" class="screen-reader-text"><?php _e( 'Filter by collection' ); ?></label>
+            <select name="cl" id="filter-by-collection">
+                <option<?php selected( $col, 0 ); ?> value="0"><?php _e( 'All collections' ); ?></option>
+                <?php
+                foreach ( $layouts_collections as $layouts_collection ) {
+                    printf(
+                        "<option %s value='%s'>%s</option>\n",
+                        selected( $col, $layouts_collection->term_id, false ),
+                        esc_attr( $layouts_collection->term_id ),
+                        $layouts_collection->name
+                    );
+                }
+                ?>
+            </select>
+            <?php
         }
 
     }

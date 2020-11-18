@@ -6,6 +6,7 @@
  */
 
 $pip_layouts_categories  = acf_get_instance( 'PIP_Layouts_Categories' );
+$pip_layouts_collections = acf_get_instance( 'PIP_Layouts_Collections' );
 $pip_layouts             = acf_get_instance( 'PIP_Layouts' );
 $pip_components          = acf_get_instance( 'PIP_Components' );
 $pip_admin_options_pages = acf_get_instance( 'PIP_Admin_Options_Page' );
@@ -23,14 +24,39 @@ $pip_admin_options_pages = acf_get_instance( 'PIP_Admin_Options_Page' );
         $item_class = 'pip-tab';
 
         // Get current page/post ID
-        $post_id = acf_maybe_get_GET( 'post' );
-        $page_id = acf_maybe_get_GET( 'page' );
+        $current_post_id = acf_maybe_get_GET( 'post' );
+        $page_id         = acf_maybe_get_GET( 'page' );
 
         // Layouts category slug
         $layouts_cat = $pip_layouts_categories->taxonomy_name;
 
+        // Layouts collection slug
+        $layouts_collection = $pip_layouts_collections->taxonomy_name;
+
         // Add "is-active" class
-        if ( acf_get_current_url() === $menu_item['link'] || ( strstr( $menu_item['link'], 'layouts=1' ) && $pip_layouts->is_layout( $post_id ) ) || ( strstr( $menu_item['link'], 'taxonomy=' . $layouts_cat ) && acf_maybe_get_GET( 'taxonomy' ) === $layouts_cat ) || ( strstr( $menu_item['link'], 'post_type=' . $pip_components->post_type ) && $pip_components->is_component( $post_id ) ) || ( strstr( $menu_item['link'], 'page=pip-styles-' ) && $pip_admin_options_pages->is_style_page( $page_id ) ) ) {
+        if (
+            acf_get_current_url() === $menu_item['link']
+            || (
+                strstr( $menu_item['link'], 'layouts=1' )
+                && $pip_layouts->is_layout( $current_post_id )
+            )
+            || (
+                strstr( $menu_item['link'], 'taxonomy=' . $layouts_cat )
+                && acf_maybe_get_GET( 'taxonomy' ) === $layouts_cat
+            )
+            || (
+                strstr( $menu_item['link'], 'taxonomy=' . $layouts_collection )
+                && acf_maybe_get_GET( 'taxonomy' ) === $layouts_collection
+            )
+            || (
+                strstr( $menu_item['link'], 'post_type=' . $pip_components->post_type )
+                && $pip_components->is_component( $current_post_id )
+            )
+            || (
+                strstr( $menu_item['link'], 'page=pip-styles-' )
+                && $pip_admin_options_pages->is_style_page( $page_id )
+            )
+        ) {
             $item_class .= ' is-active';
         }
 
