@@ -283,7 +283,7 @@
                 ];
 
                 // Add filter to allow 3rd party to add their own shortcodes
-                pip_shortcodes_menu_items = acf.applyFilters('pip/tinymce/shortcodes', pip_shortcodes_menu_items);
+                pip_shortcodes_menu_items = acf.applyFilters('pip/tinymce/shortcodes', pip_shortcodes_menu_items, event, editor);
 
                 editor.addButton(
                     'pip_shortcodes',
