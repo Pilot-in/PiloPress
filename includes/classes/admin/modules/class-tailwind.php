@@ -90,7 +90,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     $tailwind_css .= acf_maybe_get( $tailwind_base, 'tailwind_style_after_base' ) . "\n";
 
                     // Custom CSS
-                    $tailwind_css .= apply_filters( 'pip/tailwind/css/after_base', $tailwind_css );
+                    $tailwind_css .= apply_filters( 'pip/tailwind/css/after_base', '' );
                 }
             }
 
@@ -98,7 +98,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $tailwind_css .= $this->css_custom_fonts() . "\n";
 
             // Custom CSS
-            $tailwind_css .= apply_filters( 'pip/tailwind/css/after_fonts', $tailwind_css );
+            $tailwind_css .= apply_filters( 'pip/tailwind/css/after_fonts', '' );
 
             // Maybe add components import
             if ( $tailwind_components ) {
@@ -120,7 +120,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     $tailwind_css .= $this->get_buttons_css() . "\n";
 
                     // Custom CSS
-                    $tailwind_css .= apply_filters( 'pip/tailwind/css/after_components', $tailwind_css );
+                    $tailwind_css .= apply_filters( 'pip/tailwind/css/after_components', '' );
                 }
             }
 
@@ -135,7 +135,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     $tailwind_css .= acf_maybe_get( $tailwind_utilities, 'tailwind_style_after_utilities' ) . "\n";
 
                     // Custom CSS
-                    $tailwind_css .= apply_filters( 'pip/tailwind/css/after_utilities', $tailwind_css );
+                    $tailwind_css .= apply_filters( 'pip/tailwind/css/after_utilities', '' );
                 }
             }
 
