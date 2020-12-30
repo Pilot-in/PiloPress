@@ -103,6 +103,12 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
+### 0.3.2.11 - 02/11/2020
+* Fixed: Reset h2 style inside TinyMCE
+* Improved: When TailwindCSS compilation via TailwindAPI crashes, show an error message and don't replace CSS file content
+* Improved: Allow main flexible in nav menu location
+* Improved: Change version of generated CSS files to filemtime( FILE )
+
 ### 0.3.2.10 - 10/09/2020
 * Fixed: Configuration file placeholder misleading
 * Fixed: Component loop

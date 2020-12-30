@@ -278,6 +278,19 @@
                 }
 
                 // Add shortcode menu list
+                var pip_shortcodes_menu_items = [
+                    pip_field,
+                    pip_breadcrumb,
+                    pip_button,
+                    pip_button_group,
+                    pip_spacer,
+                    pip_title,
+                    pip_thumbnail
+                ];
+
+                // Add filter to allow 3rd party to add their own shortcodes
+                pip_shortcodes_menu_items = acf.applyFilters('pip/tinymce/shortcodes', pip_shortcodes_menu_items, event, editor);
+
                 editor.addButton(
                     'pip_shortcodes',
                     function () {
@@ -285,15 +298,7 @@
                             type: 'menubutton',
                             text: 'Shortcodes',
                             tooltip: 'Shortcodes',
-                            menu: [
-                                pip_field,
-                                pip_breadcrumb,
-                                pip_button,
-                                pip_button_group,
-                                pip_spacer,
-                                pip_title,
-                                pip_thumbnail
-                            ],
+                            menu: pip_shortcodes_menu_items,
                             fixedWidth: true,
                         }
                     }
