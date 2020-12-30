@@ -17,13 +17,13 @@ if ( !class_exists( 'PIP_Button_Field' ) ) {
             $this->label    = __( 'Button styles', 'pilopress' );
             $this->category = __( "Pilo'Press", 'pilopress' );
             $this->defaults = array(
-                'field_type'    => 'select',
-                'choices'       => array(),
-                'placeholder'   => '',
-                'return_format' => 'value',
+                'field_type'        => 'select',
+                'choices'           => array(),
+                'placeholder'       => '',
+                'return_format'     => 'value',
                 'pip_default_value' => '',
-                'allow_null'    => true,
-                'ajax'          => false,
+                'allow_null'        => true,
+                'ajax'              => false,
             );
 
             parent::__construct();

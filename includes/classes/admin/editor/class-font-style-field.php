@@ -17,13 +17,13 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
             $this->label    = __( 'Font style', 'pilopress' );
             $this->category = __( "Pilo'Press", 'pilopress' );
             $this->defaults = array(
-                'field_type'    => 'select',
-                'choices'       => array(),
-                'placeholder'   => '',
+                'field_type'        => 'select',
+                'choices'           => array(),
+                'placeholder'       => '',
                 'pip_default_value' => '',
-                'return_format' => 'value',
-                'allow_null'    => true,
-                'ajax'          => false,
+                'return_format'     => 'value',
+                'allow_null'        => true,
+                'ajax'              => false,
             );
 
             parent::__construct();

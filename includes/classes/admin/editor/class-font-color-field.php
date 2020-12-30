@@ -17,15 +17,15 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
             $this->label    = __( 'Theme colors', 'pilopress' );
             $this->category = __( "Pilo'Press", 'pilopress' );
             $this->defaults = array(
-                'field_type'    => 'select',
-                'choices'       => array(),
-                'placeholder'   => '',
-                'return_format' => 'value',
+                'field_type'        => 'select',
+                'choices'           => array(),
+                'placeholder'       => '',
+                'return_format'     => 'value',
                 'pip_default_value' => '',
-                'allow_null'    => true,
-                'other_choice'  => 0,
-                'allow_custom'  => 0,
-                'ajax'          => false,
+                'allow_null'        => true,
+                'other_choice'      => 0,
+                'allow_custom'      => 0,
+                'ajax'              => false,
             );
 
             parent::__construct();
