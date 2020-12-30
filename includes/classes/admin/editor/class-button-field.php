@@ -21,6 +21,7 @@ if ( !class_exists( 'PIP_Button_Field' ) ) {
                 'choices'       => array(),
                 'placeholder'   => '',
                 'return_format' => 'value',
+                'pip_default_value' => '',
                 'allow_null'    => true,
                 'ajax'          => false,
             );
@@ -35,6 +36,12 @@ if ( !class_exists( 'PIP_Button_Field' ) ) {
          */
         public function get_choices() {
 
+            // Enable ACF "Local" mode if not active yet to get data from local fields
+            $acf_local_was_active = acf_is_local_enabled();
+            if ( !$acf_local_was_active ) {
+                acf_enable_local();
+            }
+
             $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
 
             $choices       = array();
@@ -43,6 +50,11 @@ if ( !class_exists( 'PIP_Button_Field' ) ) {
                 foreach ( $custom_styles as $key => $custom_style ) {
                     $choices[ $key ] = $custom_style['name'];
                 }
+            }
+
+            // Restore ACF "Local" mode initial state after we get our data.
+            if ( !$acf_local_was_active ) {
+                acf_disable_local();
             }
 
             return $choices;
@@ -56,6 +68,13 @@ if ( !class_exists( 'PIP_Button_Field' ) ) {
          * @return mixed
          */
         public function prepare_field( $field ) {
+
+            // Default value
+            $field_default_value = acf_maybe_get( $field, 'pip_default_value' );
+            $field_value         = acf_maybe_get( $field, 'value' );
+            if ( !$field_value && $field_default_value ) {
+                $field['value'] = $field_default_value;
+            }
 
             $field['choices'] = $this->get_choices();
             $field['type']    = $field['field_type'];
@@ -116,6 +135,20 @@ if ( !class_exists( 'PIP_Button_Field' ) ) {
                         'radio'    => __( 'Radio Buttons', 'acf' ),
                         'select'   => _x( 'Select', 'noun', 'acf' ),
                     ),
+                )
+            );
+
+            // Select: Default value
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'         => __( 'Default Value', 'acf' ),
+                    'type'          => 'select',
+                    'name'          => 'pip_default_value',
+                    'required'      => 0,
+                    'allow_null'    => 1,
+                    'return_format' => 'value',
+                    'choices'       => $this->get_choices(),
                 )
             );
 
