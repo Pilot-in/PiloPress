@@ -21,6 +21,7 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                 'choices'       => array(),
                 'placeholder'   => '',
                 'return_format' => 'value',
+                'pip_default_value' => '',
                 'allow_null'    => true,
                 'other_choice'  => 0,
                 'allow_custom'  => 0,
@@ -39,6 +40,12 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
          */
         public function get_choices( $show_add_to_editor ) {
 
+            // Enable ACF "Local" mode if not active yet to get data from local fields
+            $acf_local_was_active = acf_is_local_enabled();
+            if ( !$acf_local_was_active ) {
+                acf_enable_local();
+            }
+
             $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
 
             $choices       = array();
@@ -55,6 +62,11 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                 }
             }
 
+            // Restore ACF "Local" mode initial state after we get our data.
+            if ( !$acf_local_was_active ) {
+                acf_disable_local();
+            }
+
             return $choices;
         }
 
@@ -69,6 +81,13 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
 
             // Only show items with "Add to editor" option
             $show_add_to_editor = acf_maybe_get( $field, 'show_add_to_editor' );
+
+            // Default value
+            $field_default_value = acf_maybe_get( $field, 'pip_default_value' );
+            $field_value         = acf_maybe_get( $field, 'value' );
+            if ( !$field_value && $field_default_value ) {
+                $field['value'] = $field_default_value;
+            }
 
             $field['choices'] = $this->get_choices( $show_add_to_editor );
             $field['type']    = $field['field_type'];
@@ -267,11 +286,25 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                 )
             );
 
+            // Select: Default value
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'         => __( 'Default Value', 'acf' ),
+                    'type'          => 'select',
+                    'name'          => 'pip_default_value',
+                    'required'      => 0,
+                    'allow_null'    => 1,
+                    'return_format' => 'value',
+                    'choices'       => $this->get_choices( 0 ),
+                )
+            );
+
             // Select: Type of class to return
             acf_render_field_setting(
                 $field,
                 array(
-                    'label'         => __( 'Return type', 'pilopress' ),
+                    'label'         => __( 'Return Value', 'acf' ),
                     'type'          => 'select',
                     'name'          => 'class_output',
                     'optgroup'      => true,
