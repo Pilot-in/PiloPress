@@ -100,6 +100,10 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/components/class-components.php' );
             pip_include( 'includes/classes/components/class-component-field-type.php' );
 
+            // Layouts taxonomies
+            pip_include( 'includes/classes/main/class-layouts-tax-categories.php' );
+            pip_include( 'includes/classes/main/class-layouts-tax-collections.php' );
+
             // Flexible
             pip_include( 'includes/classes/main/class-main.php' );
             pip_include( 'includes/classes/main/class-flexible.php' );
@@ -112,8 +116,6 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/main/class-layouts.php' );
             pip_include( 'includes/classes/main/class-layouts-list.php' );
             pip_include( 'includes/classes/main/class-layouts-single.php' );
-            pip_include( 'includes/classes/main/class-layouts-tax-categories.php' );
-            pip_include( 'includes/classes/main/class-layouts-tax-collections.php' );
 
             // Pattern
             pip_include( 'includes/classes/pattern/class-pattern.php' );
