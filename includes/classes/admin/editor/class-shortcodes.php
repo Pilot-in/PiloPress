@@ -133,13 +133,27 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          * @return string
          */
         public function pip_title() {
+
+            $title = __( 'Title here', 'pilopress' );
+
             // If AJAX, display default message
             if ( wp_doing_ajax() ) {
-                return __( 'Title here', 'pilopress' );
+                return $title;
+            }
+
+            if ( is_tax() || is_category() || is_tag() ) {
+
+                //* Taxonomy / Category / Tag
+                $title = single_term_title( '', false );
+
+            } else {
+
+                //* Post / Page / other...
+                $title = get_the_title();
             }
 
             // Render shortcode
-            return get_the_title();
+            return $title;
         }
 
         /**
