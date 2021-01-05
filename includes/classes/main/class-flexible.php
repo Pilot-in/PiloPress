@@ -171,8 +171,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 );
             }
 
-            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
-
             // Browse all field groups
             foreach ( $field_groups as $field_group ) {
 

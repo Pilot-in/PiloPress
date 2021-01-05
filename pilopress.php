@@ -67,18 +67,6 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Init
             include_once PIP_PATH . 'init.php';
 
-            // Activation actions
-            register_activation_hook( __FILE__, array( $this, 'activation' ) );
-
-            // Enqueue layouts configuration files
-            add_action( 'init', array( 'PIP_Layouts', 'enqueue_configuration_files' ), 5 );
-
-            // Init hook
-            add_action( 'init', array( $this, 'load_translations' ) );
-
-            // Meta boxes order
-            add_filter( 'get_user_option_meta-box-order_acf-field-group', array( $this, 'metabox_order' ) );
-
             // Load
             add_action( 'acf/include_field_types', array( $this, 'load' ) );
         }

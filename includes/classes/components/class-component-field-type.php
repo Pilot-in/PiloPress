@@ -156,7 +156,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
             // Get index
             $initial_value_index = acf_maybe_get( $field, 'key' ) . '_' . acf_maybe_get( $field, 'name' );
 
-            return get_fields( $this->initial_value[ $initial_value_index ], true );
+            return get_fields( acf_maybe_get( $this->initial_value, $initial_value_index ), true );
         }
 
         /**
