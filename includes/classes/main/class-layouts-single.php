@@ -457,6 +457,107 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                 )
             );
 
+            // Layout variables
+            acf_render_field_wrap(
+                array(
+                    'label' => 'Variables',
+                    'type'  => 'tab',
+                )
+            );
+
+            // Variables status
+            $pip_layout_vars_lock = acf_maybe_get( $field_group, 'pip_layout_vars_lock', '' );
+            if ( $pip_layout_vars_lock ) {
+
+                // Lock repeater
+                add_filter( 'acfe/repeater/remove_actions/name=pip_layout_var', 'pip_layout_vars_lock', 50, 2 );
+                function pip_layout_vars_lock( $lock, $field ) {
+                    $lock = true;
+                    return $lock;
+                }
+
+                // Lock variable names
+                add_filter( 'acf/prepare_field/name=pip_layout_var_key', 'pip_layout_var_key_lock', 50, 2 );
+                function pip_layout_var_key_lock( $field ) {
+                    $field['readonly'] = 1;
+                    return $field;
+                }
+
+            }
+
+            // Layout style variables
+            $pip_layout_var = acf_maybe_get( $field_group, 'pip_layout_var', array() );
+            acf_render_field_wrap(
+                array(
+                    'label'        => __( 'Style variables' ),
+                    'name'         => 'pip_layout_var',
+                    'key'          => 'pip_layout_var',
+                    'instructions' => __( 'Dynamic variables to use inside the layout.' ),
+                    'prefix'       => 'acf_field_group',
+                    'type'         => 'repeater',
+                    'button_label' => __( '+ Add variable' ),
+                    'required'     => false,
+                    'layout'       => 'table',
+                    'value'        => $pip_layout_var,
+                    'wrapper'      => array(),
+                    'sub_fields'   => array(
+                        array(
+                            'ID'           => false,
+                            'label'        => __( 'Key' ),
+                            'name'         => 'pip_layout_var_key',
+                            'key'          => 'pip_layout_var_key',
+                            'prefix'       => '',
+                            '_name'        => '',
+                            '_prepare'     => '',
+                            'type'         => 'text',
+                            'placeholder'  => 'card-border-radius...',
+                            'instructions' => false,
+                            'required'     => false,
+                            'wrapper'      => array(
+                                'width' => '',
+                                'class' => '',
+                                'id'    => '',
+                            ),
+                        ),
+                        array(
+                            'ID'           => false,
+                            'label'        => __( 'Value' ),
+                            'name'         => 'pip_layout_var_value',
+                            'key'          => 'pip_layout_var_value',
+                            'prefix'       => '',
+                            '_name'        => '',
+                            '_prepare'     => '',
+                            'type'         => 'text',
+                            'placeholder'  => 'rounded-xl...',
+                            'instructions' => false,
+                            'required'     => false,
+                            'wrapper'      => array(
+                                'width' => '',
+                                'class' => '',
+                                'id'    => '',
+                            ),
+                        ),
+                    ),
+                )
+            );
+
+            // Lock variables
+            acf_render_field_wrap(
+                array(
+                    'label'         => __( 'Variables status', 'pilopress' ),
+                    'instructions'  => 'Lock variables when you\'re done making them.',
+                    'type'          => 'true_false',
+                    'key'           => 'pip_layout_vars_lock',
+                    'name'          => 'pip_layout_vars_lock',
+                    'prefix'        => 'acf_field_group',
+                    'value'         => $pip_layout_vars_lock,
+                    'default_value' => '',
+                    'ui'            => 1,
+                    'ui_on_text'    => 'Locked',
+                    'ui_off_text'   => 'Unlocked',
+                )
+            );
+
             // Layout settings
             acf_render_field_wrap(
                 array(
