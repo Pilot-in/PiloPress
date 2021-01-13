@@ -231,6 +231,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                         switch ( $found_id_type ) {
 
                             // Post type
+                            default:
                             case 'post':
                                 $title = get_the_title( $found_id );
                                 break;
@@ -262,9 +263,6 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                                 $title           = $post_type_label ? $post_type_label : $title;
                                 break;
 
-                            default:
-                                # code...
-                                break;
                         }
                     }
                 }
