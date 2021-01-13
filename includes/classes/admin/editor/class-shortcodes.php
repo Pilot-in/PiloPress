@@ -119,13 +119,147 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          */
         public function pip_title() {
 
-            // If AJAX, display default message
-            if ( wp_doing_ajax() ) {
-                return __( 'Title here', 'pilopress' );
+            $title = '';
+
+            // Front
+            if ( is_singular() ) {
+
+                // Post / Page...
+                $title = get_the_title();
+
+            } elseif ( !is_admin() ) {
+
+                // Taxonomy / Category / Tag / Archive / User...
+                $title = get_the_archive_title();
+
             }
 
-            // Render shortcode
-            return get_the_title();
+            // Admin
+            if ( is_admin() ) {
+
+                // Admin screen data
+                $screen_obj  = get_current_screen();
+                $screen_data = (array) $screen_obj;
+
+                // Admin - GET data (WordPress)
+                $screen_base = acf_maybe_get( $screen_data, 'base' );
+
+                // Compatibility fix for ACFE archive
+                if ( stripos( $screen_base, '-archive' ) !== false ) {
+                    $screen_base = 'archive';
+                }
+
+                switch ( $screen_base ) {
+
+                    // Post type
+                    case 'post':
+                        // Get ID
+                        $found_id = acf_maybe_get_GET( 'post' );
+
+                        // Get title
+                        $title = get_the_title( $found_id );
+                        break;
+
+                    // Term
+                    case 'term':
+                        // Get ID
+                        $found_id = acf_maybe_get_GET( 'tag_ID' );
+
+                        // Get term
+                        $found_term_obj  = get_term( $found_id );
+                        $found_term_data = (array) $found_term_obj;
+
+                        // Get title
+                        $found_term_title = acf_maybe_get( $found_term_data, 'name' );
+                        $title            = $found_term_title ? $found_term_title : $title;
+                        break;
+
+                    // ACFE Archive (option)
+                    case 'archive':
+                        // Get post type
+                        $found_post_type = acf_maybe_get_GET( 'post_type' );
+                        $post_type_obj   = get_post_type_object( $found_post_type );
+                        $post_type_data  = (array) $post_type_obj;
+
+                        // Get labels
+                        $post_type_labels = acf_maybe_get( $post_type_data, 'labels' );
+                        $post_type_labels = (array) $post_type_labels;
+
+                        // Get title
+                        $post_type_label = acf_maybe_get( $post_type_labels, 'archives' ) ? acf_maybe_get( $post_type_labels, 'archives' ) : acf_maybe_get( $post_type_data, 'label' );
+                        $title           = $post_type_label ? $post_type_label : $title;
+                        break;
+
+                    default:
+                        # code...
+                        break;
+                }
+
+                if ( !$title ) {
+
+                    // Admin - AJAX data (ACFE)
+                    $found_acf_id = acf_maybe_get_POST( 'post_id' );
+                    if ( $found_acf_id ) {
+
+                        // Get ID
+                        $found_id_data = acf_get_post_id_info( $found_acf_id );
+                        $found_id      = acf_maybe_get( $found_id_data, 'id' );
+
+                        // Get type
+                        $found_id_type = acf_maybe_get( $found_id_data, 'type' );
+
+                        // Compatibility fix for ACFE archive
+                        if ( stripos( $found_id, '_archive' ) !== false ) {
+                            $found_id_type = 'archive';
+                        }
+
+                        switch ( $found_id_type ) {
+
+                            // Post type
+                            default:
+                            case 'post':
+                                $title = get_the_title( $found_id );
+                                break;
+
+                            // Term
+                            case 'term':
+                                // Get term
+                                $found_term_obj  = get_term( $found_id );
+                                $found_term_data = (array) $found_term_obj;
+
+                                // Get title
+                                $found_term_title = acf_maybe_get( $found_term_data, 'name' );
+                                $title            = $found_term_title ? $found_term_title : $title;
+                                break;
+
+                            // ACFE Archive (option)
+                            case 'archive':
+                                // Get post type
+                                $found_post_type = str_replace( '_archive', '', $found_id );
+                                $post_type_obj   = get_post_type_object( $found_post_type );
+                                $post_type_data  = (array) $post_type_obj;
+
+                                // Get labels
+                                $post_type_labels = acf_maybe_get( $post_type_data, 'labels' );
+                                $post_type_labels = (array) $post_type_labels;
+
+                                // Get title
+                                $post_type_label = acf_maybe_get( $post_type_labels, 'archives' ) ? acf_maybe_get( $post_type_labels, 'archives' ) : acf_maybe_get( $post_type_data, 'label' );
+                                $title           = $post_type_label ? $post_type_label : $title;
+                                break;
+
+                        }
+                    }
+                }
+            }
+
+            // Fallback title
+            if ( !$title ) {
+                $title = __( 'Title here', 'pilopress' );
+            }
+
+            // Return title
+            return $title;
         }
 
         /**

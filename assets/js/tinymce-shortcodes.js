@@ -387,30 +387,6 @@
                     }
                 )
 
-                // Register title view
-                window.wp.mce.views.register(
-                    'pip_title',
-                    {
-                        initialize: function () {
-                            this.render( $( 'input[name="post_title"]' ).val() )
-                        },
-                        edit: function ( text, update ) {
-                            editor.windowManager.open(
-                                {
-                                    title: 'Title',
-                                    body: [
-                                        {
-                                            name: 'Page title',
-                                            type: 'container',
-                                            html: '<p>To edit this text, modify title in the field above and save page.</p>'
-                                        }
-                                    ],
-                                }
-                            )
-                        }
-                    }
-                )
-
                 // Register breadcrumb view
                 window.wp.mce.views.register(
                     'pip_breadcrumb',
