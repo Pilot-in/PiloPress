@@ -42,8 +42,10 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
                 acf_enable_local();
             }
 
+            // Get class instance
             $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
 
+            // Add custom choices
             $choices       = array();
             $custom_styles = $pip_tinymce->get_custom_typography();
             if ( $custom_styles ) {

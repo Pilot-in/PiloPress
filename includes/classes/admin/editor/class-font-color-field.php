@@ -46,8 +46,10 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
                 acf_enable_local();
             }
 
+            // Get class instance
             $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
 
+            // Add custom choices
             $choices       = array();
             $custom_styles = $pip_tinymce->get_custom_colors();
             if ( $custom_styles ) {
@@ -304,7 +306,7 @@ if ( !class_exists( 'PIP_Font_Color_Field' ) ) {
             acf_render_field_setting(
                 $field,
                 array(
-                    'label'         => __( 'Return Value', 'acf' ),
+                    'label'         => __( 'Return type', 'acf' ),
                     'type'          => 'select',
                     'name'          => 'class_output',
                     'optgroup'      => true,
