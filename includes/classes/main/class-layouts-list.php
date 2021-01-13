@@ -146,23 +146,33 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
          */
         public function views( $views ) {
 
-            $views = array();
-
             // Update Sync
+            $sync = null;
             if ( isset( $views['sync'] ) ) {
                 preg_match( '/href="([^\"]*)"/', $views['sync'], $url );
 
-                $views['sync'] = str_replace( $url[1], esc_url( $url[1] . '&layouts=1' ), $views['sync'] );
+                $sync = str_replace( $url[1], esc_url( $url[1] . '&layouts=1' ), $views['sync'] );
             }
+
+            // Reset views
+            $views = array();
 
             // Update Post Statuses
             $post_statuses = array(
                 'all',
+                'sync',
                 'trash',
             );
 
             // Browse all statuses
             foreach ( $post_statuses as $post_status ) {
+
+                // If sync, get old URL
+                if ( $post_status === 'sync' ) {
+                    $views[ $post_status ] = $sync;
+                    continue;
+                }
+
                 $class = null;
                 $count = null;
                 $title = null;
@@ -179,11 +189,12 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
                     ),
                 );
 
-                // If post_status not "all", add query arg
+                // If post_status not "all", add post status arg
                 if ( $post_status !== 'all' ) {
                     $args['post_status'] = $post_status;
                 }
 
+                // New query
                 $query = new WP_Query( $args );
 
                 // Admin URL
@@ -199,13 +210,13 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
                 switch ( $post_status ) {
                     case 'all':
                         $class = ( !acf_maybe_get_GET( 'post_status' ) ) ? 'current' : '';
-                        $title = 'All';
+                        $title = __( 'All', 'acf' );
                         $count = $query->found_posts;
                         break;
                     case 'trash':
                         $url   = add_query_arg( array( 'post_status' => 'trash' ), $url );
                         $class = ( acf_maybe_get_GET( 'post_status' ) === 'trash' ) ? 'current' : '';
-                        $title = 'Trash';
+                        $title = __( 'Trash', 'acf' );
                         $count = $query->found_posts;
                         break;
                 }

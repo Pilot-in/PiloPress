@@ -510,8 +510,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          */
         public function css_custom_fonts() {
 
-            $css_custom    = '';
-            $tinymce_fonts = '';
+            $css_custom = '';
 
             // Get fonts
             if ( have_rows( 'pip_fonts', 'pip_styles_fonts' ) ) {
@@ -569,7 +568,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 }
             }
 
-            return $css_custom . $tinymce_fonts;
+            return $css_custom;
         }
 
     }

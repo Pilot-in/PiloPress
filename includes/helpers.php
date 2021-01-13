@@ -43,7 +43,7 @@ function pip_str_ends( $haystack, $needle ) {
  */
 function pip_get_formatted_post_id( $post_id = false ) {
 
-    // If ID is specified, retu<rn
+    // If ID is specified, return
     if ( $post_id ) {
         return $post_id;
     }
