@@ -434,11 +434,11 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                     'prefix'            => 'acf_field_group',
                     'value'             => ( isset( $field_group['_pip_modal_size'] ) ? $field_group['_pip_modal_size'] : 'medium' ),
                     'choices'           => array(
-                        'small'  => 'Small',
-                        'medium' => 'Medium',
-                        'large'  => 'Large',
-                        'xlarge' => 'Extra Large',
-                        'full'   => 'Full',
+                        'small'  => __( 'Small', 'pilopress' ),
+                        'medium' => __( 'Medium', 'pilopress' ),
+                        'large'  => __( 'Large', 'pilopress' ),
+                        'xlarge' => __( 'Extra Large', 'pilopress' ),
+                        'full'   => __( 'Full', 'pilopress' ),
                     ),
                     'allow_null'        => 0,
                     'multiple'          => 0,
@@ -457,10 +457,108 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                 )
             );
 
+            // Layout variables
+            acf_render_field_wrap(
+                array(
+                    'label' => __( 'Variables', 'pilopress' ),
+                    'type'  => 'tab',
+                )
+            );
+
+            // Variables status
+            $pip_layout_vars_lock = acf_maybe_get( $field_group, 'pip_layout_vars_lock', '' );
+            if ( $pip_layout_vars_lock ) {
+
+                // Lock repeater
+                add_filter( 'acfe/repeater/remove_actions/name=pip_layout_var', '__return_true', 50 );
+
+                // Lock variable names
+                add_filter( 'acf/prepare_field/name=pip_layout_var_key', 'pip_layout_var_key_lock', 50, 2 );
+                function pip_layout_var_key_lock( $field ) {
+                    $field['readonly'] = 1;
+
+                    return $field;
+                }
+            }
+
+            // Layout style variables
+            $pip_layout_var = acf_maybe_get( $field_group, 'pip_layout_var', array() );
+            acf_render_field_wrap(
+                array(
+                    'label'                         => __( 'Style variables', 'pilopress' ),
+                    'name'                          => 'pip_layout_var',
+                    'key'                           => 'pip_layout_var',
+                    'instructions'                  => __( 'Dynamic variables to use inside the layout.', 'pilopress' ),
+                    'prefix'                        => 'acf_field_group',
+                    'type'                          => 'repeater',
+                    'button_label'                  => __( '+ Add variable', 'pilopress' ),
+                    'acfe_repeater_stylised_button' => true,
+                    'required'                      => false,
+                    'layout'                        => 'table',
+                    'value'                         => $pip_layout_var,
+                    'wrapper'                       => array(),
+                    'sub_fields'                    => array(
+                        array(
+                            'ID'           => false,
+                            'label'        => __( 'Key', 'pilopress' ),
+                            'name'         => 'pip_layout_var_key',
+                            'key'          => 'pip_layout_var_key',
+                            'prefix'       => '',
+                            '_name'        => '',
+                            '_prepare'     => '',
+                            'type'         => 'text',
+                            'placeholder'  => __( 'card-border-radius...', 'pilopress' ),
+                            'instructions' => false,
+                            'required'     => false,
+                            'wrapper'      => array(
+                                'width' => '',
+                                'class' => '',
+                                'id'    => '',
+                            ),
+                        ),
+                        array(
+                            'ID'           => false,
+                            'label'        => __( 'Value', 'pilopress' ),
+                            'name'         => 'pip_layout_var_value',
+                            'key'          => 'pip_layout_var_value',
+                            'prefix'       => '',
+                            '_name'        => '',
+                            '_prepare'     => '',
+                            'type'         => 'text',
+                            'placeholder'  => __( 'rounded-xl...', 'pilopress' ),
+                            'instructions' => false,
+                            'required'     => false,
+                            'wrapper'      => array(
+                                'width' => '',
+                                'class' => '',
+                                'id'    => '',
+                            ),
+                        ),
+                    ),
+                )
+            );
+
+            // Lock variables
+            acf_render_field_wrap(
+                array(
+                    'label'         => __( 'Variables status', 'pilopress' ),
+                    'instructions'  => __( "Lock variables when you're done adding it.", 'pilopress' ),
+                    'type'          => 'true_false',
+                    'key'           => 'pip_layout_vars_lock',
+                    'name'          => 'pip_layout_vars_lock',
+                    'prefix'        => 'acf_field_group',
+                    'value'         => $pip_layout_vars_lock,
+                    'default_value' => '',
+                    'ui'            => 1,
+                    'ui_on_text'    => __( 'Locked', 'pilopress' ),
+                    'ui_off_text'   => __( 'Unlocked', 'pilopress' ),
+                )
+            );
+
             // Layout settings
             acf_render_field_wrap(
                 array(
-                    'label' => 'Settings',
+                    'label' => __( 'Settings', 'pilopress' ),
                     'type'  => 'tab',
                     'name'  => 'tab_more',
                 )
@@ -470,11 +568,13 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             acf_render_field_wrap(
                 array(
                     'label'       => __( 'Min', 'pilopress' ),
-                    'type'        => 'acfe_slug',
+                    'type'        => 'number',
                     'name'        => '_pip_layout_min',
                     'prefix'      => 'acf_field_group',
                     'placeholder' => '',
                     'required'    => 0,
+                    'step'        => 1,
+                    'min'         => '0',
                     'value'       => isset( $field_group['_pip_layout_min'] ) ? $field_group['_pip_layout_min'] : '',
                 )
             );
@@ -483,11 +583,13 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             acf_render_field_wrap(
                 array(
                     'label'       => __( 'Max', 'pilopress' ),
-                    'type'        => 'acfe_slug',
+                    'type'        => 'number',
                     'name'        => '_pip_layout_max',
                     'prefix'      => 'acf_field_group',
                     'placeholder' => '',
                     'required'    => 0,
+                    'step'        => 1,
+                    'min'         => '0',
                     'value'       => isset( $field_group['_pip_layout_max'] ) ? $field_group['_pip_layout_max'] : '',
                 )
             );
@@ -671,6 +773,44 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             }
 
             return $other_layouts;
+        }
+
+        /**
+         * Get layout field group by slug
+         *
+         * @param $layout_slug
+         *
+         * @return false|mixed
+         */
+        public static function get_layout_field_group_by_slug( $layout_slug ) {
+            $layout = false;
+
+            // If no slug, return
+            if ( !$layout_slug ) {
+                return $layout;
+            }
+
+            // Get field groups
+            $store        = acf_get_store( 'field-groups' );
+            $field_groups = pip_maybe_get( $store, 'data' );
+            if ( !$field_groups ) {
+                return $layout;
+            }
+
+            // Browse field groups
+            foreach ( $field_groups as $field_group ) {
+                // Get layout slug
+                $field_group_slug = acf_maybe_get( $field_group, '_pip_layout_slug' );
+
+                // If requested field group, store and break loop
+                if ( $field_group_slug === $layout_slug ) {
+                    $layout = $field_group;
+                    break;
+                }
+            }
+
+            // Return field group or false
+            return $layout;
         }
 
     }
