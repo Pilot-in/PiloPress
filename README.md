@@ -33,10 +33,8 @@ This plugin requires [Advanced Custom Fields PRO](https://www.advancedcustomfiel
 
 ## Theme installation
 
-- In your theme, create a `pilopress` folder
-- Within the `pilopress` folder, create `layouts` subfolder
-- Within the `pilopress` folder, create `assets` subfolder
-- In the `index.php` file, add the following code:
+After plugin activation, you will have 1 parent folder with 2 sub-folders in your theme : `pilopress/layouts` and `pilopress/assets`  
+In the `index.php` file, add the following code:
 ```php
 <?php 
 
@@ -55,13 +53,13 @@ get_footer();
 
 In the administration, under `Pilo'Press > Styles`, when you click on "Update & Compile", TailwindCSS will be compiled remotely using [TailwindAPI](https://www.tailwindapi.com/). Minified CSS files are then created under `/pilopress/assets/styles.min.css` and `/pilopress/assets/styles-admin.min.css`.
 
-You can manually enqueue those files in your theme for the front-end & the back-end, but we recommend to use automatic enqueue code above.
+Those files are automatically enqueued but there are filters to disable this auto-enqueue if you want to.
 
 It is possible to manually retrieve the Tailwind PostCSS & JS fields of the administration if you want to build TailwindCSS locally. To do so, you can use the following code:
 
 ```php
-$tailwind_css    = get_field( 'pip_tailwind_style', 'pip_styles_tailwind' );
-$tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind' );
+$tailwind_css    = pip_get_tailwind_css();
+$tailwind_config = pip_get_tailwind_config();
 ```
 
 For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/installation/).
@@ -76,7 +74,8 @@ For more details about customization, see [Github Page](https://pilot-in.github.
 
 - In the admin menu `Pilo'Press > Layouts`, add a new layout
 - Configure the layouts fields
-- Create PHP, CSS and JS files in your theme layout folder `/your-theme/pilopress/layouts/your-layout`
+- Layout folder (`/your-theme/pilopress/layouts/your-layout`) and empty PHP file will be created automatically
+- Create CSS and JS files in your layout folder if you need it
 - You have to name those files the same way you did in back-office settings
 
 **Note:** only PHP template file is require.
@@ -91,6 +90,8 @@ the_pip_content();
 // Pilo'Press content (needs 'echo')
 echo get_pip_content();
 ```
+
+You can specify a post, page or custom post type item ID to display content of this item.
 
 ## Components
 
@@ -166,8 +167,9 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ### 0.3.2.2 - 09/06/2020
 * Fixed: Fix WYSIWYG dark mode values and detection
+
 ### 0.3.2.1 - 08/06/2020
- Fixed: Fix WYSIWYG dark mode being required in specific case
+* Fixed: Fix WYSIWYG dark mode being required in specific case
 
 ### 0.3.2 - 08/06/2020
 * Added: Dark mode for TinyMCE Editors

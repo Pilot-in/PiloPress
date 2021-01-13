@@ -6,7 +6,9 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
      * Class PIP_Pattern_Message
      */
     class PIP_Pattern_Message {
+
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'add_local_field_group' ) );
 
@@ -18,6 +20,9 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
          * Add local field group
          */
         public function add_local_field_group() {
+
+            $pip_pattern = acf_get_instance( 'PIP_Pattern' );
+
             // Message flexible content field group
             acf_add_local_field_group(
                 array(
@@ -45,7 +50,7 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
                             array(
                                 'param'    => 'options_page',
                                 'operator' => '==',
-                                'value'    => PIP_Pattern::$menu_slug,
+                                'value'    => $pip_pattern->menu_slug,
                             ),
                         ),
                     ),
@@ -72,15 +77,19 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
          */
         public function pattern_message() {
 
-            $header_layouts = PIP_Layouts::get_layouts_by_location(
+            $pip_flexible_header = acf_get_instance( 'PIP_Flexible_Header' );
+            $pip_flexible_footer = acf_get_instance( 'PIP_Flexible_Footer' );
+            $pip_layouts         = acf_get_instance( 'PIP_Layouts' );
+
+            $header_layouts = $pip_layouts->get_layouts_by_location(
                 array(
-                    'pip-pattern' => PIP_Flexible_Header::get_flexible_header_field_name(),
+                    'pip-pattern' => $pip_flexible_header->get_flexible_header_field_name(),
                 )
             );
 
-            $footer_layouts = PIP_Layouts::get_layouts_by_location(
+            $footer_layouts = $pip_layouts->get_layouts_by_location(
                 array(
-                    'pip-pattern' => PIP_Flexible_Footer::get_flexible_footer_field_name(),
+                    'pip-pattern' => $pip_flexible_footer->get_flexible_footer_field_name(),
                 )
             );
 
@@ -124,8 +133,9 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
             <?php
 
         }
+
     }
 
-    // Instantiate class
-    new PIP_Pattern_Message();
+    acf_new_instance( 'PIP_Pattern_Message' );
+
 }

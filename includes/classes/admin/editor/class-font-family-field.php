@@ -12,6 +12,7 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
     class PIP_Font_Family_Field extends acf_field {
 
         public function __construct() {
+
             $this->name     = 'pip_font_family';
             $this->label    = __( 'Font family', 'pilopress' );
             $this->category = __( "Pilo'Press", 'pilopress' );
@@ -32,9 +33,12 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          *
          * @return array
          */
-        private static function get_choices() {
+        public function get_choices() {
+
+            $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
+
             $choices       = array();
-            $custom_styles = PIP_TinyMCE::get_custom_fonts();
+            $custom_styles = $pip_tinymce->get_custom_fonts();
             if ( $custom_styles ) {
                 foreach ( $custom_styles as $key => $custom_style ) {
                     $choices[ $key ] = $custom_style['name'];
@@ -52,7 +56,8 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @return mixed
          */
         public function prepare_field( $field ) {
-            $field['choices'] = self::get_choices();
+
+            $field['choices'] = $this->get_choices();
             $field['type']    = $field['field_type'];
 
             return $field;
@@ -64,6 +69,7 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @param $field
          */
         public function render_field( $field ) {
+
             $value   = acf_get_array( $field['value'] );
             $choices = acf_get_array( $field['choices'] );
 
@@ -95,6 +101,7 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @param $field
          */
         public function render_field_settings( $field ) {
+
             // Field type
             acf_render_field_setting(
                 $field,
@@ -258,26 +265,30 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @return mixed
          */
         public function format_value( $value, $post_id, $field ) {
+
+            $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
+
             // Get all font families
-            $choices = PIP_TinyMCE::get_custom_fonts();
+            $choices = $pip_tinymce->get_custom_fonts();
 
             $return = null;
             if ( is_array( $value ) ) {
                 foreach ( $value as $item ) {
                     // Get selected option
                     $font_style      = acf_maybe_get( $choices, $item );
-                    $return[ $item ] = $font_style ? $font_style['classes'] : $item;
+                    $return[ $item ] = $font_style ? 'font-' . $font_style['class_name'] : $item;
                 }
             } else {
                 // Get selected option
                 $font_style = acf_maybe_get( $choices, $value );
-                $return     = $font_style ? $font_style['classes'] : $value;
+                $return     = $font_style ? 'font-' . $font_style['class_name'] : $value;
             }
 
             return $return;
         }
+
     }
 
-    // Instantiate
-    new PIP_Font_Family_Field();
+    acf_new_instance( 'PIP_Font_Family_Field' );
+
 }

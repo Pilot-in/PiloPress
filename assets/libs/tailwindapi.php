@@ -1,6 +1,10 @@
 <?php
 
 if ( !class_exists( 'TailwindAPI' ) ) {
+
+    /**
+     * Class TailwindAPI
+     */
     class TailwindAPI {
 
         /**
@@ -11,13 +15,17 @@ if ( !class_exists( 'TailwindAPI' ) ) {
          * @return bool|string
          */
         public function build( $args = array() ) {
-            $args = $this->parse_args( $args, array(
-                'css'          => '',
-                'config'       => '',
-                'autoprefixer' => true,
-                'minify'       => true,
-                'output'       => false,
-            ) );
+
+            $args = $this->parse_args(
+                $args,
+                array(
+                    'css'          => '',
+                    'config'       => '',
+                    'autoprefixer' => true,
+                    'minify'       => true,
+                    'output'       => false,
+                )
+            );
 
             // CSS
             if ( !empty( $args['css'] ) ) {
@@ -66,12 +74,14 @@ if ( !class_exists( 'TailwindAPI' ) ) {
         }
 
         /**
+         * Return content or put it in file
+         *
          * @param        $content
          * @param string $extension
          *
          * @return false|string
          */
-        private function file_or_content( $content, $extension = 'css' ) {
+        public function file_or_content( $content, $extension = 'css' ) {
 
             $return           = '';
             $extension_length = strlen( $extension ) + 1;
@@ -83,7 +93,6 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                 if ( file_exists( $content ) ) {
                     $return = file_get_contents( $content );
                 }
-
             } else {
                 $return = $content;
             }
@@ -100,7 +109,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
          *
          * @return array
          */
-        private function parse_args( $args, $defaults = '' ) {
+        public function parse_args( $args, $defaults = '' ) {
 
             if ( is_array( $args ) ) {
                 $parsed_args =& $args;
@@ -116,4 +125,5 @@ if ( !class_exists( 'TailwindAPI' ) ) {
         }
 
     }
+
 }

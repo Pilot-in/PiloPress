@@ -18,13 +18,14 @@
 $see_more_layouts       = count( $layouts ) > 15;
 $see_more_components    = count( $components ) > 15;
 $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
+$pip_admin              = acf_get_instance( 'PIP_Admin' );
 ?>
 
-<?php PIP_Admin::display_pip_navbar(); ?>
+<?php $pip_admin->display_pip_navbar(); ?>
 
 <div class="wrap">
     <div class="wp-heading-inline">
-        <h1><?php _e( "Dashboard", 'pilopress' ) ?></h1>
+        <h1><?php _e( 'Dashboard', 'pilopress' ); ?></h1>
     </div>
 
     <?php // Widgets area ?>
@@ -64,25 +65,25 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                                     <li>
                                         <i aria-hidden="true" class="dashicons dashicons-external"></i>
                                         <a href="https://pilot-in.github.io/PiloPress/" target="_blank">
-                                            GitHub Page Pilo'Press
+                                            <?php _e( "GitHub Page Pilo'Press", 'pilopress' ); ?>
                                         </a>
                                     </li>
                                     <li>
                                         <i aria-hidden="true" class="dashicons dashicons-external"></i>
                                         <a href="https://www.advancedcustomfields.com/resources/" target="_blank">
-                                            Advanced Custom Fields
+                                            <?php _e( 'Advanced Custom Fields', 'pilopress' ); ?>
                                         </a>
                                     </li>
                                     <li>
                                         <i aria-hidden="true" class="dashicons dashicons-external"></i>
                                         <a href="https://www.acf-extended.com/features" target="_blank">
-                                            Advanced Custom Fields: Extended
+                                            <?php _e( 'Advanced Custom Fields: Extended', 'pilopress' ); ?>
                                         </a>
                                     </li>
                                     <li>
                                         <i aria-hidden="true" class="dashicons dashicons-external"></i>
                                         <a href="https://tailwindcss.com/docs/installation" target="_blank">
-                                            Tailwind CSS
+                                            <?php _e( 'TailwindCSS', 'pilopress' ); ?>
                                         </a>
                                     </li>
                                 </ul>
@@ -112,7 +113,7 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                                 <strong><?php _e( 'Layouts', 'pilopress' ); ?></strong>
                                 <span id="pilopress_layouts_count"><?php echo count( $layouts ); ?></span>
                             </h4>
-                            <a href="<?php echo $add_new_layout ?>" class="button button-secondary">
+                            <a href="<?php echo $add_new_layout; ?>" class="button button-secondary">
                                 <?php _e( 'Add new layout', 'pilopress' ); ?>
                             </a>
                         </div>
@@ -142,11 +143,11 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                                     <tr class="<?php echo $key % 2 ? 'alternate' : ''; ?>">
                                         <td class="pilopress_counter"><?php echo $key + 1; ?></td>
                                         <td>
-                                            <a href="<?php echo get_edit_post_link( $layout['field_group']['ID'] ) ?>">
-                                                <?php echo $layout['field_group']['title'] ?>
+                                            <a href="<?php echo get_edit_post_link( $layout['field_group']['ID'] ); ?>">
+                                                <?php echo $layout['field_group']['title']; ?>
                                             </a>
                                         </td>
-                                        <td><?php $acf_admin_field_groups->render_admin_table_column_locations( $layout['field_group'] ) ?></td>
+                                        <td><?php $acf_admin_field_groups->render_admin_table_column_locations( $layout['field_group'] ); ?></td>
                                     </tr>
                                     <?php $last_key = $key; ?>
                                 <?php endforeach ?>
@@ -243,7 +244,6 @@ $acf_admin_field_groups = acf_new_instance( 'ACF_Admin_Field_Groups' );
                                 </tr>
                                 </tfoot>
                             <?php endif; ?>
-                            </tbody>
                         </table>
                     </div>
 

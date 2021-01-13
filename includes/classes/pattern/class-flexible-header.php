@@ -11,23 +11,29 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
          *
          * @var string
          */
-        private static $flexible_header_field_name = 'pip_flexible_header';
+        public $flexible_header_field_name = 'pip_flexible_header';
 
         /**
          * Header group key
          *
          * @var string
          */
-        private static $flexible_header_group_key = 'group_pip_flexible_header';
+        public $flexible_header_group_key = 'group_pip_flexible_header';
 
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'init' ) );
 
+            $pip_flexible               = acf_get_instance( 'PIP_Flexible' );
+            $flexible_header_field_name = $this->get_flexible_header_field_name();
+
             // ACF hooks
-            $flexible_header_field_name = self::get_flexible_header_field_name();
             add_filter( "acf/prepare_field/name={$flexible_header_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
-            add_filter( "acfe/flexible/thumbnail/name={$flexible_header_field_name}", array( 'PIP_Flexible', 'add_custom_thumbnail' ), 10, 3 );
+
+            // ACFE hook
+            add_filter( "acfe/flexible/thumbnail/name={$flexible_header_field_name}", array( $pip_flexible, 'add_custom_thumbnail' ), 10, 3 );
+
         }
 
         /**
@@ -35,19 +41,23 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
          * Add layouts to header flexible
          */
         public function init() {
+
+            $pip_flexible = acf_get_instance( 'PIP_Flexible' );
+            $pip_pattern  = acf_get_instance( 'PIP_Pattern' );
+
             // Get layouts
-            $data    = PIP_Flexible::get_layouts_and_group_keys();
+            $data    = $pip_flexible->get_layouts_and_group_keys();
             $layouts = $data['layouts'];
 
             // Header flexible content field group
             $args = array(
-                'key'                   => self::get_flexible_header_group_key(),
+                'key'                   => $this->get_flexible_header_group_key(),
                 'title'                 => 'Flexible Content Header',
                 'fields'                => array(
                     array(
-                        'key'                               => 'field_' . self::get_flexible_header_field_name(),
+                        'key'                               => 'field_' . $this->get_flexible_header_field_name(),
                         'label'                             => __( 'Header', 'pilopress' ),
-                        'name'                              => self::get_flexible_header_field_name(),
+                        'name'                              => $this->get_flexible_header_field_name(),
                         'type'                              => 'flexible_content',
                         'instructions'                      => '',
                         'required'                          => 0,
@@ -90,7 +100,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
                         array(
                             'param'    => 'options_page',
                             'operator' => '==',
-                            'value'    => PIP_Pattern::$menu_slug,
+                            'value'    => $pip_pattern->menu_slug,
                         ),
                     ),
                 ),
@@ -111,6 +121,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
 
             // Register field group
             acf_add_local_field_group( $args );
+
         }
 
         /**
@@ -120,9 +131,10 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
          *
          * @return bool
          */
-        public static function prepare_flexible_field( $field ) {
+        public function prepare_flexible_field( $field ) {
+
             // If no layouts, return
-            if ( empty( $field['layouts'] ) && strpos( $field['_name'], self::get_flexible_header_field_name() ) === 0 ) {
+            if ( empty( $field['layouts'] ) && strpos( $field['_name'], $this->get_flexible_header_field_name() ) === 0 ) {
                 return false;
             }
 
@@ -146,7 +158,7 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
             switch ( $screen ) {
                 case 'options':
                     $args = array(
-                        'pip-pattern' => self::get_flexible_header_field_name(),
+                        'pip-pattern' => $this->get_flexible_header_field_name(),
                     );
                     break;
             }
@@ -164,12 +176,14 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
                 return $field;
             }
 
+            $pip_flexible = acf_get_instance( 'PIP_Flexible' );
+
             // Array for valid layouts
             $keep = array();
 
             foreach ( $field_groups as $field_group ) {
                 // If current screen not included in field group location, skip
-                if ( !PIP_Flexible::get_field_group_visibility( $field_group, $args ) ) {
+                if ( !$pip_flexible->get_field_group_visibility( $field_group, $args ) ) {
                     continue;
                 }
 
@@ -188,7 +202,6 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
                     $keep[ $key ] = $layout;
                     break;
                 }
-
             }
 
             // If no layouts, return false to hide field group
@@ -208,8 +221,9 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
          *
          * @return string
          */
-        public static function get_flexible_header_field_name() {
-            return self::$flexible_header_field_name;
+        public function get_flexible_header_field_name() {
+
+            return $this->flexible_header_field_name;
         }
 
         /**
@@ -217,14 +231,15 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
          *
          * @return string
          */
-        public static function get_flexible_header_group_key() {
-            return self::$flexible_header_group_key;
+        public function get_flexible_header_group_key() {
+
+            return $this->flexible_header_group_key;
         }
 
     }
 
-    // Instantiate class
-    new PIP_Flexible_Header();
+    acf_new_instance( 'PIP_Flexible_Header' );
+
 }
 
 /**
@@ -235,9 +250,13 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
  * @return false|string|void
  */
 function get_pip_header( $echo = true ) {
+
+    $pip_flexible_header = acf_get_instance( 'PIP_Flexible_Header' );
+    $pip_pattern         = acf_get_instance( 'PIP_Pattern' );
+
     if ( $echo ) {
-        echo get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::$pattern_post_id );
+        echo get_flexible( $pip_flexible_header->get_flexible_header_field_name(), $pip_pattern->pattern_post_id );
     } else {
-        return get_flexible( PIP_Flexible_Header::get_flexible_header_field_name(), PIP_Pattern::$pattern_post_id );
+        return get_flexible( $pip_flexible_header->get_flexible_header_field_name(), $pip_pattern->pattern_post_id );
     }
 }

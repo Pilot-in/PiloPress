@@ -11,7 +11,13 @@
             return $.map(
                 buttons,
                 function ( button, key ) {
-                    return { text: button.name, value: button.classes }
+
+                    // Skip if not add to editor
+                    if ( button.add_to_editor === false ) {
+                        return
+                    }
+
+                    return { text: button.name, value: button.class_name }
                 }
             )
         }
@@ -280,10 +286,10 @@
                     pip_spacer,
                     pip_title,
                     pip_thumbnail
-                ];
+                ]
 
                 // Add filter to allow 3rd party to add their own shortcodes
-                pip_shortcodes_menu_items = acf.applyFilters('pip/tinymce/shortcodes', pip_shortcodes_menu_items, event, editor);
+                pip_shortcodes_menu_items = acf.applyFilters( 'pip/tinymce/shortcodes', pip_shortcodes_menu_items, event, editor )
 
                 editor.addButton(
                     'pip_shortcodes',
