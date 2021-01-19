@@ -80,18 +80,16 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $tailwind_utilities  = get_field( 'pip_tailwind_style_utilities', 'pip_styles_tailwind_module' );
 
             // Maybe add base import
-            if ( $tailwind_base ) {
-                $add_base_import = acf_maybe_get( $tailwind_base, 'add_base_import' );
-                if ( $add_base_import ) {
-                    // Base import
-                    $tailwind_css .= '@import "tailwindcss/base";' . "\n";
+            $add_base_import = acf_maybe_get( $tailwind_base, 'add_base_import' );
+            if ( $add_base_import ) {
+                // Base import
+                $tailwind_css .= '@import "tailwindcss/base";' . "\n";
 
-                    // After base CSS
-                    $tailwind_css .= acf_maybe_get( $tailwind_base, 'tailwind_style_after_base' ) . "\n";
+                // After base CSS
+                $tailwind_css .= acf_maybe_get( $tailwind_base, 'tailwind_style_after_base' ) . "\n";
 
-                    // Custom CSS
-                    $tailwind_css .= apply_filters( 'pip/tailwind/css/after_base', '' );
-                }
+                // Custom CSS
+                $tailwind_css .= apply_filters( 'pip/tailwind/css/after_base', '' );
             }
 
             // Add custom fonts import
@@ -101,42 +99,38 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $tailwind_css .= apply_filters( 'pip/tailwind/css/after_fonts', '' );
 
             // Maybe add components import
-            if ( $tailwind_components ) {
-                $add_components_import = acf_maybe_get( $tailwind_components, 'add_components_import' );
-                if ( $add_components_import ) {
-                    // Components import
-                    $tailwind_css .= '@import "tailwindcss/components";' . "\n";
+            $add_components_import = acf_maybe_get( $tailwind_components, 'add_components_import' );
+            if ( $add_components_import ) {
+                // Components import
+                $tailwind_css .= '@import "tailwindcss/components";' . "\n";
 
-                    // After components CSS
-                    $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
+                // After components CSS
+                $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
 
-                    // Body classes
-                    $tailwind_css .= $this->get_body_css() . "\n";
+                // Body classes
+                $tailwind_css .= $this->get_body_css() . "\n";
 
-                    // Typography
-                    $tailwind_css .= $this->get_typography_css() . "\n";
+                // Typography
+                $tailwind_css .= $this->get_typography_css() . "\n";
 
-                    // Buttons
-                    $tailwind_css .= $this->get_buttons_css() . "\n";
+                // Buttons
+                $tailwind_css .= $this->get_buttons_css() . "\n";
 
-                    // Custom CSS
-                    $tailwind_css .= apply_filters( 'pip/tailwind/css/after_components', '' );
-                }
+                // Custom CSS
+                $tailwind_css .= apply_filters( 'pip/tailwind/css/after_components', '' );
             }
 
             // Maybe add utilities import
-            if ( $tailwind_utilities ) {
-                $add_utilities_import = acf_maybe_get( $tailwind_utilities, 'add_utilities_import' );
-                if ( $add_utilities_import ) {
-                    // Utilities import
-                    $tailwind_css .= '@import "tailwindcss/utilities";' . "\n";
+            $add_utilities_import = acf_maybe_get( $tailwind_utilities, 'add_utilities_import' );
+            if ( $add_utilities_import ) {
+                // Utilities import
+                $tailwind_css .= '@import "tailwindcss/utilities";' . "\n";
 
-                    // After utilities CSS
-                    $tailwind_css .= acf_maybe_get( $tailwind_utilities, 'tailwind_style_after_utilities' ) . "\n";
+                // After utilities CSS
+                $tailwind_css .= acf_maybe_get( $tailwind_utilities, 'tailwind_style_after_utilities' ) . "\n";
 
-                    // Custom CSS
-                    $tailwind_css .= apply_filters( 'pip/tailwind/css/after_utilities', '' );
-                }
+                // Custom CSS
+                $tailwind_css .= apply_filters( 'pip/tailwind/css/after_utilities', '' );
             }
 
             return $tailwind_css;
@@ -475,32 +469,43 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Add default TinyMCE CSS
             $tailwind_style .= $this->get_default_tinymce_css();
 
-            // Get Tailwind API
-            require_once PIP_PATH . '/assets/libs/tailwindapi.php';
-            $tailwind = new TailwindAPI();
+            // Maybe use Tailwind API
+            $use_tailwind_api = apply_filters( 'pip/tailwind_api', true );
+            if ( $use_tailwind_api ) {
 
-            // Build front style
-            $tailwind->build(
-                array(
-                    'css'          => $tailwind_style,
-                    'config'       => $tailwind_config,
-                    'autoprefixer' => true,
-                    'minify'       => true,
-                    'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
-                )
-            );
+                // Get Tailwind API
+                require_once PIP_PATH . '/assets/libs/tailwindapi.php';
+                $tailwind = new TailwindAPI();
 
-            // Build admin style
-            $tailwind->build(
-                array(
-                    'css'          => $tailwind_style,
-                    'config'       => $tailwind_config,
-                    'autoprefixer' => true,
-                    'minify'       => true,
-                    'prefixer'     => '.-preview',
-                    'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
-                )
-            );
+                // Build front style
+                $tailwind->build(
+                    array(
+                        'css'          => $tailwind_style,
+                        'config'       => $tailwind_config,
+                        'autoprefixer' => true,
+                        'minify'       => true,
+                        'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
+                    )
+                );
+
+                // Build admin style
+                $tailwind->build(
+                    array(
+                        'css'          => $tailwind_style,
+                        'config'       => $tailwind_config,
+                        'autoprefixer' => true,
+                        'minify'       => true,
+                        'prefixer'     => '.-preview',
+                        'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
+                    )
+                );
+            } else {
+                $tailwind_config_file_name = apply_filters( 'pip/tailwind/config_file_name', 'tailwind.config.js' );
+                file_put_contents( get_stylesheet_directory() . '/' . $tailwind_config_file_name, $tailwind_config );
+
+                $retrieved_styles_file_name = apply_filters( 'pip/tailwind/styles_file_name', 'styles.css' );
+                file_put_contents( get_stylesheet_directory() . '/' . $retrieved_styles_file_name, $tailwind_style );
+            }
         }
 
         /**
