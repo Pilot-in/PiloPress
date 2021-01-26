@@ -500,11 +500,11 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     )
                 );
             } else {
-                $tailwind_config_file_name = apply_filters( 'pip/tailwind/config_file_name', 'tailwind.config.js' );
-                file_put_contents( get_stylesheet_directory() . '/' . $tailwind_config_file_name, $tailwind_config );
+                $tailwind_config_file = apply_filters( 'pip/tailwind/config_file', PIP_THEME_ASSETS_PATH . 'tailwind.config.js' );
+                file_put_contents( $tailwind_config_file, $tailwind_config );
 
-                $retrieved_styles_file_name = apply_filters( 'pip/tailwind/styles_file_name', 'styles.css' );
-                file_put_contents( get_stylesheet_directory() . '/' . $retrieved_styles_file_name, $tailwind_style );
+                $retrieved_styles_file = apply_filters( 'pip/tailwind/styles_file', PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.css' );
+                file_put_contents( $retrieved_styles_file, $tailwind_style );
             }
         }
 
