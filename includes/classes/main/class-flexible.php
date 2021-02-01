@@ -253,14 +253,14 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 // Store layout
                 $layouts[ $layout_uniq_id ] = array(
                     'key'                           => $layout_uniq_id,
-                    'name'                          => $name,
+                    'name'                          => $layout_slug,
                     'label'                         => $title,
                     'display'                       => $display,
                     'sub_fields'                    => array(
                         array(
                             'key'               => 'field_clone_' . $layout_slug,
                             'label'             => $title,
-                            'name'              => $name,
+                            'name'              => $layout_slug,
                             'type'              => 'clone',
                             'instructions'      => '',
                             'required'          => 0,
