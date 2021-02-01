@@ -84,6 +84,7 @@
 
 .acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:hover > .acf-fc-layout-controls {
     display: block;
+    z-index: 100;
 }
 
 .acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout > .acf-fc-layout-controls > .-collapse {
