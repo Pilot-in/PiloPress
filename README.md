@@ -134,7 +134,6 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 * Added: `pip/tailwind_api` filter
 * Added: `pip/tailwind/config_file_name` filter
 * Added: `pip/tailwind/styles_file_name` filter
-* Added: Min and max options for layouts
 * Added: Filter choices in `pip_font_color` fields
 * Added: Type of class returned by `pip_font_color` fields (text, background or border)
 * Added: A lot of helpers to get data from back-office
