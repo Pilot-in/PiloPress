@@ -25,6 +25,27 @@ acf_add_local_field_group(
                 'endpoint'          => 0,
             ),
 
+            // CSS message
+            array(
+                'key'                        => 'field_css_tailwind_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can add custom CSS in this tab.', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
             // Base section
             array(
                 'key'                 => 'field_pip_tailwind_style',
@@ -244,7 +265,7 @@ acf_add_local_field_group(
                 ),
             ),
 
-            // Configuration
+            // Configuration Tab
             array(
                 'key'               => 'field_tab_configuration_tailwind',
                 'label'             => __( 'Configuration', 'pilopress' ),
@@ -262,6 +283,29 @@ acf_add_local_field_group(
                 'placement'         => 'top',
                 'endpoint'          => 0,
             ),
+
+            // Configuration message
+            array(
+                'key'                        => 'field_configuration_tailwind_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can override and customize your TailwindCSS configuration in this tab.<br>Please see <a href="https://tailwindcss.com/docs/theme" target="_blank">TailwindCSS documentation</a> for more details (if you have enabled this module).', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
+            // Configuration
             array(
                 'key'                 => 'field_pip_tailwind_config',
                 'label'               => '',

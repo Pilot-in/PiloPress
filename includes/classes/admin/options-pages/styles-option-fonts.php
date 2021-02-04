@@ -6,6 +6,29 @@ acf_add_local_field_group(
         'key'                   => 'group_styles_fonts',
         'title'                 => __( 'Fonts', 'pilopress' ),
         'fields'                => array(
+
+            // Fonts message
+            array(
+                'key'                        => 'field_fonts_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can add external and/or local fonts in this tab.', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
+            // Fonts
             array(
                 'acfe_flexible_advanced'                => 1,
                 'acfe_flexible_stylised_button'         => 1,
@@ -132,7 +155,7 @@ acf_add_local_field_group(
                             ),
                             array(
                                 'key'               => 'field_google_font_add_to_editor',
-                                'label'             => __( 'Add to editor ?', 'pilopress' ),
+                                'label'             => __( 'Add to editor menu?', 'pilopress' ),
                                 'name'              => 'add_to_editor',
                                 'type'              => 'true_false',
                                 'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),
@@ -295,7 +318,7 @@ acf_add_local_field_group(
                             ),
                             array(
                                 'key'               => 'field_custom_font_add_to_editor',
-                                'label'             => __( 'Add to editor ?', 'pilopress' ),
+                                'label'             => __( 'Add to editor menu?', 'pilopress' ),
                                 'name'              => 'add_to_editor',
                                 'type'              => 'true_false',
                                 'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),

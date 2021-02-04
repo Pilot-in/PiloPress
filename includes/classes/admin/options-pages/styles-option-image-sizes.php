@@ -7,6 +7,27 @@ acf_add_local_field_group(
         'title'                 => __( 'Images', 'pilopress' ),
         'fields'                => array(
 
+            // WP Image sizes message
+            array(
+                'key'                        => 'field_pip_wp_image_sizes_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can modify WordPress image sizes and define new ones in this tab.', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
             // WP Image sizes
             array(
                 'key'                           => 'field_pip_wp_image_sizes',
