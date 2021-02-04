@@ -46,7 +46,7 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
         public function duplicate_layout_url( $url, $path, $blog_id ) {
 
             // If not "acfduplicatecomplete" action, return
-            if ( strstr( $url, 'acfduplicatecomplete' ) ) {
+            if ( !strstr( $url, 'acfduplicatecomplete' ) ) {
                 return $url;
             }
 
@@ -55,7 +55,7 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
             parse_str( $url_args, $url_query );
 
             // If layout, add argument
-            if ( acf_maybe_get( $url_query, 'acfduplicatecomplete' ) && pip_is_layout( $url_query['acfduplicatecomplete'] ) ) {
+            if ( pip_is_layout( $url_query['acfduplicatecomplete'] ) ) {
                 $url .= '&layouts=1';
             }
 
