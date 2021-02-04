@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pilo'Press\n"
-"POT-Creation-Date: 2021-02-04 12:32+0100\n"
-"PO-Revision-Date: 2021-02-04 12:39+0100\n"
+"POT-Creation-Date: 2021-02-04 12:48+0100\n"
+"PO-Revision-Date: 2021-02-04 12:49+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -690,8 +690,8 @@ msgstr ""
 "Vous pouvez ajouter des polices externes et/ou locales dans cet onglet."
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:76
-msgid "Google Font"
-msgstr "Police Google"
+msgid "External Font"
+msgstr "Police externe"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:101
 msgid "URL"
@@ -1526,6 +1526,9 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Pilot'in"
 msgstr "Pilot'in"
+
+#~ msgid "Google Font"
+#~ msgstr "Police Google"
 
 #~ msgid "Activate TailwindCSS module"
 #~ msgstr "Activer le module TailwindCSS"

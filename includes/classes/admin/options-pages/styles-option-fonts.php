@@ -69,11 +69,11 @@ acf_add_local_field_group(
                 'acfe_permissions'                      => '',
                 'layouts'                               => array(
 
-                    // Google font
+                    // External font
                     'layout_google_font' => array(
                         'key'                           => 'layout_google_font',
                         'name'                          => 'google_font',
-                        'label'                         => __( 'Google Font', 'pilopress' ),
+                        'label'                         => __( 'External Font', 'pilopress' ),
                         'display'                       => 'row',
                         'sub_fields'                    => array(
                             array(
@@ -225,8 +225,8 @@ acf_add_local_field_group(
                                     'class' => '',
                                     'id'    => '',
                                 ),
-                                'acfe_permissions'              => '',
                                 'acfe_repeater_stylised_button' => 0,
+                                'acfe_permissions'              => '',
                                 'collapsed'                     => '',
                                 'min'                           => 0,
                                 'max'                           => 0,
