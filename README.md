@@ -7,7 +7,7 @@ Pilo'Press is a framework plugin for WordPress. Based on ACF and ACF Extended, i
 Pilo'Press uses Tailwind CSS for style templating which can be setup and build directly from the back-office.
 Please note that Tailwind CSS is not mandatory, you can choose to use it or not. 
 
-**All features are describe in details, in our [GitHub Page](https://pilot-in.github.io/PiloPress/).**
+**All features are describe in details _(with screens & videos)_, in our [GitHub Page](https://pilot-in.github.io/PiloPress/).**
 
 ## Table of Contents
 
