@@ -22,14 +22,27 @@
             return $.map(
                 colors,
                 function ( color, key ) {
+
+                    // Skip if not add to editor
+                    if ( color.add_to_editor === false ) {
+                        return
+                    }
+
+                    // Get text color and background
+                    var textStyle = 'color:' + color.value + ';'
+                    var bgColor   = getContrast( color.value )
+                    if ( bgColor !== 'white' ) {
+                        textStyle += 'background-color:' + bgColor + ';'
+                    }
+
                     return {
                         name: 'pip-text-' + key,
                         value: 'pip-text-' + key,
                         text: color.name,
-                        textStyle: key,
+                        textStyle: textStyle,
                         format: {
                             inline: 'span',
-                            classes: color.classes,
+                            classes: 'text-' + color.class_name,
                             wrapper: true,
                             deep: true,
                             split: true,
@@ -37,6 +50,16 @@
                     }
                 }
             )
+        }
+
+        function getContrast( hexcolor ) {
+            hexcolor = hexcolor.charAt( 0 ) === '#' ? hexcolor.substring( 1, 7 ) : hexcolor
+
+            var r   = parseInt( hexcolor.substr( 0, 2 ), 16 )
+            var g   = parseInt( hexcolor.substr( 2, 2 ), 16 )
+            var b   = parseInt( hexcolor.substr( 4, 2 ), 16 )
+            var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000
+            return (yiq >= 128) ? '#23282d' : 'white'
         }
 
         /**
@@ -48,6 +71,12 @@
             return $.map(
                 fonts,
                 function ( font, key ) {
+
+                    // Skip if not add to editor
+                    if ( font.add_to_editor === false ) {
+                        return
+                    }
+
                     return {
                         name: 'pip-font-' + key,
                         value: 'pip-font-' + key,
@@ -55,7 +84,7 @@
                         textStyle: 'font-family:' + font.name,
                         format: {
                             inline: 'span',
-                            classes: font.classes,
+                            classes: 'font-' + font.class_name,
                             wrapper: true,
                             deep: true,
                             split: true,
@@ -74,6 +103,12 @@
             return $.map(
                 styles,
                 function ( style, key ) {
+
+                    // Skip if not add to editor
+                    if ( style.add_to_editor === false ) {
+                        return
+                    }
+
                     return {
                         name: 'pip-style-' + key,
                         value: 'pip-style-' + key,
@@ -81,7 +116,7 @@
                         textStyle: key,
                         format: {
                             block: 'span',
-                            classes: style.classes,
+                            classes: style.class_name,
                             wrapper: true,
                             deep: true,
                             split: true,
@@ -380,6 +415,15 @@
                     }
                 )
             }
+        }
+
+        var hexToRgb = function ( hex ) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec( hex )
+            return result ? {
+                r: parseInt( result[1], 16 ),
+                g: parseInt( result[2], 16 ),
+                b: parseInt( result[3], 16 )
+            } : null
         }
 
     }

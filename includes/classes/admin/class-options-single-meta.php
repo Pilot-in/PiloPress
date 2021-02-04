@@ -20,6 +20,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
     class PIP_Options_Single_Meta {
 
         public function __construct() {
+
             // Load
             add_filter( 'acf/load_value', array( $this, 'load_value' ), 0, 3 );
             add_filter( 'acf/pre_load_metadata', array( $this, 'load_reference' ), 10, 4 );
@@ -39,6 +40,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
          * @return null
          */
         public function update_value( $value, $post_id, $field ) {
+
             // If not style options, return
             if ( !pip_str_starts( $post_id, 'pip_styles' ) ) {
                 return $value;
@@ -100,6 +102,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
          * @param int $post_id
          */
         public function save_post( $post_id = 0 ) {
+
             // If not style options, return
             if ( !pip_str_starts( $post_id, 'pip_styles' ) ) {
                 return;
@@ -132,6 +135,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
          * @return mixed
          */
         public function load_value( $value, $post_id, $field ) {
+
             // If not style options, return
             if ( !pip_str_starts( $post_id, 'pip_styles' ) ) {
                 return $value;
@@ -189,6 +193,7 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
          * @return mixed
          */
         public function load_reference( $value, $post_id, $name, $hidden ) {
+
             // If not style options, return
             if ( !pip_str_starts( $post_id, 'pip_styles' ) ) {
                 return $value;
@@ -229,7 +234,9 @@ if ( !class_exists( 'PIP_Options_Single_Meta' ) ) {
 
             return $value;
         }
+
     }
 
-    new PIP_Options_Single_Meta();
+    acf_new_instance( 'PIP_Options_Single_Meta' );
+
 }

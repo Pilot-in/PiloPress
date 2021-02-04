@@ -5,7 +5,7 @@ Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
 Tested up to: 5.5.1
 Requires PHP: 5.6
-Stable tag: 0.3.2.11
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,40 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.4.0 - 04/02/2021 =
+* Fixed: `pip_get_formatted_post_id()` function used in `get_pip_content()` and return nothing if used on custom post
+  type archive when no posts
+* Fixed: Render when multiple components on the same post
+* Fixed: Sync link on layouts listing page
+* Fixed: Use `pip/builder/parameters` filter for Header flexible and Footer flexible
+* Fixed: Location match when location is set to Components > All
+* Fixed: Redirection to ACF field groups when you duplicate a layout
+* Fixed: Compatibility issue with ACF: Font Awesome plugin
+* Added: Variables system to layouts
+* Added: Allow user to compile locally, without TailwindAPI
+* Added: `pip/tailwind_api` filter
+* Added: `pip/tailwind/config_file_name` filter
+* Added: `pip/tailwind/styles_file_name` filter
+* Added: `pip/tailwind/css/after_base` filter
+* Added: `pip/tailwind/css/after_fonts` filter
+* Added: `pip/tailwind/css/after_components` filter
+* Added: `pip/tailwind/css/after_utilities` filter
+* Added: `pip/formatted_post_id` filter
+* Added: `pip/tailwind_api` filter
+* Added: `pip/tailwind/config_file_name` filter
+* Added: `pip/tailwind/styles_file_name` filter
+* Added: Filter choices in `pip_font_color` fields
+* Added: Type of class returned by `pip_font_color` fields (text, background or border)
+* Added: A lot of helpers to get data from back-office
+* Added: TailwindCSS error message when compilation failed
+* Added: Automatically create configuration file on layout insert or update
+* Added: New "component like" location rule
+* Improved: Make style back-office feature oriented
+* Improved: Code quality
+* Improved: Theme colors field type. Add return format choice and default value option
+* Improved: Categories and collections filters on layouts listing page
+* Improved: "pip_title" shortcode
 
 = 0.3.2.11 - 02/11/2020 =
 * Fixed: Reset h2 style inside TinyMCE

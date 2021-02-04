@@ -16,9 +16,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          *
          * @var mixed
          */
-        private $initial_value;
+        public $initial_value = array();
 
         public function __construct() {
+
             $this->name     = 'pip_component';
             $this->label    = __( 'Component', 'pilopress' );
             $this->category = 'relational';
@@ -47,7 +48,8 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          *
          * @return array
          */
-        public static function get_choices( $field = false ) {
+        public function get_choices( $field = false ) {
+
             $choices = array();
 
             // If field, get allowed options
@@ -56,9 +58,11 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                 $post_in = $field['pip_components'];
             }
 
+            $pip_components = acf_get_instance( 'PIP_Components' );
+
             // Get all components
             $args  = array(
-                'post_type'      => PIP_Components::$post_type,
+                'post_type'      => $pip_components->post_type,
                 'posts_per_page' => - 1,
                 'post__in'       => $post_in,
             );
@@ -85,13 +89,17 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          * @return array|int|string
          */
         public function load_value( $value, $post_id, $field ) {
+
+            // Get index
+            $initial_value_index = pip_maybe_get( $field, 'key' ) . '_' . pip_maybe_get( $field, 'name' );
+
             // Store value for format value
             if ( is_numeric( $value ) ) {
-                $this->initial_value = $value;
+                $this->initial_value[ $initial_value_index ] = $value;
             }
 
             // Get component sub fields
-            $sub_fields = get_field_objects( $this->initial_value, false );
+            $sub_fields = get_field_objects( acf_maybe_get( $this->initial_value, $initial_value_index ), false );
             if ( !$sub_fields ) {
                 return $value;
             }
@@ -113,9 +121,23 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          * @return mixed
          */
         public function prepare_field( $field ) {
-            $field['choices'] = self::get_choices( $field );
+
+            // Get row number
+            $acf_field_prefix = pip_maybe_get( $field, 'prefix' );
+            preg_match( '~row-(.*?)]~', $acf_field_prefix, $row_number );
+            $row_number = $row_number[1];
+
+            // Get flexible class instance
+            $pip_flexible = acf_get_instance( 'PIP_Flexible' );
+
+            // Mapping the index for it to have the same structure as in load_value and format_value
+            $field_key           = acf_maybe_get( $field, 'key' );
+            $field_name          = acf_maybe_get( $field, '_name' );
+            $initial_value_index = $field_key . '_' . $pip_flexible->flexible_field_name . '_' . $row_number . '_' . $field_name;
+
+            $field['choices'] = $this->get_choices( $field );
             $field['type']    = $field['field_type'];
-            $field['value']   = $this->initial_value ? $this->initial_value : '';
+            $field['value']   = $this->initial_value[ $initial_value_index ];
 
             return $field;
         }
@@ -130,7 +152,11 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          * @return array|bool
          */
         public function format_value( $value, $post_id, $field ) {
-            return get_fields( $this->initial_value, true );
+
+            // Get index
+            $initial_value_index = acf_maybe_get( $field, 'key' ) . '_' . acf_maybe_get( $field, 'name' );
+
+            return get_fields( acf_maybe_get( $this->initial_value, $initial_value_index ), true );
         }
 
         /**
@@ -139,6 +165,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          * @param $field
          */
         public function render_field_settings( $field ) {
+
             if ( isset( $field['default_value'] ) ) {
                 $field['default_value'] = acf_encode_choices( $field['default_value'], false );
             }
@@ -151,7 +178,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
                     'instructions' => '',
                     'type'         => 'select',
                     'name'         => 'pip_components',
-                    'choices'      => self::get_choices(),
+                    'choices'      => $this->get_choices(),
                     'multiple'     => 1,
                     'ui'           => 1,
                     'allow_null'   => 1,

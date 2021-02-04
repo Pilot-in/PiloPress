@@ -6,6 +6,29 @@ acf_add_local_field_group(
         'key'                   => 'group_styles_fonts',
         'title'                 => __( 'Fonts', 'pilopress' ),
         'fields'                => array(
+
+            // Fonts message
+            array(
+                'key'                        => 'field_fonts_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can add external and/or local fonts in this tab.', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
+            // Fonts
             array(
                 'acfe_flexible_advanced'                => 1,
                 'acfe_flexible_stylised_button'         => 1,
@@ -35,7 +58,7 @@ acf_add_local_field_group(
                 'label'                                 => '',
                 'name'                                  => 'pip_fonts',
                 'type'                                  => 'flexible_content',
-                'instructions'                          => __( 'Fonts.', 'pilopress' ),
+                'instructions'                          => __( 'Fonts', 'pilopress' ),
                 'required'                              => 0,
                 'conditional_logic'                     => 0,
                 'wrapper'                               => array(
@@ -46,11 +69,11 @@ acf_add_local_field_group(
                 'acfe_permissions'                      => '',
                 'layouts'                               => array(
 
-                    // Google font
+                    // External font
                     'layout_google_font' => array(
                         'key'                           => 'layout_google_font',
                         'name'                          => 'google_font',
-                        'label'                         => __( 'Google Font', 'pilopress' ),
+                        'label'                         => __( 'External Font', 'pilopress' ),
                         'display'                       => 'row',
                         'sub_fields'                    => array(
                             array(
@@ -110,6 +133,46 @@ acf_add_local_field_group(
                                 'ui_on_text'        => '',
                                 'ui_off_text'       => '',
                             ),
+                            array(
+                                'key'               => 'field_google_font_class_name',
+                                'label'             => __( 'Class name', 'pilopress' ),
+                                'name'              => 'class_name',
+                                'type'              => 'acfe_slug',
+                                'instructions'      => __( 'By default, the field "name" will be use to generate the CSS class name.', 'pilopress' ),
+                                'required'          => 0,
+                                'conditional_logic' => 0,
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_permissions'  => '',
+                                'default_value'     => '',
+                                'placeholder'       => '',
+                                'prepend'           => 'font-',
+                                'append'            => '',
+                                'maxlength'         => '',
+                            ),
+                            array(
+                                'key'               => 'field_google_font_add_to_editor',
+                                'label'             => __( 'Add to editor menu?', 'pilopress' ),
+                                'name'              => 'add_to_editor',
+                                'type'              => 'true_false',
+                                'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),
+                                'required'          => 0,
+                                'conditional_logic' => 0,
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_permissions'  => '',
+                                'message'           => '',
+                                'default_value'     => 1,
+                                'ui'                => 1,
+                                'ui_on_text'        => '',
+                                'ui_off_text'       => '',
+                            ),
                         ),
                         'min'                           => '',
                         'max'                           => '',
@@ -155,20 +218,20 @@ acf_add_local_field_group(
                                 'name'                          => 'files',
                                 'type'                          => 'repeater',
                                 'instructions'                  => '',
-                                'required'                      => 0,
+                                'required'                      => 1,
                                 'conditional_logic'             => 0,
                                 'wrapper'                       => array(
                                     'width' => '',
                                     'class' => '',
                                     'id'    => '',
                                 ),
-                                'acfe_permissions'              => '',
                                 'acfe_repeater_stylised_button' => 0,
+                                'acfe_permissions'              => '',
                                 'collapsed'                     => '',
                                 'min'                           => 0,
                                 'max'                           => 0,
                                 'layout'                        => 'block',
-                                'button_label'                  => 'Add file',
+                                'button_label'                  => __( 'Add file', 'pilopress' ),
                                 'sub_fields'                    => array(
                                     array(
                                         'key'               => 'field_custom_font_file',
@@ -176,7 +239,7 @@ acf_add_local_field_group(
                                         'name'              => 'file',
                                         'type'              => 'file',
                                         'instructions'      => '',
-                                        'required'          => 0,
+                                        'required'          => 1,
                                         'conditional_logic' => 0,
                                         'wrapper'           => array(
                                             'width' => '',
@@ -233,6 +296,46 @@ acf_add_local_field_group(
                                 'append'            => '',
                                 'maxlength'         => '',
                             ),
+                            array(
+                                'key'               => 'field_custom_font_class_name',
+                                'label'             => __( 'Class name', 'pilopress' ),
+                                'name'              => 'class_name',
+                                'type'              => 'acfe_slug',
+                                'instructions'      => __( 'By default, the field "name" will be use to generate the CSS class name.', 'pilopress' ),
+                                'required'          => 0,
+                                'conditional_logic' => 0,
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_permissions'  => '',
+                                'default_value'     => '',
+                                'placeholder'       => '',
+                                'prepend'           => 'font-',
+                                'append'            => '',
+                                'maxlength'         => '',
+                            ),
+                            array(
+                                'key'               => 'field_custom_font_add_to_editor',
+                                'label'             => __( 'Add to editor menu?', 'pilopress' ),
+                                'name'              => 'add_to_editor',
+                                'type'              => 'true_false',
+                                'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),
+                                'required'          => 0,
+                                'conditional_logic' => 0,
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_permissions'  => '',
+                                'message'           => '',
+                                'default_value'     => 1,
+                                'ui'                => 1,
+                                'ui_on_text'        => '',
+                                'ui_off_text'       => '',
+                            ),
                         ),
                         'min'                           => '',
                         'max'                           => '',
@@ -275,7 +378,7 @@ acf_add_local_field_group(
         'acfe_meta'             => '',
         'acfe_note'             => '',
         'acfe_categories'       => array(
-            'options' => 'Options',
+            'options' => __( 'Options', 'pilopress' ),
         ),
     )
 );

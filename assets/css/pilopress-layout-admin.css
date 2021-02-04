@@ -7,6 +7,11 @@ div[data-name='hide_on_screen'] {
     display: none;
 }
 
+/* Reset ACF Style to show dropdown filters */
+.acf-admin-field-groups .tablenav.top {
+    display: block !important;
+}
+
 /* Reset ACFE Style for disabled field groups */
 #the-list .status-acf-disabled .column-title a {
     color: #0073aa !important;
@@ -22,4 +27,15 @@ div[data-name='hide_on_screen'] {
 
 #the-list .status-acf-disabled .column-title .row-actions span.trash a:hover {
     color: #dc3232 !important;
+}
+
+/*
+ * Field Group: Tabs hack to initialize
+ */
+.acf-fields .acf-field-tab {
+    display: block !important;
+    height: 0;
+    overflow: hidden;
+    padding: 0 !important;
+    border: 0 !important;
 }

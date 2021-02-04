@@ -15,6 +15,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
          * Initialize
          */
         public function initialize() {
+
             $this->name  = 'pilopress_tool_styles_import';
             $this->title = __( 'Import styles settings', 'pilopress' );
         }
@@ -23,6 +24,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
          * Generate HTML
          */
         public function html() {
+
             ?>
             <div class="acf-fields">
                 <?php
@@ -51,6 +53,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
          * @return ACF_Admin_Notice
          */
         public function submit() {
+
             // Check file size
             if ( empty( $_FILES['acf_import_styles_configuration']['size'] ) ) {
                 return acf_add_admin_notice( __( 'No file selected', 'pilopress' ), 'warning' );
@@ -92,6 +95,7 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             // translators: Number of style settings imported
             acf_add_admin_notice( sprintf( _n( 'Imported %s style settings.', 'Imported %s styles settings.', $total, 'pilopress' ), $total ), 'success' );
         }
+
     }
 
     // Initialize

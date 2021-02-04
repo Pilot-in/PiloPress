@@ -12,17 +12,24 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          *
          * @var array
          */
-        public static $pattern_option_page;
-        public static $menu_slug = 'pip-pattern';
+        public $pattern_option_page;
+
+        /**
+         * Menu slug
+         *
+         * @var string
+         */
+        public $menu_slug = 'pip-pattern';
 
         /**
          * Post ID
          *
          * @var string
          */
-        public static $pattern_post_id = 'pip_pattern';
+        public $pattern_post_id = 'pip_pattern';
 
         public function __construct() {
+
             // WP hooks
             add_action( 'init', array( $this, 'register_option_page' ) );
 
@@ -37,6 +44,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          * Add option page
          */
         public function register_option_page() {
+
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
             if ( !current_user_can( $capability ) ) {
@@ -48,21 +56,29 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
                 array(
                     'page_title'  => __( 'Site Template', 'pilopress' ),
                     'menu_title'  => __( 'Site Template', 'pilopress' ),
-                    'menu_slug'   => self::$menu_slug,
+                    'menu_slug'   => $this->menu_slug,
                     'capability'  => $capability,
                     'parent_slug' => 'pilopress',
-                    'post_id'     => self::$pattern_post_id,
+                    'post_id'     => $this->pattern_post_id,
                     'autoload'    => true,
                 )
             );
 
             // Set pattern option page
-            self::set_pattern_option_page( $option_page );
+            $this->set_pattern_option_page( $option_page );
         }
 
+        /**
+         * Remove pattern from post types
+         *
+         * @param $choices
+         *
+         * @return mixed
+         */
         public function remove_pattern_from_post_types( $choices ) {
+
             // Remove Pattern
-            unset( $choices[ self::$menu_slug ] );
+            unset( $choices[ $this->menu_slug ] );
 
             return $choices;
         }
@@ -75,8 +91,9 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          * @return mixed
          */
         public function location_types( $choices ) {
+
             // Add component option
-            $choices["Pilo'Press"][ self::$menu_slug ] = __( 'Site Template', 'pilopress' );
+            $choices["Pilo'Press"][ $this->menu_slug ] = __( 'Site Template', 'pilopress' );
 
             return $choices;
         }
@@ -89,12 +106,16 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          * @return array
          */
         public function location_values( $choices ) {
+
+            $pip_flexible_header = acf_get_instance( 'PIP_Flexible_Header' );
+            $pip_flexible_footer = acf_get_instance( 'PIP_Flexible_Footer' );
+
             // Add options
             $choices = array(
                 'all' => __( 'All', 'acf' ),
 
-                PIP_Flexible_Header::get_flexible_header_field_name() => __( 'Header', 'pilopress' ),
-                PIP_Flexible_Footer::get_flexible_footer_field_name() => __( 'Footer', 'pilopress' ),
+                $pip_flexible_header->get_flexible_header_field_name() => __( 'Header', 'pilopress' ),
+                $pip_flexible_footer->get_flexible_footer_field_name() => __( 'Footer', 'pilopress' ),
             );
 
             return $choices;
@@ -110,10 +131,11 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          * @return bool
          */
         public function location_match( $result, $rule, $screen ) {
+
             $match = false;
 
             // If not on Pattern page, return
-            if ( !acf_maybe_get( $screen, self::$menu_slug ) ) {
+            if ( !acf_maybe_get( $screen, $this->menu_slug ) ) {
                 return $match;
             }
 
@@ -122,7 +144,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
                 // Allow "all" to match any value.
                 $match = true;
 
-            } elseif ( $rule['value'] === $screen[ self::$menu_slug ] ) {
+            } elseif ( $rule['value'] === $screen[ $this->menu_slug ] ) {
                 $match = true;
             }
 
@@ -139,8 +161,9 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          *
          * @return mixed
          */
-        public static function get_pattern_option_page() {
-            return self::$pattern_option_page;
+        public function get_pattern_option_page() {
+
+            return $this->pattern_option_page;
         }
 
         /**
@@ -148,11 +171,13 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          *
          * @param mixed $pattern_option_page
          */
-        public static function set_pattern_option_page( $pattern_option_page ) {
-            self::$pattern_option_page = $pattern_option_page;
+        public function set_pattern_option_page( $pattern_option_page ) {
+
+            $this->pattern_option_page = $pattern_option_page;
         }
+
     }
 
-    // Instantiate class
-    new PIP_Pattern();
+    acf_new_instance( 'PIP_Pattern' );
+
 }

@@ -12,16 +12,18 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
     class PIP_Font_Family_Field extends acf_field {
 
         public function __construct() {
+
             $this->name     = 'pip_font_family';
             $this->label    = __( 'Font family', 'pilopress' );
             $this->category = __( "Pilo'Press", 'pilopress' );
             $this->defaults = array(
-                'field_type'    => 'select',
-                'choices'       => array(),
-                'placeholder'   => '',
-                'return_format' => 'value',
-                'allow_null'    => true,
-                'ajax'          => false,
+                'field_type'        => 'select',
+                'choices'           => array(),
+                'placeholder'       => '',
+                'pip_default_value' => '',
+                'return_format'     => 'value',
+                'allow_null'        => true,
+                'ajax'              => false,
             );
 
             parent::__construct();
@@ -32,13 +34,29 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          *
          * @return array
          */
-        private static function get_choices() {
+        public function get_choices() {
+
+            // Enable ACF "Local" mode if not active yet to get data from local fields
+            $acf_local_was_active = acf_is_local_enabled();
+            if ( !$acf_local_was_active ) {
+                acf_enable_local();
+            }
+
+            // Get class instance
+            $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
+
+            // Add custom choices
             $choices       = array();
-            $custom_styles = PIP_TinyMCE::get_custom_fonts();
+            $custom_styles = $pip_tinymce->get_custom_fonts();
             if ( $custom_styles ) {
                 foreach ( $custom_styles as $key => $custom_style ) {
                     $choices[ $key ] = $custom_style['name'];
                 }
+            }
+
+            // Restore ACF "Local" mode initial state after we get our data.
+            if ( !$acf_local_was_active ) {
+                acf_disable_local();
             }
 
             return $choices;
@@ -52,7 +70,15 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @return mixed
          */
         public function prepare_field( $field ) {
-            $field['choices'] = self::get_choices();
+
+            // Default value
+            $field_default_value = acf_maybe_get( $field, 'pip_default_value' );
+            $field_value         = acf_maybe_get( $field, 'value' );
+            if ( !$field_value && $field_default_value ) {
+                $field['value'] = $field_default_value;
+            }
+
+            $field['choices'] = $this->get_choices();
             $field['type']    = $field['field_type'];
 
             return $field;
@@ -64,6 +90,7 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @param $field
          */
         public function render_field( $field ) {
+
             $value   = acf_get_array( $field['value'] );
             $choices = acf_get_array( $field['choices'] );
 
@@ -95,6 +122,7 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @param $field
          */
         public function render_field_settings( $field ) {
+
             // Field type
             acf_render_field_setting(
                 $field,
@@ -109,6 +137,20 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
                         'radio'    => __( 'Radio Buttons', 'acf' ),
                         'select'   => _x( 'Select', 'noun', 'acf' ),
                     ),
+                )
+            );
+
+            // Select: Default value
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'         => __( 'Default Value', 'acf' ),
+                    'type'          => 'select',
+                    'name'          => 'pip_default_value',
+                    'required'      => 0,
+                    'allow_null'    => 1,
+                    'return_format' => 'value',
+                    'choices'       => $this->get_choices(),
                 )
             );
 
@@ -258,26 +300,30 @@ if ( !class_exists( 'PIP_Font_Family_Field' ) ) {
          * @return mixed
          */
         public function format_value( $value, $post_id, $field ) {
+
+            $pip_tinymce = acf_get_instance( 'PIP_TinyMCE' );
+
             // Get all font families
-            $choices = PIP_TinyMCE::get_custom_fonts();
+            $choices = $pip_tinymce->get_custom_fonts();
 
             $return = null;
             if ( is_array( $value ) ) {
                 foreach ( $value as $item ) {
                     // Get selected option
                     $font_style      = acf_maybe_get( $choices, $item );
-                    $return[ $item ] = $font_style ? $font_style['classes'] : $item;
+                    $return[ $item ] = $font_style ? 'font-' . $font_style['class_name'] : $item;
                 }
             } else {
                 // Get selected option
                 $font_style = acf_maybe_get( $choices, $value );
-                $return     = $font_style ? $font_style['classes'] : $value;
+                $return     = $font_style ? 'font-' . $font_style['class_name'] : $value;
             }
 
             return $return;
         }
+
     }
 
-    // Instantiate
-    new PIP_Font_Family_Field();
+    acf_new_instance( 'PIP_Font_Family_Field' );
+
 }
