@@ -58,10 +58,21 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
             add_filter( 'disable_months_dropdown', array( $this, 'disable_month_dropdown' ), 10, 2 );
             add_action( 'restrict_manage_posts', array( $this, 'custom_dropdown' ), 10, 2 );
 
-            // Remove ACF Extended: Field Group Category Column
-            remove_filter( 'manage_edit-acf-field-group_columns', 'acfe_field_group_category_column', 11 );
-            remove_action( 'manage_acf-field-group_posts_custom_column', 'acfe_field_group_category_column_html', 10 );
+            // ACFE hooks
+            add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'columns' ), 15 );
+        }
 
+        /**
+         * Remove ACF Extended Field Group Category Column
+         *
+         * @param $columns
+         *
+         * @return mixed
+         */
+        public function columns( $columns ) {
+            unset( $columns['acf-field-group-category'] );
+
+            return $columns;
         }
 
         /**
