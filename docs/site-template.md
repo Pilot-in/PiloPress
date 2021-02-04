@@ -21,3 +21,7 @@ get_pip_footer();
 ```
 
 See [Hooks](/PiloPress/docs/hooks) for more details.
+
+# Screenshots
+
+![Pilo'Press Screen](https://demo.pilopress.com/wp-content/uploads/2021/02/pilopress-screen12.png)
