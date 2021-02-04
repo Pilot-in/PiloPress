@@ -55,7 +55,7 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
             parse_str( $url_args, $url_query );
 
             // If layout, add argument
-            if ( pip_is_layout( $url_query['acfduplicatecomplete'] ) ) {
+            if ( acf_maybe_get( $url_query, 'acfduplicatecomplete' ) && pip_is_layout( $url_query['acfduplicatecomplete'] ) ) {
                 $url .= '&layouts=1';
             }
 
