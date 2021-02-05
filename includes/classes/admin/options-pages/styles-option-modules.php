@@ -7,6 +7,27 @@ acf_add_local_field_group(
         'title'                 => __( 'Modules', 'pilopress' ),
         'fields'                => array(
 
+            // Modules message
+            array(
+                'key'                        => 'field_modules_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can enabled or disabled available modules in this tab.', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
             // Modules
             array(
                 'key'                 => 'field_pip_modules',
@@ -31,7 +52,7 @@ acf_add_local_field_group(
                         'label'             => __( 'TailwindCSS', 'pilopress' ),
                         'name'              => 'tailwind',
                         'type'              => 'true_false',
-                        'instructions'      => __( 'Activate TailwindCSS module', 'pilopress' ),
+                        'instructions'      => __( 'Activate TailwindCSS module.<br>You will be able to compile styles through <a href="https://www.tailwindapi.com/" target="_blank">TailwindAPI</a> or enable local compilation.<br><b>Be careful!</b> TailwindAPI is using TailwindCSS 1.8.5', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
@@ -51,7 +72,7 @@ acf_add_local_field_group(
                         'label'             => __( 'TinyMCE', 'pilopress' ),
                         'name'              => 'tinymce',
                         'type'              => 'true_false',
-                        'instructions'      => __( 'Activate TinyMCE module', 'pilopress' ),
+                        'instructions'      => __( 'Activate TinyMCE module.<br>Your styles configuration will be available through dropdowns in TinyMCE editors. Compiled styles will be enqueued in editor.', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(

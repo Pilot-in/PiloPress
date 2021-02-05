@@ -26,6 +26,32 @@ acf_add_local_field_group(
                 'endpoint'          => 0,
             ),
 
+            // Typography message
+            array(
+                'key'                        => 'field_typography_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __(
+                    'You can define your site\'s typography styles in this tab.<br>
+Please see TailwindCSS documentation for more details (if you have enabled this module).<br>
+<a href="https://tailwindcss.com/docs/font-family" target="_blank">Font family</a>, <a href="https://tailwindcss.com/docs/font-size" target="_blank">Font size</a>, <a href="https://tailwindcss.com/docs/font-weight" target="_blank">Font weight</a>, <a href="https://tailwindcss.com/docs/text-color" target="_blank">Text color</a>, etc',
+                    'pilopress'
+                ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
             // Body classes
             array(
                 'key'                 => 'field_pip_body_classes',
@@ -152,7 +178,7 @@ acf_add_local_field_group(
                     ),
                     array(
                         'key'               => 'field_typography_add_to_editor',
-                        'label'             => __( 'Add to editor ?', 'pilopress' ),
+                        'label'             => __( 'Add to editor menu?', 'pilopress' ),
                         'name'              => 'add_to_editor',
                         'type'              => 'true_false',
                         'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),
@@ -190,6 +216,27 @@ acf_add_local_field_group(
                 'acfe_permissions'  => '',
                 'placement'         => 'top',
                 'endpoint'          => 0,
+            ),
+
+            // Colors message
+            array(
+                'key'                        => 'field_font_color_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can define your site\'s colors in this tab.<br> Please see <a href="https://tailwindcss.com/docs/customizing-colors" target="_blank">TailwindCSS documentation</a> for more details (if you have enabled this module).', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
             ),
 
             // Override colors
@@ -336,7 +383,7 @@ acf_add_local_field_group(
                         'label'             => __( 'Value', 'pilopress' ),
                         'name'              => 'value',
                         'type'              => 'text',
-                        'instructions'      => '',
+                        'instructions'      => __( 'Hexadecimal or other', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
@@ -346,14 +393,14 @@ acf_add_local_field_group(
                         ),
                         'acfe_permissions'  => '',
                         'default_value'     => '',
-                        'placeholder'       => '',
+                        'placeholder'       => __( '#FF000 or currentColor ...', 'pilopress' ),
                         'prepend'           => '',
                         'append'            => '',
                         'maxlength'         => '',
                     ),
                     array(
                         'key'               => 'field_simple_color_add_to_editor',
-                        'label'             => __( 'Add to editor ?', 'pilopress' ),
+                        'label'             => __( 'Add to editor menu?', 'pilopress' ),
                         'name'              => 'add_to_editor',
                         'type'              => 'true_false',
                         'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),
@@ -499,7 +546,7 @@ acf_add_local_field_group(
                             ),
                             array(
                                 'key'               => 'field_shade_add_to_editor',
-                                'label'             => __( 'Add to editor ?', 'pilopress' ),
+                                'label'             => __( 'Add to editor menu?', 'pilopress' ),
                                 'name'              => 'add_to_editor',
                                 'type'              => 'true_false',
                                 'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),
@@ -522,7 +569,7 @@ acf_add_local_field_group(
                 ),
             ),
 
-            // Buttons
+            // Buttons Tab
             array(
                 'key'               => 'field_tab_button',
                 'label'             => __( 'Buttons', 'pilopress' ),
@@ -540,6 +587,29 @@ acf_add_local_field_group(
                 'placement'         => 'top',
                 'endpoint'          => 0,
             ),
+
+            // Buttons message
+            array(
+                'key'                        => 'field_button_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can define your site\'s buttons in this tab, with <i>hover</i>, <i>focus</i> and <i>active</i> states.<br> Please see <a href="https://tailwindcss.com/docs" target="_blank">TailwindCSS documentation</a> for more details (if you have enabled this module).', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
+            // Buttons
             array(
                 'key'                           => 'field_pip_button',
                 'label'                         => '',
@@ -623,7 +693,7 @@ acf_add_local_field_group(
                     ),
                     array(
                         'key'               => 'field_custom_button_add_to_editor',
-                        'label'             => __( 'Add to editor ?', 'pilopress' ),
+                        'label'             => __( 'Add to editor menu?', 'pilopress' ),
                         'name'              => 'add_to_editor',
                         'type'              => 'true_false',
                         'instructions'      => __( 'Needs TinyMCE Module', 'pilopress' ),
@@ -714,7 +784,7 @@ acf_add_local_field_group(
                 ),
             ),
 
-            // Breakpoints
+            // Breakpoints Tab
             array(
                 'key'               => 'field_tab_screens',
                 'label'             => __( 'Breakpoints', 'pilopress' ),
@@ -732,6 +802,29 @@ acf_add_local_field_group(
                 'placement'         => 'top',
                 'endpoint'          => 0,
             ),
+
+            // Breakpoints message
+            array(
+                'key'                        => 'field_screens_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can define your site\'s breakpoints in this tab.<br> Please see <a href="https://tailwindcss.com/docs/breakpoints" target="_blank">TailwindCSS documentation</a> for more details (if you have enabled this module).', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
+            // Breakpoints
             array(
                 'key'                           => 'field_pip_screens',
                 'label'                         => '',
@@ -796,7 +889,7 @@ acf_add_local_field_group(
                 ),
             ),
 
-            // Container
+            // Container Tab
             array(
                 'key'               => 'field_tab_container',
                 'label'             => __( 'Container', 'pilopress' ),
@@ -814,6 +907,29 @@ acf_add_local_field_group(
                 'placement'         => 'top',
                 'endpoint'          => 0,
             ),
+
+            // Container message
+            array(
+                'key'                        => 'field_container_message',
+                'label'                      => '',
+                'name'                       => '',
+                'type'                       => 'message',
+                'instructions'               => '',
+                'required'                   => 0,
+                'conditional_logic'          => 0,
+                'wrapper'                    => array(
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'acfe_save_meta'             => 0,
+                'message'                    => __( 'You can customize your site\'s container in this tab.<br> Please see <a href="https://tailwindcss.com/docs/container" target="_blank">TailwindCSS documentation</a> for more details (if you have enabled this module).', 'pilopress' ),
+                'new_lines'                  => 'wpautop',
+                'esc_html'                   => 0,
+                'acfe_field_group_condition' => 0,
+            ),
+
+            // Container
             array(
                 'key'                 => 'field_pip_container',
                 'label'               => '',

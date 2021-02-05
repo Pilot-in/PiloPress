@@ -142,6 +142,12 @@ function pip_enqueue() {
  */
 function pip_enqueue_admin() {
 
+    // Exception for ACF: Font Awesome plugin compatibility
+    $current_screen = get_current_screen();
+    if ( pip_maybe_get( $current_screen, 'base' ) === 'acf_page_fontawesome-settings' ) {
+        return;
+    }
+
     // Theme style
     $style_path = PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';
     $style_url  = PIP_THEME_ASSETS_URL . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css';

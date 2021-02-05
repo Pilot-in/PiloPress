@@ -321,8 +321,13 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // If AJAX, filters not needed
             if ( wp_doing_ajax() ) {
 
+                // PILO_TODO: Fix min and max validation
                 // Exception for attachments view in grid mode
-                if ( acf_maybe_get_POST( 'action' ) !== 'query-attachments' ) {
+                if (
+                    acf_maybe_get_POST( 'action' ) !== 'query-attachments'
+//                    && acf_maybe_get_POST( 'action' ) !== 'acfe/flexible/models'
+//                    && acf_maybe_get_POST( 'action' ) !== 'acf/validate_save_post'
+                ) {
                     return $field;
                 }
             }

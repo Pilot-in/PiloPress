@@ -210,6 +210,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
          * @return bool
          */
         public function location_match( $result, $rule, $screen ) {
+            global $current_screen;
 
             // Get post ID
             $post_id = acf_maybe_get( $screen, 'post_id' );
@@ -221,7 +222,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
             if ( $rule['value'] === 'all' ) {
                 // Allow "all" to match any value.
-                $match = true;
+                $match = $current_screen->post_type === 'pip-components';
 
             } else {
                 // Compare all other values.

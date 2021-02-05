@@ -564,35 +564,36 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                 )
             );
 
+            // PILO_TODO: Uncomment when min and max validation will be fixed
             // Layout min
-            acf_render_field_wrap(
-                array(
-                    'label'       => __( 'Min', 'pilopress' ),
-                    'type'        => 'number',
-                    'name'        => '_pip_layout_min',
-                    'prefix'      => 'acf_field_group',
-                    'placeholder' => '',
-                    'required'    => 0,
-                    'step'        => 1,
-                    'min'         => '0',
-                    'value'       => isset( $field_group['_pip_layout_min'] ) ? $field_group['_pip_layout_min'] : '',
-                )
-            );
+//            acf_render_field_wrap(
+//                array(
+//                    'label'       => __( 'Min', 'pilopress' ),
+//                    'type'        => 'number',
+//                    'name'        => '_pip_layout_min',
+//                    'prefix'      => 'acf_field_group',
+//                    'placeholder' => '',
+//                    'required'    => 0,
+//                    'step'        => 1,
+//                    'min'         => '0',
+//                    'value'       => isset( $field_group['_pip_layout_min'] ) ? $field_group['_pip_layout_min'] : '',
+//                )
+//            );
 
             // Layout max
-            acf_render_field_wrap(
-                array(
-                    'label'       => __( 'Max', 'pilopress' ),
-                    'type'        => 'number',
-                    'name'        => '_pip_layout_max',
-                    'prefix'      => 'acf_field_group',
-                    'placeholder' => '',
-                    'required'    => 0,
-                    'step'        => 1,
-                    'min'         => '0',
-                    'value'       => isset( $field_group['_pip_layout_max'] ) ? $field_group['_pip_layout_max'] : '',
-                )
-            );
+//            acf_render_field_wrap(
+//                array(
+//                    'label'       => __( 'Max', 'pilopress' ),
+//                    'type'        => 'number',
+//                    'name'        => '_pip_layout_max',
+//                    'prefix'      => 'acf_field_group',
+//                    'placeholder' => '',
+//                    'required'    => 0,
+//                    'step'        => 1,
+//                    'min'         => '0',
+//                    'value'       => isset( $field_group['_pip_layout_max'] ) ? $field_group['_pip_layout_max'] : '',
+//                )
+//            );
 
             // Script for admin style
             ?>
@@ -601,9 +602,9 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                     acf.postbox.render(
                         {
                             'id': 'pip_layout_settings',
-                            'label': 'left'
-                        }
-                    )
+                            'label': 'left',
+                        },
+                    );
                 }
             </script>
             <?php
@@ -643,9 +644,9 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                     acf.postbox.render(
                         {
                             'id': 'pip_layout_thumbnail',
-                            'label': 'top'
-                        }
-                    )
+                            'label': 'top',
+                        },
+                    );
                 }
             </script>
             <?php
