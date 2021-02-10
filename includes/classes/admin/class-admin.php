@@ -47,6 +47,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // If Pilo'Press admin page, set variable to true
             if (
                 acf_maybe_get_GET( 'layouts' ) === '1' ||
+                acf_maybe_get_GET( 'layout' ) === '1' ||
                 $pip_layouts->is_layout( get_post( acf_maybe_get_GET( 'post' ) ) ) ||
                 (int) acf_maybe_get_GET( 'post' ) === $flexible_mirror_id ||
                 acf_maybe_get_GET( 'taxonomy' ) === $pip_layouts_categories->taxonomy_name ||
