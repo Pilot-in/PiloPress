@@ -46,7 +46,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
             $layouts = $data['layouts'];
 
             // Field
-            $field   = array(
+            $field = array(
                 'key'               => 'field_' . $this->get_flexible_footer_field_name(),
                 'label'             => __( 'Footer', 'pilopress' ),
                 'name'              => $this->get_flexible_footer_field_name(),
@@ -196,12 +196,13 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
 
                 // Sanitize name
                 $field_group_name = sanitize_title( $field_group['title'] );
+                $field_group_slug = sanitize_title( $field_group['_pip_layout_slug'] );
 
                 // Browse all layouts
                 foreach ( $layouts as $key => $layout ) {
 
                     // If field group not in layouts, skip
-                    if ( $layout['name'] !== $field_group_name ) {
+                    if ( $layout['name'] !== $field_group_name && $layout['name'] !== $field_group_slug ) {
                         continue;
                     }
 
