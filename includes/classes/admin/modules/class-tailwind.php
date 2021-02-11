@@ -104,9 +104,6 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 // Components import
                 $tailwind_css .= '@import "tailwindcss/components";' . "\n";
 
-                // After components CSS
-                $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
-
                 // Body classes
                 $tailwind_css .= $this->get_body_css() . "\n";
 
@@ -115,6 +112,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
                 // Buttons
                 $tailwind_css .= $this->get_buttons_css() . "\n";
+
+                // After components CSS
+                $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
 
                 // Custom CSS
                 $tailwind_css .= apply_filters( 'pip/tailwind/css/after_components', '' );
