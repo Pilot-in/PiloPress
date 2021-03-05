@@ -421,10 +421,10 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                 ),
             ),
 
-            // Colors variants
+            // Colors with shades
             array(
                 'key'                           => 'field_pip_colors_shades',
-                'label'                         => __( 'Colors variants', 'pilopress' ),
+                'label'                         => __( 'Colors with shades', 'pilopress' ),
                 'name'                          => 'pip_colors_shades',
                 'type'                          => 'repeater',
                 'instructions'                  => '',
@@ -441,7 +441,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                 'min'                           => 0,
                 'max'                           => 0,
                 'layout'                        => 'table',
-                'button_label'                  => __( 'Add color variant', 'pilopress' ),
+                'button_label'                  => __( 'Add color with shades', 'pilopress' ),
                 'sub_fields'                    => array(
                     array(
                         'key'               => 'field_colors_shades_color_name',
@@ -465,7 +465,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                     ),
                     array(
                         'key'                           => 'field_colors_shades_shades',
-                        'label'                         => __( 'Variants', 'pilopress' ),
+                        'label'                         => __( 'Shades', 'pilopress' ),
                         'name'                          => 'shades',
                         'type'                          => 'repeater',
                         'instructions'                  => '',
@@ -482,7 +482,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'min'                           => 0,
                         'max'                           => 0,
                         'layout'                        => 'table',
-                        'button_label'                  => __( 'Add variant', 'pilopress' ),
+                        'button_label'                  => __( 'Add shade', 'pilopress' ),
                         'sub_fields'                    => array(
                             array(
                                 'key'               => 'field_shade_label',
@@ -506,7 +506,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                             ),
                             array(
                                 'key'               => 'field_shade_name',
-                                'label'             => __( 'Variant name', 'pilopress' ),
+                                'label'             => __( 'Shade name', 'pilopress' ),
                                 'name'              => 'shade_name',
                                 'type'              => 'text',
                                 'instructions'      => __( '<code>500</code> in <code>text-gray-500</code>', 'pilopress' ),
@@ -675,7 +675,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'key'               => 'field_custom_button_classes',
                         'label'             => __( 'Class(es) to apply', 'pilopress' ),
                         'name'              => 'classes_to_apply',
-                        'type'              => 'textarea',
+                        'type'              => 'text',
                         'instructions'      => '',
                         'required'          => 0,
                         'conditional_logic' => 0,
@@ -690,7 +690,6 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'prepend'           => '',
                         'append'            => '',
                         'maxlength'         => '',
-                        'rows'              =>  4
                     ),
                     array(
                         'key'               => 'field_custom_button_add_to_editor',
