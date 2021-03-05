@@ -675,7 +675,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'key'               => 'field_custom_button_classes',
                         'label'             => __( 'Class(es) to apply', 'pilopress' ),
                         'name'              => 'classes_to_apply',
-                        'type'              => 'text',
+                        'type'              => 'textarea',
                         'instructions'      => '',
                         'required'          => 0,
                         'conditional_logic' => 0,
@@ -690,6 +690,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'prepend'           => '',
                         'append'            => '',
                         'maxlength'         => '',
+                        'rows'              =>  4
                     ),
                     array(
                         'key'               => 'field_custom_button_add_to_editor',
