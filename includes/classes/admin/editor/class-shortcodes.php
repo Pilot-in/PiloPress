@@ -62,10 +62,10 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                 if ( $attrs['icon'] ) {
                     switch ( $attrs['icon-position'] ) {
                         case 'left':
-                            $html = do_shortcode( sprintf( '<div class="%s"><i class="' . $attrs['icon'] . '"></i><a href="%s" class="%s"%s>%s</a></div>', esc_attr( $attrs['alignment'] ), esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                            $html = do_shortcode( sprintf( '<div class="%s"><a href="%s" class="%s"%s><i class="' . $attrs['icon'] . '"></i>%s</a></div>', esc_attr( $attrs['alignment'] ), esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
                             break;
                         case 'right':
-                            $html = do_shortcode( sprintf( '<div class="%s"><a href="%s" class="%s"%s>%s</a><i class="' . $attrs['icon'] . '"></i></div>', esc_attr( $attrs['alignment'] ), esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                            $html = do_shortcode( sprintf( '<div class="%s"><a href="%s" class="%s"%s>%s<i class="' . $attrs['icon'] . '"></i></a></div>', esc_attr( $attrs['alignment'] ), esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
                             break;
                     }
                 } else {
@@ -77,10 +77,10 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                 if ( $attrs['icon'] ) {
                     switch ( $attrs['icon-position'] ) {
                         case 'left':
-                            $html = do_shortcode( sprintf( '<i class="' . $attrs['icon'] . '"></i><a href="%s" class="%s"%s>%s</a>', esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                            $html = do_shortcode( sprintf( '<a href="%s" class="%s"%s><i class="' . $attrs['icon'] . '"></i>%s</a>', esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
                             break;
                         case 'right':
-                            $html = do_shortcode( sprintf( '<a href="%s" class="%s"%s>%s</a><i class="' . $attrs['icon'] . '"></i>', esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                            $html = do_shortcode( sprintf( '<a href="%s" class="%s"%s>%s<i class="' . $attrs['icon'] . '"></i></a>', esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
                             break;
                     }
                 } else {
