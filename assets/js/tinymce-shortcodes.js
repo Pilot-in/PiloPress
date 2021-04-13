@@ -1,19 +1,19 @@
 (
-    function ( $ ) {
+    function ($) {
 
         // Check if "acf" is available
-        if ( typeof acf === 'undefined' ) {
+        if (typeof acf === 'undefined') {
             return
         }
 
-        var buttons            = acf.get( 'custom_buttons' )
+        var buttons = acf.get('custom_buttons')
         var get_custom_buttons = function () {
             return $.map(
                 buttons,
-                function ( button, key ) {
+                function (button, key) {
 
                     // Skip if not add to editor
-                    if ( button.add_to_editor === false ) {
+                    if (button.add_to_editor === false) {
                         return
                     }
 
@@ -23,9 +23,10 @@
         }
 
         // Wait for TinyMCE to be ready
-        $( document ).on(
+        $(document).on(
             'tinymce-editor-setup',
-            function ( event, editor ) {
+            function (event, editor) {
+
                 // Button shortcode
                 var pip_button = {
                     text: 'Button',
@@ -76,29 +77,44 @@
                             value: '#',
                         },
                         {
+                            label: 'Icone',
+                            name: 'icon',
+                            type: 'textbox',
+                            value: '',
+                        },
+                        {
+                            label: 'Position de l\'icone',
+                            name: 'icon-position',
+                            type: 'listbox',
+                            values: [
+                                { text: 'Left', value: 'left' },
+                                { text: 'Right', value: 'right' },
+                            ],
+                        },
+                        {
                             label: 'Button group',
                             name: 'nodiv',
                             type: 'checkbox',
                         },
                     ],
-                    onclick: function ( event ) {
+                    onclick: function (event) {
                         var attributes = event.control.settings
 
                         // If no tag, return
-                        if ( _.isUndefined( attributes.tag ) ) {
+                        if (_.isUndefined(attributes.tag)) {
                             return
                         }
 
                         // Get attributes
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode'
+                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function ( event ) {
-                                    editor.insertContent( build_shortcode( event, attributes ) )
+                                onsubmit: function (event) {
+                                    editor.insertContent(build_shortcode(event, attributes))
                                 },
                             }
                         )
@@ -111,7 +127,7 @@
                     tag: 'pip_breadcrumb',
                     name: 'Add breadcrumb',
                     onclick: function () {
-                        editor.insertContent( '[pip_breadcrumb]' )
+                        editor.insertContent('[pip_breadcrumb]')
                     }
                 }
 
@@ -121,7 +137,7 @@
                     tag: 'pip_title',
                     name: 'Add title',
                     onclick: function () {
-                        editor.insertContent( '[pip_title]' )
+                        editor.insertContent('[pip_title]')
                     }
                 }
 
@@ -144,18 +160,18 @@
                             value: '',
                         },
                     ],
-                    onclick: function ( event ) {
+                    onclick: function (event) {
                         // Get attributes
-                        var attributes   = event.control.settings
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode'
+                        var attributes = event.control.settings
+                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function ( event ) {
-                                    editor.insertContent( build_shortcode( event, attributes ) )
+                                onsubmit: function (event) {
+                                    editor.insertContent(build_shortcode(event, attributes))
                                 },
                             }
                         )
@@ -180,18 +196,18 @@
                             ],
                         },
                     ],
-                    onclick: function ( event ) {
+                    onclick: function (event) {
                         // Get attributes
-                        var attributes   = event.control.settings
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode'
+                        var attributes = event.control.settings
+                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function ( event ) {
-                                    editor.insertContent( build_shortcode( event, attributes ) )
+                                onsubmit: function (event) {
+                                    editor.insertContent(build_shortcode(event, attributes))
                                 },
                             }
                         )
@@ -211,18 +227,18 @@
                             value: '',
                         },
                     ],
-                    onclick: function ( event ) {
+                    onclick: function (event) {
                         // Get attributes
-                        var attributes   = event.control.settings
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode'
+                        var attributes = event.control.settings
+                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function ( event ) {
-                                    editor.insertContent( build_shortcode( event, attributes ) )
+                                onsubmit: function (event) {
+                                    editor.insertContent(build_shortcode(event, attributes))
                                 },
                             }
                         )
@@ -259,18 +275,18 @@
                             ],
                         },
                     ],
-                    onclick: function ( event ) {
+                    onclick: function (event) {
                         // Get attributes
-                        var attributes   = event.control.settings
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode'
+                        var attributes = event.control.settings
+                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function ( event ) {
-                                    editor.insertContent( build_btn_group_shortcode( event, attributes ) )
+                                onsubmit: function (event) {
+                                    editor.insertContent(build_btn_group_shortcode(event, attributes))
                                 },
                             }
                         )
@@ -289,7 +305,7 @@
                 ]
 
                 // Add filter to allow 3rd party to add their own shortcodes
-                pip_shortcodes_menu_items = acf.applyFilters( 'pip/tinymce/shortcodes', pip_shortcodes_menu_items, event, editor )
+                pip_shortcodes_menu_items = acf.applyFilters('pip/tinymce/shortcodes', pip_shortcodes_menu_items, event, editor)
 
                 editor.addButton(
                     'pip_shortcodes',
@@ -311,54 +327,54 @@
 
                         initialize: function () {
                             // Get attributes
-                            var button       = get_button_attributes( this.text )
+                            var button = get_button_attributes(this.text)
                             var btn_disabled = ''
 
                             // Build button class
                             var btn_class = ''
-                            if ( button.type ) {
+                            if (button.type) {
                                 btn_class += button.type
                             }
-                            if ( button.xclass ) {
+                            if (button.xclass) {
                                 btn_class += ' ' + button.xclass
                             }
 
                             // Build button
                             var html = ''
-                            if ( button.text ) {
-                                if ( !button.nodiv ) {
+                            if (button.text) {
+                                if (!button.nodiv) {
                                     html = '<div class="' + button.alignment + '">'
                                 }
-                                html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape( btn_class ) + '" ' + btn_disabled + '>' + _.escape( button.text ) + '</a>'
-                                if ( !button.nodiv ) {
+                                html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape(btn_class) + '" ' + btn_disabled + '>' + _.escape(button.text) + '</a>'
+                                if (!button.nodiv) {
                                     html += '</div>'
                                 }
                             }
 
                             // Render button
-                            this.render( html )
+                            this.render(html)
                         },
 
-                        edit: function ( text, update ) {
+                        edit: function (text, update) {
                             // Get current button values from shortcode text
-                            var button = get_button_attributes( text )
+                            var button = get_button_attributes(text)
 
                             // Update body to show current values
                             $.each(
                                 button,
-                                function ( button_key, button_value ) {
+                                function (button_key, button_value) {
                                     // If undefined, skip
-                                    if ( _.isUndefined( button_value ) ) {
+                                    if (_.isUndefined(button_value)) {
                                         return true
                                     }
 
                                     // Update value
                                     $.each(
                                         pip_button.body,
-                                        function ( key, item ) {
-                                            if ( item.name === button_key ) {
-                                                if ( item.type === 'checkbox' ) {
-                                                    if ( button_value !== 'true' ) {
+                                        function (key, item) {
+                                            if (item.name === button_key) {
+                                                if (item.type === 'checkbox') {
+                                                    if (button_value !== 'true') {
                                                         button_value = ''
                                                     }
                                                     item.checked = button_value
@@ -377,8 +393,8 @@
                                 {
                                     title: 'Edit button',
                                     body: pip_button.body,
-                                    onsubmit: function ( event ) {
-                                        update( build_shortcode( event, pip_button ) )
+                                    onsubmit: function (event) {
+                                        update(build_shortcode(event, pip_button))
                                     },
                                 }
                             )
@@ -387,14 +403,15 @@
                     }
                 )
 
+
                 // Register breadcrumb view
                 window.wp.mce.views.register(
                     'pip_breadcrumb',
                     {
                         initialize: function () {
-                            this.render( 'You > Are > Here' )
+                            this.render('You > Are > Here')
                         },
-                        edit: function ( text, update ) {
+                        edit: function (text, update) {
                             editor.windowManager.open(
                                 {
                                     title: 'Breadcrumb',
@@ -418,22 +435,22 @@
 
                         initialize: function () {
                             // Get ACF field value
-                            var field_name = getAttr( this.text, 'field' )
-                            var post_id    = getAttr( this.text, 'post_id' )
+                            var field_name = getAttr(this.text, 'field')
+                            var post_id = getAttr(this.text, 'post_id')
 
                             // Render button
-                            this.render( 'Field "' + field_name + '" in post ' + post_id )
+                            this.render('Field "' + field_name + '" in post ' + post_id)
                         },
 
-                        edit: function ( text, update ) {
+                        edit: function (text, update) {
                             // Get current ACF field name from shortcode text
-                            var field_name = getAttr( this.text, 'field' )
+                            var field_name = getAttr(this.text, 'field')
 
                             // Update value
                             $.each(
                                 pip_field.body,
-                                function ( key, item ) {
-                                    if ( item.name === 'field' ) {
+                                function (key, item) {
+                                    if (item.name === 'field') {
                                         item.value = field_name
                                     }
                                 }
@@ -444,8 +461,8 @@
                                 {
                                     title: 'Edit field',
                                     body: pip_field.body,
-                                    onsubmit: function ( event ) {
-                                        update( build_shortcode( event, pip_field ) )
+                                    onsubmit: function (event) {
+                                        update(build_shortcode(event, pip_field))
                                     },
                                 }
                             )
@@ -461,11 +478,11 @@
 
                         initialize: function () {
                             // Get size
-                            var size       = getAttr( this.text, 'size' )
-                            var image_size = acf.get( 'image_sizes' )[size]
+                            var size = getAttr(this.text, 'size')
+                            var image_size = acf.get('image_sizes')[size]
 
                             // Custom style
-                            var p_css   = 'vertical-align: middle;'
+                            var p_css = 'vertical-align: middle;'
                             var div_css = 'width: ' + image_size.width + 'px;'
 
                             div_css += 'height: ' + image_size.height + 'px;'
@@ -475,18 +492,18 @@
                             div_css += 'border: 1px solid #000;'
 
                             // Render button
-                            this.render( '<div style="' + div_css + '"><p style="' + p_css + '">' + image_size.width + ' x ' + image_size.height + '</p></div>' )
+                            this.render('<div style="' + div_css + '"><p style="' + p_css + '">' + image_size.width + ' x ' + image_size.height + '</p></div>')
                         },
 
-                        edit: function ( text, update ) {
+                        edit: function (text, update) {
                             // Get current size from shortcode text
-                            var size = getAttr( this.text, 'size' )
+                            var size = getAttr(this.text, 'size')
 
                             // Update value
                             $.each(
                                 pip_thumbnail.body,
-                                function ( key, item ) {
-                                    if ( item.name === 'size' ) {
+                                function (key, item) {
+                                    if (item.name === 'size') {
                                         item.value = size
                                     }
                                 }
@@ -497,8 +514,8 @@
                                 {
                                     title: 'Edit thumbnail',
                                     body: pip_thumbnail.body,
-                                    onsubmit: function ( event ) {
-                                        update( build_shortcode( event, pip_thumbnail ) )
+                                    onsubmit: function (event) {
+                                        update(build_shortcode(event, pip_thumbnail))
                                     },
                                 }
                             )
@@ -514,21 +531,21 @@
 
                         initialize: function () {
                             // Get size
-                            var spacer = getAttr( this.text, 'spacer' )
+                            var spacer = getAttr(this.text, 'spacer')
 
                             // Render button
-                            this.render( '<div class="' + spacer + ' text-center"><span> - spacer (' + spacer + ') - </span></div>' )
+                            this.render('<div class="' + spacer + ' text-center"><span> - spacer (' + spacer + ') - </span></div>')
                         },
 
-                        edit: function ( text, update ) {
+                        edit: function (text, update) {
                             // Get current spacer from shortcode text
-                            var spacer = getAttr( this.text, 'spacer' )
+                            var spacer = getAttr(this.text, 'spacer')
 
                             // Update value
                             $.each(
                                 pip_spacer.body,
-                                function ( key, item ) {
-                                    if ( item.name === 'spacer' ) {
+                                function (key, item) {
+                                    if (item.name === 'spacer') {
                                         item.value = spacer
                                     }
                                 }
@@ -539,8 +556,8 @@
                                 {
                                     title: 'Edit spacer',
                                     body: pip_spacer.body,
-                                    onsubmit: function ( event ) {
-                                        update( build_shortcode( event, pip_spacer ) )
+                                    onsubmit: function (event) {
+                                        update(build_shortcode(event, pip_spacer))
                                     },
                                 }
                             )
@@ -559,16 +576,18 @@
          *
          * @returns {{}}
          */
-        var get_button_attributes = function ( item ) {
+        var get_button_attributes = function (item) {
             var button = {}
 
-            button.text      = getAttr( item, 'text' )
-            button.type      = getAttr( item, 'type' )
-            button.alignment = getAttr( item, 'alignment' )
-            button.xclass    = getAttr( item, 'xclass' )
-            button.link      = getAttr( item, 'link' )
-            button.target    = getAttr( item, 'target' )
-            button.nodiv     = getAttr( item, 'nodiv' )
+            button.text = getAttr(item, 'text')
+            button.type = getAttr(item, 'type')
+            button.alignment = getAttr(item, 'alignment')
+            button.xclass = getAttr(item, 'xclass')
+            button.link = getAttr(item, 'link')
+            button.target = getAttr(item, 'target')
+            button.icon = getAttr(item, 'icon')
+            button.icon_position = getAttr(item, 'icon-position')
+            button.nodiv = getAttr(item, 'nodiv')
 
             return button
         }
@@ -581,15 +600,15 @@
          * @param attributes
          * @returns {string}
          */
-        var build_shortcode = function ( event, attributes ) {
+        var build_shortcode = function (event, attributes) {
             // Open shortcode
             var out = '[' + attributes.tag
 
             // Add attributes to shortcode
             $.each(
                 event.data,
-                function ( key, value ) {
-                    if ( value === false ) {
+                function (key, value) {
+                    if (value === false) {
                         value = ''
                     }
                     out += ' ' + key + '="' + value + '"'
@@ -610,7 +629,7 @@
          * @param attributes
          * @returns {string}
          */
-        var build_btn_group_shortcode = function ( event, attributes ) {
+        var build_btn_group_shortcode = function (event, attributes) {
             var i
             var nb_buttons = 0
 
@@ -620,12 +639,12 @@
             // Add attributes to shortcode
             $.each(
                 event.data,
-                function ( key, value ) {
-                    if ( value === false ) {
+                function (key, value) {
+                    if (value === false) {
                         value = ''
                     }
-                    if ( key === 'number' ) {
-                        nb_buttons = parseInt( value )
+                    if (key === 'number') {
+                        nb_buttons = parseInt(value)
                         return
                     }
                     out += ' ' + key + '="' + value + '"'
@@ -634,7 +653,7 @@
             out += ']'
 
             // Add buttons with default values
-            for ( i = 0; i < nb_buttons; i ++ ) {
+            for (i = 0; i < nb_buttons; i++) {
                 out += '[' + attributes.inside + ' text="Button" type="" alignment="text-left" target="_self" xclass="mr-2" nodiv="true"]'
             }
 
@@ -652,10 +671,10 @@
          * @param name
          * @returns {string}
          */
-        var getAttr = function ( str, name ) {
-            name = new RegExp( name + '=\"([^\"]+)\"' ).exec( str )
-            return name ? window.decodeURIComponent( name[1] ) : ''
+        var getAttr = function (str, name) {
+            name = new RegExp(name + '=\"([^\"]+)\"').exec(str)
+            return name ? window.decodeURIComponent(name[1]) : ''
         }
 
     }
-)( jQuery )
+)(jQuery)

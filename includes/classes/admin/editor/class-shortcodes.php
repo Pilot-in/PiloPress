@@ -38,27 +38,54 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             // Parse attributes
             $attrs = shortcode_atts(
                 array(
-                    'text'      => false,
-                    'type'      => false,
-                    'alignment' => false,
-                    'target'    => false,
-                    'xclass'    => false,
-                    'link'      => '',
-                    'nodiv'     => false,
+                    'text'          => false,
+                    'type'          => false,
+                    'alignment'     => false,
+                    'target'        => false,
+                    'xclass'        => false,
+                    'link'          => '',
+                    'nodiv'         => false,
+                    'icon'          => false,
+                    'icon-position' => false,
                 ),
                 $attrs,
                 'pip_button'
             );
 
             // Build class
-            $class = '';
+            $class  = '';
             $class .= ( $attrs['type'] ) ? $attrs['type'] : '';
             $class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
             if ( !$attrs['nodiv'] ) {
-                $html = do_shortcode( sprintf( '<div class="%s"><a href="%s" class="%s"%s>%s</a></div>', esc_attr( $attrs['alignment'] ), esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                // Has Icon
+                if ( $attrs['icon'] ) {
+                    switch ( $attrs['icon-position'] ) {
+                        case 'left':
+                            $html = do_shortcode( sprintf( '<div class="%s"><i class="' . $attrs['icon'] . '"></i><a href="%s" class="%s"%s>%s</a></div>', esc_attr( $attrs['alignment'] ), esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                            break;
+                        case 'right':
+                            $html = do_shortcode( sprintf( '<div class="%s"><a href="%s" class="%s"%s>%s</a><i class="' . $attrs['icon'] . '"></i></div>', esc_attr( $attrs['alignment'] ), esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                            break;
+                    }
+                } else {
+                    $html = do_shortcode( sprintf( '<div class="%s"><a href="%s" class="%s"%s>%s</a></div>', esc_attr( $attrs['alignment'] ), esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                }
             } else {
-                $html = do_shortcode( sprintf( '<a href="%s" class="%s"%s>%s</a>', esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+
+                // Has Icon
+                if ( $attrs['icon'] ) {
+                    switch ( $attrs['icon-position'] ) {
+                        case 'left':
+                            $html = do_shortcode( sprintf( '<i class="' . $attrs['icon'] . '"></i><a href="%s" class="%s"%s>%s</a>', esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                            break;
+                        case 'right':
+                            $html = do_shortcode( sprintf( '<a href="%s" class="%s"%s>%s</a><i class="' . $attrs['icon'] . '"></i>', esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                            break;
+                    }
+                } else {
+                    $html = do_shortcode( sprintf( '<a href="%s" class="%s"%s>%s</a>', esc_url( $attrs['link'] ), esc_attr( trim( $class ) ), ( $attrs['target'] ) ? sprintf( ' target="%s"', esc_attr( $attrs['target'] ) ) : '', ( $attrs['text'] ) ? esc_attr( $attrs['text'] ) : '' ) );
+                }
             }
 
             // Render shortcode
