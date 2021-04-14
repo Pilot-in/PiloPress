@@ -1,31 +1,31 @@
 (
-    function ($) {
+    function ( $ ) {
 
         // Check if "acf" is available
-        if (typeof acf === 'undefined') {
-            return
+        if ( typeof acf === 'undefined' ) {
+            return;
         }
 
-        var buttons = acf.get('custom_buttons')
+        var buttons            = acf.get( 'custom_buttons' );
         var get_custom_buttons = function () {
             return $.map(
                 buttons,
-                function (button, key) {
+                function ( button, key ) {
 
                     // Skip if not add to editor
-                    if (button.add_to_editor === false) {
-                        return
+                    if ( button.add_to_editor === false ) {
+                        return;
                     }
 
-                    return { text: button.name, value: button.class_name }
-                }
-            )
-        }
+                    return { text: button.name, value: button.class_name };
+                },
+            );
+        };
 
         // Wait for TinyMCE to be ready
-        $(document).on(
+        $( document ).on(
             'tinymce-editor-setup',
-            function (event, editor) {
+            function ( event, editor ) {
 
                 // Button shortcode
                 var pip_button = {
@@ -77,14 +77,14 @@
                             value: '#',
                         },
                         {
-                            label: 'Icone',
+                            label: 'Icon',
                             name: 'icon',
                             type: 'textbox',
                             value: '',
                         },
                         {
-                            label: 'Position de l\'icone',
-                            name: 'icon-position',
+                            label: 'Icon position',
+                            name: 'icon_position',
                             type: 'listbox',
                             values: [
                                 { text: 'Left', value: 'left' },
@@ -97,29 +97,29 @@
                             type: 'checkbox',
                         },
                     ],
-                    onclick: function (event) {
-                        var attributes = event.control.settings
+                    onclick: function ( event ) {
+                        var attributes = event.control.settings;
 
                         // If no tag, return
-                        if (_.isUndefined(attributes.tag)) {
-                            return
+                        if ( _.isUndefined( attributes.tag ) ) {
+                            return;
                         }
 
                         // Get attributes
-                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
+                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function (event) {
-                                    editor.insertContent(build_shortcode(event, attributes))
+                                onsubmit: function ( event ) {
+                                    editor.insertContent( build_shortcode( event, attributes ) );
                                 },
-                            }
-                        )
+                            },
+                        );
                     },
-                }
+                };
 
                 // Breadcrumb shortcode
                 var pip_breadcrumb = {
@@ -127,9 +127,9 @@
                     tag: 'pip_breadcrumb',
                     name: 'Add breadcrumb',
                     onclick: function () {
-                        editor.insertContent('[pip_breadcrumb]')
-                    }
-                }
+                        editor.insertContent( '[pip_breadcrumb]' );
+                    },
+                };
 
                 // Title shortcode
                 var pip_title = {
@@ -137,9 +137,9 @@
                     tag: 'pip_title',
                     name: 'Add title',
                     onclick: function () {
-                        editor.insertContent('[pip_title]')
-                    }
-                }
+                        editor.insertContent( '[pip_title]' );
+                    },
+                };
 
                 // ACF Field shortcode
                 var pip_field = {
@@ -160,23 +160,23 @@
                             value: '',
                         },
                     ],
-                    onclick: function (event) {
+                    onclick: function ( event ) {
                         // Get attributes
-                        var attributes = event.control.settings
-                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
+                        var attributes   = event.control.settings;
+                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function (event) {
-                                    editor.insertContent(build_shortcode(event, attributes))
+                                onsubmit: function ( event ) {
+                                    editor.insertContent( build_shortcode( event, attributes ) );
                                 },
-                            }
-                        )
-                    }
-                }
+                            },
+                        );
+                    },
+                };
 
                 // Thumbnail shortcode
                 var pip_thumbnail = {
@@ -196,23 +196,23 @@
                             ],
                         },
                     ],
-                    onclick: function (event) {
+                    onclick: function ( event ) {
                         // Get attributes
-                        var attributes = event.control.settings
-                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
+                        var attributes   = event.control.settings;
+                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function (event) {
-                                    editor.insertContent(build_shortcode(event, attributes))
+                                onsubmit: function ( event ) {
+                                    editor.insertContent( build_shortcode( event, attributes ) );
                                 },
-                            }
-                        )
-                    }
-                }
+                            },
+                        );
+                    },
+                };
 
                 // Spacer shortcode
                 var pip_spacer = {
@@ -227,23 +227,23 @@
                             value: '',
                         },
                     ],
-                    onclick: function (event) {
+                    onclick: function ( event ) {
                         // Get attributes
-                        var attributes = event.control.settings
-                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
+                        var attributes   = event.control.settings;
+                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function (event) {
-                                    editor.insertContent(build_shortcode(event, attributes))
+                                onsubmit: function ( event ) {
+                                    editor.insertContent( build_shortcode( event, attributes ) );
                                 },
-                            }
-                        )
-                    }
-                }
+                            },
+                        );
+                    },
+                };
 
                 // Button group shortcode
                 var pip_button_group = {
@@ -275,23 +275,23 @@
                             ],
                         },
                     ],
-                    onclick: function (event) {
+                    onclick: function ( event ) {
                         // Get attributes
-                        var attributes = event.control.settings
-                        var window_title = !_.isUndefined(attributes.name) ? attributes.name : 'Add shortcode'
+                        var attributes   = event.control.settings;
+                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
                             {
                                 title: window_title,
                                 body: attributes.body,
-                                onsubmit: function (event) {
-                                    editor.insertContent(build_btn_group_shortcode(event, attributes))
+                                onsubmit: function ( event ) {
+                                    editor.insertContent( build_btn_group_shortcode( event, attributes ) );
                                 },
-                            }
-                        )
-                    }
-                }
+                            },
+                        );
+                    },
+                };
 
                 // Add shortcode menu list
                 var pip_shortcodes_menu_items = [
@@ -301,11 +301,11 @@
                     pip_button_group,
                     pip_spacer,
                     pip_title,
-                    pip_thumbnail
-                ]
+                    pip_thumbnail,
+                ];
 
                 // Add filter to allow 3rd party to add their own shortcodes
-                pip_shortcodes_menu_items = acf.applyFilters('pip/tinymce/shortcodes', pip_shortcodes_menu_items, event, editor)
+                pip_shortcodes_menu_items = acf.applyFilters( 'pip/tinymce/shortcodes', pip_shortcodes_menu_items, event, editor );
 
                 editor.addButton(
                     'pip_shortcodes',
@@ -316,9 +316,9 @@
                             tooltip: 'Shortcodes',
                             menu: pip_shortcodes_menu_items,
                             fixedWidth: true,
-                        }
-                    }
-                )
+                        };
+                    },
+                );
 
                 // Register button view
                 window.wp.mce.views.register(
@@ -327,81 +327,94 @@
 
                         initialize: function () {
                             // Get attributes
-                            var button = get_button_attributes(this.text)
-                            var btn_disabled = ''
+                            var button       = get_button_attributes( this.text );
+                            var btn_disabled = '';
 
                             // Build button class
-                            var btn_class = ''
-                            if (button.type) {
-                                btn_class += button.type
+                            var btn_class = '';
+                            if ( button.type ) {
+                                btn_class += button.type;
                             }
-                            if (button.xclass) {
-                                btn_class += ' ' + button.xclass
+                            if ( button.xclass ) {
+                                btn_class += ' ' + button.xclass;
                             }
 
                             // Build button
-                            var html = ''
-                            if (button.text) {
-                                if (!button.nodiv) {
-                                    html = '<div class="' + button.alignment + '">'
+                            var html = '';
+                            if ( button.text ) {
+                                if ( !button.nodiv ) {
+                                    html = '<div class="' + button.alignment + '">';
                                 }
-                                html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape(btn_class) + '" ' + btn_disabled + '>' + _.escape(button.text) + '</a>'
-                                if (!button.nodiv) {
-                                    html += '</div>'
+                                html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape( btn_class ) + '" ' + btn_disabled + '>';
+
+                                if ( button.icon ) {
+
+                                    if ( button.icon_position === 'left' ) {
+                                        html += '<i class="' + button.icon + ' mr-2"></i>' + _.escape( button.text ) + '</a>';
+                                    } else if ( button.icon_position === 'right' ) {
+                                        html += _.escape( button.text ) + '<i class="' + button.icon + ' ml-2"></i></a>';
+                                    }
+
+                                } else {
+                                    html += _.escape( button.text ) + '</a>';
+                                }
+
+                                if ( !button.nodiv ) {
+                                    html += '</div>';
                                 }
                             }
 
                             // Render button
-                            this.render(html)
+                            this.render( html );
                         },
 
-                        edit: function (text, update) {
+                        edit: function ( text, update ) {
                             // Get current button values from shortcode text
-                            var button = get_button_attributes(text)
+                            var button = get_button_attributes( text );
 
                             // Update body to show current values
                             $.each(
                                 button,
-                                function (button_key, button_value) {
+                                function ( button_key, button_value ) {
                                     // If undefined, skip
-                                    if (_.isUndefined(button_value)) {
-                                        return true
+                                    if ( _.isUndefined( button_value ) ) {
+                                        return true;
                                     }
 
                                     // Update value
                                     $.each(
                                         pip_button.body,
-                                        function (key, item) {
-                                            if (item.name === button_key) {
-                                                if (item.type === 'checkbox') {
-                                                    if (button_value !== 'true') {
-                                                        button_value = ''
+                                        function ( key, item ) {
+                                            if ( item.name === button_key ) {
+                                                if ( item.type === 'checkbox' ) {
+                                                    if ( button_value !== 'true' ) {
+                                                        button_value = '';
                                                     }
-                                                    item.checked = button_value
+                                                    item.checked = button_value;
                                                 } else {
-                                                    item.value = button_value
+                                                    item.value = button_value;
                                                 }
                                             }
-                                        }
-                                    )
+                                        },
+                                    );
 
-                                }
-                            )
+                                },
+                            );
 
                             // Modal
                             editor.windowManager.open(
                                 {
                                     title: 'Edit button',
                                     body: pip_button.body,
-                                    onsubmit: function (event) {
-                                        update(build_shortcode(event, pip_button))
+                                    onsubmit: function ( event ) {
+                                        update( build_shortcode( event, pip_button ) );
                                     },
-                                }
-                            )
+                                },
+                            );
                         },
 
-                    }
-                )
+                    },
+                );
 
 
                 // Register breadcrumb view
@@ -409,9 +422,9 @@
                     'pip_breadcrumb',
                     {
                         initialize: function () {
-                            this.render('You > Are > Here')
+                            this.render( 'You > Are > Here' );
                         },
-                        edit: function (text, update) {
+                        edit: function ( text, update ) {
                             editor.windowManager.open(
                                 {
                                     title: 'Breadcrumb',
@@ -419,14 +432,14 @@
                                         {
                                             name: 'Breadcrumb',
                                             type: 'container',
-                                            html: '<p>Breadcrumb is auto-generated by Yoast SEO.</p><p>Modify Yoast SEO configurations to change breadcrumb display.</p>'
-                                        }
+                                            html: '<p>Breadcrumb is auto-generated by Yoast SEO.</p><p>Modify Yoast SEO configurations to change breadcrumb display.</p>',
+                                        },
                                     ],
-                                }
-                            )
-                        }
-                    }
-                )
+                                },
+                            );
+                        },
+                    },
+                );
 
                 // Register ACF field view
                 window.wp.mce.views.register(
@@ -435,41 +448,41 @@
 
                         initialize: function () {
                             // Get ACF field value
-                            var field_name = getAttr(this.text, 'field')
-                            var post_id = getAttr(this.text, 'post_id')
+                            var field_name = getAttr( this.text, 'field' );
+                            var post_id    = getAttr( this.text, 'post_id' );
 
                             // Render button
-                            this.render('Field "' + field_name + '" in post ' + post_id)
+                            this.render( 'Field "' + field_name + '" in post ' + post_id );
                         },
 
-                        edit: function (text, update) {
+                        edit: function ( text, update ) {
                             // Get current ACF field name from shortcode text
-                            var field_name = getAttr(this.text, 'field')
+                            var field_name = getAttr( this.text, 'field' );
 
                             // Update value
                             $.each(
                                 pip_field.body,
-                                function (key, item) {
-                                    if (item.name === 'field') {
-                                        item.value = field_name
+                                function ( key, item ) {
+                                    if ( item.name === 'field' ) {
+                                        item.value = field_name;
                                     }
-                                }
-                            )
+                                },
+                            );
 
                             // Modal
                             editor.windowManager.open(
                                 {
                                     title: 'Edit field',
                                     body: pip_field.body,
-                                    onsubmit: function (event) {
-                                        update(build_shortcode(event, pip_field))
+                                    onsubmit: function ( event ) {
+                                        update( build_shortcode( event, pip_field ) );
                                     },
-                                }
-                            )
+                                },
+                            );
                         },
 
-                    }
-                )
+                    },
+                );
 
                 // Register thumbnail view
                 window.wp.mce.views.register(
@@ -478,51 +491,51 @@
 
                         initialize: function () {
                             // Get size
-                            var size = getAttr(this.text, 'size')
-                            var image_size = acf.get('image_sizes')[size]
+                            var size       = getAttr( this.text, 'size' );
+                            var image_size = acf.get( 'image_sizes' )[size];
 
                             // Custom style
-                            var p_css = 'vertical-align: middle;'
-                            var div_css = 'width: ' + image_size.width + 'px;'
+                            var p_css   = 'vertical-align: middle;';
+                            var div_css = 'width: ' + image_size.width + 'px;';
 
-                            div_css += 'height: ' + image_size.height + 'px;'
-                            div_css += 'line-height: ' + image_size.height + 'px;'
-                            div_css += 'background-color: #F4F4F4;'
-                            div_css += 'text-align: center;'
-                            div_css += 'border: 1px solid #000;'
+                            div_css += 'height: ' + image_size.height + 'px;';
+                            div_css += 'line-height: ' + image_size.height + 'px;';
+                            div_css += 'background-color: #F4F4F4;';
+                            div_css += 'text-align: center;';
+                            div_css += 'border: 1px solid #000;';
 
                             // Render button
-                            this.render('<div style="' + div_css + '"><p style="' + p_css + '">' + image_size.width + ' x ' + image_size.height + '</p></div>')
+                            this.render( '<div style="' + div_css + '"><p style="' + p_css + '">' + image_size.width + ' x ' + image_size.height + '</p></div>' );
                         },
 
-                        edit: function (text, update) {
+                        edit: function ( text, update ) {
                             // Get current size from shortcode text
-                            var size = getAttr(this.text, 'size')
+                            var size = getAttr( this.text, 'size' );
 
                             // Update value
                             $.each(
                                 pip_thumbnail.body,
-                                function (key, item) {
-                                    if (item.name === 'size') {
-                                        item.value = size
+                                function ( key, item ) {
+                                    if ( item.name === 'size' ) {
+                                        item.value = size;
                                     }
-                                }
-                            )
+                                },
+                            );
 
                             // Modal
                             editor.windowManager.open(
                                 {
                                     title: 'Edit thumbnail',
                                     body: pip_thumbnail.body,
-                                    onsubmit: function (event) {
-                                        update(build_shortcode(event, pip_thumbnail))
+                                    onsubmit: function ( event ) {
+                                        update( build_shortcode( event, pip_thumbnail ) );
                                     },
-                                }
-                            )
+                                },
+                            );
                         },
 
-                    }
-                )
+                    },
+                );
 
                 // Register spacer view
                 window.wp.mce.views.register(
@@ -531,43 +544,43 @@
 
                         initialize: function () {
                             // Get size
-                            var spacer = getAttr(this.text, 'spacer')
+                            var spacer = getAttr( this.text, 'spacer' );
 
                             // Render button
-                            this.render('<div class="' + spacer + ' text-center"><span> - spacer (' + spacer + ') - </span></div>')
+                            this.render( '<div class="' + spacer + ' text-center"><span> - spacer (' + spacer + ') - </span></div>' );
                         },
 
-                        edit: function (text, update) {
+                        edit: function ( text, update ) {
                             // Get current spacer from shortcode text
-                            var spacer = getAttr(this.text, 'spacer')
+                            var spacer = getAttr( this.text, 'spacer' );
 
                             // Update value
                             $.each(
                                 pip_spacer.body,
-                                function (key, item) {
-                                    if (item.name === 'spacer') {
-                                        item.value = spacer
+                                function ( key, item ) {
+                                    if ( item.name === 'spacer' ) {
+                                        item.value = spacer;
                                     }
-                                }
-                            )
+                                },
+                            );
 
                             // Modal
                             editor.windowManager.open(
                                 {
                                     title: 'Edit spacer',
                                     body: pip_spacer.body,
-                                    onsubmit: function (event) {
-                                        update(build_shortcode(event, pip_spacer))
+                                    onsubmit: function ( event ) {
+                                        update( build_shortcode( event, pip_spacer ) );
                                     },
-                                }
-                            )
+                                },
+                            );
                         },
 
-                    }
-                )
+                    },
+                );
 
-            }
-        )
+            },
+        );
 
         /**
          * Get button attributes from shortcode text
@@ -576,21 +589,21 @@
          *
          * @returns {{}}
          */
-        var get_button_attributes = function (item) {
-            var button = {}
+        var get_button_attributes = function ( item ) {
+            var button = {};
 
-            button.text = getAttr(item, 'text')
-            button.type = getAttr(item, 'type')
-            button.alignment = getAttr(item, 'alignment')
-            button.xclass = getAttr(item, 'xclass')
-            button.link = getAttr(item, 'link')
-            button.target = getAttr(item, 'target')
-            button.icon = getAttr(item, 'icon')
-            button.icon_position = getAttr(item, 'icon-position')
-            button.nodiv = getAttr(item, 'nodiv')
+            button.text          = getAttr( item, 'text' );
+            button.type          = getAttr( item, 'type' );
+            button.alignment     = getAttr( item, 'alignment' );
+            button.xclass        = getAttr( item, 'xclass' );
+            button.link          = getAttr( item, 'link' );
+            button.target        = getAttr( item, 'target' );
+            button.nodiv         = getAttr( item, 'nodiv' );
+            button.icon          = getAttr( item, 'icon' );
+            button.icon_position = getAttr( item, 'icon_position' );
 
-            return button
-        }
+            return button;
+        };
 
         /**
          * Build shortcode
@@ -600,26 +613,26 @@
          * @param attributes
          * @returns {string}
          */
-        var build_shortcode = function (event, attributes) {
+        var build_shortcode = function ( event, attributes ) {
             // Open shortcode
-            var out = '[' + attributes.tag
+            var out = '[' + attributes.tag;
 
             // Add attributes to shortcode
             $.each(
                 event.data,
-                function (key, value) {
-                    if (value === false) {
-                        value = ''
+                function ( key, value ) {
+                    if ( value === false ) {
+                        value = '';
                     }
-                    out += ' ' + key + '="' + value + '"'
-                }
-            )
+                    out += ' ' + key + '="' + value + '"';
+                },
+            );
 
             // Close shortcode
-            out += ']'
+            out += ']';
 
-            return out
-        }
+            return out;
+        };
 
         /**
          * Build button group shortcode
@@ -629,39 +642,39 @@
          * @param attributes
          * @returns {string}
          */
-        var build_btn_group_shortcode = function (event, attributes) {
-            var i
-            var nb_buttons = 0
+        var build_btn_group_shortcode = function ( event, attributes ) {
+            var i;
+            var nb_buttons = 0;
 
             // Open shortcode
-            var out = '[' + attributes.tag
+            var out = '[' + attributes.tag;
 
             // Add attributes to shortcode
             $.each(
                 event.data,
-                function (key, value) {
-                    if (value === false) {
-                        value = ''
+                function ( key, value ) {
+                    if ( value === false ) {
+                        value = '';
                     }
-                    if (key === 'number') {
-                        nb_buttons = parseInt(value)
-                        return
+                    if ( key === 'number' ) {
+                        nb_buttons = parseInt( value );
+                        return;
                     }
-                    out += ' ' + key + '="' + value + '"'
-                }
-            )
-            out += ']'
+                    out += ' ' + key + '="' + value + '"';
+                },
+            );
+            out += ']';
 
             // Add buttons with default values
-            for (i = 0; i < nb_buttons; i++) {
-                out += '[' + attributes.inside + ' text="Button" type="" alignment="text-left" target="_self" xclass="mr-2" nodiv="true"]'
+            for ( i = 0; i < nb_buttons; i ++ ) {
+                out += '[' + attributes.inside + ' text="Button" type="" alignment="text-left" target="_self" xclass="mr-2" nodiv="true"]';
             }
 
             // Close shortcode
-            out += '[/' + attributes.tag + ']'
+            out += '[/' + attributes.tag + ']';
 
-            return out
-        }
+            return out;
+        };
 
         /**
          * Get attribute from shortcode text
@@ -671,10 +684,10 @@
          * @param name
          * @returns {string}
          */
-        var getAttr = function (str, name) {
-            name = new RegExp(name + '=\"([^\"]+)\"').exec(str)
-            return name ? window.decodeURIComponent(name[1]) : ''
-        }
+        var getAttr = function ( str, name ) {
+            name = new RegExp( name + '=\"([^\"]+)\"' ).exec( str );
+            return name ? window.decodeURIComponent( name[1] ) : '';
+        };
 
     }
-)(jQuery)
+)( jQuery );
