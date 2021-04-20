@@ -544,12 +544,20 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                             // Get format
                             $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
 
-                            $post_id                = $file['file']['ID'];
-                            $attachment_upload_path = wp_get_attachment_url( $post_id );
-                            strstr( $attachment_upload_path, '/wp-content' );
+                            // Get post
+                            $posts   = new WP_Query(
+                                array(
+                                    'name'           => $file['file']['name'],
+                                    'post_type'      => 'attachment',
+                                    'posts_per_page' => 1,
+                                    'fields'         => 'ids',
+                                )
+                            );
+                            $posts   = $posts->get_posts();
+                            $post_id = reset( $posts );
 
                             // Store URL
-                            $url[] = 'url(' . site_url() . $attachment_upload_path . ') format("' . $format . '")';
+                            $url[] = 'url(' . wp_get_attachment_url( $post_id ) . ') format("' . $format . '")';
                         }
                     }
                     // Implode URLs for src
