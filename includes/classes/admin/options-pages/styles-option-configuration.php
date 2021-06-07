@@ -1072,7 +1072,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                 array(
                     'param'    => 'options_page',
                     'operator' => '==',
-                    'value'    => 'pip-styles-configuration',
+                    'value'    => 'pip_styles_configuration',
                 ),
             ),
         ),

@@ -229,7 +229,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                         break;
 
                     default:
-                        # code...
+                        // code...
                         break;
                 }
 

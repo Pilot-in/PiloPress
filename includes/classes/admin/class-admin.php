@@ -402,7 +402,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     'title'  => __( 'Styles', 'pilopress' ),
                     'href'   => add_query_arg(
                         array(
-                            'page' => 'pip-styles-configuration',
+                            'page' => 'pip_styles_configuration',
                         ),
                         admin_url( 'admin.php' )
                     ),
@@ -420,7 +420,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         public function menu_parent_file( $parent_file ) {
 
             // Highlight Pilo'Press in Layouts + Styles
-            if ( pip_is_layout_screen() || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
+            if ( pip_is_layout_screen() || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip_styles' ) ) {
 
                 global $pagenow, $plugin_page;
 
@@ -485,10 +485,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Define submenu for Styles menu
             if (
-                acf_maybe_get_GET( 'page' ) === 'pip-styles'
-                || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' )
+                acf_maybe_get_GET( 'page' ) === 'pip_styles'
+                || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip_styles' )
             ) {
-                $submenu_file = 'pip-styles-configuration';
+                $submenu_file = 'pip_styles_configuration';
             }
 
             // Define submenu for Pattern menu

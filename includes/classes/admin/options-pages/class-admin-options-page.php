@@ -40,7 +40,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'configuration'   => array(
                     'page_title'     => __( 'Configuration', 'pilopress' ),
                     'menu_title'     => __( 'Styles', 'pilopress' ),
-                    'menu_slug'      => 'pip-styles-configuration',
+                    'menu_slug'      => 'pip_styles_configuration',
                     'post_id'        => 'pip_styles_configuration',
                     'capability'     => $capability,
                     'parent_slug'    => 'pilopress',
@@ -54,10 +54,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'fonts'           => array(
                     'page_title'     => __( 'Fonts', 'pilopress' ),
                     'menu_title'     => __( 'Fonts', 'pilopress' ),
-                    'menu_slug'      => 'pip-styles-fonts',
+                    'menu_slug'      => 'pip_styles_fonts',
                     'post_id'        => 'pip_styles_fonts',
                     'capability'     => $capability,
-                    'parent_slug'    => 'pip-styles-configuration',
+                    'parent_slug'    => 'pip_styles_configuration',
                     'update_button'  => __( 'Update', 'acf' ),
                     'update_message' => __( 'Options Updated', 'acf' ),
                     'autoload'       => 1,
@@ -68,10 +68,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'image-sizes'     => array(
                     'page_title'     => __( 'Images', 'pilopress' ),
                     'menu_title'     => __( 'Images', 'pilopress' ),
-                    'menu_slug'      => 'pip-styles-image-sizes',
+                    'menu_slug'      => 'pip_styles_image_sizes',
                     'post_id'        => 'pip_styles_image_sizes',
                     'capability'     => $capability,
-                    'parent_slug'    => 'pip-styles-configuration',
+                    'parent_slug'    => 'pip_styles_configuration',
                     'update_button'  => __( 'Update', 'acf' ),
                     'update_message' => __( 'Options Updated', 'acf' ),
                     'autoload'       => 1,
@@ -82,10 +82,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'modules'         => array(
                     'page_title'     => __( 'Modules', 'pilopress' ),
                     'menu_title'     => __( 'Modules', 'pilopress' ),
-                    'menu_slug'      => 'pip-styles-modules',
+                    'menu_slug'      => 'pip_styles_modules',
                     'post_id'        => 'pip_styles_modules',
                     'capability'     => $capability,
-                    'parent_slug'    => 'pip-styles-configuration',
+                    'parent_slug'    => 'pip_styles_configuration',
                     'update_button'  => __( 'Update', 'acf' ),
                     'update_message' => __( 'Options Updated', 'acf' ),
                     'autoload'       => 1,
@@ -96,10 +96,10 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                 'tailwind-module' => array(
                     'page_title'     => __( 'TailwindCSS', 'pilopress' ),
                     'menu_title'     => __( 'TailwindCSS', 'pilopress' ),
-                    'menu_slug'      => 'pip-styles-tailwind-module',
+                    'menu_slug'      => 'pip_styles_tailwind_module',
                     'post_id'        => 'pip_styles_tailwind_module',
                     'capability'     => $capability,
-                    'parent_slug'    => 'pip-styles-configuration',
+                    'parent_slug'    => 'pip_styles_configuration',
                     'update_button'  => __( 'Update', 'acf' ),
                     'update_message' => __( 'Options Updated', 'acf' ),
                     'autoload'       => 1,
@@ -148,10 +148,12 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             }
 
             foreach ( $this->pages as $key => $page ) {
+                // Maybe hide modules pages
                 $modules = pip_get_modules();
                 if ( !acf_maybe_get( $modules, 'tailwind' ) && $key === 'tailwind-module' ) {
                     continue;
                 }
+
                 // Register submenu page
                 $slug = add_submenu_page(
                     $page['parent_slug'],
@@ -177,7 +179,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             global $plugin_page;
 
             // Get current page
-            $this->page            = $this->pages[ str_replace( 'pip-styles-', '', $plugin_page ) ];
+            $this->page            = $this->pages[ str_replace( 'pip_styles_', '', $plugin_page ) ];
             $this->page['post_id'] = acf_get_valid_post_id( $this->page['post_id'] );
 
             // Validate
@@ -224,7 +226,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             // Get current page
             $menu_slug  = acf_maybe_get_GET( 'page' );
-            $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
+            $this->page = $this->pages[ str_replace( 'pip_styles_', '', $menu_slug ) ];
 
             // Get associated field groups
             $field_groups = acf_get_field_groups(
@@ -354,7 +356,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
             ?>
             <script type="text/javascript">
                 if ( typeof acf !== 'undefined' ) {
-                    acf.newPostbox(<?php echo wp_json_encode( $field_group_object ); ?>)
+                    acf.newPostbox(<?php echo wp_json_encode( $field_group_object ); ?>);
                 }
             </script>
             <?php
@@ -367,7 +369,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
 
             // Get current page
             $menu_slug  = acf_maybe_get_GET( 'page' );
-            $this->page = $this->pages[ str_replace( 'pip-styles-', '', $menu_slug ) ];
+            $this->page = $this->pages[ str_replace( 'pip_styles_', '', $menu_slug ) ];
 
             // Define variables for template
             $page_title   = $this->page['page_title'];
