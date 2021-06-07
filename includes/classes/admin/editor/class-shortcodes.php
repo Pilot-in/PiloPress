@@ -42,11 +42,11 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                     'type'          => false,
                     'alignment'     => false,
                     'target'        => false,
+                    'download'      => false,
+                    'download_name' => false,
                     'xclass'        => false,
                     'link'          => '',
                     'nodiv'         => false,
-                    'icon'          => false,
-                    'icon_position' => false,
                 ),
                 $attrs,
                 'pip_button'
@@ -58,42 +58,28 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             $btn_class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
             // Get args
-            $btn_class  = esc_attr( trim( $btn_class ) );
-            $alignment  = esc_attr( $attrs['alignment'] );
-            $btn_link   = esc_url( $attrs['link'] );
-            $icon_class = $attrs['icon'];
-            $icon_pos   = $attrs['icon_position'];
-            $target     = $attrs['target'] ? esc_attr( $attrs['target'] ) : '_blank';
-            $btn_text   = $attrs['text'];
-            $no_div     = $attrs['nodiv'];
+            $btn_class     = esc_attr( trim( $btn_class ) );
+            $alignment     = esc_attr( $attrs['alignment'] );
+            $btn_link      = esc_url( $attrs['link'] );
+            $target        = $attrs['target'] ? esc_attr( $attrs['target'] ) : '_blank';
+            $download      = $attrs['download'];
+            $download_name = $attrs['download_name'];
+            $btn_text      = $attrs['text'];
+            $no_div        = $attrs['nodiv'];
 
             $html = '';
             if ( !$no_div ) {
                 $html .= '<div class="' . $alignment . '">';
             }
 
-            $html .= '<a href="' . $btn_link . '" class="' . $btn_class . '" target="' . $target . '">';
-
-            if ( $icon_class ) {
-
-                $is_rtl      = pip_is_rtl();
-                $icon_margin = $icon_pos === 'left' ? ( $is_rtl ? 'ml-2' : 'mr-2' ) : ( $is_rtl ? 'mr-2' : 'ml-2' );
-                $icon_margin = apply_filters( 'pip/shortcode/button/icon_margin', $icon_margin, $icon_pos, $icon_class, $is_rtl );
-                $icon_html   = '<i class="' . $icon_class . ' ' . $icon_margin . '"></i>';
-
-                switch ( $icon_pos ) {
-                    case 'left':
-                        $html .= $icon_html . $btn_text;
-                        break;
-                    case 'right':
-                        $html .= $btn_text . $icon_html;
-                        break;
-                }
-
-                $html .= '</a>';
-            } else {
-                $html .= $btn_text . '</a>';
+            $download_option = '';
+            if ( $download ) {
+                $download_name   = $download_name ? $download_name : 'download';
+                $download_option = 'download="' . $download_name . '"';
             }
+
+            $html .= '<a href="' . $btn_link . '" class="' . $btn_class . '" target="' . $target . '" ' . $download_option . '>';
+            $html .= $btn_text . '</a>';
 
             if ( !$no_div ) {
                 $html .= '</div>';

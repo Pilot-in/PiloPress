@@ -38,6 +38,7 @@
                             name: 'text',
                             type: 'textbox',
                             value: '',
+                            tooltip: 'To add HTML, replace double quotes by simple quotes.',
                         },
                         {
                             label: 'Type',
@@ -65,6 +66,17 @@
                             ],
                         },
                         {
+                            label: 'Download',
+                            name: 'download',
+                            type: 'checkbox',
+                        },
+                        {
+                            label: 'Download name',
+                            name: 'download_name',
+                            type: 'textbox',
+                            value: '',
+                        },
+                        {
                             label: 'Extra class',
                             name: 'xclass',
                             type: 'textbox',
@@ -75,21 +87,6 @@
                             name: 'link',
                             type: 'textbox',
                             value: '#',
-                        },
-                        {
-                            label: 'Icon',
-                            name: 'icon',
-                            type: 'textbox',
-                            value: '',
-                        },
-                        {
-                            label: 'Icon position',
-                            name: 'icon_position',
-                            type: 'listbox',
-                            values: [
-                                { text: 'Left', value: 'left' },
-                                { text: 'Right', value: 'right' },
-                            ],
                         },
                         {
                             label: 'Button group',
@@ -345,19 +342,16 @@
                                 if ( !button.nodiv ) {
                                     html = '<div class="' + button.alignment + '">';
                                 }
-                                html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape( btn_class ) + '" ' + btn_disabled + '>';
+                                console.log( button.text );
 
-                                if ( button.icon ) {
-
-                                    if ( button.icon_position === 'left' ) {
-                                        html += '<i class="' + button.icon + ' mr-2"></i>' + _.escape( button.text ) + '</a>';
-                                    } else if ( button.icon_position === 'right' ) {
-                                        html += _.escape( button.text ) + '<i class="' + button.icon + ' ml-2"></i></a>';
-                                    }
-
-                                } else {
-                                    html += _.escape( button.text ) + '</a>';
+                                var download_option = '';
+                                if ( button.download ) {
+                                    button.download_name = button.download_name ? button.download_name : 'download';
+                                    download_option      = 'download="' + button.download_name + '"';
                                 }
+
+                                html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape( btn_class ) + '" ' + btn_disabled + ' ' + download_option + '>';
+                                html += button.text + '</a>';
 
                                 if ( !button.nodiv ) {
                                     html += '</div>';
@@ -598,9 +592,9 @@
             button.xclass        = getAttr( item, 'xclass' );
             button.link          = getAttr( item, 'link' );
             button.target        = getAttr( item, 'target' );
+            button.download      = getAttr( item, 'download' );
+            button.download_name = getAttr( item, 'download_name' );
             button.nodiv         = getAttr( item, 'nodiv' );
-            button.icon          = getAttr( item, 'icon' );
-            button.icon_position = getAttr( item, 'icon_position' );
 
             return button;
         };
