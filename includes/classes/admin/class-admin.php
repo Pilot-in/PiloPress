@@ -19,6 +19,44 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
             add_action( 'in_admin_header', array( $this, 'add_pip_navbar' ) );
+            add_action( 'admin_notices', array( $this, 'no_pilopress_folder_notice' ) );
+        }
+
+        /**
+         * Add notice if theme doesn't support Pilo'Press (folders doesn't exists)
+         */
+        public function no_pilopress_folder_notice() {
+            // Pilo'Press folder exists, return
+            if ( file_exists( PIP_THEME_PILOPRESS_PATH ) ) {
+                return;
+            }
+
+            // Get current screen data
+            $current_screen = get_current_screen();
+            $parent_base    = pip_maybe_get( $current_screen, 'parent_base' );
+
+            // If not an edit page, return
+            if ( $parent_base !== 'edit' ) {
+                return;
+            }
+
+            // Display notice
+            $pilopress_url = add_query_arg(
+                array(
+                    'page' => 'pilopress',
+                ),
+                get_admin_url( get_current_blog_id(), 'admin.php' )
+            );
+            ?>
+            <div class="notice notice-error is-dismissible">
+                <p>
+                    <?php
+                    // translators: Pilo'Press dashboard URL
+                    echo sprintf( 'Your current theme does not support Pilo\'Press. See <a href="%s">configuration status</a> for more details.', $pilopress_url );
+                    ?>
+                </p>
+            </div>
+            <?php
         }
 
         /**
