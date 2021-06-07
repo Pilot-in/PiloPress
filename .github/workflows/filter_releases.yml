@@ -1,16 +1,16 @@
-name: Filter releases files
-on:
-    release:
-        types: [prereleased]
-jobs:
-    filter_fields:
-        name: Filter files
-        runs-on: ubuntu-latest
-        steps:
-            -   name: Remove useless files
-                working-directory: /
-                shell: bash
-                run: |
-                    pwd
-                    ls -alh
-                    rm -rf .github
+#name: Filter releases files
+#on:
+#    release:
+#        types: [prereleased]
+#jobs:
+#    filter_fields:
+#        name: Filter files
+#        runs-on: ubuntu-latest
+#        steps:
+#            -   name: Remove useless files
+#                working-directory: /
+#                shell: bash
+#                run: |
+#                    pwd
+#                    ls -alh
+#                    rm -rf .github
