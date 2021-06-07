@@ -65,7 +65,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
-                'image-sizes'     => array(
+                'image_sizes'     => array(
                     'page_title'     => __( 'Images', 'pilopress' ),
                     'menu_title'     => __( 'Images', 'pilopress' ),
                     'menu_slug'      => 'pip_styles_image_sizes',
@@ -93,7 +93,7 @@ if ( !class_exists( 'PIP_Admin_Options_Page' ) ) {
                     'icon_url'       => '',
                     'position'       => 82,
                 ),
-                'tailwind-module' => array(
+                'tailwind_module' => array(
                     'page_title'     => __( 'TailwindCSS', 'pilopress' ),
                     'menu_title'     => __( 'TailwindCSS', 'pilopress' ),
                     'menu_slug'      => 'pip_styles_tailwind_module',

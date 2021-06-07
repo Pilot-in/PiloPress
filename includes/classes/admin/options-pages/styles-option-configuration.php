@@ -690,7 +690,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'prepend'           => '',
                         'append'            => '',
                         'maxlength'         => '',
-                        'rows'              =>  4
+                        'rows'              => 4,
                     ),
                     array(
                         'key'               => 'field_custom_button_add_to_editor',
@@ -748,9 +748,10 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                                 ),
                                 'acfe_permissions'  => '',
                                 'choices'           => array(
-                                    'hover'  => 'hover',
-                                    'active' => 'active',
-                                    'focus'  => 'focus',
+                                    'hover'    => 'hover',
+                                    'active'   => 'active',
+                                    'focus'    => 'focus',
+                                    'disabled' => 'disabled',
                                 ),
                                 'default_value'     => false,
                                 'allow_null'        => 0,
