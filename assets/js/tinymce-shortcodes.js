@@ -89,6 +89,21 @@
                             value: '#',
                         },
                         {
+                            label: 'Icon',
+                            name: 'icon',
+                            type: 'textbox',
+                            value: '',
+                        },
+                        {
+                            label: 'Icon position',
+                            name: 'icon_position',
+                            type: 'listbox',
+                            values: [
+                                { text: 'Left', value: 'left' },
+                                { text: 'Right', value: 'right' },
+                            ],
+                        },
+                        {
                             label: 'Button group',
                             name: 'nodiv',
                             type: 'checkbox',
@@ -351,7 +366,18 @@
                                 }
 
                                 html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape( btn_class ) + '" ' + btn_disabled + ' ' + download_option + '>';
-                                html += button.text + '</a>';
+
+                                if ( button.icon ) {
+
+                                    if ( button.icon_position === 'left' ) {
+                                        html += '<i class="' + button.icon + ' mr-2"></i>' + button.text + '</a>';
+                                    } else if ( button.icon_position === 'right' ) {
+                                        html += button.text + '<i class="' + button.icon + ' ml-2"></i></a>';
+                                    }
+
+                                } else {
+                                    html += button.text + '</a>';
+                                }
 
                                 if ( !button.nodiv ) {
                                     html += '</div>';
@@ -595,6 +621,8 @@
             button.download      = getAttr( item, 'download' );
             button.download_name = getAttr( item, 'download_name' );
             button.nodiv         = getAttr( item, 'nodiv' );
+            button.icon          = getAttr( item, 'icon' );
+            button.icon_position = getAttr( item, 'icon_position' );
 
             return button;
         };
