@@ -141,6 +141,12 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             $buttons = get_field( 'pip_button', 'pip_styles_tinymce' );
             if ( is_array( $buttons ) ) {
                 foreach ( $buttons as $key => $item ) {
+
+                    // Skip if no content
+                    if ( !$item ) {
+                        continue;
+                    }
+
                     $old_classes = $item['classes_to_apply'];
 
                     if ( strstr( $old_classes, ' ' ) ) {
