@@ -259,6 +259,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 // Container
                 $this->set_container_options( $config );
 
+                // Spacings
+                $this->set_spacings_options( $config );
+
                 // Colors
                 $this->set_colors( $config );
 
@@ -358,6 +361,44 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // If options, add to config
             if ( $options ) {
                 $config['theme']['container'] = $options;
+            }
+        }
+
+        /**
+         * Set spacing options
+         *
+         * @param $config
+         */
+        public function set_spacings_options( &$config ) {
+
+            $options         = array();
+            $spacing_options = get_field( 'pip_spacing', 'pip_styles_configuration' );
+            if ( !$spacing_options ) {
+                return;
+            }
+
+            // Get options
+            $override_spacings = acf_maybe_get( $spacing_options, 'override_spacings' );
+            $spacings          = acf_maybe_get( $spacing_options, 'spacings' );
+            if ( !$spacings ) {
+                return;
+            }
+
+            // Format values
+            foreach ( $spacings as $spacing ) {
+                $options['spacing'][ $spacing['key'] ] = $spacing['value'];
+            }
+
+            // If no values, return
+            if ( !$options ) {
+                return;
+            }
+
+            // Add spacings
+            if ( $override_spacings ) {
+                $config['theme'] = $options;
+            } else {
+                $config['theme']['extend'] = $options;
             }
         }
 
