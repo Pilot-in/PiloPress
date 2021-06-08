@@ -480,11 +480,18 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Browse fonts
             foreach ( $fonts as $font ) {
 
+                // Get data
                 $name       = acf_maybe_get( $font, 'name' );
                 $class_name = acf_maybe_get( $font, 'class_name' );
+                $fallback   = acf_maybe_get( $font, 'fallback' );
+
+                // Add fallback fonts
+                $font_names = explode( ',', $fallback );
+                $font_names = array_map( 'trim', $font_names );
+                array_unshift( $font_names, $name );
 
                 // Add font
-                $options[ $class_name ] = $name;
+                $options[ $class_name ] = $font_names;
             }
 
             // If options, add to config
@@ -656,13 +663,6 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $css_custom .= 'font-weight: ' . $weight . ";\n";
             $css_custom .= 'font-style: ' . $style . ";\n";
             $css_custom .= 'font-display: ' . $display . ";\n";
-
-            // Variable font parameters
-            if ( $variable_font && $variable_font_data ) {
-                foreach ( $variable_font_data as $font_data ) {
-                    $css_custom .= acf_maybe_get( $font_data, 'key' ) . ': ' . acf_maybe_get( $font_data, 'value' ) . ";\n";
-                }
-            }
 
             // End @font-face
             $css_custom .= "}\n";

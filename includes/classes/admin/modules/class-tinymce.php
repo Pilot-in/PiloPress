@@ -91,6 +91,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                             $url           = get_sub_field( 'url' );
                             $enqueue       = get_sub_field( 'enqueue' );
                             $class_name    = get_sub_field( 'class_name' );
+                            $fallback      = get_sub_field( 'fallback' );
                             $add_to_editor = get_sub_field( 'add_to_editor' );
 
                             // Update class name
@@ -105,6 +106,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                                 'class_name'    => $class_name,
                                 'url'           => $url,
                                 'enqueue'       => $enqueue,
+                                'fallback'      => $fallback,
                                 'add_to_editor' => $add_to_editor,
                             );
                             break;
@@ -112,29 +114,59 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                         case 'custom_font':
                             // Get font name
                             $label         = get_sub_field( 'name' );
-                            $files         = get_sub_field( 'files' );
-                            $weight        = get_sub_field( 'weight' );
-                            $style         = get_sub_field( 'style' );
                             $class_name    = get_sub_field( 'class_name' );
+                            $fallback      = get_sub_field( 'fallback' );
                             $add_to_editor = get_sub_field( 'add_to_editor' );
+                            $multiple      = get_sub_field( 'multiple_weight_and_style' );
 
-                            // Update class name
-                            if ( !$class_name ) {
-                                $class_name = sanitize_title( $label );
-                                update_sub_field( 'class_name', $class_name, 'pip_styles_fonts' );
+                            if ( $multiple && have_rows( 'variations' ) ) {
+
+                                while ( have_rows( 'variations' ) ) {
+                                    the_row();
+
+                                    $files   = get_sub_field( 'files' );
+                                    $weight  = get_sub_field( 'weight' );
+                                    $style   = get_sub_field( 'style' );
+                                    $display = get_sub_field( 'display' );
+
+                                    // Add custom font
+                                    $fonts[ sanitize_title( $label ) ] = array(
+                                        'name'          => $label,
+                                        'class_name'    => $class_name,
+                                        'fallback'      => $fallback,
+                                        'add_to_editor' => $add_to_editor,
+                                        'files'         => $files,
+                                        'weight'        => $weight,
+                                        'style'         => $style,
+                                        'display'       => $display,
+                                    );
+                                }
+                            } else {
+                                // Update class name
+                                if ( !$class_name ) {
+                                    $class_name = sanitize_title( $label );
+                                    update_sub_field( 'class_name', $class_name, 'pip_styles_fonts' );
+                                }
+
+                                $files   = get_sub_field( 'files' );
+                                $weight  = get_sub_field( 'weight' );
+                                $style   = get_sub_field( 'style' );
+                                $display = get_sub_field( 'display' );
+
+                                // Add custom font
+                                $fonts[ sanitize_title( $label ) ] = array(
+                                    'name'          => $label,
+                                    'class_name'    => $class_name,
+                                    'fallback'      => $fallback,
+                                    'add_to_editor' => $add_to_editor,
+                                    'files'         => $files,
+                                    'weight'        => $weight,
+                                    'style'         => $style,
+                                    'display'       => $display,
+                                );
                             }
 
-                            // Add custom font
-                            $fonts[ sanitize_title( $label ) ] = array(
-                                'name'          => $label,
-                                'class_name'    => $class_name,
-                                'files'         => $files,
-                                'weight'        => $weight,
-                                'style'         => $style,
-                                'add_to_editor' => $add_to_editor,
-                            );
                             break;
-
                     }
                 }
             }
