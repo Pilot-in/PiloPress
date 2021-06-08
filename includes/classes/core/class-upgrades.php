@@ -143,6 +143,7 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
                 foreach ( $buttons as $key => $item ) {
 
                     // Skip if no content
+                    acf_log( $item );
                     if ( !$item ) {
                         continue;
                     }
