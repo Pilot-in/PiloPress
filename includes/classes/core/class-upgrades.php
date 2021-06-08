@@ -143,12 +143,15 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
                 foreach ( $buttons as $key => $item ) {
 
                     // Skip if no content
-                    acf_log( $item );
                     if ( !$item ) {
                         continue;
                     }
 
-                    $old_classes = $item['classes_to_apply'];
+                    // Skip if no classes
+                    $old_classes = acf_maybe_get( $item, 'classes_to_apply' );
+                    if ( !$old_classes ) {
+                        continue;
+                    }
 
                     if ( strstr( $old_classes, ' ' ) ) {
                         $old_classes = explode( ' ', $old_classes );
@@ -189,7 +192,7 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
                         $item['classes_to_apply'] = implode( ' ', $old_classes );
                         $item['states']           = $states;
                     } else {
-                        $item['class_name']       = $item['classes_to_apply'];
+                        $item['class_name']       = acf_maybe_get( $item, 'classes_to_apply' );
                         $item['classes_to_apply'] = '';
                     }
 
