@@ -27,7 +27,31 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             // ACF hooks
             add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
             add_filter( 'acfe/load_fields', array( $this, 'load_fields_dark_mode' ) );
-            add_filter( 'acfe/load_field/type=wysiwyg', array( $this, 'load_field_dark_mode' ) );
+            add_filter( 'acf/pre_render_fields', array( $this, 'load_fields_dark_mode' ) );
+            add_filter( 'acf/load_field/type=wysiwyg', array( $this, 'load_field_dark_mode' ) );
+            add_action( 'acf/render_field_settings/type=wysiwyg', array( $this, 'add_dark_mode_option' ) );
+        }
+
+        /**
+         * Add dark mode option to WYSIWYG fields
+         *
+         * @param $field
+         */
+        public function add_dark_mode_option( $field ) {
+            // Dark mode
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'         => __( 'Dark mode' ),
+                    'name'          => 'pip_dark_mode_default',
+                    'key'           => 'pip_dark_mode_default',
+                    'instructions'  => __( 'Activate dark mode by default.' ),
+                    'type'          => 'true_false',
+                    'message'       => '',
+                    'default_value' => false,
+                    'ui'            => true,
+                )
+            );
         }
 
         /**
@@ -504,16 +528,17 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $new = $field;
 
             // Change values
-            $new['type']      = 'acfe_hidden';
-            $new['label']     = '';
-            $new['key']       = $field['key'] . '_dark_mode';
-            $new['name']      = $field['name'] . '_dark_mode';
-            $new['_name']     = $field['_name'] . '_dark_mode';
-            $new['append']    = '';
-            $new['prepend']   = '';
-            $new['minlength'] = '';
-            $new['maxlength'] = '';
-            $new['required']  = false;
+            $new['type']          = 'acfe_hidden';
+            $new['label']         = '';
+            $new['key']           = $field['key'] . '_dark_mode';
+            $new['name']          = $field['name'] . '_dark_mode';
+            $new['_name']         = $field['_name'] . '_dark_mode';
+            $new['append']        = '';
+            $new['prepend']       = '';
+            $new['minlength']     = '';
+            $new['maxlength']     = '';
+            $new['required']      = false;
+            $new['default_value'] = acf_maybe_get( $field, 'pip_dark_mode_default' );
 
             // Remove useless values
             unset( $new['tabs'] );
@@ -574,6 +599,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
                 // Insert dark mode field after wysiwyg field
                 array_splice( $fields, $key + $offset, 0, array( $acf_get_field ) );
+
             }
 
             return $fields;
