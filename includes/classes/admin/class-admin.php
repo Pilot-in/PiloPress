@@ -19,6 +19,44 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
             add_action( 'in_admin_header', array( $this, 'add_pip_navbar' ) );
+            add_action( 'admin_notices', array( $this, 'no_pilopress_folder_notice' ) );
+        }
+
+        /**
+         * Add notice if theme doesn't support Pilo'Press (folders doesn't exists)
+         */
+        public function no_pilopress_folder_notice() {
+            // Pilo'Press folder exists, return
+            if ( file_exists( PIP_THEME_PILOPRESS_PATH ) ) {
+                return;
+            }
+
+            // Get current screen data
+            $current_screen = get_current_screen();
+            $parent_base    = pip_maybe_get( $current_screen, 'parent_base' );
+
+            // If not an edit page, return
+            if ( $parent_base !== 'edit' ) {
+                return;
+            }
+
+            // Display notice
+            $pilopress_url = add_query_arg(
+                array(
+                    'page' => 'pilopress',
+                ),
+                get_admin_url( get_current_blog_id(), 'admin.php' )
+            );
+            ?>
+            <div class="notice notice-error is-dismissible">
+                <p>
+                    <?php
+                    // translators: Pilo'Press dashboard URL
+                    echo sprintf( 'Your current theme does not support Pilo\'Press. See <a href="%s">configuration status</a> for more details.', $pilopress_url );
+                    ?>
+                </p>
+            </div>
+            <?php
         }
 
         /**
@@ -47,6 +85,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // If Pilo'Press admin page, set variable to true
             if (
                 acf_maybe_get_GET( 'layouts' ) === '1' ||
+                acf_maybe_get_GET( 'layout' ) === '1' ||
                 $pip_layouts->is_layout( get_post( acf_maybe_get_GET( 'post' ) ) ) ||
                 (int) acf_maybe_get_GET( 'post' ) === $flexible_mirror_id ||
                 acf_maybe_get_GET( 'taxonomy' ) === $pip_layouts_categories->taxonomy_name ||
@@ -84,7 +123,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Scripts
             wp_enqueue_script( 'pilopress-admin-script', PIP_URL . 'assets/js/pilopress-admin.js', array( 'jquery' ), pilopress()->version, true );
-            wp_localize_script( 'pilopress-admin-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
+            wp_localize_script( 'pilopress-admin-script', 'ajaxurl', array( admin_url( 'admin-ajax.php' ) ) );
             wp_enqueue_script( 'pilopress-fields', PIP_URL . 'assets/js/pilopress-fields.js', array( 'jquery' ), pilopress()->version, true );
         }
 
@@ -401,7 +440,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     'title'  => __( 'Styles', 'pilopress' ),
                     'href'   => add_query_arg(
                         array(
-                            'page' => 'pip-styles-configuration',
+                            'page' => 'pip_styles_configuration',
                         ),
                         admin_url( 'admin.php' )
                     ),
@@ -419,7 +458,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         public function menu_parent_file( $parent_file ) {
 
             // Highlight Pilo'Press in Layouts + Styles
-            if ( pip_is_layout_screen() || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' ) ) {
+            if ( pip_is_layout_screen() || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip_styles' ) ) {
 
                 global $pagenow, $plugin_page;
 
@@ -484,10 +523,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
 
             // Define submenu for Styles menu
             if (
-                acf_maybe_get_GET( 'page' ) === 'pip-styles'
-                || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip-styles' )
+                acf_maybe_get_GET( 'page' ) === 'pip_styles'
+                || pip_str_starts( acf_maybe_get_GET( 'page' ), 'pip_styles' )
             ) {
-                $submenu_file = 'pip-styles-configuration';
+                $submenu_file = 'pip_styles_configuration';
             }
 
             // Define submenu for Pattern menu

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pilo'Press\n"
-"POT-Creation-Date: 2021-02-04 12:48+0100\n"
-"PO-Revision-Date: 2021-02-04 12:49+0100\n"
+"POT-Creation-Date: 2021-05-18 14:52+0200\n"
+"PO-Revision-Date: 2021-05-18 14:56+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
 #. Plugin Name of the plugin/theme
-#: includes/classes/admin/class-admin.php:153
+#: includes/classes/admin/class-admin.php:154
 #: includes/classes/admin/editor/class-button-field.php:18
 #: includes/classes/admin/editor/class-font-color-field.php:18
 #: includes/classes/admin/editor/class-font-family-field.php:18
@@ -30,66 +30,66 @@ msgstr ""
 msgid "Pilo'Press"
 msgstr "Pilo'Press"
 
-#: includes/classes/admin/class-admin.php:169
+#: includes/classes/admin/class-admin.php:170
 #: includes/views/pip-dashboard.php:28 includes/views/pip-navbar.php:64
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: includes/classes/admin/class-admin.php:177
+#: includes/classes/admin/class-admin.php:178
 #: includes/classes/main/class-flexible-mirror.php:236
 #: includes/classes/main/class-flexible.php:130
 msgid "Builder"
 msgstr "Éditeur"
 
-#: includes/classes/admin/class-admin.php:185
-#: includes/classes/admin/class-admin.php:385
+#: includes/classes/admin/class-admin.php:186
+#: includes/classes/admin/class-admin.php:386
 #: includes/classes/main/class-layouts.php:33
 #: includes/views/pip-dashboard.php:113
 msgid "Layouts"
 msgstr "Dispositions"
 
-#: includes/classes/admin/class-admin.php:193
+#: includes/classes/admin/class-admin.php:194
 #: includes/classes/main/class-layouts-tax-categories.php:201
 msgid "Categories"
 msgstr "Catégories"
 
-#: includes/classes/admin/class-admin.php:201
+#: includes/classes/admin/class-admin.php:202
 #: includes/classes/main/class-layouts-tax-collections.php:203
 msgid "Collections"
 msgstr "Collections"
 
-#: includes/classes/admin/class-admin.php:209
+#: includes/classes/admin/class-admin.php:210
 #: includes/classes/components/class-components.php:46
 #: includes/classes/components/class-components.php:48
 #: includes/views/pip-dashboard.php:190
 msgid "Components"
 msgstr "Composants"
 
-#: includes/classes/admin/class-admin.php:257
-#: includes/classes/admin/class-admin.php:262
-#: includes/classes/admin/class-admin.php:267
+#: includes/classes/admin/class-admin.php:258
+#: includes/classes/admin/class-admin.php:263
+#: includes/classes/admin/class-admin.php:268
 msgid " folder found"
 msgstr " dossier trouvé"
 
-#: includes/classes/admin/class-admin.php:257
-#: includes/classes/admin/class-admin.php:262
-#: includes/classes/admin/class-admin.php:267
+#: includes/classes/admin/class-admin.php:258
+#: includes/classes/admin/class-admin.php:263
+#: includes/classes/admin/class-admin.php:268
 msgid " folder not found"
 msgstr " dossier non trouvé"
 
-#: includes/classes/admin/class-admin.php:270
+#: includes/classes/admin/class-admin.php:271
 msgid "Admin style"
 msgstr "Style de l'administration"
 
-#: includes/classes/admin/class-admin.php:272
+#: includes/classes/admin/class-admin.php:273
 msgid " enqueued"
 msgstr " ajouté"
 
-#: includes/classes/admin/class-admin.php:272
+#: includes/classes/admin/class-admin.php:273
 msgid " not enqueued"
 msgstr " non ajouté"
 
-#: includes/classes/admin/class-admin.php:401
+#: includes/classes/admin/class-admin.php:402
 #: includes/classes/admin/options-pages/class-admin-options-page.php:42
 msgid "Styles"
 msgstr "Styles"
@@ -266,15 +266,15 @@ msgstr "Famille de police"
 msgid "Font style"
 msgstr "Style de police"
 
-#: includes/classes/admin/editor/class-shortcodes.php:108
+#: includes/classes/admin/editor/class-shortcodes.php:146
 msgid "You > Are > Here"
 msgstr "Vous > êtes > ici"
 
-#: includes/classes/admin/editor/class-shortcodes.php:258
+#: includes/classes/admin/editor/class-shortcodes.php:296
 msgid "Title here"
 msgstr "Le titre ici"
 
-#: includes/classes/admin/editor/class-shortcodes.php:289
+#: includes/classes/admin/editor/class-shortcodes.php:327
 msgid "Post thumbnail here"
 msgstr "Image à la une ici"
 
@@ -390,7 +390,7 @@ msgstr "Libellé"
 #: includes/classes/admin/options-pages/old/styles-option-tinymce.php:308
 #: includes/classes/admin/options-pages/styles-option-configuration.php:161
 #: includes/classes/admin/options-pages/styles-option-configuration.php:676
-#: includes/classes/admin/options-pages/styles-option-configuration.php:764
+#: includes/classes/admin/options-pages/styles-option-configuration.php:765
 msgid "Class(es) to apply"
 msgstr "Classe(s) à appliquer"
 
@@ -466,7 +466,7 @@ msgstr "Nom de la classe"
 #: includes/classes/admin/options-pages/styles-option-configuration.php:181
 #: includes/classes/admin/options-pages/styles-option-configuration.php:403
 #: includes/classes/admin/options-pages/styles-option-configuration.php:549
-#: includes/classes/admin/options-pages/styles-option-configuration.php:696
+#: includes/classes/admin/options-pages/styles-option-configuration.php:697
 #: includes/classes/admin/options-pages/styles-option-fonts.php:158
 #: includes/classes/admin/options-pages/styles-option-fonts.php:321
 msgid "Add to editor menu?"
@@ -475,7 +475,7 @@ msgstr "Ajouter aux menus de l'éditeur ?"
 #: includes/classes/admin/options-pages/styles-option-configuration.php:184
 #: includes/classes/admin/options-pages/styles-option-configuration.php:406
 #: includes/classes/admin/options-pages/styles-option-configuration.php:552
-#: includes/classes/admin/options-pages/styles-option-configuration.php:699
+#: includes/classes/admin/options-pages/styles-option-configuration.php:700
 #: includes/classes/admin/options-pages/styles-option-fonts.php:161
 #: includes/classes/admin/options-pages/styles-option-fonts.php:324
 msgid "Needs TinyMCE Module"
@@ -528,7 +528,7 @@ msgid "Visible in editor dropdown"
 msgstr "Visible dans la liste déroulante de l’éditeur"
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:363
-#: includes/classes/admin/options-pages/styles-option-configuration.php:851
+#: includes/classes/admin/options-pages/styles-option-configuration.php:852
 #: includes/classes/admin/options-pages/styles-option-fonts.php:81
 #: includes/classes/admin/options-pages/styles-option-fonts.php:197
 #: includes/classes/admin/options-pages/styles-option-image-sizes.php:55
@@ -542,8 +542,8 @@ msgstr "Identifiant de la couleur"
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:383
 #: includes/classes/admin/options-pages/styles-option-configuration.php:529
-#: includes/classes/admin/options-pages/styles-option-configuration.php:871
-#: includes/classes/admin/options-pages/styles-option-configuration.php:1043
+#: includes/classes/admin/options-pages/styles-option-configuration.php:872
+#: includes/classes/admin/options-pages/styles-option-configuration.php:1044
 #: includes/classes/main/class-layouts-single.php:521
 msgid "Value"
 msgstr "Valeur"
@@ -557,12 +557,12 @@ msgid "#FF000 or currentColor ..."
 msgstr "#FF000 or currentColor ..."
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:427
-msgid "Colors with shades"
+msgid "Colors variants"
 msgstr "Couleurs avec des nuances"
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:444
-msgid "Add color with shades"
-msgstr "Ajouter une couleur avec des nuances"
+msgid "Add color variant"
+msgstr "Ajouter une variante de couleur"
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:448
 msgid "Color name"
@@ -573,16 +573,16 @@ msgid "<code>gray</code> in <code>text-gray-500</code>"
 msgstr "<code>gray</code> dans <code>text-gray-500</code>"
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:468
-msgid "Shades"
-msgstr "Nuances"
+msgid "Variants"
+msgstr "Variantes"
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:485
-msgid "Add shade"
-msgstr "Ajouter une nuance"
+msgid "Add variant"
+msgstr "+ Ajouter une variable"
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:509
-msgid "Shade name"
-msgstr "Nom de la nuance"
+msgid "Variant name"
+msgstr "Nom de variante"
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:512
 msgid "<code>500</code> in <code>text-gray-500</code>"
@@ -605,23 +605,23 @@ msgstr ""
 "documentation TailwindCSS</a> pour plus de détails (si vous avez activé ce "
 "module)."
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:716
+#: includes/classes/admin/options-pages/styles-option-configuration.php:717
 msgid "States"
 msgstr "États"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:733
+#: includes/classes/admin/options-pages/styles-option-configuration.php:734
 msgid "Add button state"
 msgstr "Ajouter un état de bouton"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:737
+#: includes/classes/admin/options-pages/styles-option-configuration.php:738
 msgid "Type"
 msgstr "Type"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:790
+#: includes/classes/admin/options-pages/styles-option-configuration.php:791
 msgid "Breakpoints"
 msgstr "Points de rupture"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:821
+#: includes/classes/admin/options-pages/styles-option-configuration.php:822
 msgid ""
 "You can define your site's breakpoints in this tab.<br> Please see <a href="
 "\"https://tailwindcss.com/docs/breakpoints\" target=\"_blank\">TailwindCSS "
@@ -632,15 +632,15 @@ msgstr ""
 "target=\"_blank\">la documentation TailwindCSS</a> pour plus de détails (si "
 "vous avez activé ce module)."
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:847
+#: includes/classes/admin/options-pages/styles-option-configuration.php:848
 msgid "Add breakpoint"
 msgstr "Ajouter un point de rupture"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:895
+#: includes/classes/admin/options-pages/styles-option-configuration.php:896
 msgid "Container"
 msgstr "Conteneur"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:926
+#: includes/classes/admin/options-pages/styles-option-configuration.php:927
 msgid ""
 "You can customize your site's container in this tab.<br> Please see <a href="
 "\"https://tailwindcss.com/docs/container\" target=\"_blank\">TailwindCSS "
@@ -651,19 +651,19 @@ msgstr ""
 "\"_blank\">la documentation TailwindCSS</a> pour plus de détails (si vous "
 "avez activé ce module)."
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:953
+#: includes/classes/admin/options-pages/styles-option-configuration.php:954
 msgid "Center container"
 msgstr "Centrer le conteneur"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:973
+#: includes/classes/admin/options-pages/styles-option-configuration.php:974
 msgid "Add horizontal padding"
 msgstr "Ajouter une marge horizontale"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:993
+#: includes/classes/admin/options-pages/styles-option-configuration.php:994
 msgid "Horizontal padding values"
 msgstr "Valeur de la marge horizontale"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:996
+#: includes/classes/admin/options-pages/styles-option-configuration.php:997
 msgid ""
 "More details in <a href=\"https://tailwindcss.com/docs/container#horizontal-"
 "padding\" target=\"_blank\">TailwindCSS documentation</a>."
@@ -672,11 +672,11 @@ msgstr ""
 "container#horizontal-padding\" target=\"_blank\">documentation de "
 "TailwindCSS</a>."
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:1022
+#: includes/classes/admin/options-pages/styles-option-configuration.php:1023
 msgid "Breakpoint"
 msgstr "Points de rupture"
 
-#: includes/classes/admin/options-pages/styles-option-configuration.php:1093
+#: includes/classes/admin/options-pages/styles-option-configuration.php:1094
 #: includes/classes/admin/options-pages/styles-option-fonts.php:381
 #: includes/classes/admin/options-pages/styles-option-image-sizes.php:269
 #: includes/classes/admin/options-pages/styles-option-modules.php:118
@@ -1260,7 +1260,7 @@ msgstr "Clé"
 
 #: includes/classes/main/class-layouts-single.php:510
 msgid "card-border-radius..."
-msgstr "carte-border-radius..."
+msgstr "card-border-radius..."
 
 #: includes/classes/main/class-layouts-single.php:528
 msgid "rounded-xl..."
@@ -1526,6 +1526,15 @@ msgstr ""
 #. Author of the plugin/theme
 msgid "Pilot'in"
 msgstr "Pilot'in"
+
+#~ msgid "Shades"
+#~ msgstr "Nuances"
+
+#~ msgid "Add shade"
+#~ msgstr "Ajouter une nuance"
+
+#~ msgid "Shade name"
+#~ msgstr "Nom de la nuance"
 
 #~ msgid "Google Font"
 #~ msgstr "Police Google"

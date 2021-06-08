@@ -677,6 +677,6 @@ function pip_get_tailwind_native_colors( $name_labels = false, $only_names = fal
         return $final_array;
     }
 
-    // Unformatted array
+    // Un-formatted array
     return $colors;
 }

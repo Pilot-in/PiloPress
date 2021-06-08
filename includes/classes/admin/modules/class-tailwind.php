@@ -104,9 +104,6 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 // Components import
                 $tailwind_css .= '@import "tailwindcss/components";' . "\n";
 
-                // After components CSS
-                $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
-
                 // Body classes
                 $tailwind_css .= $this->get_body_css() . "\n";
 
@@ -115,6 +112,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
                 // Buttons
                 $tailwind_css .= $this->get_buttons_css() . "\n";
+
+                // After components CSS
+                $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
 
                 // Custom CSS
                 $tailwind_css .= apply_filters( 'pip/tailwind/css/after_components', '' );
@@ -544,20 +544,12 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                             // Get format
                             $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
 
-                            // Get post
-                            $posts   = new WP_Query(
-                                array(
-                                    'name'           => $file['file']['name'],
-                                    'post_type'      => 'attachment',
-                                    'posts_per_page' => 1,
-                                    'fields'         => 'ids',
-                                )
-                            );
-                            $posts   = $posts->get_posts();
-                            $post_id = reset( $posts );
+                            $post_id                    = $file['file']['ID'];
+                            $attachment_upload_path     = wp_get_attachment_url( $post_id );
+                            $attachment_new_upload_path = strstr( $attachment_upload_path, '/wp-content' );
 
                             // Store URL
-                            $url[] = 'url(' . wp_get_attachment_url( $post_id ) . ') format("' . $format . '")';
+                            $url[] = 'url(' . site_url() . $attachment_new_upload_path . ') format("' . $format . '")';
                         }
                     }
                     // Implode URLs for src
