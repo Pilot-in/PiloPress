@@ -569,44 +569,103 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     }
 
                     // Get sub fields
-                    $name   = get_sub_field( 'name' );
-                    $files  = get_sub_field( 'files' );
-                    $weight = get_sub_field( 'weight' );
-                    $style  = get_sub_field( 'style' );
+                    $name     = get_sub_field( 'name' );
+                    $multiple = get_sub_field( 'multiple_weight_and_style' );
 
-                    // Build @font-face
-                    $css_custom .= "@font-face {\n";
-                    $css_custom .= 'font-family: "' . $name . '";' . "\n";
+                    if ( $multiple && have_rows( 'variations' ) ) {
 
-                    // Get URLs
-                    $url = array();
-                    if ( $files ) {
-                        foreach ( $files as $file ) {
-                            // Get format
-                            $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
+                        // Multiple weights and styles
+                        while ( have_rows( 'variations' ) ) {
+                            the_row();
 
-                            $post_id                    = $file['file']['ID'];
-                            $attachment_upload_path     = wp_get_attachment_url( $post_id );
-                            $attachment_new_upload_path = strstr( $attachment_upload_path, '/wp-content' );
+                            // Get variation data
+                            $variation_files    = get_sub_field( 'files' );
+                            $variation_weight   = get_sub_field( 'weight' );
+                            $variation_style    = get_sub_field( 'style' );
+                            $variation_display  = get_sub_field( 'display' );
+                            $variation_variable = get_sub_field( 'variable_font' );
 
-                            // Store URL
-                            $url[] = 'url(' . site_url() . $attachment_new_upload_path . ') format("' . $format . '")';
+                            // Add font-face
+                            $this->generate_font_face( $css_custom, $name, $variation_files, $variation_weight, $variation_style, $variation_display, $variation_variable );
                         }
+                    } else {
+
+                        // Get font data
+                        $files         = get_sub_field( 'files' );
+                        $weight        = get_sub_field( 'weight' );
+                        $style         = get_sub_field( 'style' );
+                        $display       = get_sub_field( 'display' );
+                        $variable_font = get_sub_field( 'variable_font' );
+
+                        $this->generate_font_face( $css_custom, $name, $files, $weight, $style, $display, $variable_font );
                     }
-                    // Implode URLs for src
-                    $css_custom .= 'src: ' . implode( ",\n", $url ) . ";\n";
-
-                    // Font parameters
-                    $css_custom .= 'font-weight: ' . $weight . ";\n";
-                    $css_custom .= 'font-style: ' . $style . ";\n";
-
-                    // End @font-face
-                    $css_custom .= "}\n";
-
                 }
             }
 
             return $css_custom;
+        }
+
+        /**
+         * Generate font-face CSS
+         *
+         * @param string $css_custom
+         * @param string $name
+         * @param array  $files
+         * @param string $weight
+         * @param string $style
+         * @param string $display
+         */
+        private function generate_font_face( &$css_custom, $name, $files, $weight = 'normal', $style = 'normal', $display = 'swap', $variable_font = false ) {
+
+            // Build @font-face
+            $css_custom .= "@font-face {\n";
+            $css_custom .= 'font-family: "' . $name . '";' . "\n";
+
+            // Get URLs
+            $url = array();
+            if ( $files ) {
+                foreach ( $files as $file ) {
+                    // Get format
+                    $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
+
+                    // Fix format
+                    $format = $format === 'otf' ? 'opentype' : $format;
+                    $format = $format === 'ttf' ? 'truetype' : $format;
+                    $format = $format === 'eot' ? 'embedded-opentype' : $format;
+
+                    // Variable font format
+                    $format = $variable_font ? $format . '-variables' : $format;
+
+                    // Get upload path
+                    $post_id                    = $file['file']['ID'];
+                    $attachment_upload_path     = wp_get_attachment_url( $post_id );
+                    $attachment_new_upload_path = strstr( $attachment_upload_path, '/wp-content' );
+
+                    // Allow file URL to be override
+                    $font_url = apply_filters( 'pip/custom_font/url', site_url() . $attachment_new_upload_path, $attachment_new_upload_path );
+
+                    // Store URL
+                    $url[] = 'url(' . $font_url . ') format("' . $format . '")';
+                }
+            }
+
+            // Implode URLs for src
+            $css_custom .= 'src: ' . implode( ",\n", $url ) . ";\n";
+
+            // Font parameters
+            $css_custom .= 'font-weight: ' . $weight . ";\n";
+            $css_custom .= 'font-style: ' . $style . ";\n";
+            $css_custom .= 'font-display: ' . $display . ";\n";
+
+            // Variable font parameters
+            if ( $variable_font && $variable_font_data ) {
+                foreach ( $variable_font_data as $font_data ) {
+                    $css_custom .= acf_maybe_get( $font_data, 'key' ) . ': ' . acf_maybe_get( $font_data, 'value' ) . ";\n";
+                }
+            }
+
+            // End @font-face
+            $css_custom .= "}\n";
         }
 
     }

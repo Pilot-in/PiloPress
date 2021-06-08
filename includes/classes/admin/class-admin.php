@@ -581,10 +581,10 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function allow_mimes_types( $mimes ) {
 
-            $mimes['svg']   = 'image/svg+xml';
             $mimes['ttf']   = 'application/x-font-ttf';
             $mimes['woff']  = 'application/font-woff';
             $mimes['woff2'] = 'application/font-woff2';
+            $mimes['eot']   = 'application/vnd.ms-fontobject';
 
             return $mimes;
         }
