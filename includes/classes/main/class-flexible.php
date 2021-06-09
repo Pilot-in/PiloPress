@@ -216,7 +216,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                 // Add collection badge if two layouts have the same name
                 if (
-                    !is_wp_error( $collections )
+                    !wp_doing_ajax()
+                    && !is_wp_error( $collections )
                     && !empty( $collections )
                     && !isset( $collections['errors'] )
                     && ( $counter[ $title ] > 1 || $always_show_collection )
@@ -270,7 +271,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                                 'class' => '',
                                 'id'    => '',
                             ),
-                            'acfe_permissions'  => '',
                             'clone'             => array(
                                 $field_group['key'],
                             ),
