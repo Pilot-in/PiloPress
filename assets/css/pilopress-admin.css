@@ -400,3 +400,13 @@ body.admin_page_pip_styles_tailwind_module #publishing-action .spinner {
 .pip-admin-navigation .pip-tab:hover {
     color: #00a0d2;
 }
+
+/* Hide actions on sync layouts page */
+body.view-sync .tablenav.top {
+    clear: none;
+}
+
+body.view-sync .tablenav.top .alignleft.actions,
+body.view-sync .tablenav.top .tablenav-pages {
+    display: none;
+}
