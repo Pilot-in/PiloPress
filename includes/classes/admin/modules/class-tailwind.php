@@ -95,12 +95,16 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Add custom fonts import
             $tailwind_css .= $this->css_custom_fonts() . "\n";
 
+            // CSS Vars
+            $tailwind_css .= $this->add_css_vars() . "\n";
+
             // Custom CSS
             $tailwind_css .= apply_filters( 'pip/tailwind/css/after_fonts', '' );
 
             // Maybe add components import
             $add_components_import = acf_maybe_get( $tailwind_components, 'add_components_import' );
             if ( $add_components_import ) {
+
                 // Components import
                 $tailwind_css .= '@import "tailwindcss/components";' . "\n";
 
@@ -610,6 +614,33 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             }
 
             return $css_custom;
+        }
+
+        /**
+         * Add CSS Vars for colors and fonts
+         */
+        private function add_css_vars() {
+            $css_vars = ':root {' . "\n";
+
+            // Colors
+            $colors = pip_get_colors();
+            if ( $colors ) {
+                foreach ( $colors as $color ) {
+                    $css_vars .= '--color-' . $color['class_name'] . ': ' . $color['value'] . ";\n";
+                }
+            }
+
+            // Fonts
+            $fonts = pip_get_fonts();
+            if ( $fonts ) {
+                foreach ( $fonts as $font ) {
+                    $css_vars .= '--font-' . $font['class_name'] . ': "' . $font['name'] . '"' . ";\n";
+                }
+            }
+
+            $css_vars .= '}' . "\n";
+
+            return $css_vars;
         }
 
         /**
