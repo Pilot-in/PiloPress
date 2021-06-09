@@ -314,19 +314,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          */
         public function set_screens( &$config ) {
 
-            $screens = array();
-
-            if ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
-                while ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
-                    the_row();
-
-                    $name  = get_sub_field( 'name' );
-                    $value = get_sub_field( 'value' );
-
-                    // Add screen value
-                    $screens[ $name ] = $value;
-                }
-            }
+            $screens = $this->get_screens();
 
             // If screens, add to config
             if ( $screens ) {
@@ -341,26 +329,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          */
         public function set_container_options( &$config ) {
 
-            $options           = array();
-            $container_options = get_field( 'pip_container', 'pip_styles_configuration' );
-            if ( !$container_options ) {
-                return;
-            }
-
-            // Center container
-            $center_container = acf_maybe_get( $container_options, 'center_container' );
-            if ( $center_container ) {
-                $options['center'] = true;
-            }
-
-            // Add horizontal padding to container
-            $add_padding    = acf_maybe_get( $container_options, 'add_horizontal_padding' );
-            $padding_values = acf_maybe_get( $container_options, 'padding_values' );
-            if ( $add_padding && $padding_values ) {
-                foreach ( $padding_values as $padding_value ) {
-                    $options['padding'][ $padding_value['breakpoint'] ] = $padding_value['value'];
-                }
-            }
+            $options = $this->get_container_options();
 
             // If options, add to config
             if ( $options ) {
@@ -617,7 +586,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
         }
 
         /**
-         * Add CSS Vars for colors and fonts
+         * Add CSS Vars
          */
         private function add_css_vars() {
             $css_vars = ':root {' . "\n";
@@ -626,7 +595,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $colors = pip_get_colors();
             if ( $colors ) {
                 foreach ( $colors as $color ) {
-                    $css_vars .= '--color-' . $color['class_name'] . ': ' . $color['value'] . ";\n";
+                    $css_vars .= '--pip-color-' . $color['class_name'] . ': ' . $color['value'] . ";\n";
                 }
             }
 
@@ -634,7 +603,27 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $fonts = pip_get_fonts();
             if ( $fonts ) {
                 foreach ( $fonts as $font ) {
-                    $css_vars .= '--font-' . $font['class_name'] . ': "' . $font['name'] . '"' . ";\n";
+                    $css_vars .= '--pip-font-' . $font['class_name'] . ': "' . $font['name'] . '"' . ";\n";
+                }
+            }
+
+            // Screens
+            $screens = $this->get_screens();
+            if ( $screens ) {
+                foreach ( $screens as $key => $value ) {
+                    $css_vars .= '--pip-screen-' . $key . ': ' . $value . ";\n";
+                }
+            }
+
+            // Container options
+            $container_options = $this->get_container_options();
+            if ( $container_options ) {
+                $paddings = acf_maybe_get( $container_options, 'padding' );
+
+                if ( $paddings ) {
+                    foreach ( $paddings as $key => $value ) {
+                        $css_vars .= '--pip-padding-container-' . $key . ': ' . $value . ";\n";
+                    }
                 }
             }
 
@@ -697,6 +686,59 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
             // End @font-face
             $css_custom .= "}\n";
+        }
+
+        /**
+         * Get screens options
+         *
+         * @return array
+         */
+        private function get_screens() {
+            $screens = array();
+
+            if ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
+                    the_row();
+
+                    $name  = get_sub_field( 'name' );
+                    $value = get_sub_field( 'value' );
+
+                    // Add screen value
+                    $screens[ $name ] = $value;
+                }
+            }
+
+            return $screens;
+        }
+
+        /**
+         * Get container options
+         *
+         * @return array
+         */
+        private function get_container_options() {
+            $options           = array();
+            $container_options = get_field( 'pip_container', 'pip_styles_configuration' );
+            if ( !$container_options ) {
+                return $options;
+            }
+
+            // Center container
+            $center_container = acf_maybe_get( $container_options, 'center_container' );
+            if ( $center_container ) {
+                $options['center'] = true;
+            }
+
+            // Add horizontal padding to container
+            $add_padding    = acf_maybe_get( $container_options, 'add_horizontal_padding' );
+            $padding_values = acf_maybe_get( $container_options, 'padding_values' );
+            if ( $add_padding && $padding_values ) {
+                foreach ( $padding_values as $padding_value ) {
+                    $options['padding'][ $padding_value['breakpoint'] ] = $padding_value['value'];
+                }
+            }
+
+            return $options;
         }
 
     }
