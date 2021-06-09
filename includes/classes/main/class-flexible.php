@@ -396,7 +396,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     break;
                 case 'options':
                     $args = array(
-                        'options_page' => str_replace( '_', '-', $post_id ),
+                        'options_page' => acf_maybe_get_GET( 'page' ),
                     );
                     break;
                 case 'nav_menu':
@@ -538,18 +538,18 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Check if location rules exist
             if ( isset( $field_group['location'] ) ) {
 
-                // Get the current screen.
+                // Get the current screen
                 $screen = acf_get_location_screen( $args );
 
                 // Loop through location groups.
                 foreach ( $field_group['location'] as $group ) {
 
-                    // ignore group if no rules.
+                    // If no rules, skip
                     if ( empty( $group ) ) {
                         continue;
                     }
 
-                    // Loop over rules and determine if all rules match.
+                    // Loop over rules and determine if all rules match
                     $match_group = true;
                     foreach ( $group as $rule ) {
                         if ( !acf_match_location_rule( $rule, $screen, $field_group ) ) {
@@ -558,7 +558,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         }
                     }
 
-                    // If this group matches, show the field group.
+                    // If this group matches, show the field group
                     if ( $match_group ) {
                         return true;
                     }
