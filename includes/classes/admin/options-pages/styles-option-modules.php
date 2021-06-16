@@ -135,7 +135,7 @@ acf_add_local_field_group(
                             'id'    => '',
                         ),
                         'acfe_save_meta'             => 0,
-                        'default_value'              => '2.8.2',
+                        'default_value'              => '3.0.6',
                         'placeholder'                => '',
                         'prepend'                    => '',
                         'append'                     => '',
