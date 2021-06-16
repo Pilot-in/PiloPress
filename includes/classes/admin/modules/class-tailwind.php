@@ -21,6 +21,69 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
         }
 
         /**
+         * Save custom values
+         *
+         * @param $post_id
+         */
+        public static function save_default_values( $post_id ) {
+            switch ( $post_id ) {
+
+                case 'pip_styles_modules':
+                    // Enable modules
+                    update_field(
+                        'pip_modules',
+                        array(
+                            'tailwind' => true,
+                            'tinymce'  => true,
+                        ),
+                        'pip_styles_modules'
+                    );
+
+                    break;
+
+                case 'pip_styles_tailwind_module':
+                    // Update base fields
+                    update_field(
+                        'pip_tailwind_style_base',
+                        array(
+                            'add_base_import'           => true,
+                            'tailwind_style_after_base' => '',
+                        ),
+                        'pip_styles_tailwind_module'
+                    );
+
+                    // Update components fields
+                    update_field(
+                        'pip_tailwind_style_components',
+                        array(
+                            'add_components_import'           => true,
+                            'tailwind_style_after_components' => '',
+                        ),
+                        'pip_styles_tailwind_module'
+                    );
+
+                    // Update utilities fields
+                    update_field(
+                        'pip_tailwind_style_utilities',
+                        array(
+                            'add_utilities_import'           => true,
+                            'tailwind_style_after_utilities' => '',
+                        ),
+                        'pip_styles_tailwind_module'
+                    );
+
+                    break;
+
+                default:
+                case 'pip_styles_configuration':
+                case 'pip_styles_fonts':
+                case 'pip_styles_image_sizes':
+                    // Do nothing
+                    break;
+            }
+        }
+
+        /**
          * Add Update & Compile button
          *
          * @param $page

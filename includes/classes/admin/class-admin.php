@@ -20,6 +20,62 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
             add_action( 'in_admin_header', array( $this, 'add_pip_navbar' ) );
             add_action( 'admin_notices', array( $this, 'no_pilopress_folder_notice' ) );
+
+            // ACF hooks
+            add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
+        }
+
+        /**
+         * Save default values for every styles pages
+         *
+         * @param $post_id
+         */
+        public function save_styles_settings( $post_id ) {
+
+            // If not on Styles admin page, return
+            if ( !pip_str_starts( $post_id, 'pip_styles_' ) ) {
+                return;
+            }
+
+            // If assets folder doesn't exists, return
+            if ( !file_exists( PIP_THEME_ASSETS_PATH ) ) {
+                return;
+            }
+
+            // Save all styles pages
+            $other_style_pages = $this->get_style_admin_pages();
+
+            // Remove current page
+            $key = array_search( $post_id, $other_style_pages, true );
+            if ( false !== $key ) {
+                unset( $other_style_pages[ $key ] );
+            }
+
+            // Maybe re-save default values
+            foreach ( $other_style_pages as $other_style_page ) {
+                $fields = get_fields( $other_style_page );
+                if ( $fields ) {
+                    continue;
+                }
+
+                PIP_Tailwind::save_default_values( $other_style_page );
+            }
+
+        }
+
+        /**
+         * Get styles pages post IDs
+         *
+         * @return string[]
+         */
+        public function get_style_admin_pages() {
+            return array(
+                'pip_styles_configuration',
+                'pip_styles_fonts',
+                'pip_styles_image_sizes',
+                'pip_styles_modules',
+                'pip_styles_tailwind_module',
+            );
         }
 
         /**
