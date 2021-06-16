@@ -25,7 +25,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             add_filter( 'tiny_mce_before_init', array( $this, 'remove_tiny_mce_style' ) );
 
             // ACF hooks
-            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
+            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ), 99, 1 ); // Late to be after 3rd party plugins, but not PHP_INT_MAX to allow modifications
             add_filter( 'acfe/load_fields', array( $this, 'load_fields_dark_mode' ) );
             add_filter( 'acf/pre_render_fields', array( $this, 'load_fields_dark_mode' ) );
             add_filter( 'acf/load_field/type=wysiwyg', array( $this, 'load_field_dark_mode' ) );
@@ -456,6 +456,46 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             // Remove basic toolbar
             unset( $toolbars['Basic'] );
 
+            // Native TinyMCE buttons
+            $native_buttons = array(
+                'bold',
+                'italic',
+                'bullist',
+                'numlist',
+                'blockquote',
+                'alignleft',
+                'aligncenter',
+                'alignright',
+                'link',
+                'wp_more',
+                'spellchecker',
+                'fullscreen',
+                'wp_adv',
+                'hr',
+                'removeformat',
+                'charmap',
+                'outdent',
+                'indent',
+                'undo',
+                'wp_help',
+                'strikethrough',
+                'forecolor',
+                'pastetext',
+                'redo',
+                'formatselect',
+            );
+
+            // Check if there is 3rd party buttons added
+            $non_native_buttons = array();
+            $full_toolbar       = $toolbars['Full'];
+            foreach ( $full_toolbar as $toolbar_line ) {
+                $diff = array_diff( $toolbar_line, $native_buttons );
+
+                if ( $diff ) {
+                    $non_native_buttons = array_map( 'acf_unarray', $diff );
+                }
+            }
+
             // Toolbar line 1
             $toolbars['Full'][1] = array(
                 'formatselect',
@@ -495,6 +535,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 'fullscreen',
                 'wp_help',
             );
+
+            // Add 3rd party buttons
+            $toolbars['Full'][2] = array_merge( $toolbars['Full'][2], $non_native_buttons );
 
             return $toolbars;
         }
