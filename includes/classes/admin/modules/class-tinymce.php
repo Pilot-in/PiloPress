@@ -22,7 +22,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             add_action( 'admin_enqueue_scripts', array( $this, 'localize_data' ) );
             add_filter( 'mce_external_plugins', array( $this, 'editor_button_script' ) );
             add_filter( 'mce_css', array( $this, 'editor_style' ) );
-            add_filter( 'tiny_mce_before_init', array( $this, 'remove_tiny_mce_style' ) );
+            add_filter( 'tiny_mce_before_init', array( $this, 'change_tinymce_config' ) );
 
             // ACF hooks
             add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ), 99, 1 ); // Late to be after 3rd party plugins, but not PHP_INT_MAX to allow modifications
@@ -705,12 +705,20 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          *
          * @return mixed
          */
-        public function remove_tiny_mce_style( $init ) {
+        public function change_tinymce_config( $init ) {
 
             $init['init_instance_callback'] = ''
                                               . 'function(){'
                                               . '    jQuery(".acf-field-wysiwyg > .acf-input iframe").contents().find("link[href*=\'content.min.css\']").remove();'
                                               . '}';
+
+            // Convert newline characters to BR tags
+            $init['convert_newlines_to_brs'] = true;
+
+            // Allow line-breaks + <br> tags
+            $init['wpautop']      = false;
+            $init['indent']       = true;
+            $init['tadv_noautop'] = true;
 
             return $init;
         }
