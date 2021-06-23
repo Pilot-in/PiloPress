@@ -90,16 +90,17 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          */
         public function load_value( $value, $post_id, $field ) {
 
-            // Get index
-            $initial_value_index = pip_maybe_get( $field, 'key' ) . '_' . pip_maybe_get( $field, 'name' );
-
             // Store value for format value
-            if ( is_numeric( $value ) ) {
-                $this->initial_value[ $initial_value_index ] = $value;
+            if ( !is_numeric( $value ) ) {
+                return array();
             }
 
+            // Get index
+            $initial_value_index                         = acf_maybe_get( $field, 'key' ) . '_' . acf_maybe_get( $field, 'name' );
+            $this->initial_value[ $initial_value_index ] = $value;
+
             // Get component sub fields
-            $sub_fields = get_field_objects( acf_maybe_get( $this->initial_value, $initial_value_index ), false );
+            $sub_fields = get_field_objects( $value );
             if ( !$sub_fields ) {
                 return $value;
             }
@@ -122,10 +123,10 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          */
         public function prepare_field( $field ) {
 
-            // Get row number
-            $acf_field_prefix = pip_maybe_get( $field, 'prefix' );
+            // Get row number `|| Build the same unique index as in format_value and load_value from field data (not the same structure)
+            $acf_field_prefix = acf_maybe_get( $field, 'prefix' );
             preg_match( '~row-(.*?)]~', $acf_field_prefix, $row_number );
-            $row_number = $row_number[1];
+            $row_number = acf_maybe_get( $row_number, '1' );
 
             // Get flexible class instance
             $pip_flexible = acf_get_instance( 'PIP_Flexible' );
@@ -137,7 +138,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
 
             $field['choices'] = $this->get_choices( $field );
             $field['type']    = $field['field_type'];
-            $field['value']   = $this->initial_value[ $initial_value_index ];
+            $field['value']   = acf_maybe_get( $this->initial_value, $initial_value_index );
 
             return $field;
         }
@@ -155,8 +156,14 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
 
             // Get index
             $initial_value_index = acf_maybe_get( $field, 'key' ) . '_' . acf_maybe_get( $field, 'name' );
+            $component_id        = acf_maybe_get( $this->initial_value, $initial_value_index );
 
-            return get_fields( acf_maybe_get( $this->initial_value, $initial_value_index ), true );
+            // If no component selected, then abort
+            if ( empty( $component_id ) ) {
+                return false;
+            }
+
+            return get_fields( $component_id, true );
         }
 
         /**
