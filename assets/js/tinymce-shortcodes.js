@@ -511,21 +511,20 @@
 
                         initialize: function () {
                             // Get size
-                            var size       = getAttr( this.text, 'size' );
-                            var image_size = acf.get( 'image_sizes' )[size];
+                            var size       = getAttr( this.text, 'size' )
+                            var image_size = size !== 'full' ? acf.get( 'image_sizes' )[size] : { width: 100, height: 'auto' };
 
                             // Custom style
-                            var p_css   = 'vertical-align: middle;';
-                            var div_css = 'width: ' + image_size.width + 'px;';
+                            var p_css   = 'vertical-align: middle;'
+                            var div_css = size !== 'full' ? 'width: ' + image_size.width + 'px;' : 'width: 100%;';
 
-                            div_css += 'height: ' + image_size.height + 'px;';
-                            div_css += 'line-height: ' + image_size.height + 'px;';
-                            div_css += 'background-color: #F4F4F4;';
-                            div_css += 'text-align: center;';
-                            div_css += 'border: 1px solid #000;';
+                            div_css += size !== 'full' ? 'height: ' + image_size.height + 'px;' : 'height: 50vh;';
+                            div_css += size !== 'full' ? 'line-height: ' + image_size.height + 'px;' : 'line-height: 100%;';
+                            div_css += 'display: flex; align-items: center; justify-content: center; text-align: center;'
+                            div_css += 'color: #000; border: 1px solid #000; background-color: #F4F4F4;'
 
                             // Render button
-                            this.render( '<div style="' + div_css + '"><p style="' + p_css + '">' + image_size.width + ' x ' + image_size.height + '</p></div>' );
+                            this.render( '<div style="' + div_css + '"><p style="' + p_css + '">' + ( size !== 'full' ? image_size.width : '100%' ) + ' x ' + ( size !== 'full' ? image_size.height : 'auto' ) + '</p></div>' )
                         },
 
                         edit: function ( text, update ) {
