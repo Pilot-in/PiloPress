@@ -115,7 +115,7 @@
                         text: style.name,
                         textStyle: key,
                         format: {
-                            block: 'span',
+                            inline: 'span',
                             classes: style.class_name,
                             wrapper: true,
                             deep: true,
