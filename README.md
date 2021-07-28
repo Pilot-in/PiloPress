@@ -112,6 +112,37 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
+### 0.4.1 - 28/07/2021
+
+* Fixed: Pilo'Press navbar now displayed on new layout page
+* Fixed: import for tailwind components position in code
+* Fixed: PHP error on fresh install
+* Fixed: PHP notice from wp_localize_script()
+* Fixed: Hide actions on sync layouts page
+* Fixed: Remove collection's badge from layout title when doing AJAX
+* Fixed: Conditions to show layouts and Pilo'Press" flexible on options pages
+* Fixed: Allow 3rd party buttons in TinyMCE toolbars
+* Fixed: Infinite loop in specific cases for Components loop
+* Improved: change button's "classes to apply" field from text to textarea
+* Improved: Add "disabled" status in button states choices
+* Improved: Allow HTML in button shortcode text
+* Improved: Allow button shortcode to be a download link + add downloaded file name option
+* Improved: Administration of fonts in Styles
+* Improved: Pilo'Press' styles files version (from Pilo'Press version to `filemtime()`)
+* Improved: Save all styles options when saving one page
+* Improved: Thumbnail preview when selected size is Full
+* Improved: Allow custom styles in TinyMCE to be applied on part of text instead of whole paragraph
+* Added: Add option for a FontAwesome icon in `pip_button` shortcode
+* Added: Add `pip/shortcode/button/icon_margin` filter
+* Added: Add `pip/custom_font/url` filter to allow URL modification for custom fonts
+* Added: AlpineJS module in administration panel. You can now enqueue easily AlpineJS with a toggle and specify its version (default to 3.0.6)
+* Added: Add `pip/alpinejs` and `pip/alpinejs/version` filters
+* Added: Add a notice in administration if Pilo'Press is active but no `pilopress` folder is found in active theme
+* Added: Add spacings in Configuration tab
+* Added: Add option to WYSIWYG fields to enable Dark mode by default
+* Added: Fallback fonts option
+* Added: CSS Vars for colors, screens, container paddings and fonts
+
 ### 0.4.0 - 04/02/2021
 
 * Fixed: `pip_get_formatted_post_id()` function used in `get_pip_content()` and return nothing if used on custom post
