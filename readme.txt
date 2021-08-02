@@ -111,7 +111,7 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 == Changelog ==
 
-= 0.4.1 - 28/07/2021 =
+= 0.4.1 - 02/08/2021 =
 * Fixed: Pilo'Press navbar now displayed on new layout page
 * Fixed: import for tailwind components position in code
 * Fixed: PHP error on fresh install
