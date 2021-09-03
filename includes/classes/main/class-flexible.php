@@ -188,28 +188,13 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 // Path
                 $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
 
-                // Categories
-                $categories = get_terms(
-                    array(
-                        'taxonomy'   => 'acf-layouts-category',
-                        'object_ids' => $field_group['ID'],
-                        'fields'     => 'names',
-                    )
-                );
+                // Get layout categories from field group
+                $layout_categories = acf_maybe_get( $field_group, 'layout_categories' );
+                $layout_categories = $layout_categories ? array_values( $layout_categories ) : array();
 
-                // No category
-                if ( is_wp_error( $categories ) || empty( $categories ) ) {
-                    $categories = array();
-                }
-
-                // Collections
-                $collections = (array) get_terms(
-                    array(
-                        'taxonomy'   => 'acf-layouts-collection',
-                        'object_ids' => $field_group['ID'],
-                        'fields'     => 'names',
-                    )
-                );
+                // Get layout collections from field group
+                $layout_collections = acf_maybe_get( $field_group, 'layout_collections' );
+                $layout_collections = $layout_collections ? array_values( $layout_collections ) : array();
 
                 // Allow user to by-pass condition
                 $always_show_collection = apply_filters( 'pip/layouts/always_show_collection', false );
@@ -217,16 +202,13 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 // Add collection badge if two layouts have the same name
                 if (
                     !wp_doing_ajax()
-                    && !is_wp_error( $collections )
-                    && !empty( $collections )
-                    && !isset( $collections['errors'] )
+                    && !empty( $layout_collections )
                     && ( $counter[ $title ] > 1 || $always_show_collection )
                 ) {
-                    $title = '<div class="pip_collection">' . reset( $collections ) . '</div>' . $title;
+                    $title = '<div class="pip_collection">' . reset( $layout_collections ) . '</div>' . $title;
                 }
 
                 // Settings
-                $layout_category  = $categories ? $categories : array();
                 $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $layout_slug . '.php' );
                 $render_script    = $file_path . acf_maybe_get( $field_group, '_pip_render_script', $layout_slug . '.js' );
                 $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail' );
@@ -281,7 +263,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                             'acfe_clone_modal'  => 0,
                         ),
                     ),
-                    'acfe_flexible_category'        => $layout_category,
+                    'acfe_flexible_category'        => $layout_categories,
                     'acfe_flexible_render_template' => $render_layout,
                     'acfe_flexible_render_style'    => '', // Empty for no enqueue
                     'acfe_flexible_render_script'   => $render_script,
