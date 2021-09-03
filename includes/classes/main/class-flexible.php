@@ -36,6 +36,20 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         public $layout_group_keys = array();
 
         /**
+         * Layout Group Keys
+         *
+         * @var array
+         */
+        private $layouts = array();
+
+        /**
+         * Group Keys
+         *
+         * @var array
+         */
+        private $group_keys = array();
+
+        /**
          * PIP_Flexible constructor.
          */
         public function __construct() {
@@ -56,16 +70,10 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         public function init() {
 
             // Get layouts and group keys
-            $data = $this->get_layouts_and_group_keys();
+            $this->set_layouts_and_group_keys();
 
             // Mirror
             $mirror = pip_get_flexible_mirror_group();
-
-            // Layouts
-            $layouts    = $data['layouts'];
-            $group_keys = $data['group_keys'];
-
-            $this->layout_group_keys = array_merge( $this->layout_group_keys, $group_keys );
 
             // Locations
             $locations = apply_filters( 'pip/builder/locations', acf_maybe_get( $mirror, 'location', array() ) );
@@ -84,7 +92,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'class' => '',
                     'id'    => '',
                 ),
-                'layouts'           => $layouts,
+                'layouts'           => $this->layouts,
                 'button_label'      => __( 'Add Row', 'pilopress' ),
                 'min'               => '',
                 'max'               => '',
@@ -152,11 +160,11 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         }
 
         /**
-         * Get layouts and group keys
+         * Set layouts and group keys
          *
          * @return array
          */
-        public function get_layouts_and_group_keys() {
+        public function set_layouts_and_group_keys() {
 
             $layouts      = array();
             $group_keys   = array();
@@ -165,10 +173,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             // If no field groups, return
             if ( !$field_groups ) {
-                return array(
-                    'layouts'    => null,
-                    'group_keys' => null,
-                );
+                return;
             }
 
             // Browse all field groups
@@ -279,9 +284,23 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             }
 
+            // Layouts
+            $this->layouts    = $layouts;
+            $this->group_keys = $group_keys;
+            $this->layout_group_keys = array_merge( $layouts, $group_keys );
+
+        }
+
+        /**
+         * Get layouts and group keys
+         *
+         * @return array
+         */
+        public function get_layouts_and_group_keys() {
+
             return array(
-                'layouts'    => $layouts,
-                'group_keys' => $group_keys,
+                'layouts'    => $this->layouts,
+                'group_keys' => $this->group_keys,
             );
 
         }
