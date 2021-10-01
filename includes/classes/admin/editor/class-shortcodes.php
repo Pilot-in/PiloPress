@@ -134,6 +134,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             );
 
             $class = acf_maybe_get( $attrs, 'alignment', '' );
+            $class = apply_filters( 'pip/shortcode/button_group/class', $class );
 
             // Render shortcode
             return sprintf( '<div class="%s pip_button_group">%s</div>', esc_attr( trim( $class ) ), do_shortcode( $content ) );

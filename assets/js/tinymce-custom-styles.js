@@ -43,7 +43,7 @@
                         format: {
                             inline: 'span',
                             classes: 'text-' + color.class_name,
-                            wrapper: true,
+                            wrapper: false,
                             deep: true,
                             split: true,
                         },
@@ -85,7 +85,7 @@
                         format: {
                             inline: 'span',
                             classes: 'font-' + font.class_name,
-                            wrapper: true,
+                            wrapper: false,
                             deep: true,
                             split: true,
                         },
@@ -117,7 +117,7 @@
                         format: {
                             inline: 'span',
                             classes: style.class_name,
-                            wrapper: true,
+                            wrapper: false,
                             deep: true,
                             split: true,
                         },
