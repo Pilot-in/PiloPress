@@ -8,7 +8,8 @@ other things and use the Flexible Content field as a page builder.
 Pilo'Press uses Tailwind CSS for style templating which can be setup and build directly from the back-office. Please
 note that Tailwind CSS is not mandatory, you can choose to use it or not.
 
-**All features are describe in details _(with screens & videos)_, in our [GitHub Page](https://pilot-in.github.io/PiloPress/).**  
+**All features are describe in details _(with screens & videos)_, in
+our [GitHub Page](https://pilot-in.github.io/PiloPress/).**  
 You can **discuss with us** on **[the Pilo'Press slack community](https://pilopress.slack.com/join/signup)**.
 
 ## Table of Contents
@@ -112,6 +113,14 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 
 ## Changelog
 
+### 0.4.1.1 - 01/10/2021
+
+* Improved: Change tailwindapi.com to api.pilopress.com
+* Improved: Change way to get terms, improved performances in admin
+* Improved: Change custom styles, colors and fonts wrapper argument to false, to allow user to apply different styles in
+  same paragraph
+* Added: Add `pip/shortcode/button_group/class` filter
+
 ### 0.4.1 - 02/08/2021
 
 * Fixed: Pilo'Press navbar now displayed on new layout page
@@ -135,7 +144,8 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 * Added: Add option for a FontAwesome icon in `pip_button` shortcode
 * Added: Add `pip/shortcode/button/icon_margin` filter
 * Added: Add `pip/custom_font/url` filter to allow URL modification for custom fonts
-* Added: AlpineJS module in administration panel. You can now enqueue easily AlpineJS with a toggle and specify its version (default to 3.0.6)
+* Added: AlpineJS module in administration panel. You can now enqueue easily AlpineJS with a toggle and specify its
+  version (default to 3.0.6)
 * Added: Add `pip/alpinejs` and `pip/alpinejs/version` filters
 * Added: Add a notice in administration if Pilo'Press is active but no `pilopress` folder is found in active theme
 * Added: Add spacings in Configuration tab

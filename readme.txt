@@ -3,9 +3,9 @@ Contributors: pilotin
 Donate link: https://www.pilot-in.com
 Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
-Tested up to: 5.8
+Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 0.4.1
+Stable tag: 0.4.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,14 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.4.1.1 - 01/10/2021 =
+
+* Improved: Change tailwindapi.com to api.pilopress.com
+* Improved: Change way to get terms, improved performances in admin
+* Improved: Change custom styles, colors and fonts wrapper argument to false, to allow user to apply different styles in
+  same paragraph
+* Added: Add `pip/shortcode/button_group/class` filter
 
 = 0.4.1 - 02/08/2021 =
 * Fixed: Pilo'Press navbar now displayed on new layout page
