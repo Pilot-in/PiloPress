@@ -566,34 +566,34 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
             // PILO_TODO: Uncomment when min and max validation will be fixed
             // Layout min
-//            acf_render_field_wrap(
-//                array(
-//                    'label'       => __( 'Min', 'pilopress' ),
-//                    'type'        => 'number',
-//                    'name'        => '_pip_layout_min',
-//                    'prefix'      => 'acf_field_group',
-//                    'placeholder' => '',
-//                    'required'    => 0,
-//                    'step'        => 1,
-//                    'min'         => '0',
-//                    'value'       => isset( $field_group['_pip_layout_min'] ) ? $field_group['_pip_layout_min'] : '',
-//                )
-//            );
+            //            acf_render_field_wrap(
+            //                array(
+            //                    'label'       => __( 'Min', 'pilopress' ),
+            //                    'type'        => 'number',
+            //                    'name'        => '_pip_layout_min',
+            //                    'prefix'      => 'acf_field_group',
+            //                    'placeholder' => '',
+            //                    'required'    => 0,
+            //                    'step'        => 1,
+            //                    'min'         => '0',
+            //                    'value'       => isset( $field_group['_pip_layout_min'] ) ? $field_group['_pip_layout_min'] : '',
+            //                )
+            //            );
 
             // Layout max
-//            acf_render_field_wrap(
-//                array(
-//                    'label'       => __( 'Max', 'pilopress' ),
-//                    'type'        => 'number',
-//                    'name'        => '_pip_layout_max',
-//                    'prefix'      => 'acf_field_group',
-//                    'placeholder' => '',
-//                    'required'    => 0,
-//                    'step'        => 1,
-//                    'min'         => '0',
-//                    'value'       => isset( $field_group['_pip_layout_max'] ) ? $field_group['_pip_layout_max'] : '',
-//                )
-//            );
+            //            acf_render_field_wrap(
+            //                array(
+            //                    'label'       => __( 'Max', 'pilopress' ),
+            //                    'type'        => 'number',
+            //                    'name'        => '_pip_layout_max',
+            //                    'prefix'      => 'acf_field_group',
+            //                    'placeholder' => '',
+            //                    'required'    => 0,
+            //                    'step'        => 1,
+            //                    'min'         => '0',
+            //                    'value'       => isset( $field_group['_pip_layout_max'] ) ? $field_group['_pip_layout_max'] : '',
+            //                )
+            //            );
 
             // Script for admin style
             ?>
@@ -621,21 +621,67 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             // Get field group
             $field_group = $meta_box['args']['field_group'];
 
-            // Thumbnail
-            acf_render_field_wrap(
-                array(
-                    'label'         => __( 'Thumbnail', 'pilopress' ),
-                    'instructions'  => __( 'Layout preview', 'pilopress' ),
-                    'name'          => '_pip_thumbnail',
-                    'type'          => 'image',
-                    'class'         => '',
-                    'prefix'        => 'acf_field_group',
-                    'value'         => ( isset( $field_group['_pip_thumbnail'] ) ? $field_group['_pip_thumbnail'] : '' ),
-                    'return_format' => 'array',
-                    'preview_size'  => 'thumbnail',
-                    'library'       => 'all',
-                )
-            );
+            // Get layout slug
+            $layout_slug = $field_group['_pip_layout_slug'];
+
+            // Get file path and URL
+            $file_path     = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
+            $file_exist    = false;
+            $extension     = '';
+            $has_thumbnail = $field_group['_pip_thumbnail'];
+
+            // Get file extension
+            switch ( $file_path ) {
+                case file_exists( $file_path . '.png' ):
+                    $file_exist = true;
+                    $extension  = '.png';
+                    break;
+                case file_exists( $file_path . '.jpeg' ):
+                    $file_exist = true;
+                    $extension  = '.jpeg';
+                    break;
+                case file_exists( $file_path . '.jpg' ):
+                    $file_exist = true;
+                    $extension  = '.jpg';
+                    break;
+            }
+
+            if ( $file_exist && !$has_thumbnail ) {
+                $instructions['class'] = 'acf-js-tooltip';
+                $instructions['title'] = __( 'Screenshot location:', 'pilopress' ) . '<br/>' . $layout_slug . '/' . $layout_slug . $extension;
+
+                // Thumbnail
+                acf_render_field_wrap(
+                    array(
+                        'label'         => __( 'Thumbnail', 'pilopress' ),
+                        'instructions'  => '<span ' . acf_esc_atts( $instructions ) . '><span class="dashicons dashicons-yes" style="color:#46B450;"></span>' . __( 'Screenshot defined in layout folder', 'pilopress' ) . '</span>',
+                        'name'          => '_pip_thumbnail',
+                        'type'          => 'image',
+                        'class'         => '',
+                        'prefix'        => 'acf_field_group',
+                        'value'         => ( isset( $field_group['_pip_thumbnail'] ) ? $field_group['_pip_thumbnail'] : '' ),
+                        'return_format' => 'array',
+                        'preview_size'  => 'thumbnail',
+                        'library'       => 'all',
+                    )
+                );
+            } else {
+                // Thumbnail
+                acf_render_field_wrap(
+                    array(
+                        'label'         => __( 'Thumbnail', 'pilopress' ),
+                        'instructions'  => __( 'Layout preview', 'pilopress' ),
+                        'name'          => '_pip_thumbnail',
+                        'type'          => 'image',
+                        'class'         => '',
+                        'prefix'        => 'acf_field_group',
+                        'value'         => ( isset( $field_group['_pip_thumbnail'] ) ? $field_group['_pip_thumbnail'] : '' ),
+                        'return_format' => 'array',
+                        'preview_size'  => 'thumbnail',
+                        'library'       => 'all',
+                    )
+                );
+            }
 
             // Script for admin style
             ?>
