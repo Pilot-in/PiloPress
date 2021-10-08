@@ -226,7 +226,7 @@ if ( !class_exists( 'PIP_Components' ) ) {
 
             } else {
                 // Compare all other values.
-                $match = ( $post_id === $rule['value'] );
+                $match = (int) $post_id === (int) $rule['value'];
             }
 
             // Allow for "!=" operator.
