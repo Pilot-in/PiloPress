@@ -46,7 +46,7 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
             $layouts = $data['layouts'];
 
             // Field
-            $field   = array(
+            $field = array(
                 'key'               => 'field_' . $this->get_flexible_footer_field_name(),
                 'label'             => __( 'Footer', 'pilopress' ),
                 'name'              => $this->get_flexible_footer_field_name(),

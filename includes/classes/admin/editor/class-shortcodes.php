@@ -42,6 +42,8 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                     'type'          => false,
                     'alignment'     => false,
                     'target'        => false,
+                    'download'      => false,
+                    'download_name' => false,
                     'xclass'        => false,
                     'link'          => '',
                     'nodiv'         => false,
@@ -58,21 +60,29 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             $btn_class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
             // Get args
-            $btn_class  = esc_attr( trim( $btn_class ) );
-            $alignment  = esc_attr( $attrs['alignment'] );
-            $btn_link   = esc_url( $attrs['link'] );
-            $icon_class = $attrs['icon'];
-            $icon_pos   = $attrs['icon_position'];
-            $target     = $attrs['target'] ? esc_attr( $attrs['target'] ) : '_blank';
-            $btn_text   = $attrs['text'];
-            $no_div     = $attrs['nodiv'];
+            $btn_class     = esc_attr( trim( $btn_class ) );
+            $alignment     = esc_attr( $attrs['alignment'] );
+            $btn_link      = esc_url( $attrs['link'] );
+            $target        = $attrs['target'] ? esc_attr( $attrs['target'] ) : '_blank';
+            $download      = $attrs['download'];
+            $download_name = $attrs['download_name'];
+            $btn_text      = $attrs['text'];
+            $no_div        = $attrs['nodiv'];
+            $icon_class    = $attrs['icon'];
+            $icon_pos      = $attrs['icon_position'];
 
             $html = '';
             if ( !$no_div ) {
                 $html .= '<div class="' . $alignment . '">';
             }
 
-            $html .= '<a href="' . $btn_link . '" class="' . $btn_class . '" target="' . $target . '">';
+            $download_option = '';
+            if ( $download ) {
+                $download_name   = $download_name ? $download_name : 'download';
+                $download_option = 'download="' . $download_name . '"';
+            }
+
+            $html .= '<a href="' . $btn_link . '" class="' . $btn_class . '" target="' . $target . '" ' . $download_option . '>';
 
             if ( $icon_class ) {
 
@@ -124,6 +134,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             );
 
             $class = acf_maybe_get( $attrs, 'alignment', '' );
+            $class = apply_filters( 'pip/shortcode/button_group/class', $class );
 
             // Render shortcode
             return sprintf( '<div class="%s pip_button_group">%s</div>', esc_attr( trim( $class ) ), do_shortcode( $content ) );
@@ -229,7 +240,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                         break;
 
                     default:
-                        # code...
+                        // code...
                         break;
                 }
 

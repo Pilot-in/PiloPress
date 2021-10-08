@@ -21,6 +21,69 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
         }
 
         /**
+         * Save custom values
+         *
+         * @param $post_id
+         */
+        public static function save_default_values( $post_id ) {
+            switch ( $post_id ) {
+
+                case 'pip_styles_modules':
+                    // Enable modules
+                    update_field(
+                        'pip_modules',
+                        array(
+                            'tailwind' => true,
+                            'tinymce'  => true,
+                        ),
+                        'pip_styles_modules'
+                    );
+
+                    break;
+
+                case 'pip_styles_tailwind_module':
+                    // Update base fields
+                    update_field(
+                        'pip_tailwind_style_base',
+                        array(
+                            'add_base_import'           => true,
+                            'tailwind_style_after_base' => '',
+                        ),
+                        'pip_styles_tailwind_module'
+                    );
+
+                    // Update components fields
+                    update_field(
+                        'pip_tailwind_style_components',
+                        array(
+                            'add_components_import'           => true,
+                            'tailwind_style_after_components' => '',
+                        ),
+                        'pip_styles_tailwind_module'
+                    );
+
+                    // Update utilities fields
+                    update_field(
+                        'pip_tailwind_style_utilities',
+                        array(
+                            'add_utilities_import'           => true,
+                            'tailwind_style_after_utilities' => '',
+                        ),
+                        'pip_styles_tailwind_module'
+                    );
+
+                    break;
+
+                default:
+                case 'pip_styles_configuration':
+                case 'pip_styles_fonts':
+                case 'pip_styles_image_sizes':
+                    // Do nothing
+                    break;
+            }
+        }
+
+        /**
          * Add Update & Compile button
          *
          * @param $page
@@ -95,12 +158,16 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Add custom fonts import
             $tailwind_css .= $this->css_custom_fonts() . "\n";
 
+            // CSS Vars
+            $tailwind_css .= $this->add_css_vars() . "\n";
+
             // Custom CSS
             $tailwind_css .= apply_filters( 'pip/tailwind/css/after_fonts', '' );
 
             // Maybe add components import
             $add_components_import = acf_maybe_get( $tailwind_components, 'add_components_import' );
             if ( $add_components_import ) {
+
                 // Components import
                 $tailwind_css .= '@import "tailwindcss/components";' . "\n";
 
@@ -259,6 +326,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 // Container
                 $this->set_container_options( $config );
 
+                // Spacings
+                $this->set_spacings_options( $config );
+
                 // Colors
                 $this->set_colors( $config );
 
@@ -307,19 +377,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          */
         public function set_screens( &$config ) {
 
-            $screens = array();
-
-            if ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
-                while ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
-                    the_row();
-
-                    $name  = get_sub_field( 'name' );
-                    $value = get_sub_field( 'value' );
-
-                    // Add screen value
-                    $screens[ $name ] = $value;
-                }
-            }
+            $screens = $this->get_screens();
 
             // If screens, add to config
             if ( $screens ) {
@@ -334,30 +392,49 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          */
         public function set_container_options( &$config ) {
 
-            $options           = array();
-            $container_options = get_field( 'pip_container', 'pip_styles_configuration' );
-            if ( !$container_options ) {
-                return;
-            }
-
-            // Center container
-            $center_container = acf_maybe_get( $container_options, 'center_container' );
-            if ( $center_container ) {
-                $options['center'] = true;
-            }
-
-            // Add horizontal padding to container
-            $add_padding    = acf_maybe_get( $container_options, 'add_horizontal_padding' );
-            $padding_values = acf_maybe_get( $container_options, 'padding_values' );
-            if ( $add_padding && $padding_values ) {
-                foreach ( $padding_values as $padding_value ) {
-                    $options['padding'][ $padding_value['breakpoint'] ] = $padding_value['value'];
-                }
-            }
+            $options = $this->get_container_options();
 
             // If options, add to config
             if ( $options ) {
                 $config['theme']['container'] = $options;
+            }
+        }
+
+        /**
+         * Set spacing options
+         *
+         * @param $config
+         */
+        public function set_spacings_options( &$config ) {
+
+            $options         = array();
+            $spacing_options = get_field( 'pip_spacing', 'pip_styles_configuration' );
+            if ( !$spacing_options ) {
+                return;
+            }
+
+            // Get options
+            $override_spacings = acf_maybe_get( $spacing_options, 'override_spacings' );
+            $spacings          = acf_maybe_get( $spacing_options, 'spacings' );
+            if ( !$spacings ) {
+                return;
+            }
+
+            // Format values
+            foreach ( $spacings as $spacing ) {
+                $options['spacing'][ $spacing['key'] ] = $spacing['value'];
+            }
+
+            // If no values, return
+            if ( !$options ) {
+                return;
+            }
+
+            // Add spacings
+            if ( $override_spacings ) {
+                $config['theme'] = $options;
+            } else {
+                $config['theme']['extend'] = $options;
             }
         }
 
@@ -439,11 +516,18 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Browse fonts
             foreach ( $fonts as $font ) {
 
+                // Get data
                 $name       = acf_maybe_get( $font, 'name' );
                 $class_name = acf_maybe_get( $font, 'class_name' );
+                $fallback   = acf_maybe_get( $font, 'fallback' );
+
+                // Add fallback fonts
+                $font_names = explode( ',', $fallback );
+                $font_names = array_map( 'trim', $font_names );
+                array_unshift( $font_names, $name );
 
                 // Add font
-                $options[ $class_name ] = $name;
+                $options[ $class_name ] = $font_names;
             }
 
             // If options, add to config
@@ -528,44 +612,196 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     }
 
                     // Get sub fields
-                    $name   = get_sub_field( 'name' );
-                    $files  = get_sub_field( 'files' );
-                    $weight = get_sub_field( 'weight' );
-                    $style  = get_sub_field( 'style' );
+                    $name     = get_sub_field( 'name' );
+                    $multiple = get_sub_field( 'multiple_weight_and_style' );
 
-                    // Build @font-face
-                    $css_custom .= "@font-face {\n";
-                    $css_custom .= 'font-family: "' . $name . '";' . "\n";
+                    if ( $multiple && have_rows( 'variations' ) ) {
 
-                    // Get URLs
-                    $url = array();
-                    if ( $files ) {
-                        foreach ( $files as $file ) {
-                            // Get format
-                            $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
+                        // Multiple weights and styles
+                        while ( have_rows( 'variations' ) ) {
+                            the_row();
 
-                            $post_id                    = $file['file']['ID'];
-                            $attachment_upload_path     = wp_get_attachment_url( $post_id );
-                            $attachment_new_upload_path = strstr( $attachment_upload_path, '/wp-content' );
+                            // Get variation data
+                            $variation_files    = get_sub_field( 'files' );
+                            $variation_weight   = get_sub_field( 'weight' );
+                            $variation_style    = get_sub_field( 'style' );
+                            $variation_display  = get_sub_field( 'display' );
+                            $variation_variable = get_sub_field( 'variable_font' );
 
-                            // Store URL
-                            $url[] = 'url(' . site_url() . $attachment_new_upload_path . ') format("' . $format . '")';
+                            // Add font-face
+                            $this->generate_font_face( $css_custom, $name, $variation_files, $variation_weight, $variation_style, $variation_display, $variation_variable );
                         }
+                    } else {
+
+                        // Get font data
+                        $files         = get_sub_field( 'files' );
+                        $weight        = get_sub_field( 'weight' );
+                        $style         = get_sub_field( 'style' );
+                        $display       = get_sub_field( 'display' );
+                        $variable_font = get_sub_field( 'variable_font' );
+
+                        $this->generate_font_face( $css_custom, $name, $files, $weight, $style, $display, $variable_font );
                     }
-                    // Implode URLs for src
-                    $css_custom .= 'src: ' . implode( ",\n", $url ) . ";\n";
-
-                    // Font parameters
-                    $css_custom .= 'font-weight: ' . $weight . ";\n";
-                    $css_custom .= 'font-style: ' . $style . ";\n";
-
-                    // End @font-face
-                    $css_custom .= "}\n";
-
                 }
             }
 
             return $css_custom;
+        }
+
+        /**
+         * Add CSS Vars
+         */
+        private function add_css_vars() {
+            $css_vars = ':root {' . "\n";
+
+            // Colors
+            $colors = pip_get_colors();
+            if ( $colors ) {
+                foreach ( $colors as $color ) {
+                    $css_vars .= '--pip-color-' . $color['class_name'] . ': ' . $color['value'] . ";\n";
+                }
+            }
+
+            // Fonts
+            $fonts = pip_get_fonts();
+            if ( $fonts ) {
+                foreach ( $fonts as $font ) {
+                    $css_vars .= '--pip-font-' . $font['class_name'] . ': "' . $font['name'] . '"' . ";\n";
+                }
+            }
+
+            // Screens
+            $screens = $this->get_screens();
+            if ( $screens ) {
+                foreach ( $screens as $key => $value ) {
+                    $css_vars .= '--pip-screen-' . $key . ': ' . $value . ";\n";
+                }
+            }
+
+            // Container options
+            $container_options = $this->get_container_options();
+            if ( $container_options ) {
+                $paddings = acf_maybe_get( $container_options, 'padding' );
+
+                if ( $paddings ) {
+                    foreach ( $paddings as $key => $value ) {
+                        $css_vars .= '--pip-padding-container-' . $key . ': ' . $value . ";\n";
+                    }
+                }
+            }
+
+            $css_vars .= '}' . "\n";
+
+            return $css_vars;
+        }
+
+        /**
+         * Generate font-face CSS
+         *
+         * @param string $css_custom
+         * @param string $name
+         * @param array  $files
+         * @param string $weight
+         * @param string $style
+         * @param string $display
+         */
+        private function generate_font_face( &$css_custom, $name, $files, $weight = 'normal', $style = 'normal', $display = 'swap', $variable_font = false ) {
+
+            // Build @font-face
+            $css_custom .= "@font-face {\n";
+            $css_custom .= 'font-family: "' . $name . '";' . "\n";
+
+            // Get URLs
+            $url = array();
+            if ( $files ) {
+                foreach ( $files as $file ) {
+                    // Get format
+                    $format = strtolower( pathinfo( $file['file']['filename'], PATHINFO_EXTENSION ) );
+
+                    // Fix format
+                    $format = $format === 'otf' ? 'opentype' : $format;
+                    $format = $format === 'ttf' ? 'truetype' : $format;
+                    $format = $format === 'eot' ? 'embedded-opentype' : $format;
+
+                    // Variable font format
+                    $format = $variable_font ? $format . '-variables' : $format;
+
+                    // Get upload path
+                    $post_id                    = $file['file']['ID'];
+                    $attachment_upload_path     = wp_get_attachment_url( $post_id );
+                    $attachment_new_upload_path = strstr( $attachment_upload_path, '/wp-content' );
+
+                    // Allow file URL to be override
+                    $font_url = apply_filters( 'pip/custom_font/url', site_url() . $attachment_new_upload_path, $attachment_new_upload_path );
+
+                    // Store URL
+                    $url[] = 'url(' . $font_url . ') format("' . $format . '")';
+                }
+            }
+
+            // Implode URLs for src
+            $css_custom .= 'src: ' . implode( ",\n", $url ) . ";\n";
+
+            // Font parameters
+            $css_custom .= 'font-weight: ' . $weight . ";\n";
+            $css_custom .= 'font-style: ' . $style . ";\n";
+            $css_custom .= 'font-display: ' . $display . ";\n";
+
+            // End @font-face
+            $css_custom .= "}\n";
+        }
+
+        /**
+         * Get screens options
+         *
+         * @return array
+         */
+        private function get_screens() {
+            $screens = array();
+
+            if ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
+                    the_row();
+
+                    $name  = get_sub_field( 'name' );
+                    $value = get_sub_field( 'value' );
+
+                    // Add screen value
+                    $screens[ $name ] = $value;
+                }
+            }
+
+            return $screens;
+        }
+
+        /**
+         * Get container options
+         *
+         * @return array
+         */
+        private function get_container_options() {
+            $options           = array();
+            $container_options = get_field( 'pip_container', 'pip_styles_configuration' );
+            if ( !$container_options ) {
+                return $options;
+            }
+
+            // Center container
+            $center_container = acf_maybe_get( $container_options, 'center_container' );
+            if ( $center_container ) {
+                $options['center'] = true;
+            }
+
+            // Add horizontal padding to container
+            $add_padding    = acf_maybe_get( $container_options, 'add_horizontal_padding' );
+            $padding_values = acf_maybe_get( $container_options, 'padding_values' );
+            if ( $add_padding && $padding_values ) {
+                foreach ( $padding_values as $padding_value ) {
+                    $options['padding'][ $padding_value['breakpoint'] ] = $padding_value['value'];
+                }
+            }
+
+            return $options;
         }
 
     }

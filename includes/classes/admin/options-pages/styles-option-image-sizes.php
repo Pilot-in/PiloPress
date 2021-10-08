@@ -247,7 +247,7 @@ acf_add_local_field_group(
                 array(
                     'param'    => 'options_page',
                     'operator' => '==',
-                    'value'    => 'pip-styles-image-sizes',
+                    'value'    => 'pip_styles_image_sizes',
                 ),
             ),
         ),

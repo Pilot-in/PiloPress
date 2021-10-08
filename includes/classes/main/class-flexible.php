@@ -36,6 +36,20 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         public $layout_group_keys = array();
 
         /**
+         * Layout Group Keys
+         *
+         * @var array
+         */
+        private $layouts = array();
+
+        /**
+         * Group Keys
+         *
+         * @var array
+         */
+        private $group_keys = array();
+
+        /**
          * PIP_Flexible constructor.
          */
         public function __construct() {
@@ -56,16 +70,10 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         public function init() {
 
             // Get layouts and group keys
-            $data = $this->get_layouts_and_group_keys();
+            $this->set_layouts_and_group_keys();
 
             // Mirror
             $mirror = pip_get_flexible_mirror_group();
-
-            // Layouts
-            $layouts    = $data['layouts'];
-            $group_keys = $data['group_keys'];
-
-            $this->layout_group_keys = array_merge( $this->layout_group_keys, $group_keys );
 
             // Locations
             $locations = apply_filters( 'pip/builder/locations', acf_maybe_get( $mirror, 'location', array() ) );
@@ -84,7 +92,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'class' => '',
                     'id'    => '',
                 ),
-                'layouts'           => $layouts,
+                'layouts'           => $this->layouts,
                 'button_label'      => __( 'Add Row', 'pilopress' ),
                 'min'               => '',
                 'max'               => '',
@@ -152,11 +160,11 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         }
 
         /**
-         * Get layouts and group keys
+         * Set layouts and group keys
          *
          * @return array
          */
-        public function get_layouts_and_group_keys() {
+        public function set_layouts_and_group_keys() {
 
             $layouts      = array();
             $group_keys   = array();
@@ -165,10 +173,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             // If no field groups, return
             if ( !$field_groups ) {
-                return array(
-                    'layouts'    => null,
-                    'group_keys' => null,
-                );
+                return;
             }
 
             // Browse all field groups
@@ -188,44 +193,27 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 // Path
                 $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
 
-                // Categories
-                $categories = get_terms(
-                    array(
-                        'taxonomy'   => 'acf-layouts-category',
-                        'object_ids' => $field_group['ID'],
-                        'fields'     => 'names',
-                    )
-                );
+                // Get layout categories from field group
+                $layout_categories = acf_maybe_get( $field_group, 'layout_categories' );
+                $layout_categories = $layout_categories ? array_values( $layout_categories ) : array();
 
-                // No category
-                if ( is_wp_error( $categories ) || empty( $categories ) ) {
-                    $categories = array();
-                }
-
-                // Collections
-                $collections = (array) get_terms(
-                    array(
-                        'taxonomy'   => 'acf-layouts-collection',
-                        'object_ids' => $field_group['ID'],
-                        'fields'     => 'names',
-                    )
-                );
+                // Get layout collections from field group
+                $layout_collections = acf_maybe_get( $field_group, 'layout_collections' );
+                $layout_collections = $layout_collections ? array_values( $layout_collections ) : array();
 
                 // Allow user to by-pass condition
                 $always_show_collection = apply_filters( 'pip/layouts/always_show_collection', false );
 
                 // Add collection badge if two layouts have the same name
                 if (
-                    !is_wp_error( $collections )
-                    && !empty( $collections )
-                    && !isset( $collections['errors'] )
+                    !wp_doing_ajax()
+                    && !empty( $layout_collections )
                     && ( $counter[ $title ] > 1 || $always_show_collection )
                 ) {
-                    $title = '<div class="pip_collection">' . reset( $collections ) . '</div>' . $title;
+                    $title = '<div class="pip_collection">' . reset( $layout_collections ) . '</div>' . $title;
                 }
 
                 // Settings
-                $layout_category  = $categories ? $categories : array();
                 $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $layout_slug . '.php' );
                 $render_script    = $file_path . acf_maybe_get( $field_group, '_pip_render_script', $layout_slug . '.js' );
                 $layout_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail' );
@@ -270,7 +258,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                                 'class' => '',
                                 'id'    => '',
                             ),
-                            'acfe_permissions'  => '',
                             'clone'             => array(
                                 $field_group['key'],
                             ),
@@ -281,7 +268,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                             'acfe_clone_modal'  => 0,
                         ),
                     ),
-                    'acfe_flexible_category'        => $layout_category,
+                    'acfe_flexible_category'        => $layout_categories,
                     'acfe_flexible_render_template' => $render_layout,
                     'acfe_flexible_render_style'    => '', // Empty for no enqueue
                     'acfe_flexible_render_script'   => $render_script,
@@ -297,9 +284,23 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             }
 
+            // Layouts
+            $this->layouts    = $layouts;
+            $this->group_keys = $group_keys;
+            $this->layout_group_keys = array_merge( $layouts, $group_keys );
+
+        }
+
+        /**
+         * Get layouts and group keys
+         *
+         * @return array
+         */
+        public function get_layouts_and_group_keys() {
+
             return array(
-                'layouts'    => $layouts,
-                'group_keys' => $group_keys,
+                'layouts'    => $this->layouts,
+                'group_keys' => $this->group_keys,
             );
 
         }
@@ -396,7 +397,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     break;
                 case 'options':
                     $args = array(
-                        'options_page' => str_replace( '_', '-', $post_id ),
+                        'options_page' => acf_maybe_get_GET( 'page' ),
                     );
                     break;
                 case 'nav_menu':
@@ -538,18 +539,18 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Check if location rules exist
             if ( isset( $field_group['location'] ) ) {
 
-                // Get the current screen.
+                // Get the current screen
                 $screen = acf_get_location_screen( $args );
 
                 // Loop through location groups.
                 foreach ( $field_group['location'] as $group ) {
 
-                    // ignore group if no rules.
+                    // If no rules, skip
                     if ( empty( $group ) ) {
                         continue;
                     }
 
-                    // Loop over rules and determine if all rules match.
+                    // Loop over rules and determine if all rules match
                     $match_group = true;
                     foreach ( $group as $rule ) {
                         if ( !acf_match_location_rule( $rule, $screen, $field_group ) ) {
@@ -558,7 +559,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         }
                     }
 
-                    // If this group matches, show the field group.
+                    // If this group matches, show the field group
                     if ( $match_group ) {
                         return true;
                     }

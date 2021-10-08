@@ -38,6 +38,7 @@
                             name: 'text',
                             type: 'textbox',
                             value: '',
+                            tooltip: 'To add HTML, replace double quotes by simple quotes.',
                         },
                         {
                             label: 'Type',
@@ -63,6 +64,17 @@
                                 { text: 'Same page', value: '_self' },
                                 { text: 'New page', value: '_blank' },
                             ],
+                        },
+                        {
+                            label: 'Download',
+                            name: 'download',
+                            type: 'checkbox',
+                        },
+                        {
+                            label: 'Download name',
+                            name: 'download_name',
+                            type: 'textbox',
+                            value: '',
                         },
                         {
                             label: 'Extra class',
@@ -345,18 +357,26 @@
                                 if ( !button.nodiv ) {
                                     html = '<div class="' + button.alignment + '">';
                                 }
-                                html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape( btn_class ) + '" ' + btn_disabled + '>';
+                                console.log( button.text );
+
+                                var download_option = '';
+                                if ( button.download ) {
+                                    button.download_name = button.download_name ? button.download_name : 'download';
+                                    download_option      = 'download="' + button.download_name + '"';
+                                }
+
+                                html += '<a href="' + button.link + '" target="' + button.target + '" class="' + _.escape( btn_class ) + '" ' + btn_disabled + ' ' + download_option + '>';
 
                                 if ( button.icon ) {
 
                                     if ( button.icon_position === 'left' ) {
-                                        html += '<i class="' + button.icon + ' mr-2"></i>' + _.escape( button.text ) + '</a>';
+                                        html += '<i class="' + button.icon + ' mr-2"></i>' + button.text + '</a>';
                                     } else if ( button.icon_position === 'right' ) {
-                                        html += _.escape( button.text ) + '<i class="' + button.icon + ' ml-2"></i></a>';
+                                        html += button.text + '<i class="' + button.icon + ' ml-2"></i></a>';
                                     }
 
                                 } else {
-                                    html += _.escape( button.text ) + '</a>';
+                                    html += button.text + '</a>';
                                 }
 
                                 if ( !button.nodiv ) {
@@ -491,21 +511,20 @@
 
                         initialize: function () {
                             // Get size
-                            var size       = getAttr( this.text, 'size' );
-                            var image_size = acf.get( 'image_sizes' )[size];
+                            var size       = getAttr( this.text, 'size' )
+                            var image_size = size !== 'full' ? acf.get( 'image_sizes' )[size] : { width: 100, height: 'auto' };
 
                             // Custom style
-                            var p_css   = 'vertical-align: middle;';
-                            var div_css = 'width: ' + image_size.width + 'px;';
+                            var p_css   = 'vertical-align: middle;'
+                            var div_css = size !== 'full' ? 'width: ' + image_size.width + 'px;' : 'width: 100%;';
 
-                            div_css += 'height: ' + image_size.height + 'px;';
-                            div_css += 'line-height: ' + image_size.height + 'px;';
-                            div_css += 'background-color: #F4F4F4;';
-                            div_css += 'text-align: center;';
-                            div_css += 'border: 1px solid #000;';
+                            div_css += size !== 'full' ? 'height: ' + image_size.height + 'px;' : 'height: 50vh;';
+                            div_css += size !== 'full' ? 'line-height: ' + image_size.height + 'px;' : 'line-height: 100%;';
+                            div_css += 'display: flex; align-items: center; justify-content: center; text-align: center;'
+                            div_css += 'color: #000; border: 1px solid #000; background-color: #F4F4F4;'
 
                             // Render button
-                            this.render( '<div style="' + div_css + '"><p style="' + p_css + '">' + image_size.width + ' x ' + image_size.height + '</p></div>' );
+                            this.render( '<div style="' + div_css + '"><p style="' + p_css + '">' + ( size !== 'full' ? image_size.width : '100%' ) + ' x ' + ( size !== 'full' ? image_size.height : 'auto' ) + '</p></div>' )
                         },
 
                         edit: function ( text, update ) {
@@ -598,6 +617,8 @@
             button.xclass        = getAttr( item, 'xclass' );
             button.link          = getAttr( item, 'link' );
             button.target        = getAttr( item, 'target' );
+            button.download      = getAttr( item, 'download' );
+            button.download_name = getAttr( item, 'download_name' );
             button.nodiv         = getAttr( item, 'nodiv' );
             button.icon          = getAttr( item, 'icon' );
             button.icon_position = getAttr( item, 'icon_position' );

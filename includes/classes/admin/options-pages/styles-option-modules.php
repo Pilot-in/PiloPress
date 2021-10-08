@@ -47,6 +47,8 @@ acf_add_local_field_group(
                 'acfe_seamless_style' => 0,
                 'acfe_group_modal'    => 0,
                 'sub_fields'          => array(
+
+                    // TailwindCSS
                     array(
                         'key'               => 'field_module_tailwind',
                         'label'             => __( 'TailwindCSS', 'pilopress' ),
@@ -67,6 +69,8 @@ acf_add_local_field_group(
                         'ui_on_text'        => '',
                         'ui_off_text'       => '',
                     ),
+
+                    // TinyMCE
                     array(
                         'key'               => 'field_module_tinymce',
                         'label'             => __( 'TinyMCE', 'pilopress' ),
@@ -87,6 +91,58 @@ acf_add_local_field_group(
                         'ui_on_text'        => '',
                         'ui_off_text'       => '',
                     ),
+
+                    // AlpineJS
+                    array(
+                        'key'               => 'field_module_alpinejs',
+                        'label'             => __( 'AlpineJS', 'pilopress' ),
+                        'name'              => 'alpinejs',
+                        'type'              => 'true_false',
+                        'instructions'      => __( 'Activate AlpineJS module.<br>It will enqueue AlpineJS and you will be able to use it in your layouts.', 'pilopress' ),
+                        'required'          => 0,
+                        'conditional_logic' => 0,
+                        'wrapper'           => array(
+                            'width' => '',
+                            'class' => '',
+                            'id'    => '',
+                        ),
+                        'acfe_permissions'  => '',
+                        'message'           => '',
+                        'default_value'     => 0,
+                        'ui'                => 1,
+                        'ui_on_text'        => '',
+                        'ui_off_text'       => '',
+                    ),
+                    array(
+                        'key'                        => 'field_alpinejs_version',
+                        'label'                      => 'Version',
+                        'name'                       => 'alpinejs_version',
+                        'type'                       => 'text',
+                        'instructions'               => 'See <a href="https://cdnjs.com/libraries/alpinejs" target="_blank">cdnjs.com</a> for available versions.',
+                        'required'                   => 0,
+                        'conditional_logic'          => array(
+                            array(
+                                array(
+                                    'field'    => 'field_module_alpinejs',
+                                    'operator' => '==',
+                                    'value'    => '1',
+                                ),
+                            ),
+                        ),
+                        'wrapper'                    => array(
+                            'width' => '',
+                            'class' => '',
+                            'id'    => '',
+                        ),
+                        'acfe_save_meta'             => 0,
+                        'default_value'              => '3.0.6',
+                        'placeholder'                => '',
+                        'prepend'                    => '',
+                        'append'                     => '',
+                        'maxlength'                  => '',
+                        'acfe_field_group_condition' => 0,
+                    ),
+
                 ),
             ),
 
@@ -96,7 +152,7 @@ acf_add_local_field_group(
                 array(
                     'param'    => 'options_page',
                     'operator' => '==',
-                    'value'    => 'pip-styles-modules',
+                    'value'    => 'pip_styles_modules',
                 ),
             ),
         ),

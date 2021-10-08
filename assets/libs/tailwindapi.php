@@ -12,7 +12,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
          *
          * @param array $args
          *
-         * @return bool|string
+         * @return array|bool|void|WP_Error
          */
         public function build( $args = array() ) {
 
@@ -43,7 +43,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
             // Minify
             $args['minify'] = boolval( $args['minify'] );
 
-            $data = json_encode( $args );
+            $data = wp_json_encode( $args );
 
             $post_args = array(
                 'body'    => $data,
@@ -54,12 +54,19 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                 ),
             );
 
-            $return = wp_remote_post( 'https://www.tailwindapi.com/api/v1/build', $post_args );
+            $return = wp_remote_post( 'http://api.pilopress.com/api/v1/build', $post_args );
+
+            // Error
+            if ( is_wp_error( $return ) ) {
+                set_transient( 'pip_tailwind_api_compile_error', __( 'An error occurred. Please try again later', 'pilopress' ), 45 );
+                wp_safe_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
+                exit();
+            }
 
             // Error
             if ( $return['response']['code'] !== 200 ) {
                 set_transient( 'pip_tailwind_api_compile_error', $return['body'], 45 );
-                wp_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
+                wp_safe_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
                 exit();
             }
 

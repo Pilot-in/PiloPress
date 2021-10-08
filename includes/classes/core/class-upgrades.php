@@ -141,6 +141,18 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
             $buttons = get_field( 'pip_button', 'pip_styles_tinymce' );
             if ( is_array( $buttons ) ) {
                 foreach ( $buttons as $key => $item ) {
+
+                    // Skip if no content
+                    if ( !$item ) {
+                        continue;
+                    }
+
+                    // Skip if no classes
+                    $old_classes = acf_maybe_get( $item, 'classes_to_apply' );
+                    if ( !$old_classes ) {
+                        continue;
+                    }
+
                     $old_classes = $item['classes_to_apply'];
 
                     if ( strstr( $old_classes, ' ' ) ) {
@@ -182,7 +194,7 @@ if ( !class_exists( 'PIP_Upgrades' ) ) {
                         $item['classes_to_apply'] = implode( ' ', $old_classes );
                         $item['states']           = $states;
                     } else {
-                        $item['class_name']       = $item['classes_to_apply'];
+                        $item['class_name']       = acf_maybe_get( $item, 'classes_to_apply' );
                         $item['classes_to_apply'] = '';
                     }
 

@@ -1,12 +1,12 @@
 (
     function ( $ ) {
-        'use strict'
+        'use strict';
 
         // The global pip object
-        var pip = {}
+        var pip = {};
 
         // Set as a browser global
-        window.pip = pip
+        window.pip = pip;
 
         /**
          * Layout settings: Move default settings
@@ -18,29 +18,29 @@
                 {
 
                     actions: {
-                        'new_field': 'onNewField'
+                        'new_field': 'onNewField',
                     },
 
                     onNewField: function ( field ) {
 
                         // 'acfe_form', 'label_placement', 'instruction_placement', 'description'
-                        var name = field.get( 'name' )
+                        var name = field.get( 'name' );
 
                         if ( name === 'acfe_form' || name === 'label_placement' || name === 'instruction_placement' || name === 'description' ) {
 
-                            var $sibling = $( '[data-name="tab_more"]' ).first()
+                            var $sibling = $( '[data-name="tab_more"]' ).first();
 
                             // Bail early if no sibling
                             if ( !$sibling.length ) {
-                                return
+                                return;
                             }
 
-                            $sibling.after( field.$el )
+                            $sibling.after( field.$el );
 
                         }
-                    }
-                }
-            )
+                    },
+                },
+            );
 
             acf.addAction(
                 'prepare',
@@ -48,61 +48,61 @@
 
                     if ( $.isFunction( acf.getPostbox ) ) {
                         // Hide default field group ACF settings
-                        var LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' )
+                        var LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' );
 
                         if ( typeof LayoutSettingsPostBox !== 'undefined' && $( '#pip_layout_settings' ).length ) {
-                            LayoutSettingsPostBox.hide()
+                            LayoutSettingsPostBox.hide();
                         }
                     }
 
                     // Layout admin page
-                    var $title          = $( '#title' )
-                    var $prepend        = $( '.acf-input-prepend span' )
-                    var $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' )
-                    var $layoutTemplate = $( '#acf_field_group-_pip_render_layout' )
-                    var $renderCSS      = $( '#acf_field_group-_pip_render_style' )
-                    var $renderScript   = $( '#acf_field_group-_pip_render_script' )
-                    var $configFile     = $( '#acf_field_group-_pip_config_file' )
-                    var templateSwitch  = false
-                    var cssSwitch       = false
-                    var scriptSwitch    = false
-                    var configSwitch    = false
+                    var $title          = $( '#title' );
+                    var $prepend        = $( '.acf-input-prepend span' );
+                    var $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' );
+                    var $layoutTemplate = $( '#acf_field_group-_pip_render_layout' );
+                    var $renderCSS      = $( '#acf_field_group-_pip_render_style' );
+                    var $renderScript   = $( '#acf_field_group-_pip_render_script' );
+                    var $configFile     = $( '#acf_field_group-_pip_config_file' );
+                    var templateSwitch  = false;
+                    var cssSwitch       = false;
+                    var scriptSwitch    = false;
+                    var configSwitch    = false;
 
                     /**
                      * When something is typed in "template" field
                      */
                     $layoutTemplate.keyup(
                         function () {
-                            templateSwitch = true
-                        }
-                    )
+                            templateSwitch = true;
+                        },
+                    );
 
                     /**
                      * When something is typed in "CSS" field
                      */
                     $renderCSS.keyup(
                         function () {
-                            cssSwitch = true
-                        }
-                    )
+                            cssSwitch = true;
+                        },
+                    );
 
                     /**
                      * When something is typed in "script" field
                      */
                     $renderScript.keyup(
                         function () {
-                            scriptSwitch = true
-                        }
-                    )
+                            scriptSwitch = true;
+                        },
+                    );
 
                     /**
                      * When something is typed in "configuration" field
                      */
                     $configFile.keyup(
                         function () {
-                            configSwitch = true
-                        }
-                    )
+                            configSwitch = true;
+                        },
+                    );
 
                     /**
                      * When something is typed in "title" field
@@ -110,15 +110,15 @@
                     $title.keyup(
                         function () {
                             // Get title
-                            var $this = $( this )
+                            var $this = $( this );
 
                             // If new layout
                             if ( $( '#auto_draft' ).val() === '1' ) {
                                 // Change values with sanitized slug
-                                change_values( $this )
+                                change_values( $this );
                             }
-                        }
-                    )
+                        },
+                    );
 
                     /**
                      * When something is typed in "layout slug" field
@@ -126,12 +126,12 @@
                     $layoutSlug.keyup(
                         function () {
                             // Get layout slug
-                            var $this = $( this )
+                            var $this = $( this );
 
                             // Change values with sanitized slug
-                            change_values( $this )
-                        }
-                    )
+                            change_values( $this );
+                        },
+                    );
 
                     /**
                      * Change input & span values
@@ -139,13 +139,13 @@
                      * @param $this
                      */
                     function change_values( $this ) {
-                        $layoutSlug.val( pip.sanitize_title( $this.val() ) )
-                        $prepend.html( pip.sanitize_title( $this.val().replace( /-$/, '' ) ) )
+                        $layoutSlug.val( pip.sanitize_title( $this.val() ) );
+                        $prepend.html( pip.sanitize_title( $this.val().replace( /-$/, '' ) ) );
 
-                        updateRenderSettings( $this.val() )
+                        updateRenderSettings( $this.val() );
 
                         if ( !$this.val() ) {
-                            $prepend.html( 'layout' )
+                            $prepend.html( 'layout' );
                         }
                     }
 
@@ -159,37 +159,37 @@
                             $layoutTemplate.val(
                                 (
                                     pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'template'
-                                ) + '.php'
-                            )
+                                ) + '.php',
+                            );
                         }
 
                         if ( !cssSwitch ) {
                             $renderCSS.val(
                                 (
                                     pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'style'
-                                ) + '.css'
-                            )
+                                ) + '.css',
+                            );
                         }
 
                         if ( !scriptSwitch ) {
                             $renderScript.val(
                                 (
                                     pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'script'
-                                ) + '.js'
-                            )
+                                ) + '.js',
+                            );
                         }
 
                         if ( !configSwitch ) {
                             $configFile.val(
                                 (
                                     pip.sanitize_title( val ) ? 'configuration-' + pip.sanitize_title( val ) : 'configuration'
-                                ) + '.php'
-                            )
+                                ) + '.php',
+                            );
                         }
                     }
 
-                }
-            )
+                },
+            );
         }
 
         $( document ).ready(
@@ -198,18 +198,12 @@
                 /**
                  * Remove search for layouts admin page
                  */
-                var searchParams = new URLSearchParams( window.location.search )
+                var searchParams = new URLSearchParams( window.location.search );
                 if ( $( 'body' ).hasClass( 'wp-admin', 'post-type-acf-field-group' ) && searchParams.get( 'layouts' ) === '1' ) {
-                    $( '.subsubsub li:last-child:not([class])' ).remove()
+                    $( '.subsubsub li:last-child:not([class])' ).remove();
                 }
-            }
-        )
-
-        $( document ).ajaxComplete(
-            function () {
-                $( '.acfe-layout-title .acfe-layout-title-text .pip_collection' ).remove()
-            }
-        )
+            },
+        );
 
         /**
          * Sanitize value like WP function "sanitize_title"
@@ -227,8 +221,8 @@
                 .replace( /^-+/, '' )                 // Trim - from start of text
                 .normalize( 'NFD' )                                  // Change accent to unicode value
                 .replace( /[\u0300-\u036f]/g, '' )    // From unicode value to letter
-                .replace( /[^a-zA-Z0-9_\-\s]+/g, '' ) // Remove all non-word chars
-        }
+                .replace( /[^a-zA-Z0-9_\-\s]+/g, '' ); // Remove all non-word chars
+        };
 
     }
-)( jQuery )
+)( jQuery );

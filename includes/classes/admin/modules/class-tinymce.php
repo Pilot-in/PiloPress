@@ -25,9 +25,33 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             add_filter( 'tiny_mce_before_init', array( $this, 'remove_tiny_mce_style' ) );
 
             // ACF hooks
-            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ) );
+            add_filter( 'acf/fields/wysiwyg/toolbars', array( $this, 'customize_toolbar' ), 99, 1 ); // Late to be after 3rd party plugins, but not PHP_INT_MAX to allow modifications
             add_filter( 'acfe/load_fields', array( $this, 'load_fields_dark_mode' ) );
-            add_filter( 'acfe/load_field/type=wysiwyg', array( $this, 'load_field_dark_mode' ) );
+            add_filter( 'acf/pre_render_fields', array( $this, 'load_fields_dark_mode' ) );
+            add_filter( 'acf/load_field/type=wysiwyg', array( $this, 'load_field_dark_mode' ) );
+            add_action( 'acf/render_field_settings/type=wysiwyg', array( $this, 'add_dark_mode_option' ) );
+        }
+
+        /**
+         * Add dark mode option to WYSIWYG fields
+         *
+         * @param $field
+         */
+        public function add_dark_mode_option( $field ) {
+            // Dark mode
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'         => __( 'Dark mode' ),
+                    'name'          => 'pip_dark_mode_default',
+                    'key'           => 'pip_dark_mode_default',
+                    'instructions'  => __( 'Activate dark mode by default.' ),
+                    'type'          => 'true_false',
+                    'message'       => '',
+                    'default_value' => false,
+                    'ui'            => true,
+                )
+            );
         }
 
         /**
@@ -67,6 +91,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                             $url           = get_sub_field( 'url' );
                             $enqueue       = get_sub_field( 'enqueue' );
                             $class_name    = get_sub_field( 'class_name' );
+                            $fallback      = get_sub_field( 'fallback' );
                             $add_to_editor = get_sub_field( 'add_to_editor' );
 
                             // Update class name
@@ -81,6 +106,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                                 'class_name'    => $class_name,
                                 'url'           => $url,
                                 'enqueue'       => $enqueue,
+                                'fallback'      => $fallback,
                                 'add_to_editor' => $add_to_editor,
                             );
                             break;
@@ -88,29 +114,59 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                         case 'custom_font':
                             // Get font name
                             $label         = get_sub_field( 'name' );
-                            $files         = get_sub_field( 'files' );
-                            $weight        = get_sub_field( 'weight' );
-                            $style         = get_sub_field( 'style' );
                             $class_name    = get_sub_field( 'class_name' );
+                            $fallback      = get_sub_field( 'fallback' );
                             $add_to_editor = get_sub_field( 'add_to_editor' );
+                            $multiple      = get_sub_field( 'multiple_weight_and_style' );
 
-                            // Update class name
-                            if ( !$class_name ) {
-                                $class_name = sanitize_title( $label );
-                                update_sub_field( 'class_name', $class_name, 'pip_styles_fonts' );
+                            if ( $multiple && have_rows( 'variations' ) ) {
+
+                                while ( have_rows( 'variations' ) ) {
+                                    the_row();
+
+                                    $files   = get_sub_field( 'files' );
+                                    $weight  = get_sub_field( 'weight' );
+                                    $style   = get_sub_field( 'style' );
+                                    $display = get_sub_field( 'display' );
+
+                                    // Add custom font
+                                    $fonts[ sanitize_title( $label ) ] = array(
+                                        'name'          => $label,
+                                        'class_name'    => $class_name,
+                                        'fallback'      => $fallback,
+                                        'add_to_editor' => $add_to_editor,
+                                        'files'         => $files,
+                                        'weight'        => $weight,
+                                        'style'         => $style,
+                                        'display'       => $display,
+                                    );
+                                }
+                            } else {
+                                // Update class name
+                                if ( !$class_name ) {
+                                    $class_name = sanitize_title( $label );
+                                    update_sub_field( 'class_name', $class_name, 'pip_styles_fonts' );
+                                }
+
+                                $files   = get_sub_field( 'files' );
+                                $weight  = get_sub_field( 'weight' );
+                                $style   = get_sub_field( 'style' );
+                                $display = get_sub_field( 'display' );
+
+                                // Add custom font
+                                $fonts[ sanitize_title( $label ) ] = array(
+                                    'name'          => $label,
+                                    'class_name'    => $class_name,
+                                    'fallback'      => $fallback,
+                                    'add_to_editor' => $add_to_editor,
+                                    'files'         => $files,
+                                    'weight'        => $weight,
+                                    'style'         => $style,
+                                    'display'       => $display,
+                                );
                             }
 
-                            // Add custom font
-                            $fonts[ sanitize_title( $label ) ] = array(
-                                'name'          => $label,
-                                'class_name'    => $class_name,
-                                'files'         => $files,
-                                'weight'        => $weight,
-                                'style'         => $style,
-                                'add_to_editor' => $add_to_editor,
-                            );
                             break;
-
                     }
                 }
             }
@@ -400,6 +456,46 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             // Remove basic toolbar
             unset( $toolbars['Basic'] );
 
+            // Native TinyMCE buttons
+            $native_buttons = array(
+                'bold',
+                'italic',
+                'bullist',
+                'numlist',
+                'blockquote',
+                'alignleft',
+                'aligncenter',
+                'alignright',
+                'link',
+                'wp_more',
+                'spellchecker',
+                'fullscreen',
+                'wp_adv',
+                'hr',
+                'removeformat',
+                'charmap',
+                'outdent',
+                'indent',
+                'undo',
+                'wp_help',
+                'strikethrough',
+                'forecolor',
+                'pastetext',
+                'redo',
+                'formatselect',
+            );
+
+            // Check if there is 3rd party buttons added
+            $non_native_buttons = array();
+            $full_toolbar       = $toolbars['Full'];
+            foreach ( $full_toolbar as $toolbar_line ) {
+                $diff = array_diff( $toolbar_line, $native_buttons );
+
+                if ( $diff ) {
+                    $non_native_buttons = array_map( 'acf_unarray', $diff );
+                }
+            }
+
             // Toolbar line 1
             $toolbars['Full'][1] = array(
                 'formatselect',
@@ -439,6 +535,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                 'fullscreen',
                 'wp_help',
             );
+
+            // Add 3rd party buttons
+            $toolbars['Full'][2] = array_merge( $toolbars['Full'][2], $non_native_buttons );
 
             return $toolbars;
         }
@@ -504,16 +603,17 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
             $new = $field;
 
             // Change values
-            $new['type']      = 'acfe_hidden';
-            $new['label']     = '';
-            $new['key']       = $field['key'] . '_dark_mode';
-            $new['name']      = $field['name'] . '_dark_mode';
-            $new['_name']     = $field['_name'] . '_dark_mode';
-            $new['append']    = '';
-            $new['prepend']   = '';
-            $new['minlength'] = '';
-            $new['maxlength'] = '';
-            $new['required']  = false;
+            $new['type']          = 'acfe_hidden';
+            $new['label']         = '';
+            $new['key']           = $field['key'] . '_dark_mode';
+            $new['name']          = $field['name'] . '_dark_mode';
+            $new['_name']         = $field['_name'] . '_dark_mode';
+            $new['append']        = '';
+            $new['prepend']       = '';
+            $new['minlength']     = '';
+            $new['maxlength']     = '';
+            $new['required']      = false;
+            $new['default_value'] = acf_maybe_get( $field, 'pip_dark_mode_default' );
 
             // Remove useless values
             unset( $new['tabs'] );
@@ -574,6 +674,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
 
                 // Insert dark mode field after wysiwyg field
                 array_splice( $fields, $key + $offset, 0, array( $acf_get_field ) );
+
             }
 
             return $fields;

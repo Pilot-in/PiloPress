@@ -41,7 +41,7 @@ acf_add_local_field_group(
                 'acfe_flexible_layouts_templates'       => 0,
                 'acfe_flexible_layouts_previews'        => 0,
                 'acfe_flexible_layouts_placeholder'     => 0,
-                'acfe_flexible_title_edition'           => 0,
+                'acfe_flexible_title_edition'           => 1,
                 'acfe_flexible_clone'                   => 0,
                 'acfe_flexible_copy_paste'              => 0,
                 'acfe_flexible_close_button'            => 0,
@@ -76,6 +76,8 @@ acf_add_local_field_group(
                         'label'                         => __( 'External Font', 'pilopress' ),
                         'display'                       => 'row',
                         'sub_fields'                    => array(
+
+                            // Name
                             array(
                                 'key'               => 'field_google_font_name',
                                 'label'             => __( 'Name', 'pilopress' ),
@@ -96,6 +98,8 @@ acf_add_local_field_group(
                                 'append'            => '',
                                 'maxlength'         => '',
                             ),
+
+                            // URL
                             array(
                                 'key'               => 'field_google_font_url',
                                 'label'             => __( 'URL', 'pilopress' ),
@@ -113,6 +117,8 @@ acf_add_local_field_group(
                                 'default_value'     => '',
                                 'placeholder'       => '',
                             ),
+
+                            // Auto-enqueue
                             array(
                                 'key'               => 'field_google_font_enqueue',
                                 'label'             => __( 'Auto-enqueue', 'pilopress' ),
@@ -133,6 +139,8 @@ acf_add_local_field_group(
                                 'ui_on_text'        => '',
                                 'ui_off_text'       => '',
                             ),
+
+                            // Class name
                             array(
                                 'key'               => 'field_google_font_class_name',
                                 'label'             => __( 'Class name', 'pilopress' ),
@@ -153,6 +161,30 @@ acf_add_local_field_group(
                                 'append'            => '',
                                 'maxlength'         => '',
                             ),
+
+                            // Fallback fonts
+                            array(
+                                'key'               => 'field_google_font_fallback',
+                                'label'             => __( 'Fallback fonts', 'pilopress' ),
+                                'name'              => 'fallback',
+                                'type'              => 'text',
+                                'instructions'      => __( 'Fonts to use if the main font is unavailable.', 'pilopress' ),
+                                'required'          => 0,
+                                'conditional_logic' => 0,
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_permissions'  => '',
+                                'default_value'     => 'system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif',
+                                'placeholder'       => '',
+                                'prepend'           => '',
+                                'append'            => '',
+                                'maxlength'         => '',
+                            ),
+
+                            // Add to editor
                             array(
                                 'key'               => 'field_google_font_add_to_editor',
                                 'label'             => __( 'Add to editor menu?', 'pilopress' ),
@@ -173,6 +205,7 @@ acf_add_local_field_group(
                                 'ui_on_text'        => '',
                                 'ui_off_text'       => '',
                             ),
+
                         ),
                         'min'                           => '',
                         'max'                           => '',
@@ -192,6 +225,8 @@ acf_add_local_field_group(
                         'label'                         => __( 'Custom font', 'pilopress' ),
                         'display'                       => 'row',
                         'sub_fields'                    => array(
+
+                            // Name
                             array(
                                 'key'               => 'field_custom_font_name',
                                 'label'             => __( 'Name', 'pilopress' ),
@@ -212,90 +247,8 @@ acf_add_local_field_group(
                                 'append'            => '',
                                 'maxlength'         => '',
                             ),
-                            array(
-                                'key'                           => 'field_custom_font_files',
-                                'label'                         => __( 'Files', 'pilopress' ),
-                                'name'                          => 'files',
-                                'type'                          => 'repeater',
-                                'instructions'                  => '',
-                                'required'                      => 1,
-                                'conditional_logic'             => 0,
-                                'wrapper'                       => array(
-                                    'width' => '',
-                                    'class' => '',
-                                    'id'    => '',
-                                ),
-                                'acfe_repeater_stylised_button' => 0,
-                                'acfe_permissions'              => '',
-                                'collapsed'                     => '',
-                                'min'                           => 0,
-                                'max'                           => 0,
-                                'layout'                        => 'block',
-                                'button_label'                  => __( 'Add file', 'pilopress' ),
-                                'sub_fields'                    => array(
-                                    array(
-                                        'key'               => 'field_custom_font_file',
-                                        'label'             => __( 'File', 'pilopress' ),
-                                        'name'              => 'file',
-                                        'type'              => 'file',
-                                        'instructions'      => '',
-                                        'required'          => 1,
-                                        'conditional_logic' => 0,
-                                        'wrapper'           => array(
-                                            'width' => '',
-                                            'class' => '',
-                                            'id'    => '',
-                                        ),
-                                        'acfe_permissions'  => '',
-                                        'acfe_uploader'     => 'wp',
-                                        'return_format'     => 'array',
-                                        'library'           => 'all',
-                                        'min_size'          => '',
-                                        'max_size'          => '',
-                                        'mime_types'        => '',
-                                    ),
-                                ),
-                            ),
-                            array(
-                                'key'               => 'field_custom_font_weight',
-                                'label'             => __( 'Weight', 'pilopress' ),
-                                'name'              => 'weight',
-                                'type'              => 'text',
-                                'instructions'      => '',
-                                'required'          => 0,
-                                'conditional_logic' => 0,
-                                'wrapper'           => array(
-                                    'width' => '',
-                                    'class' => '',
-                                    'id'    => '',
-                                ),
-                                'acfe_permissions'  => '',
-                                'default_value'     => 'normal',
-                                'placeholder'       => '',
-                                'prepend'           => '',
-                                'append'            => '',
-                                'maxlength'         => '',
-                            ),
-                            array(
-                                'key'               => 'field_custom_font_style',
-                                'label'             => __( 'Style', 'pilopress' ),
-                                'name'              => 'style',
-                                'type'              => 'text',
-                                'instructions'      => '',
-                                'required'          => 0,
-                                'conditional_logic' => 0,
-                                'wrapper'           => array(
-                                    'width' => '',
-                                    'class' => '',
-                                    'id'    => '',
-                                ),
-                                'acfe_permissions'  => '',
-                                'default_value'     => 'normal',
-                                'placeholder'       => '',
-                                'prepend'           => '',
-                                'append'            => '',
-                                'maxlength'         => '',
-                            ),
+
+                            // Class name
                             array(
                                 'key'               => 'field_custom_font_class_name',
                                 'label'             => __( 'Class name', 'pilopress' ),
@@ -316,6 +269,30 @@ acf_add_local_field_group(
                                 'append'            => '',
                                 'maxlength'         => '',
                             ),
+
+                            // Fallback fonts
+                            array(
+                                'key'               => 'field_custom_font_fallback',
+                                'label'             => __( 'Fallback fonts', 'pilopress' ),
+                                'name'              => 'fallback',
+                                'type'              => 'text',
+                                'instructions'      => __( 'Fonts to use if the main font is unavailable.', 'pilopress' ),
+                                'required'          => 0,
+                                'conditional_logic' => 0,
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_permissions'  => '',
+                                'default_value'     => 'system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif',
+                                'placeholder'       => '',
+                                'prepend'           => '',
+                                'append'            => '',
+                                'maxlength'         => '',
+                            ),
+
+                            // Add to editor
                             array(
                                 'key'               => 'field_custom_font_add_to_editor',
                                 'label'             => __( 'Add to editor menu?', 'pilopress' ),
@@ -336,6 +313,413 @@ acf_add_local_field_group(
                                 'ui_on_text'        => '',
                                 'ui_off_text'       => '',
                             ),
+
+                            // Multiple weight and style
+                            array(
+                                'key'               => 'field_multiple_weight_and_style',
+                                'label'             => __( 'Weight and style', 'pilopress' ),
+                                'name'              => 'multiple_weight_and_style',
+                                'type'              => 'true_false',
+                                'instructions'      => '',
+                                'required'          => 0,
+                                'conditional_logic' => 0,
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_save_meta'    => 0,
+                                'message'           => '',
+                                'default_value'     => 0,
+                                'ui'                => 1,
+                                'ui_on_text'        => __( 'Multiple', 'pilopress' ),
+                                'ui_off_text'       => __( 'Simple', 'pilopress' ),
+                            ),
+
+                            // Weight
+                            array(
+                                'key'               => 'field_custom_font_weight',
+                                'label'             => __( 'Weight', 'pilopress' ),
+                                'name'              => 'weight',
+                                'type'              => 'text',
+                                'instructions'      => '',
+                                'required'          => 0,
+                                'conditional_logic' => array(
+                                    array(
+                                        array(
+                                            'field'    => 'field_multiple_weight_and_style',
+                                            'operator' => '!=',
+                                            'value'    => '1',
+                                        ),
+                                    ),
+                                ),
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_permissions'  => '',
+                                'default_value'     => 'normal',
+                                'placeholder'       => '',
+                                'prepend'           => '',
+                                'append'            => '',
+                                'maxlength'         => '',
+                            ),
+
+                            // Style
+                            array(
+                                'key'               => 'field_custom_font_style',
+                                'label'             => __( 'Style', 'pilopress' ),
+                                'name'              => 'style',
+                                'type'              => 'text',
+                                'instructions'      => '',
+                                'required'          => 0,
+                                'conditional_logic' => array(
+                                    array(
+                                        array(
+                                            'field'    => 'field_multiple_weight_and_style',
+                                            'operator' => '!=',
+                                            'value'    => '1',
+                                        ),
+                                    ),
+                                ),
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_permissions'  => '',
+                                'default_value'     => 'normal',
+                                'placeholder'       => '',
+                                'prepend'           => '',
+                                'append'            => '',
+                                'maxlength'         => '',
+                            ),
+
+                            // Display
+                            array(
+                                'key'               => 'field_custom_font_display',
+                                'label'             => __( 'Display', 'pilopress' ),
+                                'name'              => 'display',
+                                'type'              => 'text',
+                                'instructions'      => '',
+                                'required'          => 0,
+                                'conditional_logic' => array(
+                                    array(
+                                        array(
+                                            'field'    => 'field_multiple_weight_and_style',
+                                            'operator' => '!=',
+                                            'value'    => '1',
+                                        ),
+                                    ),
+                                ),
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_permissions'  => '',
+                                'default_value'     => 'swap',
+                                'placeholder'       => '',
+                                'prepend'           => '',
+                                'append'            => '',
+                                'maxlength'         => '',
+                            ),
+
+                            // Variable font
+                            array(
+                                'key'               => 'field_variable_font',
+                                'label'             => __( 'Variable font', 'pilopress' ),
+                                'name'              => 'variable_font',
+                                'type'              => 'true_false',
+                                'instructions'      => '',
+                                'required'          => 0,
+                                'conditional_logic' => array(
+                                    array(
+                                        array(
+                                            'field'    => 'field_multiple_weight_and_style',
+                                            'operator' => '!=',
+                                            'value'    => '1',
+                                        ),
+                                    ),
+                                ),
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_save_meta'    => 0,
+                                'message'           => '',
+                                'default_value'     => 0,
+                                'ui'                => 1,
+                                'ui_on_text'        => __( 'Yes', 'pilopress' ),
+                                'ui_off_text'       => __( 'No', 'pilopress' ),
+                            ),
+
+                            // Files
+                            array(
+                                'key'               => 'field_custom_font_files',
+                                'label'             => __( 'Files', 'pilopress' ),
+                                'name'              => 'files',
+                                'type'              => 'repeater',
+                                'instructions'      => '',
+                                'required'          => 1,
+                                'conditional_logic' => array(
+                                    array(
+                                        array(
+                                            'field'    => 'field_multiple_weight_and_style',
+                                            'operator' => '!=',
+                                            'value'    => '1',
+                                        ),
+                                    ),
+                                ),
+                                'wrapper'           => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_repeater_stylised_button' => 1,
+                                'acfe_permissions'  => '',
+                                'collapsed'         => '',
+                                'min'               => 0,
+                                'max'               => 0,
+                                'layout'            => 'block',
+                                'button_label'      => __( 'Add file', 'pilopress' ),
+                                'sub_fields'        => array(
+                                    array(
+                                        'key'              => 'field_custom_font_file',
+                                        'label'            => __( 'File', 'pilopress' ),
+                                        'name'             => 'file',
+                                        'type'             => 'file',
+                                        'instructions'     => '',
+                                        'required'         => 1,
+                                        'conditional_logic' => 0,
+                                        'wrapper'          => array(
+                                            'width' => '',
+                                            'class' => '',
+                                            'id'    => '',
+                                        ),
+                                        'acfe_permissions' => '',
+                                        'acfe_uploader'    => 'wp',
+                                        'return_format'    => 'array',
+                                        'library'          => 'all',
+                                        'min_size'         => '',
+                                        'max_size'         => '',
+                                        'mime_types'       => '',
+                                    ),
+                                ),
+                            ),
+
+                            // Variations
+                            array(
+                                'key'                      => 'field_variations',
+                                'label'                    => __( 'Variations', 'pilopress' ),
+                                'name'                     => 'variations',
+                                'type'                     => 'flexible_content',
+                                'instructions'             => '',
+                                'required'                 => 0,
+                                'conditional_logic'        => array(
+                                    array(
+                                        array(
+                                            'field'    => 'field_multiple_weight_and_style',
+                                            'operator' => '==',
+                                            'value'    => '1',
+                                        ),
+                                    ),
+                                ),
+                                'wrapper'                  => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_save_meta'           => 0,
+                                'acfe_flexible_advanced'   => 1,
+                                'acfe_flexible_stylised_button' => 1,
+                                'acfe_flexible_hide_empty_message' => 0,
+                                'acfe_flexible_empty_message' => '',
+                                'acfe_flexible_layouts_templates' => 0,
+                                'acfe_flexible_layouts_placeholder' => 0,
+                                'acfe_flexible_layouts_thumbnails' => 0,
+                                'acfe_flexible_layouts_settings' => 0,
+                                'acfe_flexible_disable_ajax_title' => 0,
+                                'acfe_flexible_layouts_ajax' => 0,
+                                'acfe_flexible_add_actions' => array(
+                                    0 => 'title',
+                                ),
+                                'acfe_flexible_remove_button' => array(),
+                                'acfe_flexible_layouts_state' => 'user',
+                                'acfe_flexible_modal_edit' => array(
+                                    'acfe_flexible_modal_edit_enabled' => '0',
+                                    'acfe_flexible_modal_edit_size'    => 'large',
+                                ),
+                                'acfe_flexible_modal'      => array(
+                                    'acfe_flexible_modal_enabled'    => '0',
+                                    'acfe_flexible_modal_title'      => false,
+                                    'acfe_flexible_modal_size'       => 'full',
+                                    'acfe_flexible_modal_col'        => '4',
+                                    'acfe_flexible_modal_categories' => false,
+                                ),
+                                'layouts'                  => array(
+                                    'layout_variation' => array(
+                                        'key'        => 'layout_variation',
+                                        'name'       => 'variation',
+                                        'label'      => __( 'Variation', 'pilopress' ),
+                                        'display'    => 'block',
+                                        'sub_fields' => array(
+
+                                            // Weight
+                                            array(
+                                                'key'      => 'field_variation_weight',
+                                                'label'    => __( 'Weight', 'pilopress' ),
+                                                'name'     => 'weight',
+                                                'type'     => 'text',
+                                                'instructions' => '',
+                                                'required' => 0,
+                                                'conditional_logic' => 0,
+                                                'wrapper'  => array(
+                                                    'width' => '28',
+                                                    'class' => '',
+                                                    'id' => '',
+                                                ),
+                                                'acfe_save_meta' => 0,
+                                                'default_value' => 'normal',
+                                                'placeholder' => '',
+                                                'prepend'  => '',
+                                                'append'   => '',
+                                                'maxlength' => '',
+                                            ),
+
+                                            // Style
+                                            array(
+                                                'key'      => 'field_variation_style',
+                                                'label'    => __( 'Style', 'pilopress' ),
+                                                'name'     => 'style',
+                                                'type'     => 'text',
+                                                'instructions' => '',
+                                                'required' => 0,
+                                                'conditional_logic' => 0,
+                                                'wrapper'  => array(
+                                                    'width' => '28',
+                                                    'class' => '',
+                                                    'id' => '',
+                                                ),
+                                                'acfe_save_meta' => 0,
+                                                'default_value' => 'normal',
+                                                'placeholder' => '',
+                                                'prepend'  => '',
+                                                'append'   => '',
+                                                'maxlength' => '',
+                                            ),
+
+                                            // Display
+                                            array(
+                                                'key'      => 'field_variation_display',
+                                                'label'    => __( 'Display', 'pilopress' ),
+                                                'name'     => 'display',
+                                                'type'     => 'text',
+                                                'instructions' => '',
+                                                'required' => 0,
+                                                'conditional_logic' => 0,
+                                                'wrapper'  => array(
+                                                    'width' => '28',
+                                                    'class' => '',
+                                                    'id' => '',
+                                                ),
+                                                'acfe_save_meta' => 0,
+                                                'default_value' => 'swap',
+                                                'placeholder' => '',
+                                                'prepend'  => '',
+                                                'append'   => '',
+                                                'maxlength' => '',
+                                            ),
+
+                                            // Variable font
+                                            array(
+                                                'key'      => 'field_variation_variable_font',
+                                                'label'    => __( 'Variable font', 'pilopress' ),
+                                                'name'     => 'variable_font',
+                                                'type'     => 'true_false',
+                                                'instructions' => '',
+                                                'required' => 0,
+                                                'conditional_logic' => 0,
+                                                'wrapper'  => array(
+                                                    'width' => '16',
+                                                    'class' => '',
+                                                    'id' => '',
+                                                ),
+                                                'acfe_save_meta' => 0,
+                                                'message'  => '',
+                                                'default_value' => 0,
+                                                'ui'       => 1,
+                                                'ui_on_text' => __( 'Yes', 'pilopress' ),
+                                                'ui_off_text' => __( 'No', 'pilopress' ),
+                                            ),
+
+                                            // Files
+                                            array(
+                                                'key'      => 'field_variation_files',
+                                                'label'    => __( 'Files', 'pilopress' ),
+                                                'name'     => 'files',
+                                                'type'     => 'repeater',
+                                                'instructions' => '',
+                                                'required' => 1,
+                                                'conditional_logic' => 0,
+                                                'wrapper'  => array(
+                                                    'width' => '',
+                                                    'class' => '',
+                                                    'id' => '',
+                                                ),
+                                                'acfe_save_meta' => 0,
+                                                'acfe_repeater_stylised_button' => 1,
+                                                'collapsed' => '',
+                                                'min'      => 0,
+                                                'max'      => 0,
+                                                'layout'   => 'table',
+                                                'button_label' => __( 'Add File', 'pilopress' ),
+                                                'sub_fields' => array(
+                                                    array(
+                                                        'key'               => 'field_variation_file',
+                                                        'label'             => __( 'File', 'pilopress' ),
+                                                        'name'              => 'file',
+                                                        'type'              => 'file',
+                                                        'instructions'      => '',
+                                                        'required'          => 1,
+                                                        'conditional_logic' => 0,
+                                                        'wrapper'           => array(
+                                                            'width' => '',
+                                                            'class' => '',
+                                                            'id'    => '',
+                                                        ),
+                                                        'acfe_save_meta'    => 0,
+                                                        'uploader'          => '',
+                                                        'return_format'     => 'array',
+                                                        'min_size'          => '',
+                                                        'max_size'          => '',
+                                                        'mime_types'        => '',
+                                                        'library'           => 'all',
+                                                    ),
+                                                ),
+                                            ),
+
+                                        ),
+                                        'min'        => 1,
+                                        'max'        => '',
+                                        'acfe_flexible_render_template' => false,
+                                        'acfe_flexible_render_style' => false,
+                                        'acfe_flexible_render_script' => false,
+                                        'acfe_flexible_thumbnail' => false,
+                                        'acfe_flexible_settings' => false,
+                                        'acfe_flexible_settings_size' => 'medium',
+                                        'acfe_flexible_modal_edit_size' => false,
+                                        'acfe_flexible_category' => false,
+                                    ),
+                                ),
+                                'button_label'             => __( 'Add Variation', 'pilopress' ),
+                                'min'                      => '',
+                                'max'                      => '',
+                                'acfe_flexible_layouts_previews' => false,
+                            ),
+
                         ),
                         'min'                           => '',
                         'max'                           => '',
@@ -353,13 +737,14 @@ acf_add_local_field_group(
                 'min'                                   => '',
                 'max'                                   => '',
             ),
+
         ),
         'location'              => array(
             array(
                 array(
                     'param'    => 'options_page',
                     'operator' => '==',
-                    'value'    => 'pip-styles-fonts',
+                    'value'    => 'pip_styles_fonts',
                 ),
             ),
         ),
