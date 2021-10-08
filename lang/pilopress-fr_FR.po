@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pilo'Press\n"
-"POT-Creation-Date: 2021-07-29 11:26+0200\n"
-"PO-Revision-Date: 2021-07-29 11:27+0200\n"
+"POT-Creation-Date: 2021-10-08 11:45+0200\n"
+"PO-Revision-Date: 2021-10-08 11:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -21,6 +21,12 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
+#: assets/libs/tailwindapi.php:61
+#, fuzzy
+#| msgid "An error appended. Please try again later."
+msgid "An error occurred. Please try again later"
+msgstr "Une erreur est survenue. Merci de réessayer plus tard."
+
 #. Plugin Name of the plugin/theme
 #: includes/classes/admin/class-admin.php:248
 #: includes/classes/admin/editor/class-button-field.php:18
@@ -37,7 +43,7 @@ msgstr "Tableau de bord"
 
 #: includes/classes/admin/class-admin.php:272
 #: includes/classes/main/class-flexible-mirror.php:236
-#: includes/classes/main/class-flexible.php:130
+#: includes/classes/main/class-flexible.php:138
 msgid "Builder"
 msgstr "Éditeur"
 
@@ -266,15 +272,15 @@ msgstr "Famille de police"
 msgid "Font style"
 msgstr "Style de police"
 
-#: includes/classes/admin/editor/class-shortcodes.php:156
+#: includes/classes/admin/editor/class-shortcodes.php:157
 msgid "You > Are > Here"
 msgstr "Vous > êtes > ici"
 
-#: includes/classes/admin/editor/class-shortcodes.php:306
+#: includes/classes/admin/editor/class-shortcodes.php:307
 msgid "Title here"
 msgstr "Le titre ici"
 
-#: includes/classes/admin/editor/class-shortcodes.php:337
+#: includes/classes/admin/editor/class-shortcodes.php:338
 msgid "Post thumbnail here"
 msgstr "Image à la une ici"
 
@@ -751,12 +757,12 @@ msgstr ""
 #: includes/classes/admin/options-pages/styles-option-fonts.php:168
 #: includes/classes/admin/options-pages/styles-option-fonts.php:276
 msgid "Fallback fonts"
-msgstr ""
+msgstr "Polices de secours"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:171
 #: includes/classes/admin/options-pages/styles-option-fonts.php:279
 msgid "Fonts to use if the main font is unavailable."
-msgstr ""
+msgstr "Polices à utiliser si la police principale n’est pas disponible."
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:225
 msgid "Custom font"
@@ -764,15 +770,13 @@ msgstr "Police personnalisée"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:320
 msgid "Weight and style"
-msgstr ""
+msgstr "Poids et style"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:335
 msgid "Multiple"
-msgstr ""
+msgstr "Multiple"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:336
-#, fuzzy
-#| msgid "Simple colors"
 msgid "Simple"
 msgstr "Couleurs simples"
 
@@ -821,28 +825,20 @@ msgid "File"
 msgstr "Fichier"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:516
-#, fuzzy
-#| msgid "Variants"
 msgid "Variations"
-msgstr "Variantes"
+msgstr "Variations"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:566
-#, fuzzy
-#| msgid "Variants"
 msgid "Variation"
-msgstr "Variantes"
+msgstr "Variation"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:678
-#, fuzzy
-#| msgid "Add file"
 msgid "Add File"
 msgstr "Ajouter un fichier"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:717
-#, fuzzy
-#| msgid "Add variant"
 msgid "Add Variation"
-msgstr "+ Ajouter une variable"
+msgstr "Ajouter une variable"
 
 #: includes/classes/admin/options-pages/styles-option-fonts.php:736
 msgid "Add font"
@@ -889,14 +885,10 @@ msgstr ""
 #: includes/classes/admin/options-pages/styles-option-modules.php:57
 msgid ""
 "Activate TailwindCSS module.<br>You will be able to compile styles through "
-"<a href=\"https://www.tailwindapi.com/\" target=\"_blank\">TailwindAPI</a> "
-"or enable local compilation.<br><b>Be careful!</b> TailwindAPI is using "
-"TailwindCSS 1.8.5"
+"Pilo'Press API or enable local compilation."
 msgstr ""
-"Activer le module TailwindCSS.<br>Vous pourrez compiler le style via <a href="
-"\"https://www.tailwindapi.com/\" target=\"_blank\">TailwindAPI</a> ou "
-"activer la compilation locale.<br><b>Attention!</b> TailwindAPI utilise "
-"TailwindCSS 1.8.5"
+"Activer le module TailwindCSS.<br>Vous pourrez compiler le style avec l'API "
+"Pilo'Press ou compiler localement."
 
 #: includes/classes/admin/options-pages/styles-option-modules.php:79
 msgid ""
@@ -969,27 +961,21 @@ msgstr "Écraser la configuration"
 #: includes/classes/admin/patterns/class-patterns.php:57
 #: includes/classes/admin/patterns/class-patterns.php:58
 #: includes/classes/admin/patterns/class-patterns.php:60
-#, fuzzy
-#| msgid "Website content"
 msgid "Default content"
-msgstr "Contenu du site"
+msgstr "Contenu par défaut"
 
 #: includes/classes/admin/patterns/class-patterns.php:59
 msgid "Patterns"
-msgstr ""
+msgstr "Modèles"
 
 #: includes/classes/admin/patterns/class-patterns.php:61
 #: includes/classes/admin/patterns/class-patterns.php:62
-#, fuzzy
-#| msgid "Add new"
 msgid "Add"
 msgstr "Ajouter"
 
 #: includes/classes/admin/patterns/class-patterns.php:63
-#, fuzzy
-#| msgid " folder found"
 msgid "Not found"
-msgstr " dossier trouvé"
+msgstr "Non trouvé"
 
 #: includes/classes/admin/patterns/class-patterns.php:90
 #: includes/classes/admin/patterns/class-patterns.php:91
@@ -997,10 +983,8 @@ msgstr " dossier trouvé"
 #: includes/classes/admin/patterns/class-patterns.php:94
 #: includes/classes/admin/patterns/class-patterns.php:95
 #: includes/classes/admin/patterns/class-patterns.php:96
-#, fuzzy
-#| msgid "Website content"
 msgid "Locked content"
-msgstr "Contenu du site"
+msgstr "Contenu verrouillé"
 
 #: includes/classes/admin/tools/class-styles-export-tool.php:34
 msgid "Export styles settings"
@@ -1298,7 +1282,7 @@ msgstr[1] "%s dispositions synchronisées."
 msgid "Edit Builder"
 msgstr "Modifier l'éditeur"
 
-#: includes/classes/main/class-flexible.php:88
+#: includes/classes/main/class-flexible.php:96
 #: includes/classes/pattern/class-flexible-footer.php:63
 #: includes/classes/pattern/class-flexible-header.php:67
 msgid "Add Row"
@@ -1443,11 +1427,20 @@ msgstr "Déverrouillé"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: includes/classes/main/class-layouts-single.php:627
+#: includes/classes/main/class-layouts-single.php:651
+msgid "Screenshot location:"
+msgstr "Emplacement de la capture d’écran:"
+
+#: includes/classes/main/class-layouts-single.php:656
+#: includes/classes/main/class-layouts-single.php:672
 msgid "Thumbnail"
 msgstr "Image en avant"
 
-#: includes/classes/main/class-layouts-single.php:628
+#: includes/classes/main/class-layouts-single.php:657
+msgid "Screenshot defined in layout folder"
+msgstr "Capture d’écran définie dans le dossier de la section"
+
+#: includes/classes/main/class-layouts-single.php:673
 msgid "Layout preview"
 msgstr "Aperçu de la disposition"
 
