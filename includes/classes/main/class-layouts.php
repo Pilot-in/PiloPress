@@ -182,7 +182,8 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             // Store CSS contents
             foreach ( $layouts_css_files as $layouts_css_file ) {
 
-                $css_file = file_get_contents( $layouts_css_file );
+                $filesystem = PIP_Main::get_wp_filesystem();
+                $css_file   = $filesystem->get_contents( $layouts_css_file );
 
                 // If no CSS, skip
                 if ( !$css_file ) {
