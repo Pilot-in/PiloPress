@@ -143,6 +143,9 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/admin/options-pages/styles-option-configuration.php' );
             pip_include( 'includes/classes/admin/options-pages/styles-option-modules.php' );
 
+            // Admin - Patterns
+            pip_include( 'includes/classes/admin/patterns/class-patterns.php' );
+
             // Modules
             pip_include( 'includes/classes/admin/modules/class-tinymce.php' );
             pip_include( 'includes/classes/admin/modules/class-tailwind.php' );
