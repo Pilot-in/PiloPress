@@ -30,7 +30,6 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
             // Single
             add_action( 'load-post.php', array( $this, 'load_single' ) );
-            add_action( 'load-post.php', array( $this, 'has_screenshot_file' ) );
             add_action( 'load-post-new.php', array( $this, 'load_single' ) );
 
             // New
@@ -651,7 +650,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                 acf_render_field_wrap(
                     array(
                         'label'         => __( 'Thumbnail', 'pilopress' ),
-                        'instructions'  => '<span class="acf-js-tooltip" title="Screenshot location:<br/>' . $layout_slug . '/' . $layout_slug . $extension . '"><span class="dashicons dashicons-yes" style="color:#46B450;"></span>' . __( 'Screenshot defined in layout folder', 'pilopress' ) . '</span>',
+                        'instructions'  => '<span class="acf-js-tooltip" title="' . __( 'Screenshot location:', 'pilopress' ) . '<br/>' . $layout_slug . '/' . $layout_slug . $extension . '"><span class="dashicons dashicons-yes" style="color:#46B450;"></span>' . __( 'Screenshot defined in layout folder', 'pilopress' ) . '</span>',
                         'name'          => '_pip_thumbnail',
                         'type'          => 'image',
                         'class'         => '',
