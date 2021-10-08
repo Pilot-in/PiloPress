@@ -114,8 +114,27 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                 'min'                           => 0,
                 'max'                           => 0,
                 'layout'                        => 'table',
-                'button_label'                  => __( 'Add typography', 'pilopress' ),
+                'button_label'                  => __( 'Preview', 'pilopress' ),
                 'sub_fields'                    => array(
+                    array(
+                        'key'                        => 'field_typography_preview',
+                        'label'                      => __( 'Live preview', 'pilopress' ),
+                        'name'                       => '',
+                        'type'                       => 'message',
+                        'instructions'               => '',
+                        'required'                   => 0,
+                        'conditional_logic'          => 0,
+                        'wrapper'                    => array(
+                            'width' => '20',
+                            'class' => '',
+                            'id'    => '',
+                        ),
+                        'acfe_save_meta'             => 0,
+                        'message'                    => '<div class="-preview pip-live-preview"><span>The quick brown fox jumps over the lazy dog.</span></div>',
+                        'new_lines'                  => 'wpautop',
+                        'esc_html'                   => 0,
+                        'acfe_field_group_condition' => 0,
+                    ),
                     array(
                         'key'               => 'field_typography_label',
                         'label'             => __( 'Label', 'pilopress' ),
@@ -125,7 +144,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '20',
+                            'width' => '15',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -145,7 +164,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '20',
+                            'width' => '15',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -160,12 +179,12 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'key'               => 'field_typography_classes',
                         'label'             => __( 'Class(es) to apply', 'pilopress' ),
                         'name'              => 'classes_to_apply',
-                        'type'              => 'text',
+                        'type'              => 'textarea',
                         'instructions'      => '',
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '40',
+                            'width' => '35',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -175,6 +194,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'prepend'           => '',
                         'append'            => '',
                         'maxlength'         => '',
+                        'rows'              => 3,
                     ),
                     array(
                         'key'               => 'field_typography_add_to_editor',
@@ -185,7 +205,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '20',
+                            'width' => '15',
                             'class' => '',
                             'id'    => '',
                         ),
