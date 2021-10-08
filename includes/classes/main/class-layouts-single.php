@@ -627,10 +627,11 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             // Get file path and URL
             $file_path     = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
             $file_exist    = false;
+            $extension     = '';
             $has_thumbnail = $field_group['_pip_thumbnail'];
 
             // Get file extension
-            switch ( $file_path ) :
+            switch ( $file_path ) {
                 case file_exists( $file_path . '.png' ):
                     $file_exist = true;
                     $extension  = '.png';
@@ -643,14 +644,17 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                     $file_exist = true;
                     $extension  = '.jpg';
                     break;
-            endswitch;
+            }
 
-            if ( $file_exist && !$has_thumbnail ) :
+            if ( $file_exist && !$has_thumbnail ) {
+                $instructions['class'] = 'acf-js-tooltip';
+                $instructions['title'] = __( 'Screenshot location:', 'pilopress' ) . '<br/>' . $layout_slug . '/' . $layout_slug . $extension;
+
                 // Thumbnail
                 acf_render_field_wrap(
                     array(
                         'label'         => __( 'Thumbnail', 'pilopress' ),
-                        'instructions'  => '<span class="acf-js-tooltip" title="' . __( 'Screenshot location:', 'pilopress' ) . '<br/>' . $layout_slug . '/' . $layout_slug . $extension . '"><span class="dashicons dashicons-yes" style="color:#46B450;"></span>' . __( 'Screenshot defined in layout folder', 'pilopress' ) . '</span>',
+                        'instructions'  => '<span ' . acf_esc_atts( $instructions ) . '><span class="dashicons dashicons-yes" style="color:#46B450;"></span>' . __( 'Screenshot defined in layout folder', 'pilopress' ) . '</span>',
                         'name'          => '_pip_thumbnail',
                         'type'          => 'image',
                         'class'         => '',
@@ -661,7 +665,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                         'library'       => 'all',
                     )
                 );
-            else :
+            } else {
                 // Thumbnail
                 acf_render_field_wrap(
                     array(
@@ -677,7 +681,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                         'library'       => 'all',
                     )
                 );
-            endif;
+            }
 
             // Script for admin style
             ?>
