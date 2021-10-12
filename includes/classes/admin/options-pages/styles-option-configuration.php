@@ -130,7 +130,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                             'id'    => '',
                         ),
                         'acfe_save_meta'             => 0,
-                        'message'                    => '<div class="-preview pip-live-preview"><span>The quick brown fox jumps over the lazy dog.</span></div>',
+                        'message'                    => '<div class="-preview pip-live-preview"><div>The quick brown fox jumps over the lazy dog.</div></div>',
                         'new_lines'                  => 'wpautop',
                         'esc_html'                   => 0,
                         'acfe_field_group_condition' => 0,
@@ -359,6 +359,25 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                 'button_label'                  => __( 'Add simple color', 'pilopress' ),
                 'sub_fields'                    => array(
                     array(
+                        'key'                        => 'field_pip_simple_colors_preview',
+                        'label'                      => __( 'Live preview', 'pilopress' ),
+                        'name'                       => '',
+                        'type'                       => 'message',
+                        'instructions'               => '',
+                        'required'                   => 0,
+                        'conditional_logic'          => 0,
+                        'wrapper'                    => array(
+                            'width' => '5',
+                            'class' => '',
+                            'id'    => '',
+                        ),
+                        'acfe_save_meta'             => 0,
+                        'message'                    => '<div class="-preview pip-live-preview"><div style="margin: 0 auto;border:1px solid black;height:30px;width:30px;"></div></div>',
+                        'new_lines'                  => 'wpautop',
+                        'esc_html'                   => 0,
+                        'acfe_field_group_condition' => 0,
+                    ),
+                    array(
                         'key'               => 'field_simple_color_label',
                         'label'             => __( 'Label', 'pilopress' ),
                         'name'              => 'label',
@@ -367,7 +386,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '',
+                            'width' => '25',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -387,7 +406,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '',
+                            'width' => '25',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -407,7 +426,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '',
+                            'width' => '25',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -427,7 +446,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '',
+                            'width' => '20',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -472,7 +491,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '25',
+                            'width' => '15',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -492,7 +511,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'                      => 0,
                         'conditional_logic'             => 0,
                         'wrapper'                       => array(
-                            'width' => '',
+                            'width' => '85',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -504,6 +523,25 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'layout'                        => 'table',
                         'button_label'                  => __( 'Add variant', 'pilopress' ),
                         'sub_fields'                    => array(
+                            array(
+                                'key'                        => 'field_colors_shades_shades_preview',
+                                'label'                      => __( 'Live preview', 'pilopress' ),
+                                'name'                       => '',
+                                'type'                       => 'message',
+                                'instructions'               => '',
+                                'required'                   => 0,
+                                'conditional_logic'          => 0,
+                                'wrapper'                    => array(
+                                    'width' => '5',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'acfe_save_meta'             => 0,
+                                'message'                    => '<div class="-preview pip-live-preview"><div style="margin: 0 auto;border:1px solid black;height:30px;width:30px;"></div></div>',
+                                'new_lines'                  => 'wpautop',
+                                'esc_html'                   => 0,
+                                'acfe_field_group_condition' => 0,
+                            ),
                             array(
                                 'key'               => 'field_shade_label',
                                 'label'             => __( 'Label', 'pilopress' ),
@@ -652,6 +690,25 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                 'button_label'                  => __( 'Add button style', 'pilopress' ),
                 'sub_fields'                    => array(
                     array(
+                        'key'                        => 'field_pip_button_preview',
+                        'label'                      => __( 'Live preview', 'pilopress' ),
+                        'name'                       => '',
+                        'type'                       => 'message',
+                        'instructions'               => '',
+                        'required'                   => 0,
+                        'conditional_logic'          => 0,
+                        'wrapper'                    => array(
+                            'width' => '10',
+                            'class' => '',
+                            'id'    => '',
+                        ),
+                        'acfe_save_meta'             => 0,
+                        'message'                    => '<div class="-preview pip-live-preview"><button>Button</button></div>',
+                        'new_lines'                  => 'wpautop',
+                        'esc_html'                   => 0,
+                        'acfe_field_group_condition' => 0,
+                    ),
+                    array(
                         'key'               => 'field_custom_button_label',
                         'label'             => __( 'Label', 'pilopress' ),
                         'name'              => 'label',
@@ -680,7 +737,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '20',
+                            'width' => '15',
                             'class' => '',
                             'id'    => '',
                         ),
@@ -721,7 +778,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
-                            'width' => '20',
+                            'width' => '15',
                             'class' => '',
                             'id'    => '',
                         ),
