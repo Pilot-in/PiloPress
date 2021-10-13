@@ -703,7 +703,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                             'id'    => '',
                         ),
                         'acfe_save_meta'             => 0,
-                        'message'                    => '<div class="-preview pip-live-preview"><button>Button</button></div>',
+                        'message'                    => '<div class="-preview pip-live-preview"><button type="button">Button</button></div>',
                         'new_lines'                  => 'wpautop',
                         'esc_html'                   => 0,
                         'acfe_field_group_condition' => 0,
