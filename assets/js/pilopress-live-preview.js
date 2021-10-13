@@ -13,57 +13,59 @@ jQuery( document ).ready(
         // Change previews on typing
         previews_on_typing();
 
-        // When a new row is added
-        acf.add_action(
-            'append',
-            function ( $row ) {
-                if ( !$( '.acf-field-typography-message' ).hasClass( 'acf-hidden' ) ) {
+        if ( typeof acf !== 'undefined' ) {
+            // When a new row is added
+            acf.add_action(
+                'append',
+                function ( $row ) {
+                    if ( !$( '.acf-field-typography-message' ).hasClass( 'acf-hidden' ) ) {
 
-                    // Typography
-                    $row.find( '.acf-field-typography-classes textarea' ).keyup(
-                        function () {
-                            apply_styles_to_preview( $( this ), '.acf-field-typography-preview' );
-                        },
-                    );
+                        // Typography
+                        $row.find( '.acf-field-typography-classes textarea' ).keyup(
+                            function () {
+                                apply_styles_to_preview( $( this ), '.acf-field-typography-preview' );
+                            },
+                        );
 
-                } else if ( !$( '.acf-field-font-color-message' ).hasClass( 'acf-hidden' ) ) {
+                    } else if ( !$( '.acf-field-font-color-message' ).hasClass( 'acf-hidden' ) ) {
 
-                    // Simple colors
-                    $row.find( '.acf-field-simple-color-value input[type="text"]' ).keyup(
-                        function () {
-                            add_css_to_preview( $( this ), '.acf-field-pip-simple-colors-preview', 'background-color' );
-                        },
-                    );
+                        // Simple colors
+                        $row.find( '.acf-field-simple-color-value input[type="text"]' ).keyup(
+                            function () {
+                                add_css_to_preview( $( this ), '.acf-field-pip-simple-colors-preview', 'background-color' );
+                            },
+                        );
 
-                    // Colors with shades
-                    $row.find( '.acf-field-shade-value input[type="text"]' ).keyup(
-                        function () {
-                            var rows = $( this ).parents( '.acf-row' );
-                            add_css_to_preview_repeater( $( rows[0] ), '.acf-field-colors-shades-shades-preview', 'background-color', $( this ).val() );
-                        },
-                    );
+                        // Colors with shades
+                        $row.find( '.acf-field-shade-value input[type="text"]' ).keyup(
+                            function () {
+                                var rows = $( this ).parents( '.acf-row' );
+                                add_css_to_preview_repeater( $( rows[0] ), '.acf-field-colors-shades-shades-preview', 'background-color', $( this ).val() );
+                            },
+                        );
 
-                } else if ( !$( '.acf-field-button-message' ).hasClass( 'acf-hidden' ) ) {
+                    } else if ( !$( '.acf-field-button-message' ).hasClass( 'acf-hidden' ) ) {
 
-                    // Buttons - Main textarea
-                    $row.find( '.acf-field-custom-button-classes textarea' ).keyup(
-                        function () {
-                            var rows = $( this ).parents( '.acf-row' );
-                            apply_btn_styles_to_preview( $( rows[0] ), '.acf-field-pip-button-preview', $( this ).val() );
-                        },
-                    );
+                        // Buttons - Main textarea
+                        $row.find( '.acf-field-custom-button-classes textarea' ).keyup(
+                            function () {
+                                var rows = $( this ).parents( '.acf-row' );
+                                apply_btn_styles_to_preview( $( rows[0] ), '.acf-field-pip-button-preview', $( this ).val() );
+                            },
+                        );
 
-                    // Buttons - Every state input
-                    $row.find( '.acf-field-custom-button-states .acf-field-state-classes-to-apply input[type="text"]' ).keyup(
-                        function () {
-                            var rows = $( this ).parents( '.acf-row' );
-                            apply_btn_styles_to_preview( $( rows[( rows.length - 1 )] ), '.acf-field-pip-button-preview' );
-                        },
-                    );
+                        // Buttons - Every state input
+                        $row.find( '.acf-field-custom-button-states .acf-field-state-classes-to-apply input[type="text"]' ).keyup(
+                            function () {
+                                var rows = $( this ).parents( '.acf-row' );
+                                apply_btn_styles_to_preview( $( rows[( rows.length - 1 )] ), '.acf-field-pip-button-preview' );
+                            },
+                        );
 
-                }
-            },
-        );
+                    }
+                },
+            );
+        }
 
         /**
          * All actions to load previews on page load
