@@ -553,6 +553,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Add default TinyMCE CSS
             $tailwind_style .= $this->get_default_tinymce_css();
 
+            $wp_filesystem = PIP_Main::get_wp_filesystem();
+
             // Maybe use Tailwind API
             $use_tailwind_api = apply_filters( 'pip/tailwind_api', true );
             if ( $use_tailwind_api ) {
@@ -573,22 +575,24 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 );
 
                 // Build admin style
-                $tailwind->build(
+                $admin_style = $tailwind->build(
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
                         'autoprefixer' => true,
                         'minify'       => true,
                         'prefixer'     => '.-preview',
-                        'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css',
                     )
                 );
+                $admin_style = str_replace( '.-preview body', '.-preview', $admin_style['body'] );
+                $wp_filesystem->put_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css', $admin_style );
+
             } else {
                 $tailwind_config_file = apply_filters( 'pip/tailwind/config_file', PIP_THEME_ASSETS_PATH . 'tailwind.config.js' );
-                file_put_contents( $tailwind_config_file, $tailwind_config );
+                $wp_filesystem->put_contents( $tailwind_config_file, $tailwind_config );
 
                 $retrieved_styles_file = apply_filters( 'pip/tailwind/styles_file', PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.css' );
-                file_put_contents( $retrieved_styles_file, $tailwind_style );
+                $wp_filesystem->put_contents( $retrieved_styles_file, $tailwind_style );
             }
         }
 

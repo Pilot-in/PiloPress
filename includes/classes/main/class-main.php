@@ -49,6 +49,26 @@ if ( !class_exists( 'PIP_Main' ) ) {
             pip_enqueue_admin();
         }
 
+        /**
+         * Instantiate WP_Filesystem_Base class
+         *
+         * @return WP_Filesystem_Base
+         */
+        public static function get_wp_filesystem() {
+            global $wp_filesystem;
+
+            // If wp_filesystem instantiated, return
+            if ( !empty( $filesystem ) ) {
+                return $wp_filesystem;
+            }
+
+            // Instantiate WP_Filesystem
+            require_once ABSPATH . '/wp-admin/includes/file.php';
+            WP_Filesystem();
+
+            return $wp_filesystem;
+        }
+
     }
 
     acf_new_instance( 'PIP_Main' );

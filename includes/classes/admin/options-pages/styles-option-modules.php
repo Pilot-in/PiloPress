@@ -54,7 +54,7 @@ acf_add_local_field_group(
                         'label'             => __( 'TailwindCSS', 'pilopress' ),
                         'name'              => 'tailwind',
                         'type'              => 'true_false',
-                        'instructions'      => __( 'Activate TailwindCSS module.<br>You will be able to compile styles through <a href="https://www.tailwindapi.com/" target="_blank">TailwindAPI</a> or enable local compilation.<br><b>Be careful!</b> TailwindAPI is using TailwindCSS 1.8.5', 'pilopress' ),
+                        'instructions'      => __( "Activate TailwindCSS module.<br>You will be able to compile styles through Pilo'Press API or enable local compilation.", 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(

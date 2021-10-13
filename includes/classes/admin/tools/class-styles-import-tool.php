@@ -73,8 +73,9 @@ if ( !class_exists( 'PIP_Styles_Import_Tool' ) ) {
             }
 
             // Read JSON
-            $json = file_get_contents( $file['tmp_name'] );
-            $json = json_decode( $json, true );
+            $filesystem = PIP_Main::get_wp_filesystem();
+            $json       = $filesystem->get_contents( $file['tmp_name'] );
+            $json       = json_decode( $json, true );
 
             // Check if empty
             if ( !$json || !is_array( $json ) ) {

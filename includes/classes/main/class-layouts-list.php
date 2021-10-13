@@ -32,6 +32,46 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
 
             // List
             add_action( 'load-edit.php', array( $this, 'load_list' ) );
+
+            // If is in admin acf field group listing, in layouts, add custom "slug" column
+            if ( is_admin() && acf_is_screen( 'edit-acf-field-group' ) && acf_maybe_get_GET( 'layouts' ) === '1' && acf_maybe_get_GET( 'post_status' ) !== 'sync' ) {
+                add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'layouts_slug_column' ), 11 );
+                add_action( 'manage_acf-field-group_posts_custom_column', array( $this, 'layouts_slug_column_html' ), 10, 2 );
+            }
+        }
+
+        /**
+         * Add layout slug column
+         *
+         * @param $columns
+         *
+         * @return mixed
+         */
+        public function layouts_slug_column( $columns ) {
+            // Add slug column
+            $columns['_pip_layout_slug'] = __( 'Slug', 'pilopress' );
+
+            return $columns;
+        }
+
+        /**
+         * Fill layout slug column
+         *
+         * @param $column
+         * @param $post_id
+         */
+        public function layouts_slug_column_html( $column, $post_id ) {
+
+            // If not layout slug, return
+            if ( $column !== '_pip_layout_slug' ) {
+                return;
+            }
+
+            // Get layout
+            $layout = acf_get_field_group( $post_id );
+
+            // Display layout slug
+            echo acf_maybe_get( $layout, '_pip_layout_slug' );
         }
 
         /**

@@ -24,6 +24,7 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
                 'return_format'     => 'value',
                 'allow_null'        => true,
                 'ajax'              => false,
+                'other_choice'      => 0,
             );
 
             parent::__construct();
@@ -32,9 +33,11 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
         /**
          * Get choices
          *
+         * @param $show_add_to_editor
+         *
          * @return array
          */
-        public function get_choices() {
+        public function get_choices( $show_add_to_editor ) {
 
             // Enable ACF "Local" mode if not active yet to get data from local fields
             $acf_local_was_active = acf_is_local_enabled();
@@ -50,6 +53,12 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
             $custom_styles = $pip_tinymce->get_custom_typography();
             if ( $custom_styles ) {
                 foreach ( $custom_styles as $key => $custom_style ) {
+
+                    // If only show editor colors checked, skip if color not in editor
+                    if ( $show_add_to_editor && !$custom_style['add_to_editor'] ) {
+                        continue;
+                    }
+
                     $choices[ $key ] = $custom_style['name'];
                 }
             }
@@ -71,6 +80,9 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
          */
         public function prepare_field( $field ) {
 
+            // Only show items with "Add to editor" option
+            $show_add_to_editor = acf_maybe_get( $field, 'show_add_to_editor' );
+
             // Default value
             $field_default_value = acf_maybe_get( $field, 'pip_default_value' );
             $field_value         = acf_maybe_get( $field, 'value' );
@@ -78,7 +90,7 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
                 $field['value'] = $field_default_value;
             }
 
-            $field['choices'] = $this->get_choices();
+            $field['choices'] = $this->get_choices( $show_add_to_editor );
             $field['type']    = $field['field_type'];
 
             return $field;
@@ -150,7 +162,7 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
                     'required'      => 0,
                     'allow_null'    => 1,
                     'return_format' => 'value',
-                    'choices'       => $this->get_choices(),
+                    'choices'       => $this->get_choices( 0 ),
                 )
             );
 
@@ -286,6 +298,19 @@ if ( !class_exists( 'PIP_Font_Style_Field' ) ) {
                             ),
                         ),
                     ),
+                )
+            );
+
+            // True/False: Add to editor values
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'         => __( 'Only show colors with "Add to editor" option checked?', 'pilopress' ),
+                    'instructions'  => '',
+                    'name'          => 'show_add_to_editor',
+                    'type'          => 'true_false',
+                    'ui'            => 1,
+                    'default_value' => 1,
                 )
             );
         }

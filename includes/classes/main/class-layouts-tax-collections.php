@@ -36,7 +36,12 @@ if ( !class_exists( 'PIP_Layouts_Collections' ) ) {
         public function current_screen() {
 
             // If not in admin acf field group listing, in layouts, return
-            if ( !is_admin() || !acf_is_screen( 'edit-acf-field-group' ) || acf_maybe_get_GET( 'layouts' ) !== '1' ) {
+            if (
+                !is_admin()
+                || !acf_is_screen( 'edit-acf-field-group' )
+                || acf_maybe_get_GET( 'layouts' ) !== '1'
+                || acf_maybe_get_GET( 'post_status' ) === 'sync'
+            ) {
                 return;
             }
 
