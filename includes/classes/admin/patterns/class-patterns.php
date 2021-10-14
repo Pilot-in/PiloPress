@@ -29,7 +29,7 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
         public function __construct() {
 
             // WP hooks
-            add_action( 'init', array( $this, 'register_post_types' ), 20 );
+            add_action( 'init', array( $this, 'register_post_types' ), 10 );
             add_action( 'admin_init', array( $this, 'auto_populate_post_types' ) );
 
         }
@@ -62,7 +62,7 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                         'add_new'            => __( 'Add', 'pilopress' ),
                         'not_found_in_trash' => __( 'Not found', 'pilopress' ),
                     ),
-                    'supports'            => array( 'custom-fields' ),
+                    'supports'            => array( 'title', 'custom-fields' ),
                     'hierarchical'        => false,
                     'public'              => false,
                     'show_ui'             => true,
@@ -95,7 +95,7 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                         'menu_name'     => __( 'Locked content', 'pilopress' ),
                         'all_items'     => __( 'Locked content', 'pilopress' ),
                     ),
-                    'supports'            => array( 'custom-fields' ),
+                    'supports'            => array( 'title', 'custom-fields' ),
                     'hierarchical'        => false,
                     'public'              => false,
                     'show_ui'             => true,
@@ -113,8 +113,27 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                     ),
                 )
             );
+
+            // WPML Compatibility - Set post types to be translatable by default
+            if ( defined( 'ICL_LANGUAGE_CODE' ) ) {
+                do_action( 'wpml_set_translation_mode_for_post_type', self::get_default_content_slug(), 'translate' );
+                do_action( 'wpml_set_translation_mode_for_post_type', self::get_locked_content_slug(), 'translate' );
+            }
+
+            // Polylang Compatibility - Add post types to translated post types
+            $polylang_option = get_option( 'polylang', true );
+
+            // Add post types
+            $polylang_option['post_types'][ self::get_default_content_slug() ] = self::get_default_content_slug();
+            $polylang_option['post_types'][ self::get_locked_content_slug() ]  = self::get_locked_content_slug();
+
+            // Update option
+            update_option( 'polylang', $polylang_option );
         }
 
+        /**
+         * Auto-populate post types
+         */
         public function auto_populate_post_types() {
 
             // Get post types
@@ -150,7 +169,7 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                     }
 
                     // WPML Compatibility - Create translations duplicates
-                    if ( defined( 'ICL_LANGUAGE_CODE' ) ) {
+                    if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
 
                         // WPML - Vars
                         $wpml_element_type     = apply_filters( 'wpml_element_type', $template_post_type );
@@ -167,7 +186,6 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                             'element_type' => $wpml_element_type,
                         );
                         $original_post_lang_data = apply_filters( 'wpml_element_language_details', null, $get_language_args );
-
 
                         // Set default translation data if it's not yet translated
                         $is_translated = apply_filters( 'wpml_element_has_translations', '', $template_post_id, $wpml_element_type );
@@ -187,13 +205,13 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                             );
                             do_action( 'wpml_set_element_language_details', $set_language_args );
 
-                            // Generate translations for each languages
+                            // Generate translations for each language
                             do_action( 'wpml_admin_make_post_duplicates', $template_post_id );
 
                         } else {
                             // Has translations, generate missing translations
 
-                            $translations = apply_filters( 'wpml_get_element_translations', null, $original_post_lang_data->trid, $wpml_element_type );
+                            $translations = apply_filters( 'wpml_get_element_translations', null, pip_maybe_get( $original_post_lang_data, 'trid' ), $wpml_element_type );
                             if ( empty( $translations ) ) {
                                 continue;
                             }
@@ -211,6 +229,47 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                             }
                         }
                     }
+
+//                    acf_log( get_option( 'active_plugins' ) );
+
+                    // Polylang Compatibility - Create translations
+                    if ( is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_languages_list' ) ) {
+                        $languages              = pll_languages_list();
+                        $post_type_object       = get_post_type_object( $post_type );
+                        $available_translations = array();
+
+                        // Create translations if not already exists
+                        foreach ( $languages as $language ) {
+                            $translated_id = pll_get_post( $template_post_id, $language );
+                            if ( $translated_id ) {
+                                $available_translations[ $language ] = $translated_id;
+                            } else {
+                                $available_translations[ $language ] = wp_insert_post(
+                                    array(
+                                        'post_type'   => $template_post_type,
+                                        'post_title'  => $post_type_object->labels->name,
+                                        'post_name'   => $post_type,
+                                        'post_status' => 'publish',
+                                    ),
+                                    true
+                                );
+                            }
+                        }
+
+                        if ( function_exists( 'pll_set_post_language' ) && function_exists( 'pll_save_post_translations' ) ) {
+
+                            // Set language of main post to default value
+                            pll_set_post_language( $template_post_id, pll_default_language() );
+
+                            // Browse translations to set languages
+                            foreach ( $available_translations as $language => $value ) {
+                                pll_set_post_language( $value, $language );
+                            }
+
+                            // Link translations to main post
+                            pll_save_post_translations( array_merge( array( $template_post_id ), $available_translations ) );
+                        }
+                    }
                 }
             }
         }
@@ -218,9 +277,9 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
         /**
          * Get filtered post types
          *
-         * @return array|false
+         * @return array
          */
-        private static function get_post_types() {
+        public static function get_post_types() {
             $filtered_post_types = array();
 
             $public_post_types = get_post_types(
@@ -252,6 +311,24 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
             }
 
             return $filtered_post_types;
+        }
+
+        /**
+         * Getter: $default_content_post_type
+         *
+         * @return string
+         */
+        public static function get_default_content_slug() {
+            return self::$default_content_post_type;
+        }
+
+        /**
+         * Getter: $locked_content_post_type
+         *
+         * @return string
+         */
+        public static function get_locked_content_slug() {
+            return self::$locked_content_post_type;
         }
 
     }
