@@ -31,6 +31,7 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
             // WP hooks
             add_action( 'init', array( $this, 'register_post_types' ), 10 );
             add_action( 'admin_init', array( $this, 'auto_populate_post_types' ) );
+            add_action( 'admin_init', array( $this, 'auto_populate_taxonomies' ) );
 
         }
 
@@ -54,13 +55,27 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                     'label'               => __( 'Default content', 'pilopress' ),
                     'description'         => __( 'Default content', 'pilopress' ),
                     'labels'              => array(
-                        'name'               => __( 'Default content', 'pilopress' ),
-                        'singular_name'      => __( 'Default content', 'pilopress' ),
-                        'menu_name'          => __( 'Patterns', 'pilopress' ),
-                        'all_items'          => __( 'Default content', 'pilopress' ),
-                        'add_new_item'       => __( 'Add', 'pilopress' ),
-                        'add_new'            => __( 'Add', 'pilopress' ),
-                        'not_found_in_trash' => __( 'Not found', 'pilopress' ),
+                        'name'                     => __( 'Default content', 'pilopress' ),
+                        'singular_name'            => __( 'Default content', 'pilopress' ),
+                        'menu_name'                => __( 'Patterns', 'pilopress' ),
+                        'all_items'                => __( 'Default content', 'pilopress' ),
+                        'add_new_item'             => __( 'Add default content', 'pilopress' ),
+                        'add_new'                  => __( 'Add default content', 'pilopress' ),
+                        'edit_item'                => __( 'Edit default content', 'pilopress' ),
+                        'new_item'                 => __( 'New default content', 'pilopress' ),
+                        'view_item'                => __( 'View default content', 'pilopress' ),
+                        'view_items'               => __( 'View default contents', 'pilopress' ),
+                        'search_items'             => __( 'Search default content', 'pilopress' ),
+                        'uploaded_to_this_item'    => __( 'Uploaded to this default content', 'pilopress' ),
+                        'filter_items_list'        => __( 'Filter default content list', 'pilopress' ),
+                        'items_list_navigation'    => __( 'Default content list navigation', 'pilopress' ),
+                        'items_list'               => __( 'Default content list', 'pilopress' ),
+                        'name_admin_bar'           => __( 'Default content', 'pilopress' ),
+                        'item_published'           => __( 'Default content published', 'pilopress' ),
+                        'item_published_privately' => __( 'Default content published privately', 'pilopress' ),
+                        'item_reverted_to_draft'   => __( 'Default content reverted to draft', 'pilopress' ),
+                        'item_scheduled'           => __( 'Default content scheduled', 'pilopress' ),
+                        'item_updated'             => __( 'Default content updated', 'pilopress' ),
                     ),
                     'supports'            => array( 'title', 'custom-fields' ),
                     'hierarchical'        => false,
@@ -90,10 +105,27 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                     'label'               => __( 'Locked content', 'pilopress' ),
                     'description'         => __( 'Locked content', 'pilopress' ),
                     'labels'              => array(
-                        'name'          => __( 'Locked content', 'pilopress' ),
-                        'singular_name' => __( 'Locked content', 'pilopress' ),
-                        'menu_name'     => __( 'Locked content', 'pilopress' ),
-                        'all_items'     => __( 'Locked content', 'pilopress' ),
+                        'name'                     => __( 'Locked content', 'pilopress' ),
+                        'singular_name'            => __( 'Locked content', 'pilopress' ),
+                        'menu_name'                => __( 'Locked content', 'pilopress' ),
+                        'all_items'                => __( 'Locked content', 'pilopress' ),
+                        'add_new_item'             => __( 'Add locked content', 'pilopress' ),
+                        'add_new'                  => __( 'Add locked content', 'pilopress' ),
+                        'edit_item'                => __( 'Edit locked content', 'pilopress' ),
+                        'new_item'                 => __( 'New locked content', 'pilopress' ),
+                        'view_item'                => __( 'View locked content', 'pilopress' ),
+                        'view_items'               => __( 'View locked contents', 'pilopress' ),
+                        'search_items'             => __( 'Search locked content', 'pilopress' ),
+                        'uploaded_to_this_item'    => __( 'Uploaded to this locked content', 'pilopress' ),
+                        'filter_items_list'        => __( 'Filter locked content list', 'pilopress' ),
+                        'items_list_navigation'    => __( 'Locked content list navigation', 'pilopress' ),
+                        'items_list'               => __( 'Locked content list', 'pilopress' ),
+                        'name_admin_bar'           => __( 'Locked content', 'pilopress' ),
+                        'item_published'           => __( 'Locked content published', 'pilopress' ),
+                        'item_published_privately' => __( 'Locked content published privately', 'pilopress' ),
+                        'item_reverted_to_draft'   => __( 'Locked content reverted to draft', 'pilopress' ),
+                        'item_scheduled'           => __( 'Locked content scheduled', 'pilopress' ),
+                        'item_updated'             => __( 'Locked content updated', 'pilopress' ),
                     ),
                     'supports'            => array( 'title', 'custom-fields' ),
                     'hierarchical'        => false,
@@ -160,116 +192,242 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                         $template_post_id = wp_insert_post(
                             array(
                                 'post_type'   => $template_post_type,
-                                'post_title'  => $post_type_object->labels->name,
+                                'post_title'  => 'Post Type: ' . $post_type_object->labels->name,
                                 'post_name'   => $post_type,
                                 'post_status' => 'publish',
+                                'meta_input'  => array(
+                                    'linked_post_type' => $post_type_object->name,
+                                ),
                             )
                         );
-
                     }
 
-                    // WPML Compatibility - Create translations duplicates
-                    if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
+                    // WPML compatibility
+                    $this->auto_populate_wpml( $template_post_type, $template_post_id );
 
-                        // WPML - Vars
-                        $wpml_element_type     = apply_filters( 'wpml_element_type', $template_post_type );
-                        $default_language_code = wpml_get_default_language();
-                        $active_languages      = apply_filters( 'wpml_active_languages', null, '' );
+                    // Polylang compatibility
+                    $this->auto_populate_post_types_polylang( $post_type, $template_post_id, $template_post_type );
+                }
+            }
+        }
 
-                        /**
-                         *  Get the language info of the original post
-                         *
-                         * @link https://wpml.org/wpml-hook/wpml_element_language_details/
-                         */
-                        $get_language_args       = array(
-                            'element_id'   => $template_post_id,
-                            'element_type' => $wpml_element_type,
+        /**
+         * Auto-populate taxonomies
+         */
+        public function auto_populate_taxonomies() {
+
+            // Get taxonomies
+            $taxonomies = self::get_taxonomies();
+            if ( !$taxonomies ) {
+                return;
+            }
+
+            // Browse all taxonomies
+            foreach ( $taxonomies as $taxonomy ) {
+
+                // Get patterns taxonomies
+                $templates_post_types = array( self::$default_content_post_type, self::$locked_content_post_type );
+                foreach ( $templates_post_types as $template_post_type ) {
+
+                    // Get pattern object
+                    $template_post_object = get_page_by_path( $taxonomy, 'OBJECT', $template_post_type );
+                    $template_post_id     = $template_post_object ? $template_post_object->ID : '';
+
+                    // Insert post
+                    if ( !$template_post_object ) {
+
+                        $taxonomy_object  = get_taxonomy( $taxonomy );
+                        $template_post_id = wp_insert_post(
+                            array(
+                                'post_type'   => $template_post_type,
+                                'post_title'  => 'Taxonomy: ' . $taxonomy_object->labels->name,
+                                'post_name'   => $taxonomy,
+                                'post_status' => 'publish',
+                                'meta_input'  => array(
+                                    'linked_taxonomy' => $taxonomy_object->name,
+                                ),
+                            )
                         );
-                        $original_post_lang_data = apply_filters( 'wpml_element_language_details', null, $get_language_args );
-
-                        // Set default translation data if it's not yet translated
-                        $is_translated = apply_filters( 'wpml_element_has_translations', '', $template_post_id, $wpml_element_type );
-                        if ( !$is_translated ) {
-
-                            /**
-                             *  Set / Overwrite the language data of the original post
-                             *
-                             * @link https://wpml.org/wpml-hook/wpml_set_element_language_details/
-                             */
-                            $set_language_args = array(
-                                'element_id'           => $template_post_id,
-                                'element_type'         => $wpml_element_type,
-                                'trid'                 => pip_maybe_get( $original_post_lang_data, 'trid' ),
-                                'language_code'        => $default_language_code,                                     // Set to the default language code
-                                'source_language_code' => pip_maybe_get( $original_post_lang_data, 'language_code' ), // "null" makes it the original source / delete link to others translations.
-                            );
-                            do_action( 'wpml_set_element_language_details', $set_language_args );
-
-                            // Generate translations for each language
-                            do_action( 'wpml_admin_make_post_duplicates', $template_post_id );
-
-                        } else {
-                            // Has translations, generate missing translations
-
-                            $translations = apply_filters( 'wpml_get_element_translations', null, pip_maybe_get( $original_post_lang_data, 'trid' ), $wpml_element_type );
-                            if ( empty( $translations ) ) {
-                                continue;
-                            }
-
-                            // If all translations are already there, abort
-                            $missing_translations = array_diff_key( $active_languages, $translations );
-                            if ( !$missing_translations ) {
-                                continue;
-                            }
-
-                            // Generate missing ones
-                            global $sitepress;
-                            foreach ( $missing_translations as $missing_lang_code => $lang_data ) {
-                                $sitepress->make_duplicate( $template_post_id, $missing_lang_code );
-                            }
-                        }
                     }
 
-//                    acf_log( get_option( 'active_plugins' ) );
+                    // WPML compatibility
+                    $this->auto_populate_wpml( $template_post_type, $template_post_id );
 
-                    // Polylang Compatibility - Create translations
-                    if ( is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_languages_list' ) ) {
-                        $languages              = pll_languages_list();
-                        $post_type_object       = get_post_type_object( $post_type );
-                        $available_translations = array();
+                    // Polylang compatibility
+                    $this->auto_populate_taxonomies_polylang( $taxonomy, $template_post_id, $template_post_type );
+                }
+            }
+        }
 
-                        // Create translations if not already exists
-                        foreach ( $languages as $language ) {
-                            $translated_id = pll_get_post( $template_post_id, $language );
-                            if ( $translated_id ) {
-                                $available_translations[ $language ] = $translated_id;
-                            } else {
-                                $available_translations[ $language ] = wp_insert_post(
-                                    array(
-                                        'post_type'   => $template_post_type,
-                                        'post_title'  => $post_type_object->labels->name,
-                                        'post_name'   => $post_type,
-                                        'post_status' => 'publish',
-                                    ),
-                                    true
-                                );
-                            }
-                        }
+        /**
+         * Generate posts translations in WPML context
+         *
+         * @param $template_post_type
+         * @param $template_post_id
+         */
+        private function auto_populate_wpml( $template_post_type, $template_post_id ) {
 
-                        if ( function_exists( 'pll_set_post_language' ) && function_exists( 'pll_save_post_translations' ) ) {
+            // WPML Compatibility - Create translations duplicates
+            if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
 
-                            // Set language of main post to default value
-                            pll_set_post_language( $template_post_id, pll_default_language() );
+                // WPML - Vars
+                $wpml_element_type     = apply_filters( 'wpml_element_type', $template_post_type );
+                $default_language_code = wpml_get_default_language();
+                $active_languages      = apply_filters( 'wpml_active_languages', null, '' );
 
-                            // Browse translations to set languages
-                            foreach ( $available_translations as $language => $value ) {
-                                pll_set_post_language( $value, $language );
-                            }
+                /**
+                 *  Get the language info of the original post
+                 *
+                 * @link https://wpml.org/wpml-hook/wpml_element_language_details/
+                 */
+                $get_language_args       = array(
+                    'element_id'   => $template_post_id,
+                    'element_type' => $wpml_element_type,
+                );
+                $original_post_lang_data = apply_filters( 'wpml_element_language_details', null, $get_language_args );
 
-                            // Link translations to main post
-                            pll_save_post_translations( array_merge( array( $template_post_id ), $available_translations ) );
-                        }
+                // Set default translation data if it's not yet translated
+                $is_translated = apply_filters( 'wpml_element_has_translations', '', $template_post_id, $wpml_element_type );
+                if ( !$is_translated ) {
+
+                    /**
+                     *  Set / Overwrite the language data of the original post
+                     *
+                     * @link https://wpml.org/wpml-hook/wpml_set_element_language_details/
+                     */
+                    $set_language_args = array(
+                        'element_id'           => $template_post_id,
+                        'element_type'         => $wpml_element_type,
+                        'trid'                 => pip_maybe_get( $original_post_lang_data, 'trid' ),
+                        'language_code'        => $default_language_code,                                     // Set to the default language code
+                        'source_language_code' => pip_maybe_get( $original_post_lang_data, 'language_code' ), // "null" makes it the original source / delete link to others translations.
+                    );
+                    do_action( 'wpml_set_element_language_details', $set_language_args );
+
+                    // Generate translations for each language
+                    do_action( 'wpml_admin_make_post_duplicates', $template_post_id );
+
+                } else {
+                    // Has translations, generate missing translations
+
+                    $translations = apply_filters( 'wpml_get_element_translations', null, pip_maybe_get( $original_post_lang_data, 'trid' ), $wpml_element_type );
+                    if ( empty( $translations ) ) {
+                        return;
                     }
+
+                    // If all translations are already there, abort
+                    $missing_translations = array_diff_key( $active_languages, $translations );
+                    if ( !$missing_translations ) {
+                        return;
+                    }
+
+                    // Generate missing ones
+                    global $sitepress;
+                    foreach ( $missing_translations as $missing_lang_code => $lang_data ) {
+                        $sitepress->make_duplicate( $template_post_id, $missing_lang_code );
+                    }
+                }
+            }
+        }
+
+        /**
+         * Generate posts translations in Polylang context
+         *
+         * @param $post_type
+         * @param $template_post_id
+         * @param $template_post_type
+         */
+        private function auto_populate_post_types_polylang( $post_type, $template_post_id, $template_post_type ) {
+            // Polylang Compatibility - Create translations
+            if ( is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_languages_list' ) ) {
+                $languages              = pll_languages_list();
+                $post_type_object       = get_post_type_object( $post_type );
+                $available_translations = array();
+
+                // Create translations if not already exists
+                foreach ( $languages as $language ) {
+                    $translated_id = pll_get_post( $template_post_id, $language );
+                    if ( $translated_id ) {
+                        $available_translations[ $language ] = $translated_id;
+                    } else {
+                        $available_translations[ $language ] = wp_insert_post(
+                            array(
+                                'post_type'   => $template_post_type,
+                                'post_title'  => 'Post Type: ' . $post_type_object->labels->name,
+                                'post_name'   => $post_type,
+                                'post_status' => 'publish',
+                                'meta_input'  => array(
+                                    'linked_post_type' => $post_type_object->name,
+                                ),
+                            ),
+                            true
+                        );
+                    }
+                }
+
+                if ( function_exists( 'pll_set_post_language' ) && function_exists( 'pll_save_post_translations' ) ) {
+
+                    // Set language of main post to default value
+                    pll_set_post_language( $template_post_id, pll_default_language() );
+
+                    // Browse translations to set languages
+                    foreach ( $available_translations as $language => $value ) {
+                        pll_set_post_language( $value, $language );
+                    }
+
+                    // Link translations to main post
+                    pll_save_post_translations( array_merge( array( $template_post_id ), $available_translations ) );
+                }
+            }
+        }
+
+        /**
+         * Generate posts translations in Polylang context
+         *
+         * @param $taxonomy
+         * @param $template_post_id
+         * @param $template_post_type
+         */
+        private function auto_populate_taxonomies_polylang( $taxonomy, $template_post_id, $template_post_type ) {
+            // Polylang Compatibility - Create translations
+            if ( is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_languages_list' ) ) {
+                $languages              = pll_languages_list();
+                $taxonomy_object        = get_taxonomy( $taxonomy );
+                $available_translations = array();
+
+                // Create translations if not already exists
+                foreach ( $languages as $language ) {
+                    $translated_id = pll_get_post( $template_post_id, $language );
+                    if ( $translated_id ) {
+                        $available_translations[ $language ] = $translated_id;
+                    } else {
+                        $available_translations[ $language ] = wp_insert_post(
+                            array(
+                                'post_type'   => $template_post_type,
+                                'post_title'  => 'Taxonomy: ' . $taxonomy_object->labels->name,
+                                'post_name'   => $taxonomy,
+                                'post_status' => 'publish',
+                                'meta_input'  => array(
+                                    'linked_taxonomy' => $taxonomy_object->name,
+                                ),
+                            ),
+                            true
+                        );
+                    }
+                }
+
+                if ( function_exists( 'pll_set_post_language' ) && function_exists( 'pll_save_post_translations' ) ) {
+
+                    // Set language of main post to default value
+                    pll_set_post_language( $template_post_id, pll_default_language() );
+
+                    // Browse translations to set languages
+                    foreach ( $available_translations as $language => $value ) {
+                        pll_set_post_language( $value, $language );
+                    }
+
+                    // Link translations to main post
+                    pll_save_post_translations( array_merge( array( $template_post_id ), $available_translations ) );
                 }
             }
         }
@@ -311,6 +469,40 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
             }
 
             return $filtered_post_types;
+        }
+
+        /**
+         * Get filtered taxonomies
+         *
+         * @return array
+         */
+        public static function get_taxonomies() {
+            $filtered_taxonomies = array();
+
+            $public_taxonomies = get_taxonomies(
+                array(
+                    'public' => true,
+                )
+            );
+
+            // Get taxonomies
+            $allowed_taxonomies = apply_filters( 'pip/patterns/taxonomies', $public_taxonomies );
+            if ( !$allowed_taxonomies ) {
+                return $filtered_taxonomies;
+            }
+
+            // Browse all taxonomies
+            foreach ( $public_taxonomies as $taxonomy ) {
+                // If not in templates, skip
+                if ( !in_array( $taxonomy, $allowed_taxonomies, true ) ) {
+                    continue;
+                }
+
+                // Store taxonomy
+                $filtered_taxonomies[] = $taxonomy;
+            }
+
+            return $filtered_taxonomies;
         }
 
         /**

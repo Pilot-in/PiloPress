@@ -114,7 +114,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                 'min'                           => 0,
                 'max'                           => 0,
                 'layout'                        => 'table',
-                'button_label'                  => __( 'Preview', 'pilopress' ),
+                'button_label'                  => __( 'Add typography', 'pilopress' ),
                 'sub_fields'                    => array(
                     array(
                         'key'                        => 'field_typography_preview',

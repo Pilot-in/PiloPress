@@ -162,7 +162,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         /**
          * Set layouts and group keys
          *
-         * @return array
+         * @return void
          */
         public function set_layouts_and_group_keys() {
 
@@ -190,9 +190,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 $layout_slug    = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug', '' ) );
                 $layout_uniq_id = 'layout_' . $layout_slug;
 
-                // Path
-                $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
-
                 // Get layout categories from field group
                 $layout_categories = acf_maybe_get( $field_group, 'layout_categories' );
                 $layout_categories = $layout_categories ? array_values( $layout_categories ) : array();
@@ -212,6 +209,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 ) {
                     $title = '<div class="pip_collection">' . reset( $layout_collections ) . '</div>' . $title;
                 }
+
+                // Path
+                $file_path = apply_filters( 'pip/layouts/file_path', PIP_THEME_LAYOUTS_PATH . $layout_slug . '/', $field_group );
 
                 // Settings
                 $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $layout_slug . '.php' );
@@ -285,8 +285,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             }
 
             // Layouts
-            $this->layouts    = $layouts;
-            $this->group_keys = $group_keys;
+            $this->layouts           = $layouts;
+            $this->group_keys        = $group_keys;
             $this->layout_group_keys = array_merge( $layouts, $group_keys );
 
         }
@@ -499,13 +499,11 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             }
 
             // Get file path and URL
-            $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
-            $file_url  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug;
+            $file_path = apply_filters( 'pip/layouts/thumbnail/file_path', PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug, $field_group );
+            $file_url  = apply_filters( 'pip/layouts/thumbnail/file_url', PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug, $field_group );
 
             // Get file extension
-            $div        = null;
-            $data_image = null;
-            $extension  = null;
+            $extension = null;
             switch ( $file_path ) {
                 case file_exists( $file_path . '.png' ):
                     $extension = '.png';
@@ -517,6 +515,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     $extension = '.jpg';
                     break;
             }
+
+            // Build custom thumbnail URL
             if ( $file_url && $extension ) {
                 $thumbnail = $file_url . $extension;
             }
@@ -610,6 +610,13 @@ function get_pip_content( $post_id = false ) {
 
     // Get content
     $content = get_flexible( $pip_flexible->flexible_field_name, pip_get_formatted_post_id( $post_id ) );
+
+    // Maybe wrap content with locked content layouts
+    $locked_content_post = PIP_Locked_Content::get_locked_content( $post_id );
+    if ( $locked_content_post ) {
+        $locked_content = get_flexible( $pip_flexible->flexible_field_name, $locked_content_post );
+        $content        = $locked_content ? str_replace( '[pip_locked_content]', $content, $locked_content ) : $content;
+    }
 
     // Maybe get pip footer
     if ( !apply_filters( 'pip/footer/remove', false ) ) {

@@ -224,5 +224,9 @@
                 .replace( /[^a-zA-Z0-9_\-\s]+/g, '' ); // Remove all non-word chars
         };
 
+        // Lock title input for Default content and Locked content
+        $( 'body.post-type-pip-default-content #poststuff input[name="post_title"]' ).attr( 'disabled', 'disabled' );
+        $( 'body.post-type-pip-locked-content #poststuff input[name="post_title"]' ).attr( 'disabled', 'disabled' );
+
     }
 )( jQuery );

@@ -23,7 +23,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         public function current_screen() {
 
             // If not layout(s) screen, return
-            if ( !$this->is_layout_screen() ) {
+            if ( !pip_is_layout_screen() ) {
                 return;
             }
 
