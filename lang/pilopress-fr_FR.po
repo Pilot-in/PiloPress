@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pilo'Press\n"
-"POT-Creation-Date: 2021-10-15 16:34+0200\n"
-"PO-Revision-Date: 2021-10-15 16:49+0200\n"
+"POT-Creation-Date: 2021-10-15 16:52+0200\n"
+"PO-Revision-Date: 2021-10-15 16:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -23,11 +23,21 @@ msgstr ""
 
 #: assets/libs/tailwindapi.php:61
 msgid "An error occurred. Please try again later"
-msgstr "Une erreur est survenue. Merci de réessayer plus tard."
+msgstr "Une erreur est survenue. Merci de réessayer plus tard"
 
 #: assets/libs/tailwindapi.php:75
 msgid "Styles compiled successfully."
 msgstr "Le style a été compilé avec succès."
+
+#. translators: Pilo'Press dashboard URL
+#: includes/classes/admin/class-admin.php:111
+#, php-format
+msgid ""
+"Your current theme does not support Pilo'Press. See <a "
+"href='%s'>configuration status</a> for more details."
+msgstr ""
+"Votre thème actuel ne supporte pas Pilo’Press. Voir <a href='%s'>l’état de "
+"la configuration</a> pour plus de détails."
 
 #. Plugin Name of the plugin/theme
 #: includes/classes/admin/class-admin.php:249
@@ -973,7 +983,8 @@ msgstr ""
 msgid "Override configuration"
 msgstr "Écraser la configuration"
 
-#: includes/classes/admin/patterns/class-locked-content.php:59
+#. translators: Link to post edition
+#: includes/classes/admin/patterns/class-locked-content.php:60
 #, php-format
 msgid ""
 "Template with locked content is used for this content. <a href=\"%s\">See "

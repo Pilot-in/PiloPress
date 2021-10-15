@@ -108,7 +108,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 <p>
                     <?php
                     // translators: Pilo'Press dashboard URL
-                    echo sprintf( 'Your current theme does not support Pilo\'Press. See <a href="%s">configuration status</a> for more details.', $pilopress_url );
+                    echo sprintf( __( "Your current theme does not support Pilo'Press. See <a href='%s'>configuration status</a> for more details.", 'pilopress' ), $pilopress_url );
                     ?>
                 </p>
             </div>
