@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pilo'Press\n"
-"POT-Creation-Date: 2021-10-15 16:21+0200\n"
-"PO-Revision-Date: 2021-10-15 16:25+0200\n"
+"POT-Creation-Date: 2021-10-15 16:34+0200\n"
+"PO-Revision-Date: 2021-10-15 16:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -972,6 +972,15 @@ msgstr ""
 #: includes/classes/admin/options-pages/styles-option-tailwind.php:329
 msgid "Override configuration"
 msgstr "Écraser la configuration"
+
+#: includes/classes/admin/patterns/class-locked-content.php:59
+#, php-format
+msgid ""
+"Template with locked content is used for this content. <a href=\"%s\">See "
+"template.</a>"
+msgstr ""
+"Un modèle avec un contenu verrouillé est utilisé pour ce contenu. <a href="
+"\"%s\">Voir le modèle.</a>"
 
 #: includes/classes/admin/patterns/class-patterns.php:55
 #: includes/classes/admin/patterns/class-patterns.php:56

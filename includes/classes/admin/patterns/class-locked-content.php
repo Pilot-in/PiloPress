@@ -56,7 +56,8 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
             // Add notice
             acf_add_admin_notice(
                 sprintf(
-                    'Template with locked content is used for this content. <a href="%s">See template.</a>',
+                // translators: Link to post edition
+                    __( 'Template with locked content is used for this content. <a href="%s">See template.</a>', 'pilopress' ),
                     $edit_link
                 )
             );
