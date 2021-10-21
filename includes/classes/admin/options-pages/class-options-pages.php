@@ -91,6 +91,10 @@ if ( !class_exists( 'PIP_Options_Pages' ) ) {
                     'field_screen_name'  => 'xl',
                     'field_screen_value' => '1280px',
                 ),
+                array(
+                    'field_screen_name'  => '2xl',
+                    'field_screen_value' => '1536px',
+                ),
             );
         }
 
