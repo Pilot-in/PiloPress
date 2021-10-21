@@ -130,7 +130,7 @@ jQuery( document ).ready(
          */
         function previews_on_typing() {
             // Typography
-            $typo_classes.find( '.acf-field-typography-classes textarea' ).keyup(
+            $typo_classes.find( 'textarea' ).keyup(
                 function () {
                     apply_styles_to_preview( $( this ), '.acf-field-typography-preview' );
                 },
