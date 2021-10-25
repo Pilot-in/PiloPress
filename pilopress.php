@@ -153,6 +153,9 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Helpers
             pip_include( 'includes/helpers.php' );
+
+            // Crons
+            pip_include( 'includes/classes/main/class-cron.php' );
         }
 
         /**
@@ -162,6 +165,8 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             pip_include( 'includes/classes/admin/tools/class-styles-export-tool.php' );
             pip_include( 'includes/classes/admin/tools/class-styles-import-tool.php' );
+            pip_include( 'includes/classes/admin/tools/class-layouts-export-tool.php' );
+            pip_include( 'includes/classes/admin/tools/class-layouts-import-tool.php' );
         }
 
         /**
