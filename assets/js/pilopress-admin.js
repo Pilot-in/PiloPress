@@ -204,28 +204,35 @@
                 }
 
                 /**
-                 * Add search bar for layout modal
+                 * Search bar for layout modal
                  */
-                let $addLayoutBTN = $( '.acfe-flexible-stylised-button .acf-actions > a.acf-button.button[data-name="add-layout"]' );
+                let $addLayoutBtn = $( '.acfe-flexible-stylised-button .acf-actions > a.acf-button.button[data-name="add-layout"]' );
 
-                if ( $addLayoutBTN.length === 1 ) {
+                /**
+                 * Add search input
+                 */
+                if ( $addLayoutBtn.length === 1 ) {
                     $( document ).on(
                         'click',
-                        $addLayoutBTN,
+                        $addLayoutBtn,
                         function () {
                             let $searchInput    = $( '#search-layout' );
-                            let $ACFEmodalTitle = $( '.acfe-modal-select-pip_flexible .acfe-modal-wrapper .acfe-modal-title' );
+                            let $acfeModalTitle = $( '.acfe-modal-select-pip_flexible .acfe-modal-wrapper .acfe-modal-title' );
+
                             // Return if element exist or modal don't exist
-                            if ( $searchInput.length === 1 && $ACFEmodalTitle.length === 1 ) {
+                            if ( $searchInput.length === 1 && $acfeModalTitle.length === 1 ) {
                                 return;
                             }
 
-                            // Append element
-                            $ACFEmodalTitle.append( '<input id="search-layout" type="text" placeholder="Rechercher un layout" style="margin-left:15px;"></input>' );
+                            // Append search input
+                            $acfeModalTitle.append( '<input id="search-layout" type="text" placeholder="' + acf.__( 'Search for a layout' ) + '" style="margin-left:16px;"/>' );
                         },
                     );
                 }
 
+                /**
+                 * Make layout search work
+                 */
                 $( document ).on(
                     'keyup',
                     '#search-layout',
@@ -242,6 +249,9 @@
             },
         );
 
+        /**
+         * Remove collection badge to avoid having it twice
+         */
         $( document ).ajaxComplete(
             function () {
                 $( '.acfe-layout-title .acfe-layout-title-text .pip_collection' ).remove();
