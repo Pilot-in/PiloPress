@@ -202,6 +202,30 @@
                 if ( $( 'body' ).hasClass( 'wp-admin', 'post-type-acf-field-group' ) && searchParams.get( 'layouts' ) === '1' ) {
                     $( '.subsubsub li:last-child:not([class])' ).remove()
                 }
+
+                /**
+                 * Add search bar for layout modal
+                 */
+                let $addLayoutBTN = $('.acfe-flexible-stylised-button .acf-actions > a.acf-button.button[data-name="add-layout"]');
+
+                if ($addLayoutBTN.length === 1) {
+                    $(document).on('click', $addLayoutBTN, function () {
+                        let $searchInput = $('#search-layout');
+                        let $ACFEmodalTitle = $('.acfe-modal-select-pip_flexible .acfe-modal-wrapper .acfe-modal-title');
+                        // Return if element exist or modal don't exist
+                        if ($searchInput.length === 1 && $ACFEmodalTitle.length === 1) { return; }
+                        // Append element
+                        $ACFEmodalTitle.append('<input id="search-layout" type="text" placeholder="Rechercher un layout" style="margin-left:15px;"></input>');
+                    })
+                }
+
+                $(document).on('keyup', '#search-layout', function () {
+                    let $this = $(this);
+                    let value = $this.val().toLowerCase();
+                    $(".acfe-flex-thumbnails ul li").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                })
             }
         )
 
