@@ -7,18 +7,18 @@
         }
 
         /**
-         * Define variables
+         * Define letiables
          */
-        var fonts  = acf.get( 'custom_fonts' );
-        var colors = acf.get( 'custom_colors' );
-        var styles = acf.get( 'custom_styles' );
+        const fonts  = acf.get( 'custom_fonts' );
+        const colors = acf.get( 'custom_colors' );
+        const styles = acf.get( 'custom_styles' );
 
         /**
          * Colors
          *
          * @returns {*}
          */
-        var get_custom_colors = function () {
+        const get_custom_colors = function () {
             return $.map(
                 colors,
                 function ( color, key ) {
@@ -29,8 +29,8 @@
                     }
 
                     // Get text color and background
-                    var textStyle = 'color:' + color.value + ';';
-                    var bgColor   = getContrast( color.value );
+                    let textStyle = 'color:' + color.value + ';';
+                    let bgColor   = getContrast( color.value );
                     if ( bgColor !== 'white' ) {
                         textStyle += 'background-color:' + bgColor + ';';
                     }
@@ -52,22 +52,28 @@
             );
         };
 
-        function getContrast( hexcolor ) {
+        /**
+         * Check if color is light or dark
+         *
+         * @param hexcolor
+         * @returns {string}
+         */
+        const getContrast = function ( hexcolor ) {
             hexcolor = hexcolor.charAt( 0 ) === '#' ? hexcolor.substring( 1, 7 ) : hexcolor;
 
-            var r   = parseInt( hexcolor.substr( 0, 2 ), 16 );
-            var g   = parseInt( hexcolor.substr( 2, 2 ), 16 );
-            var b   = parseInt( hexcolor.substr( 4, 2 ), 16 );
-            var yiq = ( ( r * 299 ) + ( g * 587 ) + ( b * 114 ) ) / 1000;
+            let r   = parseInt( hexcolor.substr( 0, 2 ), 16 );
+            let g   = parseInt( hexcolor.substr( 2, 2 ), 16 );
+            let b   = parseInt( hexcolor.substr( 4, 2 ), 16 );
+            let yiq = ( ( r * 299 ) + ( g * 587 ) + ( b * 114 ) ) / 1000;
             return ( yiq >= 128 ) ? '#23282d' : 'white';
-        }
+        };
 
         /**
          * Fonts
          *
          * @returns {*}
          */
-        var get_custom_fonts = function () {
+        const get_custom_fonts = function () {
             return $.map(
                 fonts,
                 function ( font, key ) {
@@ -99,7 +105,7 @@
          *
          * @returns {*}
          */
-        var get_custom_styles = function () {
+        const get_custom_styles = function () {
             return $.map(
                 styles,
                 function ( style, key ) {
@@ -229,8 +235,8 @@
                         icon: 'contrast',
                         tooltip: 'Dark Mode',
                         onClick: function () {
-                            var new_color;
-                            var dark_mode_value;
+                            let new_color;
+                            let dark_mode_value;
 
                             // Switch background color
                             if ( 'rgb(35, 40, 45)' === editor.getBody().style.backgroundColor ) {
@@ -285,15 +291,15 @@
          *
          * @param editor
          */
-        var maybe_activate_dark_mode = function ( editor ) {
+        let maybe_activate_dark_mode = function ( editor ) {
 
-            var acf_field            = get_acf_field_from_editor( editor );
-            var field_name           = acf_field.data( 'name' );
-            var field_name_dark_mode = field_name + '_dark_mode';
+            let acf_field            = get_acf_field_from_editor( editor );
+            let field_name           = acf_field.data( 'name' );
+            let field_name_dark_mode = field_name + '_dark_mode';
 
             if ( field_name ) {
 
-                var input_field = acf_field.next( '.acf-field[data-name="' + field_name_dark_mode + '"]' ).find( 'input' );
+                let input_field = acf_field.next( '.acf-field[data-name="' + field_name_dark_mode + '"]' ).find( 'input' );
 
                 if ( input_field.val() === '1' ) {
 
@@ -312,11 +318,11 @@
          *
          * @param dark_mode_value
          */
-        var toggle_dark_mode = function ( editor, dark_mode_value ) {
+        const toggle_dark_mode = function ( editor, dark_mode_value ) {
 
-            var acf_field            = get_acf_field_from_editor( editor );
-            var field_name           = acf_field.data( 'name' );
-            var field_name_dark_mode = field_name + '_dark_mode';
+            let acf_field            = get_acf_field_from_editor( editor );
+            let field_name           = acf_field.data( 'name' );
+            let field_name_dark_mode = field_name + '_dark_mode';
 
             // Toggle dark mode value
             if ( field_name ) {
@@ -334,9 +340,9 @@
          *
          * @returns {jQuery}
          */
-        var get_acf_field_from_editor = function ( editor ) {
+        const get_acf_field_from_editor = function ( editor ) {
             // Get field name
-            var textarea = editor.getElement();
+            let textarea = editor.getElement();
 
             return $( textarea ).parents( '.acf-field-wysiwyg' );
         };
@@ -346,13 +352,13 @@
          *
          * @param editor
          */
-        var register = function ( editor ) {
+        const register = function ( editor ) {
             editor.addCommand(
                 'add_custom_style',
                 function ( command, item ) {
 
                     // Get style to remove
-                    var to_remove = Array();
+                    let to_remove = Array();
                     if ( item.type === 'styles' ) {
                         to_remove = get_custom_styles();
                     } else if ( item.type === 'colors' ) {
@@ -377,7 +383,7 @@
                 },
             );
         };
-        var Commands = { register: register };
+        const Commands = { register: register };
 
         /**
          * Set active on menu item
@@ -387,9 +393,9 @@
          *
          * @returns {function(...[*]=)}
          */
-        var custom_list_box_change_handler = function ( editor, items ) {
+        const custom_list_box_change_handler = function ( editor, items ) {
             return function () {
-                var self = this;
+                let self = this;
                 self.value( null );
 
                 editor.on(
@@ -397,7 +403,7 @@
                     function ( e ) {
 
                         // Get value
-                        var current_value = null, current_style = null;
+                        let current_value = null, current_style = null;
                         $.map(
                             items,
                             function ( item ) {
@@ -417,8 +423,8 @@
             };
         };
 
-        var hexToRgb = function ( hex ) {
-            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec( hex );
+        const hexToRgb = function ( hex ) {
+            let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec( hex );
             return result ? {
                 r: parseInt( result[1], 16 ),
                 g: parseInt( result[2], 16 ),

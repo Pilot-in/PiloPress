@@ -1,11 +1,11 @@
 jQuery( document ).ready(
     function ( $ ) {
 
-        var $typo_classes           = $( '.acf-field-typography-classes' );
-        var $simple_color_value     = $( '.acf-field-simple-color-value' );
-        var $colors_shades_repeater = $( '.acf-field-colors-shades-shades' );
-        var $buttons_wrapper        = $( '.acf-field-pip-button' );
-        var $fonts_wrapper          = $( '.acf-field-pip-fonts' );
+        let $typo_classes           = $( '.acf-field-typography-classes' );
+        let $simple_color_value     = $( '.acf-field-simple-color-value' );
+        let $colors_shades_repeater = $( '.acf-field-colors-shades-shades' );
+        let $buttons_wrapper        = $( '.acf-field-pip-button' );
+        let $fonts_wrapper          = $( '.acf-field-pip-fonts' );
 
         // Load previews on page load
         load_previews();
@@ -39,7 +39,7 @@ jQuery( document ).ready(
                         // Colors with shades
                         $row.find( '.acf-field-shade-value input[type="text"]' ).keyup(
                             function () {
-                                var rows = $( this ).parents( '.acf-row' );
+                                let rows = $( this ).parents( '.acf-row' );
                                 add_css_to_preview_repeater( $( rows[0] ), '.acf-field-colors-shades-shades-preview', 'background-color', $( this ).val() );
                             },
                         );
@@ -49,7 +49,7 @@ jQuery( document ).ready(
                         // Buttons - Main textarea
                         $row.find( '.acf-field-custom-button-classes textarea' ).keyup(
                             function () {
-                                var rows = $( this ).parents( '.acf-row' );
+                                let rows = $( this ).parents( '.acf-row' );
                                 apply_btn_styles_to_preview( $( rows[0] ), '.acf-field-pip-button-preview', $( this ).val() );
                             },
                         );
@@ -57,7 +57,7 @@ jQuery( document ).ready(
                         // Buttons - Every state input
                         $row.find( '.acf-field-custom-button-states .acf-field-state-classes-to-apply input[type="text"]' ).keyup(
                             function () {
-                                var rows = $( this ).parents( '.acf-row' );
+                                let rows = $( this ).parents( '.acf-row' );
                                 apply_btn_styles_to_preview( $( rows[( rows.length - 1 )] ), '.acf-field-pip-button-preview' );
                             },
                         );
@@ -65,6 +65,21 @@ jQuery( document ).ready(
                     }
                 },
             );
+
+            // PILO_TODO: update preview when a row is removed
+            // When a row is removed
+            /*acf.add_action(
+             'remove',
+             function ( $row ) {
+
+             if ( !$( '.acf-field-button-message' ).hasClass( 'acf-hidden' ) ) {
+
+             let rows = $row.parents( '.acf-row' );
+             apply_btn_styles_to_preview( $( rows[0] ), '.acf-field-pip-button-preview' );
+
+             }
+             },
+             );*/
         }
 
         /**
@@ -113,11 +128,11 @@ jQuery( document ).ready(
                     $( this ).find( '.layout' ).each(
                         function () {
                             // External fonts
-                            var external_font_name = $( this ).find( '.acf-field-google-font-class-name input[type="text"]' ).val();
+                            let external_font_name = $( this ).find( '.acf-field-google-font-class-name input[type="text"]' ).val();
                             $( this ).find( '.acf-field-google-font-preview .pip-live-preview > div' ).addClass( 'font-' + external_font_name );
 
                             // Custom fonts
-                            var custom_font_name = $( this ).find( '.acf-field-custom-font-class-name input[type="text"]' ).val();
+                            let custom_font_name = $( this ).find( '.acf-field-custom-font-class-name input[type="text"]' ).val();
                             $( this ).find( '.acf-field-custom-font-preview .pip-live-preview > div' ).addClass( 'font-' + custom_font_name );
                         },
                     );
@@ -146,7 +161,7 @@ jQuery( document ).ready(
             // Colors with shades
             $colors_shades_repeater.find( '.acf-row .acf-field-shade-value input[type="text"]' ).keyup(
                 function () {
-                    var rows = $( this ).parents( '.acf-row' );
+                    let rows = $( this ).parents( '.acf-row' );
                     add_css_to_preview_repeater( $( rows[0] ), '.acf-field-colors-shades-shades-preview', 'background-color', $( this ).val() );
                 },
             );
@@ -154,15 +169,23 @@ jQuery( document ).ready(
             // Buttons - Main textarea
             $buttons_wrapper.find( '.acf-row .acf-field-custom-button-classes textarea' ).keyup(
                 function () {
-                    var rows = $( this ).parents( '.acf-row' );
+                    let rows = $( this ).parents( '.acf-row' );
                     apply_btn_styles_to_preview( $( rows[0] ), '.acf-field-pip-button-preview', $( this ).val() );
+                },
+            );
+
+            // Buttons - Every state select
+            $buttons_wrapper.find( '.acf-row .acf-field-custom-button-states .acf-field-state-type select' ).change(
+                function () {
+                    let rows = $( this ).parents( '.acf-row' );
+                    apply_btn_styles_to_preview( $( rows[( rows.length - 1 )] ), '.acf-field-pip-button-preview' );
                 },
             );
 
             // Buttons - Every state input
             $buttons_wrapper.find( '.acf-row .acf-field-custom-button-states .acf-field-state-classes-to-apply input[type="text"]' ).keyup(
                 function () {
-                    var rows = $( this ).parents( '.acf-row' );
+                    let rows = $( this ).parents( '.acf-row' );
                     apply_btn_styles_to_preview( $( rows[( rows.length - 1 )] ), '.acf-field-pip-button-preview' );
                 },
             );
@@ -185,8 +208,8 @@ jQuery( document ).ready(
          * @param wrapper
          */
         function apply_btn_styles_to_preview( $acf_row, wrapper ) {
-            var classes       = $acf_row.find( '.acf-field-custom-button-classes textarea' ).val();
-            var $live_preview = $acf_row.find( wrapper );
+            let classes       = $acf_row.find( '.acf-field-custom-button-classes textarea' ).val();
+            let $live_preview = $acf_row.find( wrapper );
             $live_preview.find( '.pip-live-preview > button' ).removeClass();
 
             // Get states classes
@@ -194,11 +217,19 @@ jQuery( document ).ready(
                 function () {
                     $( this ).find( '.acf-row' ).each(
                         function () {
-                            var state_name  = $( this ).find( '.acf-field-state-type' ).find( 'select' );
-                            var state_value = $( this ).find( '.acf-field-state-classes-to-apply' ).find( 'input[type="text"]' );
+                            let state_name  = $( this ).find( '.acf-field-state-type' ).find( 'select' );
+                            let state_value = $( this ).find( '.acf-field-state-classes-to-apply' ).find( 'input[type="text"]' );
+                            console.log( state_name.val(), state_value.val() );
 
                             if ( state_name.val() && state_value.val() ) {
-                                classes += ' ' + state_name.val() + ':' + state_value.val();
+                                let state_values = state_value.val().split( ' ' );
+
+                                $.each(
+                                    state_values,
+                                    function ( key, item ) {
+                                        classes += ' ' + state_name.val() + ':' + item;
+                                    },
+                                );
                             }
                         },
                     );

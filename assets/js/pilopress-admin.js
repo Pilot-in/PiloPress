@@ -3,7 +3,7 @@
         'use strict';
 
         // The global pip object
-        var pip = {};
+        let pip = {};
 
         // Set as a browser global
         window.pip = pip;
@@ -14,7 +14,7 @@
          * @type {acf.Model}
          */
         if ( typeof acf !== 'undefined' ) {
-            var move_default_settings = new acf.Model(
+            const move_default_settings = new acf.Model(
                 {
 
                     actions: {
@@ -24,11 +24,11 @@
                     onNewField: function ( field ) {
 
                         // 'acfe_form', 'label_placement', 'instruction_placement', 'description'
-                        var name = field.get( 'name' );
+                        const name = field.get( 'name' );
 
                         if ( name === 'acfe_form' || name === 'label_placement' || name === 'instruction_placement' || name === 'description' ) {
 
-                            var $sibling = $( '[data-name="tab_more"]' ).first();
+                            const $sibling = $( '[data-name="tab_more"]' ).first();
 
                             // Bail early if no sibling
                             if ( !$sibling.length ) {
@@ -48,7 +48,7 @@
 
                     if ( $.isFunction( acf.getPostbox ) ) {
                         // Hide default field group ACF settings
-                        var LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' );
+                        const LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' );
 
                         if ( typeof LayoutSettingsPostBox !== 'undefined' && $( '#pip_layout_settings' ).length ) {
                             LayoutSettingsPostBox.hide();
@@ -56,17 +56,17 @@
                     }
 
                     // Layout admin page
-                    var $title          = $( '#title' );
-                    var $prepend        = $( '.acf-input-prepend span' );
-                    var $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' );
-                    var $layoutTemplate = $( '#acf_field_group-_pip_render_layout' );
-                    var $renderCSS      = $( '#acf_field_group-_pip_render_style' );
-                    var $renderScript   = $( '#acf_field_group-_pip_render_script' );
-                    var $configFile     = $( '#acf_field_group-_pip_config_file' );
-                    var templateSwitch  = false;
-                    var cssSwitch       = false;
-                    var scriptSwitch    = false;
-                    var configSwitch    = false;
+                    const $title          = $( '#title' );
+                    const $prepend        = $( '.acf-input-prepend span' );
+                    const $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' );
+                    const $layoutTemplate = $( '#acf_field_group-_pip_render_layout' );
+                    const $renderCSS      = $( '#acf_field_group-_pip_render_style' );
+                    const $renderScript   = $( '#acf_field_group-_pip_render_script' );
+                    const $configFile     = $( '#acf_field_group-_pip_config_file' );
+                    let templateSwitch    = false;
+                    let cssSwitch         = false;
+                    let scriptSwitch      = false;
+                    let configSwitch      = false;
 
                     /**
                      * When something is typed in "template" field
@@ -110,7 +110,7 @@
                     $title.keyup(
                         function () {
                             // Get title
-                            var $this = $( this );
+                            const $this = $( this );
 
                             // If new layout
                             if ( $( '#auto_draft' ).val() === '1' ) {
@@ -126,7 +126,7 @@
                     $layoutSlug.keyup(
                         function () {
                             // Get layout slug
-                            var $this = $( this );
+                            const $this = $( this );
 
                             // Change values with sanitized slug
                             change_values( $this );
@@ -198,7 +198,7 @@
                 /**
                  * Remove search for layouts admin page
                  */
-                var searchParams = new URLSearchParams( window.location.search );
+                const searchParams = new URLSearchParams( window.location.search );
                 if ( $( 'body' ).hasClass( 'wp-admin', 'post-type-acf-field-group' ) && searchParams.get( 'layouts' ) === '1' ) {
                     $( '.subsubsub li:last-child:not([class])' ).remove();
                 }
