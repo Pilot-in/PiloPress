@@ -58,7 +58,7 @@ get_footer();
 ## TailwindCSS
 
 In the administration, under `Pilo'Press > Styles`, when you click on "Update & Compile", TailwindCSS will be compiled
-remotely using [TailwindAPI](https://www.tailwindapi.com/). Minified CSS files are then created
+remotely using a remote TailwindCSS API. Minified CSS files are then created
 under `/pilopress/assets/styles.min.css` and `/pilopress/assets/styles-admin.min.css`.
 
 Those files are automatically enqueued but there are filters to disable this auto-enqueue if you want to.

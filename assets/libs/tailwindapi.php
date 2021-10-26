@@ -54,7 +54,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                 ),
             );
 
-            $return = wp_remote_post( 'http://api.pilopress.com/api/v1/build', $post_args );
+            $return = wp_remote_post( 'https://api.pilopress.com/api/v1/build', $post_args );
 
             // Error
             if ( is_wp_error( $return ) ) {
@@ -70,9 +70,15 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                 exit();
             }
 
+            // Success
+            if ( (int) $return['response']['code'] === 200 ) {
+                set_transient( 'pip_tailwind_api_compile_success', __( 'Styles compiled successfully.', 'pilopress' ), 45 );
+            }
+
             // Output
             if ( !empty( $args['output'] ) && (int) $return['response']['code'] === 200 ) {
-                file_put_contents( $args['output'], $return['body'] );
+                $wp_filesystem = PIP_Main::get_wp_filesystem();
+                $wp_filesystem->put_contents( $args['output'], $return['body'] );
 
                 return true;
             }
@@ -98,7 +104,8 @@ if ( !class_exists( 'TailwindAPI' ) ) {
             if ( $found_extension === '.' . $extension ) {
 
                 if ( file_exists( $content ) ) {
-                    $return = file_get_contents( $content );
+                    $filesystem = PIP_Main::get_wp_filesystem();
+                    $return     = $filesystem->get_contents( $content );
                 }
             } else {
                 $return = $content;
