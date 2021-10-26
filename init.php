@@ -14,11 +14,38 @@ if ( !class_exists( 'PIP_Init' ) ) {
         public function __construct() {
 
             // Activation
-            //register_activation_hook( PIP_FILE, array( $this, 'activation' ) );
+            register_activation_hook( PIP_FILE, array( $this, 'pip_activation' ) );
+
+            // Deactivation
+            register_deactivation_hook( PIP_FILE, array( $this, 'pip_deactivation' ) );
 
             // Hooks
             add_action( 'init', array( $this, 'load_translations' ) );
             add_action( 'after_plugin_row_' . PIP_BASENAME, array( $this, 'plugin_row' ), 5, 3 );
+
+        }
+
+
+        /**
+         * Pilo'Press Activation
+         */
+        public function pip_activation() {
+            $schedule  = 'hourly';
+            $cron_name = 'pip_delete_layouts_zip';
+            if ( !wp_next_scheduled( $cron_name ) ) :
+                wp_schedule_event( time(), $schedule, $cron_name );
+            endif;
+        }
+
+        /**
+         * Pilo'Press Deactivation
+         */
+        public function pip_deactivation() {
+
+            // Remove cron event
+            $cron_name = 'pip_delete_layouts_zip';
+            $timestamp = wp_next_scheduled( $cron_name );
+            wp_unschedule_event( $timestamp, $cron_name );
 
         }
 
