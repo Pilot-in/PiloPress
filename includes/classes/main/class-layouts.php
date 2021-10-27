@@ -12,9 +12,11 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
          */
         public function __construct() {
 
-            // Current Screen
+            // WP hooks
             add_action( 'current_screen', array( $this, 'current_screen' ) );
 
+            // ACF hooks
+            add_filter( 'acf/load_field_groups', array( $this, 'remove_layouts_from_field_groups' ) );
         }
 
         /**
@@ -130,7 +132,7 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                 $layouts[] = $field_group;
             }
 
-            // If filter, return layouts with filter applied
+            // If there's a filter, return layouts with filter applied
             if ( $filter ) {
                 return wp_list_pluck( $layouts, $filter );
             }
@@ -230,6 +232,36 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             }
 
             return $layouts;
+        }
+
+        /**
+         * Remove layouts from ACF field groups on ACF Tools page
+         *
+         * @param $field_groups
+         *
+         * @return array|mixed
+         */
+        public function remove_layouts_from_field_groups( $field_groups ) {
+            // If no field group, return
+            if ( !$field_groups ) {
+                return array();
+            }
+
+            // If not ACF Tools page, return
+            if ( acf_maybe_get_GET( 'page' ) !== 'acf-tools' ) {
+                return $field_groups;
+            }
+
+            // Browse all field groups
+            foreach ( $field_groups as $key => $field_group ) {
+
+                // If it's a layout, remove it from field groups array
+                if ( pip_is_layout( $field_group ) ) {
+                    unset( $field_groups[ $key ] );
+                }
+            }
+
+            return $field_groups;
         }
 
     }
