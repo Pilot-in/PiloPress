@@ -264,6 +264,34 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
             return $field_groups;
         }
 
+        /**
+         * Get field group by field group key
+         *
+         * @param $key
+         *
+         * @return WP_Post|null
+         */
+        public function get_field_group_by_key( $key ) {
+
+            // Remove "layout_" prefix
+            $key = str_replace( 'layout_', '', $key );
+
+            // Main args
+            $args = array(
+                'post_type'        => 'acf-field-group',
+                'pip_post_content' => array(
+                    'compare' => 'LIKE',
+                    'value'   => 's:16:"_pip_layout_slug";s:' . strlen( $key ) . ':"' . $key . '";',
+                ),
+            );
+
+            // Get posts
+            $query = new WP_Query( $args );
+
+            // Return post object or null
+            return $query->have_posts() ? acf_unarray( $query->get_posts() ) : null;
+        }
+
     }
 
     acf_new_instance( 'PIP_Layouts' );
@@ -319,4 +347,13 @@ function pip_get_layout( $post ) {
  */
 function pip_get_layouts_css() {
     return acf_get_instance( 'PIP_Layouts' )->get_layouts_css();
+}
+
+/**
+ * Get field group by field group Key
+ *
+ * @return WP_Post|null
+ */
+function pip_get_field_group_by_key( $key ) {
+    return acf_get_instance( 'PIP_Layouts' )->get_field_group_by_key( $key );
 }

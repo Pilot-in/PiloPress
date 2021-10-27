@@ -61,6 +61,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             add_filter( "acfe/flexible/thumbnail/name={$this->flexible_field_name}", array( $this, 'add_custom_thumbnail' ), 10, 3 );
             add_filter( "acf/prepare_field/name={$this->flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
 
+            // ACFE hooks
+            add_filter( 'acfe/flexible/layouts/icons', array( $this, 'custom_layout_actions' ), 10, 3 );
+
         }
 
         /**
@@ -162,7 +165,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
         /**
          * Set layouts and group keys
          *
-         * @return array
+         * @return void
          */
         public function set_layouts_and_group_keys() {
 
@@ -285,8 +288,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             }
 
             // Layouts
-            $this->layouts    = $layouts;
-            $this->group_keys = $group_keys;
+            $this->layouts           = $layouts;
+            $this->group_keys        = $group_keys;
             $this->layout_group_keys = array_merge( $layouts, $group_keys );
 
         }
@@ -567,6 +570,34 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             }
 
             return false;
+        }
+
+        /**
+         * Add custom actions to layouts
+         *
+         * @param $icons
+         * @param $layout
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function custom_layout_actions( $icons, $layout, $field ) {
+
+            // Capability
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
+
+            // Check if user has rights to edit layouts
+            if ( !current_user_can( $capability ) ) {
+                return $icons;
+            }
+
+            // Edit layout link
+            $layout_key               = acf_maybe_get( $layout, 'key' );
+            $field_group              = pip_get_field_group_by_key( $layout_key );
+            $edit_link                = get_edit_post_link( $field_group );
+            $icons['edit-pip-layout'] = '<a class="acf-icon dashicons dashicons-edit small light acf-js-tooltip" target="_blank" href="' . $edit_link . '" data-name="edit-pip-layout" title="' . __( 'Edit layout', 'pilopress' ) . '"></a>';
+
+            return $icons;
         }
 
     }
