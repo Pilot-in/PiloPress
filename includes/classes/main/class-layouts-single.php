@@ -622,13 +622,13 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             $field_group = $meta_box['args']['field_group'];
 
             // Get layout slug
-            $layout_slug = $field_group['_pip_layout_slug'];
+            $layout_slug = acf_maybe_get( $field_group, '_pip_layout_slug' );
 
             // Get file path and URL
             $file_path     = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
+            $has_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail' );
             $file_exist    = false;
             $extension     = '';
-            $has_thumbnail = $field_group['_pip_thumbnail'];
 
             // Get file extension
             switch ( $file_path ) {

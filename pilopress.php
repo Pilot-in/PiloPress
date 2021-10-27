@@ -154,7 +154,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             // Helpers
             pip_include( 'includes/helpers.php' );
 
-            // Crons
+            // Cron
             pip_include( 'includes/classes/main/class-cron.php' );
         }
 

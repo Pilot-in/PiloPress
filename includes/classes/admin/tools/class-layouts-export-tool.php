@@ -1,8 +1,7 @@
 <?php
 
-if ( !defined( 'ABSPATH' ) ) {
-    exit;
-} // Exit if accessed directly
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
 
 if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
 
@@ -34,7 +33,7 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
             $this->title = __( 'Export layouts', 'pilopress' );
 
         }
-        
+
         /**
          * Generate HTML
          */
@@ -54,26 +53,29 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
 
             $pip_layouts = acf_get_instance( 'PIP_Layouts' );
 
-            // Get choices
-            $choices = array();
-            if ( $pip_layouts->get_layouts() ) {
-                foreach ( $pip_layouts->get_layouts() as $key => $layout ) {
-                    // Skip _layout_model
-                    if ($layout['title'] === '_layout_model'):
-                        continue;
-                    endif;
-                    // Store choice
-                    $choices[ $layout['key'] ] = esc_html( $layout['title'] );
-                }
+            // If no layouts, return
+            if ( !$pip_layouts->get_layouts() ) {
+                return;
             }
-            $selected = $this->get_selected_keys();
+
+            // Store choices
+            $choices = array();
+            foreach ( $pip_layouts->get_layouts() as $layout ) {
+                $auto_sync = acf_maybe_get( $layout, 'acfe_autosync' );
+
+                // If layout is not sync via JSON, skip
+                if ( !$auto_sync || !in_array( 'json', $auto_sync, true ) ) {
+                    continue;
+                }
+
+                $choices[ $layout['key'] ] = esc_html( $layout['title'] );
+            }
+
+            // Get selected layouts
+            $selected = $this->get_selected_layouts();
 
             // If no choice, disabled action
-            $disabled = '';
-            if ( empty( $choices ) ) {
-                $disabled = 'disabled="disabled"';
-            }
-
+            $disabled = empty( $choices ) ? 'disabled="disabled"' : '';
             ?>
             <div class="acf-fields">
                 <?php
@@ -97,7 +99,7 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
 
                     // No choice
                     echo '<div style="padding:15px 12px;">';
-                    _e( 'No layouts available.' );
+                    _e( 'No layouts available.', 'pilopress' );
                     echo '</div>';
 
                 }
@@ -129,155 +131,158 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
         /**
          * Download layouts data
          *
-         * @return ACF_Admin_Notice
+         * @return ACF_Admin_Notice|void
          */
         public function submit_download() {
 
-            // Get selected keys
-            $keys = $this->get_selected_keys();
+            // Get keys of selected layouts
+            $keys = $this->get_selected_layouts();
 
             // If no keys, show warning message
-            if ( $keys === false ) {
+            if ( !$keys ) {
                 return acf_add_admin_notice( __( 'No layout selected', 'pilopress' ), 'warning' );
             }
 
-            if ( count( $keys ) === 1 ) :
-                foreach ( $keys as $key ) :
-                    $file_to_search = $key . '.json';
-                    $layouts_folder = scandir( PIP_THEME_LAYOUTS_PATH );
+            // Check if user has selected more than 1 layout
+            $several_layouts = count( $keys ) > 1;
 
-                    if ( !$layouts_folder ) :
-                        acf_log( 'Pilo\'Press --> Can\'t find the layouts folder' );
-                        return;
-                    endif;
+            $folder_to_zip = array();
+            foreach ( $keys as $key ) {
 
-                    // Scan all layouts folder
-                    $folder_to_zip = false;
-                    foreach ( $layouts_folder as $layout_folder ) :
+                $file_to_search = $key . '.json';
+                $layouts_folder = scandir( PIP_THEME_LAYOUTS_PATH );
 
-                        // Generate layout path from folder name
-                        $layout_folder_path = PIP_THEME_LAYOUTS_PATH . $layout_folder;
+                // If no layout folder, return
+                if ( !$layouts_folder ) {
+                    return;
+                }
 
-                        if ( $layout_folder === '.' || $layout_folder === '..' || $layout_folder === '.gitkeep' || !is_dir( $layout_folder_path ) ) :
+                // Scan all layouts folder
+                foreach ( $layouts_folder as $key => $layout_folder ) {
+
+                    // Generate layout path from folder name
+                    $layout_folder_path = PIP_THEME_LAYOUTS_PATH . $layout_folder;
+
+                    // If not a real folder, return
+                    if ( $layout_folder === '.' || $layout_folder === '..' || $layout_folder === '.gitkeep' || !is_dir( $layout_folder_path ) ) {
+                        continue;
+                    }
+
+                    // List files in each layout folder
+                    foreach ( scandir( $layout_folder_path ) as $file ) {
+
+                        // If no JSON file, skip
+                        if ( !preg_match( '/^.*\.(json)$/', $file, $match ) ) {
                             continue;
-                        endif;
+                        }
+                        $extension = acf_maybe_get( $match, 1 );
 
-                        // List files in each layout folder
-                        foreach ( scandir( $layout_folder_path ) as $file ) :
-                            // Focus on .json files
-                            if ( preg_match( '/^.*\.(json)$/', $file, $match ) ) :
-                                if ( $match[1] === 'json' && $file === $file_to_search ) :
-                                    $folder_to_zip = array(
-                                        'folder_path' => dirname( $layout_folder_path . '/' . $file ),
-                                        'zip_url'     => PIP_THEME_LAYOUTS_URL . $layout_folder . '/' . $layout_folder . '.zip',
-                                        'zip_path'    => PIP_THEME_LAYOUTS_PATH . $layout_folder . '/' . $layout_folder . '.zip',
-                                        'zip_name'    => $layout_folder . '.zip',
-                                    );
-                                endif;
-                            endif;
-                        endforeach;
-
-                    endforeach;
-
-                    $zip         = new ZipArchive();
-                    $zip_created = $zip->open( $folder_to_zip['zip_path'], ZipArchive::CREATE );
-                    if ( !$zip_created ) :
-                        acf_log( 'Pilo\'Press --> Can\'t generate .zip layout folder' );
-                        return;
-                    endif;
-
-                    // Add each file in folder
-                    foreach ( glob( $folder_to_zip['folder_path'] . '/*' ) as $file ) :
-                        $new_filename = substr( $file, strrpos( $file, '/' ) + 1 );
-                        $zip->addFile( $file, $new_filename );
-                    endforeach;
-
-                    // Close archive
-                    $zip->close();
-
-                    // File headers
-                    if ( file_exists( $folder_to_zip['zip_path'] ) ) :
-                        header( 'Location: ' . $folder_to_zip['zip_url'] );
-                    endif;
-                endforeach;
-            else :
-                $folder_to_zip = array();
-                foreach ( $keys as $key ) :
-
-                    $file_to_search = $key . '.json';
-                    $layouts_folder = scandir( PIP_THEME_LAYOUTS_PATH );
-
-                    if ( !$layouts_folder ) :
-                        acf_log( 'Pilo\'Press --> Can\'t find the layouts folder' );
-                        return;
-                    endif;
-
-                    // Scan all layouts folder
-                    foreach ( $layouts_folder as $layout_folder ) :
-
-                        // Generate layout path from folder name
-                        $layout_folder_path = PIP_THEME_LAYOUTS_PATH . $layout_folder;
-
-                        if ( $layout_folder === '.' || $layout_folder === '..' || $layout_folder === '.gitkeep' || !is_dir( $layout_folder_path ) ) :
+                        // If not a JSON file and the one we are looking for, skip
+                        if ( $extension !== 'json' || $file !== $file_to_search ) {
                             continue;
-                        endif;
+                        }
 
-                        // List files in each layout folder
-                        foreach ( scandir( $layout_folder_path ) as $file ) :
-                            // Focus on .json files
-                            if ( preg_match( '/^.*\.(json)$/', $file, $match ) ) :
-                                if ( $match[1] === 'json' && $file === $file_to_search ) :
-                                    $folder_to_zip[] = array(
-                                        'folder_path' => dirname( $layout_folder_path . '/' . $file ),
-                                        'folder_slug' => $layout_folder,
-                                        'zip_url'     => PIP_THEME_LAYOUTS_URL . $layout_folder . '/' . $layout_folder . '.zip',
-                                        'zip_path'    => PIP_THEME_LAYOUTS_PATH . $layout_folder . '/' . $layout_folder . '.zip',
-                                        'zip_name'    => $layout_folder . '.zip',
-                                    );
-                                endif;
-                            endif;
-                        endforeach;
+                        // Store current layout
+                        $folder_to_zip[ $key ] = array(
+                            'folder_path' => dirname( $layout_folder_path . '/' . $file ),
+                            'zip_url'     => PIP_THEME_LAYOUTS_URL . $layout_folder . '/' . $layout_folder . '.zip',
+                            'zip_path'    => PIP_THEME_LAYOUTS_PATH . $layout_folder . '/' . $layout_folder . '.zip',
+                            'zip_name'    => $layout_folder . '.zip',
+                        );
 
-                    endforeach;
-                endforeach;
-                if ( $folder_to_zip ) :
-                    $zip           = new ZipArchive();
-                    $temp_zip_path = PIP_THEME_LAYOUTS_PATH . '/layouts-' . wp_date('U') . '.zip';
-                    $temp_zip_url  = PIP_THEME_LAYOUTS_URL . '/layouts-' . wp_date('U') . '.zip';
-                    $zip_created   = $zip->open( $temp_zip_path, ZipArchive::CREATE );
-                    if ( !$zip_created ) :
-                        acf_log( 'Pilo\'Press --> Can\'t generate .zip layout folder' );
-                        return;
-                    endif;
-                    foreach ( $folder_to_zip as $folder ) :
-                        $zip->addEmptyDir( $folder['folder_slug'] );
+                        // If several layouts to export, store current layout folder name
+                        if ( $several_layouts ) {
+                            $folder_to_zip[ $key ]['folder_slug'] = $layout_folder;
+                        }
+                    }
+                }
+            }
 
-                        // Add each file in folder
-                        foreach ( glob( $folder['folder_path'] . '/*' ) as $file ) :
-                            $new_filename = substr( $file, strrpos( $file, '/' ) + 1 );
-                            $zip->addFile( $file, $folder['folder_slug'] . '/' . $new_filename );
-                        endforeach;
-                    endforeach;
+            // If no folder, return
+            if ( !$folder_to_zip ) {
+                return;
+            }
 
-                    // Close archive
-                    $zip->close();
+            // New ZIP
+            $zip = new ZipArchive();
 
-                    // File headers
-                    if ( file_exists( $temp_zip_path ) ) :
-                        header( 'Location: ' . $temp_zip_url );
-                    endif;
-                endif;
+            // Initialize variable for export if several layouts
+            $temp_zip_path = '';
+            $temp_zip_url  = '';
 
-            endif;
+            // Generate ZIP
+            if ( $several_layouts ) {
+                // Create a dummy ZIP name
+                $temp_zip_path = PIP_THEME_LAYOUTS_PATH . '/layouts-' . wp_date( 'U' ) . '.zip';
+                $temp_zip_url  = PIP_THEME_LAYOUTS_URL . '/layouts-' . wp_date( 'U' ) . '.zip';
+                $zip_created   = $zip->open( $temp_zip_path, ZipArchive::CREATE );
+            } else {
+                // Only one layout, reset array to get layout name
+                $layout_to_export = acf_unarray( $folder_to_zip );
+                $zip_created      = $zip->open( $layout_to_export['zip_path'], ZipArchive::CREATE );
+            }
 
+            // If ZIP not created, return
+            if ( !$zip_created ) {
+                return;
+            }
+
+            if ( $several_layouts ) {
+
+                // Browse layouts to export
+                foreach ( $folder_to_zip as $folder ) {
+
+                    // Create sub-folder with layout name
+                    $zip->addEmptyDir( $folder['folder_slug'] );
+
+                    // Get layout files
+                    $layout_files = glob( $folder['folder_path'] . '/*' );
+                    if ( !$layout_files ) {
+                        continue;
+                    }
+
+                    // Add each file in corresponding layout folder
+                    foreach ( $layout_files as $layout_file ) {
+                        $new_filename = substr( $layout_file, strrpos( $layout_file, '/' ) + 1 );
+                        $zip->addFile( $layout_file, $folder['folder_slug'] . '/' . $new_filename );
+                    }
+                }
+            } else {
+
+                // Get layout files
+                $layout_files = glob( $layout_to_export['folder_path'] . '/*' );
+                if ( !$layout_files ) {
+                    return;
+                }
+
+                // Add each file in folder
+                foreach ( $layout_files as $layout_file ) {
+                    $new_filename = substr( $layout_file, strrpos( $layout_file, '/' ) + 1 );
+                    $zip->addFile( $layout_file, $new_filename );
+                }
+            }
+
+            // Close archive
+            $zip->close();
+
+            // File headers
+            if ( $several_layouts ) {
+                if ( $temp_zip_path && $temp_zip_url && file_exists( $temp_zip_path ) ) {
+                    header( 'Location: ' . $temp_zip_url );
+                }
+            } else {
+                if ( file_exists( $layout_to_export['zip_path'] ) ) {
+                    header( 'Location: ' . $layout_to_export['zip_url'] );
+                }
+            }
         }
 
         /**
-         * Get selected keys
+         * Get keys of selected layouts
          *
          * @return array|bool
          */
-        public function get_selected_keys() {
+        public function get_selected_layouts() {
 
             // Check $_POST
             $keys = acf_maybe_get_POST( 'keys' );
@@ -307,7 +312,7 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
             }
 
             // Get selected keys
-            $selected = $this->get_selected_keys();
+            $selected = $this->get_selected_layouts();
 
             // If no keys, return
             if ( !$selected ) {
@@ -316,8 +321,10 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
 
             // Add notice
             $count = count( $selected );
+
             // translators: Number of layouts exported
-            $text = sprintf( _n( 'Exported %s layouts.', 'Exported %s layouts.', $count, 'pilopress' ), $count );
+            $text = sprintf( _n( '%s layouts exported.', '%s layouts exported.', $count, 'pilopress' ), $count );
+
             acf_add_admin_notice( $text, 'success' );
         }
 
