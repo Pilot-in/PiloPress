@@ -202,6 +202,59 @@
                 if ( $( 'body' ).hasClass( 'wp-admin', 'post-type-acf-field-group' ) && searchParams.get( 'layouts' ) === '1' ) {
                     $( '.subsubsub li:last-child:not([class])' ).remove();
                 }
+
+                /**
+                 * Search bar for layout modal
+                 */
+                let $addLayoutBtn = $( '.acfe-flexible-stylised-button .acf-actions > a.acf-button.button[data-name="add-layout"]' );
+
+                /**
+                 * Add search input
+                 */
+                if ( $addLayoutBtn.length === 1 ) {
+                    $( document ).on(
+                        'click',
+                        $addLayoutBtn,
+                        function () {
+                            let $searchInput    = $( '#search-layout' );
+                            let $acfeModalTitle = $( '.acfe-modal-select-pip_flexible .acfe-modal-wrapper .acfe-modal-title' );
+
+                            // Return if element exist or modal don't exist
+                            if ( $searchInput.length === 1 && $acfeModalTitle.length === 1 ) {
+                                return;
+                            }
+
+                            // Append search input
+                            $acfeModalTitle.append( '<input id="search-layout" type="text" placeholder="' + acf.__( 'Search for a layout' ) + '" style="margin-left:16px;"/>' );
+                        },
+                    );
+                }
+
+                /**
+                 * Make layout search work
+                 */
+                $( document ).on(
+                    'keyup',
+                    '#search-layout',
+                    function () {
+                        let $this = $( this );
+                        let value = $this.val().toLowerCase();
+                        $( '.acfe-flex-thumbnails ul li' ).filter(
+                            function () {
+                                $( this ).toggle( $( this ).text().toLowerCase().indexOf( value ) > - 1 );
+                            },
+                        );
+                    },
+                );
+            },
+        );
+
+        /**
+         * Remove collection badge to avoid having it twice
+         */
+        $( document ).ajaxComplete(
+            function () {
+                $( '.acfe-layout-title .acfe-layout-title-text .pip_collection' ).remove();
             },
         );
 

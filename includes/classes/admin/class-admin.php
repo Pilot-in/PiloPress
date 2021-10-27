@@ -182,6 +182,13 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             wp_localize_script( 'pilopress-admin-script', 'ajaxurl', array( admin_url( 'admin-ajax.php' ) ) );
             wp_enqueue_script( 'pilopress-fields', PIP_URL . 'assets/js/pilopress-fields.js', array( 'jquery' ), pilopress()->version, true );
             wp_enqueue_script( 'pilopress-live-preview', PIP_URL . 'assets/js/pilopress-live-preview.js', array( 'jquery' ), pilopress()->version, true );
+
+            // String translation for JS
+            acf_localize_text(
+                array(
+                    'Search for a layout' => __( 'Search for a layout', 'pilopress' ),
+                )
+            );
         }
 
         /**

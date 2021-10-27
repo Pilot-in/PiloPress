@@ -410,3 +410,8 @@ body.view-sync .tablenav.top .alignleft.actions,
 body.view-sync .tablenav.top .tablenav-pages {
     display: none;
 }
+
+/* Export tool */
+#acf-admin-tool-pilopress_tool_layouts_export ul.acf-checkbox-list {
+    column-width: 200px;
+}
