@@ -61,7 +61,13 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
             // Store choices
             $choices = array();
             foreach ( $pip_layouts->get_layouts() as $layout ) {
-                $auto_sync = acf_maybe_get( $layout, 'acfe_autosync' );
+                $auto_sync   = acf_maybe_get( $layout, 'acfe_autosync' );
+                $layout_slug = acf_maybe_get( $layout, '_pip_layout_slug' );
+
+                // If no layout folder, skip
+                if ( !file_exists( PIP_THEME_LAYOUTS_PATH . $layout_slug ) ) {
+                    continue;
+                }
 
                 // If layout is not sync via JSON, skip
                 if ( !$auto_sync || !in_array( 'json', $auto_sync, true ) ) {

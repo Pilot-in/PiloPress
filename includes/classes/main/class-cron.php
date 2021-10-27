@@ -13,18 +13,20 @@ if ( !class_exists( 'PIP_Cron' ) ) {
          * PIP_Cron constructor.
          */
         public function __construct() {
+            // WP hooks
             add_action( 'pip_delete_layouts_zip', array( $this, 'delete_old_zip' ) );
         }
 
+        /**
+         * Delete old ZIP action
+         */
         public function delete_old_zip() {
 
-            acf_log( 'go' );
-
+            // Get all layouts sub-folders
             $layouts_folder = scandir( PIP_THEME_LAYOUTS_PATH );
 
+            // If no layout folder, return
             if ( !$layouts_folder ) {
-                acf_log( 'Pilo\'Press --> Can\'t find the layouts folder' );
-
                 return;
             }
 
@@ -34,25 +36,34 @@ if ( !class_exists( 'PIP_Cron' ) ) {
                 // Generate layout path from folder name
                 $layout_folder_path = PIP_THEME_LAYOUTS_PATH . $layout_folder;
 
-                // Delete old .zip archive
-                if ( preg_match( '/^.*\.(zip)$/', $layout_folder_path, $match ) ) {
-                    if ( $match[1] === 'zip' ) {
-                        unlink( $layout_folder_path );
-                    }
+                // If there's a ZIP file, delete it
+                preg_match( '/^.*\.(zip)$/', $layout_folder_path, $folder_zip );
+                if ( $folder_zip && $folder_zip[1] === 'zip' ) {
+                    unlink( $layout_folder_path );
                 }
 
-                // Skip Folders
+                // Skip folders
                 if ( $layout_folder === '.' || $layout_folder === '..' || $layout_folder === '.gitkeep' || !is_dir( $layout_folder_path ) ) {
                     continue;
                 }
 
                 // List files in each layout folder
-                foreach ( scandir( $layout_folder_path ) as $k => $file ) {
-                    // Focus on .json files
-                    if ( preg_match( '/^.*\.(zip)$/', $file, $match ) ) {
-                        if ( $match[1] === 'zip' ) {
-                            unlink( PIP_THEME_LAYOUTS_PATH . $layout_folder . '/' . scandir( $layout_folder_path )[ $k ] );
-                        }
+                $sub_folders = scandir( $layout_folder_path );
+                if ( !$sub_folders ) {
+                    continue;
+                }
+
+                foreach ( $sub_folders as $key => $file ) {
+
+                    // Check if there's a ZIP file
+                    preg_match( '/^.*\.(zip)$/', $file, $sub_folder_zip );
+                    if ( !$sub_folder_zip ) {
+                        continue;
+                    }
+
+                    // If ZIP file, delete it
+                    if ( $sub_folder_zip[1] === 'zip' ) {
+                        unlink( PIP_THEME_LAYOUTS_PATH . $layout_folder . '/' . scandir( $layout_folder_path )[ $key ] );
                     }
                 }
             }
