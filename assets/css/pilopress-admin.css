@@ -9,6 +9,11 @@
     margin-top: 20px !important;
 }
 
+/* Add style for layout with error */
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout.acfe-flexible-modal-edit-error {
+    outline: 2px dashed #d94f4f;
+}
+
 .acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:first-child {
     margin-top: -25px !important;
 }
@@ -35,7 +40,7 @@
     min-width: 18px;
     height: 18px;
     border-radius: 9px;
-    background-color: #ca4a1f;
+    background-color: #d94f4f;
     color: #fff;
     font-size: 11px;
     line-height: 1.6;
@@ -258,7 +263,7 @@ body.admin_page_pip_styles_tailwind_module #publishing-action .spinner {
 }
 
 .toplevel_page_pilopress .config-status .dashicons-no-alt {
-    color: #DC3232;
+    color: #d94f4f;
 }
 
 .toplevel_page_pilopress .pilopress-layouts-table .widefat,
