@@ -329,8 +329,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 // Exception for attachments view in grid mode
                 if (
                     acf_maybe_get_POST( 'action' ) !== 'query-attachments'
-//                    && acf_maybe_get_POST( 'action' ) !== 'acfe/flexible/models'
-//                    && acf_maybe_get_POST( 'action' ) !== 'acf/validate_save_post'
+                //                    && acf_maybe_get_POST( 'action' ) !== 'acfe/flexible/models'
+                //                    && acf_maybe_get_POST( 'action' ) !== 'acf/validate_save_post'
                 ) {
                     return $field;
                 }
@@ -592,10 +592,13 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             }
 
             // Edit layout link
-            $layout_key               = acf_maybe_get( $layout, 'key' );
-            $field_group              = pip_get_field_group_by_key( $layout_key );
-            $edit_link                = get_edit_post_link( $field_group );
-            $icons['edit-pip-layout'] = '<a class="acf-icon dashicons dashicons-edit small light acf-js-tooltip" target="_blank" href="' . $edit_link . '" data-name="edit-pip-layout" title="' . __( 'Edit layout', 'pilopress' ) . '"></a>';
+            $layout_key                      = acf_maybe_get( $layout, 'key' );
+            $field_group                     = pip_get_field_group_by_key( $layout_key );
+            $edit_link                       = get_edit_post_link( $field_group );
+            $icons['edit-pip-layout']        = '<a class="acf-icon dashicons dashicons-edit small light acf-js-tooltip" target="_blank" href="' . $edit_link . '" data-name="edit-pip-layout" title="' . __( 'Edit layout', 'pilopress' ) . '"></a>';
+            $icons['more-actions']           = '<a class="acf-icon dashicons dashicons-ellipsis small light acf-js-tooltip" target="_blank" href="#" data-name="more-actions" title="' . __( 'More actions', 'pilopress' ) . '"></a>';
+            $icons['move-pip-layout-top']    = '<a class="acf-icon dashicons dashicons-arrow-up-alt small light acf-js-tooltip up" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout up', 'pilopress' ) . '"></a>';
+            $icons['move-pip-layout-bottom'] = '<a class="acf-icon dashicons dashicons-arrow-down-alt small light acf-js-tooltip down" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout down', 'pilopress' ) . '"></a>';
 
             return $icons;
         }

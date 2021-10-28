@@ -420,3 +420,22 @@ body.view-sync .tablenav.top .tablenav-pages {
 #acf-admin-tool-pilopress_tool_layouts_export ul.acf-checkbox-list {
     column-width: 200px;
 }
+
+/* Hide acf-action icons by default */
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon.dashicons-category,
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon.dashicons-hidden,
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon[data-name="add-layout"],
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon[data-name="duplicate-layout"],
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon[data-name="remove-layout"],
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon[data-name="edit-pip-layout"]{
+    display: none;
+}
+
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon.dashicons-category,
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon.dashicons-hidden,
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon[data-name="add-layout"],
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon[data-name="duplicate-layout"],
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon[data-name="remove-layout"],
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon[data-name="edit-pip-layout"]{
+    display: block !important;
+}
