@@ -575,7 +575,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 );
 
                 // Build admin style
-                $admin_style = $tailwind->build(
+                $build_admin_style = $tailwind->build(
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
@@ -584,7 +584,12 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                         'prefixer'     => '.-preview',
                     )
                 );
-                $admin_style = str_replace( '.-preview body', '.-preview', $admin_style['body'] );
+
+                $admin_style = '.-preview h2 { all:unset; }';
+
+                $admin_style .= $build_admin_style['body'];
+
+                $admin_style = str_replace( '.-preview body', '.-preview', $admin_style );
                 $wp_filesystem->put_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css', $admin_style );
 
             } else {
