@@ -430,3 +430,11 @@ body.view-sync .tablenav.top .tablenav-pages {
 #acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon.hide-icon {
     display: block !important;
 }
+
+/* Layout thumbnail in listing */
+.post-type-acf-field-group td._pip_layout_thumbnail img {
+    width: 144px;
+    height: 72px;
+    object-position: center;
+    object-fit: contain;
+}

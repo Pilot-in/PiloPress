@@ -33,23 +33,28 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
             // List
             add_action( 'load-edit.php', array( $this, 'load_list' ) );
 
-            // If is in admin acf field group listing, in layouts, add custom "slug" column
+            // If is in admin acf field group listing, in layouts, add custom columns
             if ( is_admin() && acf_is_screen( 'edit-acf-field-group' ) && acf_maybe_get_GET( 'layouts' ) === '1' && acf_maybe_get_GET( 'post_status' ) !== 'sync' ) {
-                add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'layouts_slug_column' ), 11 );
+                // Add columns
+                add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'layouts_custom_columns' ), 11 );
+
+                // Columns content
                 add_action( 'manage_acf-field-group_posts_custom_column', array( $this, 'layouts_slug_column_html' ), 10, 2 );
+                add_action( 'manage_acf-field-group_posts_custom_column', array( $this, 'layouts_thumbnail_column_html' ), 10, 2 );
             }
         }
 
         /**
-         * Add layout slug column
+         * Add layouts custom columns
          *
          * @param $columns
          *
          * @return mixed
          */
-        public function layouts_slug_column( $columns ) {
-            // Add slug column
-            $columns['_pip_layout_slug'] = __( 'Slug', 'pilopress' );
+        public function layouts_custom_columns( $columns ) {
+            // Add custom columns
+            $columns['_pip_layout_thumbnail'] = __( 'Thumbnail', 'pilopress' );
+            $columns['_pip_layout_slug']      = __( 'Slug', 'pilopress' );
 
             return $columns;
         }
@@ -72,6 +77,74 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
 
             // Display layout slug
             echo acf_maybe_get( $layout, '_pip_layout_slug' );
+        }
+
+        /**
+         * Fill layout slug column
+         *
+         * @param $column
+         * @param $post_id
+         */
+        public function layouts_thumbnail_column_html( $column, $post_id ) {
+
+            // If not layout slug, return
+            if ( $column !== '_pip_layout_thumbnail' ) {
+                return;
+            }
+
+            // Get layout
+            $layout = acf_get_field_group( $post_id );
+
+            // Get layout thumbnail
+            $img_html              = '';
+            $img_src               = '';
+            $instructions['class'] = 'acf-js-tooltip';
+            $pip_thumbnail         = acf_maybe_get( $layout, '_pip_thumbnail' );
+            $layout_slug           = acf_maybe_get( $layout, '_pip_layout_slug' );
+            if ( $pip_thumbnail ) {
+
+                $img_src               = wp_get_attachment_image_src( $pip_thumbnail, 'large' );
+                $img_src               = $img_src ? acf_unarray( $img_src ) : null;
+                $instructions['title'] = $img_src ? '<img alt="' . $layout_slug . '" src="' . $img_src . '" width="auto" style="max-height:500px;">' : '';
+
+                $img_html = wp_get_attachment_image( $pip_thumbnail, 'large' );
+
+            } else {
+
+                // No file from admin, search for file inside layout folder
+                $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
+
+                // Get file extension
+                switch ( $file_path ) {
+                    case file_exists( $file_path . '.png' ):
+                        $file_exist = true;
+                        $extension  = '.png';
+                        break;
+                    case file_exists( $file_path . '.jpeg' ):
+                        $file_exist = true;
+                        $extension  = '.jpeg';
+                        break;
+                    case file_exists( $file_path . '.jpg' ):
+                        $file_exist = true;
+                        $extension  = '.jpg';
+                        break;
+                    default:
+                        $file_exist = false;
+                        $extension  = '';
+                        break;
+                }
+
+                if ( $file_exist ) {
+                    $img_src  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug . $extension;
+                    $img_html = '<img alt="' . $layout_slug . '" src="' . $img_src . '" width="150" height="150">';
+                }
+            }
+
+            $instructions['title'] = '<img alt="' . $layout_slug . '" src="' . $img_src . '" width="auto" style="max-height:400px;">';
+            $display               = '<div ' . acf_esc_atts( $instructions ) . '>' . $img_html . '</div>';
+
+            // Display layout slug
+            echo $display;
         }
 
         /**
