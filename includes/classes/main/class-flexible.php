@@ -63,6 +63,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
             // ACFE hooks
             add_filter( 'acfe/flexible/layouts/icons', array( $this, 'custom_layout_actions' ), 10, 3 );
+            add_filter( 'acfe/flexible/layouts/icons', array( $this, 'hide_some_actions' ), 25, 3 );
 
         }
 
@@ -605,14 +606,65 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             $edit_link                = get_edit_post_link( $field_group_id );
             $icons['edit-pip-layout'] = '<a class="acf-icon dashicons dashicons-edit small light acf-js-tooltip" target="_blank" href="' . $edit_link . '" data-name="edit-pip-layout" title="' . __( 'Edit layout', 'pilopress' ) . '"></a>';
 
-            // Separate buttons with a "more actions" button
-            $icons['more-actions'] = '<a class="acf-icon dashicons dashicons-ellipsis small light acf-js-tooltip" target="_blank" href="#" data-name="more-actions" title="' . __( 'More actions', 'pilopress' ) . '"></a>';
-
             // Add Move up and Move down buttons
-            $icons['move-pip-layout-top']    = '<a class="acf-icon dashicons dashicons-arrow-up-alt small light acf-js-tooltip up" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout up', 'pilopress' ) . '"></a>';
-            $icons['move-pip-layout-bottom'] = '<a class="acf-icon dashicons dashicons-arrow-down-alt small light acf-js-tooltip down" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout down', 'pilopress' ) . '"></a>';
+            $icons['move-up']   = '<a class="acf-icon dashicons dashicons-arrow-up-alt small light acf-js-tooltip up" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout up', 'pilopress' ) . '"></a>';
+            $icons['move-down'] = '<a class="acf-icon dashicons dashicons-arrow-down-alt small light acf-js-tooltip down" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout down', 'pilopress' ) . '"></a>';
 
             return apply_filters( 'pip/flexible/layouts/icons', $icons, $layout, $field );
+        }
+
+        /**
+         * Hide buttons to avoid too many actions above layouts
+         *
+         * @param $icons
+         * @param $layout
+         * @param $field
+         *
+         * @return array|mixed
+         */
+        public function hide_some_actions( $icons, $layout, $field ) {
+
+            // Hide actions only for Pilo'Press flexible field
+            $field_name = acf_maybe_get( $field, '_name' );
+            if ( $field_name !== $this->flexible_field_name ) {
+                return $icons;
+            }
+
+            // Capability
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
+
+            // Check if user has rights to edit layouts
+            if ( !current_user_can( $capability ) ) {
+                return $icons;
+            }
+
+            // Get icons to hide
+            $icons_to_hide = apply_filters( 'pip/flexible/layouts/icons/hide', array( 'add', 'copy', 'edit-pip-layout' ), $icons, $layout, $field );
+            if ( !$icons_to_hide ) {
+                return $icons;
+            }
+
+            // Separate buttons with a "more actions" button
+            $visible_icons['more-actions'] = '<a class="acf-icon dashicons dashicons-ellipsis small light acf-js-tooltip" target="_blank" href="#" data-name="more-actions" title="' . __( 'More actions', 'pilopress' ) . '"></a>';
+
+            // Add all icons
+            $visible_icons += $icons;
+
+            // Add class to hide icons
+            $hidden_actions = array();
+            foreach ( $icons_to_hide as $icon_to_hide ) {
+                // Add class
+                $icons[ $icon_to_hide ] = str_replace( 'class="', 'class="hide-icon ', $icons[ $icon_to_hide ] );
+
+                // Remove hidden icon from visible ones
+                unset( $visible_icons[ $icon_to_hide ] );
+
+                // Move hidden icon to hidden ones
+                $hidden_actions[ $icon_to_hide ] = $icons[ $icon_to_hide ];
+            }
+
+            // Return filtered and reorder icons array
+            return $hidden_actions + $visible_icons;
         }
 
     }

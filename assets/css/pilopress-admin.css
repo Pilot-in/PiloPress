@@ -421,21 +421,12 @@ body.view-sync .tablenav.top .tablenav-pages {
     column-width: 200px;
 }
 
-/* Hide acf-action icons by default */
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon.dashicons-category,
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon.dashicons-hidden,
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon[data-name="add-layout"],
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon[data-name="duplicate-layout"],
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon[data-name="remove-layout"],
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon[data-name="edit-pip-layout"] {
+/* Hide ACF action icons by default */
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon.hide-icon {
     display: none;
 }
 
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon.dashicons-category,
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon.dashicons-hidden,
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon[data-name="add-layout"],
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon[data-name="duplicate-layout"],
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon[data-name="remove-layout"],
-#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon[data-name="edit-pip-layout"] {
+/* Show all actions on hover on more actions button */
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon.hide-icon {
     display: block !important;
 }
