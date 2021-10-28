@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pilo'Press\n"
-"POT-Creation-Date: 2021-10-27 12:56+0200\n"
-"PO-Revision-Date: 2021-10-27 12:58+0200\n"
+"POT-Creation-Date: 2021-10-28 16:40+0200\n"
+"PO-Revision-Date: 2021-10-28 16:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -25,6 +25,14 @@ msgstr ""
 msgid "Search for a layout"
 msgstr "Rechercher une disposition"
 
+#: assets/js/pilopress-admin.js:287 includes/classes/admin/class-admin.php:190
+msgid "No previous layout"
+msgstr "Pas de disposition précédente"
+
+#: assets/js/pilopress-admin.js:296 includes/classes/admin/class-admin.php:191
+msgid "No next layout"
+msgstr "Pas de disposition suivante"
+
 #: assets/libs/tailwindapi.php:61
 msgid "An error occurred. Please try again later"
 msgstr "Une erreur est survenue. Merci de réessayer plus tard."
@@ -34,7 +42,7 @@ msgid "Styles compiled successfully."
 msgstr "Le style a été compilé avec succès."
 
 #. Plugin Name of the plugin/theme
-#: includes/classes/admin/class-admin.php:256
+#: includes/classes/admin/class-admin.php:258
 #: includes/classes/admin/editor/class-button-field.php:18
 #: includes/classes/admin/editor/class-font-color-field.php:18
 #: includes/classes/admin/editor/class-font-family-field.php:18
@@ -42,66 +50,66 @@ msgstr "Le style a été compilé avec succès."
 msgid "Pilo'Press"
 msgstr "Pilo'Press"
 
-#: includes/classes/admin/class-admin.php:272
+#: includes/classes/admin/class-admin.php:274
 #: includes/views/pip-dashboard.php:28 includes/views/pip-navbar.php:64
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: includes/classes/admin/class-admin.php:280
+#: includes/classes/admin/class-admin.php:282
 #: includes/classes/main/class-flexible-mirror.php:236
-#: includes/classes/main/class-flexible.php:138
+#: includes/classes/main/class-flexible.php:141
 msgid "Builder"
 msgstr "Éditeur"
 
-#: includes/classes/admin/class-admin.php:288
-#: includes/classes/admin/class-admin.php:488
-#: includes/classes/main/class-layouts.php:33
+#: includes/classes/admin/class-admin.php:290
+#: includes/classes/admin/class-admin.php:490
+#: includes/classes/main/class-layouts.php:35
 #: includes/views/pip-dashboard.php:113
 msgid "Layouts"
 msgstr "Dispositions"
 
-#: includes/classes/admin/class-admin.php:296
+#: includes/classes/admin/class-admin.php:298
 #: includes/classes/main/class-layouts-tax-categories.php:206
 msgid "Categories"
 msgstr "Catégories"
 
-#: includes/classes/admin/class-admin.php:304
+#: includes/classes/admin/class-admin.php:306
 #: includes/classes/main/class-layouts-tax-collections.php:208
 msgid "Collections"
 msgstr "Collections"
 
-#: includes/classes/admin/class-admin.php:312
+#: includes/classes/admin/class-admin.php:314
 #: includes/classes/components/class-components.php:46
 #: includes/classes/components/class-components.php:48
 #: includes/views/pip-dashboard.php:190
 msgid "Components"
 msgstr "Composants"
 
-#: includes/classes/admin/class-admin.php:360
-#: includes/classes/admin/class-admin.php:365
-#: includes/classes/admin/class-admin.php:370
+#: includes/classes/admin/class-admin.php:362
+#: includes/classes/admin/class-admin.php:367
+#: includes/classes/admin/class-admin.php:372
 msgid " folder found"
 msgstr " dossier trouvé"
 
-#: includes/classes/admin/class-admin.php:360
-#: includes/classes/admin/class-admin.php:365
-#: includes/classes/admin/class-admin.php:370
+#: includes/classes/admin/class-admin.php:362
+#: includes/classes/admin/class-admin.php:367
+#: includes/classes/admin/class-admin.php:372
 msgid " folder not found"
 msgstr " dossier non trouvé"
 
-#: includes/classes/admin/class-admin.php:373
+#: includes/classes/admin/class-admin.php:375
 msgid "Admin style"
 msgstr "Style de l'administration"
 
-#: includes/classes/admin/class-admin.php:375
+#: includes/classes/admin/class-admin.php:377
 msgid " enqueued"
 msgstr " ajouté"
 
-#: includes/classes/admin/class-admin.php:375
+#: includes/classes/admin/class-admin.php:377
 msgid " not enqueued"
 msgstr " non ajouté"
 
-#: includes/classes/admin/class-admin.php:504
+#: includes/classes/admin/class-admin.php:506
 #: includes/classes/admin/options-pages/class-admin-options-page.php:42
 msgid "Styles"
 msgstr "Styles"
@@ -978,25 +986,25 @@ msgstr "Écraser la configuration"
 msgid "Export layouts"
 msgstr "Exporter les dispositions"
 
-#: includes/classes/admin/tools/class-layouts-export-tool.php:88
+#: includes/classes/admin/tools/class-layouts-export-tool.php:94
 msgid "Select layouts"
 msgstr "Sélectionner les dispositions"
 
-#: includes/classes/admin/tools/class-layouts-export-tool.php:102
+#: includes/classes/admin/tools/class-layouts-export-tool.php:108
 msgid "No layouts available."
 msgstr "Aucune disposition disponible."
 
-#: includes/classes/admin/tools/class-layouts-export-tool.php:110
+#: includes/classes/admin/tools/class-layouts-export-tool.php:116
 #: includes/classes/admin/tools/class-styles-export-tool.php:104
 msgid "Export File"
 msgstr "Exporter le fichier"
 
-#: includes/classes/admin/tools/class-layouts-export-tool.php:143
+#: includes/classes/admin/tools/class-layouts-export-tool.php:149
 msgid "No layout selected"
 msgstr "Aucune disposition sélectionnée"
 
 #. translators: Number of layouts exported
-#: includes/classes/admin/tools/class-layouts-export-tool.php:326
+#: includes/classes/admin/tools/class-layouts-export-tool.php:332
 #, php-format
 msgid "%s layouts exported."
 msgid_plural "%s layouts exported."
@@ -1331,11 +1339,27 @@ msgstr[1] "%s dispositions synchronisées."
 msgid "Edit Builder"
 msgstr "Modifier l'éditeur"
 
-#: includes/classes/main/class-flexible.php:96
+#: includes/classes/main/class-flexible.php:99
 #: includes/classes/pattern/class-flexible-footer.php:63
 #: includes/classes/pattern/class-flexible-header.php:67
 msgid "Add Row"
 msgstr "Ajouter une ligne"
+
+#: includes/classes/main/class-flexible.php:606
+msgid "Edit layout"
+msgstr "Modifier la disposition"
+
+#: includes/classes/main/class-flexible.php:609
+msgid "More actions"
+msgstr "Plus d'actions"
+
+#: includes/classes/main/class-flexible.php:612
+msgid "Move layout up"
+msgstr "Déplacer la disposition vers le haut"
+
+#: includes/classes/main/class-flexible.php:613
+msgid "Move layout down"
+msgstr "Déplacer la disposition vers le haut"
 
 #: includes/classes/main/class-layouts-list.php:52
 msgid "Slug"
@@ -1573,11 +1597,11 @@ msgstr "Nom de la nouvelle collection"
 msgid "Collection"
 msgstr "Collection"
 
-#: includes/classes/main/class-layouts.php:34
+#: includes/classes/main/class-layouts.php:36
 msgid "Edit Layout"
 msgstr "Modifier la disposition"
 
-#: includes/classes/main/class-layouts.php:35
+#: includes/classes/main/class-layouts.php:37
 msgid "Add New Layout"
 msgstr "Ajouter une nouvelle disposition"
 

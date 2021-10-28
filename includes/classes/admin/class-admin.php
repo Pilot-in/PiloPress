@@ -187,6 +187,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             acf_localize_text(
                 array(
                     'Search for a layout' => __( 'Search for a layout', 'pilopress' ),
+                    'No previous layout'  => __( 'No previous layout', 'pilopress' ),
+                    'No next layout'      => __( 'No next layout', 'pilopress' ),
                 )
             );
         }

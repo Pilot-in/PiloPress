@@ -1,5 +1,5 @@
 (
-    function ($) {
+    function ( $ ) {
         'use strict';
 
         // The global pip object
@@ -13,7 +13,7 @@
          *
          * @type {acf.Model}
          */
-        if (typeof acf !== 'undefined') {
+        if ( typeof acf !== 'undefined' ) {
             const move_default_settings = new acf.Model(
                 {
 
@@ -21,21 +21,21 @@
                         'new_field': 'onNewField',
                     },
 
-                    onNewField: function (field) {
+                    onNewField: function ( field ) {
 
                         // 'acfe_form', 'label_placement', 'instruction_placement', 'description'
-                        const name = field.get('name');
+                        const name = field.get( 'name' );
 
-                        if (name === 'acfe_form' || name === 'label_placement' || name === 'instruction_placement' || name === 'description') {
+                        if ( name === 'acfe_form' || name === 'label_placement' || name === 'instruction_placement' || name === 'description' ) {
 
-                            const $sibling = $('[data-name="tab_more"]').first();
+                            const $sibling = $( '[data-name="tab_more"]' ).first();
 
                             // Bail early if no sibling
-                            if (!$sibling.length) {
+                            if ( !$sibling.length ) {
                                 return;
                             }
 
-                            $sibling.after(field.$el);
+                            $sibling.after( field.$el );
 
                         }
                     },
@@ -46,27 +46,27 @@
                 'prepare',
                 function () {
 
-                    if ($.isFunction(acf.getPostbox)) {
+                    if ( $.isFunction( acf.getPostbox ) ) {
                         // Hide default field group ACF settings
-                        const LayoutSettingsPostBox = acf.getPostbox('acf-field-group-options');
+                        const LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' );
 
-                        if (typeof LayoutSettingsPostBox !== 'undefined' && $('#pip_layout_settings').length) {
+                        if ( typeof LayoutSettingsPostBox !== 'undefined' && $( '#pip_layout_settings' ).length ) {
                             LayoutSettingsPostBox.hide();
                         }
                     }
 
                     // Layout admin page
-                    const $title = $('#title');
-                    const $prepend = $('.acf-input-prepend span');
-                    const $layoutSlug = $('#acf_field_group-_pip_layout_slug');
-                    const $layoutTemplate = $('#acf_field_group-_pip_render_layout');
-                    const $renderCSS = $('#acf_field_group-_pip_render_style');
-                    const $renderScript = $('#acf_field_group-_pip_render_script');
-                    const $configFile = $('#acf_field_group-_pip_config_file');
-                    let templateSwitch = false;
-                    let cssSwitch = false;
-                    let scriptSwitch = false;
-                    let configSwitch = false;
+                    const $title          = $( '#title' );
+                    const $prepend        = $( '.acf-input-prepend span' );
+                    const $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' );
+                    const $layoutTemplate = $( '#acf_field_group-_pip_render_layout' );
+                    const $renderCSS      = $( '#acf_field_group-_pip_render_style' );
+                    const $renderScript   = $( '#acf_field_group-_pip_render_script' );
+                    const $configFile     = $( '#acf_field_group-_pip_config_file' );
+                    let templateSwitch    = false;
+                    let cssSwitch         = false;
+                    let scriptSwitch      = false;
+                    let configSwitch      = false;
 
                     /**
                      * When something is typed in "template" field
@@ -110,12 +110,12 @@
                     $title.keyup(
                         function () {
                             // Get title
-                            const $this = $(this);
+                            const $this = $( this );
 
                             // If new layout
-                            if ($('#auto_draft').val() === '1') {
+                            if ( $( '#auto_draft' ).val() === '1' ) {
                                 // Change values with sanitized slug
-                                change_values($this);
+                                change_values( $this );
                             }
                         },
                     );
@@ -126,10 +126,10 @@
                     $layoutSlug.keyup(
                         function () {
                             // Get layout slug
-                            const $this = $(this);
+                            const $this = $( this );
 
                             // Change values with sanitized slug
-                            change_values($this);
+                            change_values( $this );
                         },
                     );
 
@@ -138,14 +138,14 @@
                      *
                      * @param $this
                      */
-                    function change_values($this) {
-                        $layoutSlug.val(pip.sanitize_title($this.val()));
-                        $prepend.html(pip.sanitize_title($this.val().replace(/-$/, '')));
+                    function change_values( $this ) {
+                        $layoutSlug.val( pip.sanitize_title( $this.val() ) );
+                        $prepend.html( pip.sanitize_title( $this.val().replace( /-$/, '' ) ) );
 
-                        updateRenderSettings($this.val());
+                        updateRenderSettings( $this.val() );
 
-                        if (!$this.val()) {
-                            $prepend.html('layout');
+                        if ( !$this.val() ) {
+                            $prepend.html( 'layout' );
                         }
                     }
 
@@ -154,35 +154,35 @@
                      *
                      * @param val
                      */
-                    function updateRenderSettings(val) {
-                        if (!templateSwitch) {
+                    function updateRenderSettings( val ) {
+                        if ( !templateSwitch ) {
                             $layoutTemplate.val(
                                 (
-                                    pip.sanitize_title(val) ? pip.sanitize_title(val) : 'template'
+                                    pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'template'
                                 ) + '.php',
                             );
                         }
 
-                        if (!cssSwitch) {
+                        if ( !cssSwitch ) {
                             $renderCSS.val(
                                 (
-                                    pip.sanitize_title(val) ? pip.sanitize_title(val) : 'style'
+                                    pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'style'
                                 ) + '.css',
                             );
                         }
 
-                        if (!scriptSwitch) {
+                        if ( !scriptSwitch ) {
                             $renderScript.val(
                                 (
-                                    pip.sanitize_title(val) ? pip.sanitize_title(val) : 'script'
+                                    pip.sanitize_title( val ) ? pip.sanitize_title( val ) : 'script'
                                 ) + '.js',
                             );
                         }
 
-                        if (!configSwitch) {
+                        if ( !configSwitch ) {
                             $configFile.val(
                                 (
-                                    pip.sanitize_title(val) ? 'configuration-' + pip.sanitize_title(val) : 'configuration'
+                                    pip.sanitize_title( val ) ? 'configuration-' + pip.sanitize_title( val ) : 'configuration'
                                 ) + '.php',
                             );
                         }
@@ -192,40 +192,40 @@
             );
         }
 
-        $(document).ready(
+        $( document ).ready(
             function () {
 
                 /**
                  * Remove search for layouts admin page
                  */
-                const searchParams = new URLSearchParams(window.location.search);
-                if ($('body').hasClass('wp-admin', 'post-type-acf-field-group') && searchParams.get('layouts') === '1') {
-                    $('.subsubsub li:last-child:not([class])').remove();
+                const searchParams = new URLSearchParams( window.location.search );
+                if ( $( 'body' ).hasClass( 'wp-admin', 'post-type-acf-field-group' ) && searchParams.get( 'layouts' ) === '1' ) {
+                    $( '.subsubsub li:last-child:not([class])' ).remove();
                 }
 
                 /**
                  * Search bar for layout modal
                  */
-                let $addLayoutBtn = $('.acfe-flexible-stylised-button .acf-actions > a.acf-button.button[data-name="add-layout"]');
+                let $addLayoutBtn = $( '.acfe-flexible-stylised-button .acf-actions > a.acf-button.button[data-name="add-layout"]' );
 
                 /**
                  * Add search input
                  */
-                if ($addLayoutBtn.length === 1) {
-                    $(document).on(
+                if ( $addLayoutBtn.length === 1 ) {
+                    $( document ).on(
                         'click',
                         $addLayoutBtn,
                         function () {
-                            let $searchInput = $('#search-layout');
-                            let $acfeModalTitle = $('.acfe-modal-select-pip_flexible .acfe-modal-wrapper .acfe-modal-title');
+                            let $searchInput    = $( '#search-layout' );
+                            let $acfeModalTitle = $( '.acfe-modal-select-pip_flexible .acfe-modal-wrapper .acfe-modal-title' );
 
                             // Return if element exist or modal don't exist
-                            if ($searchInput.length === 1 && $acfeModalTitle.length === 1) {
+                            if ( $searchInput.length === 1 && $acfeModalTitle.length === 1 ) {
                                 return;
                             }
 
                             // Append search input
-                            $acfeModalTitle.append('<input id="search-layout" type="text" placeholder="' + acf.__('Search for a layout') + '" style="margin-left:16px;"/>');
+                            $acfeModalTitle.append( '<input id="search-layout" type="text" placeholder="' + acf.__( 'Search for a layout' ) + '" style="margin-left:16px;"/>' );
                         },
                     );
                 }
@@ -233,66 +233,82 @@
                 /**
                  * Make layout search work
                  */
-                $(document).on(
+                $( document ).on(
                     'keyup',
                     '#search-layout',
                     function () {
-                        let $this = $(this);
+                        let $this = $( this );
                         let value = $this.val().toLowerCase();
-                        $('.acfe-flex-thumbnails ul li').filter(
+                        $( '.acfe-flex-thumbnails ul li' ).filter(
                             function () {
-                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > - 1);
+                                $( this ).toggle( $( this ).text().toLowerCase().indexOf( value ) > - 1 );
                             },
                         );
                     },
                 );
 
                 // Return if no flexible
-                let $hasFlexible = $('#acf-group_pip_flexible_main');
-                if (!$hasFlexible) { return; }
+                let $hasFlexible = $( '#acf-group_pip_flexible_main' );
+                if ( !$hasFlexible ) {
+                    return;
+                }
 
-                $('a[data-name=more-actions]').mouseenter(function () {
-                    let $parent = $(this).closest('.acf-fc-layout-controls')[0];
-                    $($parent).addClass('show-more-actions');
-                })
-                $('.acf-fc-layout-controls').mouseleave(function () {
-                    $(this).removeClass('show-more-actions');
-                })
+                // Show more actions above layouts
+                $( 'a[data-name=more-actions]' ).mouseenter(
+                    function () {
+                        let $parent = $( this ).closest( '.acf-fc-layout-controls' )[0];
+                        $( $parent ).addClass( 'show-more-actions' );
+                    },
+                );
 
-                $(document).on('click', 'a[data-name=move-pip-layout]', function (e) {
-                    e.preventDefault();
-                    let $this = $(this);
-                    let $layout = $this.closest('.layout')[0];
-                    if ($this.hasClass('up')) {
-                        if ($layout) {
-                            let prevLayoutId = $($layout).prev().data('id');
-                            if (prevLayoutId) {
-                                $($layout).insertBefore($('.layout[data-id="' + prevLayoutId + '"]'));
-                            } else {
-                                alert(acf.__('No previous layouts'));
+                // Hide actions above layouts
+                $( '.acf-fc-layout-controls' ).mouseleave(
+                    function () {
+                        $( this ).removeClass( 'show-more-actions' );
+                    },
+                );
+
+                // Move layout up and/or down
+                $( document ).on(
+                    'click',
+                    'a[data-name=move-pip-layout]',
+                    function ( e ) {
+                        e.preventDefault();
+
+                        let $this   = $( this );
+                        let $layout = $this.closest( '.layout' )[0];
+
+                        if ( $this.hasClass( 'up' ) ) {
+                            if ( $layout ) {
+                                let prevLayoutId = $( $layout ).prev().data( 'id' );
+                                if ( prevLayoutId ) {
+                                    $( $layout ).insertBefore( $( '.layout[data-id="' + prevLayoutId + '"]' ) );
+                                } else {
+                                    alert( acf.__( 'No previous layout' ) );
+                                }
                             }
-                        }
-                    } else if ($this.hasClass('down')) {
-                        if ($layout) {
-                            let nextLayoutId = $($layout).next().data('id');
-                            if (nextLayoutId) {
-                                $($layout).insertAfter($('.layout[data-id="' + nextLayoutId + '"]'));
-                            } else {
-                                alert(acf.__('No next layouts'));
+                        } else if ( $this.hasClass( 'down' ) ) {
+                            if ( $layout ) {
+                                let nextLayoutId = $( $layout ).next().data( 'id' );
+                                if ( nextLayoutId ) {
+                                    $( $layout ).insertAfter( $( '.layout[data-id="' + nextLayoutId + '"]' ) );
+                                } else {
+                                    alert( acf.__( 'No next layout' ) );
+                                }
                             }
-                        }
 
-                    }
-                })
+                        }
+                    },
+                );
             },
         );
 
         /**
          * Remove collection badge to avoid having it twice
          */
-        $(document).ajaxComplete(
+        $( document ).ajaxComplete(
             function () {
-                $('.acfe-layout-title .acfe-layout-title-text .pip_collection').remove();
+                $( '.acfe-layout-title .acfe-layout-title-text .pip_collection' ).remove();
             },
         );
 
@@ -303,17 +319,17 @@
          *
          * @returns {string}
          */
-        pip.sanitize_title = function ($val) {
+        pip.sanitize_title = function ( $val ) {
             return $val
                 .toLowerCase()
-                .replace(/\s+/g, '-')               // Replace spaces with -
-                .replace(/\-\-+/g, '-')             // Replace multiple - with single -
-                .replace(/\_\_+/g, '_')             // Replace multiple _ with single _
-                .replace(/^-+/, '')                 // Trim - from start of text
-                .normalize('NFD')                                  // Change accent to unicode value
-                .replace(/[\u0300-\u036f]/g, '')    // From unicode value to letter
-                .replace(/[^a-zA-Z0-9_\-\s]+/g, ''); // Remove all non-word chars
+                .replace( /\s+/g, '-' )               // Replace spaces with -
+                .replace( /\-\-+/g, '-' )             // Replace multiple - with single -
+                .replace( /\_\_+/g, '_' )             // Replace multiple _ with single _
+                .replace( /^-+/, '' )                 // Trim - from start of text
+                .normalize( 'NFD' )                                  // Change accent to unicode value
+                .replace( /[\u0300-\u036f]/g, '' )    // From unicode value to letter
+                .replace( /[^a-zA-Z0-9_\-\s]+/g, '' ); // Remove all non-word chars
         };
 
     }
-)(jQuery);
+)( jQuery );

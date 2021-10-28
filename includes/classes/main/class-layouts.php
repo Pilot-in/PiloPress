@@ -267,11 +267,12 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
         /**
          * Get field group by field group key
          *
-         * @param $key
+         * @param      $key
+         * @param bool $ids_only
          *
          * @return WP_Post|null
          */
-        public function get_field_group_by_key( $key ) {
+        public function get_field_group_by_key( $key, $ids_only = false ) {
 
             // Remove "layout_" prefix
             $key = str_replace( 'layout_', '', $key );
@@ -284,6 +285,11 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
                     'value'   => 's:16:"_pip_layout_slug";s:' . strlen( $key ) . ':"' . $key . '";',
                 ),
             );
+
+            // Maybe get only IDs
+            if ( $ids_only ) {
+                $args['fields'] = true;
+            }
 
             // Get posts
             $query = new WP_Query( $args );
@@ -354,6 +360,6 @@ function pip_get_layouts_css() {
  *
  * @return WP_Post|null
  */
-function pip_get_field_group_by_key( $key ) {
-    return acf_get_instance( 'PIP_Layouts' )->get_field_group_by_key( $key );
+function pip_get_field_group_by_key( $key, $ids_only = false ) {
+    return acf_get_instance( 'PIP_Layouts' )->get_field_group_by_key( $key, $ids_only );
 }

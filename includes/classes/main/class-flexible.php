@@ -329,8 +329,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 // Exception for attachments view in grid mode
                 if (
                     acf_maybe_get_POST( 'action' ) !== 'query-attachments'
-                //                    && acf_maybe_get_POST( 'action' ) !== 'acfe/flexible/models'
-                //                    && acf_maybe_get_POST( 'action' ) !== 'acf/validate_save_post'
+//                    && acf_maybe_get_POST( 'action' ) !== 'acfe/flexible/models'
+//                    && acf_maybe_get_POST( 'action' ) !== 'acf/validate_save_post'
                 ) {
                     return $field;
                 }
@@ -583,6 +583,12 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          */
         public function custom_layout_actions( $icons, $layout, $field ) {
 
+            // Add actions only for Pilo'Press flexible field
+            $field_name = acf_maybe_get( $field, '_name' );
+            if ( $field_name !== $this->flexible_field_name ) {
+                return $icons;
+            }
+
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
 
@@ -591,16 +597,22 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 return $icons;
             }
 
+            // PILO_TODO: Needs refactor: try to store field group ID inside layout to avoid WP_Query
+
             // Edit layout link
-            $layout_key                      = acf_maybe_get( $layout, 'key' );
-            $field_group                     = pip_get_field_group_by_key( $layout_key );
-            $edit_link                       = get_edit_post_link( $field_group );
-            $icons['edit-pip-layout']        = '<a class="acf-icon dashicons dashicons-edit small light acf-js-tooltip" target="_blank" href="' . $edit_link . '" data-name="edit-pip-layout" title="' . __( 'Edit layout', 'pilopress' ) . '"></a>';
-            $icons['more-actions']           = '<a class="acf-icon dashicons dashicons-ellipsis small light acf-js-tooltip" target="_blank" href="#" data-name="more-actions" title="' . __( 'More actions', 'pilopress' ) . '"></a>';
+            $layout_key               = acf_maybe_get( $layout, 'key' );
+            $field_group_id           = pip_get_field_group_by_key( $layout_key, true );
+            $edit_link                = get_edit_post_link( $field_group_id );
+            $icons['edit-pip-layout'] = '<a class="acf-icon dashicons dashicons-edit small light acf-js-tooltip" target="_blank" href="' . $edit_link . '" data-name="edit-pip-layout" title="' . __( 'Edit layout', 'pilopress' ) . '"></a>';
+
+            // Separate buttons with a "more actions" button
+            $icons['more-actions'] = '<a class="acf-icon dashicons dashicons-ellipsis small light acf-js-tooltip" target="_blank" href="#" data-name="more-actions" title="' . __( 'More actions', 'pilopress' ) . '"></a>';
+
+            // Add Move up and Move down buttons
             $icons['move-pip-layout-top']    = '<a class="acf-icon dashicons dashicons-arrow-up-alt small light acf-js-tooltip up" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout up', 'pilopress' ) . '"></a>';
             $icons['move-pip-layout-bottom'] = '<a class="acf-icon dashicons dashicons-arrow-down-alt small light acf-js-tooltip down" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout down', 'pilopress' ) . '"></a>';
 
-            return $icons;
+            return apply_filters( 'pip/flexible/layouts/icons', $icons, $layout, $field );
         }
 
     }
@@ -612,9 +624,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 /**
  * Return flexible content
  *
- * @param bool|int $post_id
- *
- * @return false|string|void
+ * @param false $post_id
  */
 function the_pip_content( $post_id = false ) {
 
@@ -627,7 +637,7 @@ function the_pip_content( $post_id = false ) {
  *
  * @param bool|int $post_id
  *
- * @return false|string|void
+ * @return string
  */
 function get_pip_content( $post_id = false ) {
 
