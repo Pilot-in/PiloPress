@@ -535,7 +535,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         continue;
                     }
 
-                    // Loop over rules and determine if all rules match
+                    // Loop through rules and determine if all rules match
                     $match_group = true;
                     foreach ( $group as $rule ) {
                         if ( !acf_match_location_rule( $rule, $screen, $field_group ) ) {
