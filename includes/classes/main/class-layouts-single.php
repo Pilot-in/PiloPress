@@ -622,66 +622,44 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             $field_group = $meta_box['args']['field_group'];
 
             // Get layout slug
-            $layout_slug = $field_group['_pip_layout_slug'];
+            $layout_slug = acf_maybe_get( $field_group, '_pip_layout_slug' );
 
-            // Get file path and URL
-            $file_path     = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
-            $file_exist    = false;
-            $extension     = '';
-            $has_thumbnail = $field_group['_pip_thumbnail'];
+            // Check if layout has thumbnail added via UI
+            $has_thumbnail = acf_maybe_get( $field_group, '_pip_thumbnail' );
 
-            // Get file extension
-            switch ( $file_path ) {
-                case file_exists( $file_path . '.png' ):
-                    $file_exist = true;
-                    $extension  = '.png';
-                    break;
-                case file_exists( $file_path . '.jpeg' ):
-                    $file_exist = true;
-                    $extension  = '.jpeg';
-                    break;
-                case file_exists( $file_path . '.jpg' ):
-                    $file_exist = true;
-                    $extension  = '.jpg';
-                    break;
-            }
+            // Get layout thumbnail
+            $layout_thumbnail = self::get_layout_thumbnail( $field_group );
 
-            if ( $file_exist && !$has_thumbnail ) {
-                $instructions['class'] = 'acf-js-tooltip';
-                $instructions['title'] = __( 'Screenshot location:', 'pilopress' ) . '<br/>' . $layout_slug . '/' . $layout_slug . $extension;
+            if ( $layout_thumbnail && !$has_thumbnail ) {
+                // Add notice to show user that a thumbnail is already in layout folder
+                $instructions_attrs['class'] = 'acf-js-tooltip';
+                $instructions_attrs['title'] = __( 'Screenshot location:', 'pilopress' ) . '<br/>' . $layout_slug . '/' . $layout_slug . acf_maybe_get( $layout_thumbnail, 'extension' );
+                $instructions                = '<span ' . acf_esc_atts( $instructions_attrs ) . '><span class="dashicons dashicons-yes" style="color:#46B450;"></span>' . __( 'Screenshot defined in layout folder', 'pilopress' ) . '</span>';
 
-                // Thumbnail
-                acf_render_field_wrap(
-                    array(
-                        'label'         => __( 'Thumbnail', 'pilopress' ),
-                        'instructions'  => '<span ' . acf_esc_atts( $instructions ) . '><span class="dashicons dashicons-yes" style="color:#46B450;"></span>' . __( 'Screenshot defined in layout folder', 'pilopress' ) . '</span>',
-                        'name'          => '_pip_thumbnail',
-                        'type'          => 'image',
-                        'class'         => '',
-                        'prefix'        => 'acf_field_group',
-                        'value'         => ( isset( $field_group['_pip_thumbnail'] ) ? $field_group['_pip_thumbnail'] : '' ),
-                        'return_format' => 'array',
-                        'preview_size'  => 'thumbnail',
-                        'library'       => 'all',
-                    )
-                );
+                // Add image preview with tooltip to see it in bigger size
+                $instructions_attrs['class'] = 'acf-js-tooltip';
+                $instructions_attrs['title'] = '<img alt="' . $layout_slug . '" src="' . acf_maybe_get( $layout_thumbnail, 'url' ) . '" width="auto" style="max-height:350px;">';
+
+                $instructions .= '<span ' . acf_esc_atts( $instructions_attrs ) . '><img alt="' . $layout_slug . '" src="' . acf_maybe_get( $layout_thumbnail, 'url' ) . '" style="margin-top: 10px; object-fit: cover; object-position: center;" width="100" height="100"></span>';
             } else {
-                // Thumbnail
-                acf_render_field_wrap(
-                    array(
-                        'label'         => __( 'Thumbnail', 'pilopress' ),
-                        'instructions'  => __( 'Layout preview', 'pilopress' ),
-                        'name'          => '_pip_thumbnail',
-                        'type'          => 'image',
-                        'class'         => '',
-                        'prefix'        => 'acf_field_group',
-                        'value'         => ( isset( $field_group['_pip_thumbnail'] ) ? $field_group['_pip_thumbnail'] : '' ),
-                        'return_format' => 'array',
-                        'preview_size'  => 'thumbnail',
-                        'library'       => 'all',
-                    )
-                );
+                $instructions = __( 'Layout preview', 'pilopress' );
             }
+
+            // Thumbnail
+            acf_render_field_wrap(
+                array(
+                    'label'         => __( 'Thumbnail', 'pilopress' ),
+                    'instructions'  => $instructions,
+                    'name'          => '_pip_thumbnail',
+                    'type'          => 'image',
+                    'class'         => '',
+                    'prefix'        => 'acf_field_group',
+                    'value'         => ( isset( $field_group['_pip_thumbnail'] ) ? $field_group['_pip_thumbnail'] : '' ),
+                    'return_format' => 'array',
+                    'preview_size'  => 'thumbnail',
+                    'library'       => 'all',
+                )
+            );
 
             // Script for admin style
             ?>
@@ -696,6 +674,55 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                 }
             </script>
             <?php
+        }
+
+        /**
+         * Get layout thumbnail data
+         *
+         * @param $layout
+         *
+         * @return string[]|null
+         */
+        public static function get_layout_thumbnail( $layout ) {
+            $pip_thumbnail = acf_maybe_get( $layout, '_pip_thumbnail' );
+            $layout_slug   = acf_maybe_get( $layout, '_pip_layout_slug' );
+
+            if ( $pip_thumbnail ) {
+                $img_url = wp_get_attachment_image_url( $pip_thumbnail, 'large' );
+
+                return array(
+                    'url' => $img_url,
+                );
+            }
+
+            // Get file path and URL
+            $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
+            $file_url  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug;
+
+            // Get file extension
+            $extension = null;
+            switch ( $file_path ) {
+                case file_exists( $file_path . '.png' ):
+                    $extension = '.png';
+                    break;
+                case file_exists( $file_path . '.jpeg' ):
+                    $extension = '.jpeg';
+                    break;
+                case file_exists( $file_path . '.jpg' ):
+                    $extension = '.jpg';
+                    break;
+            }
+
+            // No file or file in other format
+            if ( !$file_url || !$extension ) {
+                return null;
+            }
+
+            // Return URL and extension for tooltip
+            return array(
+                'url'       => $file_url . $extension,
+                'extension' => $extension,
+            );
         }
 
         /**
@@ -785,7 +812,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
                 $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $config_file_name;
 
-                // If no file name or file doesn't exists, skip
+                // If no file name or file doesn't exist, skip
                 if ( !$config_file_name || !file_exists( $file_path ) ) {
                     continue;
                 }

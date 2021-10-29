@@ -3,7 +3,7 @@
         'use strict';
 
         // The global pip object
-        var pip = {};
+        let pip = {};
 
         // Set as a browser global
         window.pip = pip;
@@ -14,7 +14,7 @@
          * @type {acf.Model}
          */
         if ( typeof acf !== 'undefined' ) {
-            var move_default_settings = new acf.Model(
+            const move_default_settings = new acf.Model(
                 {
 
                     actions: {
@@ -24,11 +24,11 @@
                     onNewField: function ( field ) {
 
                         // 'acfe_form', 'label_placement', 'instruction_placement', 'description'
-                        var name = field.get( 'name' );
+                        const name = field.get( 'name' );
 
                         if ( name === 'acfe_form' || name === 'label_placement' || name === 'instruction_placement' || name === 'description' ) {
 
-                            var $sibling = $( '[data-name="tab_more"]' ).first();
+                            const $sibling = $( '[data-name="tab_more"]' ).first();
 
                             // Bail early if no sibling
                             if ( !$sibling.length ) {
@@ -48,7 +48,7 @@
 
                     if ( $.isFunction( acf.getPostbox ) ) {
                         // Hide default field group ACF settings
-                        var LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' );
+                        const LayoutSettingsPostBox = acf.getPostbox( 'acf-field-group-options' );
 
                         if ( typeof LayoutSettingsPostBox !== 'undefined' && $( '#pip_layout_settings' ).length ) {
                             LayoutSettingsPostBox.hide();
@@ -56,17 +56,17 @@
                     }
 
                     // Layout admin page
-                    var $title          = $( '#title' );
-                    var $prepend        = $( '.acf-input-prepend span' );
-                    var $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' );
-                    var $layoutTemplate = $( '#acf_field_group-_pip_render_layout' );
-                    var $renderCSS      = $( '#acf_field_group-_pip_render_style' );
-                    var $renderScript   = $( '#acf_field_group-_pip_render_script' );
-                    var $configFile     = $( '#acf_field_group-_pip_config_file' );
-                    var templateSwitch  = false;
-                    var cssSwitch       = false;
-                    var scriptSwitch    = false;
-                    var configSwitch    = false;
+                    const $title          = $( '#title' );
+                    const $prepend        = $( '.acf-input-prepend span' );
+                    const $layoutSlug     = $( '#acf_field_group-_pip_layout_slug' );
+                    const $layoutTemplate = $( '#acf_field_group-_pip_render_layout' );
+                    const $renderCSS      = $( '#acf_field_group-_pip_render_style' );
+                    const $renderScript   = $( '#acf_field_group-_pip_render_script' );
+                    const $configFile     = $( '#acf_field_group-_pip_config_file' );
+                    let templateSwitch    = false;
+                    let cssSwitch         = false;
+                    let scriptSwitch      = false;
+                    let configSwitch      = false;
 
                     /**
                      * When something is typed in "template" field
@@ -110,7 +110,7 @@
                     $title.keyup(
                         function () {
                             // Get title
-                            var $this = $( this );
+                            const $this = $( this );
 
                             // If new layout
                             if ( $( '#auto_draft' ).val() === '1' ) {
@@ -126,7 +126,7 @@
                     $layoutSlug.keyup(
                         function () {
                             // Get layout slug
-                            var $this = $( this );
+                            const $this = $( this );
 
                             // Change values with sanitized slug
                             change_values( $this );
@@ -198,10 +198,112 @@
                 /**
                  * Remove search for layouts admin page
                  */
-                var searchParams = new URLSearchParams( window.location.search );
+                const searchParams = new URLSearchParams( window.location.search );
                 if ( $( 'body' ).hasClass( 'wp-admin', 'post-type-acf-field-group' ) && searchParams.get( 'layouts' ) === '1' ) {
                     $( '.subsubsub li:last-child:not([class])' ).remove();
                 }
+
+                /**
+                 * Search bar for layout modal
+                 */
+                let $addLayoutBtn = $( '.acfe-flexible-stylised-button .acf-actions > a.acf-button.button[data-name="add-layout"]' );
+
+                /**
+                 * Add search input
+                 */
+                if ( $addLayoutBtn.length === 1 ) {
+                    $( document ).on(
+                        'click',
+                        $addLayoutBtn,
+                        function () {
+                            let $searchInput    = $( '#search-layout' );
+                            let $acfeModalTitle = $( '.acfe-modal-select-pip_flexible .acfe-modal-wrapper .acfe-modal-title' );
+
+                            // Return if element exist or modal don't exist
+                            if ( $searchInput.length === 1 && $acfeModalTitle.length === 1 ) {
+                                return;
+                            }
+
+                            // Append search input
+                            $acfeModalTitle.append( '<input id="search-layout" type="text" placeholder="' + acf.__( 'Search for a layout' ) + '" style="margin-left:16px;"/>' );
+                        },
+                    );
+                }
+
+                /**
+                 * Make layout search work
+                 */
+                $( document ).on(
+                    'keyup',
+                    '#search-layout',
+                    function () {
+                        let $this = $( this );
+                        let value = $this.val().toLowerCase();
+                        $( '.acfe-flex-thumbnails ul li' ).filter(
+                            function () {
+                                $( this ).toggle( $( this ).text().toLowerCase().indexOf( value ) > - 1 );
+                            },
+                        );
+                    },
+                );
+
+                // Return if no flexible
+                let $hasFlexible = $( '#acf-group_pip_flexible_main' );
+                if ( !$hasFlexible ) {
+                    return;
+                }
+
+                // Show more actions above layouts
+                $( 'a[data-name=more-actions]' ).mouseenter(
+                    function () {
+                        let $parent = $( this ).closest( '.acf-fc-layout-controls' )[0];
+                        $( $parent ).addClass( 'show-more-actions' );
+                    },
+                );
+
+                // Hide actions above layouts
+                $( '.acf-fc-layout-controls' ).mouseleave(
+                    function () {
+                        $( this ).removeClass( 'show-more-actions' );
+                    },
+                );
+
+                // Move layout up and/or down
+                $( document ).on(
+                    'click',
+                    'a[data-name=move-pip-layout]',
+                    function ( e ) {
+                        e.preventDefault();
+
+                        let $this   = $( this );
+                        let $layout = $this.closest( '.layout' )[0];
+
+                        if ( $this.hasClass( 'up' ) ) {
+                            if ( $layout ) {
+                                let prevLayoutId = $( $layout ).prev().data( 'id' );
+                                if ( prevLayoutId ) {
+                                    $( $layout ).insertBefore( $( '.layout[data-id="' + prevLayoutId + '"]' ) );
+                                }
+                            }
+                        } else if ( $this.hasClass( 'down' ) ) {
+                            if ( $layout ) {
+                                let nextLayoutId = $( $layout ).next().data( 'id' );
+                                if ( nextLayoutId ) {
+                                    $( $layout ).insertAfter( $( '.layout[data-id="' + nextLayoutId + '"]' ) );
+                                }
+                            }
+                        }
+                    },
+                );
+            },
+        );
+
+        /**
+         * Remove collection badge to avoid having it twice
+         */
+        $( document ).ajaxComplete(
+            function () {
+                $( '.acfe-layout-title .acfe-layout-title-text .pip_collection' ).remove();
             },
         );
 

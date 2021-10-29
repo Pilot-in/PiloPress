@@ -9,6 +9,11 @@
     margin-top: 20px !important;
 }
 
+/* Add style for layout with error */
+.acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout.acfe-flexible-modal-edit-error {
+    outline: 2px dashed #d94f4f;
+}
+
 .acf-field-flexible-content[data-name="pip_flexible"] > .acf-input > .acf-flexible-content > .values > .layout:first-child {
     margin-top: -25px !important;
 }
@@ -35,7 +40,7 @@
     min-width: 18px;
     height: 18px;
     border-radius: 9px;
-    background-color: #ca4a1f;
+    background-color: #d94f4f;
     color: #fff;
     font-size: 11px;
     line-height: 1.6;
@@ -258,7 +263,7 @@ body.admin_page_pip_styles_tailwind_module #publishing-action .spinner {
 }
 
 .toplevel_page_pilopress .config-status .dashicons-no-alt {
-    color: #DC3232;
+    color: #d94f4f;
 }
 
 .toplevel_page_pilopress .pilopress-layouts-table .widefat,
@@ -409,4 +414,27 @@ body.view-sync .tablenav.top {
 body.view-sync .tablenav.top .alignleft.actions,
 body.view-sync .tablenav.top .tablenav-pages {
     display: none;
+}
+
+/* Export tool */
+#acf-admin-tool-pilopress_tool_layouts_export ul.acf-checkbox-list {
+    column-width: 200px;
+}
+
+/* Hide ACF action icons by default */
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls a.acf-icon.hide-icon {
+    display: none;
+}
+
+/* Show all actions on hover on more actions button */
+#acf-group_pip_flexible_main .acf-flexible-content .layout .acf-fc-layout-controls.show-more-actions a.acf-icon.hide-icon {
+    display: block !important;
+}
+
+/* Layout thumbnail in listing */
+.post-type-acf-field-group td._pip_layout_thumbnail img {
+    width: 144px;
+    height: 72px;
+    object-position: center;
+    object-fit: contain;
 }

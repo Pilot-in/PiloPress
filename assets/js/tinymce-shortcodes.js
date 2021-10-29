@@ -6,8 +6,8 @@
             return;
         }
 
-        var buttons            = acf.get( 'custom_buttons' );
-        var get_custom_buttons = function () {
+        const buttons            = acf.get( 'custom_buttons' );
+        const get_custom_buttons = function () {
             return $.map(
                 buttons,
                 function ( button, key ) {
@@ -28,7 +28,7 @@
             function ( event, editor ) {
 
                 // Button shortcode
-                var pip_button = {
+                const pip_button = {
                     text: 'Button',
                     tag: 'pip_button',
                     name: 'Add button',
@@ -110,7 +110,7 @@
                         },
                     ],
                     onclick: function ( event ) {
-                        var attributes = event.control.settings;
+                        const attributes = event.control.settings;
 
                         // If no tag, return
                         if ( _.isUndefined( attributes.tag ) ) {
@@ -118,7 +118,7 @@
                         }
 
                         // Get attributes
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
+                        const window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
@@ -134,7 +134,7 @@
                 };
 
                 // Breadcrumb shortcode
-                var pip_breadcrumb = {
+                const pip_breadcrumb = {
                     text: 'Breadcrumb',
                     tag: 'pip_breadcrumb',
                     name: 'Add breadcrumb',
@@ -144,7 +144,7 @@
                 };
 
                 // Title shortcode
-                var pip_title = {
+                const pip_title = {
                     text: 'Title',
                     tag: 'pip_title',
                     name: 'Add title',
@@ -154,7 +154,7 @@
                 };
 
                 // ACF Field shortcode
-                var pip_field = {
+                const pip_field = {
                     text: 'ACF Field',
                     tag: 'acf',
                     name: 'Add field',
@@ -174,8 +174,8 @@
                     ],
                     onclick: function ( event ) {
                         // Get attributes
-                        var attributes   = event.control.settings;
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
+                        const attributes   = event.control.settings;
+                        const window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
@@ -191,7 +191,7 @@
                 };
 
                 // Thumbnail shortcode
-                var pip_thumbnail = {
+                const pip_thumbnail = {
                     text: 'Thumbnail',
                     tag: 'pip_thumbnail',
                     name: 'Add thumbnail',
@@ -210,8 +210,8 @@
                     ],
                     onclick: function ( event ) {
                         // Get attributes
-                        var attributes   = event.control.settings;
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
+                        const attributes   = event.control.settings;
+                        const window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
@@ -227,7 +227,7 @@
                 };
 
                 // Spacer shortcode
-                var pip_spacer = {
+                const pip_spacer = {
                     text: 'Spacer',
                     tag: 'pip_spacer',
                     name: 'Add spacer',
@@ -241,8 +241,8 @@
                     ],
                     onclick: function ( event ) {
                         // Get attributes
-                        var attributes   = event.control.settings;
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
+                        const attributes   = event.control.settings;
+                        const window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
@@ -258,7 +258,7 @@
                 };
 
                 // Button group shortcode
-                var pip_button_group = {
+                const pip_button_group = {
                     text: 'Button group',
                     tag: 'pip_button_group',
                     name: 'Add button group',
@@ -289,8 +289,8 @@
                     ],
                     onclick: function ( event ) {
                         // Get attributes
-                        var attributes   = event.control.settings;
-                        var window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
+                        const attributes   = event.control.settings;
+                        const window_title = !_.isUndefined( attributes.name ) ? attributes.name : 'Add shortcode';
 
                         // Modal
                         editor.windowManager.open(
@@ -306,7 +306,7 @@
                 };
 
                 // Add shortcode menu list
-                var pip_shortcodes_menu_items = [
+                let pip_shortcodes_menu_items = [
                     pip_field,
                     pip_breadcrumb,
                     pip_button,
@@ -339,11 +339,11 @@
 
                         initialize: function () {
                             // Get attributes
-                            var button       = get_button_attributes( this.text );
-                            var btn_disabled = '';
+                            const button     = get_button_attributes( this.text );
+                            let btn_disabled = '';
 
                             // Build button class
-                            var btn_class = '';
+                            let btn_class = '';
                             if ( button.type ) {
                                 btn_class += button.type;
                             }
@@ -352,14 +352,13 @@
                             }
 
                             // Build button
-                            var html = '';
+                            let html = '';
                             if ( button.text ) {
                                 if ( !button.nodiv ) {
                                     html = '<div class="' + button.alignment + '">';
                                 }
-                                console.log( button.text );
 
-                                var download_option = '';
+                                let download_option = '';
                                 if ( button.download ) {
                                     button.download_name = button.download_name ? button.download_name : 'download';
                                     download_option      = 'download="' + button.download_name + '"';
@@ -390,7 +389,7 @@
 
                         edit: function ( text, update ) {
                             // Get current button values from shortcode text
-                            var button = get_button_attributes( text );
+                            const button = get_button_attributes( text );
 
                             // Update body to show current values
                             $.each(
@@ -435,7 +434,6 @@
 
                     },
                 );
-
 
                 // Register breadcrumb view
                 window.wp.mce.views.register(
@@ -511,25 +509,25 @@
 
                         initialize: function () {
                             // Get size
-                            var size       = getAttr( this.text, 'size' )
-                            var image_size = size !== 'full' ? acf.get( 'image_sizes' )[size] : { width: 100, height: 'auto' };
+                            let size       = getAttr( this.text, 'size' );
+                            let image_size = size !== 'full' ? acf.get( 'image_sizes' )[size] : { width: 100, height: 'auto' };
 
                             // Custom style
-                            var p_css   = 'vertical-align: middle;'
-                            var div_css = size !== 'full' ? 'width: ' + image_size.width + 'px;' : 'width: 100%;';
+                            const p_css = 'vertical-align: middle;';
+                            let div_css = size !== 'full' ? 'width: ' + image_size.width + 'px;' : 'width: 100%;';
 
                             div_css += size !== 'full' ? 'height: ' + image_size.height + 'px;' : 'height: 50vh;';
                             div_css += size !== 'full' ? 'line-height: ' + image_size.height + 'px;' : 'line-height: 100%;';
-                            div_css += 'display: flex; align-items: center; justify-content: center; text-align: center;'
-                            div_css += 'color: #000; border: 1px solid #000; background-color: #F4F4F4;'
+                            div_css += 'display: flex; align-items: center; justify-content: center; text-align: center;';
+                            div_css += 'color: #000; border: 1px solid #000; background-color: #F4F4F4;';
 
                             // Render button
-                            this.render( '<div style="' + div_css + '"><p style="' + p_css + '">' + ( size !== 'full' ? image_size.width : '100%' ) + ' x ' + ( size !== 'full' ? image_size.height : 'auto' ) + '</p></div>' )
+                            this.render( '<div style="' + div_css + '"><p style="' + p_css + '">' + ( size !== 'full' ? image_size.width : '100%' ) + ' x ' + ( size !== 'full' ? image_size.height : 'auto' ) + '</p></div>' );
                         },
 
                         edit: function ( text, update ) {
                             // Get current size from shortcode text
-                            var size = getAttr( this.text, 'size' );
+                            const size = getAttr( this.text, 'size' );
 
                             // Update value
                             $.each(
@@ -563,7 +561,7 @@
 
                         initialize: function () {
                             // Get size
-                            var spacer = getAttr( this.text, 'spacer' );
+                            const spacer = getAttr( this.text, 'spacer' );
 
                             // Render button
                             this.render( '<div class="' + spacer + ' text-center"><span> - spacer (' + spacer + ') - </span></div>' );
@@ -571,7 +569,7 @@
 
                         edit: function ( text, update ) {
                             // Get current spacer from shortcode text
-                            var spacer = getAttr( this.text, 'spacer' );
+                            const spacer = getAttr( this.text, 'spacer' );
 
                             // Update value
                             $.each(
@@ -608,8 +606,8 @@
          *
          * @returns {{}}
          */
-        var get_button_attributes = function ( item ) {
-            var button = {};
+        const get_button_attributes = function ( item ) {
+            let button = {};
 
             button.text          = getAttr( item, 'text' );
             button.type          = getAttr( item, 'type' );
@@ -634,9 +632,9 @@
          * @param attributes
          * @returns {string}
          */
-        var build_shortcode = function ( event, attributes ) {
+        const build_shortcode = function ( event, attributes ) {
             // Open shortcode
-            var out = '[' + attributes.tag;
+            let out = '[' + attributes.tag;
 
             // Add attributes to shortcode
             $.each(
@@ -663,12 +661,12 @@
          * @param attributes
          * @returns {string}
          */
-        var build_btn_group_shortcode = function ( event, attributes ) {
-            var i;
-            var nb_buttons = 0;
+        const build_btn_group_shortcode = function ( event, attributes ) {
+            let i;
+            let nb_buttons = 0;
 
             // Open shortcode
-            var out = '[' + attributes.tag;
+            let out = '[' + attributes.tag;
 
             // Add attributes to shortcode
             $.each(
@@ -705,7 +703,7 @@
          * @param name
          * @returns {string}
          */
-        var getAttr = function ( str, name ) {
+        const getAttr = function ( str, name ) {
             name = new RegExp( name + '=\"([^\"]+)\"' ).exec( str );
             return name ? window.decodeURIComponent( name[1] ) : '';
         };

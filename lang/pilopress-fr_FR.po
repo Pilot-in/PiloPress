@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pilo'Press\n"
-"POT-Creation-Date: 2021-10-15 16:52+0200\n"
-"PO-Revision-Date: 2021-10-15 16:52+0200\n"
+"POT-Creation-Date: 2021-10-28 16:40+0200\n"
+"PO-Revision-Date: 2021-10-28 16:41+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -21,26 +21,28 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
+#: assets/js/pilopress-admin.js:228 includes/classes/admin/class-admin.php:189
+msgid "Search for a layout"
+msgstr "Rechercher une disposition"
+
+#: assets/js/pilopress-admin.js:287 includes/classes/admin/class-admin.php:190
+msgid "No previous layout"
+msgstr "Pas de disposition précédente"
+
+#: assets/js/pilopress-admin.js:296 includes/classes/admin/class-admin.php:191
+msgid "No next layout"
+msgstr "Pas de disposition suivante"
+
 #: assets/libs/tailwindapi.php:61
 msgid "An error occurred. Please try again later"
-msgstr "Une erreur est survenue. Merci de réessayer plus tard"
+msgstr "Une erreur est survenue. Merci de réessayer plus tard."
 
 #: assets/libs/tailwindapi.php:75
 msgid "Styles compiled successfully."
 msgstr "Le style a été compilé avec succès."
 
-#. translators: Pilo'Press dashboard URL
-#: includes/classes/admin/class-admin.php:111
-#, php-format
-msgid ""
-"Your current theme does not support Pilo'Press. See <a "
-"href='%s'>configuration status</a> for more details."
-msgstr ""
-"Votre thème actuel ne supporte pas Pilo’Press. Voir <a href='%s'>l’état de "
-"la configuration</a> pour plus de détails."
-
 #. Plugin Name of the plugin/theme
-#: includes/classes/admin/class-admin.php:249
+#: includes/classes/admin/class-admin.php:258
 #: includes/classes/admin/editor/class-button-field.php:18
 #: includes/classes/admin/editor/class-font-color-field.php:18
 #: includes/classes/admin/editor/class-font-family-field.php:18
@@ -48,66 +50,66 @@ msgstr ""
 msgid "Pilo'Press"
 msgstr "Pilo'Press"
 
-#: includes/classes/admin/class-admin.php:265
+#: includes/classes/admin/class-admin.php:274
 #: includes/views/pip-dashboard.php:28 includes/views/pip-navbar.php:64
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: includes/classes/admin/class-admin.php:273
+#: includes/classes/admin/class-admin.php:282
 #: includes/classes/main/class-flexible-mirror.php:236
-#: includes/classes/main/class-flexible.php:138
+#: includes/classes/main/class-flexible.php:141
 msgid "Builder"
 msgstr "Éditeur"
 
-#: includes/classes/admin/class-admin.php:281
-#: includes/classes/admin/class-admin.php:481
-#: includes/classes/main/class-layouts.php:33
+#: includes/classes/admin/class-admin.php:290
+#: includes/classes/admin/class-admin.php:490
+#: includes/classes/main/class-layouts.php:35
 #: includes/views/pip-dashboard.php:113
 msgid "Layouts"
 msgstr "Dispositions"
 
-#: includes/classes/admin/class-admin.php:289
+#: includes/classes/admin/class-admin.php:298
 #: includes/classes/main/class-layouts-tax-categories.php:206
 msgid "Categories"
 msgstr "Catégories"
 
-#: includes/classes/admin/class-admin.php:297
+#: includes/classes/admin/class-admin.php:306
 #: includes/classes/main/class-layouts-tax-collections.php:208
 msgid "Collections"
 msgstr "Collections"
 
-#: includes/classes/admin/class-admin.php:305
+#: includes/classes/admin/class-admin.php:314
 #: includes/classes/components/class-components.php:46
 #: includes/classes/components/class-components.php:48
 #: includes/views/pip-dashboard.php:190
 msgid "Components"
 msgstr "Composants"
 
-#: includes/classes/admin/class-admin.php:353
-#: includes/classes/admin/class-admin.php:358
-#: includes/classes/admin/class-admin.php:363
+#: includes/classes/admin/class-admin.php:362
+#: includes/classes/admin/class-admin.php:367
+#: includes/classes/admin/class-admin.php:372
 msgid " folder found"
 msgstr " dossier trouvé"
 
-#: includes/classes/admin/class-admin.php:353
-#: includes/classes/admin/class-admin.php:358
-#: includes/classes/admin/class-admin.php:363
+#: includes/classes/admin/class-admin.php:362
+#: includes/classes/admin/class-admin.php:367
+#: includes/classes/admin/class-admin.php:372
 msgid " folder not found"
 msgstr " dossier non trouvé"
 
-#: includes/classes/admin/class-admin.php:366
+#: includes/classes/admin/class-admin.php:375
 msgid "Admin style"
 msgstr "Style de l'administration"
 
-#: includes/classes/admin/class-admin.php:368
+#: includes/classes/admin/class-admin.php:377
 msgid " enqueued"
 msgstr " ajouté"
 
-#: includes/classes/admin/class-admin.php:368
+#: includes/classes/admin/class-admin.php:377
 msgid " not enqueued"
 msgstr " non ajouté"
 
-#: includes/classes/admin/class-admin.php:497
+#: includes/classes/admin/class-admin.php:506
 #: includes/classes/admin/options-pages/class-admin-options-page.php:42
 msgid "Styles"
 msgstr "Styles"
@@ -482,8 +484,10 @@ msgstr ""
 "Classes à appliquer à la balise body, pour une configuration par défaut."
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:117
-msgid "Add typography"
-msgstr "Ajouter une typographie"
+#: includes/classes/admin/options-pages/styles-option-fonts.php:83
+#: includes/classes/admin/options-pages/styles-option-fonts.php:252
+msgid "Preview"
+msgstr "Aperçu"
 
 #: includes/classes/admin/options-pages/styles-option-configuration.php:121
 #: includes/classes/admin/options-pages/styles-option-configuration.php:363
@@ -760,11 +764,6 @@ msgstr ""
 msgid "External Font"
 msgstr "Police externe"
 
-#: includes/classes/admin/options-pages/styles-option-fonts.php:83
-#: includes/classes/admin/options-pages/styles-option-fonts.php:252
-msgid "Preview"
-msgstr "Aperçu"
-
 #: includes/classes/admin/options-pages/styles-option-fonts.php:125
 msgid "URL"
 msgstr "URL"
@@ -983,160 +982,90 @@ msgstr ""
 msgid "Override configuration"
 msgstr "Écraser la configuration"
 
-#. translators: Link to post edition
-#: includes/classes/admin/patterns/class-locked-content.php:60
+#: includes/classes/admin/tools/class-layouts-export-tool.php:33
+msgid "Export layouts"
+msgstr "Exporter les dispositions"
+
+#: includes/classes/admin/tools/class-layouts-export-tool.php:94
+msgid "Select layouts"
+msgstr "Sélectionner les dispositions"
+
+#: includes/classes/admin/tools/class-layouts-export-tool.php:108
+msgid "No layouts available."
+msgstr "Aucune disposition disponible."
+
+#: includes/classes/admin/tools/class-layouts-export-tool.php:116
+#: includes/classes/admin/tools/class-styles-export-tool.php:104
+msgid "Export File"
+msgstr "Exporter le fichier"
+
+#: includes/classes/admin/tools/class-layouts-export-tool.php:149
+msgid "No layout selected"
+msgstr "Aucune disposition sélectionnée"
+
+#. translators: Number of layouts exported
+#: includes/classes/admin/tools/class-layouts-export-tool.php:332
 #, php-format
-msgid ""
-"Template with locked content is used for this content. <a href=\"%s\">See "
-"template.</a>"
-msgstr ""
-"Un modèle avec un contenu verrouillé est utilisé pour ce contenu. <a href="
-"\"%s\">Voir le modèle.</a>"
+msgid "%s layouts exported."
+msgid_plural "%s layouts exported."
+msgstr[0] "%s disposition synchronisée."
+msgstr[1] "%s dispositions synchronisées."
 
-#: includes/classes/admin/patterns/class-patterns.php:55
-#: includes/classes/admin/patterns/class-patterns.php:56
-#: includes/classes/admin/patterns/class-patterns.php:58
-#: includes/classes/admin/patterns/class-patterns.php:59
-#: includes/classes/admin/patterns/class-patterns.php:61
-#: includes/classes/admin/patterns/class-patterns.php:73
-msgid "Default content"
-msgstr "Contenu par défaut"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:19
+msgid "Import layout"
+msgstr "Importer une disposition"
 
-#: includes/classes/admin/patterns/class-patterns.php:60
-msgid "Patterns"
-msgstr "Modèles"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:33
+#: includes/classes/admin/tools/class-styles-import-tool.php:34
+msgid "Select File"
+msgstr "Choisir un fichier"
 
-#: includes/classes/admin/patterns/class-patterns.php:62
-#: includes/classes/admin/patterns/class-patterns.php:63
-msgid "Add default content"
-msgstr "Ajouter du contenu par défaut"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:43
+#: includes/classes/admin/tools/class-styles-import-tool.php:45
+msgid "Import File"
+msgstr "Importer un fichier"
 
-#: includes/classes/admin/patterns/class-patterns.php:64
-msgid "Edit default content"
-msgstr "Modifier le contenu par défaut"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:57
+#: includes/classes/admin/tools/class-styles-import-tool.php:59
+msgid "No file selected"
+msgstr "Aucun fichier sélectionné"
 
-#: includes/classes/admin/patterns/class-patterns.php:65
-msgid "New default content"
-msgstr "Nouveau contenu par défaut"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:65
+#: includes/classes/admin/tools/class-styles-import-tool.php:67
+msgid "Error uploading file. Please try again"
+msgstr "Erreur lors du téléchargement, veuillez réessayer"
 
-#: includes/classes/admin/patterns/class-patterns.php:66
-msgid "View default content"
-msgstr "Afficher le contenu par défaut"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:70
+#: includes/classes/admin/tools/class-styles-import-tool.php:72
+msgid "Incorrect file type"
+msgstr "Type de fichier incorrect"
 
-#: includes/classes/admin/patterns/class-patterns.php:67
-msgid "View default contents"
-msgstr "Contenu par défaut"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:82
+msgid "A layout with this slug already exists."
+msgstr "Une disposition avec cet identifiant existe déjà."
 
-#: includes/classes/admin/patterns/class-patterns.php:68
-msgid "Search default content"
-msgstr "Rechercher le contenu par défaut"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:95
+msgid "An error occurred, please try again later."
+msgstr "Une erreur s'est produite, veuillez réessayer plus tard."
 
-#: includes/classes/admin/patterns/class-patterns.php:69
-msgid "Uploaded to this default content"
-msgstr "Téléchargé vers ce contenu par défaut"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:141
+#, php-format
+msgid "This layout already exists: %s."
+msgid_plural "These layouts already exists: %s."
+msgstr[0] "Cette disposition existe déjà : %s."
+msgstr[1] "Ces dispositions existent déjà : %s."
 
-#: includes/classes/admin/patterns/class-patterns.php:70
-msgid "Filter default content list"
-msgstr "Filtrer la liste de contenu par défaut"
+#. translators: number of layouts imported
+#: includes/classes/admin/tools/class-layouts-import-tool.php:154
+#, php-format
+msgid "%s layout has been imported."
+msgid_plural "%s layouts has been imported."
+msgstr[0] "%s disposition a été importée."
+msgstr[1] "%s dispositions ont été importées."
 
-#: includes/classes/admin/patterns/class-patterns.php:71
-msgid "Default content list navigation"
-msgstr "Navigation dans la liste de contenu par défaut"
-
-#: includes/classes/admin/patterns/class-patterns.php:72
-msgid "Default content list"
-msgstr "Liste de contenu par défaut"
-
-#: includes/classes/admin/patterns/class-patterns.php:74
-msgid "Default content published"
-msgstr "Contenu par défaut publié"
-
-#: includes/classes/admin/patterns/class-patterns.php:75
-msgid "Default content published privately"
-msgstr "Contenu par défaut publié en privé"
-
-#: includes/classes/admin/patterns/class-patterns.php:76
-msgid "Default content reverted to draft"
-msgstr "Contenu par défaut rétabli en brouillon"
-
-#: includes/classes/admin/patterns/class-patterns.php:77
-msgid "Default content scheduled"
-msgstr "Contenu par défaut planifié"
-
-#: includes/classes/admin/patterns/class-patterns.php:78
-msgid "Default content updated"
-msgstr "Contenu par défaut mis à jour"
-
-#: includes/classes/admin/patterns/class-patterns.php:105
-#: includes/classes/admin/patterns/class-patterns.php:106
-#: includes/classes/admin/patterns/class-patterns.php:108
-#: includes/classes/admin/patterns/class-patterns.php:109
-#: includes/classes/admin/patterns/class-patterns.php:110
-#: includes/classes/admin/patterns/class-patterns.php:111
-#: includes/classes/admin/patterns/class-patterns.php:123
-msgid "Locked content"
-msgstr "Contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:112
-#: includes/classes/admin/patterns/class-patterns.php:113
-msgid "Add locked content"
-msgstr "Ajouter du contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:114
-msgid "Edit locked content"
-msgstr "Modifier le contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:115
-msgid "New locked content"
-msgstr "Nouveau contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:116
-msgid "View locked content"
-msgstr "Afficher le contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:117
-msgid "View locked contents"
-msgstr "Afficher le contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:118
-msgid "Search locked content"
-msgstr "Rechercher du contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:119
-msgid "Uploaded to this locked content"
-msgstr "Téléchargé vers ce contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:120
-msgid "Filter locked content list"
-msgstr "Filtrer la liste de contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:121
-msgid "Locked content list navigation"
-msgstr "Navigation dans la liste de contenu verrouillée"
-
-#: includes/classes/admin/patterns/class-patterns.php:122
-msgid "Locked content list"
-msgstr "Liste de contenu verrouillé"
-
-#: includes/classes/admin/patterns/class-patterns.php:124
-msgid "Locked content published"
-msgstr "Contenu verrouillé publié"
-
-#: includes/classes/admin/patterns/class-patterns.php:125
-msgid "Locked content published privately"
-msgstr "Contenu verrouillé publié en privé"
-
-#: includes/classes/admin/patterns/class-patterns.php:126
-msgid "Locked content reverted to draft"
-msgstr "Contenu verrouillé rétabli en brouillon"
-
-#: includes/classes/admin/patterns/class-patterns.php:127
-msgid "Locked content scheduled"
-msgstr "Contenu verrouillé planifié"
-
-#: includes/classes/admin/patterns/class-patterns.php:128
-msgid "Locked content updated"
-msgstr "Contenu verrouillé mis à jour"
+#: includes/classes/admin/tools/class-layouts-import-tool.php:160
+msgid "Layout has been imported."
+msgstr "Disposition a été importée."
 
 #: includes/classes/admin/tools/class-styles-export-tool.php:34
 msgid "Export styles settings"
@@ -1149,10 +1078,6 @@ msgstr "Sélectionner les paramètres de styles"
 #: includes/classes/admin/tools/class-styles-export-tool.php:95
 msgid "No style setting available."
 msgstr "Aucun paramètre de styles disponible."
-
-#: includes/classes/admin/tools/class-styles-export-tool.php:104
-msgid "Export File"
-msgstr "Exporter le fichier"
 
 #: includes/classes/admin/tools/class-styles-export-tool.php:136
 msgid "No style setting selected"
@@ -1173,26 +1098,6 @@ msgstr[1] "%s paramètres de styles exportés."
 #: includes/classes/admin/tools/class-styles-import-tool.php:20
 msgid "Import styles settings"
 msgstr "Importer des paramètres de styles"
-
-#: includes/classes/admin/tools/class-styles-import-tool.php:34
-msgid "Select File"
-msgstr "Choisir un fichier"
-
-#: includes/classes/admin/tools/class-styles-import-tool.php:45
-msgid "Import File"
-msgstr "Importer un fichier"
-
-#: includes/classes/admin/tools/class-styles-import-tool.php:59
-msgid "No file selected"
-msgstr "Aucun fichier sélectionné"
-
-#: includes/classes/admin/tools/class-styles-import-tool.php:67
-msgid "Error uploading file. Please try again"
-msgstr "Erreur lors du téléchargement, veuillez réessayer"
-
-#: includes/classes/admin/tools/class-styles-import-tool.php:72
-msgid "Incorrect file type"
-msgstr "Type de fichier incorrect"
 
 #: includes/classes/admin/tools/class-styles-import-tool.php:82
 msgid "Import file empty"
@@ -1434,11 +1339,27 @@ msgstr[1] "%s dispositions synchronisées."
 msgid "Edit Builder"
 msgstr "Modifier l'éditeur"
 
-#: includes/classes/main/class-flexible.php:96
+#: includes/classes/main/class-flexible.php:99
 #: includes/classes/pattern/class-flexible-footer.php:63
 #: includes/classes/pattern/class-flexible-header.php:67
 msgid "Add Row"
 msgstr "Ajouter une ligne"
+
+#: includes/classes/main/class-flexible.php:606
+msgid "Edit layout"
+msgstr "Modifier la disposition"
+
+#: includes/classes/main/class-flexible.php:609
+msgid "More actions"
+msgstr "Plus d'actions"
+
+#: includes/classes/main/class-flexible.php:612
+msgid "Move layout up"
+msgstr "Déplacer la disposition vers le haut"
+
+#: includes/classes/main/class-flexible.php:613
+msgid "Move layout down"
+msgstr "Déplacer la disposition vers le haut"
 
 #: includes/classes/main/class-layouts-list.php:52
 msgid "Slug"
@@ -1676,11 +1597,11 @@ msgstr "Nom de la nouvelle collection"
 msgid "Collection"
 msgstr "Collection"
 
-#: includes/classes/main/class-layouts.php:34
+#: includes/classes/main/class-layouts.php:36
 msgid "Edit Layout"
 msgstr "Modifier la disposition"
 
-#: includes/classes/main/class-layouts.php:35
+#: includes/classes/main/class-layouts.php:37
 msgid "Add New Layout"
 msgstr "Ajouter une nouvelle disposition"
 
@@ -2042,20 +1963,6 @@ msgstr "Rose 800"
 msgid "Pink 900"
 msgstr "Rose 900"
 
-#: includes/layouts/template-current-content/group_pip_current_content.php:6
-msgid "Locked content: Post content"
-msgstr "Contenu verrouillé : Contenu de l'élément"
-
-#: includes/layouts/template-current-content/group_pip_current_content.php:22
-msgid "Use this layout to display dynamically current post content."
-msgstr ""
-"Utilisez cette section pour afficher dynamiquement le contenu de publication "
-"actuelle."
-
-#: includes/layouts/template-current-content/template-current-content.php:9
-msgid "Post content"
-msgstr "Contenu de la publication"
-
 #: includes/views/pip-dashboard.php:42
 msgid "Configuration status"
 msgstr "Statut de la configuration"
@@ -2143,7 +2050,7 @@ msgstr ""
 msgid "An error occurred while compiling."
 msgstr "Une erreur s’est produite lors de la compilation."
 
-#: init.php:84
+#: init.php:111
 msgid ""
 "Pilo'Press requires Advanced Custom Fields PRO (minimum: 5.8) and ACF "
 "Extended."
@@ -2167,11 +2074,29 @@ msgstr ""
 msgid "Pilot'in"
 msgstr "Pilot'in"
 
+#, php-format
+#~ msgid "Exported %s layouts."
+#~ msgid_plural "Exported %s layouts."
+#~ msgstr[0] "%s disposition exportée."
+#~ msgstr[1] "%s dispositions exportées."
+
+#~ msgid "Add typography"
+#~ msgstr "Ajouter une typographie"
+
+#~ msgid "Default content"
+#~ msgstr "Contenu par défaut"
+
+#~ msgid "Patterns"
+#~ msgstr "Modèles"
+
 #~ msgid "Add"
 #~ msgstr "Ajouter"
 
 #~ msgid "Not found"
 #~ msgstr "Non trouvé"
+
+#~ msgid "Locked content"
+#~ msgstr "Contenu verrouillé"
 
 #~ msgid "Shades"
 #~ msgstr "Nuances"

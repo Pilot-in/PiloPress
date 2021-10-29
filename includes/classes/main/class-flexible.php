@@ -61,6 +61,10 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             add_filter( "acfe/flexible/thumbnail/name={$this->flexible_field_name}", array( $this, 'add_custom_thumbnail' ), 10, 3 );
             add_filter( "acf/prepare_field/name={$this->flexible_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
 
+            // ACFE hooks
+            add_filter( 'acfe/flexible/layouts/icons', array( $this, 'custom_layout_actions' ), 10, 3 );
+            add_filter( 'acfe/flexible/layouts/icons', array( $this, 'hide_some_actions' ), 25, 3 );
+
         }
 
         /**
@@ -190,6 +194,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 $layout_slug    = sanitize_title( acf_maybe_get( $field_group, '_pip_layout_slug', '' ) );
                 $layout_uniq_id = 'layout_' . $layout_slug;
 
+                // Path
+                $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
+
                 // Get layout categories from field group
                 $layout_categories = acf_maybe_get( $field_group, 'layout_categories' );
                 $layout_categories = $layout_categories ? array_values( $layout_categories ) : array();
@@ -209,9 +216,6 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 ) {
                     $title = '<div class="pip_collection">' . reset( $layout_collections ) . '</div>' . $title;
                 }
-
-                // Path
-                $file_path = apply_filters( 'pip/layouts/file_path', PIP_THEME_LAYOUTS_PATH . $layout_slug . '/', $field_group );
 
                 // Settings
                 $render_layout    = $file_path . acf_maybe_get( $field_group, '_pip_render_layout', $layout_slug . '.php' );
@@ -277,6 +281,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'acfe_flexible_settings_size'   => $modal_size,
                     'min'                           => $layout_min,
                     'max'                           => $layout_max,
+                    '_pip_field_group_id'           => acf_maybe_get( $field_group, 'ID' ),
                 );
 
                 // Store group keys for meta box on mirror flexible
@@ -498,30 +503,10 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 return $thumbnail;
             }
 
-            // Get file path and URL
-            $file_path = apply_filters( 'pip/layouts/thumbnail/file_path', PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug, $field_group );
-            $file_url  = apply_filters( 'pip/layouts/thumbnail/file_url', PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug, $field_group );
+            // Get layout thumbnail
+            $layout_thumbnail = PIP_Layouts_Single::get_layout_thumbnail( $field_group );
 
-            // Get file extension
-            $extension = null;
-            switch ( $file_path ) {
-                case file_exists( $file_path . '.png' ):
-                    $extension = '.png';
-                    break;
-                case file_exists( $file_path . '.jpeg' ):
-                    $extension = '.jpeg';
-                    break;
-                case file_exists( $file_path . '.jpg' ):
-                    $extension = '.jpg';
-                    break;
-            }
-
-            // Build custom thumbnail URL
-            if ( $file_url && $extension ) {
-                $thumbnail = $file_url . $extension;
-            }
-
-            return $thumbnail;
+            return acf_maybe_get( $layout_thumbnail, 'url' );
         }
 
         /**
@@ -550,7 +535,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                         continue;
                     }
 
-                    // Loop over rules and determine if all rules match
+                    // Loop through rules and determine if all rules match
                     $match_group = true;
                     foreach ( $group as $rule ) {
                         if ( !acf_match_location_rule( $rule, $screen, $field_group ) ) {
@@ -569,6 +554,97 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             return false;
         }
 
+        /**
+         * Add custom actions to layouts
+         *
+         * @param $icons
+         * @param $layout
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function custom_layout_actions( $icons, $layout, $field ) {
+
+            // Add actions only for Pilo'Press flexible field
+            $field_name = acf_maybe_get( $field, '_name' );
+            if ( $field_name !== $this->flexible_field_name ) {
+                return $icons;
+            }
+
+            // Capability
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
+
+            // Check if user has rights to edit layouts
+            if ( !current_user_can( $capability ) ) {
+                return $icons;
+            }
+
+            // Edit layout link
+            $field_group_id           = acf_maybe_get( $layout, '_pip_field_group_id' );
+            $edit_link                = get_edit_post_link( $field_group_id );
+            $icons['edit-pip-layout'] = '<a class="acf-icon dashicons dashicons-edit small light acf-js-tooltip" target="_blank" href="' . $edit_link . '" data-name="edit-pip-layout" title="' . __( 'Edit layout', 'pilopress' ) . '"></a>';
+
+            // Add Move up and Move down buttons
+            $icons['move-up']   = '<a class="acf-icon dashicons dashicons-arrow-up-alt small light acf-js-tooltip up" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout up', 'pilopress' ) . '"></a>';
+            $icons['move-down'] = '<a class="acf-icon dashicons dashicons-arrow-down-alt small light acf-js-tooltip down" target="_blank" href="#" data-name="move-pip-layout" title="' . __( 'Move layout down', 'pilopress' ) . '"></a>';
+
+            return apply_filters( 'pip/flexible/layouts/icons', $icons, $layout, $field );
+        }
+
+        /**
+         * Hide buttons to avoid too many actions above layouts
+         *
+         * @param $icons
+         * @param $layout
+         * @param $field
+         *
+         * @return array|mixed
+         */
+        public function hide_some_actions( $icons, $layout, $field ) {
+
+            // Hide actions only for Pilo'Press flexible field
+            $field_name = acf_maybe_get( $field, '_name' );
+            if ( $field_name !== $this->flexible_field_name ) {
+                return $icons;
+            }
+
+            // Capability
+            $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
+
+            // Check if user has rights to edit layouts
+            if ( !current_user_can( $capability ) ) {
+                return $icons;
+            }
+
+            // Get icons to hide
+            $icons_to_hide = apply_filters( 'pip/flexible/layouts/icons/hide', array( 'add', 'copy', 'edit-pip-layout' ), $icons, $layout, $field );
+            if ( !$icons_to_hide ) {
+                return $icons;
+            }
+
+            // Separate buttons with a "more actions" button
+            $visible_icons['more-actions'] = '<a class="acf-icon dashicons dashicons-ellipsis small light acf-js-tooltip" target="_blank" href="#" data-name="more-actions" title="' . __( 'More actions', 'pilopress' ) . '"></a>';
+
+            // Add all icons
+            $visible_icons += $icons;
+
+            // Add class to hide icons
+            $hidden_actions = array();
+            foreach ( $icons_to_hide as $icon_to_hide ) {
+                // Add class
+                $icons[ $icon_to_hide ] = str_replace( 'class="', 'class="hide-icon ', $icons[ $icon_to_hide ] );
+
+                // Remove hidden icon from visible ones
+                unset( $visible_icons[ $icon_to_hide ] );
+
+                // Move hidden icon to hidden ones
+                $hidden_actions[ $icon_to_hide ] = $icons[ $icon_to_hide ];
+            }
+
+            // Return filtered and reorder icons array
+            return $hidden_actions + $visible_icons;
+        }
+
     }
 
     // Instantiate class
@@ -578,9 +654,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 /**
  * Return flexible content
  *
- * @param bool|int $post_id
- *
- * @return false|string|void
+ * @param false $post_id
  */
 function the_pip_content( $post_id = false ) {
 
@@ -593,7 +667,7 @@ function the_pip_content( $post_id = false ) {
  *
  * @param bool|int $post_id
  *
- * @return false|string|void
+ * @return string
  */
 function get_pip_content( $post_id = false ) {
 

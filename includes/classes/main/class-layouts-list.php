@@ -33,23 +33,28 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
             // List
             add_action( 'load-edit.php', array( $this, 'load_list' ) );
 
-            // If is in admin acf field group listing, in layouts, add custom "slug" column
+            // If is in admin acf field group listing, in layouts, add custom columns
             if ( is_admin() && acf_is_screen( 'edit-acf-field-group' ) && acf_maybe_get_GET( 'layouts' ) === '1' && acf_maybe_get_GET( 'post_status' ) !== 'sync' ) {
-                add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'layouts_slug_column' ), 11 );
+                // Add columns
+                add_filter( 'manage_edit-acf-field-group_columns', array( $this, 'layouts_custom_columns' ), 11 );
+
+                // Columns content
                 add_action( 'manage_acf-field-group_posts_custom_column', array( $this, 'layouts_slug_column_html' ), 10, 2 );
+                add_action( 'manage_acf-field-group_posts_custom_column', array( $this, 'layouts_thumbnail_column_html' ), 10, 2 );
             }
         }
 
         /**
-         * Add layout slug column
+         * Add layouts custom columns
          *
          * @param $columns
          *
          * @return mixed
          */
-        public function layouts_slug_column( $columns ) {
-            // Add slug column
-            $columns['_pip_layout_slug'] = __( 'Slug', 'pilopress' );
+        public function layouts_custom_columns( $columns ) {
+            // Add custom columns
+            $columns['_pip_layout_thumbnail'] = __( 'Thumbnail', 'pilopress' );
+            $columns['_pip_layout_slug']      = __( 'Slug', 'pilopress' );
 
             return $columns;
         }
@@ -72,6 +77,40 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
 
             // Display layout slug
             echo acf_maybe_get( $layout, '_pip_layout_slug' );
+        }
+
+        /**
+         * Fill layout slug column
+         *
+         * @param $column
+         * @param $post_id
+         */
+        public function layouts_thumbnail_column_html( $column, $post_id ) {
+
+            // If not layout slug, return
+            if ( $column !== '_pip_layout_thumbnail' ) {
+                return;
+            }
+
+            // Get layout
+            $layout      = acf_get_field_group( $post_id );
+            $layout_slug = acf_maybe_get( $layout, '_pip_layout_slug' );
+
+            // Get layout thumbnail
+            $layout_thumbnail = PIP_Layouts_Single::get_layout_thumbnail( $layout );
+
+            // If no file URL, return
+            if ( !acf_maybe_get( $layout_thumbnail, 'url' ) ) {
+                return;
+            }
+
+            // Add tooltip to see layout thumbnail in bigger size
+            $instructions['class'] = 'acf-js-tooltip';
+            $instructions['title'] = '<img alt="' . $layout_slug . '" src="' . acf_maybe_get( $layout_thumbnail, 'url' ) . '" width="auto" style="max-height:350px;">';
+            $display               = '<div ' . acf_esc_atts( $instructions ) . '><img alt="' . $layout_slug . '" src="' . acf_maybe_get( $layout_thumbnail, 'url' ) . '" width="150" height="150"></div>';
+
+            // Display layout slug
+            echo $display;
         }
 
         /**
