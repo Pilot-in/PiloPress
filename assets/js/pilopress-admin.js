@@ -283,8 +283,6 @@
                                 let prevLayoutId = $( $layout ).prev().data( 'id' );
                                 if ( prevLayoutId ) {
                                     $( $layout ).insertBefore( $( '.layout[data-id="' + prevLayoutId + '"]' ) );
-                                } else {
-                                    alert( acf.__( 'No previous layout' ) );
                                 }
                             }
                         } else if ( $this.hasClass( 'down' ) ) {
@@ -292,11 +290,8 @@
                                 let nextLayoutId = $( $layout ).next().data( 'id' );
                                 if ( nextLayoutId ) {
                                     $( $layout ).insertAfter( $( '.layout[data-id="' + nextLayoutId + '"]' ) );
-                                } else {
-                                    alert( acf.__( 'No next layout' ) );
                                 }
                             }
-
                         }
                     },
                 );
