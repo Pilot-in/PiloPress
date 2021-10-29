@@ -281,6 +281,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'acfe_flexible_settings_size'   => $modal_size,
                     'min'                           => $layout_min,
                     'max'                           => $layout_max,
+                    '_pip_field_group_id'           => acf_maybe_get( $field_group, 'ID' ),
                 );
 
                 // Store group keys for meta box on mirror flexible
@@ -578,11 +579,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 return $icons;
             }
 
-            // PILO_TODO: Needs refactor: try to store field group ID inside layout to avoid WP_Query
-
             // Edit layout link
-            $layout_key               = acf_maybe_get( $layout, 'key' );
-            $field_group_id           = pip_get_field_group_by_key( $layout_key, true );
+            $field_group_id           = acf_maybe_get( $layout, '_pip_field_group_id' );
             $edit_link                = get_edit_post_link( $field_group_id );
             $icons['edit-pip-layout'] = '<a class="acf-icon dashicons dashicons-edit small light acf-js-tooltip" target="_blank" href="' . $edit_link . '" data-name="edit-pip-layout" title="' . __( 'Edit layout', 'pilopress' ) . '"></a>';
 
