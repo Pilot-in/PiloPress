@@ -121,7 +121,7 @@ if ( !class_exists( 'PIP_Default_Content' ) ) {
             $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
             // Return default content's content
-            return get_field( $pip_flexible->flexible_field_name, $default_content_post );
+            return get_field( $pip_flexible->flexible_field_name, $default_content_post, false );
         }
 
         /**

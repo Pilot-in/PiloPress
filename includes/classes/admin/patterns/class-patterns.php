@@ -153,14 +153,16 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
             }
 
             // Polylang Compatibility - Add post types to translated post types
-            $polylang_option = get_option( 'polylang', true );
+            $polylang_option = get_option( 'polylang' );
+            if ( $polylang_option ) {
 
-            // Add post types
-            $polylang_option['post_types'][ self::get_default_content_slug() ] = self::get_default_content_slug();
-            $polylang_option['post_types'][ self::get_locked_content_slug() ]  = self::get_locked_content_slug();
+                // Add post types
+                $polylang_option['post_types'][ self::get_default_content_slug() ] = self::get_default_content_slug();
+                $polylang_option['post_types'][ self::get_locked_content_slug() ]  = self::get_locked_content_slug();
 
-            // Update option
-            update_option( 'polylang', $polylang_option );
+                // Update option
+                update_option( 'polylang', $polylang_option );
+            }
         }
 
         /**
