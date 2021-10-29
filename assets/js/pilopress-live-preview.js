@@ -15,7 +15,7 @@ jQuery( document ).ready(
 
         if ( typeof acf !== 'undefined' ) {
             // When a new row is added
-            acf.add_action(
+            acf.addAction(
                 'append',
                 function ( $row ) {
                     if ( !$( '.acf-field-typography-message' ).hasClass( 'acf-hidden' ) ) {
