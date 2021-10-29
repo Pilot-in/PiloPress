@@ -502,30 +502,10 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 return $thumbnail;
             }
 
-            // Get file path and URL
-            $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
-            $file_url  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug;
+            // Get layout thumbnail
+            $layout_thumbnail = PIP_Layouts_Single::get_layout_thumbnail( $field_group );
 
-            // Get file extension
-            $div        = null;
-            $data_image = null;
-            $extension  = null;
-            switch ( $file_path ) {
-                case file_exists( $file_path . '.png' ):
-                    $extension = '.png';
-                    break;
-                case file_exists( $file_path . '.jpeg' ):
-                    $extension = '.jpeg';
-                    break;
-                case file_exists( $file_path . '.jpg' ):
-                    $extension = '.jpg';
-                    break;
-            }
-            if ( $file_url && $extension ) {
-                $thumbnail = $file_url . $extension;
-            }
-
-            return $thumbnail;
+            return acf_maybe_get( $layout_thumbnail, 'url' );
         }
 
         /**

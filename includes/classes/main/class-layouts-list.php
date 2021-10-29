@@ -93,55 +93,21 @@ if ( !class_exists( 'PIP_Layouts_List' ) ) {
             }
 
             // Get layout
-            $layout = acf_get_field_group( $post_id );
+            $layout      = acf_get_field_group( $post_id );
+            $layout_slug = acf_maybe_get( $layout, '_pip_layout_slug' );
 
             // Get layout thumbnail
-            $img_html              = '';
-            $img_src               = '';
-            $instructions['class'] = 'acf-js-tooltip';
-            $pip_thumbnail         = acf_maybe_get( $layout, '_pip_thumbnail' );
-            $layout_slug           = acf_maybe_get( $layout, '_pip_layout_slug' );
-            if ( $pip_thumbnail ) {
+            $layout_thumbnail = PIP_Layouts_Single::get_layout_thumbnail( $layout );
 
-                $img_src               = wp_get_attachment_image_src( $pip_thumbnail, 'large' );
-                $img_src               = $img_src ? acf_unarray( $img_src ) : null;
-                $instructions['title'] = $img_src ? '<img alt="' . $layout_slug . '" src="' . $img_src . '" width="auto" style="max-height:500px;">' : '';
-
-                $img_html = wp_get_attachment_image( $pip_thumbnail, 'large' );
-
-            } else {
-
-                // No file from admin, search for file inside layout folder
-                $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
-
-                // Get file extension
-                switch ( $file_path ) {
-                    case file_exists( $file_path . '.png' ):
-                        $file_exist = true;
-                        $extension  = '.png';
-                        break;
-                    case file_exists( $file_path . '.jpeg' ):
-                        $file_exist = true;
-                        $extension  = '.jpeg';
-                        break;
-                    case file_exists( $file_path . '.jpg' ):
-                        $file_exist = true;
-                        $extension  = '.jpg';
-                        break;
-                    default:
-                        $file_exist = false;
-                        $extension  = '';
-                        break;
-                }
-
-                if ( $file_exist ) {
-                    $img_src  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug . $extension;
-                    $img_html = '<img alt="' . $layout_slug . '" src="' . $img_src . '" width="150" height="150">';
-                }
+            // If no file URL, return
+            if ( !acf_maybe_get( $layout_thumbnail, 'url' ) ) {
+                return;
             }
 
-            $instructions['title'] = '<img alt="' . $layout_slug . '" src="' . $img_src . '" width="auto" style="max-height:400px;">';
-            $display               = '<div ' . acf_esc_atts( $instructions ) . '>' . $img_html . '</div>';
+            // Add tooltip to see layout thumbnail in bigger size
+            $instructions['class'] = 'acf-js-tooltip';
+            $instructions['title'] = '<img alt="' . $layout_slug . '" src="' . acf_maybe_get( $layout_thumbnail, 'url' ) . '" width="auto" style="max-height:350px;">';
+            $display               = '<div ' . acf_esc_atts( $instructions ) . '><img alt="' . $layout_slug . '" src="' . acf_maybe_get( $layout_thumbnail, 'url' ) . '" width="150" height="150"></div>';
 
             // Display layout slug
             echo $display;
