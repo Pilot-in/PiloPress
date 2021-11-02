@@ -47,22 +47,41 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
         }
 
         /**
+         * Get layouts
+         *
+         * @return int[]|WP_Post[]|null
+         */
+        private function get_layouts() {
+            $args = array(
+                'post_type'        => 'acf-field-group',
+                'posts_per_page'   => - 1,
+                'pip_post_content' => array(
+                    'compare' => 'LIKE',
+                    'value'   => 's:14:"_pip_is_layout";i:1',
+                ),
+            );
+
+            $query = new WP_Query( $args );
+
+            return $query->have_posts() ? $query->get_posts() : null;
+        }
+
+        /**
          * HTML for archive page
          */
         public function html_archive() {
 
-            $pip_layouts = acf_get_instance( 'PIP_Layouts' );
-
             // If no layouts, return
-            if ( !$pip_layouts->get_layouts() ) {
+            if ( !$this->get_layouts() ) {
                 return;
             }
 
             // Store choices
             $choices = array();
-            foreach ( $pip_layouts->get_layouts() as $layout ) {
-                $auto_sync   = acf_maybe_get( $layout, 'acfe_autosync' );
-                $layout_slug = acf_maybe_get( $layout, '_pip_layout_slug' );
+            foreach ( $this->get_layouts() as $layout ) {
+                $layout      = acf_get_field_group( $layout );
+                $auto_sync   = pip_maybe_get( $layout, 'acfe_autosync' );
+                $layout_slug = pip_maybe_get( $layout, '_pip_layout_slug' );
 
                 // If no layout folder, skip
                 if ( !file_exists( PIP_THEME_LAYOUTS_PATH . $layout_slug ) ) {
@@ -149,9 +168,6 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
                 return acf_add_admin_notice( __( 'No layout selected', 'pilopress' ), 'warning' );
             }
 
-            // Check if user has selected more than 1 layout
-            $several_layouts = count( $keys ) > 1;
-
             $folder_to_zip = array();
             foreach ( $keys as $key ) {
 
@@ -194,12 +210,8 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
                             'zip_url'     => PIP_THEME_LAYOUTS_URL . $layout_folder . '/' . $layout_folder . '.zip',
                             'zip_path'    => PIP_THEME_LAYOUTS_PATH . $layout_folder . '/' . $layout_folder . '.zip',
                             'zip_name'    => $layout_folder . '.zip',
+                            'folder_slug' => $layout_folder,
                         );
-
-                        // If several layouts to export, store current layout folder name
-                        if ( $several_layouts ) {
-                            $folder_to_zip[ $key ]['folder_slug'] = $layout_folder;
-                        }
                     }
                 }
             }
@@ -212,59 +224,32 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
             // New ZIP
             $zip = new ZipArchive();
 
-            // Initialize variable for export if several layouts
-            $temp_zip_path = '';
-            $temp_zip_url  = '';
-
             // Generate ZIP
-            if ( $several_layouts ) {
-                // Create a dummy ZIP name
-                $temp_zip_path = PIP_THEME_LAYOUTS_PATH . '/layouts-' . wp_date( 'U' ) . '.zip';
-                $temp_zip_url  = PIP_THEME_LAYOUTS_URL . '/layouts-' . wp_date( 'U' ) . '.zip';
-                $zip_created   = $zip->open( $temp_zip_path, ZipArchive::CREATE );
-            } else {
-                // Only one layout, reset array to get layout name
-                $layout_to_export = acf_unarray( $folder_to_zip );
-                $zip_created      = $zip->open( $layout_to_export['zip_path'], ZipArchive::CREATE );
-            }
+            $temp_zip_path = PIP_THEME_LAYOUTS_PATH . '/pilopress-layouts-' . wp_date( 'Y-m-d' ) . '.zip';
+            $temp_zip_url  = PIP_THEME_LAYOUTS_URL . '/pilopress-layouts-' . wp_date( 'Y-m-d' ) . '.zip';
+            $zip_created   = $zip->open( $temp_zip_path, ZipArchive::CREATE );
 
             // If ZIP not created, return
             if ( !$zip_created ) {
                 return;
             }
 
-            if ( $several_layouts ) {
+            // Browse layouts to export
+            foreach ( $folder_to_zip as $folder ) {
 
-                // Browse layouts to export
-                foreach ( $folder_to_zip as $folder ) {
-
-                    // Create sub-folder with layout name
-                    $zip->addEmptyDir( $folder['folder_slug'] );
-
-                    // Get layout files
-                    $layout_files = glob( $folder['folder_path'] . '/*' );
-                    if ( !$layout_files ) {
-                        continue;
-                    }
-
-                    // Add each file in corresponding layout folder
-                    foreach ( $layout_files as $layout_file ) {
-                        $new_filename = substr( $layout_file, strrpos( $layout_file, '/' ) + 1 );
-                        $zip->addFile( $layout_file, $folder['folder_slug'] . '/' . $new_filename );
-                    }
-                }
-            } else {
+                // Create sub-folder with layout name
+                $zip->addEmptyDir( $folder['folder_slug'] );
 
                 // Get layout files
-                $layout_files = glob( $layout_to_export['folder_path'] . '/*' );
+                $layout_files = glob( $folder['folder_path'] . '/*' );
                 if ( !$layout_files ) {
-                    return;
+                    continue;
                 }
 
-                // Add each file in folder
+                // Add each file in corresponding layout folder
                 foreach ( $layout_files as $layout_file ) {
                     $new_filename = substr( $layout_file, strrpos( $layout_file, '/' ) + 1 );
-                    $zip->addFile( $layout_file, $new_filename );
+                    $zip->addFile( $layout_file, $folder['folder_slug'] . '/' . $new_filename );
                 }
             }
 
@@ -272,14 +257,8 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
             $zip->close();
 
             // File headers
-            if ( $several_layouts ) {
-                if ( $temp_zip_path && $temp_zip_url && file_exists( $temp_zip_path ) ) {
-                    header( 'Location: ' . $temp_zip_url );
-                }
-            } else {
-                if ( file_exists( $layout_to_export['zip_path'] ) ) {
-                    header( 'Location: ' . $layout_to_export['zip_url'] );
-                }
+            if ( $temp_zip_path && $temp_zip_url && file_exists( $temp_zip_path ) ) {
+                header( 'Location: ' . $temp_zip_url );
             }
         }
 

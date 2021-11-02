@@ -48,26 +48,32 @@ if ( !class_exists( 'PIP_Layouts_Import_Tool' ) ) {
         /**
          * Import ZIP
          *
-         * @return ACF_Admin_Notice
+         * @return void
          */
         public function submit() {
 
-            // Check file size
+            // If empty files, add notice and return
             if ( empty( $_FILES['acf_import_layouts']['size'] ) ) {
-                return acf_add_admin_notice( __( 'No file selected', 'pilopress' ), 'warning' );
+                acf_add_admin_notice( __( 'No file selected', 'pilopress' ), 'warning' );
+
+                return;
             }
 
             // Get file data
             $file = $_FILES['acf_import_layouts'];
 
-            // Check errors
+            // If errors, add notice and return
             if ( $file['error'] ) {
-                return acf_add_admin_notice( __( 'Error uploading file. Please try again', 'acf' ), 'warning' );
+                acf_add_admin_notice( __( 'Error uploading file. Please try again', 'acf' ), 'warning' );
+
+                return;
             }
 
-            // Check file type
+            // If not a ZIP file, add notice and return
             if ( pathinfo( $file['name'], PATHINFO_EXTENSION ) !== 'zip' ) {
-                return acf_add_admin_notice( __( 'Incorrect file type', 'acf' ), 'warning' );
+                acf_add_admin_notice( __( 'Incorrect file type', 'acf' ), 'warning' );
+
+                return;
             }
 
             // File data
@@ -75,11 +81,12 @@ if ( !class_exists( 'PIP_Layouts_Import_Tool' ) ) {
             $file_tmp_folder = $file['tmp_name'];
             $layout_slug     = str_replace( '.zip', '/', $filename );
             $layout_exists   = PIP_THEME_LAYOUTS_PATH . $layout_slug;
-            $several_layouts = preg_match( '/layouts-\d{10}.zip/', $filename, $test );
 
-            // Check if current layout folder already exists
+            // If current layout folder already exists, add notice and return
             if ( realpath( $layout_exists ) && is_dir( $layout_exists ) ) {
-                return acf_add_admin_notice( __( 'A layout with this slug already exists.', 'pilopress' ), 'error' );
+                acf_add_admin_notice( __( 'A layout with this slug already exists.', 'pilopress' ), 'error' );
+
+                return;
             }
 
             // Maybe create tmp folder
@@ -91,73 +98,77 @@ if ( !class_exists( 'PIP_Layouts_Import_Tool' ) ) {
             // Move ZIP from local tmp folder to tmp folder inside layouts folder
             $location  = $path . $filename;
             $zip_moved = move_uploaded_file( $file_tmp_folder, $location );
-            if ( !$zip_moved ) {
-                return acf_add_admin_notice( __( 'An error occurred, please try again later.', 'acf' ), 'error' );
-            }
 
-            $extract_to = $several_layouts ? $path : $path . $layout_slug;
+            // If ZIP can't be moved, add notice and return
+            if ( !$zip_moved ) {
+                acf_add_admin_notice( __( 'An error occurred, please try again later.', 'acf' ), 'error' );
+
+                return;
+            }
 
             // Unzip
             $zip = new ZipArchive();
             if ( $zip->open( $location ) ) {
-                $zip->extractTo( $extract_to );
+                $zip->extractTo( $path );
                 $zip->close();
             }
 
-            if ( $several_layouts ) {
-                $already_exists_layouts = array();
-                $imported_layouts       = 0;
-                unlink( $location );
-                $sub_folders = scandir( $extract_to );
-                $sub_folders = array_diff( $sub_folders, array( '.', '..' ) );
+            $already_exists_layouts = array();
+            $imported_layouts       = 0;
+            unlink( $location );
+            $sub_folders = scandir( $path );
+            $sub_folders = array_diff( $sub_folders, array( '.', '..' ) );
 
-                if ( $sub_folders ) {
-                    foreach ( $sub_folders as $sub_folder ) {
-                        // Check if current layout folder already exists
-                        if ( realpath( PIP_THEME_LAYOUTS_PATH . $sub_folder ) && is_dir( PIP_THEME_LAYOUTS_PATH . $sub_folder ) ) {
-                            $already_exists_layouts[] = $sub_folder;
-                            $this->rmdir_recursive( $extract_to . $sub_folder );
-                            continue;
-                        }
-
-                        $imported_layouts ++;
-                        rename( $extract_to . $sub_folder, PIP_THEME_LAYOUTS_PATH . $sub_folder );
-                    }
-                    rmdir( $path );
-                }
-            } else {
-                // Move unzip layout folder from tmp to layouts folder
-                rename( $extract_to, $layout_exists );
-                unlink( $location );
-                rmdir( $path );
+            // If no sub folders, return
+            if ( !$sub_folders ) {
+                return;
             }
 
-            if ( $several_layouts ) {
-                if ( count( $already_exists_layouts ) > 0 ) {
-                    // Error notice
-                    $text = sprintf(
-                    // translators: number of layouts which already exists
-                        _n(
-                            'This layout already exists: %s.',
-                            'These layouts already exists: %s.',
-                            count( $already_exists_layouts ),
-                            'pilopress'
-                        ),
-                        implode( ', ', $already_exists_layouts )
-                    );
+            // Browse all sub folders
+            foreach ( $sub_folders as $sub_folder ) {
 
-                    // Warning notice for layouts already existing
-                    acf_add_admin_notice( $text, 'warning' );
+                // If current layout folder already exists, store name for notice and delete folder
+                if ( realpath( PIP_THEME_LAYOUTS_PATH . $sub_folder ) && is_dir( PIP_THEME_LAYOUTS_PATH . $sub_folder ) ) {
+                    $already_exists_layouts[] = $sub_folder;
+                    $this->rmdir_recursive( $path . $sub_folder );
+                    continue;
                 }
+
+                // Increment imported layout and move folder
+                $imported_layouts ++;
+                rename( $path . $sub_folder, PIP_THEME_LAYOUTS_PATH . $sub_folder );
+            }
+
+            // Delete tmp folder
+            rmdir( $path );
+
+            // If had already existing layouts
+            if ( count( $already_exists_layouts ) > 0 ) {
+
+                // Error notice
+                $text = sprintf(
+                // translators: number of layouts which already exists
+                    _n(
+                        'This layout already exists: %s.',
+                        'These layouts already exists: %s.',
+                        count( $already_exists_layouts ),
+                        'pilopress'
+                    ),
+                    implode( ', ', $already_exists_layouts )
+                );
+
+                // Warning notice for layouts already existing
+                acf_add_admin_notice( $text, 'warning' );
+            }
+
+            // If imported layouts, add success notice
+            if ( $imported_layouts ) {
 
                 // translators: number of layouts imported
                 $success_text = sprintf( _n( '%s layout has been imported.', '%s layouts has been imported.', $imported_layouts, 'pilopress' ), $imported_layouts );
 
                 // Success notice
-                return acf_add_admin_notice( $success_text, 'success' );
-            } else {
-                // Success notice
-                return acf_add_admin_notice( __( 'Layout has been imported.', 'acf' ), 'success' );
+                acf_add_admin_notice( $success_text, 'success' );
             }
         }
 
