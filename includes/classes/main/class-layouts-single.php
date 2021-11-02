@@ -12,9 +12,12 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
          */
         public function __construct() {
 
-            // Hooks
+            // WP hooks
             add_action( 'init', array( $this, 'include_layout_configuration' ), 6 );
             add_action( 'current_screen', array( $this, 'current_screen' ) );
+
+            // ACF hooks
+            add_action( 'acf/prepare_field/name=pip_layout_var', array( $this, 'fix_multiple_row_json_files' ) );
 
         }
 
@@ -507,7 +510,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                             '_name'        => '',
                             '_prepare'     => '',
                             'type'         => 'text',
-                            'placeholder'  => __( 'card-border-radius...', 'pilopress' ),
+                            'placeholder'  => __( 'variable-key', 'pilopress' ),
                             'instructions' => false,
                             'required'     => false,
                             'wrapper'      => array(
@@ -525,7 +528,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                             '_name'        => '',
                             '_prepare'     => '',
                             'type'         => 'text',
-                            'placeholder'  => __( 'rounded-xl...', 'pilopress' ),
+                            'placeholder'  => __( 'example-class example-class-2', 'pilopress' ),
                             'instructions' => false,
                             'required'     => false,
                             'wrapper'      => array(
@@ -885,6 +888,34 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
 
             // Return field group or false
             return $layout;
+        }
+
+        /**
+         * Leave only one "row-" in key for layout vars
+         *
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function fix_multiple_row_json_files( $field ) {
+
+            $values = $field['value'];
+
+            // If no value, return
+            if ( !$values ) {
+                return $field;
+            }
+
+            // Browse all values to remove duplicated "row-" in keys
+            $sanitized_values = array();
+            foreach ( $values as $key => $value ) {
+                $sanitized_values[ str_replace( 'row-', '', $key ) ] = $value;
+            }
+
+            // Replace values
+            $field['value'] = $sanitized_values;
+
+            return $field;
         }
 
     }
