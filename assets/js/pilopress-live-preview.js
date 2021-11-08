@@ -219,7 +219,6 @@ jQuery( document ).ready(
                         function () {
                             let state_name  = $( this ).find( '.acf-field-state-type' ).find( 'select' );
                             let state_value = $( this ).find( '.acf-field-state-classes-to-apply' ).find( 'input[type="text"]' );
-                            console.log( state_name.val(), state_value.val() );
 
                             if ( state_name.val() && state_value.val() ) {
                                 let state_values = state_value.val().split( ' ' );
