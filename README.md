@@ -1,3 +1,5 @@
+[![Pilo'Press Banner](.github/banner-pilopress.png)](https://pilopress.com)
+
 # Pilo'Press
 
 The most advanced WordPress Page Builder using Advanced Custom Fields & TailwindCSS.
@@ -5,11 +7,11 @@ The most advanced WordPress Page Builder using Advanced Custom Fields & Tailwind
 Pilo'Press is a framework plugin for WordPress. Based on ACF and ACF Extended, it allows you to create layouts among
 other things and use the Flexible Content field as a page builder.
 
-Pilo'Press uses Tailwind CSS for style templating which can be setup and build directly from the back-office. Please
-note that Tailwind CSS is not mandatory, you can choose to use it or not.
+Pilo'Press uses TailwindCSS for style templating by default which you can configure and build directly from the back-office.
+*(Please note that TailwindCSS is not mandatory, you can choose to use it or not)*
 
 **All features are describe in details _(with screens & videos)_, in
-our [GitHub Page](https://pilot-in.github.io/PiloPress/).**  
+our [GitHub Page](https://pilot-in.github.io/PiloPress/).**
 You can **discuss with us** on **[the Pilo'Press slack community](https://pilopress.slack.com/join/signup)**.
 
 ## Table of Contents
@@ -38,14 +40,14 @@ and [Advanced Custom Fields: Extended](https://wordpress.org/plugins/acf-extende
 ## Theme installation
 
 After plugin activation, you will have 1 parent folder with 2 sub-folders in your theme : `pilopress/layouts`
-and `pilopress/assets`  
+and `pilopress/assets`
 In the `index.php` file, add the following code:
 
 ```php
-<?php 
+<?php
 
 // Header
-get_header(); 
+get_header();
 
 // Pilo'Press: Content
 the_pip_content();
