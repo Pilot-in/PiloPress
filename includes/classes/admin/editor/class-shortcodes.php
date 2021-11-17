@@ -55,7 +55,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             );
 
             // Build class
-            $btn_class = '';
+            $btn_class  = '';
             $btn_class .= ( $attrs['type'] ) ? $attrs['type'] : '';
             $btn_class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
@@ -323,7 +323,8 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             // Parse attributes
             $attrs = shortcode_atts(
                 array(
-                    'size' => 'full',
+                    'size'      => 'full',
+                    'alignment' => 'left',
                 ),
                 $attrs,
                 'pip_thumbnail'
@@ -331,15 +332,28 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
 
             // Get post thumbnail URL
             $image_size         = $attrs['size'];
+            $image_alignment    = $attrs['alignment'];
             $post_thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), $image_size );
 
             // If no URL, display default message
             if ( !$post_thumbnail_url ) {
                 return __( 'Post thumbnail here', 'pilopress' );
             }
+            // Get image alignment
+            switch ( $image_alignment ) {
+                case 'left':
+                    $alignment_class = ' block mr-auto';
+                    break;
+                case 'center':
+                    $alignment_class = ' block mx-auto';
+                    break;
+                case 'right':
+                    $alignment_class = ' block ml-auto';
+                    break;
+            }
 
             // Render shortcode
-            return '<img class="post-thumbnail" src="' . $post_thumbnail_url . '"/>';
+            return '<img class="post-thumbnail' . $alignment_class . '" src="' . $post_thumbnail_url . '"/>';
         }
 
         /**

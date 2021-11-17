@@ -207,6 +207,16 @@
                                 { text: 'Full', value: 'full' },
                             ],
                         },
+                        {
+                            label: 'Alignment',
+                            name: 'alignment',
+                            type: 'listbox',
+                            values: [
+                                { text: 'Left', value: 'left' },
+                                { text: 'Center', value: 'center' },
+                                { text: 'Right', value: 'right' },
+                            ],
+                        },
                     ],
                     onclick: function ( event ) {
                         // Get attributes
