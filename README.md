@@ -1,4 +1,4 @@
-[![Pilo'Press Banner](.github/banner-pilopress.png)](https://pilopress.com)
+[![Pilo'Press Banner](.github/banner-pilopress.png)](https://www.pilopress.com)
 
 # Pilo'Press
 
