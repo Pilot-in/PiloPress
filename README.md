@@ -11,7 +11,7 @@ Pilo'Press uses TailwindCSS for style templating by default which you can config
 *(Please note that TailwindCSS is not mandatory, you can choose to use it or not)*
 
 **All features are describe in details _(with screens & videos)_, in
-our [GitHub Page](https://pilot-in.github.io/PiloPress/).**
+our [Website](https://www.pilopress.com).**
 You can **discuss with us** on **[the Pilo'Press slack community](https://pilopress.slack.com/join/signup)**.
 
 ## Table of Contents
