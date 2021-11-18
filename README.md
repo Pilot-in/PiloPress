@@ -79,7 +79,7 @@ For more details, see [Tailwind CSS Documentation](https://tailwindcss.com/docs/
 
 To customize default Tailwind CSS styles, go to `Pilo'Press > Styles` from left navigation menu or top bar menu.
 
-For more details about customization, see [Github Page](https://pilot-in.github.io/PiloPress/docs/customizing-styles/).
+For more details about customization, see [our Documentation](https://www.pilopress.com/doc-category/styles).
 
 ## Add new layout
 
@@ -107,11 +107,11 @@ You can specify a post, page or custom post type item ID to display content of t
 
 ## Components
 
-See [GitHub Page](https://pilot-in.github.io/PiloPress/docs/components/) for complete example.
+See [Components documentation](https://www.pilopress.com/doc-category/components) for complete example.
 
 ## Hooks
 
-Available hooks are list and describe in [GitHub Page](https://pilot-in.github.io/PiloPress/docs/hooks/)
+Available hooks are list and describe in [our Hooks documentation](https://www.pilopress.com/doc-category/hooks-and-functions)
 
 ## Changelog
 
