@@ -364,56 +364,64 @@ function pip_get_field_group_by_key( $key, $ids_only = false ) {
     return acf_get_instance( 'PIP_Layouts' )->get_field_group_by_key( $key, $ids_only );
 }
 
-/**
- * Get layout configuration data
- *
- * @param string|null $layout_name
- * @return array
- */
-function get_layout_config( $layout_name = null ) {
+if ( !function_exists( 'get_layout_config' ) ) {
 
-    // Get layout name
-    $layout_path = basename( __FILE__ );
-    $layout_name = pathinfo( $layout_path, PATHINFO_FILENAME );
-    $field_group = PIP_Layouts_Single::get_layout_field_group_by_slug( $layout_name );
+    /**
+     * Get layout configuration data
+     *
+     * @param string|null $layout_name
+     * @return array
+     */
+    function get_layout_config( $layout_name = null ) {
 
-    // Get layout vars
-    $layout_vars = acf_maybe_get( $field_group, 'pip_layout_var' );
-    $css_vars    = array();
-    if ( $layout_vars ) {
-        foreach ( $layout_vars as $layout_var ) {
-            $css_vars[ acf_maybe_get( $layout_var, 'pip_layout_var_key' ) ] = acf_maybe_get( $layout_var, 'pip_layout_var_value' );
+        // Get layout name
+        if ( !$layout_name ) {
+            $layout_path = basename( __FILE__ );
+            $layout_name = pathinfo( $layout_path, PATHINFO_FILENAME );
         }
+        $field_group = PIP_Layouts_Single::get_layout_field_group_by_slug( $layout_name );
+
+        // Get layout vars
+        $layout_vars = acf_maybe_get( $field_group, 'pip_layout_var' );
+        $css_vars    = array();
+        if ( $layout_vars ) {
+            foreach ( $layout_vars as $layout_var ) {
+                $css_vars[ acf_maybe_get( $layout_var, 'pip_layout_var_key' ) ] = acf_maybe_get( $layout_var, 'pip_layout_var_value' );
+            }
+        }
+
+        // Store values & merge it with layout vars
+        $values = array( 'layout_name' => $layout_name );
+        $values = array_merge( $values, $css_vars );
+        $values = apply_filters( 'pip/layout/config', $values, $field_group, $layout_name );
+        $values = apply_filters( "pip/layout/config/key=$layout_name", $values, $field_group, $layout_name ); // phpcs:ignore
+
+        return $values;
     }
-
-    // Store values & merge it with layout vars
-    $values = array( 'layout_name' => $layout_name );
-    $values = array_merge( $values, $css_vars );
-    $values = apply_filters( 'pip/layout/config', $values, $field_group, $layout_name );
-    $values = apply_filters( "pip/layout/config/key=$layout_name", $values, $field_group, $layout_name ); // phpcs:ignore
-
-    return $values;
 }
 
-/**
- * Get layout variable
- *
- * @param string $key
- * @return string
- */
-function get_layout_var( $key = '' ) {
+if ( !function_exists( 'get_layout_var' ) ) {
 
-    if ( !$key ) {
-        return $key;
+    /**
+     * Get layout variable
+     *
+     * @param string $key
+     * @return string
+     */
+    function get_layout_var( $key = '' ) {
+
+        if ( !$key ) {
+            return $key;
+        }
+
+        // Source of data
+        $configuration = get_layout_config();
+
+        // Value
+        $value = acf_maybe_get( $configuration, $key );
+        $value = apply_filters( 'pip/layout/var', $value );
+        $value = apply_filters( "pip/layout/var/key=$key", $value ); // phpcs:ignore
+
+        return $value;
     }
-
-    // Source of data
-    $configuration = get_layout_config();
-
-    // Value
-    $value = acf_maybe_get( $configuration, $key );
-    $value = apply_filters( 'pip/layout/var', $value );
-    $value = apply_filters( "pip/layout/var/key=$key", $value ); // phpcs:ignore
-
-    return $value;
 }
