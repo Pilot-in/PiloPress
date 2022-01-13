@@ -683,7 +683,7 @@ Please see TailwindCSS documentation for more details (if you have enabled this 
                 ),
                 'acfe_permissions'              => '',
                 'acfe_repeater_stylised_button' => 1,
-                'collapsed'                     => '',
+                'collapsed'                     => 'field_custom_button_label',
                 'min'                           => 0,
                 'max'                           => 0,
                 'layout'                        => 'block',

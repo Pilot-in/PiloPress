@@ -26,7 +26,7 @@ if ( !class_exists( 'PIP_Main' ) ) {
             $modules = pip_get_modules();
             if ( acf_maybe_get( $modules, 'alpinejs' ) || apply_filters( 'pip/alpinejs', false ) ) {
                 $alpinejs_version = apply_filters( 'pip/alpinejs/version', acf_maybe_get( $modules, 'alpinejs_version' ) );
-                wp_enqueue_script( 'alpine-js', '//cdn.jsdelivr.net/gh/alpinejs/alpine@v' . $alpinejs_version . '/dist/alpine.min.js', array( 'jquery' ), $alpinejs_version, true );
+                wp_enqueue_script( 'alpine-js', 'https://unpkg.com/alpinejs@' . $alpinejs_version . '/dist/cdn.min.js', array( 'jquery' ), $alpinejs_version, true );
             }
 
             // Styles

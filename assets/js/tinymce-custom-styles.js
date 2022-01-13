@@ -261,7 +261,29 @@
                     'init',
                     function () {
 
-                        maybe_activate_dark_mode( editor );
+                        // maybe_activate_dark_mode( editor );
+
+                        const io = new IntersectionObserver(
+                            function ( entries ) {
+                                const current_item = entries[0];
+
+                                // If visible, check dark mode
+                                if ( current_item.intersectionRatio !== 0 ) {
+                                    maybe_activate_dark_mode( editor );
+                                }
+                            },
+                        );
+
+                        const wysiwyg_fields = $( 'div.acf-field[data-type="wysiwyg"] .mce-edit-area' );
+                        if ( wysiwyg_fields ) {
+                            $.each(
+                                wysiwyg_fields,
+                                function ( key, wysiwyg_field ) {
+                                    // Start observation
+                                    io.observe( wysiwyg_field );
+                                },
+                            );
+                        }
 
                         get_custom_colors().map(
                             function ( item ) {
