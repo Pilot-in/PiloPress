@@ -16,7 +16,7 @@ if ( !class_exists( 'PIP_Layouts_Import_Tool' ) ) {
         public function initialize() {
 
             $this->name  = 'pilopress_tool_layouts_import';
-            $this->title = __( 'Import layout', 'pilopress' );
+            $this->title = __( 'Import Layouts', 'pilopress' );
 
         }
 
@@ -193,6 +193,6 @@ if ( !class_exists( 'PIP_Layouts_Import_Tool' ) ) {
 
     }
 
-// Initialize
+    // Initialize
     acf_register_admin_tool( 'PIP_Layouts_Import_Tool' );
 }

@@ -30,7 +30,7 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
         public function initialize() {
 
             $this->name  = 'pilopress_tool_layouts_export';
-            $this->title = __( 'Export layouts', 'pilopress' );
+            $this->title = __( 'Export Layouts', 'pilopress' );
 
         }
 
@@ -72,7 +72,15 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
         public function html_archive() {
 
             // If no layouts, return
-            if ( !$this->get_layouts() ) {
+            if ( !$this->get_layouts() ) { ?>
+
+                <div class="acf-fields">
+                    <div style="padding:15px 12px;">
+                        <?php _e( 'No layouts available.', 'pilopress' ); ?>
+                    </div>
+                </div>
+
+                <?php
                 return;
             }
 
@@ -120,13 +128,15 @@ if ( !class_exists( 'PIP_Layouts_Export_Tool' ) ) {
                         )
                     );
 
-                } else {
+                } else { // No choice ?>
 
-                    // No choice
-                    echo '<div style="padding:15px 12px;">';
-                    _e( 'No layouts available.', 'pilopress' );
-                    echo '</div>';
+                    <div class="acf-fields">
+                        <div style="padding:15px 12px;">
+                            <?php _e( 'No layouts available.', 'pilopress' ); ?>
+                        </div>
+                    </div>
 
+                    <?php
                 }
 
                 ?>
