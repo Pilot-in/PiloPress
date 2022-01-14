@@ -254,7 +254,9 @@
                 }
 
                 // Show more actions above layouts
-                $( 'a[data-name=more-actions]' ).mouseenter(
+                $( document ).on(
+                    'mouseenter',
+                    'a[data-name=more-actions]',
                     function () {
                         let $parent = $( this ).closest( '.acf-fc-layout-controls' )[0];
                         $( $parent ).addClass( 'show-more-actions' );
@@ -262,7 +264,9 @@
                 );
 
                 // Hide actions above layouts
-                $( '.acf-fc-layout-controls' ).mouseleave(
+                $( document ).on(
+                    'mouseleave',
+                    '.acf-fc-layout-controls',
                     function () {
                         $( this ).removeClass( 'show-more-actions' );
                     },
