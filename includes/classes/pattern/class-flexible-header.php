@@ -33,7 +33,8 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
 
             // ACFE hook
             add_filter( "acfe/flexible/thumbnail/name={$flexible_header_field_name}", array( $pip_flexible, 'add_custom_thumbnail' ), 10, 3 );
-
+            add_filter( 'acfe/flexible/layouts/icons', array( $pip_flexible, 'custom_layout_actions' ), 10, 3 );
+            add_filter( 'acfe/flexible/layouts/icons', array( $pip_flexible, 'hide_some_actions' ), 25, 3 );
         }
 
         /**

@@ -331,8 +331,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 // Exception for attachments view in grid mode
                 if (
                     acf_maybe_get_POST( 'action' ) !== 'query-attachments'
-//                    && acf_maybe_get_POST( 'action' ) !== 'acfe/flexible/models'
-//                    && acf_maybe_get_POST( 'action' ) !== 'acf/validate_save_post'
+                //  && acf_maybe_get_POST( 'action' ) !== 'acfe/flexible/models'
+                //  && acf_maybe_get_POST( 'action' ) !== 'acf/validate_save_post'
                 ) {
                     return $field;
                 }
@@ -565,9 +565,19 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          */
         public function custom_layout_actions( $icons, $layout, $field ) {
 
-            // Add actions only for Pilo'Press flexible field
+            // Add actions only for Pilo'Press flexibles fields
             $field_name = acf_maybe_get( $field, '_name' );
-            if ( $field_name !== $this->flexible_field_name ) {
+
+            // Getting name from each Pilo'Press flexibles fields
+            $pip_flexibles_names = array(
+                $this->flexible_field_name,
+                acf_get_instance( 'PIP_Flexible_Header' )->flexible_header_field_name,
+                acf_get_instance( 'PIP_Flexible_Footer' )->flexible_footer_field_name,
+            );
+
+            $pip_flexibles_names = apply_filters( 'pip/flexible/flexibles_names', $pip_flexibles_names );
+
+            if ( !in_array( $field_name, $pip_flexibles_names, true ) ) {
                 return $icons;
             }
 
@@ -602,9 +612,19 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
          */
         public function hide_some_actions( $icons, $layout, $field ) {
 
-            // Hide actions only for Pilo'Press flexible field
+            // Hide actions only for Pilo'Press flexibles fields
             $field_name = acf_maybe_get( $field, '_name' );
-            if ( $field_name !== $this->flexible_field_name ) {
+
+            // Getting name from each Pilo'Press flexibles fields
+            $pip_flexibles_names = array(
+                $this->flexible_field_name,
+                acf_get_instance( 'PIP_Flexible_Header' )->flexible_header_field_name,
+                acf_get_instance( 'PIP_Flexible_Footer' )->flexible_footer_field_name,
+            );
+
+            $pip_flexibles_names = apply_filters( 'pip/flexible/flexibles_names', $pip_flexibles_names );
+
+            if ( !in_array( $field_name, $pip_flexibles_names, true ) ) {
                 return $icons;
             }
 

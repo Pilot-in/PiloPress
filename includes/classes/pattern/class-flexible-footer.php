@@ -30,6 +30,10 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
             $flexible_footer_field_name = $this->get_flexible_footer_field_name();
             add_filter( "acf/prepare_field/name={$flexible_footer_field_name}", array( $this, 'prepare_flexible_field' ), 20 );
             add_filter( "acfe/flexible/thumbnail/name={$flexible_footer_field_name}", array( $pip_flexible, 'add_custom_thumbnail' ), 10, 3 );
+
+            // ACFE hook
+            add_filter( 'acfe/flexible/layouts/icons', array( $pip_flexible, 'custom_layout_actions' ), 10, 3 );
+            add_filter( 'acfe/flexible/layouts/icons', array( $pip_flexible, 'hide_some_actions' ), 25, 3 );
         }
 
         /**
