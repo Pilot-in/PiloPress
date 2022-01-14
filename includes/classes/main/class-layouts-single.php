@@ -643,7 +643,7 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
                 $instructions_attrs['class'] = 'acf-js-tooltip';
                 $instructions_attrs['title'] = '<img alt="' . $layout_slug . '" src="' . acf_maybe_get( $layout_thumbnail, 'url' ) . '" width="auto" style="max-height:350px;">';
 
-                $instructions .= '<span ' . acf_esc_atts( $instructions_attrs ) . '><img alt="' . $layout_slug . '" src="' . acf_maybe_get( $layout_thumbnail, 'url' ) . '" style="margin-top: 10px; object-fit: cover; object-position: center;" width="100" height="100"></span>';
+                $instructions .= '<span ' . acf_esc_atts( $instructions_attrs ) . '><img alt="' . $layout_slug . '" src="' . acf_maybe_get( $layout_thumbnail, 'url' ) . '" style="margin-top: 10px; object-fit: cover; object-position: center; width: 100%; height: auto;" width="100" height="100"></span>';
             } else {
                 $instructions = __( 'Layout preview', 'pilopress' );
             }
