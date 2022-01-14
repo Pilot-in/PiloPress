@@ -118,7 +118,7 @@ acf_add_local_field_group(
                         'label'                      => 'Version',
                         'name'                       => 'alpinejs_version',
                         'type'                       => 'text',
-                        'instructions'               => 'See <a href="https://cdnjs.com/libraries/alpinejs" target="_blank">cdnjs.com</a> for available versions.',
+                        'instructions'               => 'See <a href="https://unpkg.com/browse/alpinejs/" target="_blank">unpkg.com</a> for available versions.',
                         'required'                   => 0,
                         'conditional_logic'          => array(
                             array(
@@ -135,7 +135,7 @@ acf_add_local_field_group(
                             'id'    => '',
                         ),
                         'acfe_save_meta'             => 0,
-                        'default_value'              => '3.0.6',
+                        'default_value'              => '3.8.0',
                         'placeholder'                => '',
                         'prepend'                    => '',
                         'append'                     => '',
