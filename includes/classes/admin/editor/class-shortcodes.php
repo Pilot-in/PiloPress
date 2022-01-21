@@ -140,6 +140,8 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             return sprintf( '<div class="%s pip_button_group">%s</div>', esc_attr( trim( $class ) ), do_shortcode( $content ) );
         }
 
+
+
         /**
          * Breadcrumb shortcode
          *
@@ -147,18 +149,28 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
          */
         public function pip_breadcrumb() {
 
-            // If no Yoast, return
-            if ( !function_exists( 'yoast_breadcrumb' ) ) {
-                return null;
+            $breadcrumb = '';
+
+            // Use Yoast if available
+            if ( function_exists( 'yoast_breadcrumb' ) ) {
+                $breadcrumb = yoast_breadcrumb( '<p class="pip_breadcrumb">', '</p>', false );
+            }
+
+            // Use Rank Math if available
+            elseif ( function_exists( 'rank_math_the_breadcrumbs' ) ) {
+                $breadcrumb = rank_math_get_breadcrumbs();
             }
 
             // If AJAX, display default message
             if ( wp_doing_ajax() ) {
-                return __( 'You > Are > Here', 'pilopress' );
+                $breadcrumb = __( 'You > Are > Here', 'pilopress' );
             }
 
+            // 3rd party hook if needed
+            $breadcrumb = apply_filters( 'pip/shortcode/breadcrumb', $breadcrumb );
+
             // Render shortcode
-            return yoast_breadcrumb( '<p class="pip_breadcrumb">', '</p>', false );
+            return $breadcrumb;
         }
 
         /**
