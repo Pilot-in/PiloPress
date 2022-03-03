@@ -78,7 +78,9 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             <?php endif; ?>
 
             <?php
+            // TailwindCSS API Compilation notices
             $compile_error_details_json = get_transient( 'pip_tailwind_api_compile_error' );
+            $compile_success            = get_transient( 'pip_tailwind_api_compile_success' );
             $error_compile              = acf_maybe_get_GET( 'error_compile' );
             if ( $error_compile && $compile_error_details_json ) :
                 $error_details = json_decode( $compile_error_details_json, false );
@@ -94,6 +96,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 </div>
                 <?php
                 delete_transient( 'pip_tailwind_api_compile_error' );
+            endif;
+
+            // Success message
+            if ( !$error_compile && $compile_success ) : ?>
+                <div class="notice notice-success is-dismissible">
+                    <p><?php echo $compile_success; ?></p>
+                </div>
+                <?php
+                delete_transient( 'pip_tailwind_api_compile_success' );
             endif;
 
         }
