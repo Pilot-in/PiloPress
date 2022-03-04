@@ -162,6 +162,7 @@ if ( !class_exists( 'PiloPress' ) ) {
 
             // Cron
             pip_include( 'includes/classes/main/class-cron.php' );
+
         }
 
         /**

@@ -14,24 +14,122 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
          */
         public function __construct() {
 
-            // PILO_TODO: Find a way to make layout current mandatory
+            $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
             // WP hooks
+            add_action( 'post.php', array( $this, 'add_admin_notice' ) );
             add_action( 'load-post.php', array( $this, 'add_admin_notice' ) );
+            add_action( 'term.php', array( $this, 'add_admin_notice' ) );
             add_action( 'load-term.php', array( $this, 'add_admin_notice' ) );
-            pip_include( 'acfe-php/group_pip_locked_content.php' );
+
+            // ACF hooks
+            add_filter( 'acf/load_value/name=' . $pip_flexible->flexible_field_name, array( $this, 'add_target_content_layout_by_default' ), 10, 3 );
 
             // Pilo'Press hooks
             add_filter( 'pip/layouts/file_path', array( $this, 'custom_layout_template_path' ), 10, 2 );
             add_filter( 'pip/layouts/thumbnail/file_path', array( $this, 'custom_layout_thumbnail_path' ), 10, 2 );
             add_filter( 'pip/layouts/thumbnail/file_url', array( $this, 'custom_layout_thumbnail_url' ), 10, 2 );
 
+            // Field groups
+            acf_add_local_field_group(
+                array(
+                    'key'                   => 'group_pip_locked_content',
+                    'title'                 => __( 'Locked content', 'pilopress' ),
+                    'fields'                => array(
+                        array(
+                            'key'               => 'field_62222e6281fa6',
+                            'label'             => 'Instructions',
+                            'name'              => '',
+                            'type'              => 'message',
+                            'instructions'      => '',
+                            'required'          => 0,
+                            'conditional_logic' => 0,
+                            'wrapper'           => array(
+                                'width' => '',
+                                'class' => '',
+                                'id'    => '',
+                            ),
+                            'acfe_permissions'  => '',
+                            'message'           => '<h2>You must add <strong><code>Target content</code> layout</strong> if you don\'t want to override layouts used in your target content.</h2>',
+                            'new_lines'         => 'wpautop',
+                            'esc_html'          => 0,
+                            'acfe_settings'     => '',
+                        ),
+                    ),
+                    'location'              => array(
+                        array(
+                            array(
+                                'param'    => 'post_type',
+                                'operator' => '==',
+                                'value'    => 'pip-locked-content',
+                            ),
+                        ),
+                    ),
+                    'menu_order'            => 0,
+                    'position'              => 'acf_after_title',
+                    'style'                 => 'seamless',
+                    'label_placement'       => 'top',
+                    'instruction_placement' => 'label',
+                    'hide_on_screen'        => '',
+                    'active'                => true,
+                    'description'           => '',
+                    'show_in_rest'          => 0,
+                    'acfe_display_title'    => '',
+                    'acfe_autosync'         => array(
+                        'json',
+                        'php',
+                    ),
+                    'acfe_permissions'      => '',
+                    'acfe_form'             => 1,
+                    'acfe_meta'             => '',
+                    'acfe_note'             => '',
+                )
+            );
+
+        }
+
+        /**
+         * Automatically add "Target content" layout when no layout is set
+         *
+         * @param $value
+         * @param $post_id
+         * @param $field
+         *
+         * @return mixed
+         */
+        public function add_target_content_layout_by_default( $value, $post_id, $field ) {
+
+            // Fires only on admin side
+            if ( !is_admin() ) {
+                return $value;
+            }
+
+            // If post already has content, return content
+            if ( $value ) {
+                return $value;
+            }
+
+            $current_post_type = get_post_type( $post_id );
+            if ( $current_post_type !== PIP_Patterns::get_locked_content_slug() ) {
+                return $value;
+            }
+
+            $target_content_layout_values = array(
+                array(
+                    'acf_fc_layout'              => 'locked-content-target-content',
+                    'acfe_flexible_toggle'       => '',
+                    'acfe_flexible_layout_title' => 'Locked content: Target content',
+                ),
+            );
+
+            return $target_content_layout_values;
         }
 
         /**
          * Add notice to inform user Locked content is use
          */
         public function add_admin_notice() {
+
             // Only on page/post and terms
             $current_screen = get_current_screen();
             if ( $current_screen->base !== 'post' && $current_screen->base !== 'term' ) {
@@ -45,22 +143,30 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
             }
 
             // If no locked content, return
-            $locked_content = self::get_locked_content( $content_id, 'term' );
-            $pip_flexible   = acf_get_instance( 'PIP_Flexible' );
-            if ( !get_flexible( $pip_flexible->flexible_field_name, $locked_content ) ) {
+            $locked_content_id = self::get_locked_content( $content_id );
+            $pip_flexible      = acf_get_instance( 'PIP_Flexible' );
+            if ( !get_flexible( $pip_flexible->flexible_field_name, $locked_content_id ) ) {
+                return;
+            }
+
+            // If locked content is not custom, return
+            $has_custom_locked_content = self::has_custom_locked_content( $content_id );
+            if ( !$has_custom_locked_content ) {
                 return;
             }
 
             // Get Locked content edit link
-            $edit_link = get_edit_post_link( $locked_content );
+            $edit_link = get_edit_post_link( $locked_content_id );
 
             // Add notice
             acf_add_admin_notice(
                 sprintf(
                 // translators: Link to post edition
-                    __( 'Template with locked content is used for this content. <a href="%s">See template.</a>', 'pilopress' ),
+                    __( '<strong>Locked content</strong> <em>(Pattern layouts)</em> is used for this content. <a href="%s">Edit template</a>', 'pilopress' ),
                     $edit_link
-                )
+                ),
+                'info',
+                false
             );
         }
 
@@ -73,6 +179,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
          * @return mixed|null
          */
         public static function get_locked_content( $post_id, $type = 'post' ) {
+
             // Get object to determine if current content is a post or a term
             $queried_object   = get_queried_object();
             $current_taxonomy = null;
