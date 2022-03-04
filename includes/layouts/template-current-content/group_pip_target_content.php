@@ -2,11 +2,11 @@
 
 acf_add_local_field_group(
     array(
-        'key'                     => 'group_pip_current_content',
+        'key'                     => 'group_pip_target_content',
         'title'                   => __( 'Locked content: Post content', 'pilopress' ),
         'fields'                  => array(
             array(
-                'key'                        => 'field_pip_current_content_message',
+                'key'                        => 'field_pip_target_content_message',
                 'label'                      => '',
                 'name'                       => '',
                 'type'                       => 'message',

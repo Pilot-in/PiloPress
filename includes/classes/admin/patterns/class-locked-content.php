@@ -153,7 +153,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
          * @return mixed|string
          */
         public function custom_layout_template_path( $file_path, $field_group ) {
-            if ( acf_maybe_get( $field_group, 'key' ) !== 'group_pip_current_content' ) {
+            if ( acf_maybe_get( $field_group, 'key' ) !== 'group_pip_target_content' ) {
                 return $file_path;
             }
 
@@ -171,7 +171,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
          * @return mixed|string
          */
         public function custom_layout_thumbnail_path( $file_path, $field_group ) {
-            if ( acf_maybe_get( $field_group, 'key' ) !== 'group_pip_current_content' ) {
+            if ( acf_maybe_get( $field_group, 'key' ) !== 'group_pip_target_content' ) {
                 return $file_path;
             }
 
@@ -189,7 +189,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
          * @return mixed|string
          */
         public function custom_layout_thumbnail_url( $file_path, $field_group ) {
-            if ( acf_maybe_get( $field_group, 'key' ) !== 'group_pip_current_content' ) {
+            if ( acf_maybe_get( $field_group, 'key' ) !== 'group_pip_target_content' ) {
                 return $file_path;
             }
 
