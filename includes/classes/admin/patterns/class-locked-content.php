@@ -19,6 +19,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
             // WP hooks
             add_action( 'load-post.php', array( $this, 'add_admin_notice' ) );
             add_action( 'load-term.php', array( $this, 'add_admin_notice' ) );
+            pip_include( 'acfe-php/group_pip_locked_content.php' );
 
             // Pilo'Press hooks
             add_filter( 'pip/layouts/file_path', array( $this, 'custom_layout_template_path' ), 10, 2 );
