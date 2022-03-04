@@ -196,6 +196,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                 // Path
                 $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
+                $file_path = apply_filters( 'pip/layouts/file_path', $file_path, $field_group );
 
                 // Get layout categories from field group
                 $layout_categories = acf_maybe_get( $field_group, 'layout_categories' );
