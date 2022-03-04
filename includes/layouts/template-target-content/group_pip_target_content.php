@@ -3,7 +3,7 @@
 acf_add_local_field_group(
     array(
         'key'                     => 'group_pip_target_content',
-        'title'                   => __( 'Locked content: Post content', 'pilopress' ),
+        'title'                   => __( 'Locked content: Target content', 'pilopress' ),
         'fields'                  => array(
             array(
                 'key'                        => 'field_pip_target_content_message',
@@ -19,7 +19,7 @@ acf_add_local_field_group(
                     'id'    => '',
                 ),
                 'acfe_save_meta'             => 0,
-                'message'                    => __( 'Use this layout to display dynamically current post content.', 'pilopress' ),
+                'message'                    => __( 'Use this layout to display dynamically target content (layouts).', 'pilopress' ),
                 'new_lines'                  => 'wpautop',
                 'esc_html'                   => 0,
                 'acfe_field_group_condition' => 0,
