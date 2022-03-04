@@ -17,10 +17,10 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
             $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
             // WP hooks
-            add_action( 'post.php', array( $this, 'add_admin_notice' ) );
             add_action( 'load-post.php', array( $this, 'add_admin_notice' ) );
-            add_action( 'term.php', array( $this, 'add_admin_notice' ) );
+            add_action( 'post.php', array( $this, 'add_admin_notice' ) );
             add_action( 'load-term.php', array( $this, 'add_admin_notice' ) );
+            add_action( 'term.php', array( $this, 'add_admin_notice' ) );
 
             // ACF hooks
             add_filter( 'acf/load_value/name=' . $pip_flexible->flexible_field_name, array( $this, 'add_target_content_layout_by_default' ), 10, 3 );
@@ -168,6 +168,41 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
                 'info',
                 false
             );
+        }
+
+        /**
+         * Undocumented function
+         *
+         * @param [type] $post_id
+         * @return boolean
+         */
+        public static function has_custom_locked_content( $post_id ) {
+
+            $has_custom_locked_content = false;
+            $locked_content_id         = self::get_locked_content( $post_id );
+            if ( !$locked_content_id ) {
+                return $has_custom_locked_content;
+            }
+
+            // Check if pattern post has no layout
+            $pattern_post_layouts = get_field( 'pip_flexible', $locked_content_id );
+            if ( !is_array( $pattern_post_layouts ) || empty( $pattern_post_layouts ) ) {
+                return $has_custom_locked_content;
+            }
+
+            // At this point, we assume there are custom layouts
+            $has_custom_locked_content = true;
+
+            // Invalidate if there is exactly 1 layout which isn't "Target content" layout
+            if ( count( $pattern_post_layouts ) === 1 ) {
+                $pattern_post_layout = acf_unarray( $pattern_post_layouts );
+                $layout_key          = acf_maybe_get( $pattern_post_layout, 'acf_fc_layout' );
+                if ( $layout_key === 'locked-content-target-content' ) {
+                    $has_custom_locked_content = false;
+                }
+            }
+
+            return $has_custom_locked_content;
         }
 
         /**
