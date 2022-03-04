@@ -690,7 +690,7 @@ function get_pip_content( $post_id = false ) {
     $locked_content_post = PIP_Locked_Content::get_locked_content( $post_id );
     if ( $locked_content_post ) {
         $locked_content = get_flexible( $pip_flexible->flexible_field_name, $locked_content_post );
-        $content        = $locked_content ? str_replace( '[pip_locked_content]', $content, $locked_content ) : $content;
+        $content        = $locked_content ? str_replace( '%%PIP_LOCKED_CONTENT%%', $content, $locked_content ) : $content;
     }
 
     // Maybe get pip footer

@@ -147,7 +147,7 @@ if ( !class_exists( 'PiloPress' ) ) {
             pip_include( 'includes/classes/admin/patterns/class-patterns.php' );
             pip_include( 'includes/classes/admin/patterns/class-default-content.php' );
             pip_include( 'includes/classes/admin/patterns/class-locked-content.php' );
-            pip_include( 'includes/layouts/template-current-content/group_pip_current_content.php' );
+            pip_include( 'includes/layouts/template-target-content/group_pip_target_content.php' );
 
             // Modules
             pip_include( 'includes/classes/admin/modules/class-tinymce.php' );
