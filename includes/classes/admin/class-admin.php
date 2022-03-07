@@ -488,14 +488,20 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     admin_url( 'edit.php' )
                 );
 
-                $pattern_post_id           = PIP_Locked_Content::get_locked_content( $queried_object_id );
-                $pattern_post_title        = get_the_title( $pattern_post_id );
+                $pattern_post_id = PIP_Locked_Content::get_locked_content( $queried_object_id );
+
+                $pattern_title = get_post_meta( $pattern_post_id, 'linked_post_type', true ) ?
+                    get_post_meta( $pattern_post_id, 'linked_post_type', true ) :
+                    get_post_meta( $pattern_post_id, 'linked_taxonomy', true );
+                $pattern_title = str_replace( '_', ' ', $pattern_title );
+                $pattern_title = str_replace( '-', ' ', $pattern_title );
+
                 $has_custom_locked_content = PIP_Locked_Content::has_custom_locked_content( $queried_object_id );
 
                 $edit_locked_content_title  = "$edit_locked_content_icon ";
                 $edit_locked_content_title .= $has_custom_locked_content ?
-                    'Edit "' . ucfirst( $pattern_post_title ) . '" locked content' :
-                    'Set "' . ucfirst( $pattern_post_title ) . '" locked content';
+                    __( 'Edit locked content', 'pilopress' ) . ' (' . ucfirst( $pattern_title ) . ')' :
+                    __( 'Set locked content', 'pilopress' ) . ' (' . ucfirst( $pattern_title ) . ')';
 
                 $wp_admin_bar->add_node(
                     array(

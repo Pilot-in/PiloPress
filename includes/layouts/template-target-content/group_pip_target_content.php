@@ -19,7 +19,7 @@ acf_add_local_field_group(
                     'id'    => '',
                 ),
                 'acfe_save_meta'             => 0,
-                'message'                    => __( 'Use this layout to display dynamically target content (layouts).', 'pilopress' ),
+                'message'                    => __( 'Use this layout to display dynamically layouts of target content.', 'pilopress' ),
                 'new_lines'                  => 'wpautop',
                 'esc_html'                   => 0,
                 'acfe_field_group_condition' => 0,

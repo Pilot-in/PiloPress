@@ -340,8 +340,10 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
          * @param $template_post_type
          */
         private function auto_populate_post_types_polylang( $post_type, $template_post_id, $template_post_type ) {
+
             // Polylang Compatibility - Create translations
             if ( is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_languages_list' ) ) {
+
                 $languages              = pll_languages_list();
                 $post_type_object       = get_post_type_object( $post_type );
                 $available_translations = array();
@@ -378,7 +380,7 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                     }
 
                     // Link translations to main post
-                    pll_save_post_translations( array_merge( array( $template_post_id ), $available_translations ) );
+                    pll_save_post_translations( $available_translations );
                 }
             }
         }
@@ -391,8 +393,10 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
          * @param $template_post_type
          */
         private function auto_populate_taxonomies_polylang( $taxonomy, $template_post_id, $template_post_type ) {
+
             // Polylang Compatibility - Create translations
             if ( is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_languages_list' ) ) {
+
                 $languages              = pll_languages_list();
                 $taxonomy_object        = get_taxonomy( $taxonomy );
                 $available_translations = array();
@@ -429,7 +433,7 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                     }
 
                     // Link translations to main post
-                    pll_save_post_translations( array_merge( array( $template_post_id ), $available_translations ) );
+                    pll_save_post_translations( $available_translations );
                 }
             }
         }

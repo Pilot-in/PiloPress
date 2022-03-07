@@ -155,17 +155,25 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
                 return;
             }
 
+            // Get content name
+            $pattern_title = get_post_meta( $locked_content_id, 'linked_post_type', true ) ?
+                get_post_meta( $locked_content_id, 'linked_post_type', true ) :
+                get_post_meta( $locked_content_id, 'linked_taxonomy', true );
+            $pattern_title = str_replace( '_', ' ', $pattern_title );
+            $pattern_title = str_replace( '-', ' ', $pattern_title );
+
             // Get Locked content edit link
             $edit_link = get_edit_post_link( $locked_content_id );
 
             // Add notice
             acf_add_admin_notice(
                 sprintf(
-                // translators: Link to post edition
-                    __( '<strong>Locked content</strong> <em>(Pattern layouts)</em> is used for this content. <a href="%s">Edit template</a>', 'pilopress' ),
+                    // translators: Link to post edition
+                    __( 'This content is using <strong>Locked content</strong> <em>(Patterns)</em>.', 'pilopress' ) .
+                    ' <a href="%s" target="_blank">' . __( 'Edit locked content', 'pilopress' ) . " ($pattern_title)</a>",
                     $edit_link
                 ),
-                'info',
+                'warning',
                 false
             );
         }
