@@ -33,9 +33,7 @@ if ( !class_exists( 'PIP_Layouts_Sync' ) ) {
                 return $path;
             }
 
-            $path = PIP_THEME_LAYOUTS_PATH . $field_group['_pip_layout_slug'];
-
-            return $path;
+            return PIP_THEME_LAYOUTS_PATH . $field_group['_pip_layout_slug'];
         }
 
         /**

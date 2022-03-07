@@ -196,6 +196,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
 
                 // Path
                 $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/';
+                $file_path = apply_filters( 'pip/layouts/file_path', $file_path, $field_group );
 
                 // Get layout categories from field group
                 $layout_categories = acf_maybe_get( $field_group, 'layout_categories' );
@@ -704,6 +705,13 @@ function get_pip_content( $post_id = false ) {
 
     // Get content
     $content = get_flexible( $pip_flexible->flexible_field_name, pip_get_formatted_post_id( $post_id ) );
+
+    // Maybe wrap content with locked content layouts
+    $locked_content_post = PIP_Locked_Content::get_locked_content( $post_id );
+    if ( $locked_content_post ) {
+        $locked_content = get_flexible( $pip_flexible->flexible_field_name, $locked_content_post );
+        $content        = $locked_content ? str_replace( '%%PIP_LOCKED_CONTENT%%', $content, $locked_content ) : $content;
+    }
 
     // Maybe get pip footer
     if ( !apply_filters( 'pip/footer/remove', false ) ) {

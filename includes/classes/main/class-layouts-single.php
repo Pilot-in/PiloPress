@@ -699,8 +699,8 @@ if ( !class_exists( 'PIP_Layouts_Single' ) ) {
             }
 
             // Get file path and URL
-            $file_path = PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug;
-            $file_url  = PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug;
+            $file_path = apply_filters( 'pip/layouts/thumbnail/file_path', PIP_THEME_LAYOUTS_PATH . $layout_slug . '/' . $layout_slug, $layout );
+            $file_url  = apply_filters( 'pip/layouts/thumbnail/file_url', PIP_THEME_LAYOUTS_URL . $layout_slug . '/' . $layout_slug, $layout );
 
             // Get file extension
             $extension = null;

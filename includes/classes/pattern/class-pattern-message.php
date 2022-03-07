@@ -124,7 +124,7 @@ if ( !class_exists( 'PIP_Pattern_Message' ) ) {
             <div class="inside acf-fields -top">
                 <div class="-preview">
 
-                    <div style="padding: 120px 20px;text-align: center;">
+                    <div style="padding: 80px 20px;text-align: center;">
                         <em style="color:#aaa;"><?php _e( 'Website content', 'pilopress' ); ?></em>
                     </div>
 

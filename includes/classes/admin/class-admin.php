@@ -108,7 +108,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 <p>
                     <?php
                     // translators: Pilo'Press dashboard URL
-                    echo sprintf( 'Your current theme does not support Pilo\'Press. See <a href="%s">configuration status</a> for more details.', $pilopress_url );
+                    echo sprintf( __( "Your current theme does not support Pilo'Press. See <a href='%s'>configuration status</a> for more details.", 'pilopress' ), $pilopress_url );
                     ?>
                 </p>
             </div>
@@ -433,7 +433,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             );
 
             // Template file
-            include_once( PIP_PATH . 'includes/views/pip-dashboard.php' );
+            include_once PIP_PATH . 'includes/views/pip-dashboard.php';
         }
 
         /**
@@ -457,7 +457,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             }
 
             // Add Pilo'Press navbar
-            include_once( PIP_PATH . 'includes/views/pip-navbar.php' );
+            include_once PIP_PATH . 'includes/views/pip-navbar.php';
         }
 
         /**
@@ -473,11 +473,60 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 return;
             }
 
+            // Edit locked content (patterns)
+            if ( !is_admin() ) {
+
+                $queried_object_id = get_queried_object_id();
+
+                // Fuzzy title / link while we don't have enough info on current content
+                $edit_locked_content_icon  = '<i class="dashicons-before dashicons-edit" style="display: inline-flex; vertical-align: text-top; align-items: center; opacity: .6"></i>';
+                $edit_locked_content_title = "$edit_locked_content_icon " . __( 'Edit this locked content', 'pilopress' );
+                $edit_locked_content_link  = add_query_arg(
+                    array(
+                        'post_type' => PIP_Patterns::get_locked_content_slug(),
+                    ),
+                    admin_url( 'edit.php' )
+                );
+
+                $pattern_post_id = PIP_Locked_Content::get_locked_content( $queried_object_id );
+
+                $pattern_title = get_post_meta( $pattern_post_id, 'linked_post_type', true ) ?
+                    get_post_meta( $pattern_post_id, 'linked_post_type', true ) :
+                    get_post_meta( $pattern_post_id, 'linked_taxonomy', true );
+                $pattern_title = str_replace( '_', ' ', $pattern_title );
+                $pattern_title = str_replace( '-', ' ', $pattern_title );
+
+                $has_custom_locked_content = PIP_Locked_Content::has_custom_locked_content( $queried_object_id );
+
+                $edit_locked_content_title  = "$edit_locked_content_icon ";
+                $edit_locked_content_title .= $has_custom_locked_content ?
+                    __( 'Edit locked content', 'pilopress' ) . ' (' . ucfirst( $pattern_title ) . ')' :
+                    __( 'Set locked content', 'pilopress' ) . ' (' . ucfirst( $pattern_title ) . ')';
+
+                $wp_admin_bar->add_node(
+                    array(
+                        'id'    => 'patterns',
+                        'title' => $edit_locked_content_title,
+                        'href'  => $edit_locked_content_link,
+                    )
+                );
+
+            }
+
+            // Pilo'Press icon
+            ob_start(); ?>
+            <span
+                class='pip-icon'
+                style='display: inline-block; width: 26px; height: 20px; vertical-align: text-top; float: none; background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0iI2EwYTVhYSI+PHBhdGggZD0iTTEwIC4yQzQuNi4yLjMgNC42LjMgMTBzNC40IDkuOCA5LjcgOS44YzIuNiAwIDUuMS0xIDYuOS0yLjggMS44LTEuOCAyLjgtNC4zIDIuOC02LjkgMC01LjUtNC4zLTkuOS05LjctOS45em02LjQgMTYuM2MtMS43IDEuNy00IDIuNi02LjQgMi42LTUgMC05LTQuMS05LTkuMVM1IC45IDEwIC45IDE5IDUgMTkgMTBjMCAyLjUtLjkgNC43LTIuNiA2LjV6Ii8+PHBhdGggZD0iTTEwIDUuM2MtMi41IDAtNC42IDIuMS00LjYgNC43di41Yy4yIDEuOCAxLjQgMy4zIDMgMy45LjUuMiAxIC4zIDEuNS4zLjQgMCAuOS0uMSAxLjMtLjIuMSAwIC4xIDAgLjItLjEuMy0uMS41LS4yLjgtLjMgMCAwIC4xIDAgLjEtLjEgMCAwIC4xIDAgLjEtLjFoLjFzLjEgMCAuMS0uMWMwIDAgLjEgMCAuMS0uMS4yLS4yLjUtLjQuNy0uNmwuMy0uM2MuNi0uOCAxLTEuOSAxLTIuOSAwLTIuNS0yLjEtNC42LTQuNy00LjZ6bTMuMSA3LjNjMC0uMSAwLS4xIDAgMC0uNi0uNC0uNy0uOS0uNy0xLjR2LS40LS4xLS4zYzAtLjctLjItMS41LTEuNS0xLjYtLjUgMC0xLjMuMS0yLjMuNC0uMi0uMS0uNCAwLS42LjEtLjYuMi0xLjIuNC0yIC43IDAtMi4yIDEuOC00IDMuOS00IDEuNSAwIDIuOC44IDMuNSAyLjEuNC42LjYgMS4yLjYgMS45IDAgLjktLjMgMS44LS45IDIuNnoiLz48L3N2Zz4=) center center no-repeat;'>
+            </span>
+            <?php
+            $pilopress_icon = ob_get_clean();
+
             // Pilo'Press menu
             $wp_admin_bar->add_node(
                 array(
                     'id'    => 'pilopress',
-                    'title' => "<span class='pip-icon'></span> Pilo'Press",
+                    'title' => "$pilopress_icon Pilo'Press",
                     'href'  => add_query_arg( array( 'page' => 'pilopress' ), admin_url( 'admin.php' ) ),
                 )
             );
