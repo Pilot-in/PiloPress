@@ -115,6 +115,35 @@ Available hooks are list and describe in [our Hooks documentation](https://www.p
 
 ## Changelog
 
+### 0.4.2 - 07/03/2022
+
+* Fixed: Location match for "Components" location condition
+* Fixed: Remove Categories and Collections columns in layout sync screen to avoid columns to break
+* Fixed: WYSIWYG Dark mode detection
+* Fixed: Layout field group thumbnail not taking the whole space
+* Fixed: AlpineJS enqueue through module
+* Fixed: Layouts actions on newly added layout
+* Fixed: Console log leftover in preview
+* Fixed: Fix duplicated keys 'row-' in pip_layout_var
+* Fixed: deprecated acf.add_action to acf.addAction
+* Improved: Add message when layout thumbnail already in folder
+* Improved: Use `WP_Filesystem` instead of `file_get_contents()` or `file_put_contents()`
+* Improved: Update TailwindCSS Native colors values according to TailwindCSS v2
+* Improved: Add style around layout in admin when an error occurs to facilitate error location
+* Improved: Rank Math compatibility for Breadcrumb + possibility to set a custom breadcrumb
+* Improved: Export/import layouts style + wording
+* Improved: Adding custom actions in Site Template aswell
+* Added: Layout slug column in layout listing
+* Added: Add option to show only button, font family and style checked as "Available in editor"
+* Added: Preview for typography, colors, buttons and fonts in Pilo'Press > Styles
+* Added: Import and Export tools for layouts
+* Added: Search bar inside layouts selection modal
+* Added: Edit layout, Move layout up and Move layout down actions
+* Added: `pip/flexible/layouts/icons` filter
+* Added: `pip/flexible/layouts/icons/hide` filter
+* Added: `pip/shortcode/breadcrumb` filter
+* Added: New module “**Patterns**” *(with Default Content & Locked Content per post-type / taxonomy)*
+
 ### 0.4.1.1 - 01/10/2021
 
 * Improved: Change tailwindapi.com to api.pilopress.com
