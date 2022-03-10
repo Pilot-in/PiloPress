@@ -332,8 +332,8 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                 // Exception for attachments view in grid mode
                 if (
                     acf_maybe_get_POST( 'action' ) !== 'query-attachments'
-                //  && acf_maybe_get_POST( 'action' ) !== 'acfe/flexible/models'
-                //  && acf_maybe_get_POST( 'action' ) !== 'acf/validate_save_post'
+                    //  && acf_maybe_get_POST( 'action' ) !== 'acfe/flexible/models'
+                    //  && acf_maybe_get_POST( 'action' ) !== 'acf/validate_save_post'
                 ) {
                     return $field;
                 }
@@ -708,7 +708,7 @@ function get_pip_content( $post_id = false ) {
 
     // Maybe wrap content with locked content layouts
     $locked_content_post = PIP_Locked_Content::get_locked_content( $post_id );
-    if ( $locked_content_post ) {
+    if ( $locked_content_post && !is_post_type_archive() && !is_home() && !is_front_page() ) {
         $locked_content = get_flexible( $pip_flexible->flexible_field_name, $locked_content_post );
         $content        = $locked_content ? str_replace( '%%PIP_LOCKED_CONTENT%%', $content, $locked_content ) : $content;
     }
