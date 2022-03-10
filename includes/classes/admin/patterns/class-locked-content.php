@@ -228,7 +228,6 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
             $current_taxonomy = null;
             if ( $queried_object ) {
                 $type             = is_a( $queried_object, 'WP_Term' ) ? 'term' : 'post';
-                $current_taxonomy = $queried_object->taxonomy;
             }
 
             // Get post type or taxonomy and build meta query array
@@ -247,7 +246,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
                     break;
                 case 'term':
                     // Get taxonomy of current term
-                    $current_taxonomy = $current_taxonomy ? $current_taxonomy : get_current_screen()->taxonomy;
+                    $current_taxonomy = $queried_object->taxonomy ?: get_current_screen()->taxonomy;
                     $meta_query       = array(
                         array(
                             'key'     => 'linked_taxonomy',
