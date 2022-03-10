@@ -1,30 +1,35 @@
 <?php
 
+$fields = apply_filters(
+    'pip/locked_content/fields',
+    array(
+        array(
+            'key'                        => 'field_pip_target_content_message',
+            'label'                      => '',
+            'name'                       => '',
+            'type'                       => 'message',
+            'instructions'               => '',
+            'required'                   => 0,
+            'conditional_logic'          => 0,
+            'wrapper'                    => array(
+                'width' => '',
+                'class' => '',
+                'id'    => '',
+            ),
+            'acfe_save_meta'             => 0,
+            'message'                    => __( 'Use this layout to display dynamically layouts of target content.', 'pilopress' ),
+            'new_lines'                  => 'wpautop',
+            'esc_html'                   => 0,
+            'acfe_field_group_condition' => 0,
+        ),
+    )
+);
+
 acf_add_local_field_group(
     array(
         'key'                     => 'group_pip_target_content',
         'title'                   => __( 'Locked content: Target content', 'pilopress' ),
-        'fields'                  => array(
-            array(
-                'key'                        => 'field_pip_target_content_message',
-                'label'                      => '',
-                'name'                       => '',
-                'type'                       => 'message',
-                'instructions'               => '',
-                'required'                   => 0,
-                'conditional_logic'          => 0,
-                'wrapper'                    => array(
-                    'width' => '',
-                    'class' => '',
-                    'id'    => '',
-                ),
-                'acfe_save_meta'             => 0,
-                'message'                    => __( 'Use this layout to display dynamically layouts of target content.', 'pilopress' ),
-                'new_lines'                  => 'wpautop',
-                'esc_html'                   => 0,
-                'acfe_field_group_condition' => 0,
-            ),
-        ),
+        'fields'                  => $fields,
         'location'                => array(
             array(
                 array(

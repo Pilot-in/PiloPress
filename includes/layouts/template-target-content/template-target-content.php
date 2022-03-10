@@ -3,7 +3,7 @@ global $is_preview;
 
 // Show current post flexible content
 if ( !$is_preview ) :
-    echo '%%PIP_LOCKED_CONTENT%%';
+    echo apply_filters( 'pip/locked_content/html', '%%PIP_LOCKED_CONTENT%%' );
 else : ?>
     <div style="position: relative; padding: 40px 0; text-align: center;">
         <div style="position: absolute; left: 0; right: 0; top: -2%; height: 25%; border: 2px solid #aaa;"></div>
