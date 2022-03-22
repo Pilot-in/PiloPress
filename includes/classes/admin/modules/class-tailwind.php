@@ -147,6 +147,14 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             if ( $add_base_import ) {
                 // Base import
                 $tailwind_css .= '@import "tailwindcss/base";' . "\n";
+                $tailwind_css .= '@layer base {' . "\n";
+
+                // Body classes
+                $tailwind_css .= $this->get_body_css() . "\n";
+
+                // Typography
+                $tailwind_css .= $this->get_typography_css() . "\n";
+                $tailwind_css .= '}' . "\n";
 
                 // After base CSS
                 $tailwind_css .= acf_maybe_get( $tailwind_base, 'tailwind_style_after_base' ) . "\n";
@@ -170,15 +178,11 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
                 // Components import
                 $tailwind_css .= '@import "tailwindcss/components";' . "\n";
-
-                // Body classes
-                $tailwind_css .= $this->get_body_css() . "\n";
-
-                // Typography
-                $tailwind_css .= $this->get_typography_css() . "\n";
+                $tailwind_css .= '@layer components {' . "\n";
 
                 // Buttons
                 $tailwind_css .= $this->get_buttons_css() . "\n";
+                $tailwind_css .= '}' . "\n";
 
                 // After components CSS
                 $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
@@ -190,6 +194,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Maybe add utilities import
             $add_utilities_import = acf_maybe_get( $tailwind_utilities, 'add_utilities_import' );
             if ( $add_utilities_import ) {
+
                 // Utilities import
                 $tailwind_css .= '@import "tailwindcss/utilities";' . "\n";
 
@@ -320,6 +325,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
             } else {
 
+                // Content to purge
+                $this->set_purge_content( $config );
+
                 // Screens
                 $this->set_screens( $config );
 
@@ -355,19 +363,34 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             ob_start();
             ?>
             .aligncenter {
-            @apply mx-auto;
+                @apply mx-auto;
             }
 
             .alignleft {
-            @apply mr-auto;
+                @apply mr-auto;
             }
 
             .alignright {
-            @apply ml-auto;
+                @apply ml-auto;
             }
             <?php
 
             return ob_get_clean();
+        }
+
+        /**
+         * Set purge content
+         *
+         * @param $config
+         */
+        public function set_purge_content( &$config ) {
+
+            $purge_content = $this->get_purge_content();
+
+            // If purge_content, add to config
+            if ( $purge_content ) {
+                $config['content'] = $purge_content;
+            }
         }
 
         /**
@@ -761,26 +784,25 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
         }
 
         /**
-         * Get screens options
+         * Get purge content
          *
          * @return array
          */
-        private function get_screens() {
-            $screens = array();
+        private function get_purge_content() {
 
-            if ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
-                while ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
-                    the_row();
+            $purge_content = array(
+                './*/*.php',
+                './**/*.php',
+                './pilopress/layouts/**/*.php',
+                './pilopress/layouts/**/*.css',
+                './pilopress/layouts/**/*.js',
+                './pilopress/layouts/**/*.json',
+                './safelist.txt',
+            );
 
-                    $name  = get_sub_field( 'name' );
-                    $value = get_sub_field( 'value' );
+            $purge_content = apply_filters( 'pip/tailwind/config/purge_content', $purge_content );
 
-                    // Add screen value
-                    $screens[ $name ] = $value;
-                }
-            }
-
-            return $screens;
+            return $purge_content;
         }
 
         /**
