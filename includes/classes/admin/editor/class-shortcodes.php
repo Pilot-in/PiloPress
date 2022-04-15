@@ -188,6 +188,12 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                 // Post / Page...
                 $title = get_the_title();
 
+            } elseif ( is_home() ) {
+
+                // Blog archive page
+                $home_post_object = get_queried_object();
+                $title            = pip_maybe_get( $home_post_object, 'post_title' );
+
             } elseif ( !is_admin() ) {
 
                 // Taxonomy / Category / Tag / Archive / User...
