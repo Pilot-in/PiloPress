@@ -60,10 +60,16 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                 ),
             );
 
-            // $return = wp_remote_post( 'https://api.pilopress.com/api/v1/build', $post_args );
+            // Get PiloPress API version
+            $modules          = get_pip_modules();
+            $tailwind_version = acf_maybe_get( $modules, 'tailwindcss_version' );
+            $tailwind_version = $tailwind_version ? intval( $tailwind_version ) : 1;
 
-            // TODO: Need to add a setting to choose between API versions : v1 (TailwindCSS v2.x) & v3 (TailwindCSS v3.x)
-            $return = wp_remote_post( 'https://api.pilopress.com/api/v3/build', $post_args );
+            // v1 already use TailwindCSS v2.x.x
+            $api_version = $tailwind_version === 2 ? 1 : $tailwind_version;
+
+            // Send request to the API
+            $return = wp_remote_post( "https://api.pilopress.com/api/v$api_version/build", $post_args );
 
             // Error
             if ( is_wp_error( $return ) ) {
@@ -181,7 +187,6 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
                     }
                 }
-
             }
 
             // Allow 3rd party to add classes to safelist

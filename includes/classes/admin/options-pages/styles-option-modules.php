@@ -151,7 +151,7 @@ acf_add_local_field_group(
                         'ui_off_text'       => '',
                     ),
                     array(
-                        'key'               => 'field_module_',
+                        'key'               => 'field_module_alpine',
                         'label'             => 'AlpineJS',
                         'name'              => 'alpinejs',
                         'type'              => 'true_false',
@@ -180,7 +180,7 @@ acf_add_local_field_group(
                         'conditional_logic' => array(
                             array(
                                 array(
-                                    'field'    => 'field_module_tailwind',
+                                    'field'    => 'field_module_alpine',
                                     'operator' => '==',
                                     'value'    => '1',
                                 ),
