@@ -184,6 +184,9 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
             }
 
+            // Allow 3rd party to add classes to safelist
+            $potential_classes = apply_filters( 'pip/tailwind_api/safelist_classes', $potential_classes );
+
             // Clean data & Remove empty values
             $potential_classes = map_deep( $potential_classes, 'sanitize_text_field' );
             $potential_classes = array_filter( $potential_classes );
