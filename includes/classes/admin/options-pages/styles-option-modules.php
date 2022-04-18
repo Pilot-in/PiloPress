@@ -64,7 +64,7 @@ acf_add_local_field_group(
                         'ui_off_text'       => '',
                     ),
                     array(
-                        'key'               => 'field_625ddc8a1e354',
+                        'key'               => 'field_module_pilopress_api',
                         'label'             => 'Compile TailwindCSS using Pilo\'Press remote API?',
                         'name'              => 'use_pilopress_api',
                         'type'              => 'true_false',
@@ -91,7 +91,7 @@ acf_add_local_field_group(
                         'ui_off_text'       => '',
                     ),
                     array(
-                        'key'                => 'field_625ddcc91e355',
+                        'key'                => 'field_module_pilopress_api_version',
                         'label'              => 'TailwindCSS version',
                         'name'               => 'tailwindcss_version',
                         'type'               => 'select',
@@ -105,7 +105,7 @@ acf_add_local_field_group(
                                     'value'    => '1',
                                 ),
                                 array(
-                                    'field'    => 'field_625ddc8a1e354',
+                                    'field'    => 'field_module_pilopress_api',
                                     'operator' => '==',
                                     'value'    => '1',
                                 ),
