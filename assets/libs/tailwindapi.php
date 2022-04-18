@@ -21,6 +21,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                 array(
                     'css'          => '',
                     'config'       => '',
+                    'safelist'     => '',
                     'autoprefixer' => true,
                     'minify'       => true,
                     'output'       => false,
@@ -35,6 +36,11 @@ if ( !class_exists( 'TailwindAPI' ) ) {
             // Config
             if ( !empty( $args['config'] ) ) {
                 $args['config'] = $this->file_or_content( $args['config'], 'js' );
+            }
+
+            // Safelist
+            if ( !empty( $args['safelist'] ) ) {
+                $args['safelist'] = $this->extract_tailwindcss_classes( $args['safelist'] );
             }
 
             // Autoprefixer
@@ -54,7 +60,10 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                 ),
             );
 
-            $return = wp_remote_post( 'https://api.pilopress.com/api/v1/build', $post_args );
+            // $return = wp_remote_post( 'https://api.pilopress.com/api/v1/build', $post_args );
+
+            // TODO: Need to add a setting to choose between API versions : v1 (TailwindCSS v2.x) & v3 (TailwindCSS v3.x)
+            $return = wp_remote_post( 'https://api.pilopress.com/api/v3/build', $post_args );
 
             // Error
             if ( is_wp_error( $return ) ) {
@@ -136,6 +145,66 @@ if ( !class_exists( 'TailwindAPI' ) ) {
             }
 
             return $parsed_args;
+        }
+
+        /**
+         * Extract potential TailwindCSS classes from array of files
+         *
+         * @param array $content_to_parse
+         * @return string
+         */
+        public function extract_tailwindcss_classes( $content_to_parse ) {
+
+            //? DEBUG PERF
+            // $time_start = microtime( true );
+
+            $potential_classes = array();
+
+            if ( is_array( $content_to_parse ) ) {
+
+                foreach ( $content_to_parse as $file_glob ) {
+
+                    // TODO: If glob is too slow, might be interesting to dig "readdir" instead later: https://tutorialspage.com/benchmarking-on-the-glob-and-readdir-php-functions/
+                    foreach ( glob( $file_glob, GLOB_NOSORT ) as $file_path ) {
+
+                        $file_content = file_get_contents( $file_path, FILE_USE_INCLUDE_PATH ); // phpcs:ignore
+
+                        // TailwindCSS purge regex to find potential classes
+                        // @link https://github.com/tailwindlabs/tailwindcss/blob/c0a4980555ed44f070655b8f32d7d9d100c280f2/src/lib/defaultExtractor.js#L29
+                        preg_match_all( '/[^<>"\'`\s.(){}[\]#=%$]*[^<>"\'`\s.(){}[\]#=%:$]/', $file_content, $classes_match );
+
+                        // Grab first match of array values
+                        $classes_match = (array) acf_unarray( $classes_match );
+
+                        // Remove duplicate classes values & merge
+                        $potential_classes = array_unique( array_merge( $potential_classes, $classes_match ) );
+
+                    }
+                }
+
+            }
+
+            // Clean data & Remove empty values
+            $potential_classes = map_deep( $potential_classes, 'sanitize_text_field' );
+            $potential_classes = array_filter( $potential_classes );
+
+            if ( !$potential_classes || !is_array( $potential_classes ) ) {
+                return '';
+            }
+
+            //? Count potential classes after cleaning
+            // acf_log( 'DEBUG: $potential_classes', count( $potential_classes ) );
+
+            // Make a big string of all classes
+            $potential_classes_string = implode( ',', $potential_classes );
+
+            //? DEBUG PERF
+            //? Dividing with 60 will give the execution time in minutes otherwise seconds
+            // $time_end = microtime( true );
+            // $execution_time = round( $time_end - $time_start, 2 );
+            // acf_log( 'DEBUG: $execution_time', "$execution_time seconds." );
+
+            return $potential_classes_string;
         }
 
     }
