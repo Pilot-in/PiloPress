@@ -822,7 +822,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 $theme_path . 'safelist.txt',
             );
 
-            $purge_content = apply_filters( 'pip/tailwind/config/purge_content', $purge_content );
+            $purge_content = apply_filters( 'pip/tailwind_api/content_to_scan', $purge_content );
 
             return $purge_content;
         }
