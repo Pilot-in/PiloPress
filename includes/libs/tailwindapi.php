@@ -61,7 +61,7 @@ if ( !class_exists( 'TailwindAPI' ) ) {
             );
 
             // Get PiloPress API version
-            $modules          = get_pip_modules();
+            $modules          = pip_get_modules();
             $tailwind_version = acf_maybe_get( $modules, 'tailwindcss_version' );
             $tailwind_version = $tailwind_version ? intval( $tailwind_version ) : 1;
 

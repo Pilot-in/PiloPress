@@ -578,7 +578,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             if ( $use_tailwind_api ) {
 
                 // Get Tailwind API
-                require_once PIP_PATH . '/assets/libs/tailwindapi.php';
+                require_once PIP_PATH . '/includes/libs/tailwindapi.php';
                 $tailwind = new TailwindAPI();
 
                 // Build front style
