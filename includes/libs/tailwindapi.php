@@ -211,10 +211,6 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                             // Clean matched values
                             foreach ( $classes_match as $class_index => &$class ) {
 
-                                if ( stripos( $class, 'w-112' ) !== false ) {
-                                    acf_log( 'DEBUG: $class', $class );
-                                }
-
                                 // Remove bad characters matched by the regex
                                 $class = str_replace( '?', '', $class );
                                 $class = str_replace( ';', '', $class );
