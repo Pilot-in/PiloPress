@@ -820,6 +820,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 PIP_THEME_LAYOUTS_PATH . '**/*.js',
                 PIP_THEME_LAYOUTS_PATH . '**/*.json',
                 $theme_path . 'safelist.txt',
+                $theme_path . 'style.css',
+                $theme_path . 'pilopress/assets/styles.css',
             );
 
             $purge_content = apply_filters( 'pip/tailwind_api/content_to_scan', $purge_content );
