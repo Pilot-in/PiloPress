@@ -182,6 +182,28 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                         // Grab first match of array values
                         $classes_match = (array) acf_unarray( $classes_match );
 
+                        // Clean matched values
+                        foreach ( $classes_match as $class_index => &$class ) {
+
+                            // Remove bad characters matched by the regex
+                            $class = str_replace( '?', '', $class );
+                            $class = str_replace( ';', '', $class );
+                            $class = str_replace( '//', '', $class );
+                            $class = str_replace( '+', '', $class );
+                            $class = str_replace( '!', '', $class );
+                            $class = str_replace( '\/', '/', $class );
+
+                            // Remove line if it's not useful
+                            if (
+                                !$class ||
+                                stripos( $class, '_' ) !== false || // is field key or non-useful line
+                                stripos( $class, 'row-' ) !== false // is layout var field key
+                            ) {
+                                unset( $classes_match[ $class_index ] );
+                            }
+
+                        }
+
                         // Remove duplicate classes values & merge
                         $potential_classes = array_unique( array_merge( $potential_classes, $classes_match ) );
 
