@@ -80,7 +80,24 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
             // Error
             if ( $return['response']['code'] !== 200 ) {
-                set_transient( 'pip_tailwind_api_compile_error', $return['body'], 45 );
+
+                // TailwindCSS v3 output a lot more error data, filter only the "reason:" message.
+                preg_match_all( '/(?<=reason:\s).*?(?=\')/m', $return['body'], $api_reason_match );
+
+                // Clean matched message
+                $api_reason_match = acf_maybe_get( acf_unarray( $api_reason_match ), 1 );
+                $api_reason_match = str_replace( "'", '', $api_reason_match );
+
+                // Output specific message or default message (if TailwindCSS v2)
+                $api_response_message = $api_reason_match ?
+                    wp_json_encode(
+                        array(
+                            '<strong>Error:</strong> TailwindCSS Compilation failed.' . PHP_EOL . "<strong>Reason:</strong> $api_reason_match",
+                        )
+                    ) :
+                    $return['body'];
+
+                set_transient( 'pip_tailwind_api_compile_error', $api_response_message, 45 );
                 wp_safe_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
                 exit();
             }
