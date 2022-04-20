@@ -175,37 +175,71 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
                         $file_content = file_get_contents( $file_path, FILE_USE_INCLUDE_PATH ); // phpcs:ignore
 
+                        $all_classes_match = array();
+
                         // TailwindCSS purge regex to find potential classes
                         // @link https://github.com/tailwindlabs/tailwindcss/blob/c0a4980555ed44f070655b8f32d7d9d100c280f2/src/lib/defaultExtractor.js#L29
-                        preg_match_all( '/[^<>"\'`\s.(){}[\]#=%$]*[^<>"\'`\s.(){}[\]#=%:$]/', $file_content, $classes_match );
+                        $tw_classes_regex = array(
+                            '/[^<>"\'`\s.(){}[\]#=%$]*[^<>"\'`\s.(){}[\]#=%:$]/', // INNER GLOBAL
+                            // '/(?:\[\'([^\'\s]+[^<>"\'`\s:\\])\')/', // ['text-lg' -> text-lg
+                            // '/(?:\["([^"\s]+[^<>"\'`\s:\\])")/', // ["text-lg" -> text-lg
+                            // '/(?:\[`([^`\s]+[^<>"\'`\s:\\])`)/', // [`text-lg` -> text-lg
+                            // '/([^${(<>"\'`\s]*\[\w*\'[^"`\s]*\'?\])/', // font-['some_font',sans-serif]
+                            // '/([^${(<>"\'`\s]*\[\w*"[^\'`\s]*"?\])/', // font-["some_font",sans-serif]
+                            // '/([^<>"\'`\s]*\[\w*\(\'[^"\'`\s]*\'\)\])/', // bg-[url('...')]
+                            // '/([^<>"\'`\s]*\[\w*\("[^"\'`\s]*"\)\])/', // bg-[url("...")]
+                            // '/([^<>"\'`\s]*\[\w*\(\'[^"`\s]*\'\)\])/', // bg-[url('...'),url('...')]
+                            // '/([^<>"\'`\s]*\[\w*\("[^\'`\s]*"\)\])/', // bg-[url("..."),url("...")]
+                            // '/([^<>"\'`\s]*\[[^<>"\'`\s]*\(\'[^"`\s]*\'\)+\])/', // h-[calc(100%-theme('spacing.1'))]
+                            // '/([^<>"\'`\s]*\[[^<>"\'`\s]*\("[^\'`\s]*"\)+\])/', // h-[calc(100%-theme("spacing.1"))]
+                            // '/([^${(<>"\'`\s]*\[\'[^"\'`\s]*\'\])/', // `content-['hello']` but not `content-['hello']']`
+                            // '/([^${(<>"\'`\s]*\["[^"\'`\s]*"\])/', // `content-["hello"]` but not `content-["hello"]"]`
+                            // '/([^<>"\'`\s]*\[[^<>"\'`\s]*:[^\]\s]*\])/', // `[attr:value]`
+                            // '/([^<>"\'`\s]*\[[^<>"\'`\s]*:\'[^"\'`\s]*\'\])/', // `[content:'hello']` but not `[content:"hello"]`
+                            // '/([^<>"\'`\s]*\[[^<>"\'`\s]*:"[^"\'`\s]*"\])/', // `[content:"hello"]` but not `[content:'hello']`
+                            // '/([^<>"\'`\s]*\[[^"\'`\s]+\][^<>"\'`\s]*)/', // `fill-[#bada55]`, `fill-[#bada55]/50`
+                            '/([^"\'`\s]*[^<>"\'`\s:])/', //  `<sm:underline`, `md>:font-bold`
+                            // '/(\[^<>"\'`\s\]*\[^"\'`\s:\\])/', //  `px-1.5`, `uppercase` but not `uppercase:`
+                        );
 
-                        // Grab first match of array values
-                        $classes_match = (array) acf_unarray( $classes_match );
+                        foreach ( $tw_classes_regex as $class_regex ) {
+                            preg_match_all( $class_regex, $file_content, $classes_match );
 
-                        // Clean matched values
-                        foreach ( $classes_match as $class_index => &$class ) {
+                            // Grab first match of array values
+                            $classes_match = (array) array_unique( acf_unarray( $classes_match ) );
 
-                            // Remove bad characters matched by the regex
-                            $class = str_replace( '?', '', $class );
-                            $class = str_replace( ';', '', $class );
-                            $class = str_replace( '//', '', $class );
-                            $class = str_replace( '+', '', $class );
-                            $class = str_replace( '!', '', $class );
-                            $class = str_replace( '\/', '/', $class );
+                            // Clean matched values
+                            foreach ( $classes_match as $class_index => &$class ) {
 
-                            // Remove line if it's not useful
-                            if (
-                                !$class ||
-                                stripos( $class, '_' ) !== false || // is field key or non-useful line
-                                stripos( $class, 'row-' ) !== false // is layout var field key
-                            ) {
-                                unset( $classes_match[ $class_index ] );
+                                if ( stripos( $class, 'w-112' ) !== false ) {
+                                    acf_log( 'DEBUG: $class', $class );
+                                }
+
+                                // Remove bad characters matched by the regex
+                                $class = str_replace( '?', '', $class );
+                                $class = str_replace( ';', '', $class );
+                                $class = str_replace( '//', '', $class );
+                                $class = str_replace( '+', '', $class );
+                                $class = str_replace( '!', '', $class );
+                                $class = str_replace( '\/', '/', $class );
+
+                                // Remove line if it's not useful
+                                if (
+                                    !$class ||
+                                    stripos( $class, '_' ) !== false || // is field key or non-useful line
+                                    stripos( $class, 'row-' ) !== false // is layout var field key
+                                ) {
+                                    unset( $classes_match[ $class_index ] );
+                                }
+
                             }
+
+                            $all_classes_match = array_unique( array_merge( $all_classes_match, $classes_match ) );
 
                         }
 
                         // Remove duplicate classes values & merge
-                        $potential_classes = array_unique( array_merge( $potential_classes, $classes_match ) );
+                        $potential_classes = array_unique( array_merge( $potential_classes, $all_classes_match ) );
 
                     }
                 }
