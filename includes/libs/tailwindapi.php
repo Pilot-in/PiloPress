@@ -88,15 +88,44 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                 $api_reason_match = acf_maybe_get( acf_unarray( $api_reason_match ), 1 );
                 $api_reason_match = str_replace( "'", '', $api_reason_match );
 
+                if ( !$api_reason_match ) {
+
+                    // TailwindCSS v3 output a lot more error data, filter only the "reason:" message.
+                    preg_match_all( '/(?<=reason:\s).*?(?=\")/m', $return['body'], $api_reason_match );
+
+                    // Clean matched message
+                    $api_reason_match = acf_maybe_get( acf_unarray( $api_reason_match ), 1 );
+                    $api_reason_match = str_replace( '"', '', $api_reason_match );
+
+                }
+
+                // Filter only the "line:" message to display css to fix
+                preg_match_all( '/(?<=line:\s).*?(?=,)/m', $return['body'], $api_line_match );
+
+                // Clean css lines matched
+                $api_line_match = acf_unarray( $api_line_match );
+                array_pop( $api_line_match );
+                $api_line_match  = end( $api_line_match );
+                $css_lines       = preg_split( '/\r\n|\r|\n/', $args['css'] );
+                $css_line_before = trim( acf_maybe_get( $css_lines, ( $api_line_match - 2 ) ) );
+                $css_line        = trim( acf_maybe_get( $css_lines, ( $api_line_match - 1 ) ) );
+                $css_line_after  = trim( acf_maybe_get( $css_lines, $api_line_match ) );
+
                 // Output specific message or default message (if TailwindCSS v2)
                 $api_response_message = $api_reason_match ?
                     wp_json_encode(
                         array(
-                            '<strong>Error:</strong> TailwindCSS Compilation failed.' . PHP_EOL . "<strong>Reason:</strong> $api_reason_match",
+                            '<strong>' . __( 'Error:', 'pilot-in' ) . '</strong> ' . __( 'TailwindCSS Compilation failed.', 'pilot-in' ) . PHP_EOL .
+                            '<strong>' . __( 'Reason:', 'pilot-in' ) . "</strong> $api_reason_match" . PHP_EOL .
+                            '<strong>' . __( 'Code', 'pilot-in' ) . '</strong> ' . '<em>(line ' . ( $api_line_match - 1 ) . ')</em>:' . PHP_EOL .
+                            $css_line_before . PHP_EOL .
+                            "🔴 $css_line" . PHP_EOL .
+                            $css_line_after,
                         )
                     ) :
                     $return['body'];
 
+                // Set transient to display the compile error
                 set_transient( 'pip_tailwind_api_compile_error', $api_response_message, 45 );
                 wp_safe_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
                 exit();
