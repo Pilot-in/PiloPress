@@ -45,19 +45,12 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          */
         public function register_option_page() {
 
-            // Capability
-            $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
-            if ( !current_user_can( $capability ) ) {
-                return;
-            }
-
             // Add option page
             $option_page = acf_add_options_page(
                 array(
                     'page_title'  => __( 'Site Template', 'pilopress' ),
                     'menu_title'  => __( 'Site Template', 'pilopress' ),
                     'menu_slug'   => $this->menu_slug,
-                    'capability'  => $capability,
                     'parent_slug' => 'pilopress',
                     'post_id'     => $this->pattern_post_id,
                     'autoload'    => true,
