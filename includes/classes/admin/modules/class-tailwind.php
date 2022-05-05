@@ -15,9 +15,29 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 return;
             }
 
+            // WP hooks
+            add_filter( 'language_attributes', array( $this, 'add_pip_prefix_class' ), 20, 2 );
+
             // ACF hooks
             add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
             add_action( 'acf/options_page/submitbox_major_actions', array( $this, 'add_compile_styles_button' ) );
+        }
+
+        /**
+         * Add "pip" class on html as TailwindCSS prefix class
+         * to easily override default plugins style (ex: WooCommerce)
+         *
+         * @param string $output
+         * @param string $doctype
+         * @return string
+         */
+        public function add_pip_prefix_class( $output, $doctype ) {
+            if ( 'html' !== $doctype ) {
+                return $output;
+            }
+
+            $output .= ' class="pip"';
+            return $output;
         }
 
         /**
@@ -570,6 +590,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                         'config'       => $tailwind_config,
                         'autoprefixer' => true,
                         'minify'       => true,
+                        'prefixer'     => '.pip', // Add prefix by default to override plugin default style (example: woocommerce)
                         'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
                     )
                 );
