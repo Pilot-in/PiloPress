@@ -76,7 +76,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     update_field(
                         'pip_tailwind_style_components',
                         array(
-                            'add_components_import'           => true,
+                            'add_components_import' => true,
                             'tailwind_style_after_components' => '',
                         ),
                         'pip_styles_tailwind_module'
@@ -86,7 +86,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     update_field(
                         'pip_tailwind_style_utilities',
                         array(
-                            'add_utilities_import'           => true,
+                            'add_utilities_import' => true,
                             'tailwind_style_after_utilities' => '',
                         ),
                         'pip_styles_tailwind_module'
@@ -584,7 +584,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 $tailwind = new TailwindAPI();
 
                 // Build front style
-                $tailwind->build(
+                $front_build_args = apply_filters(
+                    'pip/tailwind_api/front_build_args',
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
@@ -594,9 +595,11 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                         'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
                     )
                 );
+                $tailwind->build( $front_build_args );
 
                 // Build admin style
-                $build_admin_style = $tailwind->build(
+                $admin_build_args  = apply_filters(
+                    'pip/tailwind_api/admin_build_args',
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
@@ -605,7 +608,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                         'prefixer'     => '.-preview',
                     )
                 );
+                $build_admin_style = $tailwind->build( $admin_build_args );
 
+                // Fix h2 style set by WP admin style
                 $admin_style = '.-preview h2 { all:unset; }';
 
                 $admin_style .= $build_admin_style['body'];
