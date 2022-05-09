@@ -738,10 +738,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     // Get upload path
                     $post_id                    = $file['file']['ID'];
                     $attachment_upload_path     = wp_get_attachment_url( $post_id );
-                    $attachment_new_upload_path = strstr( $attachment_upload_path, '/wp-content' );
 
                     // Allow file URL to be override
-                    $font_url = apply_filters( 'pip/custom_font/url', site_url() . $attachment_new_upload_path, $attachment_new_upload_path );
+                    $font_url = apply_filters( 'pip/custom_font/url', $attachment_upload_path, $post_id );
 
                     // Store URL
                     $url[] = 'url(' . $font_url . ') format("' . $format . '")';
