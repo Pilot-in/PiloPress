@@ -134,7 +134,7 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
             // Mapping the index for it to have the same structure as in load_value and format_value
             $field_key           = acf_maybe_get( $field, 'key' );
             $field_name          = acf_maybe_get( $field, '_name' );
-            $initial_value_index = $field_key . '_' . $pip_flexible->flexible_field_name . '_' . $row_number . '_' . $field_name;
+            $initial_value_index = $row_number ? $field_key . '_' . $pip_flexible->flexible_field_name . '_' . $row_number . '_' . $field_name : $field_key. '_' . $field_name;
 
             $field['choices'] = $this->get_choices( $field );
             $field['type']    = $field['field_type'];
