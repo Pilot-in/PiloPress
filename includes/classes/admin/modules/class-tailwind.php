@@ -352,18 +352,20 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
          * @return false|string
          */
         public function get_default_tinymce_css() {
+            $tw_prefix = $this->get_prefix();
+
             ob_start();
             ?>
             .aligncenter {
-            @apply mx-auto;
+            @apply <?php echo $tw_prefix ?>mx-auto;
             }
 
             .alignleft {
-            @apply mr-auto;
+            @apply <?php echo $tw_prefix ?>mr-auto;
             }
 
             .alignright {
-            @apply ml-auto;
+            @apply <?php echo $tw_prefix ?>ml-auto;
             }
             <?php
 
@@ -811,6 +813,21 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             }
 
             return $options;
+        }
+
+        /**
+         * Maybe get TailwindCSS prefix for classes
+         *
+         * @return mixed|null
+         */
+        public function get_prefix() {
+            $configuration = $this->get_tailwind_config();
+            $configuration = str_replace( 'module.exports = ', '', $configuration );
+            $configuration = str_replace( "'", '"', $configuration );
+            $configuration = substr( $configuration, 0, - 1 );
+            $configuration = json_decode( $configuration );
+
+            return pip_maybe_get( $configuration, 'prefix', '' );
         }
 
     }
