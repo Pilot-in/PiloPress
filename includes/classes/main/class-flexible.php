@@ -135,6 +135,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Final Field
             $field = array_merge( $field, $field_args );
 
+            // Hide on screen option
+            $hide_on_screen = apply_filters( 'pip/builder/hide_on_screen', array( 'the_content' ) );
+
             // Register main flexible
             acf_add_local_field_group(
                 array(
@@ -147,9 +150,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'style'                 => 'seamless',
                     'label_placement'       => 'top',
                     'instruction_placement' => 'label',
-                    'hide_on_screen'        => array(
-                        'the_content',
-                    ),
+                    'hide_on_screen'        => $hide_on_screen,
                     'active'                => true,
                     'description'           => '',
                     'acfe_display_title'    => '',
