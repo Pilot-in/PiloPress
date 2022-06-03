@@ -827,7 +827,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $configuration = substr( $configuration, 0, - 1 );
             $configuration = json_decode( $configuration );
 
-            return pip_maybe_get( $configuration, 'prefix', '' );
+            return apply_filters( 'pip/tailwind/config/prefix', pip_maybe_get( $configuration, 'prefix' ) );
         }
 
     }
