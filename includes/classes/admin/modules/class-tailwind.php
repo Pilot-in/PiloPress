@@ -815,6 +815,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $purge_content = array(
                 $theme_path . '*.php',
                 $theme_path . '**/*.php',
+                $theme_path . 'acf-json/*.json',
                 PIP_THEME_LAYOUTS_PATH . '**/*.php',
                 PIP_THEME_LAYOUTS_PATH . '**/*.css',
                 PIP_THEME_LAYOUTS_PATH . '**/*.js',
