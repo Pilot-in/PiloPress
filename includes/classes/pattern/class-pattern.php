@@ -44,12 +44,9 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          * Add option page
          */
         public function register_option_page() {
-
+        
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
-            if ( !current_user_can( $capability ) ) {
-                return;
-            }
 
             // Add option page
             $option_page = acf_add_options_page(

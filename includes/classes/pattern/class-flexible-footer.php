@@ -21,6 +21,9 @@ if ( !class_exists( 'PIP_Flexible_Footer' ) ) {
         public $flexible_footer_group_key = 'group_pip_flexible_footer';
 
         public function __construct() {
+        
+            // Fix post id when using multilanguage plugin
+            $this->pattern_post_id = acf_get_valid_post_id( $this->pattern_post_id );
 
             // WP hooks
             add_action( 'init', array( $this, 'init' ) );
@@ -263,10 +266,11 @@ function get_pip_footer( $echo = true ) {
 
     $pip_flexible_footer = acf_get_instance( 'PIP_Flexible_Footer' );
     $pip_pattern         = acf_get_instance( 'PIP_Pattern' );
+    $pip_pattern_id      = pip_maybe_get( $pip_pattern, 'pattern_post_id' );
 
     if ( $echo ) {
-        echo get_flexible( $pip_flexible_footer->get_flexible_footer_field_name(), $pip_pattern->pattern_post_id );
+        echo get_flexible( $pip_flexible_footer->get_flexible_footer_field_name(), $pip_pattern_id );
     } else {
-        return get_flexible( $pip_flexible_footer->get_flexible_footer_field_name(), $pip_pattern->pattern_post_id );
+        return get_flexible( $pip_flexible_footer->get_flexible_footer_field_name(), $pip_pattern_id );
     }
 }
