@@ -3,7 +3,7 @@ Contributors: pilotin
 Donate link: https://www.pilot-in.com
 Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
-Tested up to: 5.8.1
+Tested up to: 6.0
 Requires PHP: 5.6
 Stable tag: 0.4.3
 License: GPLv2 or later
