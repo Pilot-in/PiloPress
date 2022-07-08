@@ -30,6 +30,9 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
 
         public function __construct() {
 
+            // Fix post id when using multilingual plugin
+            $this->pattern_post_id = acf_get_valid_post_id( $this->pattern_post_id );
+
             // WP hooks
             add_action( 'init', array( $this, 'register_option_page' ) );
 
@@ -44,7 +47,7 @@ if ( !class_exists( 'PIP_Pattern' ) ) {
          * Add option page
          */
         public function register_option_page() {
-        
+
             // Capability
             $capability = apply_filters( 'pip/options/capability', acf_get_setting( 'capability' ) );
 
