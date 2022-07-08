@@ -21,9 +21,6 @@ if ( !class_exists( 'PIP_Flexible_Header' ) ) {
         public $flexible_header_group_key = 'group_pip_flexible_header';
 
         public function __construct() {
-        
-            // Fix post id when using multilanguage plugin
-            $this->pattern_post_id = acf_get_valid_post_id( $this->pattern_post_id );
 
             // WP hooks
             add_action( 'init', array( $this, 'init' ) );
