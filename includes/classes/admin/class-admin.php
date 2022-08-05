@@ -40,7 +40,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             // Check if Tailwind configuration is overridden
             $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_module' );
             $override_config = acf_maybe_get( $tailwind_config, 'override_config' );
-            if ( $override_config && ( $current_admin_page === 'pip_styles_configuration' || $current_admin_page === 'pip_styles_fonts' ) ) : ?>
+            if ( $override_config && ( $current_admin_page === 'pip_styles_configuration' || $current_admin_page === 'pip_styles_fonts' ) ) :
+            ?>
             <div class="notice notice-info is-dismissible">
                 <p>
                     <b><?php _e( 'TailwindCSS configuration is overridden.', 'pilopress' ); ?></b>
@@ -51,11 +52,12 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     <?php _e( "Font families won't be added automatically.", 'pilopress' ); ?>
                 </p>
             </div>
-            <?php endif; ?>
-
             <?php
+            endif;
+ 
             // If Tailwind module is deactivate
-            if ( !acf_maybe_get( $modules, 'tailwind' ) ) : ?>
+            if ( !acf_maybe_get( $modules, 'tailwind' ) ) :
+            ?>
             <div class="notice notice-info is-dismissible">
                 <p>
                     <b><?php _e( 'TailwindCSS module is disabled.', 'pilopress' ); ?></b>
@@ -63,11 +65,12 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     <?php _e( "Stylesheets won't be generated automatically.", 'pilopress' ); ?>
                 </p>
             </div>
-            <?php endif; ?>
-
             <?php
+            endif;
+
             // If TinyMCE module is deactivate
-            if ( !acf_maybe_get( $modules, 'tinymce' ) ) : ?>
+            if ( !acf_maybe_get( $modules, 'tinymce' ) ) :
+            ?>
             <div class="notice notice-info is-dismissible">
                 <p>
                     <b><?php _e( 'TinyMCE module is disabled.', 'pilopress' ); ?></b>
@@ -75,9 +78,9 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     <?php _e( "Typography, colors, buttons and fonts won't be available in editor.", 'pilopress' ); ?>
                 </p>
             </div>
-            <?php endif; ?>
-
             <?php
+            endif;
+
             // TailwindCSS API Compilation notices
             $compile_error_details_json = get_transient( 'pip_tailwind_api_compile_error' );
             $compile_success            = get_transient( 'pip_tailwind_api_compile_success' );
