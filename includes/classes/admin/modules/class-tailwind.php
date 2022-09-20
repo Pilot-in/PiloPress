@@ -313,11 +313,14 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_module' );
             $override_config = acf_maybe_get( $tailwind_config, 'override_config' );
 
+            // If Tailwind config doesn't exist at this moment, return
+            if( !$tailwind_config ) {
+                return;
+            }
+
+            // If override configuration, return field content
             if ( $override_config ) {
-
-                // If override configuration, return field content
                 return acf_maybe_get( $tailwind_config, 'tailwind_config' );
-
             } else {
 
                 // Screens
