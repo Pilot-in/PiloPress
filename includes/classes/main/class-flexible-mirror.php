@@ -104,7 +104,6 @@ if ( !class_exists( 'PIP_Flexible_Mirror' ) ) {
         public function meta_boxes() {
 
             // Remove meta boxes normal
-            remove_meta_box( 'acf-field-group-options', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-field-group-fields', 'acf-field-group', 'normal' );
             remove_meta_box( 'slugdiv', 'acf-field-group', 'normal' );
             remove_meta_box( 'acf-field-group-acfe', 'acf-field-group', 'normal' );
