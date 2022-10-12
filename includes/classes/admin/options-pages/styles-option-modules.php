@@ -68,6 +68,7 @@ acf_add_local_field_group(
                         'ui'                => 1,
                         'ui_on_text'        => '',
                         'ui_off_text'       => '',
+                        'style'             => '',
                     ),
 
                     // TinyMCE
@@ -90,6 +91,7 @@ acf_add_local_field_group(
                         'ui'                => 1,
                         'ui_on_text'        => '',
                         'ui_off_text'       => '',
+                        'style'             => '',
                     ),
 
                     // AlpineJS
@@ -112,6 +114,7 @@ acf_add_local_field_group(
                         'ui'                => 1,
                         'ui_on_text'        => '',
                         'ui_off_text'       => '',
+                        'style'             => '',
                     ),
                     array(
                         'key'                        => 'field_alpinejs_version',
