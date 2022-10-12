@@ -145,21 +145,28 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Maybe add base import
             $add_base_import = acf_maybe_get( $tailwind_base, 'add_base_import' );
             if ( $add_base_import ) {
+
                 // Base import
-                $tailwind_css .= '@import "tailwindcss/base";' . "\n";
+                $tailwind_css .= '@import "tailwindcss/base";' . PHP_EOL;
+
+                // Body classes
+                $tailwind_css .= $this->get_body_css() . PHP_EOL;
+
+                // Typography
+                $tailwind_css .= $this->get_typography_css() . PHP_EOL;
 
                 // After base CSS
-                $tailwind_css .= acf_maybe_get( $tailwind_base, 'tailwind_style_after_base' ) . "\n";
+                $tailwind_css .= acf_maybe_get( $tailwind_base, 'tailwind_style_after_base' ) . PHP_EOL;
 
                 // Custom CSS
                 $tailwind_css .= apply_filters( 'pip/tailwind/css/after_base', '' );
             }
 
             // Add custom fonts import
-            $tailwind_css .= $this->css_custom_fonts() . "\n";
+            $tailwind_css .= $this->css_custom_fonts() . PHP_EOL;
 
             // CSS Vars
-            $tailwind_css .= $this->add_css_vars() . "\n";
+            $tailwind_css .= $this->add_css_vars() . PHP_EOL;
 
             // Custom CSS
             $tailwind_css .= apply_filters( 'pip/tailwind/css/after_fonts', '' );
@@ -169,19 +176,13 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             if ( $add_components_import ) {
 
                 // Components import
-                $tailwind_css .= '@import "tailwindcss/components";' . "\n";
-
-                // Body classes
-                $tailwind_css .= $this->get_body_css() . "\n";
-
-                // Typography
-                $tailwind_css .= $this->get_typography_css() . "\n";
+                $tailwind_css .= '@import "tailwindcss/components";' . PHP_EOL;
 
                 // Buttons
-                $tailwind_css .= $this->get_buttons_css() . "\n";
+                $tailwind_css .= $this->get_buttons_css() . PHP_EOL;
 
                 // After components CSS
-                $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . "\n";
+                $tailwind_css .= acf_maybe_get( $tailwind_components, 'tailwind_style_after_components' ) . PHP_EOL;
 
                 // Custom CSS
                 $tailwind_css .= apply_filters( 'pip/tailwind/css/after_components', '' );
@@ -190,11 +191,12 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Maybe add utilities import
             $add_utilities_import = acf_maybe_get( $tailwind_utilities, 'add_utilities_import' );
             if ( $add_utilities_import ) {
+
                 // Utilities import
-                $tailwind_css .= '@import "tailwindcss/utilities";' . "\n";
+                $tailwind_css .= '@import "tailwindcss/utilities";' . PHP_EOL;
 
                 // After utilities CSS
-                $tailwind_css .= acf_maybe_get( $tailwind_utilities, 'tailwind_style_after_utilities' ) . "\n";
+                $tailwind_css .= acf_maybe_get( $tailwind_utilities, 'tailwind_style_after_utilities' ) . PHP_EOL;
 
                 // Custom CSS
                 $tailwind_css .= apply_filters( 'pip/tailwind/css/after_utilities', '' );
@@ -221,9 +223,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Build body css
             $classes_to_apply = acf_maybe_get( $body_classes, 'body_classes' );
             if ( $classes_to_apply ) {
-                $body_css .= "body {\n";
-                $body_css .= '@apply ' . $classes_to_apply . ";\n";
-                $body_css .= "}\n";
+                $body_css .= 'body {' . PHP_EOL;
+                $body_css .= "  @apply $classes_to_apply;" . PHP_EOL;
+                $body_css .= '}' . PHP_EOL;
             }
 
             return $body_css;
@@ -248,9 +250,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
                     // Add class
                     if ( $classes_to_apply ) {
-                        $typo_css .= '.' . $class_name . " {\n";
-                        $typo_css .= '@apply ' . $classes_to_apply . ";\n";
-                        $typo_css .= "}\n";
+                        $typo_css .= ".$class_name {" . PHP_EOL;
+                        $typo_css .= "  @apply $classes_to_apply;" . PHP_EOL;
+                        $typo_css .= '}' . PHP_EOL;
                     }
                 }
             }
@@ -278,9 +280,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
                     // Add class
                     if ( $classes_to_apply ) {
-                        $buttons_css .= '.' . $class_name . " {\n";
-                        $buttons_css .= '@apply ' . $classes_to_apply . ";\n";
-                        $buttons_css .= "}\n";
+                        $buttons_css .= ".$class_name {" . PHP_EOL;
+                        $buttons_css .= "   @apply $classes_to_apply;" . PHP_EOL;
+                        $buttons_css .= '}' . PHP_EOL;
                     }
 
                     // Add states
@@ -290,9 +292,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                             $classes = acf_maybe_get( $state, 'classes_to_apply' );
 
                             if ( $classes ) {
-                                $buttons_css .= '.' . $class_name . ':' . $type . " {\n";
-                                $buttons_css .= '@apply ' . $classes . ";\n";
-                                $buttons_css .= "}\n";
+                                $buttons_css .= ".$class_name:$type {" . PHP_EOL;
+                                $buttons_css .= "   @apply $classes;" . PHP_EOL;
+                                $buttons_css .= '}' . PHP_EOL;
                             }
                         }
                     }
@@ -322,6 +324,10 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             if ( $override_config ) {
                 return acf_maybe_get( $tailwind_config, 'tailwind_config' );
             } else {
+
+                // Needed with TailwindCSS v3.+
+                // (we create this file on API side with layouts classes passed by this class)
+                $config['content'] = array( './safelist.txt' );
 
                 // Screens
                 $this->set_screens( $config );
@@ -360,19 +366,28 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             ob_start();
             ?>
             .aligncenter {
-            @apply <?php echo $tw_prefix ?>mx-auto;
+                @apply <?php echo $tw_prefix ?>mx-auto;
             }
 
             .alignleft {
-            @apply <?php echo $tw_prefix ?>mr-auto;
+                @apply <?php echo $tw_prefix ?>mr-auto;
             }
 
             .alignright {
-            @apply <?php echo $tw_prefix ?>ml-auto;
+                @apply <?php echo $tw_prefix ?>ml-auto;
             }
             <?php
 
             return ob_get_clean();
+        }
+
+        /**
+         * Set purge content
+         *
+         * @param $config
+         */
+        public function set_purge_content() {
+            return $this->get_purge_content();
         }
 
         /**
@@ -555,6 +570,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // Get config
             $tailwind_config = $this->get_tailwind_config();
 
+            // Content to purge
+            $tailwind_classes_to_extract = $this->get_purge_content();
+
             // Add default TinyMCE CSS
             $tailwind_style .= $this->get_default_tinymce_css();
 
@@ -565,7 +583,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             if ( $use_tailwind_api ) {
 
                 // Get Tailwind API
-                require_once PIP_PATH . '/assets/libs/tailwindapi.php';
+                require_once PIP_PATH . '/includes/libs/tailwindapi.php';
                 $tailwind = new TailwindAPI();
 
                 // Build front style
@@ -573,6 +591,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
+                        'safelist'     => $tailwind_classes_to_extract,
                         'autoprefixer' => true,
                         'minify'       => true,
                         'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
@@ -584,13 +603,14 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
+                        'safelist'     => $tailwind_classes_to_extract,
                         'autoprefixer' => true,
                         'minify'       => true,
                         'prefixer'     => '.-preview',
                     )
                 );
 
-                $admin_style = '.-preview h2 { all:unset; }';
+                $admin_style = '.-preview h2 { all:unset; }' . PHP_EOL;
 
                 $admin_style .= $build_admin_style['body'];
 
@@ -663,16 +683,39 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
         }
 
         /**
+         * Get screens options
+         *
+         * @return array
+         */
+        private function get_screens() {
+            $screens = array();
+
+            if ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
+                while ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
+                    the_row();
+
+                    $name  = get_sub_field( 'name' );
+                    $value = get_sub_field( 'value' );
+
+                    // Add screen value
+                    $screens[ $name ] = $value;
+                }
+            }
+
+            return $screens;
+        }
+
+        /**
          * Add CSS Vars
          */
         private function add_css_vars() {
-            $css_vars = ':root {' . "\n";
+            $css_vars = ':root {' . PHP_EOL;
 
             // Colors
             $colors = pip_get_colors();
             if ( $colors ) {
                 foreach ( $colors as $color ) {
-                    $css_vars .= '--pip-color-' . $color['class_name'] . ': ' . $color['value'] . ";\n";
+                    $css_vars .= '--pip-color-' . $color['class_name'] . ': ' . $color['value'] . ';' . PHP_EOL;
                 }
             }
 
@@ -680,7 +723,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $fonts = pip_get_fonts();
             if ( $fonts ) {
                 foreach ( $fonts as $font ) {
-                    $css_vars .= '--pip-font-' . $font['class_name'] . ': "' . $font['name'] . '"' . ";\n";
+                    $css_vars .= '--pip-font-' . $font['class_name'] . ': "' . $font['name'] . '";' . PHP_EOL;
                 }
             }
 
@@ -688,7 +731,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $screens = $this->get_screens();
             if ( $screens ) {
                 foreach ( $screens as $key => $value ) {
-                    $css_vars .= '--pip-screen-' . $key . ': ' . $value . ";\n";
+                    $css_vars .= '--pip-screen-' . $key . ': ' . $value . ';' . PHP_EOL;
                 }
             }
 
@@ -699,12 +742,12 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
 
                 if ( $paddings ) {
                     foreach ( $paddings as $key => $value ) {
-                        $css_vars .= '--pip-padding-container-' . $key . ': ' . $value . ";\n";
+                        $css_vars .= '--pip-padding-container-' . $key . ': ' . $value . ';' . PHP_EOL;
                     }
                 }
             }
 
-            $css_vars .= '}' . "\n";
+            $css_vars .= '}' . PHP_EOL;
 
             return $css_vars;
         }
@@ -722,8 +765,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
         private function generate_font_face( &$css_custom, $name, $files, $weight = 'normal', $style = 'normal', $display = 'swap', $variable_font = false ) {
 
             // Build @font-face
-            $css_custom .= "@font-face {\n";
-            $css_custom .= 'font-family: "' . $name . '";' . "\n";
+            $css_custom .= '@font-face {' . PHP_EOL;
+            $css_custom .= '    font-family: "' . $name . '";' . PHP_EOL;
 
             // Get URLs
             $url = array();
@@ -754,38 +797,42 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             }
 
             // Implode URLs for src
-            $css_custom .= 'src: ' . implode( ",\n", $url ) . ";\n";
+            $css_custom .= 'src: ' . implode( ",\n", $url ) . ';' . PHP_EOL;
 
             // Font parameters
-            $css_custom .= 'font-weight: ' . $weight . ";\n";
-            $css_custom .= 'font-style: ' . $style . ";\n";
-            $css_custom .= 'font-display: ' . $display . ";\n";
+            $css_custom .= 'font-weight: ' . $weight . ';' . PHP_EOL;
+            $css_custom .= 'font-style: ' . $style . ';' . PHP_EOL;
+            $css_custom .= 'font-display: ' . $display . ';' . PHP_EOL;
 
             // End @font-face
-            $css_custom .= "}\n";
+            $css_custom .= '}' . PHP_EOL;
         }
 
         /**
-         * Get screens options
+         * Get purge content
          *
          * @return array
          */
-        private function get_screens() {
-            $screens = array();
+        private function get_purge_content() {
 
-            if ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
-                while ( have_rows( 'pip_screens', 'pip_styles_configuration' ) ) {
-                    the_row();
+            $theme_path = trailingslashit( get_stylesheet_directory() );
 
-                    $name  = get_sub_field( 'name' );
-                    $value = get_sub_field( 'value' );
+            $purge_content = array(
+                $theme_path . '*.php',
+                $theme_path . '**/*.php',
+                $theme_path . 'acf-json/*.json',
+                PIP_THEME_LAYOUTS_PATH . '**/*.php',
+                PIP_THEME_LAYOUTS_PATH . '**/*.css',
+                PIP_THEME_LAYOUTS_PATH . '**/*.js',
+                PIP_THEME_LAYOUTS_PATH . '**/*.json',
+                $theme_path . 'safelist.txt',
+                $theme_path . 'style.css',
+                $theme_path . 'pilopress/assets/styles.css',
+            );
 
-                    // Add screen value
-                    $screens[ $name ] = $value;
-                }
-            }
+            $purge_content = apply_filters( 'pip/tailwind_api/content_to_scan', $purge_content );
 
-            return $screens;
+            return $purge_content;
         }
 
         /**
