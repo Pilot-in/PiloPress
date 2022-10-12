@@ -3,9 +3,9 @@ Contributors: pilotin
 Donate link: https://www.pilot-in.com
 Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
-Tested up to: 6.0
+Tested up to: 6.0.2
 Requires PHP: 5.6
-Stable tag: 0.4.3
+Stable tag: 0.4.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,12 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.4.3.1 - 12/10/2022 =
+* Added: TailwindCSS3 & JIT compatibility
+* Improved: ACF v6.0 new UI compatibility
+* Fixed: Tailwind CSS overriden configuration modifications being erased on layout edit
+* Fixed: Component field value not being correct when a layout is toggled off (ACFE feature) before the layout that contains the component
 
 = 0.4.3 - 08/07/2022 =
 
