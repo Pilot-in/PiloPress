@@ -3,9 +3,9 @@ Contributors: pilotin
 Donate link: https://www.pilot-in.com
 Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
-Tested up to: 5.8.1
+Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 0.4.2
+Stable tag: 0.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,20 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.4.3 - 08/07/2022 =
+
+* Added: Filter `pip/locked_content/fields` to allow user add fields to locked content layout
+* Added: Filter `pip/locked_content/html` to allow user alter HTML of locked content layout
+* Added: Filter `pip/builder/hide_on_screen` to allow user to enable / disable the_content
+* Added: Filter `pip/tailwind/config/prefix` to allow prefixed TailwindCSS generated classes
+* Improved: "Set locked content (Post)" is displayed on 404 error page but it shouldn't
+* Improved: Change edit locked content icon in admin bar
+* Fixed: Title missing conditional in `[pip_title]` shortcode for home page.
+* Fixed: Locked content - "Last posts" layout-like seems to trigger "locked content" set in another post-type
+* Fixed: Default content - notice on multisite
+* Fixed: PIP_Pattern doesn't retrieve correct `pattern_post_id` in other than default language when logged out
+* Fixed: Fix component field when not in pip_flexible
 
 = 0.4.2 - 07/03/2022 =
 

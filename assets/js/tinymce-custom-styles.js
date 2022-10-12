@@ -9,9 +9,10 @@
         /**
          * Define letiables
          */
-        const fonts  = acf.get( 'custom_fonts' );
-        const colors = acf.get( 'custom_colors' );
-        const styles = acf.get( 'custom_styles' );
+        const fonts     = acf.get( 'custom_fonts' );
+        const colors    = acf.get( 'custom_colors' );
+        const styles    = acf.get( 'custom_styles' );
+        const tw_prefix = acf.get( 'tw_prefix' );
 
         /**
          * Colors
@@ -42,7 +43,7 @@
                         textStyle: textStyle,
                         format: {
                             inline: 'span',
-                            classes: 'text-' + color.class_name,
+                            classes: tw_prefix ? tw_prefix + 'text-' + color.class_name : 'text-' + color.class_name,
                             wrapper: false,
                             deep: true,
                             split: true,
@@ -90,7 +91,7 @@
                         textStyle: 'font-family:' + font.name,
                         format: {
                             inline: 'span',
-                            classes: 'font-' + font.class_name,
+                            classes: tw_prefix ? tw_prefix + 'font-' + font.class_name : 'font-' + font.class_name,
                             wrapper: false,
                             deep: true,
                             split: true,

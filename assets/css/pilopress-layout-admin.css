@@ -39,3 +39,20 @@ div[data-name='hide_on_screen'] {
     padding: 0 !important;
     border: 0 !important;
 }
+
+/* ACF v.6.0 UI revamp fixes */
+
+/* Cancel the change of order between label and input in layout settings */
+.post-type-acf-field-group #pip_layout_settings .acf-field-true-false .acf-label {
+    order: inherit;
+}
+
+/* Fixing thumbnail text layout */
+#pip_layout_thumbnail .acf-field-image[data-name="_pip_thumbnail"] .acf-label {
+    display: block;
+}
+
+/* Force acf-field-group-options to be displayed - cancelling the acf-hidden class */
+body.acfe-screen-layouts #acf-field-group-options {
+    display: block !important;
+}

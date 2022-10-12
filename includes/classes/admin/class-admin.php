@@ -479,9 +479,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 $queried_object_id = get_queried_object_id();
 
                 // Fuzzy title / link while we don't have enough info on current content
-                $edit_locked_content_icon  = '<i class="dashicons-before dashicons-edit" style="display: inline-flex; vertical-align: text-top; align-items: center; opacity: .6"></i>';
-                $edit_locked_content_title = "$edit_locked_content_icon " . __( 'Edit this locked content', 'pilopress' );
-                $edit_locked_content_link  = add_query_arg(
+                $edit_locked_content_icon = '<i class="dashicons-before dashicons-layout" style="display: inline-flex; vertical-align: text-top; align-items: center; opacity: .6"></i>';
+                $edit_locked_content_link = add_query_arg(
                     array(
                         'post_type' => PIP_Patterns::get_locked_content_slug(),
                     ),
@@ -503,14 +502,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     __( 'Edit locked content', 'pilopress' ) . ' (' . ucfirst( $pattern_title ) . ')' :
                     __( 'Set locked content', 'pilopress' ) . ' (' . ucfirst( $pattern_title ) . ')';
 
-                $wp_admin_bar->add_node(
-                    array(
-                        'id'    => 'patterns',
-                        'title' => $edit_locked_content_title,
-                        'href'  => $edit_locked_content_link,
-                    )
-                );
-
+                if ( !is_404() ) {
+                    $wp_admin_bar->add_node(
+                        array(
+                            'id'    => 'patterns',
+                            'title' => $edit_locked_content_title,
+                            'href'  => $edit_locked_content_link,
+                        )
+                    );
+                }
             }
 
             // Pilo'Press icon

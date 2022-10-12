@@ -179,7 +179,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
         }
 
         /**
-         * Undocumented function
+         * Check if there is a locked content set for a post-type / taxonomy
          *
          * @param [type] $post_id
          * @return boolean
@@ -200,6 +200,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
 
             // At this point, we assume there are custom layouts
             $has_custom_locked_content = true;
+
 
             // Invalidate if there is exactly 1 layout which isn't "Target content" layout
             if ( count( $pattern_post_layouts ) === 1 ) {
