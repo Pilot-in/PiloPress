@@ -154,16 +154,21 @@ if ( !class_exists( 'PIP_Component_Field_Type' ) ) {
          */
         public function format_value( $value, $post_id, $field ) {
 
-            // Get index
-            $initial_value_index = acf_maybe_get( $field, 'key' ) . '_' . acf_maybe_get( $field, 'name' );
-            $component_id        = acf_maybe_get( $this->initial_value, $initial_value_index );
-
-            // If no component selected, then abort
-            if ( empty( $component_id ) ) {
+            // Checking data before processing
+            if ( empty( $value ) && !is_array( $value ) ) {
                 return false;
             }
 
-            return get_fields( $component_id, true );
+            $meta = array();
+
+            // Structuring the data as expected
+            foreach ( $value as $k => $field ) {
+                $acf_key          = acf_maybe_get( get_field_object( $k ), 'name' );
+                $meta[ $acf_key ] = $field;
+            }
+
+            // return
+            return $meta;
         }
 
         /**
