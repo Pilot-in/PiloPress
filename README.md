@@ -115,6 +115,13 @@ Available hooks are list and describe in [our Hooks documentation](https://www.p
 
 ## Changelog
 
+### 0.4.3.1 - 12/10/2022
+
+* Added: TailwindCSS3 & JIT compatibility
+* Improved: ACF v6.0 new UI compatibility
+* Fixed: Tailwind CSS overriden configuration modifications being erased on layout edit
+* Fixed: Component field value not being correct when a layout is toggled off (ACFE feature) before the layout that contains the component
+
 ### 0.4.3 - 08/07/2022
 
 * Added: Filter `pip/locked_content/fields` to allow user add fields to locked content layout
