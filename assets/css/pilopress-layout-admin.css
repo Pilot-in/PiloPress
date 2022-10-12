@@ -51,3 +51,8 @@ div[data-name='hide_on_screen'] {
 #pip_layout_thumbnail .acf-field-image[data-name="_pip_thumbnail"] .acf-label {
     display: block;
 }
+
+/* Force acf-field-group-options to be displayed - cancelling the acf-hidden class */
+body.acfe-screen-layouts #acf-field-group-options {
+    display: block !important;
+}
