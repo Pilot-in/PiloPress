@@ -90,6 +90,7 @@ acf_add_local_field_group(
                         'ui'                => 1,
                         'ui_on_text'        => '',
                         'ui_off_text'       => '',
+                        'style'             => '',
                     ),
                     array(
                         'key'                => 'field_module_pilopress_api_version',
