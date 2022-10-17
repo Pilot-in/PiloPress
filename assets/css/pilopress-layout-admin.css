@@ -47,6 +47,12 @@ div[data-name='hide_on_screen'] {
     order: inherit;
 }
 
+/* Put instruction below label */
+.post-type-acf-field-group #pip_layout_settings .acf-label {
+    flex-direction: column;
+    align-items: start;
+}
+
 /* Fixing thumbnail text layout */
 #pip_layout_thumbnail .acf-field-image[data-name="_pip_thumbnail"] .acf-label {
     display: block;
