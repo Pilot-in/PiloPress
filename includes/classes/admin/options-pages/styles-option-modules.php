@@ -4,7 +4,7 @@
 acf_add_local_field_group(
     array(
         'key'                   => 'group_styles_modules',
-        'title'                 => 'Modules',
+        'title'                 => __( 'Modules', 'pilopress' ),
         'fields'                => array(
             array(
                 'key'                        => 'field_modules_message',
@@ -20,7 +20,7 @@ acf_add_local_field_group(
                     'id'    => '',
                 ),
                 'acfe_save_meta'             => 0,
-                'message'                    => 'You can enabled or disabled available modules in this tab.',
+                'message'                    => __( 'You can enabled or disabled available modules in this tab.', 'pilopress' ),
                 'new_lines'                  => 'wpautop',
                 'esc_html'                   => 0,
                 'acfe_field_group_condition' => 0,
@@ -45,10 +45,10 @@ acf_add_local_field_group(
                 'sub_fields'          => array(
                     array(
                         'key'               => 'field_module_tailwind',
-                        'label'             => 'TailwindCSS',
+                        'label'             => __( 'TailwindCSS', 'pilopress' ),
                         'name'              => 'tailwind',
                         'type'              => 'true_false',
-                        'instructions'      => 'Activate TailwindCSS module.<br>You will be able to compile styles through Pilo\'Press API or enable local compilation.',
+                        'instructions'      => __( 'Activate TailwindCSS module.<br>You will be able to compile styles through Pilo\'Press API or enable local compilation.', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
@@ -66,10 +66,10 @@ acf_add_local_field_group(
                     ),
                     array(
                         'key'               => 'field_module_pilopress_api',
-                        'label'             => 'Compile TailwindCSS using Pilo\'Press remote API?',
+                        'label'             => __( 'Compile TailwindCSS using Pilo\'Press remote API?', 'pilopress' ),
                         'name'              => 'use_pilopress_api',
                         'type'              => 'true_false',
-                        'instructions'      => 'It will generate a new TailwindCSS build everytime you click "Update & compile" button. No need to install / use CLI to update TailwindCSS build',
+                        'instructions'      => __( 'It will generate a new TailwindCSS build everytime you click "Update & compile" button. No need to install / use CLI to update TailwindCSS build', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => array(
                             array(
@@ -94,7 +94,7 @@ acf_add_local_field_group(
                     ),
                     array(
                         'key'                => 'field_module_pilopress_api_version',
-                        'label'              => 'TailwindCSS version',
+                        'label'              => __( 'TailwindCSS version', 'pilopress' ),
                         'name'               => 'tailwindcss_version',
                         'type'               => 'select',
                         'instructions'       => '',
@@ -134,10 +134,10 @@ acf_add_local_field_group(
                     ),
                     array(
                         'key'               => 'field_module_tinymce',
-                        'label'             => 'TinyMCE',
+                        'label'             => __( 'TinyMCE', 'pilopress' ),
                         'name'              => 'tinymce',
                         'type'              => 'true_false',
-                        'instructions'      => 'Activate TinyMCE module.<br>Your styles configuration will be available through dropdowns in TinyMCE editors. Compiled styles will be enqueued in editor.',
+                        'instructions'      => __( 'Activate TinyMCE module.<br>Your styles configuration will be available through dropdowns in TinyMCE editors. Compiled styles will be enqueued in editor.', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
@@ -155,10 +155,10 @@ acf_add_local_field_group(
                     ),
                     array(
                         'key'               => 'field_module_alpine',
-                        'label'             => 'AlpineJS',
+                        'label'             => __( 'AlpineJS', 'pilopress' ),
                         'name'              => 'alpinejs',
                         'type'              => 'true_false',
-                        'instructions'      => 'Activate AlpineJS module.<br>It will enqueue AlpineJS and you will be able to use it in your layouts.',
+                        'instructions'      => __( 'Activate AlpineJS module.<br>It will enqueue AlpineJS and you will be able to use it in your layouts.', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
@@ -176,10 +176,10 @@ acf_add_local_field_group(
                     ),
                     array(
                         'key'               => 'field_alpinejs_version',
-                        'label'             => 'AlpineJS version',
+                        'label'             => __( 'AlpineJS version', 'pilopress' ),
                         'name'              => 'alpinejs_version',
                         'type'              => 'text',
-                        'instructions'      => 'See <a href="https://unpkg.com/browse/alpinejs/" target="_blank">unpkg.com</a> for available versions.',
+                        'instructions'      => __( 'See <a href="https://unpkg.com/browse/alpinejs/" target="_blank">unpkg.com</a> for available versions.', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => array(
                             array(
@@ -229,7 +229,7 @@ acf_add_local_field_group(
         'acfe_meta'             => '',
         'acfe_note'             => '',
         'acfe_categories'       => array(
-            'options' => 'Options',
+            __( 'Options', 'pilopress' ),
         ),
     )
 );
