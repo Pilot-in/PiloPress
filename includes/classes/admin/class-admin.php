@@ -441,9 +441,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function display_pip_navbar() {
 
-            // Hide ACF top navbar
-            add_filter( 'acf/admin/toolbar', '__return_false' );
-
             // Get menu items
             global $submenu;
             $pilopress_menu = acf_maybe_get( $submenu, 'pilopress' );
