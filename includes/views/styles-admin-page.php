@@ -77,9 +77,9 @@
         $compile_success = get_transient( 'pip_tailwind_api_compile_success' );
         ?>
 
-        <?php // Error message ?>
-        <?php if ( acf_maybe_get_GET( 'error_compile' ) && ( $compile_error ) ) : ?>
-            <?php
+        <?php
+        // Error message
+        if ( acf_maybe_get_GET( 'error_compile' ) && ( $compile_error ) ) :
             $error_array   = json_decode( $compile_error, false );
             $error_message = false;
 
@@ -88,15 +88,17 @@
             }
             ?>
             <div class="notice notice-error is-dismissible">
+
                 <p><?php _e( 'An error occurred while compiling.', 'pilopress' ); ?></p>
 
                 <?php if ( $error_message ) : ?>
-                    <pre style="margin-bottom:10px;"><?php echo $error_message; ?></pre>
+                <pre style="margin-bottom:10px;"><?php echo $error_message; ?></pre>
                 <?php endif; ?>
 
             </div>
-            <?php delete_transient( 'pip_tailwind_api_compile_error' ); ?>
-        <?php endif; ?>
+            <?php
+            delete_transient( 'pip_tailwind_api_compile_error' );
+        endif; ?>
 
         <?php // Success message ?>
         <?php if ( !acf_maybe_get_GET( 'error_compile' ) && ( $compile_success ) ) : ?>
