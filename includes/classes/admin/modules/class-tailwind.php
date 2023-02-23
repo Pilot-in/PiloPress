@@ -56,7 +56,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     update_field(
                         'pip_tailwind_style_components',
                         array(
-                            'add_components_import'           => true,
+                            'add_components_import' => true,
                             'tailwind_style_after_components' => '',
                         ),
                         'pip_styles_tailwind_module'
@@ -66,7 +66,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     update_field(
                         'pip_tailwind_style_utilities',
                         array(
-                            'add_utilities_import'           => true,
+                            'add_utilities_import' => true,
                             'tailwind_style_after_utilities' => '',
                         ),
                         'pip_styles_tailwind_module'
@@ -316,7 +316,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             $override_config = acf_maybe_get( $tailwind_config, 'override_config' );
 
             // If Tailwind config doesn't exist at this moment, return
-            if( !$tailwind_config ) {
+            if ( !$tailwind_config ) {
                 return;
             }
 
@@ -366,15 +366,15 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             ob_start();
             ?>
             .aligncenter {
-                @apply <?php echo $tw_prefix ?>mx-auto;
+                @apply <?php echo $tw_prefix; ?>mx-auto;
             }
 
             .alignleft {
-                @apply <?php echo $tw_prefix ?>mr-auto;
+                @apply <?php echo $tw_prefix; ?>mr-auto;
             }
 
             .alignright {
-                @apply <?php echo $tw_prefix ?>ml-auto;
+                @apply <?php echo $tw_prefix; ?>ml-auto;
             }
             <?php
 
@@ -599,23 +599,46 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 );
 
                 // Build admin style
+                $admin_prefix      = '#pip .-preview';
                 $build_admin_style = $tailwind->build(
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
                         'safelist'     => $tailwind_classes_to_extract,
                         'autoprefixer' => true,
-                        'minify'       => true,
-                        'prefixer'     => '.-preview',
+                        'minify'       => false, // really important to turn it off for our silly logic below to work
+                        'prefixer'     => $admin_prefix,
                     )
                 );
 
-                $admin_style = '.-preview h2 { all:unset; }' . PHP_EOL;
+                $admin_style = $build_admin_style['body'];
 
-                $admin_style .= $build_admin_style['body'];
+                $separator = "\r\n";
+                $file      = '';
+                $line      = strtok( $admin_style, $separator ); // $line will always be a single line
 
-                $admin_style = str_replace( '.-preview body', '.-preview', $admin_style );
-                $wp_filesystem->put_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css', $admin_style );
+                while ( $line !== false ) {
+
+                    // There are multiple selectors on the same line
+                    if ( strpos( $line, ', ' ) ) {
+                        $line = str_replace( ', ', ",$separator", $line );
+                    }
+
+                    // Replaces extraenous occurences of the admin prefix with empty string
+                    if ( substr_count( $line, $admin_prefix ) > 1 ) {
+                        $line = str_replace( " $admin_prefix", '', $line );
+                    }
+
+                    // Let's output the line content (and a new line) to our file...
+                    $file .= $line . $separator;
+
+                    // And go to the next "new line"
+                    $line = strtok( $separator );
+                }
+
+                $file .= '.-preview { font-size: 16px }' . $separator . '.-preview p { font-size: 1rem }' . $separator;
+
+                $wp_filesystem->put_contents( PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_ADMIN_FILENAME . '.min.css', $file ); // not minified anymore, but... meh 🤷‍♂️
 
             } else {
                 $tailwind_config_file = apply_filters( 'pip/tailwind/config_file', PIP_THEME_ASSETS_PATH . 'tailwind.config.js' );
