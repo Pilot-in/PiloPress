@@ -72,7 +72,7 @@ if ( !class_exists( 'PIP_Default_Content' ) ) {
             $post_types        = PIP_Patterns::get_post_types();
 
             // Check if Polylang is active
-            $polylang = is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_get_post_language' );
+            $polylang = function_exists( 'pll_get_post_language' );
 
             // Get current language for Polylang
             $current_language = null;
@@ -141,7 +141,7 @@ if ( !class_exists( 'PIP_Default_Content' ) ) {
             $taxonomies       = PIP_Patterns::get_taxonomies();
 
             // Check if Polylang is active
-            $polylang = is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_get_post_language' );
+            $polylang = function_exists( 'pll_get_post_language' );
 
             // Get current language for Polylang
             $current_language = null;

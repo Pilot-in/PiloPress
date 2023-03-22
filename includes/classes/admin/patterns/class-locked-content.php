@@ -201,7 +201,6 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
             // At this point, we assume there are custom layouts
             $has_custom_locked_content = true;
 
-
             // Invalidate if there is exactly 1 layout which isn't "Target content" layout
             if ( count( $pattern_post_layouts ) === 1 ) {
                 $pattern_post_layout = acf_unarray( $pattern_post_layouts );
@@ -228,7 +227,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
             $queried_object   = get_queried_object();
             $current_taxonomy = null;
             if ( $queried_object ) {
-                $type             = is_a( $queried_object, 'WP_Term' ) ? 'term' : 'post';
+                $type = is_a( $queried_object, 'WP_Term' ) ? 'term' : 'post';
             }
 
             // Get post type or taxonomy and build meta query array

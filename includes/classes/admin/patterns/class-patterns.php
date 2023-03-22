@@ -404,7 +404,9 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                 $available_translations = array();
 
                 // Set language of main post to default value
-                pll_set_post_language( $template_post_id, pll_default_language() );
+                if ( function_exists( 'pll_set_post_language' ) ) {
+                    pll_set_post_language( $template_post_id, pll_default_language() );
+                }
 
                 // Create translations if not already exists
                 foreach ( $languages as $language ) {
