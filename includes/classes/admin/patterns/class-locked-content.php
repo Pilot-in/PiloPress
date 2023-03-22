@@ -259,7 +259,7 @@ if ( !class_exists( 'PIP_Locked_Content' ) ) {
             }
 
             // Check if Polylang is active
-            $polylang = is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_get_post_language' );
+            $polylang = function_exists( 'pll_get_post_language' );
 
             // Get current language for Polylang
             $current_language = null;
