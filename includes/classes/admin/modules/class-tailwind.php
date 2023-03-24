@@ -811,12 +811,11 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     $format = $variable_font ? $format . '-variables' : $format;
 
                     // Get upload path
-                    $post_id                    = $file['file']['ID'];
-                    $attachment_upload_path     = wp_get_attachment_url( $post_id );
-                    $attachment_new_upload_path = strstr( $attachment_upload_path, '/wp-content' );
+                    $attachment_id          = $file['file']['ID'];
+                    $attachment_upload_path = wp_get_attachment_url( $attachment_id );
 
                     // Allow file URL to be override
-                    $font_url = apply_filters( 'pip/custom_font/url', site_url() . $attachment_new_upload_path, $attachment_new_upload_path );
+                    $font_url = apply_filters( 'pip/custom_font/url', $attachment_upload_path, $attachment_id );
 
                     // Store URL
                     $url[] = 'url(' . $font_url . ') format("' . $format . '")';
