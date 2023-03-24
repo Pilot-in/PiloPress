@@ -276,7 +276,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     ),
                     'acfe_flexible_category'        => $layout_categories,
                     'acfe_flexible_render_template' => $render_layout,
-                    'acfe_flexible_render_style'    => '', // Empty for no enqueue
+                    'acfe_flexible_render_style'    => apply_filters( 'pip/layouts/flexible_render_style', '', $name, $layout_slug, $layout_uniq_id ), // Empty for no enqueue
                     'acfe_flexible_render_script'   => $render_script,
                     'acfe_flexible_thumbnail'       => $layout_thumbnail,
                     'acfe_flexible_settings'        => $configuration,
