@@ -15,29 +15,9 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 return;
             }
 
-            // WP hooks
-            add_filter( 'language_attributes', array( $this, 'add_pip_prefix_class' ), 20, 2 );
-
             // ACF hooks
             add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
             add_action( 'acf/options_page/submitbox_major_actions', array( $this, 'add_compile_styles_button' ) );
-        }
-
-        /**
-         * Add "pip" class on html as TailwindCSS prefix class
-         * to easily override default plugins style (ex: WooCommerce)
-         *
-         * @param string $output
-         * @param string $doctype
-         * @return string
-         */
-        public function add_pip_prefix_class( $output, $doctype ) {
-            if ( 'html' !== $doctype ) {
-                return $output;
-            }
-
-            $output .= ' class="pip"';
-            return $output;
         }
 
         /**
@@ -589,23 +569,25 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
+                        'safelist'     => $tailwind_classes_to_extract,
                         'autoprefixer' => true,
                         'minify'       => true,
-                        'prefixer'     => '.pip', // Add prefix by default to override plugin default style (example: woocommerce)
                         'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
                     )
                 );
                 $tailwind->build( $front_build_args );
 
                 // Build admin style
+                $admin_prefix      = '.pip-admin .-preview';
                 $admin_build_args  = apply_filters(
                     'pip/tailwind_api/admin_build_args',
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
+                        'safelist'     => $tailwind_classes_to_extract,
                         'autoprefixer' => true,
-                        'minify'       => true,
-                        'prefixer'     => '.-preview',
+                        'minify'       => false, // really important to turn it off for our silly logic below to work
+                        'prefixer'     => $admin_prefix,
                     )
                 );
                 $build_admin_style = $tailwind->build( $admin_build_args );
