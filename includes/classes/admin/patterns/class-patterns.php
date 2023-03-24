@@ -342,11 +342,16 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
         private function auto_populate_post_types_polylang( $post_type, $template_post_id, $template_post_type ) {
 
             // Polylang Compatibility - Create translations
-            if ( is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_languages_list' ) ) {
+            if ( function_exists( 'pll_languages_list' ) ) {
 
                 $languages              = pll_languages_list();
                 $post_type_object       = get_post_type_object( $post_type );
                 $available_translations = array();
+
+                // Set language of main post to default value
+                if ( function_exists( 'pll_set_post_language' ) ) {
+                    pll_set_post_language( $template_post_id, pll_default_language() );
+                }
 
                 // Create translations if not already exists
                 foreach ( $languages as $language ) {
@@ -371,9 +376,6 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
 
                 if ( function_exists( 'pll_set_post_language' ) && function_exists( 'pll_save_post_translations' ) ) {
 
-                    // Set language of main post to default value
-                    pll_set_post_language( $template_post_id, pll_default_language() );
-
                     // Browse translations to set languages
                     foreach ( $available_translations as $language => $value ) {
                         pll_set_post_language( $value, $language );
@@ -395,11 +397,16 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
         private function auto_populate_taxonomies_polylang( $taxonomy, $template_post_id, $template_post_type ) {
 
             // Polylang Compatibility - Create translations
-            if ( is_plugin_active( 'polylang/polylang.php' ) && function_exists( 'pll_languages_list' ) ) {
+            if ( function_exists( 'pll_languages_list' ) ) {
 
                 $languages              = pll_languages_list();
                 $taxonomy_object        = get_taxonomy( $taxonomy );
                 $available_translations = array();
+
+                // Set language of main post to default value
+                if ( function_exists( 'pll_set_post_language' ) ) {
+                    pll_set_post_language( $template_post_id, pll_default_language() );
+                }
 
                 // Create translations if not already exists
                 foreach ( $languages as $language ) {
@@ -423,9 +430,6 @@ if ( !class_exists( 'PIP_Patterns' ) ) {
                 }
 
                 if ( function_exists( 'pll_set_post_language' ) && function_exists( 'pll_save_post_translations' ) ) {
-
-                    // Set language of main post to default value
-                    pll_set_post_language( $template_post_id, pll_default_language() );
 
                     // Browse translations to set languages
                     foreach ( $available_translations as $language => $value ) {
