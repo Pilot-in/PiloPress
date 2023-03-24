@@ -599,7 +599,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 );
 
                 // Build admin style
-                $admin_prefix      = '#pip .-preview';
+                $admin_prefix      = '.pip-admin .-preview';
                 $build_admin_style = $tailwind->build(
                     array(
                         'css'          => $tailwind_style,

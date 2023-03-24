@@ -19,7 +19,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
             add_action( 'in_admin_header', array( $this, 'add_pip_navbar' ) );
-            add_action( 'in_admin_header', array( $this, 'add_pilopress_id_for_previews' ) );
+            add_filter( 'admin_body_class', array( $this, 'add_pilopress_class_to_admin' ) );
             add_action( 'admin_notices', array( $this, 'no_pilopress_folder_notice' ) );
 
             // ACF hooks
@@ -170,12 +170,11 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         }
 
         /**
-         * Adds the Pilo'Press ID to the body, to make the previews work everywhere in the Admin
+         * Adds the Pilo'Press class to the body, to make the previews work everywhere in the Admin
          */
-        public function add_pilopress_id_for_previews() {
-            ?>
-            <script>document.body.id = "pip";</script>
-            <?php
+        public function add_pilopress_class_to_admin( $classses ) {
+            $classses .= ' pip-admin ';
+            return $classses;
         }
 
         /**
