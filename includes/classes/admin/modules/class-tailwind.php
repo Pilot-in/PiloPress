@@ -56,7 +56,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     update_field(
                         'pip_tailwind_style_components',
                         array(
-                            'add_components_import'           => true,
+                            'add_components_import' => true,
                             'tailwind_style_after_components' => '',
                         ),
                         'pip_styles_tailwind_module'
@@ -66,7 +66,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     update_field(
                         'pip_tailwind_style_utilities',
                         array(
-                            'add_utilities_import'           => true,
+                            'add_utilities_import' => true,
                             'tailwind_style_after_utilities' => '',
                         ),
                         'pip_styles_tailwind_module'
@@ -736,11 +736,11 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                     $format = $variable_font ? $format . '-variables' : $format;
 
                     // Get upload path
-                    $post_id                    = $file['file']['ID'];
-                    $attachment_upload_path     = wp_get_attachment_url( $post_id );
+                    $attachment_id          = $file['file']['ID'];
+                    $attachment_upload_path = wp_get_attachment_url( $attachment_id );
 
                     // Allow file URL to be override
-                    $font_url = apply_filters( 'pip/custom_font/url', $attachment_upload_path, $post_id );
+                    $font_url = apply_filters( 'pip/custom_font/url', $attachment_upload_path, $attachment_id );
 
                     // Store URL
                     $url[] = 'url(' . $font_url . ') format("' . $format . '")';
