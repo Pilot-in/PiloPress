@@ -73,9 +73,21 @@ if ( !class_exists( 'TailwindAPI' ) ) {
 
             // Error
             if ( is_wp_error( $return ) ) {
-                set_transient( 'pip_tailwind_api_compile_error', __( 'An error occurred. Please try again later', 'pilopress' ), 45 );
+
+                // Get error messages
+                $api_reason_message = '';
+                $api_errors         = $return->errors ?? array();
+                foreach ( $api_errors as $api_error ) {
+                    $api_reason_message .= $api_reason_message ? PHP_EOL : '';
+                    $api_reason_message .= is_array( $api_error ) ? reset( $api_error ) : $api_error;
+                }
+
+                // Push it into the transient & redirect
+                $api_reason_message = wp_json_encode( array( $api_reason_message ) );
+                set_transient( 'pip_tailwind_api_compile_error', $api_reason_message, 45 );
                 wp_safe_redirect( add_query_arg( 'error_compile', 1, acf_get_current_url() ) );
                 exit();
+
             }
 
             // Error
@@ -273,7 +285,6 @@ if ( !class_exists( 'TailwindAPI' ) ) {
                                 ) {
                                     unset( $classes_match[ $class_index ] );
                                 }
-
                             }
 
                             $all_classes_match = array_unique( array_merge( $all_classes_match, $classes_match ) );
