@@ -601,7 +601,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 $tailwind->build( $front_build_args );
 
                 // Build admin style
-                $admin_prefix      = '.pip-admin .-preview';
+                $admin_prefix      = '#pip .-preview';
                 $admin_build_args  = apply_filters(
                     'pip/tailwind_api/admin_build_args',
                     array(
