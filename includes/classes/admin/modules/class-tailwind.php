@@ -587,7 +587,8 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                 $tailwind = new TailwindAPI();
 
                 // Build front style
-                $tailwind->build(
+                $front_build_args = apply_filters(
+                    'pip/tailwind_api/front_build_args',
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
@@ -597,10 +598,12 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                         'output'       => PIP_THEME_ASSETS_PATH . PIP_THEME_STYLE_FILENAME . '.min.css',
                     )
                 );
+                $tailwind->build( $front_build_args );
 
                 // Build admin style
                 $admin_prefix      = '.pip-admin .-preview';
-                $build_admin_style = $tailwind->build(
+                $admin_build_args  = apply_filters(
+                    'pip/tailwind_api/admin_build_args',
                     array(
                         'css'          => $tailwind_style,
                         'config'       => $tailwind_config,
@@ -610,6 +613,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
                         'prefixer'     => $admin_prefix,
                     )
                 );
+                $build_admin_style = $tailwind->build( $admin_build_args );
 
                 $admin_style = $build_admin_style['body'];
 
