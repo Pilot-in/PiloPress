@@ -16,6 +16,8 @@ if ( !class_exists( 'PIP_Main' ) ) {
             // WP hooks
             add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_pip_style' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_pip_style' ) );
+            add_filter( 'script_loader_src', array( $this, 'invalidate_pilopress_scripts_cache' ) );
+
         }
 
         /**
@@ -47,6 +49,40 @@ if ( !class_exists( 'PIP_Main' ) ) {
 
             // Enqueue admin style
             pip_enqueue_admin();
+        }
+
+        /**
+         * Invalidate Pilo'Press layouts scripts cache
+         *
+         * @param $url
+         *
+         * @return string
+         */
+        public function invalidate_pilopress_scripts_cache( $url ) {
+            // Target only Pilo'Press layouts scripts
+            if ( strpos( $url, 'pilopress/layouts' ) === false ) {
+                return $url;
+            }
+
+            // Remove potential "?ver" string in url
+            $url = remove_query_arg( 'ver', $url );
+
+            // Replace url structure by a path
+            $script = str_replace( home_url(), '', $url );
+
+            // Use pathinfo to get filename
+            $script      = pathinfo( $script );
+            $script_name = acf_maybe_get( $script, 'filename' );
+            if ( !is_array( $script ) || !$script_name ) {
+                return $url;
+            }
+
+            // Return script url including file modification date timestamp as "?ver" string
+            $url = PIP_THEME_LAYOUTS_URL .
+            "$script_name/$script_name.js?ver=" .
+            filemtime( PIP_THEME_LAYOUTS_PATH . "$script_name/$script_name.js" );
+
+            return $url;
         }
 
         /**
