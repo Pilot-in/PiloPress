@@ -135,6 +135,9 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
             // Final Field
             $field = array_merge( $field, $field_args );
 
+            // Hide on screen option
+            $hide_on_screen = apply_filters( 'pip/builder/hide_on_screen', array( 'the_content' ) );
+
             // Register main flexible
             acf_add_local_field_group(
                 array(
@@ -147,9 +150,7 @@ if ( !class_exists( 'PIP_Flexible' ) ) {
                     'style'                 => 'seamless',
                     'label_placement'       => 'top',
                     'instruction_placement' => 'label',
-                    'hide_on_screen'        => array(
-                        'the_content',
-                    ),
+                    'hide_on_screen'        => $hide_on_screen,
                     'active'                => true,
                     'description'           => '',
                     'acfe_display_title'    => '',
@@ -692,6 +693,9 @@ function the_pip_content( $post_id = false ) {
  */
 function get_pip_content( $post_id = false ) {
 
+    // Fix post_id based on conditional tags
+    $post_id = pip_get_formatted_post_id( $post_id );
+
     $header = '';
     $footer = '';
     $html   = '';
@@ -704,11 +708,11 @@ function get_pip_content( $post_id = false ) {
     $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
     // Get content
-    $content = get_flexible( $pip_flexible->flexible_field_name, pip_get_formatted_post_id( $post_id ) );
+    $content = get_flexible( $pip_flexible->flexible_field_name, $post_id );
 
     // Maybe wrap content with locked content layouts
     $locked_content_post = PIP_Locked_Content::get_locked_content( $post_id );
-    if ( $locked_content_post && !is_post_type_archive() && !is_home() && !is_front_page() ) {
+    if ( $locked_content_post ) {
         $locked_content = get_flexible( $pip_flexible->flexible_field_name, $locked_content_post );
         $content        = $locked_content ? str_replace( '%%PIP_LOCKED_CONTENT%%', $content, $locked_content ) : $content;
     }

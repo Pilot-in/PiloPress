@@ -10,6 +10,7 @@ if ( !class_exists( 'PIP_Admin' ) ) {
         public function __construct() {
 
             // WP hooks
+            add_action( 'admin_notices', array( $this, 'styles_admin_notices' ) );
             add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
             add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 20 );
             add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_menu' ), 9999 );
@@ -19,10 +20,94 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             add_filter( 'admin_url', array( $this, 'change_admin_url' ), 10, 2 );
             add_filter( 'upload_mimes', array( $this, 'allow_mimes_types' ) );
             add_action( 'in_admin_header', array( $this, 'add_pip_navbar' ) );
+            add_filter( 'admin_body_class', array( $this, 'add_pilopress_class_to_admin' ) );
             add_action( 'admin_notices', array( $this, 'no_pilopress_folder_notice' ) );
 
             // ACF hooks
             add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
+        }
+
+        public function styles_admin_notices() {
+
+            // Get modules
+            $pip_admin_pages    = $this->get_style_admin_pages();
+            $current_admin_page = acf_maybe_get_GET( 'page' );
+            if ( !in_array( $current_admin_page, $pip_admin_pages, true ) ) {
+                return;
+            }
+
+            $modules = pip_get_modules();
+
+            // Check if Tailwind configuration is overridden
+            $tailwind_config = get_field( 'pip_tailwind_config', 'pip_styles_tailwind_module' );
+            $override_config = acf_maybe_get( $tailwind_config, 'override_config' );
+            if ( $override_config && ( $current_admin_page === 'pip_styles_configuration' || $current_admin_page === 'pip_styles_fonts' ) ) : ?>
+                <div class="notice notice-info is-dismissible">
+                    <p>
+                        <b><?php _e( 'TailwindCSS configuration is overridden.', 'pilopress' ); ?></b>
+                    </p>
+                    <p>
+                        <?php _e( '<code>Breakpoints</code> and <code>Container</code> tabs are useless.', 'pilopress' ); ?>
+                        <?php _e( '<code>Colors</code> tab is useful for TinyMCE module only.', 'pilopress' ); ?>
+                        <?php _e( "Font families won't be added automatically.", 'pilopress' ); ?>
+                    </p>
+                </div>
+                <?php
+            endif;
+
+            // If Tailwind module is deactivate
+            if ( !acf_maybe_get( $modules, 'tailwind' ) ) : ?>
+                <div class="notice notice-info is-dismissible">
+                    <p>
+                        <b><?php _e( 'TailwindCSS module is disabled.', 'pilopress' ); ?></b>
+                        <br>
+                        <?php _e( "Stylesheets won't be generated automatically.", 'pilopress' ); ?>
+                    </p>
+                </div>
+                <?php
+            endif;
+
+            // If TinyMCE module is deactivate
+            if ( !acf_maybe_get( $modules, 'tinymce' ) ) : ?>
+                <div class="notice notice-info is-dismissible">
+                    <p>
+                        <b><?php _e( 'TinyMCE module is disabled.', 'pilopress' ); ?></b>
+                        <br>
+                        <?php _e( "Typography, colors, buttons and fonts won't be available in editor.", 'pilopress' ); ?>
+                    </p>
+                </div>
+                <?php
+            endif;
+
+            // TailwindCSS API Compilation notices
+            $compile_error_details_json = get_transient( 'pip_tailwind_api_compile_error' );
+            $compile_success            = get_transient( 'pip_tailwind_api_compile_success' );
+            $error_compile              = acf_maybe_get_GET( 'error_compile' );
+
+            if ( $error_compile && $compile_error_details_json ) :
+                $error_details = json_decode( $compile_error_details_json, false );
+                $error_message = isset( $error_details[0] ) ? $error_details[0] : false;
+                ?>
+                <div class="notice notice-error is-dismissible">
+                    <p><?php _e( 'An error occurred while compiling.', 'pilopress' ); ?></p>
+
+                    <?php if ( $error_message ) : ?>
+                        <pre style="margin-bottom:10px;"><?php echo $error_message; ?></pre>
+                    <?php endif; ?>
+
+                </div>
+                <?php
+                delete_transient( 'pip_tailwind_api_compile_error' );
+            endif;
+
+            // Success message
+            if ( !$error_compile && $compile_success ) : ?>
+                <div class="notice notice-success is-dismissible">
+                    <p><?php echo $compile_success; ?></p>
+                </div>
+                <?php
+                delete_transient( 'pip_tailwind_api_compile_success' );
+            endif;
         }
 
         /**
@@ -166,6 +251,14 @@ if ( !class_exists( 'PIP_Admin' ) ) {
             if ( $this->is_pip_admin_page() ) {
                 $this->display_pip_navbar();
             }
+        }
+
+        /**
+         * Adds the Pilo'Press class to the body, to make the previews work everywhere in the Admin
+         */
+        public function add_pilopress_class_to_admin( $classses ) {
+            $classses .= ' pip-admin ';
+            return $classses;
         }
 
         /**
@@ -441,9 +534,6 @@ if ( !class_exists( 'PIP_Admin' ) ) {
          */
         public function display_pip_navbar() {
 
-            // Hide ACF top navbar
-            add_filter( 'acf/admin/toolbar', '__return_false' );
-
             // Get menu items
             global $submenu;
             $pilopress_menu = acf_maybe_get( $submenu, 'pilopress' );
@@ -479,9 +569,8 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                 $queried_object_id = get_queried_object_id();
 
                 // Fuzzy title / link while we don't have enough info on current content
-                $edit_locked_content_icon  = '<i class="dashicons-before dashicons-edit" style="display: inline-flex; vertical-align: text-top; align-items: center; opacity: .6"></i>';
-                $edit_locked_content_title = "$edit_locked_content_icon " . __( 'Edit this locked content', 'pilopress' );
-                $edit_locked_content_link  = add_query_arg(
+                $edit_locked_content_icon = '<i class="dashicons-before dashicons-layout" style="display: inline-flex; vertical-align: text-top; align-items: center; opacity: .6"></i>';
+                $edit_locked_content_link = add_query_arg(
                     array(
                         'post_type' => PIP_Patterns::get_locked_content_slug(),
                     ),
@@ -503,14 +592,15 @@ if ( !class_exists( 'PIP_Admin' ) ) {
                     __( 'Edit locked content', 'pilopress' ) . ' (' . ucfirst( $pattern_title ) . ')' :
                     __( 'Set locked content', 'pilopress' ) . ' (' . ucfirst( $pattern_title ) . ')';
 
-                $wp_admin_bar->add_node(
-                    array(
-                        'id'    => 'patterns',
-                        'title' => $edit_locked_content_title,
-                        'href'  => $edit_locked_content_link,
-                    )
-                );
-
+                if ( !is_404() ) {
+                    $wp_admin_bar->add_node(
+                        array(
+                            'id'    => 'patterns',
+                            'title' => $edit_locked_content_title,
+                            'href'  => $edit_locked_content_link,
+                        )
+                    );
+                }
             }
 
             // Pilo'Press icon

@@ -17,6 +17,78 @@ if ( !class_exists( 'PIP_Layouts' ) ) {
 
             // ACF hooks
             add_filter( 'acf/load_field_groups', array( $this, 'remove_layouts_from_field_groups' ) );
+            add_action( 'acf/update_field_group', array( $this, 'update_field_group' ) );
+
+        }
+
+        /**
+         * Writes field group data to JSON file (based on ACF function)
+         *
+         * @date    14/4/20
+         * @since   5.9.0
+         *
+         * @param   array $field_group The field group.
+         * @return  void
+         */
+        public function update_field_group( $field_group ) {
+
+            // Bail early if disabled.
+            if ( !acf_get_setting( 'json' ) ) {
+                return false;
+            }
+
+            // Update only Pilo'Press layouts JSON field groups
+            $is_layout = (int) pip_maybe_get( $field_group, '_pip_is_layout' );
+            if ( !$is_layout ) {
+                return false;
+            }
+
+            // Append fields.
+            $field_group['fields'] = acf_get_fields( $field_group );
+
+            // Save to file.
+            $this->save_file( $field_group['key'], $field_group );
+        }
+
+        /**
+         * Saves a field group JSON file (based on ACF same function)
+         *
+         * @date    17/4/20
+         * @since   5.9.0
+         *
+         * @param   string $key The field group key.
+         * @param   array  $field_group The field group.
+         * @return  bool
+         */
+        public function save_file( $key, $field_group ) {
+
+            $path = acf_get_setting( 'save_json' );
+            $file = untrailingslashit( $path ) . '/' . $key . '.json';
+            if ( !is_writable( $path ) ) {
+                return false;
+            }
+
+            // Append modified time.
+            if ( $field_group['ID'] ) {
+                $field_group['modified'] = get_post_modified_time( 'U', true, $field_group['ID'] );
+            } else {
+                $field_group['modified'] = strtotime( 'now' );
+            }
+
+            // Prepare for export.
+            $field_group = acf_prepare_field_group_for_export( $field_group );
+
+            // Based on acf_json_encode but fix anti-slash for TailwindCSS 3.x JIT / purge class detection
+            $json_field_group = wp_json_encode( $field_group, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+
+            // Load WP filesystem
+            WP_Filesystem();
+            global $wp_filesystem;
+
+            // Save and return true if bytes were written.
+            $result = $wp_filesystem->put_contents( $file, $json_field_group, 0644 );
+            return is_int( $result );
+
         }
 
         /**

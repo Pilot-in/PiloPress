@@ -58,6 +58,9 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
          * Enqueue custom TinyMCE script and add variables to it
          */
         public function localize_data() {
+            $pip_tailwind    = acf_get_instance( 'PIP_Tailwind' );
+            $tailwind_prefix = $pip_tailwind->get_prefix();
+
             acf_localize_data(
                 array(
                     'custom_fonts'   => $this->get_custom_fonts(),
@@ -65,6 +68,7 @@ if ( !class_exists( 'PIP_TinyMCE' ) ) {
                     'custom_colors'  => $this->get_custom_colors(),
                     'custom_buttons' => $this->get_custom_buttons(),
                     'image_sizes'    => $this->get_all_image_sizes(),
+                    'tw_prefix'      => $tailwind_prefix,
                 )
             );
         }

@@ -43,17 +43,20 @@ if ( !class_exists( 'PIP_Default_Content' ) ) {
             }
 
             // Get content for terms and post types
+            $content = $value;
             $current_screen = get_current_screen();
-            switch ( $current_screen->base ) {
-                case 'edit-tags':
-                    $content = $this->terms_content( $current_screen, $post_id );
-                    break;
-                default:
-                    $content = $this->post_types_content( $post_id );
-                    break;
+            if ( $current_screen ) {
+                switch ( $current_screen->base ) {
+                    case 'edit-tags':
+                        $content = $this->terms_content( $current_screen, $post_id );
+                        break;
+                    default:
+                        $content = $this->post_types_content( $post_id );
+                        break;
+                }
             }
 
-            return $content ? $content : $value;
+            return $content;
         }
 
         /**

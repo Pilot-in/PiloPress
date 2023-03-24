@@ -316,6 +316,29 @@ body.admin_page_pip_styles_tailwind_module #publishing-action .spinner {
     border-top: 0;
 }
 
+/* ACF v.6.0 UI revamp fixes */
+
+/*Hide ACF toolbar on layouts list*/
+.pip-admin-navigation + .acf-admin-toolbar {
+    display: none;
+}
+
+/* Hiding add field on headerbar actions */
+.pip-builder .acf-headerbar-actions .add-field {
+    display: none;
+}
+
+/* Hiding all tabs from settings */
+.pip-builder .acf-tab-wrap {
+    display: none !important;
+}
+
+/* Making sure that the location field group is always shown */
+.pip-builder .field-group-locations {
+    display: block !important;
+}
+
+
 /* Pilo'Press: Layouts */
 
 /* Collection tag */
