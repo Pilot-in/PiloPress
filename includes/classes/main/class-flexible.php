@@ -705,7 +705,7 @@ function get_pip_content( $post_id = false ) {
         $header = get_pip_header( false );
     }
 
-    pip_display_layouts_summary();
+    do_action( 'pip_display_layouts_summary' );
 
     $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
@@ -730,25 +730,4 @@ function get_pip_content( $post_id = false ) {
     $html .= $footer ? $footer : '';
 
     return $html;
-}
-
-
-add_action( 'acfe/flexible/render/before_template', 'pip_display_layout_information_prefix', 10, 3 );
-function pip_display_layout_information_prefix( $field, $layout, $is_preview ) {
-    if ( $is_preview === true ) {
-        return;
-    }
-
-    if ( getenv( 'PILO_ENV' ) === 'DEV' ) {
-        echo "\n" . '<!-- ' . $layout['label'] . ' -->' . "\n";
-    }
-
-    if ( acf_maybe_get_GET( 'recettage', false ) !== false || getenv( 'PILO_RECETTAGE' ) === 'ON' ) {
-        ?>
-<div style="padding:4px 8px;background:var(--pip-color-secondary-500);color:var(--pip-color-white);display:flex;align-items:center;justify-content:space-between;font-family:monospace;cursor:pointer" onclick="this.style.display='none';setTimeout(()=>this.style.display='flex',3000);">
-<span><?php echo $layout['label']; ?></span>
-<span><?php echo str_replace( 'layout_', '', $layout['key'] ); ?></span>
-</div>
-        <?php
-    }
 }
