@@ -83,6 +83,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             }
 
             $html .= '<a href="' . $btn_link . '" class="' . $btn_class . '" target="' . $target . '" ' . $download_option . '>';
+            $html  = apply_filters( 'pip/shortcode/button/start_html_output', $html, $attrs );
 
             if ( $icon_class ) {
 
@@ -99,9 +100,10 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                         $html .= $btn_text . $icon_html;
                         break;
                 }
-
+                $html  = apply_filters( 'pip/shortcode/button/end_html_output', $html, $attrs );
                 $html .= '</a>';
             } else {
+                $html  = apply_filters( 'pip/shortcode/button/end_html_output', $html, $attrs );
                 $html .= $btn_text . '</a>';
             }
 
