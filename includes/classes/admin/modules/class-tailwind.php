@@ -946,7 +946,7 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
         public function tailwind_cdn_config() {
 
             // Load Pilo'Press Tailwind style on front
-            $tailwind_css = pip_get_tailwind_css() . pip_get_layouts_css();
+            $tailwind_css = pip_get_tailwind_css() . ' ' . pip_get_layouts_css();
             if ( !$tailwind_css ) {
                 return;
             }

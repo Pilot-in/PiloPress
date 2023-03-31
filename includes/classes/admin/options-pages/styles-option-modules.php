@@ -137,7 +137,7 @@ acf_add_local_field_group(
                         'label'             => __( 'Enqueue TailwindCSS CDN?', 'pilopress' ),
                         'name'              => 'tailwindcss_cdn',
                         'type'              => 'true_false',
-                        'instructions'      => __( 'Load play.tailwind.css CDN for easier development. Untoggle when you compiled and are in prod environnement. By default latest version of CDN is loaded, you can change it with the filter `pip/tailwind/cdn_version`.', 'pilopress' ),
+                        'instructions'      => __( 'Load play.tailwind.css CDN for easier development. Untoggle when you compiled and are in prod environnement. By default latest version of CDN is loaded, you can change it with the filter `pip/tailwind/cdn_version`. (minimum version requirement: 3.x.x )', 'pilopress' ),
                         'required'          => 0,
                         'conditional_logic' => 0,
                         'wrapper'           => array(
