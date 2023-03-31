@@ -286,14 +286,14 @@
                             if ( $layout ) {
                                 let prevLayoutId = $( $layout ).prev().data( 'id' );
                                 if ( prevLayoutId ) {
-                                    $( $layout ).insertBefore( $( '.layout[data-id="' + prevLayoutId + '"]' ) );
+                                    $( $layout ).insertBefore( $( '.layout[data-id="' + prevLayoutId + '"]' ).not('.layout .layout') );
                                 }
                             }
                         } else if ( $this.hasClass( 'down' ) ) {
                             if ( $layout ) {
                                 let nextLayoutId = $( $layout ).next().data( 'id' );
                                 if ( nextLayoutId ) {
-                                    $( $layout ).insertAfter( $( '.layout[data-id="' + nextLayoutId + '"]' ) );
+                                    $( $layout ).insertAfter( $( '.layout[data-id="' + nextLayoutId + '"]' ).not('.layout .layout') );
                                 }
                             }
                         }
