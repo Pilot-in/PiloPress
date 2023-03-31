@@ -18,6 +18,15 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             // ACF hooks
             add_action( 'acf/save_post', array( $this, 'save_styles_settings' ), 20, 1 );
             add_action( 'acf/options_page/submitbox_major_actions', array( $this, 'add_compile_styles_button' ) );
+
+            $tailwindcss_cdn = acf_maybe_get( $modules, 'tailwindcss_cdn' );
+            //IF CDN Switch is on
+            if ( $tailwindcss_cdn ) {
+                add_action( 'wp_enqueue_scripts', array( $this, 'load_tailwind_cdn' ), 30 );
+                add_action( 'wp_head', array( $this, 'tailwind_cdn_config' ) );
+                // Unload Pilo'Press compiled Tailwind style
+                add_filter( 'pip/enqueue/remove', '__return_true' );
+            }
         }
 
         /**
@@ -906,6 +915,56 @@ if ( !class_exists( 'PIP_Tailwind' ) ) {
             return apply_filters( 'pip/tailwind/config/prefix', pip_maybe_get( $configuration, 'prefix' ) );
         }
 
+        /**
+         * Load TailwindCSS CDN
+         */
+        public function load_tailwind_cdn() {
+
+            // Load TailwindCSS CDN only once
+            if ( wp_script_is( 'tailwind-cdn' ) ) {
+                return;
+            }
+
+            // Load TailwindCSS CDN
+            $tailwind_version = apply_filters( 'pip/tailwind/cdn_version', '' );
+            wp_enqueue_script( 'tailwind-cdn', "https://cdn.tailwindcss.com/$tailwind_version", array(), $tailwind_version, false );
+
+            // Load Pilo'Press Tailwind config on front
+            $tailwind_config = pip_get_tailwind_config();
+            if ( $tailwind_config ) {
+
+                // Replace data to match Tailwind CDN config
+                $tailwind_config = str_replace( 'module.exports', 'tailwind.config', $tailwind_config );
+                wp_add_inline_script( 'tailwind-cdn', $tailwind_config );
+
+            }
+        }
+
+        /**
+         * Load Pilo'Press custom style for the CDN
+         */
+        public function tailwind_cdn_config() {
+
+            // Load Pilo'Press Tailwind style on front
+            $tailwind_css = pip_get_tailwind_css() . ' ' . pip_get_layouts_css();
+            if ( !$tailwind_css ) {
+                return;
+            }
+
+            // Remove @import statements to prevent useless requests
+            $tailwind_css = str_replace( '@import "tailwindcss/base";', '', $tailwind_css );
+            $tailwind_css = str_replace( '@import "tailwindcss/components";', '', $tailwind_css );
+            $tailwind_css = str_replace( '@import "tailwindcss/utilities";', '', $tailwind_css );
+
+            // Load Pilo'Press custom Tailwind CSS in "components" Tailwind hook to prevent priority css issues
+            ?>
+            <style type="text/tailwindcss">
+                @layer components {
+                    <?php echo $tailwind_css; ?>
+                }
+            </style>
+            <?php
+        }
     }
 
     acf_new_instance( 'PIP_Tailwind' );
