@@ -705,6 +705,8 @@ function get_pip_content( $post_id = false ) {
         $header = get_pip_header( false );
     }
 
+    do_action( 'pip/flexible/layouts/prefix' );
+
     $pip_flexible = acf_get_instance( 'PIP_Flexible' );
 
     // Get content
