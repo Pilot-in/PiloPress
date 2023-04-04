@@ -3,9 +3,9 @@ Contributors: pilotin
 Donate link: https://www.pilot-in.com
 Tags: acf, page builder, tailwindcss
 Requires at least: 4.9
-Tested up to: 6.0.2
+Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 0.4.3.1
+Stable tag: 0.4.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,20 @@ Available hooks are list and describe in [GitHub Page](https://pilot-in.github.i
 1. Flexible Content Layout UI
 
 == Changelog ==
+
+= 0.4.3.2 - 05/04/2023 =
+* Added: TailwindCSS CDN feature
+* Added: filter `pip/layouts/flexible_render_style` to allow CSS enqueue via ACFE
+* Added : filters `pip/shortcode/button/start_html_output` and `pip/shortcode/button/end_html_output` for easier HTML customization with `pip_button` shortcode
+* Added: filters `pip/tailwind_api/front_build_args` and `pip/tailwind_api/admin_build_args`
+* Added: action `pip/flexible/layouts/prefix`
+* Improved: admin styles for layout preview displaying better (not getting overriden by WP default styles anymore)
+* Improved: clearer Tailwind CSS error when compiling
+* Improved: layout's JS files version based on `filemtime()`
+* Improved: way of handling the path of uploaded fonts
+* Fixed: Default Content / Locked Content not creating duplicates anymore when activating Polylang
+* Fixed: JS conflict with moving a layout with the "up" or "down" controls in the `pip_flexible` when there was another flexible content within
+* Fixed: some parts of ACF V6 UI that were hidden
 
 = 0.4.3.1 - 12/10/2022 =
 * Added: TailwindCSS3 & JIT compatibility
