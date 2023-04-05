@@ -59,8 +59,11 @@ if ( !class_exists( 'PIP_Main' ) ) {
          * @return string
          */
         public function invalidate_pilopress_scripts_cache( $url ) {
+            // Identify Pilo'Press layouts folder
+            $needle_pilopress_layout = 'pilopress/layouts/';
+
             // Target only Pilo'Press layouts scripts
-            if ( strpos( $url, 'pilopress/layouts' ) === false ) {
+            if ( strpos( $url, $needle_pilopress_layout ) === false ) {
                 return $url;
             }
 
@@ -70,17 +73,16 @@ if ( !class_exists( 'PIP_Main' ) ) {
             // Replace url structure by a path
             $script = str_replace( home_url(), '', $url );
 
-            // Use pathinfo to get filename
-            $script      = pathinfo( $script );
-            $script_name = acf_maybe_get( $script, 'filename' );
-            if ( !is_array( $script ) || !$script_name ) {
+            //Get only content after "pilopress/layouts/" to be used with PIP_THEME_LAYOUTS_PATH and PIP_THEME_LAYOUTS_URL later
+            $script_path_in_layout = substr( $script, strpos( $script, $needle_pilopress_layout ) + strlen( $needle_pilopress_layout ) );
+
+            // If script file doesn't exist, return original url
+            if ( !file_exists( PIP_THEME_LAYOUTS_PATH . $script_path_in_layout ) ) {
                 return $url;
             }
 
             // Return script url including file modification date timestamp as "?ver" string
-            $url = PIP_THEME_LAYOUTS_URL .
-            "$script_name/$script_name.js?ver=" .
-            filemtime( PIP_THEME_LAYOUTS_PATH . "$script_name/$script_name.js" );
+            $url = PIP_THEME_LAYOUTS_URL . $script_path_in_layout . '?ver=' . filemtime( PIP_THEME_LAYOUTS_PATH . $script_path_in_layout );
 
             return $url;
         }
