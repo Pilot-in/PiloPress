@@ -55,7 +55,7 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
             );
 
             // Build class
-            $btn_class = '';
+            $btn_class  = '';
             $btn_class .= ( $attrs['type'] ) ? $attrs['type'] : '';
             $btn_class .= ( $attrs['xclass'] ) ? ' ' . $attrs['xclass'] : '';
 
@@ -103,8 +103,9 @@ if ( !class_exists( 'PIP_Shortcodes' ) ) {
                 $html  = apply_filters( 'pip/shortcode/button/end_html_output', $html, $attrs );
                 $html .= '</a>';
             } else {
+                $html .= $btn_text;
                 $html  = apply_filters( 'pip/shortcode/button/end_html_output', $html, $attrs );
-                $html .= $btn_text . '</a>';
+                $html .= '</a>';
             }
 
             if ( !$no_div ) {
